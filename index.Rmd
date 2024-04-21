@@ -1,0 +1,17 @@
+--- 
+title: "Integración del Paquete QualityTools con Tidyverse"
+author: "Miguel Flores, Andrea Barahona, Fabian Encarnación, Dario Quispe"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/Libro_TidyQualityTools
+description: ""
+---
+
+# Preámbulo
+
+En este libro, se pretende combinar la información necesaria para entender los paquetes R6, Tidyquant y QualityTools, con la finalidad de tener toda la infomación necesaria en un solo documento.

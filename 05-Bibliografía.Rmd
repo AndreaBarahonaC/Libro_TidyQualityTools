@@ -1,0 +1,11 @@
+`r if (knitr:::is_html_output()) '
+# Referencias {-}
+
+
+'`
+
+* Wickham, H. (2019). Advanced r. chapman and hall/CRC.
+* Chang W (2022). R6: Encapsulated Classes with Reference Semantics. https://r6.r-lib.org, https://github.com/r-lib/R6/.
+* Dancho, M (2023). R Quantitative Analysis Package Integrations in tidyquant. https://cran.r-project.org/web/packages/tidyquant/vignettes/TQ02-quant-integrations-in-tidyquant.html
+* Roth, T. (2016). Working with the qualityTools package.
+* Six Sigma Daily (2012). What is DMAIC?. recuperado de: https://www.sixsigmadaily.com/what-is-dmaic/

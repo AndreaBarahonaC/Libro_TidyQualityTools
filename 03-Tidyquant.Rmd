@@ -1,0 +1,486 @@
+# TidyQuant
+
+```{css, echo=FALSE}
+.scroll-100 {
+  max-height: 100px;
+  overflow-y: auto;
+  background-color: inherit;
+}
+```
+
+Existe una amplia gama de funciones de análisis cuantitativo útiles que funcionan con objetos de series temporales. El problema es que muchas de estas maravillosas funciones no funcionan con tipos de datos `data.frame`, ni con el flujo de trabajo de `tidyverse`. 
+
+Por ello el paquete **Tidyquant** integra las funciones más útiles de los paquetes: `xts`, `zoo`, `quantmod`, `TTR` y ``PerformanceAnalytics`, por ello, este texto se centra en demostrar como se integran las funciones más importantes con los paquetes financieros cuantitativos.siguientes:
+
+* Transmutar `tq_transmute()`: Esta funcion devuelve un nuevo 'tidy data frame', que normalmente tiene una periodicidad diferente a la de la entrada.
+
+* Mutate `tq_mutate()`: Esta funcion agrega columanas al tidy data frame.
+
+Para ello, lo primero que haremos será cargar los paquetes correspondientes:
+
+```{r, warning=FALSE, message=FALSE}
+# Cargar tidyquant, lubridate, xts, quantmod, TTR 
+library(tidyverse)
+library(tidyquant)
+```
+
+## Compatibilidad de funciones
+
+`tq_transmute_fun_options()` Devuelve una lista de **funciones de mutación compatibles** con cada paquete, para ello haremos una breve discusión de las opciones respecto a cada paquete.
+
+```{r, class.output="scroll-100"}
+tq_transmute_fun_options() %>% str()
+```
+Para ello, accederemos a las funciones de los respectivos paquetes que tienen compatibilidad para trabarse con `tq_transmute` y `tq_mutate` a partir del comando "$".
+
+### Funcionalidad zoo
+
+```{r, class.output="scroll-100"}
+tq_transmute_fun_options()$zoo
+```
+
+Las funciones del paquete `zoo` que son compatibles se enumerar arriba. EN términos generales, estas son:
+
+* Funciones *Roll Apply*:
+
+  - Una función genérica para aplicar una función a los márgenes móviles.
+  - Forma: `rollapply(data, width, FUN, ..., by = 1, by.column = TRUE, fill = if (na.pad) NA, na.pad = FALSE, partial = FALSE, align = c("center", "left", "right"), coredata = TRUE)`
+  - Las opciones incluyen: `rollmax`, `rollmean`, `rollmedian`, `rollsum`, etc.
+  
+### Funcionalidad xts
+
+```{r, class.output="scroll-100"}
+tq_transmute_fun_options()$xts
+```
+
+Las funciones del paquete `xts` que son compatibles están enumeradas arribas. en términos generales, son:
+
+* Funciones *Period Apply*:
+  - Aplicar una función a un segmento de tiempo, por ejemplo: `max`, `min`, `mean`, etc.
+  - Forma: `apply.daily(x, FUN, ...)`.
+  - Las opciones incluyen: `apply.daily`, `weekly`, `monthly`, `quarterly`, `yearly`.
+
+* Funciones *To-Period Functions*:
+  - Convierte una serie de tiempo en un serie de tiempo de menor periodicidad, por ejemplo, convierte periodicidad diaria en mensual.
+  - Forma: `to.period(x, period = 'months', k = 1, indexAt, name = NULL, OHLC = TRUE, ...)`.
+  - Las opciones incluyen: `to.minutes`, `hourly`, `daily`, `weekly`, `monthly`, `quarterly`, `yearly`.
+  - Es importante aclarar que: la estructura de devolución es diferente para `to.period`, `to.monthly`, `to.weekly`, `to.quarterly`, etc. `to.period` retorna la fecha, mientras que `to.monthly` devuelve un caracter de tipo "MON YYYY". Es recomendable trabajaer con `to.period`, si se desea trabar con series temporales a través de `lubridate`.
+  
+### Funcionalidad quantmod
+
+```{r, class.output="scroll-100"}
+tq_transmute_fun_options()$quantmod
+```
+
+Las funciones del paquete `quantmod` que son compatibles se enumeran arriba. En terminos generales, son :
+
+* Funciones de cambio porcentual (Delt) y retrasos:
+  - Delt: `Delt(x1, x2 = NULL, k = 0, type = c("arithmetic", "log"))`
+    * Variaciones de Delt: ClCl, HiCl, LoCl, LoHi, OpCl, OpHi, OpLo, OpOp
+    * Forma: `OpCl(OHLC)`
+  - Retrasos: `Lag(x, k = 1)` / Siguiente: `Next(x, k = 1)` (También puede usar `dplyr::lag and dplyr::lead`)
+  
+* Funciones de devolución del período:
+  - Se obtienen los rendimientos aritméticos o logarítmicos para diversas periodicidades, qué incluyen diaria, semanal, mensual, trimestral y anual.
+  - Forma: `periodReturn(x, period = 'monthly', subset = NULL, type = 'arithmetic', leading = TRUE, ...)`
+
+* Funciones de Series:
+  - Devuelve valores que describen la serie, las opciones incluyen describir los aumentos o disminuciones, la aceleración o desaceleración y alto o bajo.
+  - Formas: `seriesHi(x)`, `seriesIncr(x, thresh = 0, diff. = 1L)`, `seriesAccel(x)`.
+  
+### Funcionalidad TTR
+
+```{r, class.output="scroll-100"}
+tq_transmute_fun_options()$TTR
+```
+
+Aquí hay una breve descripción de las funciones más populares de `TTR`:
+
+* Índice de movimiento direccional de Welles Wilder:
+  - `ADX(HLC, n = 14, maType, ...)`
+* Bandas de Bollinger:
+  - `BBands(HLC, n = 20, maType, sd = 2, ...)`
+* Tasa de cambio/impulso:
+  - Tasa de cambio - `ROC(x, n = 1, type = c("continuous", "discrete"), na.pad = TRUE)`.
+  - Impulso/Momento - `momentum(x, n = 1, na.pad = TRUE)`
+* Medias Móviles (maType):
+  - Media móvil simple - `SMA(x, n = 10, ...)`
+  - Media móvil exponencial - `EMA(x, n = 10, wilder = FALSE, ratio = NULL, ...)`
+  - Media móvil exponencial doble - `DEMA(x, n = 10, v = 1, wilder = FALSE, ratio = NULL)`
+  - Media móvil Ponderada - `WMA(x, n = 10, wts = 1:n, ...)`
+  - Media móvil elástica ponderada por volumen - `EVWMA(price, volume, n = 10, ...)`
+  - Media móvil exponencial de retardo cero - `ZLEMA(x, n = 10, ratio = NULL, ...)`
+  - Precio promedio móvil ponderado por volumen - `VWAP(price, volume, n = 10, ...)`
+  - Media móvil de longitud variable - `VMA(x, w, ratio = 1, ...)`
+  - Media móvil de Hull - `HMA(x, n = 20, ...)`
+  - Média Movil de Arnaud Legoux - `ALMA(x, n = 9, offset = 0.85, sigma = 6, ...)`
+* Oscilador MACD:
+  - `MACD(x, nFast = 12, nSlow = 26, nSig = 9, maType, percent = TRUE, ...)`
+* Índice de Fuerza Relativa:
+  - `RSI(price, n = 14, maType, ...)`
+* runFun:
+  - `runSum(x, n = 10, cumulative = FALSE)`: devuelve sumas durante una ventana móvil de n períodos.
+  - `runMin(x, n = 10, cumulative = FALSE)`: devuelve mínimos durante una ventana móvil de n períodos.
+  - `runMax(x, n = 10, cumulative = FALSE)`: devuelve máximos durante una ventana móvil de n períodos.
+  - `runMean(x, n = 10, cumulative = FALSE)`: devuelve medias durante una ventana móvil de n períodos.
+  - `runMedian(x, n = 10, non.unique = "mean", cumulative = FALSE)`: devuelve medianas durante una ventana móvil de n períodos.
+  - `runCov(x, y, n = 10, use = "all.obs", sample = TRUE, cumulative = FALSE)`: devuelve covarianzas sobre una ventana móvil de n períodos.
+  - `runCor(x, y, n = 10, use = "all.obs", sample = TRUE, cumulative = FALSE)`: devuelve correlaciones durante una ventana móvil de n períodos.
+  - `runVar(x, y = NULL, n = 10, sample = TRUE, cumulative = FALSE)`: devuelve variaciones durante una ventana móvil de n períodos.
+  - `runSD(x, n = 10, sample = TRUE, cumulative = FALSE)`: devuelve desviaciones estándar durante una ventana móvil de n períodos.
+  - `runMAD(x, n = 10, center = NULL, stat = "median", constant = 1.4826, non.unique = "mean", cumulative = FALSE)`: devuelve las desviaciones absolutas mediana/media durante una ventana móvil de n períodos.
+  - `wilderSum(x, n = 10)`: devuelve una suma ponderada al estilo de Welles Wilder sobre una ventana móvil de n períodos.
+* Ocilador estocástico:
+  - `stoch(HLC, nFastK = 14, nFastD = 3, nSlowD = 3, maType, bounded = TRUE, smooth = 1, ...)`
+* Índice de momento estocástico:
+  - `SMI(HLC, n = 13, nFast = 2, nSlow = 25, nSig = 9, maType, bounded = TRUE, ...)`
+
+### Funcionalidad PerformanceAnalytics 
+
+```{r, class.output="scroll-100"}
+tq_transmute_fun_options()$PerformanceAnalytics
+```
+
+Todas las funciones de mutación `PerformanceAnalytics` se ocupan de devoluciones:
+
+* `Return.annualized` y `Return.annualized.excess`: toma los rendimientos del período y los consolida en rendimiento anualizados.
+
+* `Return.clean`: elimina los valores atípicos de las devoluciones.
+
+* `Return.excess`: elimina la tasa libre de riesgo de los rendimientos para generar rendimientos superiores a la tasa libre de riesgo.
+
+* `zerofill`: Se utiliza para reemplazar valores `NA` con ceros.
+
+## Poder Cuantitativo en Acción
+
+Revisaremos algunos ejemplos, para ello utilizaremos la base de datos `FANG`, de datos que consta de los precios de las acciones de FB, AMZN, NFLX y GOOG desde principios de 2013 hasta finales del 2016.
+
+```{r, class.output="scroll-100"}
+data("FANG")
+FANG
+```
+
+### Ejemplo 1: utilizar quantmod periodReturn para convertir precios en rentabilidad
+
+La funcioón `quantmod::periodReturn()` genera retornos por periodicidad, para ello, revisemos algunos casos:
+
+#### Ejemplo 1A: Obtener y registrar las rentabilidades anuales
+
+Utilizamos la columna de precios de cierre ajustados (ajustada para divisiones de acciones, lo que puede hacer que parezca que una acción tiene un mal desempeño si se incluye una división).
+
+Establecemos `select = adjusted`, investigamos la función `periodReturn` y descubrimos que acepta `type = "arithmetic"` y `period = "yearly"`, que devuelve los rendimientos anuales.
+
+```{r, class.output="scroll-100"}
+FANG_annual_returns <- FANG %>%
+    group_by(symbol) %>%
+    tq_transmute(select     = adjusted, 
+                 mutate_fun = periodReturn, 
+                 period     = "yearly", 
+                 type       = "arithmetic")
+FANG_annual_returns
+```
+
+Ahora, grafiquemos los redimientos anuales, a partir del uso rápido del paquete `ggplot2`:
+
+```{r, fig.align='center'}
+FANG_annual_returns %>%
+    ggplot(aes(x = date, y = yearly.returns, fill = symbol)) +
+    geom_col() +
+    geom_hline(yintercept = 0, color = palette_light()[[1]]) +
+    scale_y_continuous(labels = scales::percent) +
+    labs(title = "FANG: Annual Returns",
+         subtitle = "Get annual returns quickly with tq_transmute!",
+         y = "Annual Returns", x = "") + 
+    facet_wrap(~ symbol, ncol = 2, scales = "free_y") +
+    theme_tq() + 
+    scale_fill_tq()
+```
+
+#### Ejemplo 1B: Obtener devoluciones de registros diarios
+
+Los retornos de registros diarios siguen un enfoque similar. Normalmente se usa una función de transmutación `tq_transmute` porque la función `periodReturn` acepta diferentes opciones de periodicidad, y cualquier cosa que no sea diaria hará estallar una mutación. 
+
+Sin embargo, en nuestro ejemplo, la periodicidad de los rendimientos es la misma que la periodicidad de los precios de las accciones (ambas diarias), por lo que podemos usar cualquiera de las dos funciones mencionadas anterioremente. 
+
+Queremos utilizar la columna de precioes de cierre ajustados, para ello configuramos de manera similar al ejemplo anterior y obtenemos lo siguiente:
+
+```{r}
+FANG_daily_log_returns <- FANG %>%
+    group_by(symbol) %>%
+    tq_transmute(select     = adjusted, 
+                 mutate_fun = periodReturn, 
+                 period     = "daily", 
+                 type       = "log",
+                 col_rename = "monthly.returns")
+```
+
+Y la gráfica, obtenida a partir del paquete `ggplot2`, se verá de la siguiente manera:
+
+```{r, fig.align='center'}
+FANG_daily_log_returns %>%
+    ggplot(aes(x = monthly.returns, fill = symbol)) +
+    geom_density(alpha = 0.5) +
+    labs(title = "FANG: Charting the Daily Log Returns",
+         x = "Monthly Returns", y = "Density") +
+    theme_tq() +
+    scale_fill_tq() + 
+    facet_wrap(~ symbol, ncol = 2)
+```
+
+
+### Ejemplo 2: utilice xts to.period para cambiar la periodicidad de diaria a mensual
+
+La función `xts::to.period` se utiliza para convertir la periodicidad de un nivel inferior a un nivel superior (ej: meses a años). Dado que se busca una estructura que tenga una escala de tiempo diferente a la de entrada, se debe hacer una transformación. Utilizamos `tq_transmute()`, pasamos las columnas "open", "high", "low", "close" y "volume", y usamos el periodo "months".
+
+```{r}
+FANG |>  group_by(symbol) |> tq_transmute(select = open:volume,
+                                mutate_fun = to.period,
+                                period = "months")
+```
+
+Podemos comparar la visualización gráfica agrupando y sin agrupas:
+
+**Sin agregración de periodicidad**
+
+```{r}
+FANG_diario <- FANG |> group_by(symbol) 
+FANG_diario |> ggplot(aes(x=date, y=adjusted, color = symbol))+
+               geom_line(linewidth = 1) +
+               labs(title = "Precio diario de acciones",
+                    x = "", y = "Precios ajustados", color = "")+
+               facet_wrap(~ symbol, ncol = 2, scales = "free_y")+
+               scale_y_continuous(labels = scales::dollar)+
+               theme_tq()+
+               scale_color_tq()
+```
+
+**Con agregación de periodicidad mensual**
+
+```{r}
+FANG_mensual <- FANG |>  group_by(symbol) |> tq_transmute(select = adjusted,
+                                mutate_fun = to.period,
+                                period = "months")
+FANG_mensual |> ggplot(aes(x = date, y = adjusted, color = symbol)) +
+                geom_line(linewidth = 1) + labs(title = "Monthly Stock Prices", x = "", y = "Adjusted Prices", color = "") +
+                facet_wrap(~ symbol, ncol = 2, scales = "free_y") + scale_y_continuous(labels = scales::dollar) +
+                theme_tq() + scale_color_tq()
+```
+Con esto se reduce la cantidad de puntos y el gráfico de la serie temporal se suaviza.
+
+### Ejemplo 3: utilice TTR runCor para visualizar correlaciones continuas de rendimientos
+
+Las correlaciones de rendimiento son una forma para analizar la medida en que un activo imita un índice de referencia. Utilizaremos los datos de `FANG` como los datos y la línea de base será el sector tecnológico "XLK", para ello se recupera los precios utilizando `tq_get`, y los rendimientos se calculan a partir de los precios ajustados del Ejemplo 1
+
+```{r}
+#Rendimientos
+FANG_rend_mensual <- FANG |> group_by(symbol) |> 
+                     tq_transmute(select = adjusted,
+                                  mutate_fun = periodReturn,
+                                  period = "monthly")
+#Valor base de Rendimientos de referencia
+base_rend_mensual <- "XLK" |> tq_get(get = "stock.prices",
+                                            from = "2013-01-01",
+                                            to = "2016-12-31") |> 
+                              tq_transmute(select = adjusted,
+                                           mutate_fun = periodReturn,
+                                           period = "monthly")
+
+#Unir 
+rends <- left_join(FANG_rend_mensual, base_rend_mensual, by="date")
+rends
+```
+
+La función `runCor` se puede utilizar para evaluar correlaciones rodantes, además se puede incluir el ancho de la correlación que en este caso utilizaremos seis al estar en una escala mensual. Se utilizará `tq_transmute_xy` para realizar esto:
+
+```{r warning=FALSE}
+FANG_corr <- rends |> tq_transmute_xy(x = monthly.returns.x,
+                                   y = monthly.returns.y,
+                                   mutate_fun = runCor,
+                                   n = 6,
+                                   col_rename = "corr_6")
+#Grafico
+FANG_corr |> ggplot(aes(x = date, y = corr_6, color = symbol))+
+             geom_hline(yintercept = 0, color = palette_light()[[1]])+
+             geom_line(size = 1)+
+             labs(title = "FANG: Correlación 6 meses a XLK", x="", y="Correlation",color="")+
+             facet_wrap(~symbol,ncol=2)+
+             theme_tq()+scale_color_tq()
+```
+
+
+
+### Ejemplo 4: utilizar TTR::MACD para visualizar la divergencia y convergencia de la media móvil
+
+La función `MACD` nos da la convergencia y divergencia de la media móvil, vemos que la salida tiene la misma periodicidad que la entrada y las funciones funcionan con las de OHLC, por lo que se puede utilizar `tq_mutate()`
+
+```{r}
+FANG_macd <- FANG |> group_by(symbol) |> 
+                     tq_mutate(select = close,
+                               mutate_fun = MACD,
+                               nFast = 12,
+                               nSlow = 26,
+                               nSig = 9,
+                               maType = SMA) |> 
+                     mutate(diff = macd - signal) |> 
+                     select(-(open:volume))
+FANG_macd
+```
+
+Y se puede graficar los datos de la siguiente forma:
+
+```{r}
+FANG_macd %>%
+    filter(date >= as_date("2016-10-01")) %>%
+    ggplot(aes(x = date)) + 
+    geom_hline(yintercept = 0, color = palette_light()[[1]]) +
+    geom_line(aes(y = macd, col = symbol)) +
+    geom_line(aes(y = signal), color = "blue", linetype = 2) +
+    geom_bar(aes(y = diff), stat = "identity", color = palette_light()[[1]]) +
+    facet_wrap(~ symbol, ncol = 2, scale = "free_y") +
+    labs(title = "FANG: Convergencia y Divergencia de la Media Móvil",
+         y = "MACD", x = "", color = "") +
+    theme_tq() +
+    scale_color_tq()
+```
+
+
+### Ejemplo 5: utilizar xts::apply.quarterly para obtener el precio máximo y mínimo para cada trimestre
+
+La función `xts::apply.quarterly()` se puede utilizar para aplicar funciones por segmentos de tiempos trimestrales. Debido a que se va a usar una escala diferente a la de entrada (diaria) se necesita la función de transmutación `tq_transmute`, en la cual se configura en el argumento `FUN= max` para obtener los precios máximos de cierre durante el trimestre y en el argumento `mutate_fun` se escribe la función a aplicar por segmentos.
+
+```{r}
+FANG_maxtrim <- FANG |> group_by(symbol) |> 
+                        tq_transmute(select = adjusted,
+                                     mutate_fun = apply.quarterly,
+                                     FUN = max,
+                                     col_rename = "max.close") |> 
+                        mutate(year.qtr = paste0(year(date), "-Q", quarter(date))) |> 
+                        select(-date)
+FANG_maxtrim
+```
+
+y para obtener los precios mínimos se cambia el argumento `FUN = min`, además se pueden unir para obtenerlos en una misma salida:
+
+```{r}
+FANG_mintrim <- FANG |> group_by(symbol) |> 
+                        tq_transmute(select = adjusted,
+                                     mutate_fun = apply.quarterly,
+                                     FUN = min,
+                                     col_rename = "min.close") |> 
+                        mutate(year.qtr = paste0(year(date), "-Q", quarter(date))) |> 
+                        select(-date)
+FANG_trim <- left_join(FANG_maxtrim,FANG_mintrim, by=c("symbol"="symbol","year.qtr"="year.qtr"))
+FANG_trim
+```
+
+Para la visualización de los datos podemos realizar lo siguiente:
+
+```{r}
+FANG_trim |> ggplot(aes(x=year.qtr,color=symbol))+
+             geom_segment(aes(xend=year.qtr,y=min.close,yend=max.close),linewidth=1)+
+             geom_point(aes(y = max.close), size = 2) +
+             geom_point(aes(y = min.close), size = 2) +
+             facet_wrap(~ symbol, ncol = 2, scale = "free_y") +
+             labs(title = "FANG: Precio máximo y mínimo por trimestre",
+         y = "Precio de acción", color = "") +
+             theme_tq() +
+             scale_color_tq() +
+             scale_y_continuous(labels = scales::dollar) +
+             theme(axis.text.x = element_text(angle = 90, hjust = 1),
+             axis.title.x = element_blank())
+```
+
+
+### Ejemplo 6: utilizar zoo::rollapply para visualizar una regresión continua
+
+En este ejemplo se analizará la relación entre dos activos similares: Mastercard y Visa, para mostrar la relación mediante regresión. Primero se verá la tendencia de los rendimientos, para ello utilizamos `tq_get()` para obtener los precios de las acciones, y `tq_transmute()` para transformar los precios en rendimientos.
+
+```{r message=FALSE, warning=FALSE}
+precios_accion <- c("MA", "V") %>%
+    tq_get(get  = "stock.prices",
+           from = "2015-01-01",
+           to   = "2016-12-31") %>%
+    group_by(symbol) 
+
+rend_accion <- precios_accion %>%
+    tq_transmute(select     = adjusted,
+                 mutate_fun = periodReturn,
+                 period     = "daily",
+                 type       = "log",
+                 col_rename = "returns") %>%
+    spread(key = symbol, value = returns)
+
+#GRAFICOS
+rend_accion %>%
+    ggplot(aes(x=V,y=MA)) +
+    geom_point(color = palette_light()[[1]], alpha = 0.5) +
+    geom_smooth(method = "lm") +
+    labs(title = "Relación de rendimiento de las acciones ") +
+    theme_tq()
+```
+
+Se puede ver estadísticas de la relación a partir de la función `lm`:
+
+```{r}
+lm(MA~V,data = rend_accion) |> summary()
+```
+
+La estimación del coeficiente es 0.8134 por lo que se tiene una relación positiva, es decir que a medida que V crece, MA aumenta.
+
+Se puede utilizar la funcion `rollapply` para realizar una regresión móvil, es decir, mostrar como el modelo varía a lo largo del tiempo. Para ello se creará una función:
+
+```{r}
+regr_fun <- function(data){
+  coef(lm(MA~V,data=timetk::tk_tbl(data,silent=TRUE)))
+}
+```
+
+y se utilizará `tq_mutate()` para aplicar la función de regresión creada utilizando `rollapply` de la siguiente forma:
+
+```{r}
+rend_accion <- rend_accion |> tq_mutate(mutate_fun = rollapply,
+                                              width=90,
+                                              FUN=regr_fun,
+                                              by.column=FALSE,
+                                              col_rename = c("coef.0","coef.1"))
+rend_accion
+```
+
+Para visualizar el primer coeficiente, se puede agregar una linea horizontal utilizando el modelo de conjunto de datos completo, ya que así se puede ver en que momentos se desvía de la tendencia a largo plazo.
+
+```{r warning=FALSE}
+rend_accion |> ggplot(aes(x=date,y=coef.1))+
+                  geom_line(size=1,color=palette_light()[[1]])+
+                  geom_hline(yintercept = 0.8134, size = 1, color = palette_light()[[2]])+
+                  labs(title = "MA ~ V: Visualizing Rolling Regression Coefficient", x = "")+
+                  theme_tq()
+```
+
+Para visualizar la rentabilidad de las acciones durante el período de tiempo:
+
+```{r}
+precios_accion |> tq_transmute(adjusted,
+                               periodReturn,
+                               period="daily",
+                               type="log",
+                               col_name="returns") |> 
+                   mutate(wealth.index = 100 * cumprod(1 + daily.returns)) %>%
+                   ggplot(aes(x = date, y = wealth.index, color = symbol)) +
+                   geom_line(size = 1) +
+                   labs(title = "MA and V: Stock Prices") +
+                   theme_tq() + 
+                   scale_color_tq()
+```
+
+
+### Ejemplo 7: utilizar return.clean y return.excess para limpiar y calcular el exceso de rendimiento
+
+En este ejemplo primero se calcula los rendimientos diarios utilizando `periodReturn`, luego se utiliza `Return.clean` para limpiar los valores atípico de los datos devueltos, en el que el parámetro `alpha` es el porcentaje de datos atípicos se va a limpiar. Por último, los rendimientos excedentes se calculan con la función `Return.excess` con el parámetro `Rf` que representa la tasa libre de riesgo.
+
+```{r}
+FANG %>% group_by(symbol) %>% tq_transmute(adjusted, periodReturn, period = "daily") %>%
+                              tq_transmute(daily.returns, Return.clean, alpha = 0.05) %>%
+                              tq_transmute(daily.returns, Return.excess, Rf = 0.03 / 252)
+```
+
+
