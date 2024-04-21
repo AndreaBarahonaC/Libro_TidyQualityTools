@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo4 Poder Cuantitativo en Acción | A Minimal Book Example</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo4 Poder Cuantitativo en Acción | A Minimal Book Example" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo4 Poder Cuantitativo en Acción | A Minimal Book Example" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Yihui Xie" />
+
+
+<meta name="date" content="2024-04-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="compatibilidad-de-funciones.html"/>
+<link rel="next" href="qualitytools.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Prueba bookdown</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Aquí van R6, QualityTools y Tidyquant</a></li>
+<li class="chapter" data-level="2" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html"><i class="fa fa-check"></i><b>2</b> Programación orientada a objetos (POO)</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#introducción"><i class="fa fa-check"></i><b>2.1</b> Introducción</a></li>
+<li class="chapter" data-level="2.2" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#sistemas-de-programación-orientada-a-objetos"><i class="fa fa-check"></i><b>2.2</b> Sistemas de programación orientada a objetos</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#paradigmas"><i class="fa fa-check"></i><b>2.2.1</b> Paradigmas</a></li>
+<li class="chapter" data-level="2.2.2" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#especificaciones-de-los-principales-sistemas-poo-en-r"><i class="fa fa-check"></i><b>2.2.2</b> Especificaciones de los principales sistemas POO en R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#objetos-base-vs-objetos-oo"><i class="fa fa-check"></i><b>2.3</b> Objetos Base vs Objetos OO</a></li>
+<li class="chapter" data-level="2.4" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#encadenamiento-de-métodos"><i class="fa fa-check"></i><b>2.4</b> Encadenamiento de métodos</a></li>
+<li class="chapter" data-level="2.5" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#métodos-importantes"><i class="fa fa-check"></i><b>2.5</b> Métodos importantes</a></li>
+<li class="chapter" data-level="2.6" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#agregar-métodos-después-de-la-creación"><i class="fa fa-check"></i><b>2.6</b> Agregar métodos después de la creación</a></li>
+<li class="chapter" data-level="2.7" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#herencia"><i class="fa fa-check"></i><b>2.7</b> Herencia</a></li>
+<li class="chapter" data-level="2.8" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#introspección"><i class="fa fa-check"></i><b>2.8</b> Introspección</a></li>
+<li class="chapter" data-level="2.9" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#privacidad"><i class="fa fa-check"></i><b>2.9</b> Privacidad</a></li>
+<li class="chapter" data-level="2.10" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#campos-activos"><i class="fa fa-check"></i><b>2.10</b> Campos Activos</a></li>
+<li class="chapter" data-level="2.11" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#razonamientos"><i class="fa fa-check"></i><b>2.11</b> Razonamientos</a></li>
+<li class="chapter" data-level="2.12" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#finalización"><i class="fa fa-check"></i><b>2.12</b> Finalización</a></li>
+<li class="chapter" data-level="2.13" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#campos-r6"><i class="fa fa-check"></i><b>2.13</b> Campos R6</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="compatibilidad-de-funciones.html"><a href="compatibilidad-de-funciones.html"><i class="fa fa-check"></i><b>3</b> Compatibilidad de funciones</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="compatibilidad-de-funciones.html"><a href="compatibilidad-de-funciones.html#funcionalidad-zoo"><i class="fa fa-check"></i><b>3.1</b> Funcionalidad zoo</a></li>
+<li class="chapter" data-level="3.2" data-path="compatibilidad-de-funciones.html"><a href="compatibilidad-de-funciones.html#funcionalidad-xts"><i class="fa fa-check"></i><b>3.2</b> Funcionalidad xts</a></li>
+<li class="chapter" data-level="3.3" data-path="compatibilidad-de-funciones.html"><a href="compatibilidad-de-funciones.html#funcionalidad-quantmod"><i class="fa fa-check"></i><b>3.3</b> Funcionalidad quantmod</a></li>
+<li class="chapter" data-level="3.4" data-path="compatibilidad-de-funciones.html"><a href="compatibilidad-de-funciones.html#funcionalidad-ttr"><i class="fa fa-check"></i><b>3.4</b> Funcionalidad TTR</a></li>
+<li class="chapter" data-level="3.5" data-path="compatibilidad-de-funciones.html"><a href="compatibilidad-de-funciones.html#funcionalidad-performanceanalytics"><i class="fa fa-check"></i><b>3.5</b> Funcionalidad PerformanceAnalytics</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html"><i class="fa fa-check"></i><b>4</b> Poder Cuantitativo en Acción</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-1-utilizar-quantmod-periodreturn-para-convertir-precios-en-rentabilidad"><i class="fa fa-check"></i><b>4.1</b> Ejemplo 1: utilizar quantmod periodReturn para convertir precios en rentabilidad</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-1a-obtener-y-registrar-las-rentabilidades-anuales"><i class="fa fa-check"></i><b>4.1.1</b> Ejemplo 1A: Obtener y registrar las rentabilidades anuales</a></li>
+<li class="chapter" data-level="4.1.2" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-1b-obtener-devoluciones-de-registros-diarios"><i class="fa fa-check"></i><b>4.1.2</b> Ejemplo 1B: Obtener devoluciones de registros diarios</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-2-utilice-xts-to.period-para-cambiar-la-periodicidad-de-diaria-a-mensual"><i class="fa fa-check"></i><b>4.2</b> Ejemplo 2: utilice xts to.period para cambiar la periodicidad de diaria a mensual</a></li>
+<li class="chapter" data-level="4.3" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-3-utilice-ttr-runcor-para-visualizar-correlaciones-continuas-de-rendimientos"><i class="fa fa-check"></i><b>4.3</b> Ejemplo 3: utilice TTR runCor para visualizar correlaciones continuas de rendimientos</a></li>
+<li class="chapter" data-level="4.4" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-4-utilice-ttr-macd-para-visualizar-la-divergencia-de-convergencia-de-la-media-móvil"><i class="fa fa-check"></i><b>4.4</b> Ejemplo 4: Utilice TTR MACD para visualizar la divergencia de convergencia de la media móvil</a></li>
+<li class="chapter" data-level="4.5" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-5-utilice-xts-apply.quarterly-para-obtener-el-precio-máximo-y-mínimo-para-cada-trimestre"><i class="fa fa-check"></i><b>4.5</b> Ejemplo 5: utilice xts apply.quarterly para obtener el precio máximo y mínimo para cada trimestre</a></li>
+<li class="chapter" data-level="4.6" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-6-utilice-zoo-rollapply-para-visualizar-una-regresión-continua"><i class="fa fa-check"></i><b>4.6</b> Ejemplo 6: utilice zoo rollapply para visualizar una regresión continua</a></li>
+<li class="chapter" data-level="4.7" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-7-utilice-return.clean-y-return.excess-para-limpiar-y-calcular-el-exceso-de-rendimiento"><i class="fa fa-check"></i><b>4.7</b> Ejemplo 7: utilice return.clean y return.excess para limpiar y calcular el exceso de rendimiento</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="qualitytools.html"><a href="qualitytools.html"><i class="fa fa-check"></i><b>5</b> QualityTools</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="qualitytools.html"><a href="qualitytools.html#fase-1-definir"><i class="fa fa-check"></i><b>5.1</b> Fase 1: Definir</a></li>
+<li class="chapter" data-level="5.2" data-path="qualitytools.html"><a href="qualitytools.html#fase-2-medir"><i class="fa fa-check"></i><b>5.2</b> Fase 2: Medir</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="qualitytools.html"><a href="qualitytools.html#capacidad-de-calibre---msa-tipo-i"><i class="fa fa-check"></i><b>5.2.1</b> Capacidad de calibre - MSA Tipo I</a></li>
+<li class="chapter" data-level="5.2.2" data-path="qualitytools.html"><a href="qualitytools.html#repetibilidad-y-reproducibidad-del-calibre---msa-tipo-ii"><i class="fa fa-check"></i><b>5.2.2</b> Repetibilidad y reproducibidad del calibre - MSA Tipo II</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="qualitytools.html"><a href="qualitytools.html#fase-3-analizar"><i class="fa fa-check"></i><b>5.3</b> Fase 3: Analizar</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="qualitytools.html"><a href="qualitytools.html#capacidad-del-proceso"><i class="fa fa-check"></i><b>5.3.1</b> Capacidad del Proceso</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="qualitytools.html"><a href="qualitytools.html#fase-4-mejorar"><i class="fa fa-check"></i><b>5.4</b> Fase 4: Mejorar</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="qualitytools.html"><a href="qualitytools.html#diseños-factoriales-2k"><i class="fa fa-check"></i><b>5.4.1</b> Diseños factoriales <span class="math inline">\(2^{k}\)</span></a></li>
+<li class="chapter" data-level="5.4.2" data-path="qualitytools.html"><a href="qualitytools.html#diseños-factoriales-fraccionarios-2k-p"><i class="fa fa-check"></i><b>5.4.2</b> Diseños factoriales fraccionarios <span class="math inline">\(2^{k-p}\)</span></a></li>
+<li class="chapter" data-level="5.4.3" data-path="qualitytools.html"><a href="qualitytools.html#diseños-replicados-y-puntos-centrales"><i class="fa fa-check"></i><b>5.4.3</b> Diseños replicados y puntos centrales</a></li>
+<li class="chapter" data-level="5.4.4" data-path="qualitytools.html"><a href="qualitytools.html#respuestas-múltiples"><i class="fa fa-check"></i><b>5.4.4</b> Respuestas múltiples</a></li>
+<li class="chapter" data-level="5.4.5" data-path="qualitytools.html"><a href="qualitytools.html#pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado"><i class="fa fa-check"></i><b>5.4.5</b> Pasar a un entorno de proceso con un mayor rendimiento esperado</a></li>
+<li class="chapter" data-level="5.4.6" data-path="qualitytools.html"><a href="qualitytools.html#diseños-de-superficies-de-respuesta"><i class="fa fa-check"></i><b>5.4.6</b> Diseños de superficies de respuesta</a></li>
+<li class="chapter" data-level="5.4.7" data-path="qualitytools.html"><a href="qualitytools.html#montaje-secuencial-de-diseños-de-superficie-de-respuesta"><i class="fa fa-check"></i><b>5.4.7</b> Montaje secuencial de diseños de superficie de respuesta</a></li>
+<li class="chapter" data-level="5.4.8" data-path="qualitytools.html"><a href="qualitytools.html#aleatorización"><i class="fa fa-check"></i><b>5.4.8</b> Aleatorización</a></li>
+<li class="chapter" data-level="5.4.9" data-path="qualitytools.html"><a href="qualitytools.html#bloqueo"><i class="fa fa-check"></i><b>5.4.9</b> Bloqueo</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="qualitytools.html"><a href="qualitytools.html#deseabilidades"><i class="fa fa-check"></i><b>5.5</b> Deseabilidades</a></li>
+<li class="chapter" data-level="5.6" data-path="qualitytools.html"><a href="qualitytools.html#utilización-de-deseabilidades-junto-con-experimentos-diseñados"><i class="fa fa-check"></i><b>5.6</b> Utilización de deseabilidades junto con experimentos diseñados</a></li>
+<li class="chapter" data-level="5.7" data-path="qualitytools.html"><a href="qualitytools.html#diseños-de-mezclas"><i class="fa fa-check"></i><b>5.7</b> Diseños de mezclas</a></li>
+<li class="chapter" data-level="5.8" data-path="qualitytools.html"><a href="qualitytools.html#diseños-taguchi"><i class="fa fa-check"></i><b>5.8</b> Diseños Taguchi</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>6</b> Applications</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>6.1</b> Example one</a></li>
+<li class="chapter" data-level="6.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>6.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>7</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="poder-cuantitativo-en-acción" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Capítulo4</span> Poder Cuantitativo en Acción<a href="poder-cuantitativo-en-acción.html#poder-cuantitativo-en-acción" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Revisaremos algunos ejemplos, para ello utilizaremos la base de datos <code>FANG</code>, de datos que consta de los precios de las acciones de FB, AMZN, NFLX y GOOG desde principios de 2013 hasta finales del 2016.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="poder-cuantitativo-en-acción.html#cb14-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;FANG&quot;</span>)</span>
+<span id="cb14-2"><a href="poder-cuantitativo-en-acción.html#cb14-2" tabindex="-1"></a>FANG</span></code></pre></div>
+<pre class="scroll-100"><code>## # A tibble: 4,032 × 8
+##    symbol date        open  high   low close    volume adjusted
+##    &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+##  1 FB     2013-01-02  27.4  28.2  27.4  28    69846400     28  
+##  2 FB     2013-01-03  27.9  28.5  27.6  27.8  63140600     27.8
+##  3 FB     2013-01-04  28.0  28.9  27.8  28.8  72715400     28.8
+##  4 FB     2013-01-07  28.7  29.8  28.6  29.4  83781800     29.4
+##  5 FB     2013-01-08  29.5  29.6  28.9  29.1  45871300     29.1
+##  6 FB     2013-01-09  29.7  30.6  29.5  30.6 104787700     30.6
+##  7 FB     2013-01-10  30.6  31.5  30.3  31.3  95316400     31.3
+##  8 FB     2013-01-11  31.3  32.0  31.1  31.7  89598000     31.7
+##  9 FB     2013-01-14  32.1  32.2  30.6  31.0  98892800     31.0
+## 10 FB     2013-01-15  30.6  31.7  29.9  30.1 173242600     30.1
+## # ℹ 4,022 more rows</code></pre>
+<div id="ejemplo-1-utilizar-quantmod-periodreturn-para-convertir-precios-en-rentabilidad" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Ejemplo 1: utilizar quantmod periodReturn para convertir precios en rentabilidad<a href="poder-cuantitativo-en-acción.html#ejemplo-1-utilizar-quantmod-periodreturn-para-convertir-precios-en-rentabilidad" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La funcioón <code>quantmod::periodReturn()</code> genera retornos por periodicidad, para ello, revisemos algunos casos:</p>
+<div id="ejemplo-1a-obtener-y-registrar-las-rentabilidades-anuales" class="section level3 hasAnchor" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Ejemplo 1A: Obtener y registrar las rentabilidades anuales<a href="poder-cuantitativo-en-acción.html#ejemplo-1a-obtener-y-registrar-las-rentabilidades-anuales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Utilizamos la columna de precios de cierre ajustados (ajustada para divisiones de acciones, lo que puede hacer que parezca que una acción tiene un mal desempeño si se incluye una división).</p>
+<p>Establecemos <code>select = adjusted</code>, investigamos la función <code>periodReturn</code> y descubrimos que acepta <code>type = "arithmetic"</code> y <code>period = "yearly"</code>, que devuelve los rendimientos anuales.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="poder-cuantitativo-en-acción.html#cb16-1" tabindex="-1"></a>FANG_annual_returns <span class="ot">&lt;-</span> FANG <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="poder-cuantitativo-en-acción.html#cb16-2" tabindex="-1"></a>    <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="poder-cuantitativo-en-acción.html#cb16-3" tabindex="-1"></a>    <span class="fu">tq_transmute</span>(<span class="at">select     =</span> adjusted, </span>
+<span id="cb16-4"><a href="poder-cuantitativo-en-acción.html#cb16-4" tabindex="-1"></a>                 <span class="at">mutate_fun =</span> periodReturn, </span>
+<span id="cb16-5"><a href="poder-cuantitativo-en-acción.html#cb16-5" tabindex="-1"></a>                 <span class="at">period     =</span> <span class="st">&quot;yearly&quot;</span>, </span>
+<span id="cb16-6"><a href="poder-cuantitativo-en-acción.html#cb16-6" tabindex="-1"></a>                 <span class="at">type       =</span> <span class="st">&quot;arithmetic&quot;</span>)</span>
+<span id="cb16-7"><a href="poder-cuantitativo-en-acción.html#cb16-7" tabindex="-1"></a>FANG_annual_returns</span></code></pre></div>
+<pre class="scroll-100"><code>## # A tibble: 16 × 3
+## # Groups:   symbol [4]
+##    symbol date       yearly.returns
+##    &lt;chr&gt;  &lt;date&gt;              &lt;dbl&gt;
+##  1 FB     2013-12-31         0.952 
+##  2 FB     2014-12-31         0.428 
+##  3 FB     2015-12-31         0.341 
+##  4 FB     2016-12-30         0.0993
+##  5 AMZN   2013-12-31         0.550 
+##  6 AMZN   2014-12-31        -0.222 
+##  7 AMZN   2015-12-31         1.18  
+##  8 AMZN   2016-12-30         0.109 
+##  9 NFLX   2013-12-31         3.00  
+## 10 NFLX   2014-12-31        -0.0721
+## 11 NFLX   2015-12-31         1.34  
+## 12 NFLX   2016-12-30         0.0824
+## 13 GOOG   2013-12-31         0.550 
+## 14 GOOG   2014-12-31        -0.0597
+## 15 GOOG   2015-12-31         0.442 
+## 16 GOOG   2016-12-30         0.0171</code></pre>
+<p>Ahora, grafiquemos los redimientos anuales, a partir del uso rápido del paquete <code>ggplot2</code>:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="poder-cuantitativo-en-acción.html#cb18-1" tabindex="-1"></a>FANG_annual_returns <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="poder-cuantitativo-en-acción.html#cb18-2" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> yearly.returns, <span class="at">fill =</span> symbol)) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="poder-cuantitativo-en-acción.html#cb18-3" tabindex="-1"></a>    <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb18-4"><a href="poder-cuantitativo-en-acción.html#cb18-4" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="fu">palette_light</span>()[[<span class="dv">1</span>]]) <span class="sc">+</span></span>
+<span id="cb18-5"><a href="poder-cuantitativo-en-acción.html#cb18-5" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb18-6"><a href="poder-cuantitativo-en-acción.html#cb18-6" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;FANG: Annual Returns&quot;</span>,</span>
+<span id="cb18-7"><a href="poder-cuantitativo-en-acción.html#cb18-7" tabindex="-1"></a>         <span class="at">subtitle =</span> <span class="st">&quot;Get annual returns quickly with tq_transmute!&quot;</span>,</span>
+<span id="cb18-8"><a href="poder-cuantitativo-en-acción.html#cb18-8" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;Annual Returns&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb18-9"><a href="poder-cuantitativo-en-acción.html#cb18-9" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> symbol, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>) <span class="sc">+</span></span>
+<span id="cb18-10"><a href="poder-cuantitativo-en-acción.html#cb18-10" tabindex="-1"></a>    <span class="fu">theme_tq</span>() <span class="sc">+</span> </span>
+<span id="cb18-11"><a href="poder-cuantitativo-en-acción.html#cb18-11" tabindex="-1"></a>    <span class="fu">scale_fill_tq</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="ejemplo-1b-obtener-devoluciones-de-registros-diarios" class="section level3 hasAnchor" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Ejemplo 1B: Obtener devoluciones de registros diarios<a href="poder-cuantitativo-en-acción.html#ejemplo-1b-obtener-devoluciones-de-registros-diarios" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Los retornos de registros diarios siguen un enfoque similar. Normalmente se usa una función de transmutación <code>tq_transmute</code> porque la función <code>periodReturn</code> acepta diferentes opciones de periodicidad, y cualquier cosa que no sea diaria hará estallar una mutación.</p>
+<p>Sin embargo, en nuestro ejemplo, la periodicidad de los rendimientos es la misma que la periodicidad de los precios de las accciones (ambas diarias), por lo que podemos usar cualquiera de las dos funciones mencionadas anterioremente.</p>
+<p>Queremos utilizar la columna de precioes de cierre ajustados, para ello configuramos de manera similar al ejemplo anterior y obtenemos lo siguiente:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="poder-cuantitativo-en-acción.html#cb19-1" tabindex="-1"></a>FANG_daily_log_returns <span class="ot">&lt;-</span> FANG <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="poder-cuantitativo-en-acción.html#cb19-2" tabindex="-1"></a>    <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="poder-cuantitativo-en-acción.html#cb19-3" tabindex="-1"></a>    <span class="fu">tq_transmute</span>(<span class="at">select     =</span> adjusted, </span>
+<span id="cb19-4"><a href="poder-cuantitativo-en-acción.html#cb19-4" tabindex="-1"></a>                 <span class="at">mutate_fun =</span> periodReturn, </span>
+<span id="cb19-5"><a href="poder-cuantitativo-en-acción.html#cb19-5" tabindex="-1"></a>                 <span class="at">period     =</span> <span class="st">&quot;daily&quot;</span>, </span>
+<span id="cb19-6"><a href="poder-cuantitativo-en-acción.html#cb19-6" tabindex="-1"></a>                 <span class="at">type       =</span> <span class="st">&quot;log&quot;</span>,</span>
+<span id="cb19-7"><a href="poder-cuantitativo-en-acción.html#cb19-7" tabindex="-1"></a>                 <span class="at">col_rename =</span> <span class="st">&quot;monthly.returns&quot;</span>)</span></code></pre></div>
+<p>Y la gráfica, obtenida a partir del paquete <code>ggplot2</code>, se verá de la siguiente manera:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="poder-cuantitativo-en-acción.html#cb20-1" tabindex="-1"></a>FANG_daily_log_returns <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="poder-cuantitativo-en-acción.html#cb20-2" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> monthly.returns, <span class="at">fill =</span> symbol)) <span class="sc">+</span></span>
+<span id="cb20-3"><a href="poder-cuantitativo-en-acción.html#cb20-3" tabindex="-1"></a>    <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb20-4"><a href="poder-cuantitativo-en-acción.html#cb20-4" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;FANG: Charting the Daily Log Returns&quot;</span>,</span>
+<span id="cb20-5"><a href="poder-cuantitativo-en-acción.html#cb20-5" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;Monthly Returns&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Density&quot;</span>) <span class="sc">+</span></span>
+<span id="cb20-6"><a href="poder-cuantitativo-en-acción.html#cb20-6" tabindex="-1"></a>    <span class="fu">theme_tq</span>() <span class="sc">+</span></span>
+<span id="cb20-7"><a href="poder-cuantitativo-en-acción.html#cb20-7" tabindex="-1"></a>    <span class="fu">scale_fill_tq</span>() <span class="sc">+</span> </span>
+<span id="cb20-8"><a href="poder-cuantitativo-en-acción.html#cb20-8" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> symbol, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="ejemplo-2-utilice-xts-to.period-para-cambiar-la-periodicidad-de-diaria-a-mensual" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Ejemplo 2: utilice xts to.period para cambiar la periodicidad de diaria a mensual<a href="poder-cuantitativo-en-acción.html#ejemplo-2-utilice-xts-to.period-para-cambiar-la-periodicidad-de-diaria-a-mensual" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La función <code>xts::to.period</code> se utiliza para convertir la periodicidad de un nivel inferior a un nivel superior (ej: meses a años). Dado que se busca una estructura que tenga una escala de tiempo diferente a la de entrada, se debe hacer una transformación. Utilizamos <code>tq_transmute()</code>, pasamos las columnas “open”, “high”, “low”, “close” y “volume”, y usamos el periodo “months”.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="poder-cuantitativo-en-acción.html#cb21-1" tabindex="-1"></a>FANG <span class="sc">|&gt;</span>  <span class="fu">group_by</span>(symbol) <span class="sc">|&gt;</span> <span class="fu">tq_transmute</span>(<span class="at">select =</span> open<span class="sc">:</span>volume,</span>
+<span id="cb21-2"><a href="poder-cuantitativo-en-acción.html#cb21-2" tabindex="-1"></a>                                <span class="at">mutate_fun =</span> to.period,</span>
+<span id="cb21-3"><a href="poder-cuantitativo-en-acción.html#cb21-3" tabindex="-1"></a>                                <span class="at">period =</span> <span class="st">&quot;months&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 192 × 7
+## # Groups:   symbol [4]
+##    symbol date        open  high   low close    volume
+##    &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+##  1 FB     2013-01-31  29.2  31.5  28.7  31.0 190744900
+##  2 FB     2013-02-28  26.8  27.3  26.3  27.2  83027800
+##  3 FB     2013-03-28  26.1  26.2  25.5  25.6  28585700
+##  4 FB     2013-04-30  27.1  27.8  27.0  27.8  36245700
+##  5 FB     2013-05-31  24.6  25.0  24.3  24.4  35925000
+##  6 FB     2013-06-28  24.7  25.0  24.4  24.9  96778900
+##  7 FB     2013-07-31  38.0  38.3  36.3  36.8 154828700
+##  8 FB     2013-08-30  42.0  42.3  41.1  41.3  67735100
+##  9 FB     2013-09-30  50.1  51.6  49.8  50.2 100095000
+## 10 FB     2013-10-31  47.2  52    46.5  50.2 248809000
+## # ℹ 182 more rows</code></pre>
+<p>Podemos comparar la visualización gráfica agrupando y sin agrupas:</p>
+<p><strong>Sin agregración de periodicidad</strong></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="poder-cuantitativo-en-acción.html#cb23-1" tabindex="-1"></a>FANG_diario <span class="ot">&lt;-</span> FANG <span class="sc">|&gt;</span> <span class="fu">group_by</span>(symbol) </span>
+<span id="cb23-2"><a href="poder-cuantitativo-en-acción.html#cb23-2" tabindex="-1"></a>FANG_diario <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>date, <span class="at">y=</span>adjusted, <span class="at">color =</span> symbol))<span class="sc">+</span></span>
+<span id="cb23-3"><a href="poder-cuantitativo-en-acción.html#cb23-3" tabindex="-1"></a>               <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb23-4"><a href="poder-cuantitativo-en-acción.html#cb23-4" tabindex="-1"></a>               <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Precio diario de acciones&quot;</span>,</span>
+<span id="cb23-5"><a href="poder-cuantitativo-en-acción.html#cb23-5" tabindex="-1"></a>                    <span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Precios ajustados&quot;</span>, <span class="at">color =</span> <span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
+<span id="cb23-6"><a href="poder-cuantitativo-en-acción.html#cb23-6" tabindex="-1"></a>               <span class="fu">facet_wrap</span>(<span class="sc">~</span> symbol, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>)<span class="sc">+</span></span>
+<span id="cb23-7"><a href="poder-cuantitativo-en-acción.html#cb23-7" tabindex="-1"></a>               <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar)<span class="sc">+</span></span>
+<span id="cb23-8"><a href="poder-cuantitativo-en-acción.html#cb23-8" tabindex="-1"></a>               <span class="fu">theme_tq</span>()<span class="sc">+</span></span>
+<span id="cb23-9"><a href="poder-cuantitativo-en-acción.html#cb23-9" tabindex="-1"></a>               <span class="fu">scale_color_tq</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><strong>Con agregación de periodicidad mensual</strong></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="poder-cuantitativo-en-acción.html#cb24-1" tabindex="-1"></a>FANG_mensual <span class="ot">&lt;-</span> FANG <span class="sc">|&gt;</span>  <span class="fu">group_by</span>(symbol) <span class="sc">|&gt;</span> <span class="fu">tq_transmute</span>(<span class="at">select =</span> adjusted,</span>
+<span id="cb24-2"><a href="poder-cuantitativo-en-acción.html#cb24-2" tabindex="-1"></a>                                <span class="at">mutate_fun =</span> to.period,</span>
+<span id="cb24-3"><a href="poder-cuantitativo-en-acción.html#cb24-3" tabindex="-1"></a>                                <span class="at">period =</span> <span class="st">&quot;months&quot;</span>)</span>
+<span id="cb24-4"><a href="poder-cuantitativo-en-acción.html#cb24-4" tabindex="-1"></a>FANG_mensual <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> adjusted, <span class="at">color =</span> symbol)) <span class="sc">+</span></span>
+<span id="cb24-5"><a href="poder-cuantitativo-en-acción.html#cb24-5" tabindex="-1"></a>                <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Monthly Stock Prices&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Adjusted Prices&quot;</span>, <span class="at">color =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb24-6"><a href="poder-cuantitativo-en-acción.html#cb24-6" tabindex="-1"></a>                <span class="fu">facet_wrap</span>(<span class="sc">~</span> symbol, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>dollar) <span class="sc">+</span></span>
+<span id="cb24-7"><a href="poder-cuantitativo-en-acción.html#cb24-7" tabindex="-1"></a>                <span class="fu">theme_tq</span>() <span class="sc">+</span> <span class="fu">scale_color_tq</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+Con esto se reduce la cantidad de puntos y el gráfico de la serie temporal se suaviza.</p>
+</div>
+<div id="ejemplo-3-utilice-ttr-runcor-para-visualizar-correlaciones-continuas-de-rendimientos" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Ejemplo 3: utilice TTR runCor para visualizar correlaciones continuas de rendimientos<a href="poder-cuantitativo-en-acción.html#ejemplo-3-utilice-ttr-runcor-para-visualizar-correlaciones-continuas-de-rendimientos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Las correlaciones de rendimiento son una forma para analizar la medida en que un activo imita un índice de referencia. Utilizaremos los datos de <code>FANG</code> como los datos y la línea de base será el sector tecnológico “XLK”, para ello se recupera los precios utilizando <code>tq_get</code>, y los rendimientos se calculan a partir de los precios ajustados del Ejemplo 1</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="poder-cuantitativo-en-acción.html#cb25-1" tabindex="-1"></a><span class="co">#Rendimientos</span></span>
+<span id="cb25-2"><a href="poder-cuantitativo-en-acción.html#cb25-2" tabindex="-1"></a>FANG_rend_mensual <span class="ot">&lt;-</span> FANG <span class="sc">|&gt;</span> <span class="fu">group_by</span>(symbol) <span class="sc">|&gt;</span> </span>
+<span id="cb25-3"><a href="poder-cuantitativo-en-acción.html#cb25-3" tabindex="-1"></a>                     <span class="fu">tq_transmute</span>(<span class="at">select =</span> adjusted,</span>
+<span id="cb25-4"><a href="poder-cuantitativo-en-acción.html#cb25-4" tabindex="-1"></a>                                  <span class="at">mutate_fun =</span> periodReturn,</span>
+<span id="cb25-5"><a href="poder-cuantitativo-en-acción.html#cb25-5" tabindex="-1"></a>                                  <span class="at">period =</span> <span class="st">&quot;monthly&quot;</span>)</span>
+<span id="cb25-6"><a href="poder-cuantitativo-en-acción.html#cb25-6" tabindex="-1"></a><span class="co">#Valor base de Rendimientos de referencia</span></span>
+<span id="cb25-7"><a href="poder-cuantitativo-en-acción.html#cb25-7" tabindex="-1"></a>base_rend_mensual <span class="ot">&lt;-</span> <span class="st">&quot;XLK&quot;</span> <span class="sc">|&gt;</span> <span class="fu">tq_get</span>(<span class="at">get =</span> <span class="st">&quot;stock.prices&quot;</span>,</span>
+<span id="cb25-8"><a href="poder-cuantitativo-en-acción.html#cb25-8" tabindex="-1"></a>                                            <span class="at">from =</span> <span class="st">&quot;2013-01-01&quot;</span>,</span>
+<span id="cb25-9"><a href="poder-cuantitativo-en-acción.html#cb25-9" tabindex="-1"></a>                                            <span class="at">to =</span> <span class="st">&quot;2016-12-31&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb25-10"><a href="poder-cuantitativo-en-acción.html#cb25-10" tabindex="-1"></a>                              <span class="fu">tq_transmute</span>(<span class="at">select =</span> adjusted,</span>
+<span id="cb25-11"><a href="poder-cuantitativo-en-acción.html#cb25-11" tabindex="-1"></a>                                           <span class="at">mutate_fun =</span> periodReturn,</span>
+<span id="cb25-12"><a href="poder-cuantitativo-en-acción.html#cb25-12" tabindex="-1"></a>                                           <span class="at">period =</span> <span class="st">&quot;monthly&quot;</span>)</span>
+<span id="cb25-13"><a href="poder-cuantitativo-en-acción.html#cb25-13" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="poder-cuantitativo-en-acción.html#cb25-14" tabindex="-1"></a><span class="co">#Unir </span></span>
+<span id="cb25-15"><a href="poder-cuantitativo-en-acción.html#cb25-15" tabindex="-1"></a>rends <span class="ot">&lt;-</span> <span class="fu">left_join</span>(FANG_rend_mensual, base_rend_mensual, <span class="at">by=</span><span class="st">&quot;date&quot;</span>)</span>
+<span id="cb25-16"><a href="poder-cuantitativo-en-acción.html#cb25-16" tabindex="-1"></a>rends</span></code></pre></div>
+<pre><code>## # A tibble: 192 × 4
+## # Groups:   symbol [4]
+##    symbol date       monthly.returns.x monthly.returns.y
+##    &lt;chr&gt;  &lt;date&gt;                 &lt;dbl&gt;             &lt;dbl&gt;
+##  1 FB     2013-01-31          0.106             -0.0138 
+##  2 FB     2013-02-28         -0.120              0.00782
+##  3 FB     2013-03-28         -0.0613             0.0258 
+##  4 FB     2013-04-30          0.0856             0.0175 
+##  5 FB     2013-05-31         -0.123              0.0279 
+##  6 FB     2013-06-28          0.0218            -0.0289 
+##  7 FB     2013-07-31          0.479              0.0373 
+##  8 FB     2013-08-30          0.122             -0.0104 
+##  9 FB     2013-09-30          0.217              0.0253 
+## 10 FB     2013-10-31         -0.000398           0.0502 
+## # ℹ 182 more rows</code></pre>
+<p>La función <code>runCor</code> se puede utilizar para evaluar correlaciones rodantes, además se puede incluir el ancho de la correlación que en este caso utilizaremos seis al estar en una escala mensual. Se utilizará <code>tq_transmute_xy</code> para realizar esto:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="poder-cuantitativo-en-acción.html#cb27-1" tabindex="-1"></a>FANG_corr <span class="ot">&lt;-</span> rends <span class="sc">|&gt;</span> <span class="fu">tq_transmute_xy</span>(<span class="at">x =</span> monthly.returns.x,</span>
+<span id="cb27-2"><a href="poder-cuantitativo-en-acción.html#cb27-2" tabindex="-1"></a>                                   <span class="at">y =</span> monthly.returns.y,</span>
+<span id="cb27-3"><a href="poder-cuantitativo-en-acción.html#cb27-3" tabindex="-1"></a>                                   <span class="at">mutate_fun =</span> runCor,</span>
+<span id="cb27-4"><a href="poder-cuantitativo-en-acción.html#cb27-4" tabindex="-1"></a>                                   <span class="at">n =</span> <span class="dv">6</span>,</span>
+<span id="cb27-5"><a href="poder-cuantitativo-en-acción.html#cb27-5" tabindex="-1"></a>                                   <span class="at">col_rename =</span> <span class="st">&quot;corr_6&quot;</span>)</span>
+<span id="cb27-6"><a href="poder-cuantitativo-en-acción.html#cb27-6" tabindex="-1"></a><span class="co">#Grafico</span></span>
+<span id="cb27-7"><a href="poder-cuantitativo-en-acción.html#cb27-7" tabindex="-1"></a>FANG_corr <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> corr_6, <span class="at">color =</span> symbol))<span class="sc">+</span></span>
+<span id="cb27-8"><a href="poder-cuantitativo-en-acción.html#cb27-8" tabindex="-1"></a>             <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="fu">palette_light</span>()[[<span class="dv">1</span>]])<span class="sc">+</span></span>
+<span id="cb27-9"><a href="poder-cuantitativo-en-acción.html#cb27-9" tabindex="-1"></a>             <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb27-10"><a href="poder-cuantitativo-en-acción.html#cb27-10" tabindex="-1"></a>             <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;FANG: Correlación 6 meses a XLK&quot;</span>, <span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y=</span><span class="st">&quot;Correlation&quot;</span>,<span class="at">color=</span><span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
+<span id="cb27-11"><a href="poder-cuantitativo-en-acción.html#cb27-11" tabindex="-1"></a>             <span class="fu">facet_wrap</span>(<span class="sc">~</span>symbol,<span class="at">ncol=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb27-12"><a href="poder-cuantitativo-en-acción.html#cb27-12" tabindex="-1"></a>             <span class="fu">theme_tq</span>()<span class="sc">+</span><span class="fu">scale_color_tq</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+</div>
+<div id="ejemplo-4-utilice-ttr-macd-para-visualizar-la-divergencia-de-convergencia-de-la-media-móvil" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Ejemplo 4: Utilice TTR MACD para visualizar la divergencia de convergencia de la media móvil<a href="poder-cuantitativo-en-acción.html#ejemplo-4-utilice-ttr-macd-para-visualizar-la-divergencia-de-convergencia-de-la-media-móvil" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</div>
+<div id="ejemplo-5-utilice-xts-apply.quarterly-para-obtener-el-precio-máximo-y-mínimo-para-cada-trimestre" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Ejemplo 5: utilice xts apply.quarterly para obtener el precio máximo y mínimo para cada trimestre<a href="poder-cuantitativo-en-acción.html#ejemplo-5-utilice-xts-apply.quarterly-para-obtener-el-precio-máximo-y-mínimo-para-cada-trimestre" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</div>
+<div id="ejemplo-6-utilice-zoo-rollapply-para-visualizar-una-regresión-continua" class="section level2 hasAnchor" number="4.6">
+<h2><span class="header-section-number">4.6</span> Ejemplo 6: utilice zoo rollapply para visualizar una regresión continua<a href="poder-cuantitativo-en-acción.html#ejemplo-6-utilice-zoo-rollapply-para-visualizar-una-regresión-continua" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</div>
+<div id="ejemplo-7-utilice-return.clean-y-return.excess-para-limpiar-y-calcular-el-exceso-de-rendimiento" class="section level2 hasAnchor" number="4.7">
+<h2><span class="header-section-number">4.7</span> Ejemplo 7: utilice return.clean y return.excess para limpiar y calcular el exceso de rendimiento<a href="poder-cuantitativo-en-acción.html#ejemplo-7-utilice-return.clean-y-return.excess-para-limpiar-y-calcular-el-exceso-de-rendimiento" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="compatibilidad-de-funciones.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="qualitytools.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-Tidyquant.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

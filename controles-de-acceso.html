@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Controles de Acceso | R6</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Controles de Acceso | R6" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Controles de Acceso | R6" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Miguel Flores" />
+<meta name="author" content="Andrea Barahona" />
+<meta name="author" content="Fabián Encarnación" />
+<meta name="author" content="Dario Quishpe" />
+
+
+<meta name="date" content="2024-04-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="clases-y-métodos.html"/>
+<link rel="next" href="semántica-de-referencia.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html"><i class="fa fa-check"></i><b>2</b> Programación orientada a objetos (POO)</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#introducción"><i class="fa fa-check"></i><b>2.1</b> Introducción</a></li>
+<li class="chapter" data-level="2.2" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#sistemas-de-programación-orientada-a-objetos"><i class="fa fa-check"></i><b>2.2</b> Sistemas de programación orientada a objetos</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#paradigmas"><i class="fa fa-check"></i><b>2.2.1</b> Paradigmas</a></li>
+<li class="chapter" data-level="2.2.2" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#especificaciones-de-los-principales-sistemas-poo-en-r"><i class="fa fa-check"></i><b>2.2.2</b> Especificaciones de los principales sistemas POO en R</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tipos-de-bases.html"><a href="tipos-de-bases.html"><i class="fa fa-check"></i><b>3</b> Tipos de bases</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tipos-de-bases.html"><a href="tipos-de-bases.html#objetos-base-vs-objetos-oo"><i class="fa fa-check"></i><b>3.1</b> Objetos Base vs Objetos OO</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="introducción-a-r6.html"><a href="introducción-a-r6.html"><i class="fa fa-check"></i><b>4</b> Introducción a R6</a></li>
+<li class="chapter" data-level="5" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html"><i class="fa fa-check"></i><b>5</b> Clases y métodos</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html#encadenamiento-de-métodos"><i class="fa fa-check"></i><b>5.1</b> Encadenamiento de métodos</a></li>
+<li class="chapter" data-level="5.2" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html#métodos-importantes"><i class="fa fa-check"></i><b>5.2</b> Métodos importantes</a></li>
+<li class="chapter" data-level="5.3" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html#agregar-métodos-después-de-la-creación"><i class="fa fa-check"></i><b>5.3</b> Agregar métodos después de la creación</a></li>
+<li class="chapter" data-level="5.4" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html#herencia"><i class="fa fa-check"></i><b>5.4</b> Herencia</a></li>
+<li class="chapter" data-level="5.5" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html#introspección"><i class="fa fa-check"></i><b>5.5</b> Introspección</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="controles-de-acceso.html"><a href="controles-de-acceso.html"><i class="fa fa-check"></i><b>6</b> Controles de Acceso</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="controles-de-acceso.html"><a href="controles-de-acceso.html#privacidad"><i class="fa fa-check"></i><b>6.1</b> Privacidad</a></li>
+<li class="chapter" data-level="6.2" data-path="controles-de-acceso.html"><a href="controles-de-acceso.html#campos-activos"><i class="fa fa-check"></i><b>6.2</b> Campos Activos</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="semántica-de-referencia.html"><a href="semántica-de-referencia.html"><i class="fa fa-check"></i><b>7</b> Semántica de referencia</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="semántica-de-referencia.html"><a href="semántica-de-referencia.html#razonamientos"><i class="fa fa-check"></i><b>7.1</b> Razonamientos</a></li>
+<li class="chapter" data-level="7.2" data-path="semántica-de-referencia.html"><a href="semántica-de-referencia.html#finalización"><i class="fa fa-check"></i><b>7.2</b> Finalización</a></li>
+<li class="chapter" data-level="7.3" data-path="semántica-de-referencia.html"><a href="semántica-de-referencia.html#campos-r6"><i class="fa fa-check"></i><b>7.3</b> Campos R6</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="por-qué-r6.html"><a href="por-qué-r6.html"><i class="fa fa-check"></i><b>8</b> ¿Por qué R6?</a></li>
+<li class="chapter" data-level="9" data-path="ejercicios-prácticos.html"><a href="ejercicios-prácticos.html"><i class="fa fa-check"></i><b>9</b> Ejercicios prácticos</a></li>
+<li class="chapter" data-level="10" data-path="bibliografía.html"><a href="bibliografía.html"><i class="fa fa-check"></i><b>10</b> Bibliografía</a></li>
+<li class="chapter" data-level="11" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>11</b> Literature</a></li>
+<li class="chapter" data-level="12" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>12</b> Methods</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="methods.html"><a href="methods.html#math-example"><i class="fa fa-check"></i><b>12.1</b> math example</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>13</b> Applications</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>13.1</b> Example one</a></li>
+<li class="chapter" data-level="13.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>13.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>14</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R6</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="controles-de-acceso" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Controles de Acceso<a href="controles-de-acceso.html#controles-de-acceso" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><code>R6Class()</code> tiene otros 2 argumentos que funcionan similar a <code>public</code>:</p>
+<ul>
+<li><p><code>private</code> permite crear campos y métodos que solo están disponibles dentro de la clase y no fuera de ella.</p></li>
+<li><p><code>active</code> permite utilizar funciones de acceso para definir campos dinámicos o activos.</p></li>
+</ul>
+<div id="privacidad" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Privacidad<a href="controles-de-acceso.html#privacidad" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Con R6 es posible definir campos y metodos <strong>privados</strong>, es decir, que solo están disponibles dentro de la clase. Otros aspectos importantes de conocer son:</p>
+<ul>
+<li><p>El argumento <code>private</code> en <code>R6Class</code> se declara de la misma forma en la que se hace el argumento <code>public</code>, es decir, asigmar una lista de métodos (funciones) y campos (variables).</p></li>
+<li><p>Los campos y métodos definidos en <code>private</code> estarán disponible dentro de los métodos usando <code>private$</code> en lugar de <code>self$</code>.</p></li>
+</ul>
+<p>Para poner esto en práctica, escribamos los campos <code>$edad</code> y <code>$nombre</code> como argumentos privados de la clase <em>Persona</em>.</p>
+<p>Una vez definidos de esta forma, solo podremos establecer <code>$edad</code> y <code>$nombre</code> durante la creación del objeto, y no tendremos acceso a estos valores fuera de la clase.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="controles-de-acceso.html#cb29-1" tabindex="-1"></a>Persona <span class="ot">&lt;-</span> <span class="fu">R6Class</span>(<span class="st">&quot;Persona&quot;</span>, </span>
+<span id="cb29-2"><a href="controles-de-acceso.html#cb29-2" tabindex="-1"></a>  <span class="at">public =</span> <span class="fu">list</span>(</span>
+<span id="cb29-3"><a href="controles-de-acceso.html#cb29-3" tabindex="-1"></a>    <span class="at">initialize =</span> <span class="cf">function</span>(nombre, <span class="at">edad =</span> <span class="cn">NA</span>) {</span>
+<span id="cb29-4"><a href="controles-de-acceso.html#cb29-4" tabindex="-1"></a>      private<span class="sc">$</span>nombre <span class="ot">&lt;-</span> nombre</span>
+<span id="cb29-5"><a href="controles-de-acceso.html#cb29-5" tabindex="-1"></a>      private<span class="sc">$</span>edad <span class="ot">&lt;-</span> edad</span>
+<span id="cb29-6"><a href="controles-de-acceso.html#cb29-6" tabindex="-1"></a>    },</span>
+<span id="cb29-7"><a href="controles-de-acceso.html#cb29-7" tabindex="-1"></a>    <span class="at">print =</span> <span class="cf">function</span>(...) {</span>
+<span id="cb29-8"><a href="controles-de-acceso.html#cb29-8" tabindex="-1"></a>      <span class="fu">cat</span>(<span class="st">&quot;Persona: </span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb29-9"><a href="controles-de-acceso.html#cb29-9" tabindex="-1"></a>      <span class="fu">cat</span>(<span class="st">&quot;  Nombre: &quot;</span>, private<span class="sc">$</span>nombre, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb29-10"><a href="controles-de-acceso.html#cb29-10" tabindex="-1"></a>      <span class="fu">cat</span>(<span class="st">&quot;  Edad:  &quot;</span>, private<span class="sc">$</span>edad, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb29-11"><a href="controles-de-acceso.html#cb29-11" tabindex="-1"></a>    }</span>
+<span id="cb29-12"><a href="controles-de-acceso.html#cb29-12" tabindex="-1"></a>  ),</span>
+<span id="cb29-13"><a href="controles-de-acceso.html#cb29-13" tabindex="-1"></a>  <span class="at">private =</span> <span class="fu">list</span>(</span>
+<span id="cb29-14"><a href="controles-de-acceso.html#cb29-14" tabindex="-1"></a>    <span class="at">edad =</span> <span class="cn">NA</span>,</span>
+<span id="cb29-15"><a href="controles-de-acceso.html#cb29-15" tabindex="-1"></a>    <span class="at">nombre =</span> <span class="cn">NULL</span></span>
+<span id="cb29-16"><a href="controles-de-acceso.html#cb29-16" tabindex="-1"></a>  )</span>
+<span id="cb29-17"><a href="controles-de-acceso.html#cb29-17" tabindex="-1"></a>)</span>
+<span id="cb29-18"><a href="controles-de-acceso.html#cb29-18" tabindex="-1"></a></span>
+<span id="cb29-19"><a href="controles-de-acceso.html#cb29-19" tabindex="-1"></a>Andrea3 <span class="ot">&lt;-</span> Persona<span class="sc">$</span><span class="fu">new</span>(<span class="st">&quot;Andrea&quot;</span>)</span>
+<span id="cb29-20"><a href="controles-de-acceso.html#cb29-20" tabindex="-1"></a>Andrea3</span>
+<span id="cb29-21"><a href="controles-de-acceso.html#cb29-21" tabindex="-1"></a><span class="do">## Persona: </span></span>
+<span id="cb29-22"><a href="controles-de-acceso.html#cb29-22" tabindex="-1"></a><span class="do">##   Nombre: Andrea</span></span>
+<span id="cb29-23"><a href="controles-de-acceso.html#cb29-23" tabindex="-1"></a><span class="do">##   Edad:  NA</span></span>
+<span id="cb29-24"><a href="controles-de-acceso.html#cb29-24" tabindex="-1"></a>Andrea3<span class="sc">$</span>nombre</span>
+<span id="cb29-25"><a href="controles-de-acceso.html#cb29-25" tabindex="-1"></a><span class="do">## NULL</span></span></code></pre></div>
+<p>Esta distinción entre campos públicos y privados es importante cuando se crea redes complejas de clases, ya que será fundamental tener claro a los campos que otros podrán acceder y cuales no.</p>
+<p>Todo lo que sea privado se puede refactorizar más fácilmente porque sabes que los demás no dependen de estos campos. Los métodos privados tienden a ser menos importantes en R en comparación con otros lenguajes de programación porque las jerarquías de objetos en R tienden a ser más simples.</p>
+</div>
+<div id="campos-activos" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Campos Activos<a href="controles-de-acceso.html#campos-activos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Los campos activos permiten definir componentes que funcionan como campos para los usuarios, pero están definidos como funciones, es decir, como métodos.</p>
+<p>Los campos activos están implementados usando <strong>enlaces activos</strong>, que son funciones que toman un único argumento (<code>value</code>), si el argumento es <code>missing()</code>, significa que el valor se está recuperando, o de lo contrario se está modificando.</p>
+<p>Por ejemplo, creemos un campo activo llamado <code>random</code> que nos devuelva un valor diferente cada que accedemos a el:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="controles-de-acceso.html#cb30-1" tabindex="-1"></a>Ran <span class="ot">&lt;-</span> R6<span class="sc">::</span><span class="fu">R6Class</span>(<span class="st">&quot;Ran&quot;</span>, <span class="at">active =</span> <span class="fu">list</span>(</span>
+<span id="cb30-2"><a href="controles-de-acceso.html#cb30-2" tabindex="-1"></a>  <span class="at">random =</span> <span class="cf">function</span>(value) {</span>
+<span id="cb30-3"><a href="controles-de-acceso.html#cb30-3" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">missing</span>(value)) {</span>
+<span id="cb30-4"><a href="controles-de-acceso.html#cb30-4" tabindex="-1"></a>      <span class="fu">runif</span>(<span class="dv">1</span>)  </span>
+<span id="cb30-5"><a href="controles-de-acceso.html#cb30-5" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb30-6"><a href="controles-de-acceso.html#cb30-6" tabindex="-1"></a>      <span class="fu">stop</span>(<span class="st">&quot;Can&#39;t set `$random`&quot;</span>, <span class="at">call. =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb30-7"><a href="controles-de-acceso.html#cb30-7" tabindex="-1"></a>    }</span>
+<span id="cb30-8"><a href="controles-de-acceso.html#cb30-8" tabindex="-1"></a>  }</span>
+<span id="cb30-9"><a href="controles-de-acceso.html#cb30-9" tabindex="-1"></a>))</span>
+<span id="cb30-10"><a href="controles-de-acceso.html#cb30-10" tabindex="-1"></a>x <span class="ot">&lt;-</span> Ran<span class="sc">$</span><span class="fu">new</span>()</span>
+<span id="cb30-11"><a href="controles-de-acceso.html#cb30-11" tabindex="-1"></a>x<span class="sc">$</span>random</span>
+<span id="cb30-12"><a href="controles-de-acceso.html#cb30-12" tabindex="-1"></a><span class="do">## [1] 0.6339073</span></span>
+<span id="cb30-13"><a href="controles-de-acceso.html#cb30-13" tabindex="-1"></a>x<span class="sc">$</span>random</span>
+<span id="cb30-14"><a href="controles-de-acceso.html#cb30-14" tabindex="-1"></a><span class="do">## [1] 0.3067821</span></span>
+<span id="cb30-15"><a href="controles-de-acceso.html#cb30-15" tabindex="-1"></a>x<span class="sc">$</span>random</span>
+<span id="cb30-16"><a href="controles-de-acceso.html#cb30-16" tabindex="-1"></a><span class="do">## [1] 0.9630134</span></span></code></pre></div>
+<p>Los campos activos son usandos particularmente junto con el argumento de campos privamos, ya que esto hace posible implementar componentes similares a los campos pero con controles adicionales. Por ejemplo, podemos usar esto para crear un campo solo de lectura para <code>edad</code>, y para asegurarnos que <code>nombre</code> sea un vector de un solo caracter.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="controles-de-acceso.html#cb31-1" tabindex="-1"></a>Persona <span class="ot">&lt;-</span> <span class="fu">R6Class</span>(<span class="st">&quot;Person&quot;</span>, </span>
+<span id="cb31-2"><a href="controles-de-acceso.html#cb31-2" tabindex="-1"></a>  </span>
+<span id="cb31-3"><a href="controles-de-acceso.html#cb31-3" tabindex="-1"></a>  <span class="at">private =</span> <span class="fu">list</span>(</span>
+<span id="cb31-4"><a href="controles-de-acceso.html#cb31-4" tabindex="-1"></a>    <span class="at">.edad =</span> <span class="cn">NA</span>,</span>
+<span id="cb31-5"><a href="controles-de-acceso.html#cb31-5" tabindex="-1"></a>    <span class="at">.nombre =</span> <span class="cn">NULL</span></span>
+<span id="cb31-6"><a href="controles-de-acceso.html#cb31-6" tabindex="-1"></a>  ),</span>
+<span id="cb31-7"><a href="controles-de-acceso.html#cb31-7" tabindex="-1"></a>  </span>
+<span id="cb31-8"><a href="controles-de-acceso.html#cb31-8" tabindex="-1"></a>  <span class="at">active =</span> <span class="fu">list</span>(</span>
+<span id="cb31-9"><a href="controles-de-acceso.html#cb31-9" tabindex="-1"></a>    <span class="at">edad =</span> <span class="cf">function</span>(value) {</span>
+<span id="cb31-10"><a href="controles-de-acceso.html#cb31-10" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">missing</span>(value)) {</span>
+<span id="cb31-11"><a href="controles-de-acceso.html#cb31-11" tabindex="-1"></a>        private<span class="sc">$</span>.edad</span>
+<span id="cb31-12"><a href="controles-de-acceso.html#cb31-12" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb31-13"><a href="controles-de-acceso.html#cb31-13" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">&quot;`$edad` solo se puede leeer&quot;</span>, <span class="at">call. =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb31-14"><a href="controles-de-acceso.html#cb31-14" tabindex="-1"></a>      }</span>
+<span id="cb31-15"><a href="controles-de-acceso.html#cb31-15" tabindex="-1"></a>    },</span>
+<span id="cb31-16"><a href="controles-de-acceso.html#cb31-16" tabindex="-1"></a>    <span class="at">name =</span> <span class="cf">function</span>(value) {</span>
+<span id="cb31-17"><a href="controles-de-acceso.html#cb31-17" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">missing</span>(value)) {</span>
+<span id="cb31-18"><a href="controles-de-acceso.html#cb31-18" tabindex="-1"></a>        private<span class="sc">$</span>.nombre</span>
+<span id="cb31-19"><a href="controles-de-acceso.html#cb31-19" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb31-20"><a href="controles-de-acceso.html#cb31-20" tabindex="-1"></a>        <span class="fu">stopifnot</span>(<span class="fu">is.character</span>(value), <span class="fu">length</span>(value) <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb31-21"><a href="controles-de-acceso.html#cb31-21" tabindex="-1"></a>        private<span class="sc">$</span>.nombre <span class="ot">&lt;-</span> value</span>
+<span id="cb31-22"><a href="controles-de-acceso.html#cb31-22" tabindex="-1"></a>        self</span>
+<span id="cb31-23"><a href="controles-de-acceso.html#cb31-23" tabindex="-1"></a>      }</span>
+<span id="cb31-24"><a href="controles-de-acceso.html#cb31-24" tabindex="-1"></a>    }</span>
+<span id="cb31-25"><a href="controles-de-acceso.html#cb31-25" tabindex="-1"></a>  ),</span>
+<span id="cb31-26"><a href="controles-de-acceso.html#cb31-26" tabindex="-1"></a>  </span>
+<span id="cb31-27"><a href="controles-de-acceso.html#cb31-27" tabindex="-1"></a>  <span class="at">public =</span> <span class="fu">list</span>(</span>
+<span id="cb31-28"><a href="controles-de-acceso.html#cb31-28" tabindex="-1"></a>    <span class="at">initialize =</span> <span class="cf">function</span>(nombre, <span class="at">edad =</span> <span class="cn">NA</span>) {</span>
+<span id="cb31-29"><a href="controles-de-acceso.html#cb31-29" tabindex="-1"></a>      private<span class="sc">$</span>.nombre <span class="ot">&lt;-</span> nombre</span>
+<span id="cb31-30"><a href="controles-de-acceso.html#cb31-30" tabindex="-1"></a>      private<span class="sc">$</span>.edad <span class="ot">&lt;-</span> edad</span>
+<span id="cb31-31"><a href="controles-de-acceso.html#cb31-31" tabindex="-1"></a>    }</span>
+<span id="cb31-32"><a href="controles-de-acceso.html#cb31-32" tabindex="-1"></a>  )</span>
+<span id="cb31-33"><a href="controles-de-acceso.html#cb31-33" tabindex="-1"></a>  </span>
+<span id="cb31-34"><a href="controles-de-acceso.html#cb31-34" tabindex="-1"></a>)</span>
+<span id="cb31-35"><a href="controles-de-acceso.html#cb31-35" tabindex="-1"></a></span>
+<span id="cb31-36"><a href="controles-de-acceso.html#cb31-36" tabindex="-1"></a>Andrea4 <span class="ot">&lt;-</span> Persona<span class="sc">$</span><span class="fu">new</span>(<span class="st">&quot;Andrea&quot;</span>, <span class="at">edad =</span> <span class="dv">22</span>)</span>
+<span id="cb31-37"><a href="controles-de-acceso.html#cb31-37" tabindex="-1"></a>Andrea4<span class="sc">$</span>nombre</span>
+<span id="cb31-38"><a href="controles-de-acceso.html#cb31-38" tabindex="-1"></a><span class="do">## NULL</span></span>
+<span id="cb31-39"><a href="controles-de-acceso.html#cb31-39" tabindex="-1"></a>Andrea4<span class="sc">$</span>nombre <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb31-40"><a href="controles-de-acceso.html#cb31-40" tabindex="-1"></a><span class="do">## Error in Andrea4$nombre &lt;- 10: no se pueden adicionar vínculos a un ambiente bloqueado</span></span>
+<span id="cb31-41"><a href="controles-de-acceso.html#cb31-41" tabindex="-1"></a>Andrea4<span class="sc">$</span>edad <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb31-42"><a href="controles-de-acceso.html#cb31-42" tabindex="-1"></a><span class="do">## Error: `$edad` solo se puede leeer</span></span></code></pre></div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="clases-y-métodos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="semántica-de-referencia.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-R6.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

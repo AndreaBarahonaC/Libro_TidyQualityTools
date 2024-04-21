@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Programación orientada a objetos (POO) | R6</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Programación orientada a objetos (POO) | R6" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Programación orientada a objetos (POO) | R6" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Miguel Flores" />
+<meta name="author" content="Andrea Barahona" />
+<meta name="author" content="Fabián Encarnación" />
+<meta name="author" content="Dario Quishpe" />
+
+
+<meta name="date" content="2024-04-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="tipos-de-bases.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html"><i class="fa fa-check"></i><b>2</b> Programación orientada a objetos (POO)</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#introducción"><i class="fa fa-check"></i><b>2.1</b> Introducción</a></li>
+<li class="chapter" data-level="2.2" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#sistemas-de-programación-orientada-a-objetos"><i class="fa fa-check"></i><b>2.2</b> Sistemas de programación orientada a objetos</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#paradigmas"><i class="fa fa-check"></i><b>2.2.1</b> Paradigmas</a></li>
+<li class="chapter" data-level="2.2.2" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#especificaciones-de-los-principales-sistemas-poo-en-r"><i class="fa fa-check"></i><b>2.2.2</b> Especificaciones de los principales sistemas POO en R</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tipos-de-bases.html"><a href="tipos-de-bases.html"><i class="fa fa-check"></i><b>3</b> Tipos de bases</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tipos-de-bases.html"><a href="tipos-de-bases.html#objetos-base-vs-objetos-oo"><i class="fa fa-check"></i><b>3.1</b> Objetos Base vs Objetos OO</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="introducción-a-r6.html"><a href="introducción-a-r6.html"><i class="fa fa-check"></i><b>4</b> Introducción a R6</a></li>
+<li class="chapter" data-level="5" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html"><i class="fa fa-check"></i><b>5</b> Clases y métodos</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html#encadenamiento-de-métodos"><i class="fa fa-check"></i><b>5.1</b> Encadenamiento de métodos</a></li>
+<li class="chapter" data-level="5.2" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html#métodos-importantes"><i class="fa fa-check"></i><b>5.2</b> Métodos importantes</a></li>
+<li class="chapter" data-level="5.3" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html#agregar-métodos-después-de-la-creación"><i class="fa fa-check"></i><b>5.3</b> Agregar métodos después de la creación</a></li>
+<li class="chapter" data-level="5.4" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html#herencia"><i class="fa fa-check"></i><b>5.4</b> Herencia</a></li>
+<li class="chapter" data-level="5.5" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html#introspección"><i class="fa fa-check"></i><b>5.5</b> Introspección</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="controles-de-acceso.html"><a href="controles-de-acceso.html"><i class="fa fa-check"></i><b>6</b> Controles de Acceso</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="controles-de-acceso.html"><a href="controles-de-acceso.html#privacidad"><i class="fa fa-check"></i><b>6.1</b> Privacidad</a></li>
+<li class="chapter" data-level="6.2" data-path="controles-de-acceso.html"><a href="controles-de-acceso.html#campos-activos"><i class="fa fa-check"></i><b>6.2</b> Campos Activos</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="semántica-de-referencia.html"><a href="semántica-de-referencia.html"><i class="fa fa-check"></i><b>7</b> Semántica de referencia</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="semántica-de-referencia.html"><a href="semántica-de-referencia.html#razonamientos"><i class="fa fa-check"></i><b>7.1</b> Razonamientos</a></li>
+<li class="chapter" data-level="7.2" data-path="semántica-de-referencia.html"><a href="semántica-de-referencia.html#finalización"><i class="fa fa-check"></i><b>7.2</b> Finalización</a></li>
+<li class="chapter" data-level="7.3" data-path="semántica-de-referencia.html"><a href="semántica-de-referencia.html#campos-r6"><i class="fa fa-check"></i><b>7.3</b> Campos R6</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="por-qué-r6.html"><a href="por-qué-r6.html"><i class="fa fa-check"></i><b>8</b> ¿Por qué R6?</a></li>
+<li class="chapter" data-level="9" data-path="ejercicios-prácticos.html"><a href="ejercicios-prácticos.html"><i class="fa fa-check"></i><b>9</b> Ejercicios prácticos</a></li>
+<li class="chapter" data-level="10" data-path="bibliografía.html"><a href="bibliografía.html"><i class="fa fa-check"></i><b>10</b> Bibliografía</a></li>
+<li class="chapter" data-level="11" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>11</b> Literature</a></li>
+<li class="chapter" data-level="12" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>12</b> Methods</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="methods.html"><a href="methods.html#math-example"><i class="fa fa-check"></i><b>12.1</b> math example</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>13</b> Applications</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>13.1</b> Example one</a></li>
+<li class="chapter" data-level="13.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>13.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>14</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R6</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="programación-orientada-a-objetos-poo" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Programación orientada a objetos (POO)<a href="programación-orientada-a-objetos-poo.html#programación-orientada-a-objetos-poo" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introducción" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Introducción<a href="programación-orientada-a-objetos-poo.html#introducción" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En primer lugar debemos tener en mente que la POO en R presenta ciertos desafíos en comparación con otros lenguajes esto debido a :</p>
+<ul>
+<li><p>La presencia de más de un sistema de OOP para elegir. Dentro de los más importantes tenemos : S3, R6 y S4. Donde S3 y S4 vienen en R base y R6 en el paquete con la misma denominación</p></li>
+<li><p>Dentro de la comunidad existe discrepancia sobre la importancia de los sistemas POO mencionados , pues algunos consideran que el orden de importancia es S3,R6 y S4 pero por otro lado otros consideran que S3 se debe evitar.</p></li>
+<li><p>La sintaxis utilizada para la implementación de la POO en R en comparación con otros lenguajes populares es diferente.</p></li>
+</ul>
+<p>Aunque la programación funcional es más utilizada en R que la POO, es importante comprender estos sistemas por las siguientes razones :</p>
+<ul>
+<li><p>S3 permite que las funciones devuelvan resultados con una visualización amigable y una estructura interna agradable para el programador. S3 se utiliza en todo R base, por lo que es importante dominarlo si se desea modeificar las funciones de R base para trabajar con nuevos tipos de entrada.</p></li>
+<li><p>R6 proporciona una forma de escapar de la semántica copy-on-modify de R. Esto es especialmente importante si se desea modelar objetos que existen independientemente de R. Hoy en día, una necesidad común de R6 es modelar datos que provienen de una API web, y donde los cambios provienen de dentro o fuera de R.</p></li>
+<li><p>S4 es un sistema riguroso que obliga a pensar detenidamente en el diseño de los programas. Es adecuado para la construcción de grandes sistemas que evolucionan con el tiempo y recibirán contribuciones de muchos programadores.</p></li>
+</ul>
+<p>En resumen la programación orientada a objetos (POO) en R presenta sus desafíos únicos debido a la presencia de múltiples sistemas y desacuerdos sobre su importancia relativa donde también es fundamental tener idea de sus aplicaciones y razones para aprender cada uno, aunque su uso efectivo puede ser complejo y requiere un tratamiento más detallado.</p>
+</div>
+<div id="sistemas-de-programación-orientada-a-objetos" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Sistemas de programación orientada a objetos<a href="programación-orientada-a-objetos-poo.html#sistemas-de-programación-orientada-a-objetos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La principal razón para utilizar la POO es el polimorfismo. El polimorfismo significa que un programador puede considerar la interfaz de una función separadamente de su implementación, lo cual hace posible usar la misma forma de función para diferentes tipos de entrada.Esto está estrechamente relacionado con la idea de encapsulación: el usuario no necesita preocuparse por los detalles de un objeto porque están encapsulados tras una interfaz estándar.</p>
+<p>Para ejemplificar esta idea, el polimorfismo es lo que permite a summary() producir diferentes salidas para diferentes entradas:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="programación-orientada-a-objetos-poo.html#cb1-1" tabindex="-1"></a><span class="co">#Utilizamos el dataframe diamonds</span></span>
+<span id="cb1-2"><a href="programación-orientada-a-objetos-poo.html#cb1-2" tabindex="-1"></a>diamonds <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span>diamonds</span>
+<span id="cb1-3"><a href="programación-orientada-a-objetos-poo.html#cb1-3" tabindex="-1"></a><span class="co">#carat: variable cuantitativa</span></span>
+<span id="cb1-4"><a href="programación-orientada-a-objetos-poo.html#cb1-4" tabindex="-1"></a><span class="fu">summary</span>(diamonds<span class="sc">$</span>carat)</span>
+<span id="cb1-5"><a href="programación-orientada-a-objetos-poo.html#cb1-5" tabindex="-1"></a><span class="do">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb1-6"><a href="programación-orientada-a-objetos-poo.html#cb1-6" tabindex="-1"></a><span class="do">##  0.2000  0.4000  0.7000  0.7979  1.0400  5.0100</span></span>
+<span id="cb1-7"><a href="programación-orientada-a-objetos-poo.html#cb1-7" tabindex="-1"></a><span class="co">#cut: Variable cualitativa</span></span>
+<span id="cb1-8"><a href="programación-orientada-a-objetos-poo.html#cb1-8" tabindex="-1"></a><span class="fu">summary</span>(diamonds<span class="sc">$</span>cut)</span>
+<span id="cb1-9"><a href="programación-orientada-a-objetos-poo.html#cb1-9" tabindex="-1"></a><span class="do">##      Fair      Good Very Good   Premium     Ideal </span></span>
+<span id="cb1-10"><a href="programación-orientada-a-objetos-poo.html#cb1-10" tabindex="-1"></a><span class="do">##      1610      4906     12082     13791     21551</span></span></code></pre></div>
+<p>Esto no implica que summary() contenga una serie if-else para cada caso.</p>
+<p>Los sistemas de POO llaman clase a lo que define que es un objeto y los métodos describen lo que ese objeto puede hacer. La clase define los campos, los datos que posee cada instancia de esa clase. Las clases se organizan en una jerarquía de forma que si un método no existe para una clase, se utiliza el método de su padre, y se dice que el hijo hereda el comportamiento. Por ejemplo, en R, un factor ordenado hereda de un factor regular, y un modelo lineal generalizado hereda de un modelo lineal. El proceso de encontrar el método correcto dada una clase se denomina despacho del método.</p>
+<center>
+<p><img src="graficasR6/clasesherencia.jpg" /></p>
+<img src="graficasR6/ejemploherencia.jpg" />
+</center>
+<div id="paradigmas" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Paradigmas<a href="programación-orientada-a-objetos-poo.html#paradigmas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Existen dos paradigmas principales de POO : encapsulado y funcional:</p>
+<p>En la <strong>POO encapsulada</strong>, los métodos pertenecen a objetos o clases, y las llamadas a métodos suelen tener el aspecto de object.method(arg1, arg2). Se denomina encapsulada porque el objeto encapsula tanto los datos (con campos) como el comportamiento (con métodos), y es el paradigma que se encuentra en los lenguajes más populares.</p>
+<p>En la <strong>POO funcional</strong>, los métodos pertenecen a funciones genéricas, y las llamadas a métodos parecen llamadas a funciones ordinarias: generic(object, arg2, arg3). Esto se llama funcional porque desde fuera parece una llamada a una función normal, e internamente los componentes también son funciones.</p>
+</div>
+<div id="especificaciones-de-los-principales-sistemas-poo-en-r" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Especificaciones de los principales sistemas POO en R<a href="programación-orientada-a-objetos-poo.html#especificaciones-de-los-principales-sistemas-poo-en-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Sistemas OOP del R base: S3, S4 y RC :</p>
+<p><strong>S3</strong> es el primer sistema POO de R, el cual es una implementación informal de POO funcional y se basa en convenciones comunes en lugar de garantías férreas. Esto hace que sea fácil empezar a trabajar con él, proporcionando una forma de óptima de resolver muchos problemas sencillos.</p>
+<p><strong>S4</strong> es una reescritura formal y rigurosa de S3, esta requiere más trabajo inicial que S3, pero a cambio proporciona más garantías y una mayor encapsulación. S4 se implementa en el paquete de métodos base, que siempre se instala con R.</p>
+<p><strong>RC</strong> implementa POO encapsulada. Los objetos RC son un tipo especial de objetos S4 que también son mutables, es decir, en lugar de utilizar la semántica habitual de R de copy-on-modify, pueden modificarse en el lugar. Esto los hace más difíciles de razonar, pero les permite solucionar problemas que son difíciles de resolver en el estilo funcional POO de S3 y S4.</p>
+<p>El sistema POO proporcionado por paquete CRAN de nuestro interes es:</p>
+<p><strong>R6</strong> implementa POO encapsulada como RC, pero resuelve algunos problemas importantes.Mas adelante se aprenderá a detalle sobre el uso R6 .</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tipos-de-bases.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-R6.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

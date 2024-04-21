@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 9 Ejercicios prácticos | R6</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 9 Ejercicios prácticos | R6" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 9 Ejercicios prácticos | R6" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Miguel Flores" />
+<meta name="author" content="Andrea Barahona" />
+<meta name="author" content="Fabián Encarnación" />
+<meta name="author" content="Dario Quishpe" />
+
+
+<meta name="date" content="2024-04-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="por-qué-r6.html"/>
+<link rel="next" href="bibliografía.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html"><i class="fa fa-check"></i><b>2</b> Programación orientada a objetos (POO)</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#introducción"><i class="fa fa-check"></i><b>2.1</b> Introducción</a></li>
+<li class="chapter" data-level="2.2" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#sistemas-de-programación-orientada-a-objetos"><i class="fa fa-check"></i><b>2.2</b> Sistemas de programación orientada a objetos</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#paradigmas"><i class="fa fa-check"></i><b>2.2.1</b> Paradigmas</a></li>
+<li class="chapter" data-level="2.2.2" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#especificaciones-de-los-principales-sistemas-poo-en-r"><i class="fa fa-check"></i><b>2.2.2</b> Especificaciones de los principales sistemas POO en R</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tipos-de-bases.html"><a href="tipos-de-bases.html"><i class="fa fa-check"></i><b>3</b> Tipos de bases</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tipos-de-bases.html"><a href="tipos-de-bases.html#objetos-base-vs-objetos-oo"><i class="fa fa-check"></i><b>3.1</b> Objetos Base vs Objetos OO</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="introducción-a-r6.html"><a href="introducción-a-r6.html"><i class="fa fa-check"></i><b>4</b> Introducción a R6</a></li>
+<li class="chapter" data-level="5" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html"><i class="fa fa-check"></i><b>5</b> Clases y métodos</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html#encadenamiento-de-métodos"><i class="fa fa-check"></i><b>5.1</b> Encadenamiento de métodos</a></li>
+<li class="chapter" data-level="5.2" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html#métodos-importantes"><i class="fa fa-check"></i><b>5.2</b> Métodos importantes</a></li>
+<li class="chapter" data-level="5.3" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html#agregar-métodos-después-de-la-creación"><i class="fa fa-check"></i><b>5.3</b> Agregar métodos después de la creación</a></li>
+<li class="chapter" data-level="5.4" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html#herencia"><i class="fa fa-check"></i><b>5.4</b> Herencia</a></li>
+<li class="chapter" data-level="5.5" data-path="clases-y-métodos.html"><a href="clases-y-métodos.html#introspección"><i class="fa fa-check"></i><b>5.5</b> Introspección</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="controles-de-acceso.html"><a href="controles-de-acceso.html"><i class="fa fa-check"></i><b>6</b> Controles de Acceso</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="controles-de-acceso.html"><a href="controles-de-acceso.html#privacidad"><i class="fa fa-check"></i><b>6.1</b> Privacidad</a></li>
+<li class="chapter" data-level="6.2" data-path="controles-de-acceso.html"><a href="controles-de-acceso.html#campos-activos"><i class="fa fa-check"></i><b>6.2</b> Campos Activos</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="semántica-de-referencia.html"><a href="semántica-de-referencia.html"><i class="fa fa-check"></i><b>7</b> Semántica de referencia</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="semántica-de-referencia.html"><a href="semántica-de-referencia.html#razonamientos"><i class="fa fa-check"></i><b>7.1</b> Razonamientos</a></li>
+<li class="chapter" data-level="7.2" data-path="semántica-de-referencia.html"><a href="semántica-de-referencia.html#finalización"><i class="fa fa-check"></i><b>7.2</b> Finalización</a></li>
+<li class="chapter" data-level="7.3" data-path="semántica-de-referencia.html"><a href="semántica-de-referencia.html#campos-r6"><i class="fa fa-check"></i><b>7.3</b> Campos R6</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="por-qué-r6.html"><a href="por-qué-r6.html"><i class="fa fa-check"></i><b>8</b> ¿Por qué R6?</a></li>
+<li class="chapter" data-level="9" data-path="ejercicios-prácticos.html"><a href="ejercicios-prácticos.html"><i class="fa fa-check"></i><b>9</b> Ejercicios prácticos</a></li>
+<li class="chapter" data-level="10" data-path="bibliografía.html"><a href="bibliografía.html"><i class="fa fa-check"></i><b>10</b> Bibliografía</a></li>
+<li class="chapter" data-level="11" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>11</b> Literature</a></li>
+<li class="chapter" data-level="12" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>12</b> Methods</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="methods.html"><a href="methods.html#math-example"><i class="fa fa-check"></i><b>12.1</b> math example</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>13</b> Applications</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>13.1</b> Example one</a></li>
+<li class="chapter" data-level="13.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>13.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>14</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R6</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ejercicios-prácticos" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Ejercicios prácticos<a href="ejercicios-prácticos.html#ejercicios-prácticos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<ol style="list-style-type: decimal">
+<li>Create a bank account R6 class that stores a balance and allows you to deposit and withdraw money. Create a subclass that throws an error if you attempt to go into overdraft. Create another subclass that allows you to go into overdraft, but charges you a fee.</li>
+</ol>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="ejercicios-prácticos.html#cb41-1" tabindex="-1"></a>CuentaBanco <span class="ot">&lt;-</span> <span class="fu">R6Class</span>(<span class="st">&quot;CuentaBanco&quot;</span>,</span>
+<span id="cb41-2"><a href="ejercicios-prácticos.html#cb41-2" tabindex="-1"></a>  <span class="at">private =</span> <span class="fu">list</span>(</span>
+<span id="cb41-3"><a href="ejercicios-prácticos.html#cb41-3" tabindex="-1"></a>    <span class="at">saldo =</span> <span class="dv">0</span></span>
+<span id="cb41-4"><a href="ejercicios-prácticos.html#cb41-4" tabindex="-1"></a>  ),</span>
+<span id="cb41-5"><a href="ejercicios-prácticos.html#cb41-5" tabindex="-1"></a>  <span class="at">active =</span> <span class="fu">list</span>(</span>
+<span id="cb41-6"><a href="ejercicios-prácticos.html#cb41-6" tabindex="-1"></a>    <span class="at">.saldo =</span> <span class="cf">function</span>(value){</span>
+<span id="cb41-7"><a href="ejercicios-prácticos.html#cb41-7" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">missing</span>(value)) {</span>
+<span id="cb41-8"><a href="ejercicios-prácticos.html#cb41-8" tabindex="-1"></a>        private<span class="sc">$</span>saldo</span>
+<span id="cb41-9"><a href="ejercicios-prácticos.html#cb41-9" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb41-10"><a href="ejercicios-prácticos.html#cb41-10" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">&quot;`$saldo` solo se puede leer NO modificar&quot;</span>, <span class="at">call. =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb41-11"><a href="ejercicios-prácticos.html#cb41-11" tabindex="-1"></a>      }</span>
+<span id="cb41-12"><a href="ejercicios-prácticos.html#cb41-12" tabindex="-1"></a>    }</span>
+<span id="cb41-13"><a href="ejercicios-prácticos.html#cb41-13" tabindex="-1"></a>  ),</span>
+<span id="cb41-14"><a href="ejercicios-prácticos.html#cb41-14" tabindex="-1"></a>  <span class="at">public =</span> <span class="fu">list</span>(</span>
+<span id="cb41-15"><a href="ejercicios-prácticos.html#cb41-15" tabindex="-1"></a>    <span class="at">initialize =</span> <span class="cf">function</span>(<span class="at">x=</span><span class="dv">0</span>){</span>
+<span id="cb41-16"><a href="ejercicios-prácticos.html#cb41-16" tabindex="-1"></a>      private<span class="sc">$</span>saldo <span class="ot">&lt;-</span> x</span>
+<span id="cb41-17"><a href="ejercicios-prácticos.html#cb41-17" tabindex="-1"></a>    },</span>
+<span id="cb41-18"><a href="ejercicios-prácticos.html#cb41-18" tabindex="-1"></a>    <span class="at">depositar =</span> <span class="cf">function</span>(x){</span>
+<span id="cb41-19"><a href="ejercicios-prácticos.html#cb41-19" tabindex="-1"></a>      private<span class="sc">$</span>saldo <span class="ot">&lt;-</span> private<span class="sc">$</span>saldo <span class="sc">+</span> x</span>
+<span id="cb41-20"><a href="ejercicios-prácticos.html#cb41-20" tabindex="-1"></a>      <span class="fu">invisible</span>(self)</span>
+<span id="cb41-21"><a href="ejercicios-prácticos.html#cb41-21" tabindex="-1"></a>    },</span>
+<span id="cb41-22"><a href="ejercicios-prácticos.html#cb41-22" tabindex="-1"></a>    <span class="at">retirar =</span> <span class="cf">function</span>(x){</span>
+<span id="cb41-23"><a href="ejercicios-prácticos.html#cb41-23" tabindex="-1"></a>      private<span class="sc">$</span>saldo <span class="ot">=</span> private<span class="sc">$</span>saldo <span class="sc">-</span> x</span>
+<span id="cb41-24"><a href="ejercicios-prácticos.html#cb41-24" tabindex="-1"></a>      <span class="fu">invisible</span>(self)</span>
+<span id="cb41-25"><a href="ejercicios-prácticos.html#cb41-25" tabindex="-1"></a>    },</span>
+<span id="cb41-26"><a href="ejercicios-prácticos.html#cb41-26" tabindex="-1"></a>    <span class="at">print =</span> <span class="cf">function</span>(...){</span>
+<span id="cb41-27"><a href="ejercicios-prácticos.html#cb41-27" tabindex="-1"></a>      <span class="fu">cat</span>(<span class="st">&quot;Cuenta: </span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb41-28"><a href="ejercicios-prácticos.html#cb41-28" tabindex="-1"></a>      <span class="fu">cat</span>(<span class="st">&quot;  Saldo: &quot;</span>, private<span class="sc">$</span>saldo, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb41-29"><a href="ejercicios-prácticos.html#cb41-29" tabindex="-1"></a>    }</span>
+<span id="cb41-30"><a href="ejercicios-prácticos.html#cb41-30" tabindex="-1"></a>  )</span>
+<span id="cb41-31"><a href="ejercicios-prácticos.html#cb41-31" tabindex="-1"></a>)</span>
+<span id="cb41-32"><a href="ejercicios-prácticos.html#cb41-32" tabindex="-1"></a></span>
+<span id="cb41-33"><a href="ejercicios-prácticos.html#cb41-33" tabindex="-1"></a>SubCuentaBanco1 <span class="ot">&lt;-</span> <span class="fu">R6Class</span>(<span class="st">&#39;SubCuentaBanco1&#39;</span>,</span>
+<span id="cb41-34"><a href="ejercicios-prácticos.html#cb41-34" tabindex="-1"></a>  <span class="at">inherit =</span> CuentaBanco,</span>
+<span id="cb41-35"><a href="ejercicios-prácticos.html#cb41-35" tabindex="-1"></a>  <span class="at">public =</span>  <span class="fu">list</span>(</span>
+<span id="cb41-36"><a href="ejercicios-prácticos.html#cb41-36" tabindex="-1"></a>    <span class="at">retirar =</span> <span class="cf">function</span>(x){</span>
+<span id="cb41-37"><a href="ejercicios-prácticos.html#cb41-37" tabindex="-1"></a>      <span class="fu">stopifnot</span>(<span class="st">&quot;Existe sobregiro&quot;</span><span class="ot">=</span> super<span class="sc">$</span>.saldo<span class="sc">-</span>x<span class="sc">&gt;=</span><span class="dv">0</span>)</span>
+<span id="cb41-38"><a href="ejercicios-prácticos.html#cb41-38" tabindex="-1"></a>      private<span class="sc">$</span>saldo<span class="ot">&lt;-</span>super<span class="sc">$</span><span class="fu">retirar</span>(x)<span class="sc">$</span>.saldo</span>
+<span id="cb41-39"><a href="ejercicios-prácticos.html#cb41-39" tabindex="-1"></a>      }</span>
+<span id="cb41-40"><a href="ejercicios-prácticos.html#cb41-40" tabindex="-1"></a>  )                          </span>
+<span id="cb41-41"><a href="ejercicios-prácticos.html#cb41-41" tabindex="-1"></a>)</span>
+<span id="cb41-42"><a href="ejercicios-prácticos.html#cb41-42" tabindex="-1"></a></span>
+<span id="cb41-43"><a href="ejercicios-prácticos.html#cb41-43" tabindex="-1"></a>SubCuentaBanco2 <span class="ot">&lt;-</span> <span class="fu">R6Class</span>(<span class="st">&#39;SubCuentaBanco2&#39;</span>,</span>
+<span id="cb41-44"><a href="ejercicios-prácticos.html#cb41-44" tabindex="-1"></a>  <span class="at">inherit =</span> CuentaBanco,</span>
+<span id="cb41-45"><a href="ejercicios-prácticos.html#cb41-45" tabindex="-1"></a>  <span class="at">public =</span>  <span class="fu">list</span>(</span>
+<span id="cb41-46"><a href="ejercicios-prácticos.html#cb41-46" tabindex="-1"></a>    <span class="at">retirar =</span> <span class="cf">function</span>(x){</span>
+<span id="cb41-47"><a href="ejercicios-prácticos.html#cb41-47" tabindex="-1"></a>      <span class="cf">if</span>(super<span class="sc">$</span>.saldo<span class="sc">-</span>x<span class="sc">&lt;</span><span class="dv">0</span>){</span>
+<span id="cb41-48"><a href="ejercicios-prácticos.html#cb41-48" tabindex="-1"></a>        private<span class="sc">$</span>saldo <span class="ot">&lt;-</span> super<span class="sc">$</span><span class="fu">retirar</span>(x)<span class="sc">$</span>.saldo <span class="sc">-</span> <span class="dv">1</span> <span class="co">#Cargo extra 1  </span></span>
+<span id="cb41-49"><a href="ejercicios-prácticos.html#cb41-49" tabindex="-1"></a>      }</span>
+<span id="cb41-50"><a href="ejercicios-prácticos.html#cb41-50" tabindex="-1"></a>      <span class="cf">else</span>{private<span class="sc">$</span>saldo <span class="ot">&lt;-</span> super<span class="sc">$</span><span class="fu">retirar</span>(x)<span class="sc">$</span>.saldo}</span>
+<span id="cb41-51"><a href="ejercicios-prácticos.html#cb41-51" tabindex="-1"></a>      }</span>
+<span id="cb41-52"><a href="ejercicios-prácticos.html#cb41-52" tabindex="-1"></a>  )                          </span>
+<span id="cb41-53"><a href="ejercicios-prácticos.html#cb41-53" tabindex="-1"></a>)</span>
+<span id="cb41-54"><a href="ejercicios-prácticos.html#cb41-54" tabindex="-1"></a></span>
+<span id="cb41-55"><a href="ejercicios-prácticos.html#cb41-55" tabindex="-1"></a>Fab <span class="ot">&lt;-</span> CuentaBanco<span class="sc">$</span><span class="fu">new</span>(<span class="dv">100</span>)</span>
+<span id="cb41-56"><a href="ejercicios-prácticos.html#cb41-56" tabindex="-1"></a>Fab</span>
+<span id="cb41-57"><a href="ejercicios-prácticos.html#cb41-57" tabindex="-1"></a><span class="do">## Cuenta: </span></span>
+<span id="cb41-58"><a href="ejercicios-prácticos.html#cb41-58" tabindex="-1"></a><span class="do">##   Saldo: 100</span></span>
+<span id="cb41-59"><a href="ejercicios-prácticos.html#cb41-59" tabindex="-1"></a></span>
+<span id="cb41-60"><a href="ejercicios-prácticos.html#cb41-60" tabindex="-1"></a>Fab<span class="sc">$</span><span class="fu">retirar</span>(<span class="dv">50</span>)</span>
+<span id="cb41-61"><a href="ejercicios-prácticos.html#cb41-61" tabindex="-1"></a>Fab</span>
+<span id="cb41-62"><a href="ejercicios-prácticos.html#cb41-62" tabindex="-1"></a><span class="do">## Cuenta: </span></span>
+<span id="cb41-63"><a href="ejercicios-prácticos.html#cb41-63" tabindex="-1"></a><span class="do">##   Saldo: 50</span></span>
+<span id="cb41-64"><a href="ejercicios-prácticos.html#cb41-64" tabindex="-1"></a></span>
+<span id="cb41-65"><a href="ejercicios-prácticos.html#cb41-65" tabindex="-1"></a>Fab<span class="sc">$</span><span class="fu">depositar</span>(<span class="dv">10</span>)</span>
+<span id="cb41-66"><a href="ejercicios-prácticos.html#cb41-66" tabindex="-1"></a>Fab</span>
+<span id="cb41-67"><a href="ejercicios-prácticos.html#cb41-67" tabindex="-1"></a><span class="do">## Cuenta: </span></span>
+<span id="cb41-68"><a href="ejercicios-prácticos.html#cb41-68" tabindex="-1"></a><span class="do">##   Saldo: 60</span></span>
+<span id="cb41-69"><a href="ejercicios-prácticos.html#cb41-69" tabindex="-1"></a></span>
+<span id="cb41-70"><a href="ejercicios-prácticos.html#cb41-70" tabindex="-1"></a>Fab2<span class="ot">&lt;-</span>SubCuentaBanco1<span class="sc">$</span><span class="fu">new</span>(<span class="dv">100</span>)</span>
+<span id="cb41-71"><a href="ejercicios-prácticos.html#cb41-71" tabindex="-1"></a>Fab2</span>
+<span id="cb41-72"><a href="ejercicios-prácticos.html#cb41-72" tabindex="-1"></a><span class="do">## Cuenta: </span></span>
+<span id="cb41-73"><a href="ejercicios-prácticos.html#cb41-73" tabindex="-1"></a><span class="do">##   Saldo: 100</span></span>
+<span id="cb41-74"><a href="ejercicios-prácticos.html#cb41-74" tabindex="-1"></a></span>
+<span id="cb41-75"><a href="ejercicios-prácticos.html#cb41-75" tabindex="-1"></a>Fab2<span class="sc">$</span><span class="fu">retirar</span>(<span class="dv">150</span>)</span>
+<span id="cb41-76"><a href="ejercicios-prácticos.html#cb41-76" tabindex="-1"></a><span class="do">## Error in Fab2$retirar(150): Existe sobregiro</span></span>
+<span id="cb41-77"><a href="ejercicios-prácticos.html#cb41-77" tabindex="-1"></a>Fab2</span>
+<span id="cb41-78"><a href="ejercicios-prácticos.html#cb41-78" tabindex="-1"></a><span class="do">## Cuenta: </span></span>
+<span id="cb41-79"><a href="ejercicios-prácticos.html#cb41-79" tabindex="-1"></a><span class="do">##   Saldo: 100</span></span>
+<span id="cb41-80"><a href="ejercicios-prácticos.html#cb41-80" tabindex="-1"></a></span>
+<span id="cb41-81"><a href="ejercicios-prácticos.html#cb41-81" tabindex="-1"></a>Fab3 <span class="ot">&lt;-</span> SubCuentaBanco2<span class="sc">$</span><span class="fu">new</span>(<span class="dv">100</span>)</span>
+<span id="cb41-82"><a href="ejercicios-prácticos.html#cb41-82" tabindex="-1"></a>Fab3</span>
+<span id="cb41-83"><a href="ejercicios-prácticos.html#cb41-83" tabindex="-1"></a><span class="do">## Cuenta: </span></span>
+<span id="cb41-84"><a href="ejercicios-prácticos.html#cb41-84" tabindex="-1"></a><span class="do">##   Saldo: 100</span></span>
+<span id="cb41-85"><a href="ejercicios-prácticos.html#cb41-85" tabindex="-1"></a></span>
+<span id="cb41-86"><a href="ejercicios-prácticos.html#cb41-86" tabindex="-1"></a>Fab3<span class="sc">$</span><span class="fu">retirar</span>(<span class="dv">150</span>)</span>
+<span id="cb41-87"><a href="ejercicios-prácticos.html#cb41-87" tabindex="-1"></a>Fab3</span>
+<span id="cb41-88"><a href="ejercicios-prácticos.html#cb41-88" tabindex="-1"></a><span class="do">## Cuenta: </span></span>
+<span id="cb41-89"><a href="ejercicios-prácticos.html#cb41-89" tabindex="-1"></a><span class="do">##   Saldo: -51</span></span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Create an R6 class that represents a shuffled deck of cards. You should be able to draw cards from the deck with <code>$draw(n)</code>, and return all cards to the deck and reshuffle with <code>$reshuffle()</code>. Use the following code to make a vector of cards.</li>
+</ol>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="ejercicios-prácticos.html#cb42-1" tabindex="-1"></a><span class="fu">library</span>(R6)</span>
+<span id="cb42-2"><a href="ejercicios-prácticos.html#cb42-2" tabindex="-1"></a>cartas <span class="ot">&lt;-</span> <span class="fu">R6Class</span>(<span class="st">&#39;cartas&#39;</span>,</span>
+<span id="cb42-3"><a href="ejercicios-prácticos.html#cb42-3" tabindex="-1"></a>  <span class="at">private =</span> <span class="fu">list</span>(</span>
+<span id="cb42-4"><a href="ejercicios-prácticos.html#cb42-4" tabindex="-1"></a>    <span class="at">suit =</span> <span class="fu">c</span>(<span class="st">&quot;♠&quot;</span>, <span class="st">&quot;♥&quot;</span>, <span class="st">&quot;♦&quot;</span>, <span class="st">&quot;♣&quot;</span>),</span>
+<span id="cb42-5"><a href="ejercicios-prácticos.html#cb42-5" tabindex="-1"></a>    <span class="at">val =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>), <span class="st">&quot;J&quot;</span>, <span class="st">&quot;Q&quot;</span>, <span class="st">&quot;K&quot;</span>)</span>
+<span id="cb42-6"><a href="ejercicios-prácticos.html#cb42-6" tabindex="-1"></a>  ),                </span>
+<span id="cb42-7"><a href="ejercicios-prácticos.html#cb42-7" tabindex="-1"></a>  <span class="at">public =</span> <span class="fu">list</span>(</span>
+<span id="cb42-8"><a href="ejercicios-prácticos.html#cb42-8" tabindex="-1"></a>    <span class="at">cards =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>), <span class="st">&quot;J&quot;</span>, <span class="st">&quot;Q&quot;</span>, <span class="st">&quot;K&quot;</span>), <span class="dv">4</span>),</span>
+<span id="cb42-9"><a href="ejercicios-prácticos.html#cb42-9" tabindex="-1"></a>                     <span class="fu">c</span>(<span class="st">&quot;♠&quot;</span>, <span class="st">&quot;♥&quot;</span>, <span class="st">&quot;♦&quot;</span>, <span class="st">&quot;♣&quot;</span>))),</span>
+<span id="cb42-10"><a href="ejercicios-prácticos.html#cb42-10" tabindex="-1"></a>    <span class="at">drawn =</span> <span class="cf">function</span>(n){</span>
+<span id="cb42-11"><a href="ejercicios-prácticos.html#cb42-11" tabindex="-1"></a>      self<span class="sc">$</span>cards <span class="ot">&lt;-</span> self<span class="sc">$</span>cards[<span class="sc">-</span>n]</span>
+<span id="cb42-12"><a href="ejercicios-prácticos.html#cb42-12" tabindex="-1"></a>      <span class="fu">invisible</span>(self)</span>
+<span id="cb42-13"><a href="ejercicios-prácticos.html#cb42-13" tabindex="-1"></a>    },</span>
+<span id="cb42-14"><a href="ejercicios-prácticos.html#cb42-14" tabindex="-1"></a>    <span class="at">reshuffle=</span><span class="cf">function</span>(){</span>
+<span id="cb42-15"><a href="ejercicios-prácticos.html#cb42-15" tabindex="-1"></a>      copy <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">rep</span>(private<span class="sc">$</span>val, <span class="dv">4</span>), private<span class="sc">$</span>suit)</span>
+<span id="cb42-16"><a href="ejercicios-prácticos.html#cb42-16" tabindex="-1"></a>      x<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="dv">52</span>)</span>
+<span id="cb42-17"><a href="ejercicios-prácticos.html#cb42-17" tabindex="-1"></a>      <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">52</span>) {</span>
+<span id="cb42-18"><a href="ejercicios-prácticos.html#cb42-18" tabindex="-1"></a>        self<span class="sc">$</span>cards[i]<span class="ot">&lt;-</span>copy[x[i]]</span>
+<span id="cb42-19"><a href="ejercicios-prácticos.html#cb42-19" tabindex="-1"></a>      }</span>
+<span id="cb42-20"><a href="ejercicios-prácticos.html#cb42-20" tabindex="-1"></a>      <span class="fu">invisible</span>(self)</span>
+<span id="cb42-21"><a href="ejercicios-prácticos.html#cb42-21" tabindex="-1"></a>    }</span>
+<span id="cb42-22"><a href="ejercicios-prácticos.html#cb42-22" tabindex="-1"></a>  ),</span>
+<span id="cb42-23"><a href="ejercicios-prácticos.html#cb42-23" tabindex="-1"></a>  <span class="at">active=</span><span class="fu">list</span>(</span>
+<span id="cb42-24"><a href="ejercicios-prácticos.html#cb42-24" tabindex="-1"></a>    <span class="at">.cartas=</span><span class="cf">function</span>(value){</span>
+<span id="cb42-25"><a href="ejercicios-prácticos.html#cb42-25" tabindex="-1"></a>      <span class="cf">if</span>(<span class="fu">missing</span>(value)){</span>
+<span id="cb42-26"><a href="ejercicios-prácticos.html#cb42-26" tabindex="-1"></a>        self<span class="sc">$</span>cards</span>
+<span id="cb42-27"><a href="ejercicios-prácticos.html#cb42-27" tabindex="-1"></a>      }</span>
+<span id="cb42-28"><a href="ejercicios-prácticos.html#cb42-28" tabindex="-1"></a>      <span class="cf">else</span>{<span class="fu">stop</span>(<span class="st">&quot;`Cartas` solo se puede leer NO modificar&quot;</span>, </span>
+<span id="cb42-29"><a href="ejercicios-prácticos.html#cb42-29" tabindex="-1"></a>                <span class="at">call. =</span> <span class="cn">FALSE</span>)}</span>
+<span id="cb42-30"><a href="ejercicios-prácticos.html#cb42-30" tabindex="-1"></a>    }</span>
+<span id="cb42-31"><a href="ejercicios-prácticos.html#cb42-31" tabindex="-1"></a>  )</span>
+<span id="cb42-32"><a href="ejercicios-prácticos.html#cb42-32" tabindex="-1"></a>)</span>
+<span id="cb42-33"><a href="ejercicios-prácticos.html#cb42-33" tabindex="-1"></a></span>
+<span id="cb42-34"><a href="ejercicios-prácticos.html#cb42-34" tabindex="-1"></a>mazo<span class="ot">&lt;-</span>cartas<span class="sc">$</span><span class="fu">new</span>()</span>
+<span id="cb42-35"><a href="ejercicios-prácticos.html#cb42-35" tabindex="-1"></a>mazo<span class="sc">$</span>.cartas</span>
+<span id="cb42-36"><a href="ejercicios-prácticos.html#cb42-36" tabindex="-1"></a><span class="do">##  [1] &quot;A♠&quot;  &quot;2♥&quot;  &quot;3♦&quot;  &quot;4♣&quot;  &quot;5♠&quot;  &quot;6♥&quot;  &quot;7♦&quot;  &quot;8♣&quot;  &quot;9♠&quot;  &quot;10♥&quot; &quot;J♦&quot;  &quot;Q♣&quot; </span></span>
+<span id="cb42-37"><a href="ejercicios-prácticos.html#cb42-37" tabindex="-1"></a><span class="do">## [13] &quot;K♠&quot;  &quot;A♥&quot;  &quot;2♦&quot;  &quot;3♣&quot;  &quot;4♠&quot;  &quot;5♥&quot;  &quot;6♦&quot;  &quot;7♣&quot;  &quot;8♠&quot;  &quot;9♥&quot;  &quot;10♦&quot; &quot;J♣&quot; </span></span>
+<span id="cb42-38"><a href="ejercicios-prácticos.html#cb42-38" tabindex="-1"></a><span class="do">## [25] &quot;Q♠&quot;  &quot;K♥&quot;  &quot;A♦&quot;  &quot;2♣&quot;  &quot;3♠&quot;  &quot;4♥&quot;  &quot;5♦&quot;  &quot;6♣&quot;  &quot;7♠&quot;  &quot;8♥&quot;  &quot;9♦&quot;  &quot;10♣&quot;</span></span>
+<span id="cb42-39"><a href="ejercicios-prácticos.html#cb42-39" tabindex="-1"></a><span class="do">## [37] &quot;J♠&quot;  &quot;Q♥&quot;  &quot;K♦&quot;  &quot;A♣&quot;  &quot;2♠&quot;  &quot;3♥&quot;  &quot;4♦&quot;  &quot;5♣&quot;  &quot;6♠&quot;  &quot;7♥&quot;  &quot;8♦&quot;  &quot;9♣&quot; </span></span>
+<span id="cb42-40"><a href="ejercicios-prácticos.html#cb42-40" tabindex="-1"></a><span class="do">## [49] &quot;10♠&quot; &quot;J♥&quot;  &quot;Q♦&quot;  &quot;K♣&quot;</span></span>
+<span id="cb42-41"><a href="ejercicios-prácticos.html#cb42-41" tabindex="-1"></a>mazo<span class="sc">$</span><span class="fu">drawn</span>(<span class="dv">1</span>)</span>
+<span id="cb42-42"><a href="ejercicios-prácticos.html#cb42-42" tabindex="-1"></a>mazo<span class="sc">$</span>.cartas</span>
+<span id="cb42-43"><a href="ejercicios-prácticos.html#cb42-43" tabindex="-1"></a><span class="do">##  [1] &quot;2♥&quot;  &quot;3♦&quot;  &quot;4♣&quot;  &quot;5♠&quot;  &quot;6♥&quot;  &quot;7♦&quot;  &quot;8♣&quot;  &quot;9♠&quot;  &quot;10♥&quot; &quot;J♦&quot;  &quot;Q♣&quot;  &quot;K♠&quot; </span></span>
+<span id="cb42-44"><a href="ejercicios-prácticos.html#cb42-44" tabindex="-1"></a><span class="do">## [13] &quot;A♥&quot;  &quot;2♦&quot;  &quot;3♣&quot;  &quot;4♠&quot;  &quot;5♥&quot;  &quot;6♦&quot;  &quot;7♣&quot;  &quot;8♠&quot;  &quot;9♥&quot;  &quot;10♦&quot; &quot;J♣&quot;  &quot;Q♠&quot; </span></span>
+<span id="cb42-45"><a href="ejercicios-prácticos.html#cb42-45" tabindex="-1"></a><span class="do">## [25] &quot;K♥&quot;  &quot;A♦&quot;  &quot;2♣&quot;  &quot;3♠&quot;  &quot;4♥&quot;  &quot;5♦&quot;  &quot;6♣&quot;  &quot;7♠&quot;  &quot;8♥&quot;  &quot;9♦&quot;  &quot;10♣&quot; &quot;J♠&quot; </span></span>
+<span id="cb42-46"><a href="ejercicios-prácticos.html#cb42-46" tabindex="-1"></a><span class="do">## [37] &quot;Q♥&quot;  &quot;K♦&quot;  &quot;A♣&quot;  &quot;2♠&quot;  &quot;3♥&quot;  &quot;4♦&quot;  &quot;5♣&quot;  &quot;6♠&quot;  &quot;7♥&quot;  &quot;8♦&quot;  &quot;9♣&quot;  &quot;10♠&quot;</span></span>
+<span id="cb42-47"><a href="ejercicios-prácticos.html#cb42-47" tabindex="-1"></a><span class="do">## [49] &quot;J♥&quot;  &quot;Q♦&quot;  &quot;K♣&quot;</span></span>
+<span id="cb42-48"><a href="ejercicios-prácticos.html#cb42-48" tabindex="-1"></a>mazo<span class="sc">$</span><span class="fu">reshuffle</span>()</span>
+<span id="cb42-49"><a href="ejercicios-prácticos.html#cb42-49" tabindex="-1"></a>mazo<span class="sc">$</span>.cartas</span>
+<span id="cb42-50"><a href="ejercicios-prácticos.html#cb42-50" tabindex="-1"></a><span class="do">##  [1] &quot;K♠&quot;  &quot;9♣&quot;  &quot;J♠&quot;  &quot;K♣&quot;  &quot;K♥&quot;  &quot;9♥&quot;  &quot;Q♠&quot;  &quot;10♥&quot; &quot;4♣&quot;  &quot;Q♣&quot;  &quot;3♣&quot;  &quot;J♦&quot; </span></span>
+<span id="cb42-51"><a href="ejercicios-prácticos.html#cb42-51" tabindex="-1"></a><span class="do">## [13] &quot;5♠&quot;  &quot;4♦&quot;  &quot;4♥&quot;  &quot;A♦&quot;  &quot;6♣&quot;  &quot;J♣&quot;  &quot;8♠&quot;  &quot;5♦&quot;  &quot;10♣&quot; &quot;3♠&quot;  &quot;9♦&quot;  &quot;A♠&quot; </span></span>
+<span id="cb42-52"><a href="ejercicios-prácticos.html#cb42-52" tabindex="-1"></a><span class="do">## [25] &quot;J♥&quot;  &quot;8♥&quot;  &quot;5♣&quot;  &quot;5♥&quot;  &quot;3♦&quot;  &quot;2♥&quot;  &quot;10♦&quot; &quot;7♥&quot;  &quot;8♦&quot;  &quot;7♣&quot;  &quot;8♣&quot;  &quot;4♠&quot; </span></span>
+<span id="cb42-53"><a href="ejercicios-prácticos.html#cb42-53" tabindex="-1"></a><span class="do">## [37] &quot;2♣&quot;  &quot;6♥&quot;  &quot;10♠&quot; &quot;7♠&quot;  &quot;2♦&quot;  &quot;6♠&quot;  &quot;A♣&quot;  &quot;7♦&quot;  &quot;6♦&quot;  &quot;3♥&quot;  &quot;K♦&quot;  &quot;9♠&quot; </span></span>
+<span id="cb42-54"><a href="ejercicios-prácticos.html#cb42-54" tabindex="-1"></a><span class="do">## [49] &quot;A♥&quot;  &quot;Q♥&quot;  &quot;Q♦&quot;  &quot;2♠&quot;</span></span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Create an R6 class that allows you to get and set the current time zone. You can access the current time zone with <code>Sys.timezone()</code> and set it with <code>Sys.setenv(TZ = "newtimezone")</code>. When setting the time zone, make sure the new time zone is in the list provided by <code>OlsonNames()</code>.</li>
+</ol>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="ejercicios-prácticos.html#cb43-1" tabindex="-1"></a>ZonaHoraria <span class="ot">&lt;-</span> <span class="fu">R6Class</span>(<span class="st">&#39;ZonaHoraria&#39;</span>,</span>
+<span id="cb43-2"><a href="ejercicios-prácticos.html#cb43-2" tabindex="-1"></a>  <span class="at">public =</span> <span class="fu">list</span>(</span>
+<span id="cb43-3"><a href="ejercicios-prácticos.html#cb43-3" tabindex="-1"></a>    <span class="at">zona =</span> <span class="fu">Sys.timezone</span>(),</span>
+<span id="cb43-4"><a href="ejercicios-prácticos.html#cb43-4" tabindex="-1"></a>  <span class="at">cambiar_zona=</span><span class="cf">function</span>(name){</span>
+<span id="cb43-5"><a href="ejercicios-prácticos.html#cb43-5" tabindex="-1"></a>    <span class="fu">stopifnot</span>(<span class="st">&quot;No existe esa zona horaria&quot;</span> <span class="ot">=</span> name <span class="sc">%in%</span> <span class="fu">OlsonNames</span>()) </span>
+<span id="cb43-6"><a href="ejercicios-prácticos.html#cb43-6" tabindex="-1"></a>    self<span class="sc">$</span>zona<span class="ot">=</span><span class="fu">Sys.setenv</span>(<span class="at">TZ =</span> name)</span>
+<span id="cb43-7"><a href="ejercicios-prácticos.html#cb43-7" tabindex="-1"></a>  })</span>
+<span id="cb43-8"><a href="ejercicios-prácticos.html#cb43-8" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="ejercicios-prácticos.html#cb44-1" tabindex="-1"></a>zona <span class="ot">&lt;-</span> ZonaHoraria<span class="sc">$</span><span class="fu">new</span>()</span>
+<span id="cb44-2"><a href="ejercicios-prácticos.html#cb44-2" tabindex="-1"></a>zona<span class="sc">$</span><span class="fu">cambiar_zona</span>(<span class="st">&#39;America/Guayaquil&#39;</span>)</span>
+<span id="cb44-3"><a href="ejercicios-prácticos.html#cb44-3" tabindex="-1"></a>zona</span>
+<span id="cb44-4"><a href="ejercicios-prácticos.html#cb44-4" tabindex="-1"></a><span class="do">## &lt;ZonaHoraria&gt;</span></span>
+<span id="cb44-5"><a href="ejercicios-prácticos.html#cb44-5" tabindex="-1"></a><span class="do">##   Public:</span></span>
+<span id="cb44-6"><a href="ejercicios-prácticos.html#cb44-6" tabindex="-1"></a><span class="do">##     cambiar_zona: function (name) </span></span>
+<span id="cb44-7"><a href="ejercicios-prácticos.html#cb44-7" tabindex="-1"></a><span class="do">##     clone: function (deep = FALSE) </span></span>
+<span id="cb44-8"><a href="ejercicios-prácticos.html#cb44-8" tabindex="-1"></a><span class="do">##     zona: TRUE</span></span>
+<span id="cb44-9"><a href="ejercicios-prácticos.html#cb44-9" tabindex="-1"></a><span class="fu">Sys.timezone</span>()</span>
+<span id="cb44-10"><a href="ejercicios-prácticos.html#cb44-10" tabindex="-1"></a><span class="do">## [1] &quot;America/Guayaquil&quot;</span></span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>Create an R6 class that manages the current working directory. It should have <code>$get()</code> and <code>$set()</code> methods.</li>
+</ol>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="ejercicios-prácticos.html#cb45-1" tabindex="-1"></a>Directorio <span class="ot">&lt;-</span> <span class="fu">R6Class</span>(<span class="st">&#39;Directorio&#39;</span>,</span>
+<span id="cb45-2"><a href="ejercicios-prácticos.html#cb45-2" tabindex="-1"></a>  <span class="at">public =</span> <span class="fu">list</span>(</span>
+<span id="cb45-3"><a href="ejercicios-prácticos.html#cb45-3" tabindex="-1"></a>    <span class="at">get=</span><span class="cf">function</span>(){</span>
+<span id="cb45-4"><a href="ejercicios-prácticos.html#cb45-4" tabindex="-1"></a>      <span class="fu">getwd</span>()</span>
+<span id="cb45-5"><a href="ejercicios-prácticos.html#cb45-5" tabindex="-1"></a>    },</span>
+<span id="cb45-6"><a href="ejercicios-prácticos.html#cb45-6" tabindex="-1"></a>    <span class="at">set=</span><span class="cf">function</span>(path){</span>
+<span id="cb45-7"><a href="ejercicios-prácticos.html#cb45-7" tabindex="-1"></a>      <span class="fu">setwd</span>(path)</span>
+<span id="cb45-8"><a href="ejercicios-prácticos.html#cb45-8" tabindex="-1"></a>      <span class="fu">invisible</span>(self)</span>
+<span id="cb45-9"><a href="ejercicios-prácticos.html#cb45-9" tabindex="-1"></a>    }</span>
+<span id="cb45-10"><a href="ejercicios-prácticos.html#cb45-10" tabindex="-1"></a>  )</span>
+<span id="cb45-11"><a href="ejercicios-prácticos.html#cb45-11" tabindex="-1"></a>)</span>
+<span id="cb45-12"><a href="ejercicios-prácticos.html#cb45-12" tabindex="-1"></a>direct <span class="ot">&lt;-</span> Directorio<span class="sc">$</span><span class="fu">new</span>()</span>
+<span id="cb45-13"><a href="ejercicios-prácticos.html#cb45-13" tabindex="-1"></a>direct<span class="sc">$</span><span class="fu">get</span>()</span>
+<span id="cb45-14"><a href="ejercicios-prácticos.html#cb45-14" tabindex="-1"></a><span class="do">## [1] &quot;D:/Files/Downloads/bookdown-demo-main/bookdown-demo-main&quot;</span></span>
+<span id="cb45-15"><a href="ejercicios-prácticos.html#cb45-15" tabindex="-1"></a>direct<span class="sc">$</span><span class="fu">set</span>(<span class="st">&quot;C:/Users/Dell/OneDrive - Escuela Politécnica Nacional/Pasantías UDC&quot;</span>)</span>
+<span id="cb45-16"><a href="ejercicios-prácticos.html#cb45-16" tabindex="-1"></a><span class="do">## Error in setwd(path): no es posible cambiar el directorio de trabajo</span></span>
+<span id="cb45-17"><a href="ejercicios-prácticos.html#cb45-17" tabindex="-1"></a>direct<span class="sc">$</span><span class="fu">get</span>()</span>
+<span id="cb45-18"><a href="ejercicios-prácticos.html#cb45-18" tabindex="-1"></a><span class="do">## [1] &quot;D:/Files/Downloads/bookdown-demo-main/bookdown-demo-main&quot;</span></span></code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li>Create a class with a write-only <code>$password</code> field. It should have <code>$check_password(password)</code> method that returns <code>TRUE</code> or <code>FALSE</code>, but there should be no way to view the complete password.</li>
+</ol>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="ejercicios-prácticos.html#cb46-1" tabindex="-1"></a><span class="co"># install.packages(&quot;R6&quot;)</span></span>
+<span id="cb46-2"><a href="ejercicios-prácticos.html#cb46-2" tabindex="-1"></a><span class="fu">library</span>(R6)</span>
+<span id="cb46-3"><a href="ejercicios-prácticos.html#cb46-3" tabindex="-1"></a></span>
+<span id="cb46-4"><a href="ejercicios-prácticos.html#cb46-4" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="ejercicios-prácticos.html#cb46-5" tabindex="-1"></a>Bank_writeonly <span class="ot">&lt;-</span> <span class="fu">R6Class</span>(<span class="st">&quot;Bank_writeonly&quot;</span>, </span>
+<span id="cb46-6"><a href="ejercicios-prácticos.html#cb46-6" tabindex="-1"></a>      <span class="at">private =</span> <span class="fu">list</span>(</span>
+<span id="cb46-7"><a href="ejercicios-prácticos.html#cb46-7" tabindex="-1"></a>            <span class="at">user =</span> <span class="cn">NULL</span>,</span>
+<span id="cb46-8"><a href="ejercicios-prácticos.html#cb46-8" tabindex="-1"></a>            <span class="at">password =</span> <span class="cn">NULL</span></span>
+<span id="cb46-9"><a href="ejercicios-prácticos.html#cb46-9" tabindex="-1"></a>      ),</span>
+<span id="cb46-10"><a href="ejercicios-prácticos.html#cb46-10" tabindex="-1"></a>      <span class="at">active =</span> <span class="fu">list</span>(</span>
+<span id="cb46-11"><a href="ejercicios-prácticos.html#cb46-11" tabindex="-1"></a>        <span class="at">.password =</span> <span class="cf">function</span>(x){</span>
+<span id="cb46-12"><a href="ejercicios-prácticos.html#cb46-12" tabindex="-1"></a>          <span class="cf">if</span>(<span class="fu">missing</span>(x)){</span>
+<span id="cb46-13"><a href="ejercicios-prácticos.html#cb46-13" tabindex="-1"></a>            <span class="fu">stop</span>(<span class="st">&quot;`$.password` solo permite cambiar tu contraseña, NO verla&quot;</span>,</span>
+<span id="cb46-14"><a href="ejercicios-prácticos.html#cb46-14" tabindex="-1"></a>                 <span class="at">call. =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb46-15"><a href="ejercicios-prácticos.html#cb46-15" tabindex="-1"></a>          } <span class="cf">else</span>{</span>
+<span id="cb46-16"><a href="ejercicios-prácticos.html#cb46-16" tabindex="-1"></a>            private<span class="sc">$</span>password <span class="ot">&lt;-</span> x</span>
+<span id="cb46-17"><a href="ejercicios-prácticos.html#cb46-17" tabindex="-1"></a>            <span class="fu">cat</span>(<span class="st">&quot;Contraseña cambiada con éxito&quot;</span>)</span>
+<span id="cb46-18"><a href="ejercicios-prácticos.html#cb46-18" tabindex="-1"></a>          }</span>
+<span id="cb46-19"><a href="ejercicios-prácticos.html#cb46-19" tabindex="-1"></a>        }</span>
+<span id="cb46-20"><a href="ejercicios-prácticos.html#cb46-20" tabindex="-1"></a>      ),</span>
+<span id="cb46-21"><a href="ejercicios-prácticos.html#cb46-21" tabindex="-1"></a>      <span class="at">public =</span> <span class="fu">list</span>(</span>
+<span id="cb46-22"><a href="ejercicios-prácticos.html#cb46-22" tabindex="-1"></a>            <span class="at">initialize =</span> <span class="cf">function</span>(.user, .password){</span>
+<span id="cb46-23"><a href="ejercicios-prácticos.html#cb46-23" tabindex="-1"></a>              private<span class="sc">$</span>password <span class="ot">&lt;-</span> .password</span>
+<span id="cb46-24"><a href="ejercicios-prácticos.html#cb46-24" tabindex="-1"></a>              private<span class="sc">$</span>user <span class="ot">&lt;-</span> .user</span>
+<span id="cb46-25"><a href="ejercicios-prácticos.html#cb46-25" tabindex="-1"></a>              },</span>
+<span id="cb46-26"><a href="ejercicios-prácticos.html#cb46-26" tabindex="-1"></a>            <span class="at">check_password =</span> <span class="cf">function</span>(p){</span>
+<span id="cb46-27"><a href="ejercicios-prácticos.html#cb46-27" tabindex="-1"></a>              <span class="cf">if</span>(private<span class="sc">$</span>password <span class="sc">==</span> p){ </span>
+<span id="cb46-28"><a href="ejercicios-prácticos.html#cb46-28" tabindex="-1"></a>                <span class="fu">cat</span>(<span class="st">&quot;Tu contraseña SI coincide con la ingresada&quot;</span>, <span class="at">call. =</span> <span class="cn">FALSE</span>)}</span>
+<span id="cb46-29"><a href="ejercicios-prácticos.html#cb46-29" tabindex="-1"></a>              <span class="cf">else</span>{</span>
+<span id="cb46-30"><a href="ejercicios-prácticos.html#cb46-30" tabindex="-1"></a>                <span class="fu">stop</span>(<span class="st">&quot;Tu contraseña NO coincide con la ingresada&quot;</span>)}</span>
+<span id="cb46-31"><a href="ejercicios-prácticos.html#cb46-31" tabindex="-1"></a>              },</span>
+<span id="cb46-32"><a href="ejercicios-prácticos.html#cb46-32" tabindex="-1"></a>            <span class="at">print =</span> <span class="cf">function</span>(...){</span>
+<span id="cb46-33"><a href="ejercicios-prácticos.html#cb46-33" tabindex="-1"></a>              <span class="fu">cat</span>(<span class="st">&quot;Bienvenido al Banco </span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb46-34"><a href="ejercicios-prácticos.html#cb46-34" tabindex="-1"></a>              <span class="fu">cat</span>(<span class="st">&quot;Tu cuenta se ha creado con el nombre de usuario:&quot;</span>, private<span class="sc">$</span>user)</span>
+<span id="cb46-35"><a href="ejercicios-prácticos.html#cb46-35" tabindex="-1"></a>            }</span>
+<span id="cb46-36"><a href="ejercicios-prácticos.html#cb46-36" tabindex="-1"></a>      )</span>
+<span id="cb46-37"><a href="ejercicios-prácticos.html#cb46-37" tabindex="-1"></a>      </span>
+<span id="cb46-38"><a href="ejercicios-prácticos.html#cb46-38" tabindex="-1"></a>)</span>
+<span id="cb46-39"><a href="ejercicios-prácticos.html#cb46-39" tabindex="-1"></a></span>
+<span id="cb46-40"><a href="ejercicios-prácticos.html#cb46-40" tabindex="-1"></a><span class="co"># Prueba</span></span>
+<span id="cb46-41"><a href="ejercicios-prácticos.html#cb46-41" tabindex="-1"></a></span>
+<span id="cb46-42"><a href="ejercicios-prácticos.html#cb46-42" tabindex="-1"></a>Cuenta_Andrea <span class="ot">&lt;-</span> Bank_writeonly<span class="sc">$</span><span class="fu">new</span>(<span class="st">&quot;AndreaBC&quot;</span>, <span class="st">&quot;prueba123&quot;</span>)</span>
+<span id="cb46-43"><a href="ejercicios-prácticos.html#cb46-43" tabindex="-1"></a><span class="co"># Print</span></span>
+<span id="cb46-44"><a href="ejercicios-prácticos.html#cb46-44" tabindex="-1"></a>Cuenta_Andrea</span>
+<span id="cb46-45"><a href="ejercicios-prácticos.html#cb46-45" tabindex="-1"></a><span class="do">## Bienvenido al Banco </span></span>
+<span id="cb46-46"><a href="ejercicios-prácticos.html#cb46-46" tabindex="-1"></a><span class="do">## Tu cuenta se ha creado con el nombre de usuario: AndreaBC</span></span>
+<span id="cb46-47"><a href="ejercicios-prácticos.html#cb46-47" tabindex="-1"></a><span class="co"># Funcion Check_password</span></span>
+<span id="cb46-48"><a href="ejercicios-prácticos.html#cb46-48" tabindex="-1"></a>Cuenta_Andrea<span class="sc">$</span><span class="fu">check_password</span>(<span class="st">&quot;Nomeacuerdomicontraseña&quot;</span>)</span>
+<span id="cb46-49"><a href="ejercicios-prácticos.html#cb46-49" tabindex="-1"></a><span class="do">## Error in Cuenta_Andrea$check_password(&quot;Nomeacuerdomicontraseña&quot;): Tu contraseña NO coincide con la ingresada</span></span>
+<span id="cb46-50"><a href="ejercicios-prácticos.html#cb46-50" tabindex="-1"></a>Cuenta_Andrea<span class="sc">$</span><span class="fu">check_password</span>(<span class="st">&quot;prueba123&quot;</span>)</span>
+<span id="cb46-51"><a href="ejercicios-prácticos.html#cb46-51" tabindex="-1"></a><span class="do">## Tu contraseña SI coincide con la ingresada FALSE</span></span>
+<span id="cb46-52"><a href="ejercicios-prácticos.html#cb46-52" tabindex="-1"></a><span class="co"># .password</span></span>
+<span id="cb46-53"><a href="ejercicios-prácticos.html#cb46-53" tabindex="-1"></a>Cuenta_Andrea<span class="sc">$</span>.password</span>
+<span id="cb46-54"><a href="ejercicios-prácticos.html#cb46-54" tabindex="-1"></a><span class="do">## Error: `$.password` solo permite cambiar tu contraseña, NO verla</span></span>
+<span id="cb46-55"><a href="ejercicios-prácticos.html#cb46-55" tabindex="-1"></a>Cuenta_Andrea<span class="sc">$</span>.password <span class="ot">&lt;-</span> <span class="st">&quot;NuevaContraseña&quot;</span></span>
+<span id="cb46-56"><a href="ejercicios-prácticos.html#cb46-56" tabindex="-1"></a><span class="do">## Contraseña cambiada con éxito</span></span></code></pre></div>
+<ol start="6" style="list-style-type: decimal">
+<li>Extend the Rando class with another active binding that allows you to access the previous random <code>value.</code> Ensure that active binding is the only way to access the value.</li>
+</ol>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="ejercicios-prácticos.html#cb47-1" tabindex="-1"></a>Rando <span class="ot">&lt;-</span> R6<span class="sc">::</span><span class="fu">R6Class</span>(<span class="st">&quot;Rando&quot;</span>, </span>
+<span id="cb47-2"><a href="ejercicios-prácticos.html#cb47-2" tabindex="-1"></a>    <span class="at">private =</span> <span class="fu">list</span>(<span class="at">prev =</span> <span class="cn">NULL</span>),</span>
+<span id="cb47-3"><a href="ejercicios-prácticos.html#cb47-3" tabindex="-1"></a>    <span class="at">active =</span> <span class="fu">list</span>(</span>
+<span id="cb47-4"><a href="ejercicios-prácticos.html#cb47-4" tabindex="-1"></a>      <span class="at">random =</span> <span class="cf">function</span>(value) {</span>
+<span id="cb47-5"><a href="ejercicios-prácticos.html#cb47-5" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">missing</span>(value)) {</span>
+<span id="cb47-6"><a href="ejercicios-prácticos.html#cb47-6" tabindex="-1"></a>          private<span class="sc">$</span>prev <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>)</span>
+<span id="cb47-7"><a href="ejercicios-prácticos.html#cb47-7" tabindex="-1"></a>          private<span class="sc">$</span>prev</span>
+<span id="cb47-8"><a href="ejercicios-prácticos.html#cb47-8" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb47-9"><a href="ejercicios-prácticos.html#cb47-9" tabindex="-1"></a>          <span class="fu">stop</span>(<span class="st">&quot;Can&#39;t set `$random`&quot;</span>, <span class="at">call. =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb47-10"><a href="ejercicios-prácticos.html#cb47-10" tabindex="-1"></a>        }</span>
+<span id="cb47-11"><a href="ejercicios-prácticos.html#cb47-11" tabindex="-1"></a>      },</span>
+<span id="cb47-12"><a href="ejercicios-prácticos.html#cb47-12" tabindex="-1"></a>      <span class="at">previous =</span> <span class="cf">function</span>(value) {</span>
+<span id="cb47-13"><a href="ejercicios-prácticos.html#cb47-13" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">missing</span>(value)) {</span>
+<span id="cb47-14"><a href="ejercicios-prácticos.html#cb47-14" tabindex="-1"></a>          private<span class="sc">$</span>prev</span>
+<span id="cb47-15"><a href="ejercicios-prácticos.html#cb47-15" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb47-16"><a href="ejercicios-prácticos.html#cb47-16" tabindex="-1"></a>          <span class="fu">stop</span>(<span class="st">&quot;Can&#39;t set `$random`&quot;</span>, <span class="at">call. =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb47-17"><a href="ejercicios-prácticos.html#cb47-17" tabindex="-1"></a>        }</span>
+<span id="cb47-18"><a href="ejercicios-prácticos.html#cb47-18" tabindex="-1"></a>      }</span>
+<span id="cb47-19"><a href="ejercicios-prácticos.html#cb47-19" tabindex="-1"></a>    )</span>
+<span id="cb47-20"><a href="ejercicios-prácticos.html#cb47-20" tabindex="-1"></a>)</span>
+<span id="cb47-21"><a href="ejercicios-prácticos.html#cb47-21" tabindex="-1"></a>x <span class="ot">&lt;-</span> Rando<span class="sc">$</span><span class="fu">new</span>()</span>
+<span id="cb47-22"><a href="ejercicios-prácticos.html#cb47-22" tabindex="-1"></a>x<span class="sc">$</span>random</span>
+<span id="cb47-23"><a href="ejercicios-prácticos.html#cb47-23" tabindex="-1"></a><span class="do">## [1] 0.307117</span></span>
+<span id="cb47-24"><a href="ejercicios-prácticos.html#cb47-24" tabindex="-1"></a>x<span class="sc">$</span>random</span>
+<span id="cb47-25"><a href="ejercicios-prácticos.html#cb47-25" tabindex="-1"></a><span class="do">## [1] 0.4387222</span></span>
+<span id="cb47-26"><a href="ejercicios-prácticos.html#cb47-26" tabindex="-1"></a>x<span class="sc">$</span>previous</span>
+<span id="cb47-27"><a href="ejercicios-prácticos.html#cb47-27" tabindex="-1"></a><span class="do">## [1] 0.4387222</span></span></code></pre></div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="por-qué-r6.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bibliografía.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-R6.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

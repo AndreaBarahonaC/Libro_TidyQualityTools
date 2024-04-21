@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo3 Compatibilidad de funciones | A Minimal Book Example</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo3 Compatibilidad de funciones | A Minimal Book Example" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo3 Compatibilidad de funciones | A Minimal Book Example" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Yihui Xie" />
+
+
+<meta name="date" content="2024-04-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="programación-orientada-a-objetos-poo.html"/>
+<link rel="next" href="poder-cuantitativo-en-acción.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Prueba bookdown</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Aquí van R6, QualityTools y Tidyquant</a></li>
+<li class="chapter" data-level="2" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html"><i class="fa fa-check"></i><b>2</b> Programación orientada a objetos (POO)</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#introducción"><i class="fa fa-check"></i><b>2.1</b> Introducción</a></li>
+<li class="chapter" data-level="2.2" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#sistemas-de-programación-orientada-a-objetos"><i class="fa fa-check"></i><b>2.2</b> Sistemas de programación orientada a objetos</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#paradigmas"><i class="fa fa-check"></i><b>2.2.1</b> Paradigmas</a></li>
+<li class="chapter" data-level="2.2.2" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#especificaciones-de-los-principales-sistemas-poo-en-r"><i class="fa fa-check"></i><b>2.2.2</b> Especificaciones de los principales sistemas POO en R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#objetos-base-vs-objetos-oo"><i class="fa fa-check"></i><b>2.3</b> Objetos Base vs Objetos OO</a></li>
+<li class="chapter" data-level="2.4" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#encadenamiento-de-métodos"><i class="fa fa-check"></i><b>2.4</b> Encadenamiento de métodos</a></li>
+<li class="chapter" data-level="2.5" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#métodos-importantes"><i class="fa fa-check"></i><b>2.5</b> Métodos importantes</a></li>
+<li class="chapter" data-level="2.6" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#agregar-métodos-después-de-la-creación"><i class="fa fa-check"></i><b>2.6</b> Agregar métodos después de la creación</a></li>
+<li class="chapter" data-level="2.7" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#herencia"><i class="fa fa-check"></i><b>2.7</b> Herencia</a></li>
+<li class="chapter" data-level="2.8" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#introspección"><i class="fa fa-check"></i><b>2.8</b> Introspección</a></li>
+<li class="chapter" data-level="2.9" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#privacidad"><i class="fa fa-check"></i><b>2.9</b> Privacidad</a></li>
+<li class="chapter" data-level="2.10" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#campos-activos"><i class="fa fa-check"></i><b>2.10</b> Campos Activos</a></li>
+<li class="chapter" data-level="2.11" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#razonamientos"><i class="fa fa-check"></i><b>2.11</b> Razonamientos</a></li>
+<li class="chapter" data-level="2.12" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#finalización"><i class="fa fa-check"></i><b>2.12</b> Finalización</a></li>
+<li class="chapter" data-level="2.13" data-path="programación-orientada-a-objetos-poo.html"><a href="programación-orientada-a-objetos-poo.html#campos-r6"><i class="fa fa-check"></i><b>2.13</b> Campos R6</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="compatibilidad-de-funciones.html"><a href="compatibilidad-de-funciones.html"><i class="fa fa-check"></i><b>3</b> Compatibilidad de funciones</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="compatibilidad-de-funciones.html"><a href="compatibilidad-de-funciones.html#funcionalidad-zoo"><i class="fa fa-check"></i><b>3.1</b> Funcionalidad zoo</a></li>
+<li class="chapter" data-level="3.2" data-path="compatibilidad-de-funciones.html"><a href="compatibilidad-de-funciones.html#funcionalidad-xts"><i class="fa fa-check"></i><b>3.2</b> Funcionalidad xts</a></li>
+<li class="chapter" data-level="3.3" data-path="compatibilidad-de-funciones.html"><a href="compatibilidad-de-funciones.html#funcionalidad-quantmod"><i class="fa fa-check"></i><b>3.3</b> Funcionalidad quantmod</a></li>
+<li class="chapter" data-level="3.4" data-path="compatibilidad-de-funciones.html"><a href="compatibilidad-de-funciones.html#funcionalidad-ttr"><i class="fa fa-check"></i><b>3.4</b> Funcionalidad TTR</a></li>
+<li class="chapter" data-level="3.5" data-path="compatibilidad-de-funciones.html"><a href="compatibilidad-de-funciones.html#funcionalidad-performanceanalytics"><i class="fa fa-check"></i><b>3.5</b> Funcionalidad PerformanceAnalytics</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html"><i class="fa fa-check"></i><b>4</b> Poder Cuantitativo en Acción</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-1-utilizar-quantmod-periodreturn-para-convertir-precios-en-rentabilidad"><i class="fa fa-check"></i><b>4.1</b> Ejemplo 1: utilizar quantmod periodReturn para convertir precios en rentabilidad</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-1a-obtener-y-registrar-las-rentabilidades-anuales"><i class="fa fa-check"></i><b>4.1.1</b> Ejemplo 1A: Obtener y registrar las rentabilidades anuales</a></li>
+<li class="chapter" data-level="4.1.2" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-1b-obtener-devoluciones-de-registros-diarios"><i class="fa fa-check"></i><b>4.1.2</b> Ejemplo 1B: Obtener devoluciones de registros diarios</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-2-utilice-xts-to.period-para-cambiar-la-periodicidad-de-diaria-a-mensual"><i class="fa fa-check"></i><b>4.2</b> Ejemplo 2: utilice xts to.period para cambiar la periodicidad de diaria a mensual</a></li>
+<li class="chapter" data-level="4.3" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-3-utilice-ttr-runcor-para-visualizar-correlaciones-continuas-de-rendimientos"><i class="fa fa-check"></i><b>4.3</b> Ejemplo 3: utilice TTR runCor para visualizar correlaciones continuas de rendimientos</a></li>
+<li class="chapter" data-level="4.4" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-4-utilice-ttr-macd-para-visualizar-la-divergencia-de-convergencia-de-la-media-móvil"><i class="fa fa-check"></i><b>4.4</b> Ejemplo 4: Utilice TTR MACD para visualizar la divergencia de convergencia de la media móvil</a></li>
+<li class="chapter" data-level="4.5" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-5-utilice-xts-apply.quarterly-para-obtener-el-precio-máximo-y-mínimo-para-cada-trimestre"><i class="fa fa-check"></i><b>4.5</b> Ejemplo 5: utilice xts apply.quarterly para obtener el precio máximo y mínimo para cada trimestre</a></li>
+<li class="chapter" data-level="4.6" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-6-utilice-zoo-rollapply-para-visualizar-una-regresión-continua"><i class="fa fa-check"></i><b>4.6</b> Ejemplo 6: utilice zoo rollapply para visualizar una regresión continua</a></li>
+<li class="chapter" data-level="4.7" data-path="poder-cuantitativo-en-acción.html"><a href="poder-cuantitativo-en-acción.html#ejemplo-7-utilice-return.clean-y-return.excess-para-limpiar-y-calcular-el-exceso-de-rendimiento"><i class="fa fa-check"></i><b>4.7</b> Ejemplo 7: utilice return.clean y return.excess para limpiar y calcular el exceso de rendimiento</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="qualitytools.html"><a href="qualitytools.html"><i class="fa fa-check"></i><b>5</b> QualityTools</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="qualitytools.html"><a href="qualitytools.html#fase-1-definir"><i class="fa fa-check"></i><b>5.1</b> Fase 1: Definir</a></li>
+<li class="chapter" data-level="5.2" data-path="qualitytools.html"><a href="qualitytools.html#fase-2-medir"><i class="fa fa-check"></i><b>5.2</b> Fase 2: Medir</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="qualitytools.html"><a href="qualitytools.html#capacidad-de-calibre---msa-tipo-i"><i class="fa fa-check"></i><b>5.2.1</b> Capacidad de calibre - MSA Tipo I</a></li>
+<li class="chapter" data-level="5.2.2" data-path="qualitytools.html"><a href="qualitytools.html#repetibilidad-y-reproducibidad-del-calibre---msa-tipo-ii"><i class="fa fa-check"></i><b>5.2.2</b> Repetibilidad y reproducibidad del calibre - MSA Tipo II</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="qualitytools.html"><a href="qualitytools.html#fase-3-analizar"><i class="fa fa-check"></i><b>5.3</b> Fase 3: Analizar</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="qualitytools.html"><a href="qualitytools.html#capacidad-del-proceso"><i class="fa fa-check"></i><b>5.3.1</b> Capacidad del Proceso</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="qualitytools.html"><a href="qualitytools.html#fase-4-mejorar"><i class="fa fa-check"></i><b>5.4</b> Fase 4: Mejorar</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="qualitytools.html"><a href="qualitytools.html#diseños-factoriales-2k"><i class="fa fa-check"></i><b>5.4.1</b> Diseños factoriales <span class="math inline">\(2^{k}\)</span></a></li>
+<li class="chapter" data-level="5.4.2" data-path="qualitytools.html"><a href="qualitytools.html#diseños-factoriales-fraccionarios-2k-p"><i class="fa fa-check"></i><b>5.4.2</b> Diseños factoriales fraccionarios <span class="math inline">\(2^{k-p}\)</span></a></li>
+<li class="chapter" data-level="5.4.3" data-path="qualitytools.html"><a href="qualitytools.html#diseños-replicados-y-puntos-centrales"><i class="fa fa-check"></i><b>5.4.3</b> Diseños replicados y puntos centrales</a></li>
+<li class="chapter" data-level="5.4.4" data-path="qualitytools.html"><a href="qualitytools.html#respuestas-múltiples"><i class="fa fa-check"></i><b>5.4.4</b> Respuestas múltiples</a></li>
+<li class="chapter" data-level="5.4.5" data-path="qualitytools.html"><a href="qualitytools.html#pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado"><i class="fa fa-check"></i><b>5.4.5</b> Pasar a un entorno de proceso con un mayor rendimiento esperado</a></li>
+<li class="chapter" data-level="5.4.6" data-path="qualitytools.html"><a href="qualitytools.html#diseños-de-superficies-de-respuesta"><i class="fa fa-check"></i><b>5.4.6</b> Diseños de superficies de respuesta</a></li>
+<li class="chapter" data-level="5.4.7" data-path="qualitytools.html"><a href="qualitytools.html#montaje-secuencial-de-diseños-de-superficie-de-respuesta"><i class="fa fa-check"></i><b>5.4.7</b> Montaje secuencial de diseños de superficie de respuesta</a></li>
+<li class="chapter" data-level="5.4.8" data-path="qualitytools.html"><a href="qualitytools.html#aleatorización"><i class="fa fa-check"></i><b>5.4.8</b> Aleatorización</a></li>
+<li class="chapter" data-level="5.4.9" data-path="qualitytools.html"><a href="qualitytools.html#bloqueo"><i class="fa fa-check"></i><b>5.4.9</b> Bloqueo</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="qualitytools.html"><a href="qualitytools.html#deseabilidades"><i class="fa fa-check"></i><b>5.5</b> Deseabilidades</a></li>
+<li class="chapter" data-level="5.6" data-path="qualitytools.html"><a href="qualitytools.html#utilización-de-deseabilidades-junto-con-experimentos-diseñados"><i class="fa fa-check"></i><b>5.6</b> Utilización de deseabilidades junto con experimentos diseñados</a></li>
+<li class="chapter" data-level="5.7" data-path="qualitytools.html"><a href="qualitytools.html#diseños-de-mezclas"><i class="fa fa-check"></i><b>5.7</b> Diseños de mezclas</a></li>
+<li class="chapter" data-level="5.8" data-path="qualitytools.html"><a href="qualitytools.html#diseños-taguchi"><i class="fa fa-check"></i><b>5.8</b> Diseños Taguchi</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>6</b> Applications</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>6.1</b> Example one</a></li>
+<li class="chapter" data-level="6.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>6.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>7</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="compatibilidad-de-funciones" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Capítulo3</span> Compatibilidad de funciones<a href="compatibilidad-de-funciones.html#compatibilidad-de-funciones" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><code>tq_transmute_fun_options()</code> Devuelve una lista de <strong>funciones de mutación compatibles</strong> con cada paquete, para ello haremos una breve discusión de las opciones respecto a cada paquete.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="compatibilidad-de-funciones.html#cb2-1" tabindex="-1"></a><span class="fu">tq_transmute_fun_options</span>() <span class="sc">%&gt;%</span> <span class="fu">str</span>()</span></code></pre></div>
+<pre class="scroll-100"><code>## List of 5
+##  $ zoo                 : chr [1:14] &quot;rollapply&quot; &quot;rollapplyr&quot; &quot;rollmax&quot; &quot;rollmax.default&quot; ...
+##  $ xts                 : chr [1:27] &quot;apply.daily&quot; &quot;apply.monthly&quot; &quot;apply.quarterly&quot; &quot;apply.weekly&quot; ...
+##  $ quantmod            : chr [1:25] &quot;allReturns&quot; &quot;annualReturn&quot; &quot;ClCl&quot; &quot;dailyReturn&quot; ...
+##  $ TTR                 : chr [1:64] &quot;adjRatios&quot; &quot;ADX&quot; &quot;ALMA&quot; &quot;aroon&quot; ...
+##  $ PerformanceAnalytics: chr [1:7] &quot;Return.annualized&quot; &quot;Return.annualized.excess&quot; &quot;Return.clean&quot; &quot;Return.cumulative&quot; ...</code></pre>
+<p>Para ello, accederemos a las funciones de los respectivos paquetes que tienen compatibilidad para trabarse con <code>tq_transmute</code> y <code>tq_mutate</code> a partir del comando “$”.</p>
+<div id="funcionalidad-zoo" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Funcionalidad zoo<a href="compatibilidad-de-funciones.html#funcionalidad-zoo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="compatibilidad-de-funciones.html#cb4-1" tabindex="-1"></a><span class="fu">tq_transmute_fun_options</span>()<span class="sc">$</span>zoo</span></code></pre></div>
+<pre class="scroll-100"><code>##  [1] &quot;rollapply&quot;          &quot;rollapplyr&quot;         &quot;rollmax&quot;           
+##  [4] &quot;rollmax.default&quot;    &quot;rollmaxr&quot;           &quot;rollmean&quot;          
+##  [7] &quot;rollmean.default&quot;   &quot;rollmeanr&quot;          &quot;rollmedian&quot;        
+## [10] &quot;rollmedian.default&quot; &quot;rollmedianr&quot;        &quot;rollsum&quot;           
+## [13] &quot;rollsum.default&quot;    &quot;rollsumr&quot;</code></pre>
+<p>Las funciones del paquete <code>zoo</code> que son compatibles se enumerar arriba. EN términos generales, estas son:</p>
+<ul>
+<li><p>Funciones <em>Roll Apply</em>:</p>
+<ul>
+<li>Una función genérica para aplicar una función a los márgenes móviles.</li>
+<li>Forma: <code>rollapply(data, width, FUN, ..., by = 1, by.column = TRUE, fill = if (na.pad) NA, na.pad = FALSE, partial = FALSE, align = c("center", "left", "right"), coredata = TRUE)</code></li>
+<li>Las opciones incluyen: <code>rollmax</code>, <code>rollmean</code>, <code>rollmedian</code>, <code>rollsum</code>, etc.</li>
+</ul></li>
+</ul>
+</div>
+<div id="funcionalidad-xts" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Funcionalidad xts<a href="compatibilidad-de-funciones.html#funcionalidad-xts" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="compatibilidad-de-funciones.html#cb6-1" tabindex="-1"></a><span class="fu">tq_transmute_fun_options</span>()<span class="sc">$</span>xts</span></code></pre></div>
+<pre class="scroll-100"><code>##  [1] &quot;apply.daily&quot;     &quot;apply.monthly&quot;   &quot;apply.quarterly&quot; &quot;apply.weekly&quot;   
+##  [5] &quot;apply.yearly&quot;    &quot;diff.xts&quot;        &quot;lag.xts&quot;         &quot;period.apply&quot;   
+##  [9] &quot;period.max&quot;      &quot;period.min&quot;      &quot;period.prod&quot;     &quot;period.sum&quot;     
+## [13] &quot;periodicity&quot;     &quot;to.daily&quot;        &quot;to.hourly&quot;       &quot;to.minutes&quot;     
+## [17] &quot;to.minutes10&quot;    &quot;to.minutes15&quot;    &quot;to.minutes3&quot;     &quot;to.minutes30&quot;   
+## [21] &quot;to.minutes5&quot;     &quot;to.monthly&quot;      &quot;to.period&quot;       &quot;to.quarterly&quot;   
+## [25] &quot;to.weekly&quot;       &quot;to.yearly&quot;       &quot;to_period&quot;</code></pre>
+<p>Las funciones del paquete <code>xts</code> que son compatibles están enumeradas arribas. en términos generales, son:</p>
+<ul>
+<li>Funciones <em>Period Apply</em>:
+<ul>
+<li>Aplicar una función a un segmento de tiempo, por ejemplo: <code>max</code>, <code>min</code>, <code>mean</code>, etc.</li>
+<li>Forma: <code>apply.daily(x, FUN, ...)</code>.</li>
+<li>Las opciones incluyen: <code>apply.daily</code>, <code>weekly</code>, <code>monthly</code>, <code>quarterly</code>, <code>yearly</code>.</li>
+</ul></li>
+<li>Funciones <em>To-Period Functions</em>:
+<ul>
+<li>Convierte una serie de tiempo en un serie de tiempo de menor periodicidad, por ejemplo, convierte periodicidad diaria en mensual.</li>
+<li>Forma: <code>to.period(x, period = 'months', k = 1, indexAt, name = NULL, OHLC = TRUE, ...)</code>.</li>
+<li>Las opciones incluyen: <code>to.minutes</code>, <code>hourly</code>, <code>daily</code>, <code>weekly</code>, <code>monthly</code>, <code>quarterly</code>, <code>yearly</code>.</li>
+<li>Es importante aclarar que: la estructura de devolución es diferente para <code>to.period</code>, <code>to.monthly</code>, <code>to.weekly</code>, <code>to.quarterly</code>, etc. <code>to.period</code> retorna la fecha, mientras que <code>to.monthly</code> devuelve un caracter de tipo “MON YYYY”. Es recomendable trabajaer con <code>to.period</code>, si se desea trabar con series temporales a través de <code>lubridate</code>.</li>
+</ul></li>
+</ul>
+</div>
+<div id="funcionalidad-quantmod" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Funcionalidad quantmod<a href="compatibilidad-de-funciones.html#funcionalidad-quantmod" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="compatibilidad-de-funciones.html#cb8-1" tabindex="-1"></a><span class="fu">tq_transmute_fun_options</span>()<span class="sc">$</span>quantmod</span></code></pre></div>
+<pre class="scroll-100"><code>##  [1] &quot;allReturns&quot;      &quot;annualReturn&quot;    &quot;ClCl&quot;            &quot;dailyReturn&quot;    
+##  [5] &quot;Delt&quot;            &quot;HiCl&quot;            &quot;Lag&quot;             &quot;LoCl&quot;           
+##  [9] &quot;LoHi&quot;            &quot;monthlyReturn&quot;   &quot;Next&quot;            &quot;OpCl&quot;           
+## [13] &quot;OpHi&quot;            &quot;OpLo&quot;            &quot;OpOp&quot;            &quot;periodReturn&quot;   
+## [17] &quot;quarterlyReturn&quot; &quot;seriesAccel&quot;     &quot;seriesDecel&quot;     &quot;seriesDecr&quot;     
+## [21] &quot;seriesHi&quot;        &quot;seriesIncr&quot;      &quot;seriesLo&quot;        &quot;weeklyReturn&quot;   
+## [25] &quot;yearlyReturn&quot;</code></pre>
+<p>Las funciones del paquete <code>quantmod</code> que son compatibles se enumeran arriba. En terminos generales, son :</p>
+<ul>
+<li>Funciones de cambio porcentual (Delt) y retrasos:
+<ul>
+<li>Delt: <code>Delt(x1, x2 = NULL, k = 0, type = c("arithmetic", "log"))</code>
+<ul>
+<li>Variaciones de Delt: ClCl, HiCl, LoCl, LoHi, OpCl, OpHi, OpLo, OpOp</li>
+<li>Forma: <code>OpCl(OHLC)</code></li>
+</ul></li>
+<li>Retrasos: <code>Lag(x, k = 1)</code> / Siguiente: <code>Next(x, k = 1)</code> (También puede usar <code>dplyr::lag and dplyr::lead</code>)</li>
+</ul></li>
+<li>Funciones de devolución del período:
+<ul>
+<li>Se obtienen los rendimientos aritméticos o logarítmicos para diversas periodicidades, qué incluyen diaria, semanal, mensual, trimestral y anual.</li>
+<li>Forma: <code>periodReturn(x, period = 'monthly', subset = NULL, type = 'arithmetic', leading = TRUE, ...)</code></li>
+</ul></li>
+<li>Funciones de Series:
+<ul>
+<li>Devuelve valores que describen la serie, las opciones incluyen describir los aumentos o disminuciones, la aceleración o desaceleración y alto o bajo.</li>
+<li>Formas: <code>seriesHi(x)</code>, <code>seriesIncr(x, thresh = 0, diff. = 1L)</code>, <code>seriesAccel(x)</code>.</li>
+</ul></li>
+</ul>
+</div>
+<div id="funcionalidad-ttr" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Funcionalidad TTR<a href="compatibilidad-de-funciones.html#funcionalidad-ttr" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="compatibilidad-de-funciones.html#cb10-1" tabindex="-1"></a><span class="fu">tq_transmute_fun_options</span>()<span class="sc">$</span>TTR</span></code></pre></div>
+<pre class="scroll-100"><code>##  [1] &quot;adjRatios&quot;          &quot;ADX&quot;                &quot;ALMA&quot;              
+##  [4] &quot;aroon&quot;              &quot;ATR&quot;                &quot;BBands&quot;            
+##  [7] &quot;CCI&quot;                &quot;chaikinAD&quot;          &quot;chaikinVolatility&quot; 
+## [10] &quot;CLV&quot;                &quot;CMF&quot;                &quot;CMO&quot;               
+## [13] &quot;CTI&quot;                &quot;DEMA&quot;               &quot;DonchianChannel&quot;   
+## [16] &quot;DPO&quot;                &quot;DVI&quot;                &quot;EMA&quot;               
+## [19] &quot;EMV&quot;                &quot;EVWMA&quot;              &quot;GMMA&quot;              
+## [22] &quot;growth&quot;             &quot;HMA&quot;                &quot;keltnerChannels&quot;   
+## [25] &quot;KST&quot;                &quot;lags&quot;               &quot;MACD&quot;              
+## [28] &quot;MFI&quot;                &quot;momentum&quot;           &quot;OBV&quot;               
+## [31] &quot;PBands&quot;             &quot;ROC&quot;                &quot;rollSFM&quot;           
+## [34] &quot;RSI&quot;                &quot;runCor&quot;             &quot;runCov&quot;            
+## [37] &quot;runMAD&quot;             &quot;runMax&quot;             &quot;runMean&quot;           
+## [40] &quot;runMedian&quot;          &quot;runMin&quot;             &quot;runPercentRank&quot;    
+## [43] &quot;runSD&quot;              &quot;runSum&quot;             &quot;runVar&quot;            
+## [46] &quot;SAR&quot;                &quot;SMA&quot;                &quot;SMI&quot;               
+## [49] &quot;SNR&quot;                &quot;stoch&quot;              &quot;TDI&quot;               
+## [52] &quot;TR&quot;                 &quot;TRIX&quot;               &quot;ultimateOscillator&quot;
+## [55] &quot;VHF&quot;                &quot;volatility&quot;         &quot;VWAP&quot;              
+## [58] &quot;VWMA&quot;               &quot;wilderSum&quot;          &quot;williamsAD&quot;        
+## [61] &quot;WMA&quot;                &quot;WPR&quot;                &quot;ZigZag&quot;            
+## [64] &quot;ZLEMA&quot;</code></pre>
+<p>Aquí hay una breve descripción de las funciones más populares de <code>TTR</code>:</p>
+<ul>
+<li>Índice de movimiento direccional de Welles Wilder:
+<ul>
+<li><code>ADX(HLC, n = 14, maType, ...)</code></li>
+</ul></li>
+<li>Bandas de Bollinger:
+<ul>
+<li><code>BBands(HLC, n = 20, maType, sd = 2, ...)</code></li>
+</ul></li>
+<li>Tasa de cambio/impulso:
+<ul>
+<li>Tasa de cambio - <code>ROC(x, n = 1, type = c("continuous", "discrete"), na.pad = TRUE)</code>.</li>
+<li>Impulso/Momento - <code>momentum(x, n = 1, na.pad = TRUE)</code></li>
+</ul></li>
+<li>Medias Móviles (maType):
+<ul>
+<li>Media móvil simple - <code>SMA(x, n = 10, ...)</code></li>
+<li>Media móvil exponencial - <code>EMA(x, n = 10, wilder = FALSE, ratio = NULL, ...)</code></li>
+<li>Media móvil exponencial doble - <code>DEMA(x, n = 10, v = 1, wilder = FALSE, ratio = NULL)</code></li>
+<li>Media móvil Ponderada - <code>WMA(x, n = 10, wts = 1:n, ...)</code></li>
+<li>Media móvil elástica ponderada por volumen - <code>EVWMA(price, volume, n = 10, ...)</code></li>
+<li>Media móvil exponencial de retardo cero - <code>ZLEMA(x, n = 10, ratio = NULL, ...)</code></li>
+<li>Precio promedio móvil ponderado por volumen - <code>VWAP(price, volume, n = 10, ...)</code></li>
+<li>Media móvil de longitud variable - <code>VMA(x, w, ratio = 1, ...)</code></li>
+<li>Media móvil de Hull - <code>HMA(x, n = 20, ...)</code></li>
+<li>Média Movil de Arnaud Legoux - <code>ALMA(x, n = 9, offset = 0.85, sigma = 6, ...)</code></li>
+</ul></li>
+<li>Oscilador MACD:
+<ul>
+<li><code>MACD(x, nFast = 12, nSlow = 26, nSig = 9, maType, percent = TRUE, ...)</code></li>
+</ul></li>
+<li>Índice de Fuerza Relativa:
+<ul>
+<li><code>RSI(price, n = 14, maType, ...)</code></li>
+</ul></li>
+<li>runFun:
+<ul>
+<li><code>runSum(x, n = 10, cumulative = FALSE)</code>: devuelve sumas durante una ventana móvil de n períodos.</li>
+<li><code>runMin(x, n = 10, cumulative = FALSE)</code>: devuelve mínimos durante una ventana móvil de n períodos.</li>
+<li><code>runMax(x, n = 10, cumulative = FALSE)</code>: devuelve máximos durante una ventana móvil de n períodos.</li>
+<li><code>runMean(x, n = 10, cumulative = FALSE)</code>: devuelve medias durante una ventana móvil de n períodos.</li>
+<li><code>runMedian(x, n = 10, non.unique = "mean", cumulative = FALSE)</code>: devuelve medianas durante una ventana móvil de n períodos.</li>
+<li><code>runCov(x, y, n = 10, use = "all.obs", sample = TRUE, cumulative = FALSE)</code>: devuelve covarianzas sobre una ventana móvil de n períodos.</li>
+<li><code>runCor(x, y, n = 10, use = "all.obs", sample = TRUE, cumulative = FALSE)</code>: devuelve correlaciones durante una ventana móvil de n períodos.</li>
+<li><code>runVar(x, y = NULL, n = 10, sample = TRUE, cumulative = FALSE)</code>: devuelve variaciones durante una ventana móvil de n períodos.</li>
+<li><code>runSD(x, n = 10, sample = TRUE, cumulative = FALSE)</code>: devuelve desviaciones estándar durante una ventana móvil de n períodos.</li>
+<li><code>runMAD(x, n = 10, center = NULL, stat = "median", constant = 1.4826, non.unique = "mean", cumulative = FALSE)</code>: devuelve las desviaciones absolutas mediana/media durante una ventana móvil de n períodos.</li>
+<li><code>wilderSum(x, n = 10)</code>: devuelve una suma ponderada al estilo de Welles Wilder sobre una ventana móvil de n períodos.</li>
+</ul></li>
+<li>Ocilador estocástico:
+<ul>
+<li><code>stoch(HLC, nFastK = 14, nFastD = 3, nSlowD = 3, maType, bounded = TRUE, smooth = 1, ...)</code></li>
+</ul></li>
+<li>Índice de momento estocástico:
+<ul>
+<li><code>SMI(HLC, n = 13, nFast = 2, nSlow = 25, nSig = 9, maType, bounded = TRUE, ...)</code></li>
+</ul></li>
+</ul>
+</div>
+<div id="funcionalidad-performanceanalytics" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Funcionalidad PerformanceAnalytics<a href="compatibilidad-de-funciones.html#funcionalidad-performanceanalytics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="compatibilidad-de-funciones.html#cb12-1" tabindex="-1"></a><span class="fu">tq_transmute_fun_options</span>()<span class="sc">$</span>PerformanceAnalytics</span></code></pre></div>
+<pre class="scroll-100"><code>## [1] &quot;Return.annualized&quot;        &quot;Return.annualized.excess&quot;
+## [3] &quot;Return.clean&quot;             &quot;Return.cumulative&quot;       
+## [5] &quot;Return.excess&quot;            &quot;Return.Geltner&quot;          
+## [7] &quot;zerofill&quot;</code></pre>
+<p>Todas las funciones de mutación <code>PerformanceAnalytics</code> se ocupan de devoluciones:</p>
+<ul>
+<li><p><code>Return.annualized</code> y <code>Return.annualized.excess</code>: toma los rendimientos del período y los consolida en rendimiento anualizados.</p></li>
+<li><p><code>Return.clean</code>: elimina los valores atípicos de las devoluciones.</p></li>
+<li><p><code>Return.excess</code>: elimina la tasa libre de riesgo de los rendimientos para generar rendimientos superiores a la tasa libre de riesgo.</p></li>
+<li><p><code>zerofill</code>: Se utiliza para reemplazar valores <code>NA</code> con ceros.</p></li>
+</ul>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="programación-orientada-a-objetos-poo.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="poder-cuantitativo-en-acción.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-Tidyquant.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
