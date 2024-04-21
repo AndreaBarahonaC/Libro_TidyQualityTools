@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Referencias | Integración del Paquete QualityTools con Tidyverse</title>
+  <meta name="description" content="Referencias | Integración del Paquete QualityTools con Tidyverse" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Referencias | Integración del Paquete QualityTools con Tidyverse" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta name="github-repo" content="rstudio/Libro_TidyQualityTools" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Referencias | Integración del Paquete QualityTools con Tidyverse" />
+  
+  
+  
+
+<meta name="author" content="Miguel Flores, Andrea Barahona, Fabian Encarnación, Dario Quispe" />
+
+
+<meta name="date" content="2024-04-21" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="qualitytools.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">UDC</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preámbulo</a></li>
+<li class="chapter" data-level="2" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html"><i class="fa fa-check"></i><b>2</b> (POO) Programación Orientada a Objetos</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#introducción"><i class="fa fa-check"></i><b>2.1</b> Introducción</a></li>
+<li class="chapter" data-level="2.2" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#sistemas-de-programación-orientada-a-objetos"><i class="fa fa-check"></i><b>2.2</b> Sistemas de programación orientada a objetos</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#paradigmas"><i class="fa fa-check"></i><b>2.2.1</b> Paradigmas</a></li>
+<li class="chapter" data-level="2.2.2" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#especificaciones-de-los-principales-sistemas-poo-en-r"><i class="fa fa-check"></i><b>2.2.2</b> Especificaciones de los principales sistemas POO en R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#tipos-de-bases"><i class="fa fa-check"></i><b>2.3</b> Tipos de bases</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#objetos-base-vs-objetos-oo"><i class="fa fa-check"></i><b>2.3.1</b> Objetos Base vs Objetos OO</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="r6.html"><a href="r6.html"><i class="fa fa-check"></i><b>3</b> R6</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="r6.html"><a href="r6.html#clases-y-métodos"><i class="fa fa-check"></i><b>3.1</b> Clases y métodos</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="r6.html"><a href="r6.html#encadenamiento-de-métodos"><i class="fa fa-check"></i><b>3.1.1</b> Encadenamiento de métodos</a></li>
+<li class="chapter" data-level="3.1.2" data-path="r6.html"><a href="r6.html#métodos-importantes"><i class="fa fa-check"></i><b>3.1.2</b> Métodos importantes</a></li>
+<li class="chapter" data-level="3.1.3" data-path="r6.html"><a href="r6.html#agregar-métodos-después-de-la-creación"><i class="fa fa-check"></i><b>3.1.3</b> Agregar métodos después de la creación</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="r6.html"><a href="r6.html#controles-de-acceso"><i class="fa fa-check"></i><b>3.2</b> Controles de Acceso</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="r6.html"><a href="r6.html#privacidad"><i class="fa fa-check"></i><b>3.2.1</b> Privacidad</a></li>
+<li class="chapter" data-level="3.2.2" data-path="r6.html"><a href="r6.html#campos-activos"><i class="fa fa-check"></i><b>3.2.2</b> Campos Activos</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="r6.html"><a href="r6.html#semántica-de-referencia"><i class="fa fa-check"></i><b>3.3</b> Semántica de referencia</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="r6.html"><a href="r6.html#razonamientos"><i class="fa fa-check"></i><b>3.3.1</b> Razonamientos</a></li>
+<li class="chapter" data-level="3.3.2" data-path="r6.html"><a href="r6.html#finalización"><i class="fa fa-check"></i><b>3.3.2</b> Finalización</a></li>
+<li class="chapter" data-level="3.3.3" data-path="r6.html"><a href="r6.html#campos-en-r6"><i class="fa fa-check"></i><b>3.3.3</b> Campos en R6</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="r6.html"><a href="r6.html#por-qué-r6"><i class="fa fa-check"></i><b>3.4</b> ¿Por qué R6?</a></li>
+<li class="chapter" data-level="3.5" data-path="r6.html"><a href="r6.html#ejercicios-prácticos"><i class="fa fa-check"></i><b>3.5</b> Ejercicios prácticos</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="tidyquant.html"><a href="tidyquant.html"><i class="fa fa-check"></i><b>4</b> TidyQuant</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="tidyquant.html"><a href="tidyquant.html#compatibilidad-de-funciones"><i class="fa fa-check"></i><b>4.1</b> Compatibilidad de funciones</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-zoo"><i class="fa fa-check"></i><b>4.1.1</b> Funcionalidad zoo</a></li>
+<li class="chapter" data-level="4.1.2" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-xts"><i class="fa fa-check"></i><b>4.1.2</b> Funcionalidad xts</a></li>
+<li class="chapter" data-level="4.1.3" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-quantmod"><i class="fa fa-check"></i><b>4.1.3</b> Funcionalidad quantmod</a></li>
+<li class="chapter" data-level="4.1.4" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-ttr"><i class="fa fa-check"></i><b>4.1.4</b> Funcionalidad TTR</a></li>
+<li class="chapter" data-level="4.1.5" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-performanceanalytics"><i class="fa fa-check"></i><b>4.1.5</b> Funcionalidad PerformanceAnalytics</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="tidyquant.html"><a href="tidyquant.html#poder-cuantitativo-en-acción"><i class="fa fa-check"></i><b>4.2</b> Poder Cuantitativo en Acción</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-1-utilizar-quantmod-periodreturn-para-convertir-precios-en-rentabilidad"><i class="fa fa-check"></i><b>4.2.1</b> Ejemplo 1: utilizar quantmod periodReturn para convertir precios en rentabilidad</a></li>
+<li class="chapter" data-level="4.2.2" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-2-utilice-xts-to.period-para-cambiar-la-periodicidad-de-diaria-a-mensual"><i class="fa fa-check"></i><b>4.2.2</b> Ejemplo 2: utilice xts to.period para cambiar la periodicidad de diaria a mensual</a></li>
+<li class="chapter" data-level="4.2.3" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-3-utilice-ttr-runcor-para-visualizar-correlaciones-continuas-de-rendimientos"><i class="fa fa-check"></i><b>4.2.3</b> Ejemplo 3: utilice TTR runCor para visualizar correlaciones continuas de rendimientos</a></li>
+<li class="chapter" data-level="4.2.4" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-4-utilizar-ttrmacd-para-visualizar-la-divergencia-y-convergencia-de-la-media-móvil"><i class="fa fa-check"></i><b>4.2.4</b> Ejemplo 4: utilizar TTR::MACD para visualizar la divergencia y convergencia de la media móvil</a></li>
+<li class="chapter" data-level="4.2.5" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-5-utilizar-xtsapply.quarterly-para-obtener-el-precio-máximo-y-mínimo-para-cada-trimestre"><i class="fa fa-check"></i><b>4.2.5</b> Ejemplo 5: utilizar xts::apply.quarterly para obtener el precio máximo y mínimo para cada trimestre</a></li>
+<li class="chapter" data-level="4.2.6" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-6-utilizar-zoorollapply-para-visualizar-una-regresión-continua"><i class="fa fa-check"></i><b>4.2.6</b> Ejemplo 6: utilizar zoo::rollapply para visualizar una regresión continua</a></li>
+<li class="chapter" data-level="4.2.7" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-7-utilizar-return.clean-y-return.excess-para-limpiar-y-calcular-el-exceso-de-rendimiento"><i class="fa fa-check"></i><b>4.2.7</b> Ejemplo 7: utilizar return.clean y return.excess para limpiar y calcular el exceso de rendimiento</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="qualitytools.html"><a href="qualitytools.html"><i class="fa fa-check"></i><b>5</b> QualityTools</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="qualitytools.html"><a href="qualitytools.html#fase-1-definir"><i class="fa fa-check"></i><b>5.1</b> Fase 1: Definir</a></li>
+<li class="chapter" data-level="5.2" data-path="qualitytools.html"><a href="qualitytools.html#fase-2-medir"><i class="fa fa-check"></i><b>5.2</b> Fase 2: Medir</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="qualitytools.html"><a href="qualitytools.html#capacidad-de-calibre---msa-tipo-i"><i class="fa fa-check"></i><b>5.2.1</b> Capacidad de calibre - MSA Tipo I</a></li>
+<li class="chapter" data-level="5.2.2" data-path="qualitytools.html"><a href="qualitytools.html#repetibilidad-y-reproducibidad-del-calibre---msa-tipo-ii"><i class="fa fa-check"></i><b>5.2.2</b> Repetibilidad y reproducibidad del calibre - MSA Tipo II</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="qualitytools.html"><a href="qualitytools.html#fase-3-analizar"><i class="fa fa-check"></i><b>5.3</b> Fase 3: Analizar</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="qualitytools.html"><a href="qualitytools.html#capacidad-del-proceso"><i class="fa fa-check"></i><b>5.3.1</b> Capacidad del Proceso</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="qualitytools.html"><a href="qualitytools.html#fase-4-mejorar"><i class="fa fa-check"></i><b>5.4</b> Fase 4: Mejorar</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="qualitytools.html"><a href="qualitytools.html#diseños-factoriales-2k"><i class="fa fa-check"></i><b>5.4.1</b> Diseños factoriales <span class="math inline">\(2^{k}\)</span></a></li>
+<li class="chapter" data-level="5.4.2" data-path="qualitytools.html"><a href="qualitytools.html#diseños-factoriales-fraccionarios-2k-p"><i class="fa fa-check"></i><b>5.4.2</b> Diseños factoriales fraccionarios <span class="math inline">\(2^{k-p}\)</span></a></li>
+<li class="chapter" data-level="5.4.3" data-path="qualitytools.html"><a href="qualitytools.html#diseños-replicados-y-puntos-centrales"><i class="fa fa-check"></i><b>5.4.3</b> Diseños replicados y puntos centrales</a></li>
+<li class="chapter" data-level="5.4.4" data-path="qualitytools.html"><a href="qualitytools.html#respuestas-múltiples"><i class="fa fa-check"></i><b>5.4.4</b> Respuestas múltiples</a></li>
+<li class="chapter" data-level="5.4.5" data-path="qualitytools.html"><a href="qualitytools.html#pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado"><i class="fa fa-check"></i><b>5.4.5</b> Pasar a un entorno de proceso con un mayor rendimiento esperado</a></li>
+<li class="chapter" data-level="5.4.6" data-path="qualitytools.html"><a href="qualitytools.html#diseños-de-superficies-de-respuesta"><i class="fa fa-check"></i><b>5.4.6</b> Diseños de superficies de respuesta</a></li>
+<li class="chapter" data-level="5.4.7" data-path="qualitytools.html"><a href="qualitytools.html#montaje-secuencial-de-diseños-de-superficie-de-respuesta"><i class="fa fa-check"></i><b>5.4.7</b> Montaje secuencial de diseños de superficie de respuesta</a></li>
+<li class="chapter" data-level="5.4.8" data-path="qualitytools.html"><a href="qualitytools.html#aleatorización"><i class="fa fa-check"></i><b>5.4.8</b> Aleatorización</a></li>
+<li class="chapter" data-level="5.4.9" data-path="qualitytools.html"><a href="qualitytools.html#bloqueo"><i class="fa fa-check"></i><b>5.4.9</b> Bloqueo</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="qualitytools.html"><a href="qualitytools.html#deseabilidades"><i class="fa fa-check"></i><b>5.5</b> Deseabilidades</a></li>
+<li class="chapter" data-level="5.6" data-path="qualitytools.html"><a href="qualitytools.html#utilización-de-deseabilidades-junto-con-experimentos-diseñados"><i class="fa fa-check"></i><b>5.6</b> Utilización de deseabilidades junto con experimentos diseñados</a></li>
+<li class="chapter" data-level="5.7" data-path="qualitytools.html"><a href="qualitytools.html#diseños-de-mezclas"><i class="fa fa-check"></i><b>5.7</b> Diseños de mezclas</a></li>
+<li class="chapter" data-level="5.8" data-path="qualitytools.html"><a href="qualitytools.html#diseños-taguchi"><i class="fa fa-check"></i><b>5.8</b> Diseños Taguchi</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Integración del Paquete QualityTools con Tidyverse</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="referencias" class="section level1 unnumbered hasAnchor">
+<h1>Referencias<a href="referencias.html#referencias" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<ul>
+<li>Wickham, H. (2019). Advanced r. chapman and hall/CRC.</li>
+<li>Chang W (2022). R6: Encapsulated Classes with Reference Semantics. <a href="https://r6.r-lib.org" class="uri">https://r6.r-lib.org</a>, <a href="https://github.com/r-lib/R6/" class="uri">https://github.com/r-lib/R6/</a>.</li>
+<li>Dancho, M (2023). R Quantitative Analysis Package Integrations in tidyquant. <a href="https://cran.r-project.org/web/packages/tidyquant/vignettes/TQ02-quant-integrations-in-tidyquant.html" class="uri">https://cran.r-project.org/web/packages/tidyquant/vignettes/TQ02-quant-integrations-in-tidyquant.html</a></li>
+<li>Roth, T. (2016). Working with the qualityTools package.</li>
+<li>Six Sigma Daily (2012). What is DMAIC?. recuperado de: <a href="https://www.sixsigmadaily.com/what-is-dmaic/" class="uri">https://www.sixsigmadaily.com/what-is-dmaic/</a></li>
+</ul>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="qualitytools.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/Libro_TidyQualityTools/edit/master/05-Bibliografía.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Libro_TidyQualityTools.pdf", "Libro_TidyQualityTools.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
