@@ -1,68 +1,255 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="" xml:lang="">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Capítulo 2 (POO) Programación Orientada a Objetos | Integración del Paquete QualityTools con Tidyverse</title>
-<meta name="author" content="Miguel Flores, Andrea Barahona, Fabian Encarnación, Dario Quispe">
-<meta name="generator" content="bookdown 0.38 with bs4_book()">
-<meta property="og:title" content="Capítulo 2 (POO) Programación Orientada a Objetos | Integración del Paquete QualityTools con Tidyverse">
-<meta property="og:type" content="book">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Capítulo 2 (POO) Programación Orientada a Objetos | Integración del Paquete QualityTools con Tidyverse">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
-    
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  </style>
-<meta name="description" content="2.1 Introducción En primer lugar debemos tener en mente que la POO en R presenta ciertos desafíos en comparación con otros lenguajes esto debido a : La presencia de más de un sistema de OOP para...">
-<meta property="og:description" content="2.1 Introducción En primer lugar debemos tener en mente que la POO en R presenta ciertos desafíos en comparación con otros lenguajes esto debido a : La presencia de más de un sistema de OOP para...">
-<meta name="twitter:description" content="2.1 Introducción En primer lugar debemos tener en mente que la POO en R presenta ciertos desafíos en comparación con otros lenguajes esto debido a : La presencia de más de un sistema de OOP para...">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 2 (POO) Programación Orientada a Objetos | Integración del Paquete QualityTools con Tidyverse</title>
+  <meta name="description" content="Capítulo 2 (POO) Programación Orientada a Objetos | Integración del Paquete QualityTools con Tidyverse" />
+  <meta name="generator" content="bookdown 0.38 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 2 (POO) Programación Orientada a Objetos | Integración del Paquete QualityTools con Tidyverse" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta name="github-repo" content="rstudio/Libro_TidyQualityTools" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 2 (POO) Programación Orientada a Objetos | Integración del Paquete QualityTools con Tidyverse" />
+  
+  
+  
+
+<meta name="author" content="Miguel Flores" />
+<meta name="author" content="Andrea Barahona" />
+<meta name="author" content="Fabián Encarnación" />
+<meta name="author" content="Dario Quishpe" />
+
+
+<meta name="date" content="2024-04-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="r6.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
 </head>
-<body data-spy="scroll" data-target="#toc">
 
-<div class="container-fluid">
-<div class="row">
-  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+<body>
 
-    <div class="d-flex align-items-start justify-content-between">
-      <h1>
-        <a href="index.html" title="">Integración del Paquete QualityTools con Tidyverse</a>
-      </h1>
-      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
-    </div>
 
-    <div id="main-nav" class="collapse-lg">
-      <form role="search">
-        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
-</form>
 
-      <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html"><span class="header-section-number">1</span> Preámbulo</a></li>
-<li><a class="active" href="poo-programaci%C3%B3n-orientada-a-objetos.html"><span class="header-section-number">2</span> (POO) Programación Orientada a Objetos</a></li>
-<li><a class="" href="r6.html"><span class="header-section-number">3</span> R6</a></li>
-<li><a class="" href="tidyquant.html"><span class="header-section-number">4</span> TidyQuant</a></li>
-<li><a class="" href="qualitytools.html"><span class="header-section-number">5</span> QualityTools</a></li>
-<li><a class="" href="referencias.html">Referencias</a></li>
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">UDC</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preámbulo</a></li>
+<li class="chapter" data-level="2" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html"><i class="fa fa-check"></i><b>2</b> (POO) Programación Orientada a Objetos</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#introducción"><i class="fa fa-check"></i><b>2.1</b> Introducción</a></li>
+<li class="chapter" data-level="2.2" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#sistemas-de-programación-orientada-a-objetos"><i class="fa fa-check"></i><b>2.2</b> Sistemas de programación orientada a objetos</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#paradigmas"><i class="fa fa-check"></i><b>2.2.1</b> Paradigmas</a></li>
+<li class="chapter" data-level="2.2.2" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#especificaciones-de-los-principales-sistemas-poo-en-r"><i class="fa fa-check"></i><b>2.2.2</b> Especificaciones de los principales sistemas POO en R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#tipos-de-bases"><i class="fa fa-check"></i><b>2.3</b> Tipos de bases</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#objetos-base-vs-objetos-oo"><i class="fa fa-check"></i><b>2.3.1</b> Objetos Base vs Objetos OO</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="r6.html"><a href="r6.html"><i class="fa fa-check"></i><b>3</b> R6</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="r6.html"><a href="r6.html#clases-y-métodos"><i class="fa fa-check"></i><b>3.1</b> Clases y métodos</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="r6.html"><a href="r6.html#encadenamiento-de-métodos"><i class="fa fa-check"></i><b>3.1.1</b> Encadenamiento de métodos</a></li>
+<li class="chapter" data-level="3.1.2" data-path="r6.html"><a href="r6.html#métodos-importantes"><i class="fa fa-check"></i><b>3.1.2</b> Métodos importantes</a></li>
+<li class="chapter" data-level="3.1.3" data-path="r6.html"><a href="r6.html#agregar-métodos-después-de-la-creación"><i class="fa fa-check"></i><b>3.1.3</b> Agregar métodos después de la creación</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="r6.html"><a href="r6.html#controles-de-acceso"><i class="fa fa-check"></i><b>3.2</b> Controles de Acceso</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="r6.html"><a href="r6.html#privacidad"><i class="fa fa-check"></i><b>3.2.1</b> Privacidad</a></li>
+<li class="chapter" data-level="3.2.2" data-path="r6.html"><a href="r6.html#campos-activos"><i class="fa fa-check"></i><b>3.2.2</b> Campos Activos</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="r6.html"><a href="r6.html#semántica-de-referencia"><i class="fa fa-check"></i><b>3.3</b> Semántica de referencia</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="r6.html"><a href="r6.html#razonamientos"><i class="fa fa-check"></i><b>3.3.1</b> Razonamientos</a></li>
+<li class="chapter" data-level="3.3.2" data-path="r6.html"><a href="r6.html#finalización"><i class="fa fa-check"></i><b>3.3.2</b> Finalización</a></li>
+<li class="chapter" data-level="3.3.3" data-path="r6.html"><a href="r6.html#campos-en-r6"><i class="fa fa-check"></i><b>3.3.3</b> Campos en R6</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="r6.html"><a href="r6.html#por-qué-r6"><i class="fa fa-check"></i><b>3.4</b> ¿Por qué R6?</a></li>
+<li class="chapter" data-level="3.5" data-path="r6.html"><a href="r6.html#ejercicios-prácticos"><i class="fa fa-check"></i><b>3.5</b> Ejercicios prácticos</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="tidyquant.html"><a href="tidyquant.html"><i class="fa fa-check"></i><b>4</b> TidyQuant</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="tidyquant.html"><a href="tidyquant.html#compatibilidad-de-funciones"><i class="fa fa-check"></i><b>4.1</b> Compatibilidad de funciones</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-zoo"><i class="fa fa-check"></i><b>4.1.1</b> Funcionalidad zoo</a></li>
+<li class="chapter" data-level="4.1.2" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-xts"><i class="fa fa-check"></i><b>4.1.2</b> Funcionalidad xts</a></li>
+<li class="chapter" data-level="4.1.3" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-quantmod"><i class="fa fa-check"></i><b>4.1.3</b> Funcionalidad quantmod</a></li>
+<li class="chapter" data-level="4.1.4" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-ttr"><i class="fa fa-check"></i><b>4.1.4</b> Funcionalidad TTR</a></li>
+<li class="chapter" data-level="4.1.5" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-performanceanalytics"><i class="fa fa-check"></i><b>4.1.5</b> Funcionalidad PerformanceAnalytics</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="tidyquant.html"><a href="tidyquant.html#poder-cuantitativo-en-acción"><i class="fa fa-check"></i><b>4.2</b> Poder Cuantitativo en Acción</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-1-utilizar-quantmod-periodreturn-para-convertir-precios-en-rentabilidad"><i class="fa fa-check"></i><b>4.2.1</b> Ejemplo 1: utilizar quantmod periodReturn para convertir precios en rentabilidad</a></li>
+<li class="chapter" data-level="4.2.2" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-2-utilice-xts-to.period-para-cambiar-la-periodicidad-de-diaria-a-mensual"><i class="fa fa-check"></i><b>4.2.2</b> Ejemplo 2: utilice xts to.period para cambiar la periodicidad de diaria a mensual</a></li>
+<li class="chapter" data-level="4.2.3" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-3-utilice-ttr-runcor-para-visualizar-correlaciones-continuas-de-rendimientos"><i class="fa fa-check"></i><b>4.2.3</b> Ejemplo 3: utilice TTR runCor para visualizar correlaciones continuas de rendimientos</a></li>
+<li class="chapter" data-level="4.2.4" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-4-utilizar-ttrmacd-para-visualizar-la-divergencia-y-convergencia-de-la-media-móvil"><i class="fa fa-check"></i><b>4.2.4</b> Ejemplo 4: utilizar TTR::MACD para visualizar la divergencia y convergencia de la media móvil</a></li>
+<li class="chapter" data-level="4.2.5" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-5-utilizar-xtsapply.quarterly-para-obtener-el-precio-máximo-y-mínimo-para-cada-trimestre"><i class="fa fa-check"></i><b>4.2.5</b> Ejemplo 5: utilizar xts::apply.quarterly para obtener el precio máximo y mínimo para cada trimestre</a></li>
+<li class="chapter" data-level="4.2.6" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-6-utilizar-zoorollapply-para-visualizar-una-regresión-continua"><i class="fa fa-check"></i><b>4.2.6</b> Ejemplo 6: utilizar zoo::rollapply para visualizar una regresión continua</a></li>
+<li class="chapter" data-level="4.2.7" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-7-utilizar-return.clean-y-return.excess-para-limpiar-y-calcular-el-exceso-de-rendimiento"><i class="fa fa-check"></i><b>4.2.7</b> Ejemplo 7: utilizar return.clean y return.excess para limpiar y calcular el exceso de rendimiento</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="qualitytools.html"><a href="qualitytools.html"><i class="fa fa-check"></i><b>5</b> QualityTools</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="qualitytools.html"><a href="qualitytools.html#fase-1-definir"><i class="fa fa-check"></i><b>5.1</b> Fase 1: Definir</a></li>
+<li class="chapter" data-level="5.2" data-path="qualitytools.html"><a href="qualitytools.html#fase-2-medir"><i class="fa fa-check"></i><b>5.2</b> Fase 2: Medir</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="qualitytools.html"><a href="qualitytools.html#capacidad-de-calibre---msa-tipo-i"><i class="fa fa-check"></i><b>5.2.1</b> Capacidad de calibre - MSA Tipo I</a></li>
+<li class="chapter" data-level="5.2.2" data-path="qualitytools.html"><a href="qualitytools.html#repetibilidad-y-reproducibidad-del-calibre---msa-tipo-ii"><i class="fa fa-check"></i><b>5.2.2</b> Repetibilidad y reproducibidad del calibre - MSA Tipo II</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="qualitytools.html"><a href="qualitytools.html#fase-3-analizar"><i class="fa fa-check"></i><b>5.3</b> Fase 3: Analizar</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="qualitytools.html"><a href="qualitytools.html#capacidad-del-proceso"><i class="fa fa-check"></i><b>5.3.1</b> Capacidad del Proceso</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="qualitytools.html"><a href="qualitytools.html#fase-4-mejorar"><i class="fa fa-check"></i><b>5.4</b> Fase 4: Mejorar</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="qualitytools.html"><a href="qualitytools.html#diseños-factoriales-2k"><i class="fa fa-check"></i><b>5.4.1</b> Diseños factoriales <span class="math inline">\(2^{k}\)</span></a></li>
+<li class="chapter" data-level="5.4.2" data-path="qualitytools.html"><a href="qualitytools.html#diseños-factoriales-fraccionarios-2k-p"><i class="fa fa-check"></i><b>5.4.2</b> Diseños factoriales fraccionarios <span class="math inline">\(2^{k-p}\)</span></a></li>
+<li class="chapter" data-level="5.4.3" data-path="qualitytools.html"><a href="qualitytools.html#diseños-replicados-y-puntos-centrales"><i class="fa fa-check"></i><b>5.4.3</b> Diseños replicados y puntos centrales</a></li>
+<li class="chapter" data-level="5.4.4" data-path="qualitytools.html"><a href="qualitytools.html#respuestas-múltiples"><i class="fa fa-check"></i><b>5.4.4</b> Respuestas múltiples</a></li>
+<li class="chapter" data-level="5.4.5" data-path="qualitytools.html"><a href="qualitytools.html#pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado"><i class="fa fa-check"></i><b>5.4.5</b> Pasar a un entorno de proceso con un mayor rendimiento esperado</a></li>
+<li class="chapter" data-level="5.4.6" data-path="qualitytools.html"><a href="qualitytools.html#diseños-de-superficies-de-respuesta"><i class="fa fa-check"></i><b>5.4.6</b> Diseños de superficies de respuesta</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="qualitytools.html"><a href="qualitytools.html#deseabilidades"><i class="fa fa-check"></i><b>5.5</b> Deseabilidades</a></li>
+<li class="chapter" data-level="5.6" data-path="qualitytools.html"><a href="qualitytools.html#utilización-de-deseabilidades-junto-con-experimentos-diseñados"><i class="fa fa-check"></i><b>5.6</b> Utilización de deseabilidades junto con experimentos diseñados</a></li>
+<li class="chapter" data-level="5.7" data-path="qualitytools.html"><a href="qualitytools.html#diseños-taguchi"><i class="fa fa-check"></i><b>5.7</b> Diseños Taguchi</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
 </ul>
 
-        <div class="book-extra">
-          
-        </div>
       </nav>
-</div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="poo-programación-orientada-a-objetos" class="section level1" number="2">
-<h1>
-<span class="header-section-number">Capítulo 2</span> (POO) Programación Orientada a Objetos<a class="anchor" aria-label="anchor" href="#poo-programaci%C3%B3n-orientada-a-objetos"><i class="fas fa-link"></i></a>
-</h1>
-<div id="introducción" class="section level2" number="2.1">
-<h2>
-<span class="header-section-number">2.1</span> Introducción<a class="anchor" aria-label="anchor" href="#introducci%C3%B3n"><i class="fas fa-link"></i></a>
-</h2>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Integración del Paquete QualityTools con Tidyverse</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="poo-programación-orientada-a-objetos" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Capítulo 2</span> (POO) Programación Orientada a Objetos<a href="poo-programación-orientada-a-objetos.html#poo-programación-orientada-a-objetos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introducción" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Introducción<a href="poo-programación-orientada-a-objetos.html#introducción" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>En primer lugar debemos tener en mente que la POO en R presenta ciertos desafíos en comparación con otros lenguajes esto debido a :</p>
 <ul>
 <li><p>La presencia de más de un sistema de OOP para elegir. Dentro de los más importantes tenemos : S3, R6 y S4. Donde S3 y S4 vienen en R base y R6 en el paquete con la misma denominación</p></li>
@@ -77,41 +264,34 @@
 </ul>
 <p>En resumen la programación orientada a objetos (POO) en R presenta sus desafíos únicos debido a la presencia de múltiples sistemas y desacuerdos sobre su importancia relativa donde también es fundamental tener idea de sus aplicaciones y razones para aprender cada uno, aunque su uso efectivo puede ser complejo y requiere un tratamiento más detallado.</p>
 </div>
-<div id="sistemas-de-programación-orientada-a-objetos" class="section level2" number="2.2">
-<h2>
-<span class="header-section-number">2.2</span> Sistemas de programación orientada a objetos<a class="anchor" aria-label="anchor" href="#sistemas-de-programaci%C3%B3n-orientada-a-objetos"><i class="fas fa-link"></i></a>
-</h2>
+<div id="sistemas-de-programación-orientada-a-objetos" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Sistemas de programación orientada a objetos<a href="poo-programación-orientada-a-objetos.html#sistemas-de-programación-orientada-a-objetos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La principal razón para utilizar la POO es el polimorfismo. El polimorfismo significa que un programador puede considerar la interfaz de una función separadamente de su implementación, lo cual hace posible usar la misma forma de función para diferentes tipos de entrada.Esto está estrechamente relacionado con la idea de encapsulación: el usuario no necesita preocuparse por los detalles de un objeto porque están encapsulados tras una interfaz estándar.</p>
 <p>Para ejemplificar esta idea, el polimorfismo es lo que permite a summary() producir diferentes salidas para diferentes entradas:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Utilizamos el dataframe diamonds</span></span>
-<span><span class="va">diamonds</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="va"><a href="https://ggplot2.tidyverse.org/reference/diamonds.html">diamonds</a></span></span>
-<span><span class="co">#carat: variable cuantitativa</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">diamonds</span><span class="op">$</span><span class="va">carat</span><span class="op">)</span></span>
-<span><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span><span class="co">##  0.2000  0.4000  0.7000  0.7979  1.0400  5.0100</span></span>
-<span><span class="co">#cut: Variable cualitativa</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">diamonds</span><span class="op">$</span><span class="va">cut</span><span class="op">)</span></span>
-<span><span class="co">##      Fair      Good Very Good   Premium     Ideal </span></span>
-<span><span class="co">##      1610      4906     12082     13791     21551</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="poo-programación-orientada-a-objetos.html#cb1-1" tabindex="-1"></a><span class="co">#Utilizamos el dataframe diamonds</span></span>
+<span id="cb1-2"><a href="poo-programación-orientada-a-objetos.html#cb1-2" tabindex="-1"></a>diamonds <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span>diamonds</span>
+<span id="cb1-3"><a href="poo-programación-orientada-a-objetos.html#cb1-3" tabindex="-1"></a><span class="co">#carat: variable cuantitativa</span></span>
+<span id="cb1-4"><a href="poo-programación-orientada-a-objetos.html#cb1-4" tabindex="-1"></a><span class="fu">summary</span>(diamonds<span class="sc">$</span>carat)</span>
+<span id="cb1-5"><a href="poo-programación-orientada-a-objetos.html#cb1-5" tabindex="-1"></a><span class="do">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb1-6"><a href="poo-programación-orientada-a-objetos.html#cb1-6" tabindex="-1"></a><span class="do">##  0.2000  0.4000  0.7000  0.7979  1.0400  5.0100</span></span>
+<span id="cb1-7"><a href="poo-programación-orientada-a-objetos.html#cb1-7" tabindex="-1"></a><span class="co">#cut: Variable cualitativa</span></span>
+<span id="cb1-8"><a href="poo-programación-orientada-a-objetos.html#cb1-8" tabindex="-1"></a><span class="fu">summary</span>(diamonds<span class="sc">$</span>cut)</span>
+<span id="cb1-9"><a href="poo-programación-orientada-a-objetos.html#cb1-9" tabindex="-1"></a><span class="do">##      Fair      Good Very Good   Premium     Ideal </span></span>
+<span id="cb1-10"><a href="poo-programación-orientada-a-objetos.html#cb1-10" tabindex="-1"></a><span class="do">##      1610      4906     12082     13791     21551</span></span></code></pre></div>
 <p>Esto no implica que summary() contenga una serie if-else para cada caso.</p>
 <p>Los sistemas de POO llaman clase a lo que define que es un objeto y los métodos describen lo que ese objeto puede hacer. La clase define los campos, los datos que posee cada instancia de esa clase. Las clases se organizan en una jerarquía de forma que si un método no existe para una clase, se utiliza el método de su padre, y se dice que el hijo hereda el comportamiento. Por ejemplo, en R, un factor ordenado hereda de un factor regular, y un modelo lineal generalizado hereda de un modelo lineal. El proceso de encontrar el método correcto dada una clase se denomina despacho del método.</p>
 <center>
-<div class="inline-figure"><img src="graficasR6/clasesherencia.jpg"></div>
-<img src="graficasR6/ejemploherencia.jpg">
+<p><img src="graficasR6/clasesherencia.jpg" /></p>
+<img src="graficasR6/ejemploherencia.jpg" />
 </center>
-<div id="paradigmas" class="section level3" number="2.2.1">
-<h3>
-<span class="header-section-number">2.2.1</span> Paradigmas<a class="anchor" aria-label="anchor" href="#paradigmas"><i class="fas fa-link"></i></a>
-</h3>
+<div id="paradigmas" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Paradigmas<a href="poo-programación-orientada-a-objetos.html#paradigmas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Existen dos paradigmas principales de POO : encapsulado y funcional:</p>
 <p>En la <strong>POO encapsulada</strong>, los métodos pertenecen a objetos o clases, y las llamadas a métodos suelen tener el aspecto de object.method(arg1, arg2). Se denomina encapsulada porque el objeto encapsula tanto los datos (con campos) como el comportamiento (con métodos), y es el paradigma que se encuentra en los lenguajes más populares.</p>
 <p>En la <strong>POO funcional</strong>, los métodos pertenecen a funciones genéricas, y las llamadas a métodos parecen llamadas a funciones ordinarias: generic(object, arg2, arg3). Esto se llama funcional porque desde fuera parece una llamada a una función normal, e internamente los componentes también son funciones.</p>
 </div>
-<div id="especificaciones-de-los-principales-sistemas-poo-en-r" class="section level3" number="2.2.2">
-<h3>
-<span class="header-section-number">2.2.2</span> Especificaciones de los principales sistemas POO en R<a class="anchor" aria-label="anchor" href="#especificaciones-de-los-principales-sistemas-poo-en-r"><i class="fas fa-link"></i></a>
-</h3>
+<div id="especificaciones-de-los-principales-sistemas-poo-en-r" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Especificaciones de los principales sistemas POO en R<a href="poo-programación-orientada-a-objetos.html#especificaciones-de-los-principales-sistemas-poo-en-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Sistemas OOP del R base: S3, S4 y RC :</p>
 <p><strong>S3</strong> es el primer sistema POO de R, el cual es una implementación informal de POO funcional y se basa en convenciones comunes en lugar de garantías férreas. Esto hace que sea fácil empezar a trabajar con él, proporcionando una forma de óptima de resolver muchos problemas sencillos.</p>
 <p><strong>S4</strong> es una reescritura formal y rigurosa de S3, esta requiere más trabajo inicial que S3, pero a cambio proporciona más garantías y una mayor encapsulación. S4 se implementa en el paquete de métodos base, que siempre se instala con R.</p>
@@ -120,63 +300,58 @@
 <p><strong>R6</strong> implementa POO encapsulada como RC, pero resuelve algunos problemas importantes.Mas adelante se aprenderá a detalle sobre el uso R6 .</p>
 </div>
 </div>
-<div id="tipos-de-bases" class="section level2" number="2.3">
-<h2>
-<span class="header-section-number">2.3</span> Tipos de bases<a class="anchor" aria-label="anchor" href="#tipos-de-bases"><i class="fas fa-link"></i></a>
-</h2>
+<div id="tipos-de-bases" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Tipos de bases<a href="poo-programación-orientada-a-objetos.html#tipos-de-bases" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Para tratar el tema de objetos y POO en R, en primer lugar se tiene que aclarar la confusión entre los usos de la palabra “objeto”.Por lo general se piensa que “Todo lo que existe en R es un objeto”, sin embargo, aunque todo es un objeto, no todo está orientado a objetos. Esta confusión surge porque los objetos base proceden de S, y se desarrollaron antes de que nadie pensara que S podría necesitar un sistema POO.</p>
 <p>Los términos que se usan para diferenciar los dos tipos de objeto son: <strong>objetos base y objetos OO para distinguirlos.</strong></p>
-<div id="objetos-base-vs-objetos-oo" class="section level3" number="2.3.1">
-<h3>
-<span class="header-section-number">2.3.1</span> Objetos Base vs Objetos OO<a class="anchor" aria-label="anchor" href="#objetos-base-vs-objetos-oo"><i class="fas fa-link"></i></a>
-</h3>
+<div id="objetos-base-vs-objetos-oo" class="section level3 hasAnchor" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Objetos Base vs Objetos OO<a href="poo-programación-orientada-a-objetos.html#objetos-base-vs-objetos-oo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Para diferenciar entre un objeto base y uno OO, se utiliza is.object() o sloop::otype()</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co">#EJEMPLO 1</span></span>
-<span><span class="co"># UN OBJETO BASE:</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/is.object.html">is.object</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
-<span><span class="co">## [1] FALSE</span></span>
-<span></span>
-<span><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
-<span><span class="co">## [1] "base"</span></span>
-<span></span>
-<span><span class="co"># Utilizamos el dataframe mtcars</span></span>
-<span></span>
-<span><span class="co"># UN OBJETO OO</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/is.object.html">is.object</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
-<span><span class="co">## [1] TRUE</span></span>
-<span></span>
-<span><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
-<span><span class="co">## [1] "S3"</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="poo-programación-orientada-a-objetos.html#cb2-1" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="poo-programación-orientada-a-objetos.html#cb2-2" tabindex="-1"></a><span class="co">#EJEMPLO 1</span></span>
+<span id="cb2-3"><a href="poo-programación-orientada-a-objetos.html#cb2-3" tabindex="-1"></a><span class="co"># UN OBJETO BASE:</span></span>
+<span id="cb2-4"><a href="poo-programación-orientada-a-objetos.html#cb2-4" tabindex="-1"></a><span class="fu">is.object</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb2-5"><a href="poo-programación-orientada-a-objetos.html#cb2-5" tabindex="-1"></a><span class="do">## [1] FALSE</span></span>
+<span id="cb2-6"><a href="poo-programación-orientada-a-objetos.html#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="poo-programación-orientada-a-objetos.html#cb2-7" tabindex="-1"></a>sloop<span class="sc">::</span><span class="fu">otype</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb2-8"><a href="poo-programación-orientada-a-objetos.html#cb2-8" tabindex="-1"></a><span class="do">## [1] &quot;base&quot;</span></span>
+<span id="cb2-9"><a href="poo-programación-orientada-a-objetos.html#cb2-9" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="poo-programación-orientada-a-objetos.html#cb2-10" tabindex="-1"></a><span class="co"># Utilizamos el dataframe mtcars</span></span>
+<span id="cb2-11"><a href="poo-programación-orientada-a-objetos.html#cb2-11" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="poo-programación-orientada-a-objetos.html#cb2-12" tabindex="-1"></a><span class="co"># UN OBJETO OO</span></span>
+<span id="cb2-13"><a href="poo-programación-orientada-a-objetos.html#cb2-13" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="poo-programación-orientada-a-objetos.html#cb2-14" tabindex="-1"></a><span class="fu">is.object</span>(mtcars)</span>
+<span id="cb2-15"><a href="poo-programación-orientada-a-objetos.html#cb2-15" tabindex="-1"></a><span class="do">## [1] TRUE</span></span>
+<span id="cb2-16"><a href="poo-programación-orientada-a-objetos.html#cb2-16" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="poo-programación-orientada-a-objetos.html#cb2-17" tabindex="-1"></a>sloop<span class="sc">::</span><span class="fu">otype</span>(mtcars)</span>
+<span id="cb2-18"><a href="poo-programación-orientada-a-objetos.html#cb2-18" tabindex="-1"></a><span class="do">## [1] &quot;S3&quot;</span></span></code></pre></div>
 <p>Para diferenciarlos también se puede tomar en cuenta que solo los objetos OO tienen el atributo “<strong>class</strong>”</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Objeto base</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="st">"class"</span><span class="op">)</span></span>
-<span><span class="co">## NULL</span></span>
-<span></span>
-<span></span>
-<span><span class="co">#Objeto OO</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"class"</span><span class="op">)</span></span>
-<span><span class="co">## [1] "data.frame"</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="poo-programación-orientada-a-objetos.html#cb3-1" tabindex="-1"></a><span class="co">#Objeto base</span></span>
+<span id="cb3-2"><a href="poo-programación-orientada-a-objetos.html#cb3-2" tabindex="-1"></a><span class="fu">attr</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="st">&quot;class&quot;</span>)</span>
+<span id="cb3-3"><a href="poo-programación-orientada-a-objetos.html#cb3-3" tabindex="-1"></a><span class="do">## NULL</span></span>
+<span id="cb3-4"><a href="poo-programación-orientada-a-objetos.html#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="poo-programación-orientada-a-objetos.html#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="poo-programación-orientada-a-objetos.html#cb3-6" tabindex="-1"></a><span class="co">#Objeto OO</span></span>
+<span id="cb3-7"><a href="poo-programación-orientada-a-objetos.html#cb3-7" tabindex="-1"></a><span class="fu">attr</span>(mtcars, <span class="st">&quot;class&quot;</span>)</span>
+<span id="cb3-8"><a href="poo-programación-orientada-a-objetos.html#cb3-8" tabindex="-1"></a><span class="do">## [1] &quot;data.frame&quot;</span></span></code></pre></div>
 <p>por otro lado cada objeto tiene un <strong>base type</strong>:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Objeto Base</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
-<span><span class="co">## [1] "integer"</span></span>
-<span></span>
-<span></span>
-<span><span class="co">#Objeto OO</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
-<span><span class="co">## [1] "list"</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="poo-programación-orientada-a-objetos.html#cb4-1" tabindex="-1"></a><span class="co">#Objeto Base</span></span>
+<span id="cb4-2"><a href="poo-programación-orientada-a-objetos.html#cb4-2" tabindex="-1"></a><span class="fu">typeof</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb4-3"><a href="poo-programación-orientada-a-objetos.html#cb4-3" tabindex="-1"></a><span class="do">## [1] &quot;integer&quot;</span></span>
+<span id="cb4-4"><a href="poo-programación-orientada-a-objetos.html#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="poo-programación-orientada-a-objetos.html#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="poo-programación-orientada-a-objetos.html#cb4-6" tabindex="-1"></a><span class="co">#Objeto OO</span></span>
+<span id="cb4-7"><a href="poo-programación-orientada-a-objetos.html#cb4-7" tabindex="-1"></a><span class="fu">typeof</span>(mtcars)</span>
+<span id="cb4-8"><a href="poo-programación-orientada-a-objetos.html#cb4-8" tabindex="-1"></a><span class="do">## [1] &quot;list&quot;</span></span></code></pre></div>
 <p>En total, hay 25 tipos de bases <strong>base type</strong> diferentes.Estos tipos son más importantes en código C, por lo que a menudo se verán llamados por sus nombres de tipo C (estos se encuentran en paréntesis). Los presentamos a continuación</p>
 <p><strong>Para vectores</strong> tenemos los tipos :</p>
-<div class="inline-table"><table class="table table-sm">
-<thead><tr class="header">
+<table>
+<thead>
+<tr class="header">
 <th>Tipo</th>
 <th>Descripción</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td>NULL (NILSXP)</td>
@@ -211,29 +386,30 @@
 <td>Tipo de datos binarios</td>
 </tr>
 </tbody>
-</table></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#EJEMPLOS</span></span>
-<span></span>
-<span><span class="co">#NULL</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
-<span><span class="co">## [1] "NULL"</span></span>
-<span></span>
-<span></span>
-<span><span class="co">#integer</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fl">1L</span><span class="op">)</span></span>
-<span><span class="co">## [1] "integer"</span></span>
-<span></span>
-<span></span>
-<span><span class="co">#COMPLEX</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fl">1i</span><span class="op">)</span></span>
-<span><span class="co">## [1] "complex"</span></span></code></pre></div>
+</table>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="poo-programación-orientada-a-objetos.html#cb5-1" tabindex="-1"></a><span class="co">#EJEMPLOS</span></span>
+<span id="cb5-2"><a href="poo-programación-orientada-a-objetos.html#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="poo-programación-orientada-a-objetos.html#cb5-3" tabindex="-1"></a><span class="co">#NULL</span></span>
+<span id="cb5-4"><a href="poo-programación-orientada-a-objetos.html#cb5-4" tabindex="-1"></a><span class="fu">typeof</span>(<span class="cn">NULL</span>)</span>
+<span id="cb5-5"><a href="poo-programación-orientada-a-objetos.html#cb5-5" tabindex="-1"></a><span class="do">## [1] &quot;NULL&quot;</span></span>
+<span id="cb5-6"><a href="poo-programación-orientada-a-objetos.html#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="poo-programación-orientada-a-objetos.html#cb5-7" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="poo-programación-orientada-a-objetos.html#cb5-8" tabindex="-1"></a><span class="co">#integer</span></span>
+<span id="cb5-9"><a href="poo-programación-orientada-a-objetos.html#cb5-9" tabindex="-1"></a><span class="fu">typeof</span>(1L)</span>
+<span id="cb5-10"><a href="poo-programación-orientada-a-objetos.html#cb5-10" tabindex="-1"></a><span class="do">## [1] &quot;integer&quot;</span></span>
+<span id="cb5-11"><a href="poo-programación-orientada-a-objetos.html#cb5-11" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="poo-programación-orientada-a-objetos.html#cb5-12" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="poo-programación-orientada-a-objetos.html#cb5-13" tabindex="-1"></a><span class="co">#COMPLEX</span></span>
+<span id="cb5-14"><a href="poo-programación-orientada-a-objetos.html#cb5-14" tabindex="-1"></a><span class="fu">typeof</span>(1i)</span>
+<span id="cb5-15"><a href="poo-programación-orientada-a-objetos.html#cb5-15" tabindex="-1"></a><span class="do">## [1] &quot;complex&quot;</span></span></code></pre></div>
 <p><strong>Para funciones</strong> :</p>
-<div class="inline-table"><table class="table table-sm">
-<thead><tr class="header">
+<table>
+<thead>
+<tr class="header">
 <th>Tipo</th>
 <th>Descripción</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td>closure (CLOSXP)</td>
@@ -248,33 +424,33 @@
 <td>Funciones primitivas de R</td>
 </tr>
 </tbody>
-</table></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Ejemplos</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span> <span class="co">#closure</span></span>
-<span><span class="co">## [1] "closure"</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">`[`</span><span class="op">)</span> <span class="co">#special</span></span>
-<span><span class="co">## [1] "special"</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">sum</span><span class="op">)</span> <span class="co">#builtin</span></span>
-<span><span class="co">## [1] "builtin"</span></span></code></pre></div>
+</table>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="poo-programación-orientada-a-objetos.html#cb6-1" tabindex="-1"></a><span class="co">#Ejemplos</span></span>
+<span id="cb6-2"><a href="poo-programación-orientada-a-objetos.html#cb6-2" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="poo-programación-orientada-a-objetos.html#cb6-3" tabindex="-1"></a><span class="fu">typeof</span>(mean) <span class="co">#closure</span></span>
+<span id="cb6-4"><a href="poo-programación-orientada-a-objetos.html#cb6-4" tabindex="-1"></a><span class="do">## [1] &quot;closure&quot;</span></span>
+<span id="cb6-5"><a href="poo-programación-orientada-a-objetos.html#cb6-5" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="poo-programación-orientada-a-objetos.html#cb6-6" tabindex="-1"></a><span class="fu">typeof</span>(<span class="st">`</span><span class="at">[</span><span class="st">`</span>) <span class="co">#special</span></span>
+<span id="cb6-7"><a href="poo-programación-orientada-a-objetos.html#cb6-7" tabindex="-1"></a><span class="do">## [1] &quot;special&quot;</span></span>
+<span id="cb6-8"><a href="poo-programación-orientada-a-objetos.html#cb6-8" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="poo-programación-orientada-a-objetos.html#cb6-9" tabindex="-1"></a><span class="fu">typeof</span>(sum) <span class="co">#builtin</span></span>
+<span id="cb6-10"><a href="poo-programación-orientada-a-objetos.html#cb6-10" tabindex="-1"></a><span class="do">## [1] &quot;builtin&quot;</span></span></code></pre></div>
 <p><strong>Para Entornos :</strong> environment (ENVSXP).</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Ejemplos</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/environment.html">globalenv</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">## [1] "environment"</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="poo-programación-orientada-a-objetos.html#cb7-1" tabindex="-1"></a><span class="co">#Ejemplos</span></span>
+<span id="cb7-2"><a href="poo-programación-orientada-a-objetos.html#cb7-2" tabindex="-1"></a><span class="fu">typeof</span>(<span class="fu">globalenv</span>())</span>
+<span id="cb7-3"><a href="poo-programación-orientada-a-objetos.html#cb7-3" tabindex="-1"></a><span class="do">## [1] &quot;environment&quot;</span></span></code></pre></div>
 <p><strong>Para Componentes de Lenguaje :</strong> incluyen</p>
-<div class="inline-table"><table class="table table-sm">
+<table>
 <colgroup>
-<col width="31%">
-<col width="68%">
+<col width="31%" />
+<col width="68%" />
 </colgroup>
-<thead><tr class="header">
+<thead>
+<tr class="header">
 <th>Tipo</th>
 <th>Información extra</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td>symbol (SYMSXP)</td>
@@ -289,101 +465,117 @@
 <td>Utilizado para los argumentos de funciones</td>
 </tr>
 </tbody>
-</table></div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Ejemplos</span></span>
-<span></span>
-<span><span class="co"># "symbol"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html">quote</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">## [1] "symbol"</span></span>
-<span></span>
-<span><span class="co">#"language"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html">quote</a></span><span class="op">(</span><span class="va">a</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">## [1] "language"</span></span>
-<span></span>
-<span><span class="co">#"pairlist"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/formals.html">formals</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">## [1] "pairlist"</span></span></code></pre></div>
+</table>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="poo-programación-orientada-a-objetos.html#cb8-1" tabindex="-1"></a><span class="co">#Ejemplos</span></span>
+<span id="cb8-2"><a href="poo-programación-orientada-a-objetos.html#cb8-2" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="poo-programación-orientada-a-objetos.html#cb8-3" tabindex="-1"></a><span class="co"># &quot;symbol&quot;</span></span>
+<span id="cb8-4"><a href="poo-programación-orientada-a-objetos.html#cb8-4" tabindex="-1"></a><span class="fu">typeof</span>(<span class="fu">quote</span>(a))</span>
+<span id="cb8-5"><a href="poo-programación-orientada-a-objetos.html#cb8-5" tabindex="-1"></a><span class="do">## [1] &quot;symbol&quot;</span></span>
+<span id="cb8-6"><a href="poo-programación-orientada-a-objetos.html#cb8-6" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="poo-programación-orientada-a-objetos.html#cb8-7" tabindex="-1"></a><span class="co">#&quot;language&quot;</span></span>
+<span id="cb8-8"><a href="poo-programación-orientada-a-objetos.html#cb8-8" tabindex="-1"></a><span class="fu">typeof</span>(<span class="fu">quote</span>(a <span class="sc">+</span> <span class="dv">1</span>))</span>
+<span id="cb8-9"><a href="poo-programación-orientada-a-objetos.html#cb8-9" tabindex="-1"></a><span class="do">## [1] &quot;language&quot;</span></span>
+<span id="cb8-10"><a href="poo-programación-orientada-a-objetos.html#cb8-10" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="poo-programación-orientada-a-objetos.html#cb8-11" tabindex="-1"></a><span class="co">#&quot;pairlist&quot;</span></span>
+<span id="cb8-12"><a href="poo-programación-orientada-a-objetos.html#cb8-12" tabindex="-1"></a><span class="fu">typeof</span>(<span class="fu">formals</span>(mean))</span>
+<span id="cb8-13"><a href="poo-programación-orientada-a-objetos.html#cb8-13" tabindex="-1"></a><span class="do">## [1] &quot;pairlist&quot;</span></span></code></pre></div>
 <p>Los tipos restantes son esotéricos y raramente vistos en R. Son importantes principalmente para el código C: externalptr (EXTPTRSXP), weakref (WEAKREFSXP), bytecode (BCODESXP), promise (PROMSXP), … (DOTSXP), and any (ANYSXP).</p>
 <p>Ahora hay que tener cuidado al momento de referirnos sobre los tipos númericos : <strong>numeric type</strong> , pues el tipo <strong>numeric</strong> en R suele utilizarce para referirse a 3 cosas ligeramentes distintas :</p>
 <ul>
-<li>En algunos lugares <strong>numeric</strong> se utiliza como alias del tipo double. Por ejemplo <code><a href="https://rdrr.io/r/base/numeric.html">as.numeric()</a></code> es idéntico a <code><a href="https://rdrr.io/r/base/double.html">as.double()</a></code>, y <code><a href="https://rdrr.io/r/base/numeric.html">numeric()</a></code> es idéntico a <code><a href="https://rdrr.io/r/base/double.html">double()</a></code>.</li>
+<li>En algunos lugares <strong>numeric</strong> se utiliza como alias del tipo double. Por ejemplo <code>as.numeric()</code> es idéntico a <code>as.double()</code>, y <code>numeric()</code> es idéntico a <code>double()</code>.</li>
 </ul>
 <p>(R también utiliza ocasionalmente real en lugar de double; <code>NA_real_</code> es el único lugar donde es probable encontrar esto en la práctica).</p>
 <ul>
 <li>En los sistemas S3 y S4, numeric se utiliza como una abreviatura para el tipo integer o double, y se utiliza cuando se seleccionan métodos:</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co">#EJEMPLOS</span></span>
-<span></span>
-<span><span class="co">#"double" "numeric"</span></span>
-<span><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/s3_class.html">s3_class</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">## [1] "double"  "numeric"</span></span>
-<span></span>
-<span><span class="co">#"integer" "numeric"</span></span>
-<span><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/s3_class.html">s3_class</a></span><span class="op">(</span><span class="fl">1L</span><span class="op">)</span></span>
-<span><span class="co">## [1] "integer" "numeric"</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="poo-programación-orientada-a-objetos.html#cb9-1" tabindex="-1"></a></span>
+<span id="cb9-2"><a href="poo-programación-orientada-a-objetos.html#cb9-2" tabindex="-1"></a><span class="co">#EJEMPLOS</span></span>
+<span id="cb9-3"><a href="poo-programación-orientada-a-objetos.html#cb9-3" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="poo-programación-orientada-a-objetos.html#cb9-4" tabindex="-1"></a><span class="co">#&quot;double&quot; &quot;numeric&quot;</span></span>
+<span id="cb9-5"><a href="poo-programación-orientada-a-objetos.html#cb9-5" tabindex="-1"></a>sloop<span class="sc">::</span><span class="fu">s3_class</span>(<span class="dv">1</span>)</span>
+<span id="cb9-6"><a href="poo-programación-orientada-a-objetos.html#cb9-6" tabindex="-1"></a><span class="do">## [1] &quot;double&quot;  &quot;numeric&quot;</span></span>
+<span id="cb9-7"><a href="poo-programación-orientada-a-objetos.html#cb9-7" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="poo-programación-orientada-a-objetos.html#cb9-8" tabindex="-1"></a><span class="co">#&quot;integer&quot; &quot;numeric&quot;</span></span>
+<span id="cb9-9"><a href="poo-programación-orientada-a-objetos.html#cb9-9" tabindex="-1"></a>sloop<span class="sc">::</span><span class="fu">s3_class</span>(1L)</span>
+<span id="cb9-10"><a href="poo-programación-orientada-a-objetos.html#cb9-10" tabindex="-1"></a><span class="do">## [1] &quot;integer&quot; &quot;numeric&quot;</span></span></code></pre></div>
 <ul>
-<li>
-<code><a href="https://rdrr.io/r/base/numeric.html">is.numeric()</a></code> comprueba so los objetos se comportan como números . Por ejemplo, los factores tienen tipo “entero” pero no se comportan como números (es decir, no tiene sentido tomar la media del factor).</li>
+<li><code>is.numeric()</code> comprueba so los objetos se comportan como números . Por ejemplo, los factores tienen tipo “entero” pero no se comportan como números (es decir, no tiene sentido tomar la media del factor).</li>
 </ul>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co">#Factor es tipo entero </span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">## [1] "integer"</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Pero NO SE COMPORTAN COMO ENTERO </span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">is.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">## [1] FALSE</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="poo-programación-orientada-a-objetos.html#cb10-1" tabindex="-1"></a></span>
+<span id="cb10-2"><a href="poo-programación-orientada-a-objetos.html#cb10-2" tabindex="-1"></a><span class="co">#Factor es tipo entero </span></span>
+<span id="cb10-3"><a href="poo-programación-orientada-a-objetos.html#cb10-3" tabindex="-1"></a><span class="fu">typeof</span>(<span class="fu">factor</span>(<span class="st">&quot;x&quot;</span>))</span>
+<span id="cb10-4"><a href="poo-programación-orientada-a-objetos.html#cb10-4" tabindex="-1"></a><span class="do">## [1] &quot;integer&quot;</span></span>
+<span id="cb10-5"><a href="poo-programación-orientada-a-objetos.html#cb10-5" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="poo-programación-orientada-a-objetos.html#cb10-6" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="poo-programación-orientada-a-objetos.html#cb10-7" tabindex="-1"></a><span class="co"># Pero NO SE COMPORTAN COMO ENTERO </span></span>
+<span id="cb10-8"><a href="poo-programación-orientada-a-objetos.html#cb10-8" tabindex="-1"></a><span class="fu">is.numeric</span>(<span class="fu">factor</span>(<span class="st">&quot;x&quot;</span>))</span>
+<span id="cb10-9"><a href="poo-programación-orientada-a-objetos.html#cb10-9" tabindex="-1"></a><span class="do">## [1] FALSE</span></span></code></pre></div>
 
 </div>
 </div>
 </div>
-  <div class="chapter-nav">
-<div class="prev"><a href="index.html"><span class="header-section-number">1</span> Preámbulo</a></div>
-<div class="next"><a href="r6.html"><span class="header-section-number">3</span> R6</a></div>
-</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#poo-programaci%C3%B3n-orientada-a-objetos"><span class="header-section-number">2</span> (POO) Programación Orientada a Objetos</a></li>
-<li><a class="nav-link" href="#introducci%C3%B3n"><span class="header-section-number">2.1</span> Introducción</a></li>
-<li>
-<a class="nav-link" href="#sistemas-de-programaci%C3%B3n-orientada-a-objetos"><span class="header-section-number">2.2</span> Sistemas de programación orientada a objetos</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#paradigmas"><span class="header-section-number">2.2.1</span> Paradigmas</a></li>
-<li><a class="nav-link" href="#especificaciones-de-los-principales-sistemas-poo-en-r"><span class="header-section-number">2.2.2</span> Especificaciones de los principales sistemas POO en R</a></li>
-</ul>
-</li>
-<li>
-<a class="nav-link" href="#tipos-de-bases"><span class="header-section-number">2.3</span> Tipos de bases</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#objetos-base-vs-objetos-oo"><span class="header-section-number">2.3.1</span> Objetos Base vs Objetos OO</a></li></ul>
-</li>
-</ul>
+            </section>
 
-      <div class="book-extra">
-        <ul class="list-unstyled">
-          
-        </ul>
-</div>
-    </nav>
-</div>
-
-</div>
-</div> <!-- .container -->
-
-<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
-
-  <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Integración del Paquete QualityTools con Tidyverse</strong>" was written by Miguel Flores, Andrea Barahona, Fabian Encarnación, Dario Quispe. It was last built on 2024-04-22.</p>
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="r6.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
   </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/Libro_TidyQualityTools/edit/master/01-POO.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Libro_TidyQualityTools.pdf", "Libro_TidyQualityTools.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
 
-  <div class="col-12 col-md-6 mt-3">
-    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
-  </div>
-
-</div></div>
-</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -395,22 +587,7 @@
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
-</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
-for (let popover of popovers) {
-  const div = document.createElement('div');
-  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
-  div.innerHTML = popover.getAttribute('data-content');
-
-  var has_math = div.querySelector("span.math");
-  if (has_math) {
-    document.body.appendChild(div);
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
-    MathJax.Hub.Queue(function() {
-      popover.setAttribute('data-content', div.innerHTML);
-      document.body.removeChild(div);
-    })
-  }
-}
 </script>
 </body>
+
 </html>

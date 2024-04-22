@@ -1,6 +1,10 @@
 --- 
 title: "Integración del Paquete QualityTools con Tidyverse"
-author: "Miguel Flores, Andrea Barahona, Fabian Encarnación, Dario Quispe"
+author:
+  - Miguel Flores
+  - Andrea Barahona
+  - Fabián Encarnación
+  - Dario Quishpe
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
