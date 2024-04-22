@@ -321,11 +321,11 @@
 <span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">Ran</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">random</span></span>
-<span><span class="co">## [1] 0.6326876</span></span>
+<span><span class="co">## [1] 0.6969519</span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">random</span></span>
-<span><span class="co">## [1] 0.5616656</span></span>
+<span><span class="co">## [1] 0.1266455</span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">random</span></span>
-<span><span class="co">## [1] 0.7290992</span></span></code></pre></div>
+<span><span class="co">## [1] 0.2837144</span></span></code></pre></div>
 <p>Los campos activos son usandos particularmente junto con el argumento de campos privamos, ya que esto hace posible implementar componentes similares a los campos pero con controles adicionales. Por ejemplo, podemos usar esto para crear un campo solo de lectura para <code>edad</code>, y para asegurarnos que <code>nombre</code> sea un vector de un solo caracter.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Persona</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://r6.r-lib.org/reference/R6Class.html">R6Class</a></span><span class="op">(</span><span class="st">"Person"</span>, </span>
@@ -664,11 +664,11 @@
 <span><span class="co">## [49] "J♥"  "Q♦"  "K♣"</span></span>
 <span><span class="va">mazo</span><span class="op">$</span><span class="fu">reshuffle</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">mazo</span><span class="op">$</span><span class="va">.cartas</span></span>
-<span><span class="co">##  [1] "2♣"  "3♣"  "5♦"  "9♦"  "3♠"  "2♠"  "6♠"  "A♣"  "K♠"  "3♦"  "K♣"  "5♣" </span></span>
-<span><span class="co">## [13] "4♣"  "J♣"  "10♠" "7♠"  "4♦"  "9♣"  "8♦"  "10♥" "9♥"  "A♠"  "Q♣"  "6♦" </span></span>
-<span><span class="co">## [25] "9♠"  "2♥"  "Q♠"  "10♣" "7♥"  "4♠"  "3♥"  "8♠"  "Q♦"  "10♦" "Q♥"  "A♦" </span></span>
-<span><span class="co">## [37] "7♦"  "K♦"  "8♣"  "2♦"  "5♥"  "4♥"  "J♦"  "6♣"  "A♥"  "J♥"  "8♥"  "5♠" </span></span>
-<span><span class="co">## [49] "7♣"  "6♥"  "K♥"  "J♠"</span></span></code></pre></div>
+<span><span class="co">##  [1] "2♠"  "9♦"  "2♣"  "4♦"  "3♠"  "8♥"  "3♣"  "9♠"  "K♠"  "7♦"  "K♣"  "J♠" </span></span>
+<span><span class="co">## [13] "10♠" "A♠"  "6♥"  "A♦"  "5♣"  "Q♦"  "K♥"  "K♦"  "4♠"  "Q♣"  "8♣"  "2♦" </span></span>
+<span><span class="co">## [25] "10♦" "A♣"  "7♥"  "4♥"  "6♦"  "Q♥"  "10♥" "10♣" "J♥"  "Q♠"  "5♦"  "2♥" </span></span>
+<span><span class="co">## [37] "6♠"  "7♣"  "8♠"  "J♦"  "3♦"  "J♣"  "6♣"  "8♦"  "9♣"  "3♥"  "5♠"  "9♥" </span></span>
+<span><span class="co">## [49] "4♣"  "7♠"  "A♥"  "5♥"</span></span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>Create an R6 class that allows you to get and set the current time zone. You can access the current time zone with <code><a href="https://rdrr.io/r/base/timezones.html">Sys.timezone()</a></code> and set it with <code>Sys.setenv(TZ = "newtimezone")</code>. When setting the time zone, make sure the new time zone is in the list provided by <code><a href="https://rdrr.io/r/base/timezones.html">OlsonNames()</a></code>.</li>
 </ol>
@@ -799,11 +799,11 @@
 <span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">Rando</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">random</span></span>
-<span><span class="co">## [1] 0.3342253</span></span>
+<span><span class="co">## [1] 0.2523844</span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">random</span></span>
-<span><span class="co">## [1] 0.2643556</span></span>
+<span><span class="co">## [1] 0.06705512</span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">previous</span></span>
-<span><span class="co">## [1] 0.2643556</span></span></code></pre></div>
+<span><span class="co">## [1] 0.06705512</span></span></code></pre></div>
 
 </div>
 </div>

@@ -840,11 +840,11 @@ Por ejemplo, creemos un campo activo llamado \texttt{random} que nos devuelva un
 \NormalTok{))}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Ran}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.7923997}
+\DocumentationTok{\#\# [1] 0.3889846}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.2899852}
+\DocumentationTok{\#\# [1] 0.807926}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.4831144}
+\DocumentationTok{\#\# [1] 0.05367466}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1265,11 +1265,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \DocumentationTok{\#\# [49] "J♥"  "Q♦"  "K♣"}
 \NormalTok{mazo}\SpecialCharTok{$}\FunctionTok{reshuffle}\NormalTok{()}
 \NormalTok{mazo}\SpecialCharTok{$}\NormalTok{.cartas}
-\DocumentationTok{\#\#  [1] "A♥"  "3♥"  "4♣"  "A♣"  "9♥"  "8♣"  "6♦"  "6♠"  "Q♥"  "K♥"  "7♥"  "K♣" }
-\DocumentationTok{\#\# [13] "4♥"  "7♠"  "5♥"  "2♥"  "2♠"  "K♦"  "7♦"  "A♦"  "6♣"  "5♦"  "8♦"  "J♣" }
-\DocumentationTok{\#\# [25] "9♦"  "Q♦"  "J♠"  "8♠"  "3♠"  "10♥" "A♠"  "3♣"  "9♠"  "4♠"  "10♣" "2♣" }
-\DocumentationTok{\#\# [37] "9♣"  "10♦" "7♣"  "K♠"  "J♦"  "2♦"  "4♦"  "Q♣"  "3♦"  "J♥"  "6♥"  "8♥" }
-\DocumentationTok{\#\# [49] "Q♠"  "5♣"  "10♠" "5♠"}
+\DocumentationTok{\#\#  [1] "10♥" "4♠"  "8♥"  "10♣" "A♦"  "A♠"  "2♦"  "6♠"  "3♠"  "8♦"  "J♦"  "6♣" }
+\DocumentationTok{\#\# [13] "10♠" "5♠"  "10♦" "7♦"  "9♣"  "3♥"  "3♦"  "5♥"  "A♣"  "K♥"  "7♠"  "K♠" }
+\DocumentationTok{\#\# [25] "7♥"  "Q♦"  "9♦"  "9♠"  "2♥"  "K♣"  "Q♠"  "5♦"  "2♣"  "K♦"  "6♦"  "A♥" }
+\DocumentationTok{\#\# [37] "4♦"  "6♥"  "2♠"  "7♣"  "3♣"  "J♣"  "5♣"  "8♠"  "J♠"  "9♥"  "4♣"  "Q♣" }
+\DocumentationTok{\#\# [49] "4♥"  "Q♥"  "J♥"  "8♣"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1440,11 +1440,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \NormalTok{)}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Rando}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.7733284}
+\DocumentationTok{\#\# [1] 0.8408287}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.368185}
+\DocumentationTok{\#\# [1] 0.3796349}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{previous}
-\DocumentationTok{\#\# [1] 0.368185}
+\DocumentationTok{\#\# [1] 0.3796349}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2303,13 +2303,13 @@ Se puede ver estadísticas de la relación a partir de la función \texttt{lm}:
 ## lm(formula = MA ~ V, data = rend_accion)
 ## 
 ## Residuals:
-##        Min         1Q     Median         3Q        Max 
-## -0.0269574 -0.0039656  0.0002154  0.0039651  0.0289460 
+##       Min        1Q    Median        3Q       Max 
+## -0.026958 -0.003965  0.000215  0.003965  0.028946 
 ## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(>|t|)    
 ## (Intercept) 0.0001130  0.0003097   0.365    0.715    
-## V           0.8133653  0.0226394  35.927   <2e-16 ***
+## V           0.8133647  0.0226393  35.927   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 

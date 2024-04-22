@@ -1,6 +1,6 @@
 
 # R6
-<div><img src='graficasr6/logo.svg' width="120" align="right"></div>
+<div><img src='graficasR6/logo.svg' width="120" align="right"></div>
 
 El sistema POO R6  se lo puede empezar analizando mediante sus dos propiedades especiales :
 
