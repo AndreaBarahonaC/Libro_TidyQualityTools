@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Capítulo 5 QualityTools | Integración del Paquete QualityTools con Tidyverse</title>
   <meta name="description" content="Capítulo 5 QualityTools | Integración del Paquete QualityTools con Tidyverse" />
-  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.38 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Capítulo 5 QualityTools | Integración del Paquete QualityTools con Tidyverse" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Miguel Flores, Andrea Barahona, Fabian Encarnación, Dario Quispe" />
 
 
-<meta name="date" content="2024-04-21" />
+<meta name="date" content="2024-04-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="tidyquant.html"/>
-<link rel="next" href="references.html"/>
+<link rel="next" href="referencias.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -222,7 +222,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="qualitytools.html"><a href="qualitytools.html#utilización-de-deseabilidades-junto-con-experimentos-diseñados"><i class="fa fa-check"></i><b>5.6</b> Utilización de deseabilidades junto con experimentos diseñados</a></li>
 <li class="chapter" data-level="5.7" data-path="qualitytools.html"><a href="qualitytools.html#diseños-taguchi"><i class="fa fa-check"></i><b>5.7</b> Diseños Taguchi</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -265,9 +265,9 @@ configuraciones o soluciones óptimas para un problema.</p></li>
 <p>La mayoría de las técnicas utilizadas en esta fase no están relacionadas con el uso sustancial de métodos estadísticos. Su objetivo es captar los conocimientos e ideas sobre el proceso involucrado, establecer un objetivo común y definir cómo cada parte contribuye a la solución.</p>
 <p>Una técnica de visualización clásica que se utiliza en esta fase y está disponible en el paquete QualityTools es el <strong>Diagrama de Pareto</strong>, que nos ayuda a separar las pocas causas vitales de las muchas causas triviales.</p>
 <p>Por ejemplo, en la causa más frecuente de un producto defectuoso, el diagrama de Pareto nos ayuda a visualizar cuánto contribuye una causa a un problema. Supongamos que una empresa está investigando unidades (productos) que no cumplen. 120 unidades fueron investigadas y se encontraron 6 tipos diferentes de defectos (datos cualitativos). Los defectos son denominados de A a F por fines prácticos.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="qualitytools.html#cb1-1" tabindex="-1"></a>defectos <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;E&quot;</span>,<span class="dv">62</span>),<span class="fu">rep</span>(<span class="st">&quot;B&quot;</span>,<span class="dv">15</span>),<span class="fu">rep</span>(<span class="st">&quot;F&quot;</span>,<span class="dv">3</span>),<span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>,<span class="dv">10</span>),<span class="fu">rep</span>(<span class="st">&quot;C&quot;</span>,<span class="dv">20</span>),<span class="fu">rep</span>(<span class="st">&quot;D&quot;</span>,<span class="dv">10</span>))</span>
-<span id="cb1-2"><a href="qualitytools.html#cb1-2" tabindex="-1"></a><span class="fu">paretoChart</span>(defectos)</span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="qualitytools.html#cb93-1" tabindex="-1"></a>defectos <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;E&quot;</span>,<span class="dv">62</span>),<span class="fu">rep</span>(<span class="st">&quot;B&quot;</span>,<span class="dv">15</span>),<span class="fu">rep</span>(<span class="st">&quot;F&quot;</span>,<span class="dv">3</span>),<span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>,<span class="dv">10</span>),<span class="fu">rep</span>(<span class="st">&quot;C&quot;</span>,<span class="dv">20</span>),<span class="fu">rep</span>(<span class="st">&quot;D&quot;</span>,<span class="dv">10</span>))</span>
+<span id="cb93-2"><a href="qualitytools.html#cb93-2" tabindex="-1"></a><span class="fu">paretoChart</span>(defectos)</span></code></pre></div>
+<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-79-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>En este diagrama de Pareto podría transmitir el mensaje de que para resolver el <span class="math inline">\(68\%\)</span> de los problemas, el <span class="math inline">\(33 \%\)</span> de las causas (menos vitales) necesitan ser objeto de investigación.</p>
 <p>Además de este uso, los diagramas de Pareto también se utilizan para visualizar los tamaños de efectos de los diferentes factores para los experimentos diseñados, a continución se muestra un ejemplo de una gráfica de errores de medición.</p>
 <center>
@@ -298,14 +298,14 @@ c_{gk} = \frac{0.1 \cdot (USL - LSL) - |x_m - x_g|}{3 \cdot s_g}
 t = \frac{diferencia de medias}{error estandar de la diferencia} = \frac{Dif}{s_{Dif}/\sqrt{n}}
 \]</span></p>
 <p>Además del sesgo y la desviación estándar, es importante comprobar el diagrama de ejecución de los valores de medición. Usando el paquete QualityTools, todo esto se logra fácilmente usando el método <code>cg</code>, su resultado se muestra a continuación:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="qualitytools.html#cb2-1" tabindex="-1"></a><span class="fu">library</span>(qualityTools)</span>
-<span id="cb2-2"><a href="qualitytools.html#cb2-2" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="qualitytools.html#cb2-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span> ( <span class="fl">9.991</span>, <span class="fl">10.013</span>, <span class="fl">10.001</span>, <span class="fl">10.007</span>, <span class="fl">10.010</span>, <span class="fl">10.013</span>, <span class="fl">10.008</span>, <span class="fl">10.017</span>, <span class="fl">10.005</span>, <span class="fl">10.005</span>, <span class="fl">10.002</span>,</span>
-<span id="cb2-4"><a href="qualitytools.html#cb2-4" tabindex="-1"></a>        <span class="fl">10.017</span>, <span class="fl">10.005</span>, <span class="fl">10.002</span>, <span class="fl">9.996</span>, <span class="fl">10.011</span>, <span class="fl">10.009</span> , <span class="fl">10.006</span>, <span class="fl">10.008</span>, <span class="fl">10.003</span>, <span class="fl">10.002</span>, <span class="fl">10.006</span>, </span>
-<span id="cb2-5"><a href="qualitytools.html#cb2-5" tabindex="-1"></a>        <span class="fl">10.010</span>, <span class="fl">9.992</span>, <span class="fl">10.013</span>)</span>
-<span id="cb2-6"><a href="qualitytools.html#cb2-6" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="qualitytools.html#cb2-7" tabindex="-1"></a><span class="fu">cg</span>(x, <span class="at">target =</span> <span class="fl">10.003</span>, <span class="at">tolerance =</span> <span class="fu">c</span>(<span class="fl">9.903</span>, <span class="fl">10.103</span>))</span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="qualitytools.html#cb94-1" tabindex="-1"></a><span class="fu">library</span>(qualityTools)</span>
+<span id="cb94-2"><a href="qualitytools.html#cb94-2" tabindex="-1"></a></span>
+<span id="cb94-3"><a href="qualitytools.html#cb94-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span> ( <span class="fl">9.991</span>, <span class="fl">10.013</span>, <span class="fl">10.001</span>, <span class="fl">10.007</span>, <span class="fl">10.010</span>, <span class="fl">10.013</span>, <span class="fl">10.008</span>, <span class="fl">10.017</span>, <span class="fl">10.005</span>, <span class="fl">10.005</span>, <span class="fl">10.002</span>,</span>
+<span id="cb94-4"><a href="qualitytools.html#cb94-4" tabindex="-1"></a>        <span class="fl">10.017</span>, <span class="fl">10.005</span>, <span class="fl">10.002</span>, <span class="fl">9.996</span>, <span class="fl">10.011</span>, <span class="fl">10.009</span> , <span class="fl">10.006</span>, <span class="fl">10.008</span>, <span class="fl">10.003</span>, <span class="fl">10.002</span>, <span class="fl">10.006</span>, </span>
+<span id="cb94-5"><a href="qualitytools.html#cb94-5" tabindex="-1"></a>        <span class="fl">10.010</span>, <span class="fl">9.992</span>, <span class="fl">10.013</span>)</span>
+<span id="cb94-6"><a href="qualitytools.html#cb94-6" tabindex="-1"></a></span>
+<span id="cb94-7"><a href="qualitytools.html#cb94-7" tabindex="-1"></a><span class="fu">cg</span>(x, <span class="at">target =</span> <span class="fl">10.003</span>, <span class="at">tolerance =</span> <span class="fu">c</span>(<span class="fl">9.903</span>, <span class="fl">10.103</span>))</span></code></pre></div>
+<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-80-1.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
 <div id="repetibilidad-y-reproducibidad-del-calibre---msa-tipo-ii" class="section level3 hasAnchor" number="5.2.2">
 <h3><span class="header-section-number">5.2.2</span> Repetibilidad y reproducibidad del calibre - MSA Tipo II<a href="qualitytools.html#repetibilidad-y-reproducibidad-del-calibre---msa-tipo-ii" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -322,16 +322,16 @@ t = \frac{diferencia de medias}{error estandar de la diferencia} = \frac{Dif}{s_
 </ul>
 <p>Ahora, supongamos que 3 operadores elegidos al azar midieron 10 unidades elegidas al azar. Cada operador midió cada unidad dos veces en un orden elegido al azar y las unidades no puedes distingirse entre si.</p>
 <p>El <em>Diseño R&amp;R del Calibre</em> correspondiente se puede crear utilizando el método <code>gageRRDesign</code> del paquete QualityTools, y las medidas se asignan a este diseño utilizando el método de respuesta, dados por <code>gageRR</code> y <code>plot</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="qualitytools.html#cb3-1" tabindex="-1"></a><span class="fu">library</span>(qualityTools)</span>
-<span id="cb3-2"><a href="qualitytools.html#cb3-2" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="qualitytools.html#cb3-3" tabindex="-1"></a><span class="co"># Crear un diseño R&amp;R de Calibre</span></span>
-<span id="cb3-4"><a href="qualitytools.html#cb3-4" tabindex="-1"></a>dis <span class="ot">&lt;-</span> <span class="fu">gageRRDesign</span>(<span class="at">Operators =</span> <span class="dv">3</span>, <span class="at">Parts =</span> <span class="dv">10</span>, <span class="at">Measurements =</span> <span class="dv">2</span>, <span class="at">randomize =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb3-5"><a href="qualitytools.html#cb3-5" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="qualitytools.html#cb3-6" tabindex="-1"></a><span class="co"># Establecemos las respuestas de medición</span></span>
-<span id="cb3-7"><a href="qualitytools.html#cb3-7" tabindex="-1"></a><span class="fu">response</span>(dis) <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">25</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">20</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">25</span>, <span class="dv">27</span>, <span class="dv">28</span>, <span class="dv">23</span>, <span class="dv">24</span>, <span class="dv">23</span>, <span class="dv">24</span>, <span class="dv">24</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">25</span>, <span class="dv">24</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">21</span>, <span class="dv">20</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">21</span>, <span class="dv">21</span>, <span class="dv">24</span>, <span class="dv">27</span>,  <span class="dv">25</span>, <span class="dv">27</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">25</span>, <span class="dv">23</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">25</span>, <span class="dv">21</span>, <span class="dv">24</span>, <span class="dv">23</span>)</span>
-<span id="cb3-8"><a href="qualitytools.html#cb3-8" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="qualitytools.html#cb3-9" tabindex="-1"></a><span class="co"># Realizamos Gage R&amp;R</span></span>
-<span id="cb3-10"><a href="qualitytools.html#cb3-10" tabindex="-1"></a>gdo <span class="ot">&lt;-</span> <span class="fu">gageRR_abc</span>(dis)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="qualitytools.html#cb95-1" tabindex="-1"></a><span class="fu">library</span>(qualityTools)</span>
+<span id="cb95-2"><a href="qualitytools.html#cb95-2" tabindex="-1"></a></span>
+<span id="cb95-3"><a href="qualitytools.html#cb95-3" tabindex="-1"></a><span class="co"># Crear un diseño R&amp;R de Calibre</span></span>
+<span id="cb95-4"><a href="qualitytools.html#cb95-4" tabindex="-1"></a>dis <span class="ot">&lt;-</span> <span class="fu">gageRRDesign</span>(<span class="at">Operators =</span> <span class="dv">3</span>, <span class="at">Parts =</span> <span class="dv">10</span>, <span class="at">Measurements =</span> <span class="dv">2</span>, <span class="at">randomize =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb95-5"><a href="qualitytools.html#cb95-5" tabindex="-1"></a></span>
+<span id="cb95-6"><a href="qualitytools.html#cb95-6" tabindex="-1"></a><span class="co"># Establecemos las respuestas de medición</span></span>
+<span id="cb95-7"><a href="qualitytools.html#cb95-7" tabindex="-1"></a><span class="fu">response</span>(dis) <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">25</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">20</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">25</span>, <span class="dv">27</span>, <span class="dv">28</span>, <span class="dv">23</span>, <span class="dv">24</span>, <span class="dv">23</span>, <span class="dv">24</span>, <span class="dv">24</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">25</span>, <span class="dv">24</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">21</span>, <span class="dv">20</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">21</span>, <span class="dv">21</span>, <span class="dv">24</span>, <span class="dv">27</span>,  <span class="dv">25</span>, <span class="dv">27</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">25</span>, <span class="dv">23</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">25</span>, <span class="dv">21</span>, <span class="dv">24</span>, <span class="dv">23</span>)</span>
+<span id="cb95-8"><a href="qualitytools.html#cb95-8" tabindex="-1"></a></span>
+<span id="cb95-9"><a href="qualitytools.html#cb95-9" tabindex="-1"></a><span class="co"># Realizamos Gage R&amp;R</span></span>
+<span id="cb95-10"><a href="qualitytools.html#cb95-10" tabindex="-1"></a>gdo <span class="ot">&lt;-</span> <span class="fu">gageRR_abc</span>(dis)</span></code></pre></div>
 <pre><code>## 
 ## AnOVa Table -  crossed Design
 ##               Df Sum Sq Mean Sq F value   Pr(&gt;F)    
@@ -366,9 +366,9 @@ t = \frac{diferencia de medias}{error estandar de la diferencia} = \frac{Dif}{s_
 ## ---
 ##  * Contrib equals Contribution in %
 ##  **Number of Distinct Categories (truncated signal-to-noise-ratio) = 1</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="qualitytools.html#cb5-1" tabindex="-1"></a><span class="co"># Visualización de Gage R&amp;R</span></span>
-<span id="cb5-2"><a href="qualitytools.html#cb5-2" tabindex="-1"></a><span class="fu">plot</span>(gdo)</span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="qualitytools.html#cb97-1" tabindex="-1"></a><span class="co"># Visualización de Gage R&amp;R</span></span>
+<span id="cb97-2"><a href="qualitytools.html#cb97-2" tabindex="-1"></a><span class="fu">plot</span>(gdo)</span></code></pre></div>
+<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-83-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>El diagrama de barras ofrece una representación visual de los componentes de la varianza. <code>totalRR</code> representa la repetibilidad y reproducibilidad totales. El <span class="math inline">\(48\%\)</span> de la variación se debe al <span class="math inline">\(35\%\)</span> de <em>repitibilidad</em>, es decir, variación del propio calibre, y al <span class="math inline">\(13\%\)</span> de reproducibilidad, es decir, efecto del operador y la interación entre el operador y la pieza.</p>
 <p>Se puede ver en la tabla Anova que no existe interacción entre piezas y operadores. El <span class="math inline">\(52\%\)</span> de la variación (columna <strong>VarCompContrib</strong>) se debe a diferencias entre las partes tomadas del proceso (variación inherente), que se puede ver en el gráfico <strong>Measurement by Part</strong>. La variación de las mediciones tomadas por un operador es aproximadamente igual para los tres operadores (<strong>Measurement by Operator</strong>), aunque el operador C parece producir valores que la mayoría de las veces son mayores que los valores de los otros operadores (<strong>Interaction Operator: Part</strong>).</p>
 <p>Además de esta interpretación de los resultados, en la industria se utilizan valores críticos para <strong>totalRR</strong>, también denominado en la industria como “GRR”. Sin embargo, un sistema de medición nunca debe juzgarse únicamente por sus valores críticos.</p>
@@ -435,29 +435,29 @@ c_{pkU} = \frac{USL - Q_{0.5}}{Q_{0.99865} - Q_{0.5}}
 <ol style="list-style-type: decimal">
 <li>Distribución Normal</li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="qualitytools.html#cb6-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb6-2"><a href="qualitytools.html#cb6-2" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">20</span>)</span>
-<span id="cb6-3"><a href="qualitytools.html#cb6-3" tabindex="-1"></a><span class="fu">pcr</span>(datos, <span class="st">&quot;normal&quot;</span>, <span class="at">lsl =</span> <span class="dv">17</span>, <span class="at">usl =</span> <span class="dv">23</span>)</span>
-<span id="cb6-4"><a href="qualitytools.html#cb6-4" tabindex="-1"></a><span class="do">## Error in round(x$statistic, 4): non-numeric argument to mathematical function</span></span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="qualitytools.html#cb98-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb98-2"><a href="qualitytools.html#cb98-2" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">20</span>)</span>
+<span id="cb98-3"><a href="qualitytools.html#cb98-3" tabindex="-1"></a><span class="fu">pcr</span>(datos, <span class="st">&quot;normal&quot;</span>, <span class="at">lsl =</span> <span class="dv">17</span>, <span class="at">usl =</span> <span class="dv">23</span>)</span>
+<span id="cb98-4"><a href="qualitytools.html#cb98-4" tabindex="-1"></a><span class="do">## Error in round(x$statistic, 4): non-numeric argument to mathematical function</span></span></code></pre></div>
+<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-85-1.png" width="672" style="display: block; margin: auto;" /></p>
 <ol start="2" style="list-style-type: decimal">
 <li>Distribución Weibull</li>
 </ol>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="qualitytools.html#cb7-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb7-2"><a href="qualitytools.html#cb7-2" tabindex="-1"></a>weib <span class="ot">&lt;-</span> <span class="fu">rweibull</span>(<span class="dv">20</span>, <span class="at">shape =</span> <span class="dv">2</span>, <span class="at">scale =</span> <span class="dv">8</span>)</span>
-<span id="cb7-3"><a href="qualitytools.html#cb7-3" tabindex="-1"></a><span class="fu">pcr</span>(weib, <span class="st">&quot;weibull&quot;</span>, <span class="at">usl =</span> <span class="dv">20</span>)</span>
-<span id="cb7-4"><a href="qualitytools.html#cb7-4" tabindex="-1"></a><span class="do">## Error in round(x$statistic, 4): non-numeric argument to mathematical function</span></span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="qualitytools.html#cb99-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb99-2"><a href="qualitytools.html#cb99-2" tabindex="-1"></a>weib <span class="ot">&lt;-</span> <span class="fu">rweibull</span>(<span class="dv">20</span>, <span class="at">shape =</span> <span class="dv">2</span>, <span class="at">scale =</span> <span class="dv">8</span>)</span>
+<span id="cb99-3"><a href="qualitytools.html#cb99-3" tabindex="-1"></a><span class="fu">pcr</span>(weib, <span class="st">&quot;weibull&quot;</span>, <span class="at">usl =</span> <span class="dv">20</span>)</span>
+<span id="cb99-4"><a href="qualitytools.html#cb99-4" tabindex="-1"></a><span class="do">## Error in round(x$statistic, 4): non-numeric argument to mathematical function</span></span></code></pre></div>
+<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-86-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Junto con la representación gráfica se presenta un Test de Anderson Darling y se devuelve la distribución</p>
 <p><img src="graficos/AndersonDarling.png" /></p>
 <p>Los gráficos QQ-plot pueden obtenerse a partir del paquete QualityTools, de la siguiente forma:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="qualitytools.html#cb8-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb8-2"><a href="qualitytools.html#cb8-2" tabindex="-1"></a><span class="fu">qqPlot</span>(weib, <span class="st">&quot;weibull&quot;</span>); <span class="fu">qqPlot</span>(datos, <span class="st">&quot;normal&quot;</span>)</span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="qualitytools.html#cb100-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb100-2"><a href="qualitytools.html#cb100-2" tabindex="-1"></a><span class="fu">qqPlot</span>(weib, <span class="st">&quot;weibull&quot;</span>); <span class="fu">qqPlot</span>(datos, <span class="st">&quot;normal&quot;</span>)</span></code></pre></div>
+<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-87-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Y los gráficos de probabilidad se pueden calcular con la función ppPlot del mismo paquete, de la siguiente manera:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="qualitytools.html#cb9-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb9-2"><a href="qualitytools.html#cb9-2" tabindex="-1"></a><span class="fu">ppPlot</span>(weib, <span class="st">&quot;weibull&quot;</span>); <span class="fu">ppPlot</span>(datos, <span class="st">&quot;normal&quot;</span>)</span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="qualitytools.html#cb101-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb101-2"><a href="qualitytools.html#cb101-2" tabindex="-1"></a><span class="fu">ppPlot</span>(weib, <span class="st">&quot;weibull&quot;</span>); <span class="fu">ppPlot</span>(datos, <span class="st">&quot;normal&quot;</span>)</span></code></pre></div>
+<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-88-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="fase-4-mejorar" class="section level2 hasAnchor" number="5.4">
@@ -466,50 +466,50 @@ c_{pkU} = \frac{USL - Q_{0.5}}{Q_{0.99865} - Q_{0.5}}
 <h3><span class="header-section-number">5.4.1</span> Diseños factoriales <span class="math inline">\(2^{k}\)</span><a href="qualitytools.html#diseños-factoriales-2k" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>El método <code>facDesign</code> diseña un modelo de <em>k</em> factores y 2 combinaciones por factor, el cual es llamado <span class="math inline">\(2^k\)</span>.</p>
 <p>Supondremos un ejemplo de un proceso que tiene 5 factores A, B, C, D y E, de los cuales tres se consideran relevantes para el rendimiento del proceso (A, B y C).</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="qualitytools.html#cb10-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb10-2"><a href="qualitytools.html#cb10-2" tabindex="-1"></a>dfac <span class="ot">&lt;-</span> <span class="fu">facDesign</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="at">centerCube =</span> <span class="dv">4</span>)</span>
-<span id="cb10-3"><a href="qualitytools.html#cb10-3" tabindex="-1"></a><span class="fu">names</span>(dfac) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Facto 1&#39;</span>, <span class="st">&#39;Factor 2&#39;</span>, <span class="st">&#39;Factor 3&#39;</span>)</span>
-<span id="cb10-4"><a href="qualitytools.html#cb10-4" tabindex="-1"></a><span class="fu">lows</span>(df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">80</span>,<span class="dv">120</span>,<span class="dv">1</span>)</span>
-<span id="cb10-5"><a href="qualitytools.html#cb10-5" tabindex="-1"></a><span class="fu">highs</span>(fdo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">120</span>,<span class="dv">140</span>,<span class="dv">2</span>)</span>
-<span id="cb10-6"><a href="qualitytools.html#cb10-6" tabindex="-1"></a><span class="fu">summary</span>(dfac)</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="qualitytools.html#cb102-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb102-2"><a href="qualitytools.html#cb102-2" tabindex="-1"></a>dfac <span class="ot">&lt;-</span> <span class="fu">facDesign</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="at">centerCube =</span> <span class="dv">4</span>)</span>
+<span id="cb102-3"><a href="qualitytools.html#cb102-3" tabindex="-1"></a><span class="fu">names</span>(dfac) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Facto 1&#39;</span>, <span class="st">&#39;Factor 2&#39;</span>, <span class="st">&#39;Factor 3&#39;</span>)</span>
+<span id="cb102-4"><a href="qualitytools.html#cb102-4" tabindex="-1"></a><span class="fu">lows</span>(df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">80</span>,<span class="dv">120</span>,<span class="dv">1</span>)</span>
+<span id="cb102-5"><a href="qualitytools.html#cb102-5" tabindex="-1"></a><span class="fu">highs</span>(fdo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">120</span>,<span class="dv">140</span>,<span class="dv">2</span>)</span>
+<span id="cb102-6"><a href="qualitytools.html#cb102-6" tabindex="-1"></a><span class="fu">summary</span>(dfac)</span></code></pre></div>
 <p><img src="graficos/dfac.png" width="260" /></p>
 <p>El proceso se simula con el método <code>simProc</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="qualitytools.html#cb11-1" tabindex="-1"></a><span class="co">#Primeros valores</span></span>
-<span id="cb11-2"><a href="qualitytools.html#cb11-2" tabindex="-1"></a>rend <span class="ot">&lt;-</span> <span class="fu">simProc</span>(<span class="at">x1=</span><span class="dv">120</span>,<span class="at">x2=</span><span class="dv">140</span>,<span class="at">x3=</span><span class="dv">2</span>)</span>
-<span id="cb11-3"><a href="qualitytools.html#cb11-3" tabindex="-1"></a><span class="co">#valores completos</span></span>
-<span id="cb11-4"><a href="qualitytools.html#cb11-4" tabindex="-1"></a>rend <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">simProc</span>(<span class="dv">120</span>,<span class="dv">140</span>,<span class="dv">1</span>),<span class="fu">simProc</span>(<span class="dv">80</span>,<span class="dv">140</span>,<span class="dv">1</span>),<span class="fu">simProc</span>(<span class="dv">120</span>,<span class="dv">140</span>,<span class="dv">2</span>),<span class="fu">simProc</span>(<span class="dv">120</span>,<span class="dv">120</span>,<span class="dv">1</span>),<span class="fu">simProc</span>(<span class="dv">90</span>,<span class="dv">130</span>,<span class="fl">1.5</span>),<span class="fu">simProc</span>(<span class="dv">90</span>,<span class="dv">130</span>,<span class="fl">1.5</span>),<span class="fu">simProc</span>(<span class="dv">80</span>,<span class="dv">120</span>,<span class="dv">2</span>),<span class="fu">simProc</span>(<span class="dv">90</span>,<span class="dv">130</span>,<span class="fl">1.5</span>),<span class="fu">simProc</span>(<span class="dv">90</span>,<span class="dv">130</span>,<span class="fl">1.5</span>),<span class="fu">simProc</span>(<span class="dv">120</span>,<span class="dv">120</span>,<span class="dv">2</span>),<span class="fu">simProc</span>(<span class="dv">80</span>,<span class="dv">140</span>,<span class="dv">2</span>),<span class="fu">simProc</span>(<span class="dv">80</span>,<span class="dv">120</span>,<span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="qualitytools.html#cb103-1" tabindex="-1"></a><span class="co">#Primeros valores</span></span>
+<span id="cb103-2"><a href="qualitytools.html#cb103-2" tabindex="-1"></a>rend <span class="ot">&lt;-</span> <span class="fu">simProc</span>(<span class="at">x1=</span><span class="dv">120</span>,<span class="at">x2=</span><span class="dv">140</span>,<span class="at">x3=</span><span class="dv">2</span>)</span>
+<span id="cb103-3"><a href="qualitytools.html#cb103-3" tabindex="-1"></a><span class="co">#valores completos</span></span>
+<span id="cb103-4"><a href="qualitytools.html#cb103-4" tabindex="-1"></a>rend <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">simProc</span>(<span class="dv">120</span>,<span class="dv">140</span>,<span class="dv">1</span>),<span class="fu">simProc</span>(<span class="dv">80</span>,<span class="dv">140</span>,<span class="dv">1</span>),<span class="fu">simProc</span>(<span class="dv">120</span>,<span class="dv">140</span>,<span class="dv">2</span>),<span class="fu">simProc</span>(<span class="dv">120</span>,<span class="dv">120</span>,<span class="dv">1</span>),<span class="fu">simProc</span>(<span class="dv">90</span>,<span class="dv">130</span>,<span class="fl">1.5</span>),<span class="fu">simProc</span>(<span class="dv">90</span>,<span class="dv">130</span>,<span class="fl">1.5</span>),<span class="fu">simProc</span>(<span class="dv">80</span>,<span class="dv">120</span>,<span class="dv">2</span>),<span class="fu">simProc</span>(<span class="dv">90</span>,<span class="dv">130</span>,<span class="fl">1.5</span>),<span class="fu">simProc</span>(<span class="dv">90</span>,<span class="dv">130</span>,<span class="fl">1.5</span>),<span class="fu">simProc</span>(<span class="dv">120</span>,<span class="dv">120</span>,<span class="dv">2</span>),<span class="fu">simProc</span>(<span class="dv">80</span>,<span class="dv">140</span>,<span class="dv">2</span>),<span class="fu">simProc</span>(<span class="dv">80</span>,<span class="dv">120</span>,<span class="dv">1</span>))</span></code></pre></div>
 <p>Se asigna el rendimiento al diseño factorial:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="qualitytools.html#cb12-1" tabindex="-1"></a><span class="fu">response</span>(dfac) <span class="ot">&lt;-</span> rend</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="qualitytools.html#cb104-1" tabindex="-1"></a><span class="fu">response</span>(dfac) <span class="ot">&lt;-</span> rend</span></code></pre></div>
 <p>Para el análisis del diseño se puede usar los métodos <code>effectPlot</code>, <code>interactionPlot</code>, <code>lm</code>, <code>wirePlot</code>, <code>contourPlot</code>.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="qualitytools.html#cb13-1" tabindex="-1"></a><span class="fu">effectPlot</span>(dfac, <span class="at">classic =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="qualitytools.html#cb105-1" tabindex="-1"></a><span class="fu">effectPlot</span>(dfac, <span class="at">classic =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <div style="text-align:center">
 <p><img src="graficos/effectplot.png" width="500"></p>
 </div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="qualitytools.html#cb14-1" tabindex="-1"></a><span class="fu">interactionPlot</span>(dfac)</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="qualitytools.html#cb106-1" tabindex="-1"></a><span class="fu">interactionPlot</span>(dfac)</span></code></pre></div>
 <p><img src="graficos/interactionplot.png" width="500" /></p>
 <p>Se puede usar el método de R <code>lm</code>, vemos a continuación:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="qualitytools.html#cb15-1" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(rend <span class="sc">~</span> A<span class="sc">*</span>B<span class="sc">*</span>C, <span class="at">data=</span>dfac)</span>
-<span id="cb15-2"><a href="qualitytools.html#cb15-2" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="qualitytools.html#cb107-1" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(rend <span class="sc">~</span> A<span class="sc">*</span>B<span class="sc">*</span>C, <span class="at">data=</span>dfac)</span>
+<span id="cb107-2"><a href="qualitytools.html#cb107-2" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div>
 <p><img src="graficos/lmdfac.png" width="600" /></p>
 <p>Se puede que ver que A, B y AB son significativos.</p>
 <p>También se puede obtener dos gráficas mediante <code>paretoPlot</code> y <code>normalPlot</code> del mismo paquete qualityTools.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="qualitytools.html#cb16-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb16-2"><a href="qualitytools.html#cb16-2" tabindex="-1"></a><span class="fu">paretoPlot</span>(dfac)</span>
-<span id="cb16-3"><a href="qualitytools.html#cb16-3" tabindex="-1"></a><span class="fu">normalPlot</span>(dfac)</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="qualitytools.html#cb108-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb108-2"><a href="qualitytools.html#cb108-2" tabindex="-1"></a><span class="fu">paretoPlot</span>(dfac)</span>
+<span id="cb108-3"><a href="qualitytools.html#cb108-3" tabindex="-1"></a><span class="fu">normalPlot</span>(dfac)</span></code></pre></div>
 <p><img src="graficos/dfac2plots.png" width="700" /></p>
 <p>La relación entre el factor A y el B se puede visualizar mediante una representación 3D mediante <code>wirePlot</code> y <code>contourPlot</code></p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="qualitytools.html#cb17-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb17-2"><a href="qualitytools.html#cb17-2" tabindex="-1"></a><span class="fu">wirePlot</span>(A,B,rend,<span class="at">data=</span>dfac)</span>
-<span id="cb17-3"><a href="qualitytools.html#cb17-3" tabindex="-1"></a><span class="fu">contourPlot</span>(A,B,rend,<span class="at">data=</span>dfac)</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="qualitytools.html#cb109-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb109-2"><a href="qualitytools.html#cb109-2" tabindex="-1"></a><span class="fu">wirePlot</span>(A,B,rend,<span class="at">data=</span>dfac)</span>
+<span id="cb109-3"><a href="qualitytools.html#cb109-3" tabindex="-1"></a><span class="fu">contourPlot</span>(A,B,rend,<span class="at">data=</span>dfac)</span></code></pre></div>
 <p><img src="graficos/dfac3d.png" width="700" /></p>
 </div>
 <div id="diseños-factoriales-fraccionarios-2k-p" class="section level3 hasAnchor" number="5.4.2">
 <h3><span class="header-section-number">5.4.2</span> Diseños factoriales fraccionarios <span class="math inline">\(2^{k-p}\)</span><a href="qualitytools.html#diseños-factoriales-fraccionarios-2k-p" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Este diseño tiene <span class="math inline">\(k\)</span> factores y se prueba en <span class="math inline">\(2k-p\)</span> ejecuciones, por ejemplo para un diseño <span class="math inline">\(2^{5-1}\)</span> se prueban cinco factores en 24 ejecuciones.</p>
 <p>Para realizar esto se utiliza el método <code>fracDesign</code>, vamos a realizar el ejemplo de un diseño <span class="math inline">\(2^{3-1}\)</span>, para ello se debe utilizar el argumento <code>gen='C=AB'</code>, lo cual quiere decir que el efecto de C es equivalente al de AB:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="qualitytools.html#cb18-1" tabindex="-1"></a>dfacfrac <span class="ot">&lt;-</span> <span class="fu">fracDesign</span>(<span class="at">k=</span><span class="dv">3</span>,<span class="at">gen=</span><span class="st">&#39;C=AB&#39;</span>,<span class="at">centerCube =</span> <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="qualitytools.html#cb110-1" tabindex="-1"></a>dfacfrac <span class="ot">&lt;-</span> <span class="fu">fracDesign</span>(<span class="at">k=</span><span class="dv">3</span>,<span class="at">gen=</span><span class="st">&#39;C=AB&#39;</span>,<span class="at">centerCube =</span> <span class="dv">4</span>)</span></code></pre></div>
 <p>Se puede obtener información específica del diseño mediante <code>summary</code>:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="qualitytools.html#cb19-1" tabindex="-1"></a><span class="fu">summary</span>(dfacfrac)</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="qualitytools.html#cb111-1" tabindex="-1"></a><span class="fu">summary</span>(dfacfrac)</span></code></pre></div>
 <p><img src="graficos/fracdfac.png" width="270" /></p>
 <p>Vemos que en el modelo se muestra que <code>I=ABC</code> y por lo tanto se cumplen las siguientes reglas:</p>
 <p><span class="math display">\[\begin{align}
@@ -518,52 +518,52 @@ A\times A&amp;=I\\
 A\times B&amp;=B\times A
 \end{align}\]</span></p>
 <p>Para encontrar todos los efectos equivalentes se puede usar los comandos:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="qualitytools.html#cb20-1" tabindex="-1"></a><span class="fu">aliasTable</span>(dfacfrac)</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="qualitytools.html#cb112-1" tabindex="-1"></a><span class="fu">aliasTable</span>(dfacfrac)</span></code></pre></div>
 <p><img src="graficos/aliastabledf.png" width="130" /></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="qualitytools.html#cb21-1" tabindex="-1"></a><span class="fu">confounds</span>(dfacfrac)</span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="qualitytools.html#cb113-1" tabindex="-1"></a><span class="fu">confounds</span>(dfacfrac)</span></code></pre></div>
 <p><img src="graficos/confoundsdf.png" width="270" /></p>
 <p>Estos diseños se pueden generar asignando los generadores apropiados, el cual se puede elegir entre tabla predefinidas usando el método <code>fracChoose</code> y seleccionando el diseño deseado:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="qualitytools.html#cb22-1" tabindex="-1"></a><span class="fu">fracChoose</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="qualitytools.html#cb114-1" tabindex="-1"></a><span class="fu">fracChoose</span>()</span></code></pre></div>
 <p><img src="graficos/dfchoose.png" width="700" /></p>
 </div>
 <div id="diseños-replicados-y-puntos-centrales" class="section level3 hasAnchor" number="5.4.3">
 <h3><span class="header-section-number">5.4.3</span> Diseños replicados y puntos centrales<a href="qualitytools.html#diseños-replicados-y-puntos-centrales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Se puede crear un diseño replicado con puntos centrales adicionales usando <code>replicates</code> y <code>centerCube</code>:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="qualitytools.html#cb23-1" tabindex="-1"></a>dfac1 <span class="ot">&lt;-</span> <span class="fu">facDesign</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="at">centerCube =</span> <span class="dv">2</span>, <span class="at">replicates =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="qualitytools.html#cb115-1" tabindex="-1"></a>dfac1 <span class="ot">&lt;-</span> <span class="fu">facDesign</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="at">centerCube =</span> <span class="dv">2</span>, <span class="at">replicates =</span> <span class="dv">2</span>)</span></code></pre></div>
 </div>
 <div id="respuestas-múltiples" class="section level3 hasAnchor" number="5.4.4">
 <h3><span class="header-section-number">5.4.4</span> Respuestas múltiples<a href="qualitytools.html#respuestas-múltiples" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Se puede agregar vectores de respuesta al diseño con el método <code>response</code>. Por ejemplo, se crea una segunda respuesta <code>y2</code> que se llena con números aleatorios y se agrega al objeto creado.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="qualitytools.html#cb24-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb24-2"><a href="qualitytools.html#cb24-2" tabindex="-1"></a>y2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">12</span>,<span class="at">mean=</span><span class="dv">120</span>)</span>
-<span id="cb24-3"><a href="qualitytools.html#cb24-3" tabindex="-1"></a><span class="fu">response</span>(dfac) <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(yield,y2)</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="qualitytools.html#cb116-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb116-2"><a href="qualitytools.html#cb116-2" tabindex="-1"></a>y2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">12</span>,<span class="at">mean=</span><span class="dv">120</span>)</span>
+<span id="cb116-3"><a href="qualitytools.html#cb116-3" tabindex="-1"></a><span class="fu">response</span>(dfac) <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(yield,y2)</span></code></pre></div>
 <p>Se puede visualizar en 3D con los métodos <code>wirePlot</code> y <code>contourPlot</code> especificando con <code>form</code>:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="qualitytools.html#cb25-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mforw =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb25-2"><a href="qualitytools.html#cb25-2" tabindex="-1"></a><span class="fu">wirePlot</span>(A, B, yield, <span class="at">data =</span> dfac, <span class="at">form =</span> <span class="st">&quot;yield~A+B+C+A*B&quot;</span>)</span>
-<span id="cb25-3"><a href="qualitytools.html#cb25-3" tabindex="-1"></a><span class="fu">contourPlot</span>(A, B, y2, <span class="at">data =</span> fdo, <span class="at">form =</span> <span class="st">&quot;y2~A+B+C+A*B&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="qualitytools.html#cb117-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mforw =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb117-2"><a href="qualitytools.html#cb117-2" tabindex="-1"></a><span class="fu">wirePlot</span>(A, B, yield, <span class="at">data =</span> dfac, <span class="at">form =</span> <span class="st">&quot;yield~A+B+C+A*B&quot;</span>)</span>
+<span id="cb117-3"><a href="qualitytools.html#cb117-3" tabindex="-1"></a><span class="fu">contourPlot</span>(A, B, y2, <span class="at">data =</span> fdo, <span class="at">form =</span> <span class="st">&quot;y2~A+B+C+A*B&quot;</span>)</span></code></pre></div>
 <p><img src="graficos/multidfac1.png" width="700" /></p>
 <p>Se puede crear los gráficos con el tercer factor C en -1 y <span class="math inline">\(C=1\)</span>, de la forma:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="qualitytools.html#cb26-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb26-2"><a href="qualitytools.html#cb26-2" tabindex="-1"></a><span class="fu">wirePlot</span>(A, B, y2, <span class="at">data =</span> dfrac, <span class="at">factors =</span> <span class="fu">list</span>(<span class="at">C=</span><span class="sc">-</span><span class="dv">1</span>), <span class="at">form =</span> <span class="st">&quot;y2~A*B*C&quot;</span>)</span>
-<span id="cb26-3"><a href="qualitytools.html#cb26-3" tabindex="-1"></a><span class="fu">wirePlot</span>(A, B, y2, <span class="at">data =</span> dfrac, <span class="at">factors =</span> <span class="fu">list</span>(<span class="at">C=</span><span class="dv">1</span>), <span class="at">form =</span> <span class="st">&quot;y2∼A∗B∗C&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="qualitytools.html#cb118-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb118-2"><a href="qualitytools.html#cb118-2" tabindex="-1"></a><span class="fu">wirePlot</span>(A, B, y2, <span class="at">data =</span> dfrac, <span class="at">factors =</span> <span class="fu">list</span>(<span class="at">C=</span><span class="sc">-</span><span class="dv">1</span>), <span class="at">form =</span> <span class="st">&quot;y2~A*B*C&quot;</span>)</span>
+<span id="cb118-3"><a href="qualitytools.html#cb118-3" tabindex="-1"></a><span class="fu">wirePlot</span>(A, B, y2, <span class="at">data =</span> dfrac, <span class="at">factors =</span> <span class="fu">list</span>(<span class="at">C=</span><span class="dv">1</span>), <span class="at">form =</span> <span class="st">&quot;y2∼A∗B∗C&quot;</span>)</span></code></pre></div>
 <p><img src="graficos/multidfac2.png" width="700" /></p>
 <p>Si no se proporciona ninguna fórmula explícitamente, los métodos predeterminados son el ajuste completo o el que está almacenado en el objeto de diseño factorial. El almacenamiento del ajusto se puede realizar con el método <code>fits</code> y se utiliza cuando se trabaja con más de una respuesta. Además, se utiliza <code>lm</code> para analizar el diseño factorial fraccionario.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="qualitytools.html#cb27-1" tabindex="-1"></a><span class="fu">fits</span>(fdo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(yield∼A<span class="sc">+</span>B, <span class="at">data =</span> fdo)</span>
-<span id="cb27-2"><a href="qualitytools.html#cb27-2" tabindex="-1"></a><span class="fu">fits</span>(fdo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(y2∼A∗B∗C, <span class="at">data =</span> fdo)</span>
-<span id="cb27-3"><a href="qualitytools.html#cb27-3" tabindex="-1"></a><span class="fu">fits</span>(fdo)</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="qualitytools.html#cb119-1" tabindex="-1"></a><span class="fu">fits</span>(fdo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(yield∼A<span class="sc">+</span>B, <span class="at">data =</span> fdo)</span>
+<span id="cb119-2"><a href="qualitytools.html#cb119-2" tabindex="-1"></a><span class="fu">fits</span>(fdo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(y2∼A∗B∗C, <span class="at">data =</span> fdo)</span>
+<span id="cb119-3"><a href="qualitytools.html#cb119-3" tabindex="-1"></a><span class="fu">fits</span>(fdo)</span></code></pre></div>
 <p><img src="graficos/multidfaclm.png" width="500" /></p>
 </div>
 <div id="pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado" class="section level3 hasAnchor" number="5.4.5">
 <h3><span class="header-section-number">5.4.5</span> Pasar a un entorno de proceso con un mayor rendimiento esperado<a href="qualitytools.html#pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Como el proceso puede ser modelado por una relación lineal se puede determinar un alto rendimiento fácilmente, esto se puede calcular gráficamente o utilizando el método <code>steepAscent</code>:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="qualitytools.html#cb28-1" tabindex="-1"></a>sao <span class="ot">&lt;-</span> <span class="fu">steepAscent</span>(<span class="at">factors =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="at">response =</span> <span class="st">&quot;yield&quot;</span>, <span class="at">data =</span> dfac, <span class="at">steps =</span> <span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="qualitytools.html#cb120-1" tabindex="-1"></a>sao <span class="ot">&lt;-</span> <span class="fu">steepAscent</span>(<span class="at">factors =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="at">response =</span> <span class="st">&quot;yield&quot;</span>, <span class="at">data =</span> dfac, <span class="at">steps =</span> <span class="dv">20</span>)</span></code></pre></div>
 <p><img src="graficos/renddfac1.png" width="300" /></p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="qualitytools.html#cb29-1" tabindex="-1"></a>sao</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="qualitytools.html#cb121-1" tabindex="-1"></a>sao</span></code></pre></div>
 <p><img src="graficos/renddfac2.png" width="300" /></p>
 <p>Como se estableció los valores reales anteriormente con los métodos <code>highs</code> y <code>lows</code> son mostrados como valores reales. Los valores de respuesta de <code>sao</code> pueden ser establecidos con el método <code>response</code> y graficados con <code>plot</code></p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="qualitytools.html#cb30-1" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> <span class="fu">simProc</span>(sao[,<span class="dv">5</span>], sao[,<span class="dv">6</span>])</span>
-<span id="cb30-2"><a href="qualitytools.html#cb30-2" tabindex="-1"></a><span class="fu">responde</span>(sao) <span class="ot">&lt;-</span> predicted</span>
-<span id="cb30-3"><a href="qualitytools.html#cb30-3" tabindex="-1"></a><span class="fu">plot</span>(sao, <span class="at">type=</span><span class="st">&#39;b&#39;</span>, <span class="at">col=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="qualitytools.html#cb122-1" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> <span class="fu">simProc</span>(sao[,<span class="dv">5</span>], sao[,<span class="dv">6</span>])</span>
+<span id="cb122-2"><a href="qualitytools.html#cb122-2" tabindex="-1"></a><span class="fu">responde</span>(sao) <span class="ot">&lt;-</span> predicted</span>
+<span id="cb122-3"><a href="qualitytools.html#cb122-3" tabindex="-1"></a><span class="fu">plot</span>(sao, <span class="at">type=</span><span class="st">&#39;b&#39;</span>, <span class="at">col=</span><span class="dv">2</span>)</span></code></pre></div>
 </div>
 <div id="diseños-de-superficies-de-respuesta" class="section level3 hasAnchor" number="5.4.6">
 <h3><span class="header-section-number">5.4.6</span> Diseños de superficies de respuesta<a href="qualitytools.html#diseños-de-superficies-de-respuesta" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -573,17 +573,17 @@ puntos centrales . Cuanto mayor sea la diferencia entre los valores
 esperados, más improbable será que esta diferencia sea el resultado de ruido aleatorio.
 Bajo el contexto del ejercicio desarrollado en la sección de diseño factorial <span class="math inline">\(2^{k}\)</span> utilizamos el método <strong>steepAscent</strong> de qualityTools para pasar a una mejor región del proceso. El centro de la
 nueva región de proceso está definido por 144 y 165 en valores reales la cual es el inicio del nuevo diseño.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="qualitytools.html#cb31-1" tabindex="-1"></a><span class="co">#Semilla</span></span>
-<span id="cb31-2"><a href="qualitytools.html#cb31-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb31-3"><a href="qualitytools.html#cb31-3" tabindex="-1"></a>fdo2 <span class="ot">&lt;-</span> <span class="fu">facDesign</span>(<span class="at">k =</span> <span class="dv">2</span>, <span class="at">centerCube =</span> <span class="dv">3</span>)</span>
-<span id="cb31-4"><a href="qualitytools.html#cb31-4" tabindex="-1"></a><span class="fu">names</span>(fdo2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Factor1&quot;</span>, <span class="st">&quot;Factor2&quot;</span>)</span>
-<span id="cb31-5"><a href="qualitytools.html#cb31-5" tabindex="-1"></a><span class="fu">lows</span>(fdo2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">13</span>, <span class="dv">4</span>, <span class="dv">155</span>)</span>
-<span id="cb31-6"><a href="qualitytools.html#cb31-6" tabindex="-1"></a><span class="fu">highs</span>(fdo2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">5</span>, <span class="dv">175</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="qualitytools.html#cb123-1" tabindex="-1"></a><span class="co">#Semilla</span></span>
+<span id="cb123-2"><a href="qualitytools.html#cb123-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb123-3"><a href="qualitytools.html#cb123-3" tabindex="-1"></a>fdo2 <span class="ot">&lt;-</span> <span class="fu">facDesign</span>(<span class="at">k =</span> <span class="dv">2</span>, <span class="at">centerCube =</span> <span class="dv">3</span>)</span>
+<span id="cb123-4"><a href="qualitytools.html#cb123-4" tabindex="-1"></a><span class="fu">names</span>(fdo2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Factor1&quot;</span>, <span class="st">&quot;Factor2&quot;</span>)</span>
+<span id="cb123-5"><a href="qualitytools.html#cb123-5" tabindex="-1"></a><span class="fu">lows</span>(fdo2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">13</span>, <span class="dv">4</span>, <span class="dv">155</span>)</span>
+<span id="cb123-6"><a href="qualitytools.html#cb123-6" tabindex="-1"></a><span class="fu">highs</span>(fdo2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">5</span>, <span class="dv">175</span>)</span></code></pre></div>
 <p><img src="graficos/dario.jpg" width="700" /></p>
 <p>el rendimiento se obtiene utilizando el <code>simProc</code> y se asigna al nuevo diseño con la
 ayuda del método genérico de <code>response</code> del paquete <strong>qualityTools</strong></p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="qualitytools.html#cb32-1" tabindex="-1"></a>rendimiento<span class="ot">=</span><span class="fu">c</span>(<span class="fu">simProc</span>(<span class="dv">134</span>,<span class="dv">175</span>),<span class="fu">simProc</span>(<span class="fl">144.5</span>,<span class="fl">165.5</span>),<span class="fu">simProc</span>(<span class="dv">155</span>,<span class="dv">155</span>),<span class="fu">simProc</span>(<span class="fl">144.5</span>,<span class="fl">165.5</span>),<span class="fu">simProc</span>(<span class="dv">155</span>,<span class="dv">175</span>),<span class="fu">simProc</span>(<span class="fl">144.5</span>,<span class="fl">165.5</span>),<span class="fu">simProc</span>(<span class="dv">134</span>,<span class="dv">155</span>))</span>
-<span id="cb32-2"><a href="qualitytools.html#cb32-2" tabindex="-1"></a><span class="fu">response</span>(fdo2)<span class="ot">=</span>rendimiento</span></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="qualitytools.html#cb124-1" tabindex="-1"></a>rendimiento<span class="ot">=</span><span class="fu">c</span>(<span class="fu">simProc</span>(<span class="dv">134</span>,<span class="dv">175</span>),<span class="fu">simProc</span>(<span class="fl">144.5</span>,<span class="fl">165.5</span>),<span class="fu">simProc</span>(<span class="dv">155</span>,<span class="dv">155</span>),<span class="fu">simProc</span>(<span class="fl">144.5</span>,<span class="fl">165.5</span>),<span class="fu">simProc</span>(<span class="dv">155</span>,<span class="dv">175</span>),<span class="fu">simProc</span>(<span class="fl">144.5</span>,<span class="fl">165.5</span>),<span class="fu">simProc</span>(<span class="dv">134</span>,<span class="dv">155</span>))</span>
+<span id="cb124-2"><a href="qualitytools.html#cb124-2" tabindex="-1"></a><span class="fu">response</span>(fdo2)<span class="ot">=</span>rendimiento</span></code></pre></div>
 <p>Si se observan los gráficos de residuos, se apreciará una diferencia sustancial entre los valores esperados
 y los valores observados (podría realizarse una prueba de falta de ajuste para verificarlo).
 Para llegar a un modelo que describa la relación hay que añadir más puntos
@@ -593,8 +593,8 @@ Por defecto, el valor de alfa se elige de forma que ambos criterios, ortogonalid
 rotatabilidad se cumplan . Se llama al método starDesign en el objeto de diseño factorial
 factorial <code>fdo2</code>. La llamada a <code>rsdo</code> le mostrará el diseño de superficie de respuesta resultante.Debe tener una porción cúbica que conste de 4 runs, 3 puntos centrales en la porción cúbica, 4
 axiales y 3 puntos centrales en la porción de estrella (<strong>starportion</strong>).</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="qualitytools.html#cb33-1" tabindex="-1"></a>rsdo<span class="ot">=</span> <span class="fu">starDesign</span>( <span class="at">data =</span>fdo2 )</span>
-<span id="cb33-2"><a href="qualitytools.html#cb33-2" tabindex="-1"></a>rsdo</span></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="qualitytools.html#cb125-1" tabindex="-1"></a>rsdo<span class="ot">=</span> <span class="fu">starDesign</span>( <span class="at">data =</span>fdo2 )</span>
+<span id="cb125-2"><a href="qualitytools.html#cb125-2" tabindex="-1"></a>rsdo</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -724,33 +724,33 @@ axiales y 3 puntos centrales en la porción de estrella (<strong>starportion</st
 <p>Utilizando el método estrella del paquete <strong>qualityTools</strong> se pueden ensamblar fácilmente diseños
 secuencialmente. Esta estrategia secuencial ahorra recursos pues, en comparación con empezar con
 diseño de superficie de respuesta desde el principio, la parte en estrella sólo se ejecuta si es realmente necesaria. Los rendimientos del proceso siguen estando dados por el método <code>simProc</code>.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="qualitytools.html#cb34-1" tabindex="-1"></a>yield2 <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb34-2"><a href="qualitytools.html#cb34-2" tabindex="-1"></a>  yield,</span>
-<span id="cb34-3"><a href="qualitytools.html#cb34-3" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">130</span>, <span class="dv">165</span>),</span>
-<span id="cb34-4"><a href="qualitytools.html#cb34-4" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">155</span>, <span class="dv">165</span>),</span>
-<span id="cb34-5"><a href="qualitytools.html#cb34-5" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">144</span>, <span class="dv">155</span>),</span>
-<span id="cb34-6"><a href="qualitytools.html#cb34-6" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">144</span>, <span class="dv">179</span>),</span>
-<span id="cb34-7"><a href="qualitytools.html#cb34-7" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">144</span>, <span class="dv">165</span>),</span>
-<span id="cb34-8"><a href="qualitytools.html#cb34-8" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">144</span>, <span class="dv">165</span>),</span>
-<span id="cb34-9"><a href="qualitytools.html#cb34-9" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">144</span>, <span class="dv">165</span>)</span>
-<span id="cb34-10"><a href="qualitytools.html#cb34-10" tabindex="-1"></a>)</span>
-<span id="cb34-11"><a href="qualitytools.html#cb34-11" tabindex="-1"></a></span>
-<span id="cb34-12"><a href="qualitytools.html#cb34-12" tabindex="-1"></a><span class="fu">response</span>(rsdo) <span class="ot">&lt;-</span> yield2</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="qualitytools.html#cb126-1" tabindex="-1"></a>yield2 <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb126-2"><a href="qualitytools.html#cb126-2" tabindex="-1"></a>  yield,</span>
+<span id="cb126-3"><a href="qualitytools.html#cb126-3" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">130</span>, <span class="dv">165</span>),</span>
+<span id="cb126-4"><a href="qualitytools.html#cb126-4" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">155</span>, <span class="dv">165</span>),</span>
+<span id="cb126-5"><a href="qualitytools.html#cb126-5" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">144</span>, <span class="dv">155</span>),</span>
+<span id="cb126-6"><a href="qualitytools.html#cb126-6" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">144</span>, <span class="dv">179</span>),</span>
+<span id="cb126-7"><a href="qualitytools.html#cb126-7" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">144</span>, <span class="dv">165</span>),</span>
+<span id="cb126-8"><a href="qualitytools.html#cb126-8" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">144</span>, <span class="dv">165</span>),</span>
+<span id="cb126-9"><a href="qualitytools.html#cb126-9" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">144</span>, <span class="dv">165</span>)</span>
+<span id="cb126-10"><a href="qualitytools.html#cb126-10" tabindex="-1"></a>)</span>
+<span id="cb126-11"><a href="qualitytools.html#cb126-11" tabindex="-1"></a></span>
+<span id="cb126-12"><a href="qualitytools.html#cb126-12" tabindex="-1"></a><span class="fu">response</span>(rsdo) <span class="ot">&lt;-</span> yield2</span></code></pre></div>
 <p>Se ajusta un modelo cuadrático completo utilizando el método <strong>lm</strong></p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="qualitytools.html#cb35-1" tabindex="-1"></a>lm<span class="fl">.3</span> <span class="ot">&lt;-</span> <span class="fu">lm</span>(yield2 <span class="sc">~</span> A<span class="sc">*</span>B <span class="sc">+</span> <span class="fu">I</span>(A<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(B<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> rsdo)</span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="qualitytools.html#cb127-1" tabindex="-1"></a>lm<span class="fl">.3</span> <span class="ot">&lt;-</span> <span class="fu">lm</span>(yield2 <span class="sc">~</span> A<span class="sc">*</span>B <span class="sc">+</span> <span class="fu">I</span>(A<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(B<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> rsdo)</span></code></pre></div>
 <p>La superficie de respuesta puede visualizarse utilizando <code>wirePlot</code> y <code>contourPlot</code>.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="qualitytools.html#cb36-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb36-2"><a href="qualitytools.html#cb36-2" tabindex="-1"></a><span class="fu">wirePlot</span>(A, B, yield2, <span class="at">form =</span> <span class="st">&quot;yield2 ~ A*B + I(A^2) + I(B^2)&quot;</span>, <span class="at">data =</span> rsdo, <span class="at">theta =</span> <span class="sc">-</span><span class="dv">70</span>)</span>
-<span id="cb36-3"><a href="qualitytools.html#cb36-3" tabindex="-1"></a><span class="fu">contourPlot</span>(A, B, yield2, <span class="at">form =</span> <span class="st">&quot;yield2 ~ A*B + I(A^2) + I(B^2)&quot;</span>, <span class="at">data =</span> rsdo)</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="qualitytools.html#cb128-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb128-2"><a href="qualitytools.html#cb128-2" tabindex="-1"></a><span class="fu">wirePlot</span>(A, B, yield2, <span class="at">form =</span> <span class="st">&quot;yield2 ~ A*B + I(A^2) + I(B^2)&quot;</span>, <span class="at">data =</span> rsdo, <span class="at">theta =</span> <span class="sc">-</span><span class="dv">70</span>)</span>
+<span id="cb128-3"><a href="qualitytools.html#cb128-3" tabindex="-1"></a><span class="fu">contourPlot</span>(A, B, yield2, <span class="at">form =</span> <span class="st">&quot;yield2 ~ A*B + I(A^2) + I(B^2)&quot;</span>, <span class="at">data =</span> rsdo)</span></code></pre></div>
 <p><img src="graficos/dario1.jpg" width="700" />
 <img src="graficos/dario2.jpg" width="700" /></p>
 <p>Se compara los resultados de los diseños factorial y de superficie de respuesta con el proceso simulado.</p>
 <p>Se pueden crear diseños de superficie de respuesta utilizando el método <code>rsmDesign</code>. Por ejemplo un diseño con alfa = 1.633, 0 puntos centrales en la parte del cubo y 6 puntos centrales en la parte de la estrella con:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="qualitytools.html#cb37-1" tabindex="-1"></a>fdo <span class="ot">&lt;-</span> <span class="fu">rsmDesign</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">1.633</span>, <span class="at">cc =</span> <span class="dv">0</span>, <span class="at">cs =</span> <span class="dv">6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="qualitytools.html#cb129-1" tabindex="-1"></a>fdo <span class="ot">&lt;-</span> <span class="fu">rsmDesign</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">1.633</span>, <span class="at">cc =</span> <span class="dv">0</span>, <span class="at">cs =</span> <span class="dv">6</span>)</span></code></pre></div>
 <p>y el diseño se puede poner en orden estándar utilizando el método <code>randomize</code> con el argumento <code>so=TRUE</code> (es decir, orden estándar). <code>cc</code> significa centerCube y <code>cs</code> para centerStar.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="qualitytools.html#cb38-1" tabindex="-1"></a>fdo <span class="ot">&lt;-</span> <span class="fu">randomizeDesign</span>(fdo, <span class="at">so =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="qualitytools.html#cb130-1" tabindex="-1"></a>fdo <span class="ot">&lt;-</span> <span class="fu">randomizeDesign</span>(fdo, <span class="at">so =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Los diseños de superficie de respuesta también pueden elegirse a partir de una tabla utilizando el método <code>rsmChoose</code>.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="qualitytools.html#cb39-1" tabindex="-1"></a>rsdo <span class="ot">&lt;-</span> <span class="fu">rsmDesign</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="qualitytools.html#cb131-1" tabindex="-1"></a>rsdo <span class="ot">&lt;-</span> <span class="fu">rsmDesign</span>()</span></code></pre></div>
 <p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 ### Montaje secuencial de diseños de superficie de respuesta
 =======
@@ -758,8 +758,8 @@ diseño de superficie de respuesta desde el principio, la parte en estrella sól
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; 38aa7fcbe69006ca620167942eac17f3b64293c9</p>
 <p>El ensamblaje secuencial es una característica importante de los diseños de superficie de respuesta. En función de de las características del diseño factorial (fraccional) puede aumentarse una porción de estrella utilizando el método <code>starDesign</code>. Una porción en estrella consta de recorridos axiales
 y puntos centrales opcionales (<code>cs</code>) en la parte axial a diferencia de los puntos centrales (<code>cc</code>) en la parteparte cúbica.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="qualitytools.html#cb40-1" tabindex="-1"></a>fdo3 <span class="ot">&lt;-</span> <span class="fu">facDesign</span>(<span class="at">k =</span> <span class="dv">6</span>)</span>
-<span id="cb40-2"><a href="qualitytools.html#cb40-2" tabindex="-1"></a>rsdo <span class="ot">&lt;-</span> <span class="fu">starDesign</span>(<span class="at">alpha =</span> <span class="st">&quot;orthogonal&quot;</span>, <span class="at">data =</span> fdo3)</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="qualitytools.html#cb132-1" tabindex="-1"></a>fdo3 <span class="ot">&lt;-</span> <span class="fu">facDesign</span>(<span class="at">k =</span> <span class="dv">6</span>)</span>
+<span id="cb132-2"><a href="qualitytools.html#cb132-2" tabindex="-1"></a>rsdo <span class="ot">&lt;-</span> <span class="fu">starDesign</span>(<span class="at">alpha =</span> <span class="st">&quot;orthogonal&quot;</span>, <span class="at">data =</span> fdo3)</span></code></pre></div>
 <p>En caso de que no se entregue ningún diseño factorial (fraccional) al método <code>starDesign</code>, se devuelve una lista con <code>data.frames</code> que pueden asignarse al diseño factorial (fraccional) existente utilizando los métodos <code>star</code>, <code>centerStar</code> y <code>centerCube</code>.</p>
 <p><img src="graficos/dario3.jpg" width="700" /></p>
 <p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
@@ -769,9 +769,9 @@ y puntos centrales opcionales (<code>cs</code>) en la parte axial a diferencia d
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; 38aa7fcbe69006ca620167942eac17f3b64293c9</p>
 <p>La aleatorización se consigue utilizando el método <code>randomize</code>.
 Es necesario suministrar una semilla aleatoria (random.seed) que es útil para tener el mismo orden de ejecución en cualquier máquina.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="qualitytools.html#cb41-1" tabindex="-1"></a><span class="fu">randomize</span>(fdo, <span class="at">random.seed =</span> <span class="dv">123</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="qualitytools.html#cb133-1" tabindex="-1"></a><span class="fu">randomize</span>(fdo, <span class="at">random.seed =</span> <span class="dv">123</span>)</span></code></pre></div>
 <p>El método <code>randomize</code> se puede utilizar para obtener un diseño en orden estándar con la ayuda del argumento <code>so</code>.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="qualitytools.html#cb42-1" tabindex="-1"></a><span class="fu">randomizeDesign</span>(fdo, <span class="at">so =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="qualitytools.html#cb134-1" tabindex="-1"></a><span class="fu">randomizeDesign</span>(fdo, <span class="at">so =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 ### Bloqueo
 =======
@@ -797,14 +797,14 @@ viene dada por la media geométrica.</p>
 <p><strong>target = max:</strong> min es el valor mínimo aceptable. Si la variable de respuesta toma valores por debajo de min, la deseabilidad correspondiente será cero. Para valores iguales o mayores que min, la deseabilidad será mayor que cero.</p>
 <p><strong>target = min:</strong> max es el valor máximo aceptable. Si la variable de respuesta toma valores por encima de max, la deseabilidad correspondiente será cero. Para valores iguales o menores que max, la deseabilidad será mayor que cero.</p>
 <p><strong>target = valor:</strong> una variable de respuesta con un valor de valor se relaciona con la deseabilidad más alta alcanzable de 1. Los valores fuera de min o max llevan a una deseabilidad de cero, dentro de min y max a valores dentro de (0,1].</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="qualitytools.html#cb43-1" tabindex="-1"></a><span class="co">#EJEMPLO:</span></span>
-<span id="cb43-2"><a href="qualitytools.html#cb43-2" tabindex="-1"></a></span>
-<span id="cb43-3"><a href="qualitytools.html#cb43-3" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">desirability</span>(y1, <span class="dv">120</span>, <span class="dv">170</span>, <span class="at">scale =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">target =</span> <span class="st">&quot;max&quot;</span>)</span>
-<span id="cb43-4"><a href="qualitytools.html#cb43-4" tabindex="-1"></a>d3 <span class="ot">&lt;-</span> <span class="fu">desirability</span>(y3, <span class="dv">400</span>, <span class="dv">600</span>, <span class="at">target =</span> <span class="dv">500</span>)</span>
-<span id="cb43-5"><a href="qualitytools.html#cb43-5" tabindex="-1"></a>d1</span>
-<span id="cb43-6"><a href="qualitytools.html#cb43-6" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb43-7"><a href="qualitytools.html#cb43-7" tabindex="-1"></a><span class="fu">plot</span>(d1, <span class="at">col =</span> <span class="dv">2</span>)</span>
-<span id="cb43-8"><a href="qualitytools.html#cb43-8" tabindex="-1"></a><span class="fu">plot</span>(d3, <span class="at">col =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="qualitytools.html#cb135-1" tabindex="-1"></a><span class="co">#EJEMPLO:</span></span>
+<span id="cb135-2"><a href="qualitytools.html#cb135-2" tabindex="-1"></a></span>
+<span id="cb135-3"><a href="qualitytools.html#cb135-3" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">desirability</span>(y1, <span class="dv">120</span>, <span class="dv">170</span>, <span class="at">scale =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">target =</span> <span class="st">&quot;max&quot;</span>)</span>
+<span id="cb135-4"><a href="qualitytools.html#cb135-4" tabindex="-1"></a>d3 <span class="ot">&lt;-</span> <span class="fu">desirability</span>(y3, <span class="dv">400</span>, <span class="dv">600</span>, <span class="at">target =</span> <span class="dv">500</span>)</span>
+<span id="cb135-5"><a href="qualitytools.html#cb135-5" tabindex="-1"></a>d1</span>
+<span id="cb135-6"><a href="qualitytools.html#cb135-6" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb135-7"><a href="qualitytools.html#cb135-7" tabindex="-1"></a><span class="fu">plot</span>(d1, <span class="at">col =</span> <span class="dv">2</span>)</span>
+<span id="cb135-8"><a href="qualitytools.html#cb135-8" tabindex="-1"></a><span class="fu">plot</span>(d3, <span class="at">col =</span> <span class="dv">2</span>)</span></code></pre></div>
 </div>
 <div id="utilización-de-deseabilidades-junto-con-experimentos-diseñados" class="section level2 hasAnchor" number="5.6">
 <h2><span class="header-section-number">5.6</span> Utilización de deseabilidades junto con experimentos diseñados<a href="qualitytools.html#utilización-de-deseabilidades-junto-con-experimentos-diseñados" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -816,42 +816,42 @@ Los datos utilizados proceden de Derringer y Suich [1980]. Se definieron cuatro 
 Los factores utilizados en este experimento fueron la sílicio, el silano y el azufre con ajustes de factor alto de <span class="math inline">\(1,7, 60, 2,8\)</span> y factores bajos de <span class="math inline">\(0,7, 40, 1,8\)</span>. Se desea maximizar <span class="math inline">\(y_1\)</span> e <span class="math inline">\(y_2\)</span>
 e <span class="math inline">\(y_3\)</span> e <span class="math inline">\(y_4\)</span> fijados en un objetivo específico.
 En primer lugar, se crea el diseño correspondiente y a continuación, utilizamos el método <code>randomize</code> para obtener el orden estándar del diseño.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="qualitytools.html#cb44-1" tabindex="-1"></a>ddo <span class="ot">&lt;-</span> <span class="fu">rsmDesign</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">1.633</span>, <span class="at">cc =</span> <span class="dv">0</span>, <span class="at">cs =</span> <span class="dv">6</span>)</span>
-<span id="cb44-2"><a href="qualitytools.html#cb44-2" tabindex="-1"></a>ddo <span class="ot">&lt;-</span> <span class="fu">randomize</span>(ddo, <span class="at">so =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb44-3"><a href="qualitytools.html#cb44-3" tabindex="-1"></a></span>
-<span id="cb44-4"><a href="qualitytools.html#cb44-4" tabindex="-1"></a><span class="co"># Opcional</span></span>
-<span id="cb44-5"><a href="qualitytools.html#cb44-5" tabindex="-1"></a><span class="fu">names</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;silica&quot;</span>, <span class="st">&quot;silan&quot;</span>, <span class="st">&quot;sulfur&quot;</span>)</span>
-<span id="cb44-6"><a href="qualitytools.html#cb44-6" tabindex="-1"></a></span>
-<span id="cb44-7"><a href="qualitytools.html#cb44-7" tabindex="-1"></a><span class="co"># Opcional</span></span>
-<span id="cb44-8"><a href="qualitytools.html#cb44-8" tabindex="-1"></a><span class="fu">highs</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.7</span>, <span class="dv">60</span>, <span class="fl">2.8</span>)</span>
-<span id="cb44-9"><a href="qualitytools.html#cb44-9" tabindex="-1"></a></span>
-<span id="cb44-10"><a href="qualitytools.html#cb44-10" tabindex="-1"></a><span class="co"># Opcional</span></span>
-<span id="cb44-11"><a href="qualitytools.html#cb44-11" tabindex="-1"></a><span class="fu">lows</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="dv">40</span>, <span class="fl">1.8</span>)</span>
-<span id="cb44-12"><a href="qualitytools.html#cb44-12" tabindex="-1"></a></span>
-<span id="cb44-13"><a href="qualitytools.html#cb44-13" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb44-14"><a href="qualitytools.html#cb44-14" tabindex="-1"></a></span>
-<span id="cb44-15"><a href="qualitytools.html#cb44-15" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">102</span>, <span class="dv">120</span>, <span class="dv">117</span>, <span class="dv">198</span>, <span class="dv">103</span>, <span class="dv">132</span>, <span class="dv">132</span>, <span class="dv">139</span>, <span class="dv">102</span>, <span class="dv">154</span>, <span class="dv">96</span>, <span class="dv">163</span>, <span class="dv">116</span>, <span class="dv">153</span>, <span class="dv">133</span>, <span class="dv">133</span>, <span class="dv">140</span>, <span class="dv">142</span>, <span class="dv">145</span>, <span class="dv">142</span>)</span>
-<span id="cb44-16"><a href="qualitytools.html#cb44-16" tabindex="-1"></a>y2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">900</span>, <span class="dv">860</span>, <span class="dv">800</span>, <span class="dv">2294</span>, <span class="dv">490</span>, <span class="dv">1289</span>, <span class="dv">1270</span>, <span class="dv">1090</span>, <span class="dv">770</span>, <span class="dv">1690</span>, <span class="dv">700</span>, <span class="dv">1540</span>, <span class="dv">2184</span>, <span class="dv">1784</span>, <span class="dv">1300</span>, <span class="dv">1300</span>, <span class="dv">1145</span>, <span class="dv">1090</span>, <span class="dv">1260</span>, <span class="dv">1344</span>)</span>
-<span id="cb44-17"><a href="qualitytools.html#cb44-17" tabindex="-1"></a>y3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">470</span>, <span class="dv">410</span>, <span class="dv">570</span>, <span class="dv">240</span>, <span class="dv">640</span>, <span class="dv">270</span>, <span class="dv">410</span>, <span class="dv">380</span>, <span class="dv">590</span>, <span class="dv">260</span>, <span class="dv">520</span>, <span class="dv">380</span>, <span class="dv">520</span>, <span class="dv">290</span>, <span class="dv">380</span>, <span class="dv">380</span>, <span class="dv">430</span>, <span class="dv">430</span>, <span class="dv">390</span>, <span class="dv">390</span>)</span>
-<span id="cb44-18"><a href="qualitytools.html#cb44-18" tabindex="-1"></a>y4 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">67.5</span>, <span class="dv">65</span>, <span class="fl">77.5</span>, <span class="fl">74.5</span>, <span class="fl">62.5</span>, <span class="dv">67</span>, <span class="dv">78</span>, <span class="dv">70</span>, <span class="dv">76</span>, <span class="dv">70</span>, <span class="dv">63</span>, <span class="dv">75</span>, <span class="dv">65</span>, <span class="dv">71</span>, <span class="dv">70</span>, <span class="fl">68.5</span>, <span class="dv">68</span>, <span class="dv">68</span>, <span class="dv">69</span>, <span class="dv">70</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="qualitytools.html#cb136-1" tabindex="-1"></a>ddo <span class="ot">&lt;-</span> <span class="fu">rsmDesign</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">1.633</span>, <span class="at">cc =</span> <span class="dv">0</span>, <span class="at">cs =</span> <span class="dv">6</span>)</span>
+<span id="cb136-2"><a href="qualitytools.html#cb136-2" tabindex="-1"></a>ddo <span class="ot">&lt;-</span> <span class="fu">randomize</span>(ddo, <span class="at">so =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb136-3"><a href="qualitytools.html#cb136-3" tabindex="-1"></a></span>
+<span id="cb136-4"><a href="qualitytools.html#cb136-4" tabindex="-1"></a><span class="co"># Opcional</span></span>
+<span id="cb136-5"><a href="qualitytools.html#cb136-5" tabindex="-1"></a><span class="fu">names</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;silica&quot;</span>, <span class="st">&quot;silan&quot;</span>, <span class="st">&quot;sulfur&quot;</span>)</span>
+<span id="cb136-6"><a href="qualitytools.html#cb136-6" tabindex="-1"></a></span>
+<span id="cb136-7"><a href="qualitytools.html#cb136-7" tabindex="-1"></a><span class="co"># Opcional</span></span>
+<span id="cb136-8"><a href="qualitytools.html#cb136-8" tabindex="-1"></a><span class="fu">highs</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.7</span>, <span class="dv">60</span>, <span class="fl">2.8</span>)</span>
+<span id="cb136-9"><a href="qualitytools.html#cb136-9" tabindex="-1"></a></span>
+<span id="cb136-10"><a href="qualitytools.html#cb136-10" tabindex="-1"></a><span class="co"># Opcional</span></span>
+<span id="cb136-11"><a href="qualitytools.html#cb136-11" tabindex="-1"></a><span class="fu">lows</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="dv">40</span>, <span class="fl">1.8</span>)</span>
+<span id="cb136-12"><a href="qualitytools.html#cb136-12" tabindex="-1"></a></span>
+<span id="cb136-13"><a href="qualitytools.html#cb136-13" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb136-14"><a href="qualitytools.html#cb136-14" tabindex="-1"></a></span>
+<span id="cb136-15"><a href="qualitytools.html#cb136-15" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">102</span>, <span class="dv">120</span>, <span class="dv">117</span>, <span class="dv">198</span>, <span class="dv">103</span>, <span class="dv">132</span>, <span class="dv">132</span>, <span class="dv">139</span>, <span class="dv">102</span>, <span class="dv">154</span>, <span class="dv">96</span>, <span class="dv">163</span>, <span class="dv">116</span>, <span class="dv">153</span>, <span class="dv">133</span>, <span class="dv">133</span>, <span class="dv">140</span>, <span class="dv">142</span>, <span class="dv">145</span>, <span class="dv">142</span>)</span>
+<span id="cb136-16"><a href="qualitytools.html#cb136-16" tabindex="-1"></a>y2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">900</span>, <span class="dv">860</span>, <span class="dv">800</span>, <span class="dv">2294</span>, <span class="dv">490</span>, <span class="dv">1289</span>, <span class="dv">1270</span>, <span class="dv">1090</span>, <span class="dv">770</span>, <span class="dv">1690</span>, <span class="dv">700</span>, <span class="dv">1540</span>, <span class="dv">2184</span>, <span class="dv">1784</span>, <span class="dv">1300</span>, <span class="dv">1300</span>, <span class="dv">1145</span>, <span class="dv">1090</span>, <span class="dv">1260</span>, <span class="dv">1344</span>)</span>
+<span id="cb136-17"><a href="qualitytools.html#cb136-17" tabindex="-1"></a>y3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">470</span>, <span class="dv">410</span>, <span class="dv">570</span>, <span class="dv">240</span>, <span class="dv">640</span>, <span class="dv">270</span>, <span class="dv">410</span>, <span class="dv">380</span>, <span class="dv">590</span>, <span class="dv">260</span>, <span class="dv">520</span>, <span class="dv">380</span>, <span class="dv">520</span>, <span class="dv">290</span>, <span class="dv">380</span>, <span class="dv">380</span>, <span class="dv">430</span>, <span class="dv">430</span>, <span class="dv">390</span>, <span class="dv">390</span>)</span>
+<span id="cb136-18"><a href="qualitytools.html#cb136-18" tabindex="-1"></a>y4 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">67.5</span>, <span class="dv">65</span>, <span class="fl">77.5</span>, <span class="fl">74.5</span>, <span class="fl">62.5</span>, <span class="dv">67</span>, <span class="dv">78</span>, <span class="dv">70</span>, <span class="dv">76</span>, <span class="dv">70</span>, <span class="dv">63</span>, <span class="dv">75</span>, <span class="dv">65</span>, <span class="dv">71</span>, <span class="dv">70</span>, <span class="fl">68.5</span>, <span class="dv">68</span>, <span class="dv">68</span>, <span class="dv">69</span>, <span class="dv">70</span>)</span></code></pre></div>
 <p>El <code>data.frame</code> ordenado de estas 4 respuestas se asigna al objeto de diseño <code>ddo</code>.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="qualitytools.html#cb45-1" tabindex="-1"></a><span class="fu">response</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y1, y2, y3, y4)[<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">4</span>, <span class="dv">9</span><span class="sc">:</span><span class="dv">20</span>), ]</span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="qualitytools.html#cb137-1" tabindex="-1"></a><span class="fu">response</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y1, y2, y3, y4)[<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">4</span>, <span class="dv">9</span><span class="sc">:</span><span class="dv">20</span>), ]</span></code></pre></div>
 <p>Las deseabilidades se incorporan con el método <code>desires</code> .
 Ya se han definido <span class="math inline">\(y_1\)</span> e <span class="math inline">\(y_3\)</span>, por lo que quedan por definir las deseabilidades de <span class="math inline">\(y_2\)</span> e <span class="math inline">\(y_4\)</span>.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="qualitytools.html#cb46-1" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">desirability</span>(y2, <span class="dv">1000</span>, <span class="dv">1300</span>, <span class="at">target =</span> <span class="st">&quot;max&quot;</span>)</span>
-<span id="cb46-2"><a href="qualitytools.html#cb46-2" tabindex="-1"></a>d4 <span class="ot">&lt;-</span> <span class="fu">desirability</span>(y4, <span class="dv">60</span>, <span class="dv">75</span>, <span class="at">target =</span> <span class="fl">67.5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="qualitytools.html#cb138-1" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">desirability</span>(y2, <span class="dv">1000</span>, <span class="dv">1300</span>, <span class="at">target =</span> <span class="st">&quot;max&quot;</span>)</span>
+<span id="cb138-2"><a href="qualitytools.html#cb138-2" tabindex="-1"></a>d4 <span class="ot">&lt;-</span> <span class="fu">desirability</span>(y4, <span class="dv">60</span>, <span class="dv">75</span>, <span class="at">target =</span> <span class="fl">67.5</span>)</span></code></pre></div>
 <p>Es necesario definir las deseabilidades con los nombres de las variables de respuesta para poder utilizarlas con el objeto de diseño. El método de los deseos se utiliza del siguiente modo</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="qualitytools.html#cb47-1" tabindex="-1"></a><span class="fu">desires</span>(ddo) <span class="ot">&lt;-</span> d1</span>
-<span id="cb47-2"><a href="qualitytools.html#cb47-2" tabindex="-1"></a><span class="fu">desires</span>(ddo) <span class="ot">&lt;-</span> d2</span>
-<span id="cb47-3"><a href="qualitytools.html#cb47-3" tabindex="-1"></a><span class="fu">desires</span>(ddo) <span class="ot">&lt;-</span> d3</span>
-<span id="cb47-4"><a href="qualitytools.html#cb47-4" tabindex="-1"></a><span class="fu">desires</span>(ddo) <span class="ot">&lt;-</span> d4</span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="qualitytools.html#cb139-1" tabindex="-1"></a><span class="fu">desires</span>(ddo) <span class="ot">&lt;-</span> d1</span>
+<span id="cb139-2"><a href="qualitytools.html#cb139-2" tabindex="-1"></a><span class="fu">desires</span>(ddo) <span class="ot">&lt;-</span> d2</span>
+<span id="cb139-3"><a href="qualitytools.html#cb139-3" tabindex="-1"></a><span class="fu">desires</span>(ddo) <span class="ot">&lt;-</span> d3</span>
+<span id="cb139-4"><a href="qualitytools.html#cb139-4" tabindex="-1"></a><span class="fu">desires</span>(ddo) <span class="ot">&lt;-</span> d4</span></code></pre></div>
 <p>Los ajustes se establecen como en Derringer y Suich [1980] utilizando los métodos de ajuste del paquete qualityTools de calidad.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="qualitytools.html#cb48-1" tabindex="-1"></a><span class="fu">fits</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(y1 <span class="sc">~</span> A <span class="sc">+</span> B <span class="sc">+</span> C <span class="sc">+</span> A<span class="sc">:</span>B <span class="sc">+</span> A<span class="sc">:</span>C <span class="sc">+</span> B<span class="sc">:</span>C <span class="sc">+</span> <span class="fu">I</span>(A<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(B<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(C<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> ddo)</span>
-<span id="cb48-2"><a href="qualitytools.html#cb48-2" tabindex="-1"></a><span class="fu">fits</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(y2 <span class="sc">~</span> A <span class="sc">+</span> B <span class="sc">+</span> C <span class="sc">+</span> A<span class="sc">:</span>B <span class="sc">+</span> A<span class="sc">:</span>C <span class="sc">+</span> B<span class="sc">:</span>C <span class="sc">+</span> <span class="fu">I</span>(A<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(B<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(C<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> ddo)</span>
-<span id="cb48-3"><a href="qualitytools.html#cb48-3" tabindex="-1"></a><span class="fu">fits</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(y3 <span class="sc">~</span> A <span class="sc">+</span> B <span class="sc">+</span> C <span class="sc">+</span> A<span class="sc">:</span>B <span class="sc">+</span> A<span class="sc">:</span>C <span class="sc">+</span> B<span class="sc">:</span>C <span class="sc">+</span> <span class="fu">I</span>(A<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(B<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(C<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> ddo)</span>
-<span id="cb48-4"><a href="qualitytools.html#cb48-4" tabindex="-1"></a><span class="fu">fits</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(y4 <span class="sc">~</span> A <span class="sc">+</span> B <span class="sc">+</span> C <span class="sc">+</span> A<span class="sc">:</span>B <span class="sc">+</span> A<span class="sc">:</span>C <span class="sc">+</span> B<span class="sc">:</span>C <span class="sc">+</span> <span class="fu">I</span>(A<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(B<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(C<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> ddo)</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="qualitytools.html#cb140-1" tabindex="-1"></a><span class="fu">fits</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(y1 <span class="sc">~</span> A <span class="sc">+</span> B <span class="sc">+</span> C <span class="sc">+</span> A<span class="sc">:</span>B <span class="sc">+</span> A<span class="sc">:</span>C <span class="sc">+</span> B<span class="sc">:</span>C <span class="sc">+</span> <span class="fu">I</span>(A<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(B<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(C<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> ddo)</span>
+<span id="cb140-2"><a href="qualitytools.html#cb140-2" tabindex="-1"></a><span class="fu">fits</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(y2 <span class="sc">~</span> A <span class="sc">+</span> B <span class="sc">+</span> C <span class="sc">+</span> A<span class="sc">:</span>B <span class="sc">+</span> A<span class="sc">:</span>C <span class="sc">+</span> B<span class="sc">:</span>C <span class="sc">+</span> <span class="fu">I</span>(A<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(B<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(C<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> ddo)</span>
+<span id="cb140-3"><a href="qualitytools.html#cb140-3" tabindex="-1"></a><span class="fu">fits</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(y3 <span class="sc">~</span> A <span class="sc">+</span> B <span class="sc">+</span> C <span class="sc">+</span> A<span class="sc">:</span>B <span class="sc">+</span> A<span class="sc">:</span>C <span class="sc">+</span> B<span class="sc">:</span>C <span class="sc">+</span> <span class="fu">I</span>(A<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(B<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(C<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> ddo)</span>
+<span id="cb140-4"><a href="qualitytools.html#cb140-4" tabindex="-1"></a><span class="fu">fits</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(y4 <span class="sc">~</span> A <span class="sc">+</span> B <span class="sc">+</span> C <span class="sc">+</span> A<span class="sc">:</span>B <span class="sc">+</span> A<span class="sc">:</span>C <span class="sc">+</span> B<span class="sc">:</span>C <span class="sc">+</span> <span class="fu">I</span>(A<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(B<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(C<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> ddo)</span></code></pre></div>
 <p>Finalmente se tiene que</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="qualitytools.html#cb49-1" tabindex="-1"></a><span class="fu">optimum</span>(ddo, <span class="at">type =</span> <span class="st">&quot;optim&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="qualitytools.html#cb141-1" tabindex="-1"></a><span class="fu">optimum</span>(ddo, <span class="at">type =</span> <span class="st">&quot;optim&quot;</span>)</span></code></pre></div>
 <p><img src="graficos/dario4.jpg" width="700" />
 ## Diseños de mezclas</p>
 <p>La generación de los diferentes tipos de diseños de mezcla es totalmente compatible
@@ -859,9 +859,9 @@ incluyendo un contorno ternario y un gráfico 3D. El análisis de estos diseños
 El método mixDesign puede utilizarse, por ejemplo, para crear diseños de celosía simplex y diseños de centroide simplex.
 Los métodos genéricos <code>response</code>, <code>names</code>, <code>highs</code>, <code>lows</code>, <code>units</code> y <code>types</code> vuelven a estar presentes.
 Un conjunto de datos Cornell [op. 2002] viene dado por el alargamiento del hilo para varias mezclas de tres factores. Este ejemplo puede reconstruirse utilizando el método <code>mixDesign</code>.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="qualitytools.html#cb50-1" tabindex="-1"></a><span class="co">#EJEMPLO </span></span>
-<span id="cb50-2"><a href="qualitytools.html#cb50-2" tabindex="-1"></a></span>
-<span id="cb50-3"><a href="qualitytools.html#cb50-3" tabindex="-1"></a>mdo <span class="ot">&lt;-</span> <span class="fu">mixDesign</span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="at">center =</span> <span class="cn">FALSE</span>, <span class="at">axial =</span> <span class="cn">FALSE</span>, <span class="at">randomize =</span> <span class="cn">FALSE</span>, <span class="at">replicates =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="qualitytools.html#cb142-1" tabindex="-1"></a><span class="co">#EJEMPLO </span></span>
+<span id="cb142-2"><a href="qualitytools.html#cb142-2" tabindex="-1"></a></span>
+<span id="cb142-3"><a href="qualitytools.html#cb142-3" tabindex="-1"></a>mdo <span class="ot">&lt;-</span> <span class="fu">mixDesign</span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="at">center =</span> <span class="cn">FALSE</span>, <span class="at">axial =</span> <span class="cn">FALSE</span>, <span class="at">randomize =</span> <span class="cn">FALSE</span>, <span class="at">replicates =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
 <pre><code>## Warning in `[&lt;-`(`*tmp*`, i, value = new(&quot;doeFactor&quot;)): implicit list embedding
 ## of S4 objects is deprecated
 
@@ -870,13 +870,13 @@ Un conjunto de datos Cornell [op. 2002] viene dado por el alargamiento del hilo 
 
 ## Warning in `[&lt;-`(`*tmp*`, i, value = new(&quot;doeFactor&quot;)): implicit list embedding
 ## of S4 objects is deprecated</code></pre>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="qualitytools.html#cb52-1" tabindex="-1"></a><span class="fu">names</span>(mdo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;polyethylene&quot;</span>, <span class="st">&quot;polystyrene&quot;</span>, <span class="st">&quot;polypropylene&quot;</span>)</span>
-<span id="cb52-2"><a href="qualitytools.html#cb52-2" tabindex="-1"></a></span>
-<span id="cb52-3"><a href="qualitytools.html#cb52-3" tabindex="-1"></a><span class="co"># Establecer respuesta (es decir, elongación del hilo)</span></span>
-<span id="cb52-4"><a href="qualitytools.html#cb52-4" tabindex="-1"></a>elongation <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">11.0</span>, <span class="fl">12.4</span>, <span class="fl">15.0</span>, <span class="fl">14.8</span>, <span class="fl">16.1</span>, <span class="fl">17.7</span>, <span class="fl">16.4</span>, <span class="fl">16.6</span>, <span class="fl">8.8</span>, <span class="fl">10.0</span>, <span class="fl">10.0</span>, <span class="fl">9.7</span>, <span class="fl">11.8</span>, <span class="fl">16.8</span>, <span class="fl">16.0</span>)</span>
-<span id="cb52-5"><a href="qualitytools.html#cb52-5" tabindex="-1"></a><span class="fu">response</span>(mdo) <span class="ot">&lt;-</span> elongation</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="qualitytools.html#cb144-1" tabindex="-1"></a><span class="fu">names</span>(mdo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;polyethylene&quot;</span>, <span class="st">&quot;polystyrene&quot;</span>, <span class="st">&quot;polypropylene&quot;</span>)</span>
+<span id="cb144-2"><a href="qualitytools.html#cb144-2" tabindex="-1"></a></span>
+<span id="cb144-3"><a href="qualitytools.html#cb144-3" tabindex="-1"></a><span class="co"># Establecer respuesta (es decir, elongación del hilo)</span></span>
+<span id="cb144-4"><a href="qualitytools.html#cb144-4" tabindex="-1"></a>elongation <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">11.0</span>, <span class="fl">12.4</span>, <span class="fl">15.0</span>, <span class="fl">14.8</span>, <span class="fl">16.1</span>, <span class="fl">17.7</span>, <span class="fl">16.4</span>, <span class="fl">16.6</span>, <span class="fl">8.8</span>, <span class="fl">10.0</span>, <span class="fl">10.0</span>, <span class="fl">9.7</span>, <span class="fl">11.8</span>, <span class="fl">16.8</span>, <span class="fl">16.0</span>)</span>
+<span id="cb144-5"><a href="qualitytools.html#cb144-5" tabindex="-1"></a><span class="fu">response</span>(mdo) <span class="ot">&lt;-</span> elongation</span></code></pre></div>
 <pre><code>## [1] &quot;elongation&quot;</code></pre>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="qualitytools.html#cb54-1" tabindex="-1"></a>mdo</span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="qualitytools.html#cb146-1" tabindex="-1"></a>mdo</span></code></pre></div>
 <pre><code>##    StandOrder RunOrder    Type   A   B   C elongation
 ## 1           1        1 1-blend 1.0 0.0 0.0       11.0
 ## 2           2        2 1-blend 1.0 0.0 0.0       12.4
@@ -893,10 +893,10 @@ Un conjunto de datos Cornell [op. 2002] viene dado por el alargamiento del hilo 
 ## 13         13       13 2-blend 0.0 0.5 0.5       11.8
 ## 14         14       14 1-blend 0.0 0.0 1.0       16.8
 ## 15         15       15 1-blend 0.0 0.0 1.0       16.0</code></pre>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="qualitytools.html#cb56-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb56-2"><a href="qualitytools.html#cb56-2" tabindex="-1"></a><span class="fu">contourPlot3</span>(A, B, C, elongation, <span class="at">data =</span> mdo, <span class="at">form =</span> <span class="st">&quot;quadratic&quot;</span>)</span>
-<span id="cb56-3"><a href="qualitytools.html#cb56-3" tabindex="-1"></a><span class="fu">wirePlot3</span>(A, B, C, elongation, <span class="at">data =</span> mdo, <span class="at">form =</span> <span class="st">&quot;quadratic&quot;</span>, <span class="at">theta =</span> <span class="sc">-</span><span class="dv">170</span>)</span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="qualitytools.html#cb148-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb148-2"><a href="qualitytools.html#cb148-2" tabindex="-1"></a><span class="fu">contourPlot3</span>(A, B, C, elongation, <span class="at">data =</span> mdo, <span class="at">form =</span> <span class="st">&quot;quadratic&quot;</span>)</span>
+<span id="cb148-3"><a href="qualitytools.html#cb148-3" tabindex="-1"></a><span class="fu">wirePlot3</span>(A, B, C, elongation, <span class="at">data =</span> mdo, <span class="at">form =</span> <span class="st">&quot;quadratic&quot;</span>, <span class="at">theta =</span> <span class="sc">-</span><span class="dv">170</span>)</span></code></pre></div>
+<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
 </div>
 <div id="diseños-taguchi" class="section level2 hasAnchor" number="5.7">
 <h2><span class="header-section-number">5.7</span> Diseños Taguchi<a href="qualitytools.html#diseños-taguchi" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -908,10 +908,10 @@ Un conjunto de datos Cornell [op. 2002] viene dado por el alargamiento del hilo 
 </ul>
 <p>Sin embargo, la mayoría de los diseños que se popularizaron como diseños Taguchi son factoriales fraccionados <span class="math inline">\(2^k\)</span> con una resolución muy baja de III (es decir, los efectos principales se confunden con interacciones de dos factores) u otros diseños de nivel mixto.
 Se puede crear un diseño utilizando el método <code>taguchiDesign</code>. Los nombres de métodos genéricos, unidades, valores, resumen, trazado, lm y otros métodos se pueden utilizar.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="qualitytools.html#cb57-1" tabindex="-1"></a><span class="co">#EJEMPLO</span></span>
-<span id="cb57-2"><a href="qualitytools.html#cb57-2" tabindex="-1"></a></span>
-<span id="cb57-3"><a href="qualitytools.html#cb57-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb57-4"><a href="qualitytools.html#cb57-4" tabindex="-1"></a>tdo <span class="ot">&lt;-</span> <span class="fu">taguchiDesign</span>(<span class="st">&quot;L9_3&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="qualitytools.html#cb149-1" tabindex="-1"></a><span class="co">#EJEMPLO</span></span>
+<span id="cb149-2"><a href="qualitytools.html#cb149-2" tabindex="-1"></a></span>
+<span id="cb149-3"><a href="qualitytools.html#cb149-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb149-4"><a href="qualitytools.html#cb149-4" tabindex="-1"></a>tdo <span class="ot">&lt;-</span> <span class="fu">taguchiDesign</span>(<span class="st">&quot;L9_3&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning in `[&lt;-`(`*tmp*`, i, value = new(&quot;taguchiFactor&quot;)): implicit list
 ## embedding of S4 objects is deprecated
 
@@ -923,9 +923,9 @@ Se puede crear un diseño utilizando el método <code>taguchiDesign</code>. Los 
 
 ## Warning in `[&lt;-`(`*tmp*`, i, value = new(&quot;taguchiFactor&quot;)): implicit list
 ## embedding of S4 objects is deprecated</code></pre>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="qualitytools.html#cb59-1" tabindex="-1"></a><span class="fu">values</span>(tdo) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">A =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">60</span>), <span class="at">B =</span> <span class="fu">c</span>(<span class="st">&quot;material 1&quot;</span>, <span class="st">&quot;material 2&quot;</span>, <span class="st">&quot;material 3&quot;</span>), <span class="at">C =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span>
-<span id="cb59-2"><a href="qualitytools.html#cb59-2" tabindex="-1"></a><span class="fu">names</span>(tdo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Factor 1&quot;</span>, <span class="st">&quot;Factor 2&quot;</span>, <span class="st">&quot;Factor 3&quot;</span>, <span class="st">&quot;Factor 4&quot;</span>)</span>
-<span id="cb59-3"><a href="qualitytools.html#cb59-3" tabindex="-1"></a><span class="fu">summary</span>(tdo)</span></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="qualitytools.html#cb151-1" tabindex="-1"></a><span class="fu">values</span>(tdo) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">A =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">60</span>), <span class="at">B =</span> <span class="fu">c</span>(<span class="st">&quot;material 1&quot;</span>, <span class="st">&quot;material 2&quot;</span>, <span class="st">&quot;material 3&quot;</span>), <span class="at">C =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb151-2"><a href="qualitytools.html#cb151-2" tabindex="-1"></a><span class="fu">names</span>(tdo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Factor 1&quot;</span>, <span class="st">&quot;Factor 2&quot;</span>, <span class="st">&quot;Factor 3&quot;</span>, <span class="st">&quot;Factor 4&quot;</span>)</span>
+<span id="cb151-3"><a href="qualitytools.html#cb151-3" tabindex="-1"></a><span class="fu">summary</span>(tdo)</span></code></pre></div>
 <pre><code>## Taguchi SINGLE Design
 ## Information about the factors:
 ## 
@@ -953,12 +953,12 @@ Se puede crear un diseño utilizando el método <code>taguchiDesign</code>. Los 
 ## -----------</code></pre>
 <p>El método <code>response</code> se utiliza para asignar los valores de las variables de respuesta. <code>effectPlot</code>
 puede utilizarse una vez más para visualizar los tamaños del efecto de los factores</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="qualitytools.html#cb61-1" tabindex="-1"></a><span class="fu">response</span>(tdo) <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">9</span>)</span>
-<span id="cb61-2"><a href="qualitytools.html#cb61-2" tabindex="-1"></a><span class="fu">effectPlot</span>(tdo, <span class="at">col =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-55-1.png" width="672" />
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="qualitytools.html#cb153-1" tabindex="-1"></a><span class="fu">response</span>(tdo) <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">9</span>)</span>
+<span id="cb153-2"><a href="qualitytools.html#cb153-2" tabindex="-1"></a><span class="fu">effectPlot</span>(tdo, <span class="at">col =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-132-1.png" width="672" />
 Como extra es importante el uso del comando <code>sessionInfo</code> con el fin de obtener el número de versión de R y los paquetes cargados :</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="qualitytools.html#cb62-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
-<pre><code>## R version 4.3.2 (2023-10-31 ucrt)
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="qualitytools.html#cb154-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<pre><code>## R version 4.3.1 (2023-06-16 ucrt)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows 11 x64 (build 22631)
 ## 
@@ -970,22 +970,54 @@ Como extra es importante el uso del comando <code>sessionInfo</code> con el fin 
 ## [3] LC_MONETARY=Spanish_Ecuador.utf8 LC_NUMERIC=C                    
 ## [5] LC_TIME=Spanish_Ecuador.utf8    
 ## 
-## time zone: Europe/Paris
+## time zone: America/Guayaquil
 ## tzcode source: internal
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] qualityTools_1.55 MASS_7.3-60       Rsolnp_1.16      
+##  [1] qualityTools_1.55          MASS_7.3-60               
+##  [3] Rsolnp_1.16                tidyquant_1.0.7           
+##  [5] quantmod_0.4.25            TTR_0.24.3                
+##  [7] PerformanceAnalytics_2.0.4 xts_0.13.1                
+##  [9] zoo_1.8-12                 lubridate_1.9.2           
+## [11] forcats_1.0.0              stringr_1.5.0             
+## [13] dplyr_1.1.2                purrr_1.0.2               
+## [15] readr_2.1.4                tidyr_1.3.0               
+## [17] tibble_3.2.1               ggplot2_3.4.4             
+## [19] tidyverse_2.0.0            R6_2.5.1                  
+## [21] sloop_1.0.1               
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] digest_0.6.33     R6_2.5.1          bookdown_0.37     fastmap_1.1.1    
-##  [5] xfun_0.41         truncnorm_1.0-9   cachem_1.0.8      parallel_4.3.2   
-##  [9] knitr_1.45        htmltools_0.5.7   rmarkdown_2.25    lifecycle_1.0.4  
-## [13] cli_3.6.1         sass_0.4.7        jquerylib_0.1.4   compiler_4.3.2   
-## [17] highr_0.10        rstudioapi_0.15.0 tools_4.3.2       evaluate_0.23    
-## [21] bslib_0.6.0       yaml_2.3.7        jsonlite_1.8.7    rlang_1.1.2</code></pre>
+##  [1] tidyselect_1.2.0    timeDate_4022.108   farver_2.1.1       
+##  [4] blob_1.2.4          fastmap_1.1.1       lazyeval_0.2.2     
+##  [7] digest_0.6.33       rpart_4.1.19        timechange_0.2.0   
+## [10] lifecycle_1.0.3     survival_3.5-5      RSQLite_2.3.6      
+## [13] magrittr_2.0.3      compiler_4.3.1      rlang_1.1.1        
+## [16] sass_0.4.7          tools_4.3.1         utf8_1.2.3         
+## [19] yaml_2.3.7          data.table_1.14.8   knitr_1.45         
+## [22] labeling_0.4.2      bit_4.0.5           curl_5.0.2         
+## [25] withr_2.5.0         nnet_7.3-19         grid_4.3.1         
+## [28] fansi_1.0.4         timetk_2.9.0        colorspace_2.1-0   
+## [31] future_1.33.0       globals_0.16.2      scales_1.2.1       
+## [34] cli_3.6.1           rmarkdown_2.24      generics_0.1.3     
+## [37] rstudioapi_0.15.0   future.apply_1.11.0 httr_1.4.7         
+## [40] tzdb_0.4.0          DBI_1.2.2           cachem_1.0.8       
+## [43] splines_4.3.1       parallel_4.3.1      vctrs_0.6.3        
+## [46] hardhat_1.3.0       Matrix_1.6-5        jsonlite_1.8.7     
+## [49] bookdown_0.38       hms_1.1.3           bit64_4.0.5        
+## [52] listenv_0.9.0       gower_1.0.1         jquerylib_0.1.4    
+## [55] recipes_1.0.7       glue_1.6.2          parallelly_1.36.0  
+## [58] codetools_0.2-19    Quandl_2.11.0       rsample_1.2.1      
+## [61] stringi_1.7.12      gtable_0.3.4        quadprog_1.5-8     
+## [64] munsell_0.5.0       furrr_0.3.1         pillar_1.9.0       
+## [67] htmltools_0.5.6     ipred_0.9-14        truncnorm_1.0-9    
+## [70] lava_1.7.2.1        evaluate_0.21       lattice_0.21-8     
+## [73] highr_0.10          memoise_2.0.1       bslib_0.5.1        
+## [76] class_7.3-22        Rcpp_1.0.11         nlme_3.1-162       
+## [79] prodlim_2023.03.31  mgcv_1.8-42         xfun_0.40          
+## [82] pkgconfig_2.0.3</code></pre>
 
 </div>
 </div>
@@ -995,7 +1027,7 @@ Como extra es importante el uso del comando <code>sessionInfo</code> con el fin 
         </div>
       </div>
 <a href="tidyquant.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -1026,7 +1058,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/Libro_TidyQualityTools/edit/master/03-QualityTools.Rmd",
+"link": "https://github.com/rstudio/Libro_TidyQualityTools/edit/master/04-QualityTools.Rmd",
 "text": "Edit"
 },
 "history": {
