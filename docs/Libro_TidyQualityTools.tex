@@ -121,12 +121,12 @@
 \urlstyle{same}
 \hypersetup{
   pdftitle={Integración del Paquete QualityTools con Tidyverse},
-  pdfauthor={Miguel Flores, Andrea Barahona, Fabian Encarnación, Dario Quispe},
+  pdfauthor={Miguel Flores; Andrea Barahona; Fabián Encarnación; Dario Quishpe},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
 \title{Integración del Paquete QualityTools con Tidyverse}
-\author{Miguel Flores, Andrea Barahona, Fabian Encarnación, Dario Quispe}
+\author{Miguel Flores \and Andrea Barahona \and Fabián Encarnación \and Dario Quishpe}
 \date{2024-04-22}
 
 \begin{document}
@@ -840,11 +840,11 @@ Por ejemplo, creemos un campo activo llamado \texttt{random} que nos devuelva un
 \NormalTok{))}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Ran}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.5409355}
+\DocumentationTok{\#\# [1] 0.7923997}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.6215423}
+\DocumentationTok{\#\# [1] 0.2899852}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.9649983}
+\DocumentationTok{\#\# [1] 0.4831144}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1265,11 +1265,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \DocumentationTok{\#\# [49] "J♥"  "Q♦"  "K♣"}
 \NormalTok{mazo}\SpecialCharTok{$}\FunctionTok{reshuffle}\NormalTok{()}
 \NormalTok{mazo}\SpecialCharTok{$}\NormalTok{.cartas}
-\DocumentationTok{\#\#  [1] "9♥"  "2♥"  "A♥"  "6♣"  "3♥"  "3♠"  "J♦"  "9♦"  "4♣"  "6♦"  "10♦" "7♠" }
-\DocumentationTok{\#\# [13] "9♣"  "8♦"  "10♠" "Q♠"  "K♣"  "K♦"  "5♥"  "J♠"  "10♥" "5♠"  "9♠"  "3♣" }
-\DocumentationTok{\#\# [25] "A♣"  "J♣"  "6♠"  "3♦"  "Q♥"  "J♥"  "2♠"  "2♦"  "6♥"  "5♣"  "7♥"  "5♦" }
-\DocumentationTok{\#\# [37] "K♠"  "7♦"  "4♠"  "10♣" "Q♣"  "4♥"  "8♣"  "4♦"  "Q♦"  "8♥"  "2♣"  "A♦" }
-\DocumentationTok{\#\# [49] "7♣"  "8♠"  "K♥"  "A♠"}
+\DocumentationTok{\#\#  [1] "A♥"  "3♥"  "4♣"  "A♣"  "9♥"  "8♣"  "6♦"  "6♠"  "Q♥"  "K♥"  "7♥"  "K♣" }
+\DocumentationTok{\#\# [13] "4♥"  "7♠"  "5♥"  "2♥"  "2♠"  "K♦"  "7♦"  "A♦"  "6♣"  "5♦"  "8♦"  "J♣" }
+\DocumentationTok{\#\# [25] "9♦"  "Q♦"  "J♠"  "8♠"  "3♠"  "10♥" "A♠"  "3♣"  "9♠"  "4♠"  "10♣" "2♣" }
+\DocumentationTok{\#\# [37] "9♣"  "10♦" "7♣"  "K♠"  "J♦"  "2♦"  "4♦"  "Q♣"  "3♦"  "J♥"  "6♥"  "8♥" }
+\DocumentationTok{\#\# [49] "Q♠"  "5♣"  "10♠" "5♠"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1440,11 +1440,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \NormalTok{)}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Rando}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.9527234}
+\DocumentationTok{\#\# [1] 0.7733284}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.1392697}
+\DocumentationTok{\#\# [1] 0.368185}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{previous}
-\DocumentationTok{\#\# [1] 0.1392697}
+\DocumentationTok{\#\# [1] 0.368185}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2304,12 +2304,12 @@ Se puede ver estadísticas de la relación a partir de la función \texttt{lm}:
 ## 
 ## Residuals:
 ##        Min         1Q     Median         3Q        Max 
-## -0.0269573 -0.0039654  0.0002149  0.0039649  0.0289459 
+## -0.0269574 -0.0039656  0.0002154  0.0039651  0.0289460 
 ## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(>|t|)    
 ## (Intercept) 0.0001130  0.0003097   0.365    0.715    
-## V           0.8133655  0.0226394  35.927   <2e-16 ***
+## V           0.8133653  0.0226394  35.927   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -2469,6 +2469,8 @@ Por ejemplo, en la causa más frecuente de un producto defectuoso, el diagrama d
 En este diagrama de Pareto podría transmitir el mensaje de que para resolver el \(68\%\) de los problemas, el \(33 \%\) de las causas (menos vitales) necesitan ser objeto de investigación.
 
 Además de este uso, los diagramas de Pareto también se utilizan para visualizar los tamaños de efectos de los diferentes factores para los experimentos diseñados, a continución se muestra un ejemplo de una gráfica de errores de medición.
+
+\includegraphics[width=7.29167in,height=\textheight]{graficos/erroresMedida.png}
 
 \hypertarget{fase-2-medir}{%
 \section{Fase 2: Medir}\label{fase-2-medir}}
