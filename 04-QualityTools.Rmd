@@ -41,7 +41,8 @@ En este diagrama de Pareto podría transmitir el mensaje de que para resolver el
 
 Además de este uso, los diagramas de Pareto también se utilizan para visualizar los tamaños de efectos de los diferentes factores para los experimentos diseñados, a continución se muestra un ejemplo de una gráfica de errores de medición.
 
-<center><img src='graficos/erroresMedida.png' width = '700'></center>
+![](graficos/erroresMedida.png){width=700}
+
 
 ## Fase 2: Medir
 
