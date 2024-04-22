@@ -51,13 +51,6 @@ diseños-replicados-y-puntos-centrales
 respuestas-múltiples
 pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado
 diseños-de-superficies-de-respuesta
-montaje-secuencial-de-diseños-de-superficie-de-respuesta
-montaje-secuencial-de-diseños-de-superficie-de-respuesta-1
-aleatorización
-aleatorización-1
-bloqueo
-bloqueo-1
 deseabilidades
 utilización-de-deseabilidades-junto-con-experimentos-diseñados
-diseños-de-mezclas
 diseños-taguchi
