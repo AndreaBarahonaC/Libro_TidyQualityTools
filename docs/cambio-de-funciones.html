@@ -1,137 +1,37 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html lang="en">
 <head>
-
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 6 Cambio de Funciones | Integración del Paquete QualityTools con Tidyverse</title>
-  <meta name="description" content="Capítulo 6 Cambio de Funciones | Integración del Paquete QualityTools con Tidyverse" />
-  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
-
-  <meta property="og:title" content="Capítulo 6 Cambio de Funciones | Integración del Paquete QualityTools con Tidyverse" />
-  <meta property="og:type" content="book" />
-  
-  
-  <meta name="github-repo" content="rstudio/Libro_TidyQualityTools" />
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 6 Cambio de Funciones | Integración del Paquete QualityTools con Tidyverse" />
-  
-  
-  
-
-<meta name="author" content="Miguel Flores" />
-<meta name="author" content="Andrea Barahona" />
-<meta name="author" content="Fabián Encarnación" />
-<meta name="author" content="Dario Quishpe" />
-
-
-<meta name="date" content="2024-04-23" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-<link rel="prev" href="qualitytools.html"/>
-<link rel="next" href="referencias.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-
-
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
-
-<style type="text/css">
-  
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-</style>
-
-<link rel="stylesheet" href="style.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capítulo 6 Cambio de Funciones | Integración del Paquete QualityTools con Tidyverse</title>
+<meta name="author" content="Miguel Flores">
+<meta name="author" content="Andrea Barahona">
+<meta name="author" content="Fabián Encarnación">
+<meta name="author" content="Dario Quishpe">
+<meta name="generator" content="bookdown 0.38 with bs4_book()">
+<meta property="og:title" content="Capítulo 6 Cambio de Funciones | Integración del Paquete QualityTools con Tidyverse">
+<meta property="og:type" content="book">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capítulo 6 Cambio de Funciones | Integración del Paquete QualityTools con Tidyverse">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<meta name="description" content='.scroll-100 {  max-height: 100px;  overflow-y: auto;  background-color: inherit; } library(qualityTools) # Paquetes necesarios # install.packages("ggplot2") # install.packages("patchwork") #...'>
+<meta property="og:description" content='.scroll-100 {  max-height: 100px;  overflow-y: auto;  background-color: inherit; } library(qualityTools) # Paquetes necesarios # install.packages("ggplot2") # install.packages("patchwork") #...'>
+<meta name="twitter:description" content='.scroll-100 {  max-height: 100px;  overflow-y: auto;  background-color: inherit; } library(qualityTools) # Paquetes necesarios # install.packages("ggplot2") # install.packages("patchwork") #...'>
 </head>
+<body data-spy="scroll" data-target="#toc">
 
-<body>
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
+<<<<<<< HEAD
 
 
   <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
@@ -243,22 +143,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 
       </nav>
+=======
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Integración del Paquete QualityTools con Tidyverse</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+>>>>>>> a8b725b107cd3ade9afd4976ed6558cfc0d3c521
     </div>
 
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Integración del Paquete QualityTools con Tidyverse</a>
-          </h1>
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Preámbulo</a></li>
+<li><a class="" href="poo-programaci%C3%B3n-orientada-a-objetos.html"><span class="header-section-number">2</span> (POO) Programación Orientada a Objetos</a></li>
+<li><a class="" href="r6.html"><span class="header-section-number">3</span> R6</a></li>
+<li><a class="" href="tidyquant.html"><span class="header-section-number">4</span> TidyQuant</a></li>
+<li><a class="" href="qualitytools.html"><span class="header-section-number">5</span> QualityTools</a></li>
+<li><a class="active" href="cambio-de-funciones.html"><span class="header-section-number">6</span> Cambio de Funciones</a></li>
+<li><a class="" href="referencias.html">Referencias</a></li>
+</ul>
+
+        <div class="book-extra">
+          
         </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
-<div id="cambio-de-funciones" class="section level1 hasAnchor" number="6">
-<h1><span class="header-section-number">Capítulo 6</span> Cambio de Funciones<a href="cambio-de-funciones.html#cambio-de-funciones" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="cambio-de-funciones" class="section level1" number="6">
+<h1>
+<span class="header-section-number">Capítulo 6</span> Cambio de Funciones<a class="anchor" aria-label="anchor" href="#cambio-de-funciones"><i class="fas fa-link"></i></a>
+</h1>
 <style type="text/css">
 .scroll-100 {
   max-height: 100px;
@@ -266,6 +184,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   background-color: inherit;
 }
 </style>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="cambio-de-funciones.html#cb156-1" tabindex="-1"></a><span class="fu">library</span>(qualityTools)</span>
 <span id="cb156-2"><a href="cambio-de-funciones.html#cb156-2" tabindex="-1"></a></span>
 <span id="cb156-3"><a href="cambio-de-funciones.html#cb156-3" tabindex="-1"></a><span class="co"># Paquetes necesarios</span></span>
@@ -381,6 +300,130 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb158-2"><a href="cambio-de-funciones.html#cb158-2" tabindex="-1"></a></span>
 <span id="cb158-3"><a href="cambio-de-funciones.html#cb158-3" tabindex="-1"></a><span class="fu">paretoChart</span>(defectos)</span></code></pre></div>
 <p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-137-1.png" width="672" /></p>
+=======
+<div class="sourceCode" id="cb156"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.r-qualitytools.org">qualityTools</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Paquetes necesarios</span></span>
+<span></span>
+<span><span class="co"># install.packages("ggplot2")</span></span>
+<span><span class="co"># install.packages("patchwork")</span></span>
+<span><span class="co"># install.packages("gridExtra")</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">gridExtra</span><span class="op">)</span></span></code></pre></div>
+<div id="fase-1-definir-1" class="section level2" number="6.1">
+<h2>
+<span class="header-section-number">6.1</span> Fase 1: Definir<a class="anchor" aria-label="anchor" href="#fase-1-definir-1"><i class="fas fa-link"></i></a>
+</h2>
+<div id="función-pareto" class="section level3" number="6.1.1">
+<h3>
+<span class="header-section-number">6.1.1</span> 1. Función Pareto<a class="anchor" aria-label="anchor" href="#funci%C3%B3n-pareto"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb157"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Nueva Función</span></span>
+<span><span class="va">Pareto_ggplot</span> <span class="op">&lt;-</span> <span class="kw">function</span> <span class="op">(</span><span class="va">x</span>, <span class="va">weight</span>, <span class="va">showTable</span> <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">showPlot</span> <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">las</span> <span class="op">=</span> <span class="fl">0</span>, <span class="va">main</span>, <span class="va">col</span>, <span class="va">border</span>, </span>
+<span>                         <span class="va">xlab</span>, <span class="va">ylab</span> <span class="op">=</span> <span class="st">"Frecuencia"</span>, <span class="va">percentVec</span>, <span class="va">...</span><span class="op">)</span> </span>
+<span><span class="op">{</span></span>
+<span>  <span class="va">varName</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/deparse.html">deparse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html">substitute</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>  <span class="va">corp.col</span> <span class="op">=</span> <span class="st">"#C4B9FF"</span></span>
+<span>  <span class="va">corp.border</span> <span class="op">=</span> <span class="st">"#9E0138"</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html">is.vector</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">is.data.frame</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">is.table</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"x debe ser de tipo: vector, dataframe o table"</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">is.table</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">xtable</span> <span class="op">=</span> <span class="va">x</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html">is.vector</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
+<span>      <span class="va">xtable</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">as.table</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>    <span class="kw">else</span> <span class="va">xtable</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">is.numeric</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span><span class="op">)</span> </span>
+<span>      <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"weight must be numeric!"</span><span class="op">)</span></span>
+<span>    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
+<span>      <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"weight is missing names for matching!"</span><span class="op">)</span></span>
+<span>    <span class="kw">else</span> <span class="op">{</span></span>
+<span>      <span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">xtable</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
+<span>        <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"names of weight and table do not match!"</span><span class="op">)</span></span>
+<span>      <span class="kw">else</span> <span class="op">{</span></span>
+<span>        <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">xtable</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>          <span class="va">xtable</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">=</span> <span class="va">weight</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">xtable</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">*</span> </span>
+<span>            <span class="va">xtable</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
+<span>        <span class="op">}</span></span>
+<span>      <span class="op">}</span></span>
+<span>    <span class="op">}</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="va">weight</span> <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">showTable</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="va">showTable</span> <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">xlab</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="va">xlab</span> <span class="op">=</span> <span class="st">""</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="va">main</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"Gráfica de Pareto de"</span>, <span class="va">varName</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">col</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="va">col</span> <span class="op">=</span> <span class="va">corp.col</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">border</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="va">border</span> <span class="op">=</span> <span class="va">corp.border</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">percentVec</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="va">percentVec</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span>
+<span>  <span class="va">call</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.call.html">match.call</a></span><span class="op">(</span>expand.dots <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="co"># Grafica</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">xtable</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">ylim</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">xtable</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">xtable</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1.025</span><span class="op">)</span></span>
+<span>    <span class="va">xtable</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="va">xtable</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span>, na.last <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="va">cumFreq</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">xtable</span><span class="op">)</span></span>
+<span>    <span class="va">sumFreq</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">xtable</span><span class="op">)</span></span>
+<span>    <span class="va">percentage</span> <span class="op">=</span> <span class="va">xtable</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">xtable</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span></span>
+<span>    <span class="va">cumPerc</span> <span class="op">=</span> <span class="va">cumFreq</span><span class="op">/</span><span class="va">sumFreq</span> <span class="op">*</span> <span class="fl">100</span>  </span>
+<span>    </span>
+<span>    </span>
+<span>    <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Frecuencia <span class="op">=</span> <span class="va">xtable</span>,</span>
+<span>                       Frec.Acum <span class="op">=</span> <span class="va">cumFreq</span>,</span>
+<span>                       Porcentaje <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">percentage</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
+<span>                       Por.Acum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">cumPerc</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="va">tabla</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html">reorder</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">xtable</span><span class="op">)</span>, <span class="op">-</span><span class="va">xtable</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">Frecuencia</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"Frecuencia"</span><span class="op">)</span>, width <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">Frec.Acum</span>, color <span class="op">=</span> <span class="st">"Frecuencia Acumulada"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">Frec.Acum</span>, group <span class="op">=</span> <span class="fl">1</span>, color <span class="op">=</span> <span class="st">"Frecuencia Acumulada"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">ylab</span>,</span>
+<span>                         sec.axis <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/sec_axis.html">sec_axis</a></span><span class="op">(</span><span class="op">~</span> <span class="va">.</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">xtable</span><span class="op">)</span>,</span>
+<span>                                             name <span class="op">=</span> <span class="st">"Porcentaje"</span>,</span>
+<span>                                             labels <span class="op">=</span> <span class="va">percentVec</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html">scale_x_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">xlab</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">corp.border</span>, <span class="va">corp.border</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">corp.col</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="va">main</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/warning.html">warning</a></span><span class="op">(</span><span class="st">"data should have at least two categories!"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="kw">if</span><span class="op">(</span><span class="va">showPlot</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="kw">if</span><span class="op">(</span><span class="va">showTable</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">{</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/methods/show.html">show</a></span><span class="op">(</span><span class="va">p</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/tableGrob.html">tableGrob</a></span><span class="op">(</span><span class="va">tabla</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="op">}</span></span>
+<span>    <span class="kw">else</span> <span class="op">{</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/methods/show.html">show</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
+<span>    <span class="op">}</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="kw">else</span><span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/methods/show.html">show</a></span><span class="op">(</span><span class="va">tabla</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<ul>
+<li>Resultados antes:</li>
+</ul>
+<div class="sourceCode" id="cb158"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">defectos</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"E"</span>,<span class="fl">62</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"B"</span>,<span class="fl">15</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"F"</span>,<span class="fl">3</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"A"</span>,<span class="fl">10</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"C"</span>,<span class="fl">20</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"D"</span>,<span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/paretoChart.html">paretoChart</a></span><span class="op">(</span><span class="va">defectos</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-137-1.png" width="672"></div>
+>>>>>>> a8b725b107cd3ade9afd4976ed6558cfc0d3c521
 <pre><code>##                                                     
 ## Frequency          62    20    15    10    10      3
 ## Cum. Frequency     62    82    97   107   117    120
@@ -394,6 +437,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>Resultados ahora:</li>
 </ul>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="cambio-de-funciones.html#cb161-1" tabindex="-1"></a><span class="fu">Pareto_ggplot</span>(defectos)</span></code></pre></div>
 <p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-138-1.png" width="672" /></p>
 <div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="cambio-de-funciones.html#cb162-1" tabindex="-1"></a><span class="co"># Podemos modificar si mostrar la tabla, la gráfica etc:</span></span>
@@ -403,6 +447,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-139-1.png" width="672" /></p>
 <div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="cambio-de-funciones.html#cb163-1" tabindex="-1"></a><span class="co"># Mostrar solo la tabla</span></span>
 <span id="cb163-2"><a href="cambio-de-funciones.html#cb163-2" tabindex="-1"></a><span class="fu">Pareto_ggplot</span>(defectos, <span class="at">showPlot =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+=======
+<div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">Pareto_ggplot</span><span class="op">(</span><span class="va">defectos</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-138-1.png" width="672"></div>
+<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Podemos modificar si mostrar la tabla, la gráfica etc:</span></span>
+<span></span>
+<span><span class="co"># Mostrar solo la gráfica</span></span>
+<span><span class="fu">Pareto_ggplot</span><span class="op">(</span><span class="va">defectos</span>, showTable <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-139-1.png" width="672"></div>
+<div class="sourceCode" id="cb163"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Mostrar solo la tabla</span></span>
+<span><span class="fu">Pareto_ggplot</span><span class="op">(</span><span class="va">defectos</span>, showPlot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+>>>>>>> a8b725b107cd3ade9afd4976ed6558cfc0d3c521
 <pre><code>##                E     C     B      A      D     F
 ## Frecuencia 62.00 20.00 15.00  10.00  10.00   3.0
 ## Frec.Acum  62.00 82.00 97.00 107.00 117.00 120.0
@@ -410,12 +468,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Por.Acum   51.67 68.33 80.83  89.17  97.50 100.0</code></pre>
 </div>
 </div>
-<div id="fase-2-medir-1" class="section level2 hasAnchor" number="6.2">
-<h2><span class="header-section-number">6.2</span> Fase 2: Medir<a href="cambio-de-funciones.html#fase-2-medir-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="función-cg" class="section level3 hasAnchor" number="6.2.1">
-<h3><span class="header-section-number">6.2.1</span> 1. Función cg<a href="cambio-de-funciones.html#función-cg" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="fase-2-medir-1" class="section level2" number="6.2">
+<h2>
+<span class="header-section-number">6.2</span> Fase 2: Medir<a class="anchor" aria-label="anchor" href="#fase-2-medir-1"><i class="fas fa-link"></i></a>
+</h2>
+<div id="función-cg" class="section level3" number="6.2.1">
+<h3>
+<span class="header-section-number">6.2.1</span> 1. Función cg<a class="anchor" aria-label="anchor" href="#funci%C3%B3n-cg"><i class="fas fa-link"></i></a>
+</h3>
 <p>Para poder implementar esta función, primero debemos modificar 3 funciones que se utilizan en esta función macro.</p>
 <p>Además utilizaremos los siguientes datos de pruebas:</p>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="cambio-de-funciones.html#cb165-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">9.991</span>, <span class="fl">10.013</span>, <span class="fl">10.001</span>, <span class="fl">10.007</span>, <span class="fl">10.010</span>, <span class="fl">10.013</span>, <span class="fl">10.008</span>, <span class="fl">10.017</span>, <span class="fl">10.005</span>, <span class="fl">10.005</span>, <span class="fl">10.002</span>, <span class="fl">10.017</span>, <span class="fl">10.005</span>, <span class="fl">10.002</span>, <span class="fl">9.996</span>, <span class="fl">10.011</span>, <span class="fl">10.009</span>, <span class="fl">10.006</span>, <span class="fl">10.008</span>, <span class="fl">10.003</span>, <span class="fl">10.002</span>, <span class="fl">10.006</span>, <span class="fl">10.010</span>, <span class="fl">9.992</span>, <span class="fl">10.013</span>)</span>
 <span id="cb165-2"><a href="cambio-de-funciones.html#cb165-2" tabindex="-1"></a></span>
 <span id="cb165-3"><a href="cambio-de-funciones.html#cb165-3" tabindex="-1"></a>target <span class="ot">=</span> <span class="fl">10.003</span></span>
@@ -596,10 +659,202 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb169-5"><a href="cambio-de-funciones.html#cb169-5" tabindex="-1"></a>                    <span class="at">cex.val =</span> cex.val, <span class="at">cgOut =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
 <p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-144-1.png" width="672" /></p>
+=======
+<div class="sourceCode" id="cb165"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">9.991</span>, <span class="fl">10.013</span>, <span class="fl">10.001</span>, <span class="fl">10.007</span>, <span class="fl">10.010</span>, <span class="fl">10.013</span>, <span class="fl">10.008</span>, <span class="fl">10.017</span>, <span class="fl">10.005</span>, <span class="fl">10.005</span>, <span class="fl">10.002</span>, <span class="fl">10.017</span>, <span class="fl">10.005</span>, <span class="fl">10.002</span>, <span class="fl">9.996</span>, <span class="fl">10.011</span>, <span class="fl">10.009</span>, <span class="fl">10.006</span>, <span class="fl">10.008</span>, <span class="fl">10.003</span>, <span class="fl">10.002</span>, <span class="fl">10.006</span>, <span class="fl">10.010</span>, <span class="fl">9.992</span>, <span class="fl">10.013</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">target</span> <span class="op">=</span> <span class="fl">10.003</span></span>
+<span><span class="va">tolerance</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">9.903</span>, <span class="fl">10.103</span><span class="op">)</span></span>
+<span><span class="va">ref.interval</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">facCg</span> <span class="op">=</span> <span class="fl">0.2</span></span>
+<span><span class="va">facCgk</span> <span class="op">=</span> <span class="fl">0.1</span> </span>
+<span><span class="va">n</span> <span class="op">=</span> <span class="fl">0.2</span></span>
+<span><span class="va">type</span> <span class="op">=</span> <span class="st">"b"</span></span>
+<span><span class="va">col</span> <span class="op">=</span> <span class="st">"black"</span></span>
+<span><span class="va">pch</span> <span class="op">=</span> <span class="fl">19</span></span>
+<span><span class="co">#xlim = NULL</span></span>
+<span><span class="co">#ylim = NULL</span></span>
+<span><span class="va">conf.level</span> <span class="op">=</span> <span class="fl">0.95</span></span>
+<span><span class="va">cex.val</span> <span class="op">=</span> <span class="fl">1.5</span></span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sd</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="va">mean</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="va">ref.ar</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="va">ref.interval</span>, <span class="va">mean</span>, <span class="va">sd</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">ref.interval</span>, </span>
+<span>                                                 <span class="va">mean</span>, <span class="va">sd</span><span class="op">)</span></span>
+<span><span class="va">quant1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">ref.interval</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>, <span class="va">mean</span>, <span class="va">sd</span><span class="op">)</span></span>
+<span>  <span class="va">quant2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="va">ref.interval</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">ref.interval</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>, <span class="va">mean</span>, </span>
+<span>                 <span class="va">sd</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">xlim</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">ylim</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">target</span> <span class="op">-</span> <span class="va">n</span><span class="op">/</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">tolerance</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>             <span class="va">quant1</span>, <span class="va">quant2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">target</span> <span class="op">+</span> <span class="va">n</span><span class="op">/</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">tolerance</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>                                  <span class="va">quant1</span>, <span class="va">quant2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div id="cgrunchart" class="section level4" number="6.2.1.1">
+<h4>
+<span class="header-section-number">6.2.1.1</span> CgRunChart<a class="anchor" aria-label="anchor" href="#cgrunchart"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cgRunChart_ggplot</span> <span class="op">&lt;-</span> <span class="kw">function</span> <span class="op">(</span><span class="va">x</span>, <span class="va">target</span>, <span class="va">tolerance</span>, <span class="va">ref.interval</span>, <span class="va">facCg</span>, <span class="va">facCgk</span>,</span>
+<span>                       <span class="va">n</span> <span class="op">=</span> <span class="fl">0.2</span>, <span class="va">type</span> <span class="op">=</span> <span class="st">"b"</span>, <span class="va">col</span> <span class="op">=</span> <span class="st">"black"</span>, <span class="va">pch</span> <span class="op">=</span> <span class="fl">19</span>,</span>
+<span>                       <span class="va">xlim</span> <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">ylim</span> <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">main</span> <span class="op">=</span> <span class="st">"Run Chart"</span>,</span>
+<span>                       <span class="va">conf.level</span> <span class="op">=</span> <span class="fl">0.95</span>, <span class="va">cex.val</span> <span class="op">=</span> <span class="fl">1</span>, <span class="va">cgOut</span> <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span>
+<span><span class="op">{</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"x must be given as a vector"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">target</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>    <span class="va">targetmissing</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="va">targetmissing</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">ref.interval</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">ref.interval</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.99865</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.00135</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="va">sd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="va">mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="va">ref.ar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="va">ref.interval</span>, <span class="va">mean</span>, <span class="va">sd</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">ref.interval</span>, <span class="va">mean</span>, <span class="va">sd</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">facCg</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">facCg</span> <span class="op">&lt;-</span> <span class="fl">0.2</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">facCgk</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">facCgk</span> <span class="op">&lt;-</span> <span class="fl">0.1</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">tolerance</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">width</span> <span class="op">&lt;-</span> <span class="va">ref.ar</span><span class="op">/</span><span class="va">facCg</span></span>
+<span>    <span class="va">tolerance</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
+<span>    <span class="va">tolerance</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">mean</span> <span class="op">-</span> <span class="va">width</span><span class="op">/</span><span class="fl">2</span></span>
+<span>    <span class="va">tolerance</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">mean</span> <span class="op">+</span> <span class="va">width</span><span class="op">/</span><span class="fl">2</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="va">quant1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">ref.interval</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>, <span class="va">mean</span>, <span class="va">sd</span><span class="op">)</span></span>
+<span>  <span class="va">quant2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="va">ref.interval</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">ref.interval</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>, <span class="va">mean</span>, <span class="va">sd</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">tolerance</span><span class="op">)</span> <span class="op">!=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"tolerance has wrong length"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">xlim</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">xlim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">ylim</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">ylim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">target</span> <span class="op">-</span> <span class="va">n</span><span class="op">/</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">tolerance</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, <span class="va">quant1</span>, <span class="va">quant2</span><span class="op">)</span>,</span>
+<span>              <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">target</span> <span class="op">+</span> <span class="va">n</span><span class="op">/</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">tolerance</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, <span class="va">quant1</span>, <span class="va">quant2</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">main</span> <span class="op">&lt;-</span> <span class="st">"Run Chart"</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="va">Cg</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">facCg</span> <span class="op">*</span> <span class="va">tolerance</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">-</span><span class="va">tolerance</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="va">ref.interval</span></span>
+<span>  <span class="va">Cgk</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">facCgk</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">target</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="va">ref.interval</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Create a data frame for plotting</span></span>
+<span>  <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Add target line</span></span>
+<span>  <span class="va">df</span><span class="op">$</span><span class="va">y_target</span> <span class="op">&lt;-</span> <span class="va">target</span></span>
+<span>  </span>
+<span>  <span class="co"># Calculate the upper and lower control limits</span></span>
+<span>  <span class="va">df</span><span class="op">$</span><span class="va">y_lower</span> <span class="op">&lt;-</span> <span class="va">quant1</span></span>
+<span>  <span class="va">df</span><span class="op">$</span><span class="va">y_upper</span> <span class="op">&lt;-</span> <span class="va">quant2</span></span>
+<span>  <span class="co"># Calculate the tolerance limits</span></span>
+<span>  <span class="va">df</span><span class="op">$</span><span class="va">y_tolerance_lower</span> <span class="op">&lt;-</span> <span class="va">tolerance</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>  <span class="va">df</span><span class="op">$</span><span class="va">y_tolerance_upper</span> <span class="op">&lt;-</span> <span class="va">tolerance</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span>  </span>
+<span>  <span class="co"># Calculate the mean</span></span>
+<span>  <span class="va">df</span><span class="op">$</span><span class="va">y_mean</span> <span class="op">&lt;-</span> <span class="va">mean</span></span>
+<span>  </span>
+<span>  <span class="co"># Calculate the Cg and Cgk values</span></span>
+<span>  <span class="va">df</span><span class="op">$</span><span class="va">Cg</span> <span class="op">&lt;-</span> <span class="va">Cg</span></span>
+<span>  <span class="va">df</span><span class="op">$</span><span class="va">Cgk</span> <span class="op">&lt;-</span> <span class="va">Cgk</span></span>
+<span>  </span>
+<span>  <span class="co"># Create the ggplot</span></span>
+<span>  <span class="co"># 1. Grafica principal y linea target</span></span>
+<span>  <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">col</span>, shape <span class="op">=</span> <span class="va">pch</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">col</span>, linetype <span class="op">=</span> <span class="st">"solid"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">xlim</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">-</span> <span class="fl">0.05</span> <span class="op">*</span> <span class="va">xlim</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">xlim</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>, expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="va">ylim</span>, expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="va">main</span>, x <span class="op">=</span> <span class="st">"Index"</span>, y <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">target</span><span class="op">)</span><span class="op">)</span> <span class="co"># Linea target</span></span>
+<span>  </span>
+<span>  <span class="co"># 2. Grafica Roja (Lowess)</span></span>
+<span>  <span class="va">p</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"loess"</span>, color <span class="op">=</span> <span class="st">"red"</span>, se <span class="op">=</span> <span class="cn">FALSE</span>, span <span class="op">=</span> <span class="fl">1.25</span>, size <span class="op">=</span> <span class="fl">0.25</span>,<span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># 3. Lineas verdes</span></span>
+<span>  <span class="va">p</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">mean</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"seagreen"</span><span class="op">)</span> <span class="op">+</span> <span class="co"># Linea del centro</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">quant1</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"seagreen"</span><span class="op">)</span> <span class="op">+</span> <span class="co"># Linea de Abajo</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">quant2</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"seagreen"</span><span class="op">)</span>   <span class="co"># Linea de Arriba</span></span>
+<span>  <span class="co"># 4. Xtar +- 0.1</span></span>
+<span>  <span class="va">p</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">target</span> <span class="op">+</span> <span class="va">n</span><span class="op">/</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">tolerance</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, <span class="va">target</span> <span class="op">-</span> <span class="va">n</span><span class="op">/</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">tolerance</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"#012B78"</span>, linetype <span class="op">=</span> <span class="st">"solid"</span><span class="op">)</span> <span class="co"># Agregar líneas </span></span>
+<span>  </span>
+<span>  <span class="co"># Añadir label del Cg y Cgk</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">cgOut</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">p</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/annotation_custom.html">annotation_custom</a></span><span class="op">(</span></span>
+<span>        grob <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html">textGrob</a></span><span class="op">(</span></span>
+<span>          label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"Cg: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">Cg</span>,digits <span class="op">=</span> <span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>          x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"npc"</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.15</span>, <span class="st">"cm"</span><span class="op">)</span>,</span>
+<span>          y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"npc"</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="st">"cm"</span><span class="op">)</span>,</span>
+<span>          just <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"top"</span><span class="op">)</span>,</span>
+<span>          gp <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html">gpar</a></span><span class="op">(</span>fontsize <span class="op">=</span> <span class="fl">12</span>, fontface <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span></span>
+<span>        <span class="op">)</span></span>
+<span>      <span class="op">)</span> <span class="op">+</span> </span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/annotation_custom.html">annotation_custom</a></span><span class="op">(</span></span>
+<span>        grob <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html">textGrob</a></span><span class="op">(</span></span>
+<span>          label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"Cgk:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">Cgk</span>,digits <span class="op">=</span> <span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>          x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"npc"</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.15</span>, <span class="st">"cm"</span><span class="op">)</span>,</span>
+<span>          y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"npc"</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.6</span>, <span class="st">"cm"</span><span class="op">)</span>,</span>
+<span>          just <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"top"</span><span class="op">)</span>,</span>
+<span>          gp <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html">gpar</a></span><span class="op">(</span>fontsize <span class="op">=</span> <span class="fl">12</span>, fontface <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span></span>
+<span>        <span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/methods/show.html">show</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="kw">else</span><span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/methods/show.html">show</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">Cg</span>, <span class="va">Cgk</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<ul>
+<li>Resultados antes:</li>
+</ul>
+<div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/cg.html">cgRunChart</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, target <span class="op">=</span> <span class="va">target</span>, tolerance <span class="op">=</span> <span class="va">tolerance</span>, </span>
+<span>           ref.interval <span class="op">=</span> <span class="va">ref.interval</span>, facCg <span class="op">=</span> <span class="va">facCg</span>, facCgk <span class="op">=</span> <span class="va">facCgk</span>, </span>
+<span>           n <span class="op">=</span> <span class="va">n</span>, type <span class="op">=</span> <span class="va">type</span>, col <span class="op">=</span> <span class="va">col</span>, pch <span class="op">=</span> <span class="va">pch</span>, xlim <span class="op">=</span> <span class="va">xlim</span>, </span>
+<span>           ylim <span class="op">=</span> <span class="va">ylim</span>, main <span class="op">=</span> <span class="st">"Run Chart"</span>, conf.level <span class="op">=</span> <span class="va">conf.level</span>, </span>
+<span>           cex.val <span class="op">=</span> <span class="va">cex.val</span>, cgOut <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-143-1.png" width="672"></div>
+<ul>
+<li>Resultados Ahora:</li>
+</ul>
+<div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">cgRunChart_ggplot</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, target <span class="op">=</span> <span class="va">target</span>, tolerance <span class="op">=</span> <span class="va">tolerance</span>, </span>
+<span>                    ref.interval <span class="op">=</span> <span class="va">ref.interval</span>, facCg <span class="op">=</span> <span class="va">facCg</span>, facCgk <span class="op">=</span> <span class="va">facCgk</span>, </span>
+<span>                    n <span class="op">=</span> <span class="va">n</span>, type <span class="op">=</span> <span class="va">type</span>, col <span class="op">=</span> <span class="va">col</span>, pch <span class="op">=</span> <span class="va">pch</span>, xlim <span class="op">=</span> <span class="va">xlim</span>, </span>
+<span>                    ylim <span class="op">=</span> <span class="va">ylim</span>, main <span class="op">=</span> <span class="st">"Run Chart"</span>, conf.level <span class="op">=</span> <span class="va">conf.level</span>, </span>
+<span>                    cex.val <span class="op">=</span> <span class="va">cex.val</span>, cgOut <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula = 'y ~ x'</code></pre>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-144-1.png" width="672"></div>
+>>>>>>> a8b725b107cd3ade9afd4976ed6558cfc0d3c521
 </div>
-<div id="cghist" class="section level4 hasAnchor" number="6.2.1.2">
-<h4><span class="header-section-number">6.2.1.2</span> cgHist<a href="cambio-de-funciones.html#cghist" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="cghist" class="section level4" number="6.2.1.2">
+<h4>
+<span class="header-section-number">6.2.1.2</span> cgHist<a class="anchor" aria-label="anchor" href="#cghist"><i class="fas fa-link"></i></a>
+</h4>
 </div>
+<<<<<<< HEAD
 <div id="cgtoleranceview" class="section level4 hasAnchor" number="6.2.1.3">
 <h4><span class="header-section-number">6.2.1.3</span> cgToleranceView<a href="cambio-de-funciones.html#cgtoleranceview" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="cambio-de-funciones.html#cb171-1" tabindex="-1"></a><span class="co"># Nueva Función</span></span>
@@ -711,73 +966,167 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb173-4"><a href="cambio-de-funciones.html#cb173-4" tabindex="-1"></a>                 <span class="at">ylim =</span> ylim, <span class="at">main =</span> <span class="st">&quot;Tolerance View&quot;</span>, <span class="at">conf.level =</span> conf.level, </span>
 <span id="cb173-5"><a href="cambio-de-funciones.html#cb173-5" tabindex="-1"></a>                 <span class="at">cex.val =</span> cex.val, <span class="at">cgOut =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-147-1.png" width="672" /></p>
+=======
+<div id="cgtoleranceview" class="section level4" number="6.2.1.3">
+<h4>
+<span class="header-section-number">6.2.1.3</span> cgToleranceView<a class="anchor" aria-label="anchor" href="#cgtoleranceview"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Nueva Función</span></span>
+<span><span class="va">cgToleranceChart</span> <span class="op">&lt;-</span> <span class="kw">function</span> <span class="op">(</span><span class="va">x</span>, <span class="va">target</span>, <span class="va">tolerance</span>, <span class="va">ref.interval</span>, <span class="va">facCg</span>, <span class="va">facCgk</span>, </span>
+<span>                              <span class="va">n</span> <span class="op">=</span> <span class="fl">0.2</span>, <span class="va">type</span>, <span class="va">col</span>, <span class="va">pch</span>, <span class="va">xlim</span>, <span class="va">ylim</span>, <span class="va">main</span>, <span class="va">conf.level</span> <span class="op">=</span> <span class="fl">0.95</span>, </span>
+<span>                              <span class="va">cex.val</span> <span class="op">=</span> <span class="fl">1</span>, <span class="va">cgOut</span> <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span>
+<span><span class="op">{</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"x must be given as a vector"</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">target</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>    <span class="va">targetmissing</span> <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="kw">else</span> <span class="va">targetmissing</span> <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">ref.interval</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="va">ref.interval</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span><span class="op">)</span></span>
+<span>  <span class="va">sd</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="va">mean</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="va">ref.ar</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="va">ref.interval</span>, <span class="va">mean</span>, <span class="va">sd</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">ref.interval</span>, </span>
+<span>                                                 <span class="va">mean</span>, <span class="va">sd</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">facCg</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="va">facCg</span> <span class="op">=</span> <span class="fl">0.2</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">facCgk</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="va">facCgk</span> <span class="op">=</span> <span class="fl">0.1</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">tolerance</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/warning.html">warning</a></span><span class="op">(</span><span class="st">"Missing tolerance! The specification limits are choosen to get Cg = 1"</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">tolerance</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">width</span> <span class="op">=</span> <span class="va">ref.ar</span><span class="op">/</span><span class="va">facCg</span></span>
+<span>    <span class="va">tolerance</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
+<span>    <span class="va">tolerance</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">-</span> <span class="va">width</span><span class="op">/</span><span class="fl">2</span></span>
+<span>    <span class="va">tolerance</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="va">width</span><span class="op">/</span><span class="fl">2</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="va">quant1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">ref.interval</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>, <span class="va">mean</span>, <span class="va">sd</span><span class="op">)</span></span>
+<span>  <span class="va">quant2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="va">ref.interval</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">ref.interval</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>, <span class="va">mean</span>, </span>
+<span>                 <span class="va">sd</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">tolerance</span><span class="op">)</span> <span class="op">!=</span> <span class="fl">2</span><span class="op">)</span> </span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"tolerance has wrong length"</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">type</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="va">type</span> <span class="op">=</span> <span class="st">"b"</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">col</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="va">col</span> <span class="op">=</span> <span class="fl">1</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">pch</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="va">pch</span> <span class="op">=</span> <span class="fl">19</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">xlim</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="va">xlim</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">ylim</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="va">ylim</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">target</span> <span class="op">-</span> <span class="va">n</span><span class="op">/</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">tolerance</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>                 <span class="va">quant1</span>, <span class="va">quant2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">target</span> <span class="op">+</span> <span class="va">n</span><span class="op">/</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">tolerance</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>                                      <span class="va">quant1</span>, <span class="va">quant2</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/missing.html">missing</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span><span class="op">)</span> </span>
+<span>    <span class="va">main</span> <span class="op">=</span> <span class="st">"Tolerance View"</span></span>
+<span>  <span class="va">Cg</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">facCg</span> <span class="op">*</span> <span class="va">tolerance</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">-</span><span class="va">tolerance</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="va">ref.interval</span></span>
+<span>  <span class="va">Cgk</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">facCgk</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">target</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="va">ref.interval</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Gráfica</span></span>
+<span>  <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">x</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"Data"</span><span class="op">)</span>, size <span class="op">=</span> <span class="va">cex.val</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">target</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">tolerance</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">tolerance</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="op">(</span><span class="va">target</span> <span class="op">+</span> <span class="va">n</span><span class="op">/</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="va">tolerance</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="va">tolerance</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="op">(</span><span class="va">target</span> <span class="op">-</span> <span class="va">n</span><span class="op">/</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="va">tolerance</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="va">tolerance</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Data"</span> <span class="op">=</span> <span class="va">col</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"x"</span>, color <span class="op">=</span> <span class="st">"Variable"</span>, title <span class="op">=</span> <span class="st">"Vista de Tolerancia"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">cgOut</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">p</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span></span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/annotation_custom.html">annotation_custom</a></span><span class="op">(</span></span>
+<span>        grob <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html">textGrob</a></span><span class="op">(</span></span>
+<span>          label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"Cg: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">Cg</span>,digits <span class="op">=</span> <span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>          x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"npc"</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.15</span>, <span class="st">"cm"</span><span class="op">)</span>,</span>
+<span>          y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"npc"</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="st">"cm"</span><span class="op">)</span>,</span>
+<span>          just <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"top"</span><span class="op">)</span>,</span>
+<span>          gp <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html">gpar</a></span><span class="op">(</span>fontsize <span class="op">=</span> <span class="fl">12</span>, fontface <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span></span>
+<span>        <span class="op">)</span></span>
+<span>      <span class="op">)</span> <span class="op">+</span> </span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/annotation_custom.html">annotation_custom</a></span><span class="op">(</span></span>
+<span>        grob <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html">textGrob</a></span><span class="op">(</span></span>
+<span>          label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"Cgk:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">Cgk</span>,digits <span class="op">=</span> <span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>          x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"npc"</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.15</span>, <span class="st">"cm"</span><span class="op">)</span>,</span>
+<span>          y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"npc"</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.6</span>, <span class="st">"cm"</span><span class="op">)</span>,</span>
+<span>          just <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"top"</span><span class="op">)</span>,</span>
+<span>          gp <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html">gpar</a></span><span class="op">(</span>fontsize <span class="op">=</span> <span class="fl">12</span>, fontface <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span></span>
+<span>        <span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/methods/show.html">show</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="kw">else</span><span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/methods/show.html">show</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">Cg</span>, <span class="va">Cgk</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<ul>
+<li>Resultados Antes:</li>
+</ul>
+<div class="sourceCode" id="cb172"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/cg.html">cgToleranceView</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, target <span class="op">=</span> <span class="va">target</span>, tolerance <span class="op">=</span> <span class="va">tolerance</span>, </span>
+<span>                ref.interval <span class="op">=</span> <span class="va">ref.interval</span>, facCg <span class="op">=</span> <span class="va">facCg</span>, facCgk <span class="op">=</span> <span class="va">facCgk</span>, </span>
+<span>                n <span class="op">=</span> <span class="va">n</span>, type <span class="op">=</span> <span class="va">type</span>, col <span class="op">=</span> <span class="va">col</span>, pch <span class="op">=</span> <span class="va">pch</span>, xlim <span class="op">=</span> <span class="va">xlim</span>, </span>
+<span>                ylim <span class="op">=</span> <span class="va">ylim</span>, main <span class="op">=</span> <span class="st">"Tolerance View"</span>, conf.level <span class="op">=</span> <span class="va">conf.level</span>, </span>
+<span>                cex.val <span class="op">=</span> <span class="va">cex.val</span>, cgOut <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-146-1.png" width="672"></div>
+<ul>
+<li>Resultados Ahora:</li>
+</ul>
+<div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">cgToleranceChart</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, target <span class="op">=</span> <span class="va">target</span>, tolerance <span class="op">=</span> <span class="va">tolerance</span>, </span>
+<span>                 ref.interval <span class="op">=</span> <span class="va">ref.interval</span>, facCg <span class="op">=</span> <span class="va">facCg</span>, facCgk <span class="op">=</span> <span class="va">facCgk</span>, </span>
+<span>                 n <span class="op">=</span> <span class="va">n</span>, type <span class="op">=</span> <span class="va">type</span>, col <span class="op">=</span> <span class="va">col</span>, pch <span class="op">=</span> <span class="va">pch</span>, xlim <span class="op">=</span> <span class="va">xlim</span>, </span>
+<span>                 ylim <span class="op">=</span> <span class="va">ylim</span>, main <span class="op">=</span> <span class="st">"Tolerance View"</span>, conf.level <span class="op">=</span> <span class="va">conf.level</span>, </span>
+<span>                 cex.val <span class="op">=</span> <span class="va">cex.val</span>, cgOut <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-147-1.png" width="672"></div>
+>>>>>>> a8b725b107cd3ade9afd4976ed6558cfc0d3c521
 
 </div>
 </div>
 </div>
 </div>
-            </section>
+  <div class="chapter-nav">
+<div class="prev"><a href="qualitytools.html"><span class="header-section-number">5</span> QualityTools</a></div>
+<div class="next"><a href="referencias.html">Referencias</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#cambio-de-funciones"><span class="header-section-number">6</span> Cambio de Funciones</a></li>
+<li>
+<a class="nav-link" href="#fase-1-definir-1"><span class="header-section-number">6.1</span> Fase 1: Definir</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#funci%C3%B3n-pareto"><span class="header-section-number">6.1.1</span> 1. Función Pareto</a></li></ul>
+</li>
+<li>
+<a class="nav-link" href="#fase-2-medir-1"><span class="header-section-number">6.2</span> Fase 2: Medir</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#funci%C3%B3n-cg"><span class="header-section-number">6.2.1</span> 1. Función cg</a></li></ul>
+</li>
+</ul>
 
-          </div>
-        </div>
-      </div>
-<a href="qualitytools.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Integración del Paquete QualityTools con Tidyverse</strong>" was written by Miguel Flores, Andrea Barahona, Fabián Encarnación, Dario Quishpe. It was last built on 2024-04-23.</p>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/rstudio/Libro_TidyQualityTools/edit/master/05-CambioFunciones.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["Libro_TidyQualityTools.pdf", "Libro_TidyQualityTools.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
-});
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -789,7 +1138,22 @@ gitbook.start({
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
-
 </html>

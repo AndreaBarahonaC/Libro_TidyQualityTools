@@ -11,7 +11,7 @@
 
 ```{r, warning=FALSE, message=FALSE, collapse=TRUE}
 library(qualityTools)
-
+library(tidyverse)
 # Paquetes necesarios
 
 # install.packages("ggplot2")
@@ -29,15 +29,14 @@ library(gridExtra)
 ### 1. Función Pareto
 
 ```{r, class.output="scroll-100"}
-# Nueva Función
-Pareto_ggplot <- function (x, weight, showTable = TRUE, showPlot = TRUE, las = 0, main, col, border, 
-                         xlab, ylab = "Frecuencia", percentVec, ...) 
+# Nueva Función (se quita argumento `las`)
+Pareto_ggplot <- function (x, weight, showTable = TRUE, showPlot = TRUE, main, col, border, xlab, ylab = "Frequency", percentVec, ...) 
 {
   varName = deparse(substitute(x))[1]
   corp.col = "#C4B9FF"
   corp.border = "#9E0138"
   if (!is.vector(x) & !is.data.frame(x) & !is.table(x)) 
-    stop("x debe ser de tipo: vector, dataframe o table")
+    stop("x should be a vector, dataframe or a table")
   if (is.table(x)) {
     xtable = x
   }
@@ -70,7 +69,7 @@ Pareto_ggplot <- function (x, weight, showTable = TRUE, showPlot = TRUE, las = 0
   if (missing(xlab)) 
     xlab = ""
   if (missing(main)) 
-    main = paste("Gráfica de Pareto de", varName)
+    main = paste("Pareto Chart for", varName)
   if (missing(col)) 
     col = corp.col
   if (missing(border)) 
@@ -78,7 +77,7 @@ Pareto_ggplot <- function (x, weight, showTable = TRUE, showPlot = TRUE, las = 0
   if (missing(percentVec)) 
     percentVec = seq(0, 1, by = 0.25)
   call <- match.call(expand.dots = TRUE)
-  # Grafica
+  # Plot
   if (length(xtable) > 1) {
     ylim = c(min(xtable), max(xtable) * 1.025)
     xtable = c(sort(xtable, decreasing = TRUE, na.last = TRUE))
@@ -88,23 +87,23 @@ Pareto_ggplot <- function (x, weight, showTable = TRUE, showPlot = TRUE, las = 0
     cumPerc = cumFreq/sumFreq * 100  
     
     
-    data <- data.frame(Frecuencia = xtable,
-                       Frec.Acum = cumFreq,
-                       Porcentaje = round(percentage, digits = 2),
-                       Por.Acum = round(cumPerc, digits = 2))
+    data <- data.frame(Frequency = xtable,
+                       Cum.Frequency = cumFreq,
+                       Percentage = round(percentage, digits = 2),
+                       Cum.Percentage = round(cumPerc, digits = 2))
     tabla <- t(data)
     
-    p <- ggplot(data, aes(x = reorder(names(xtable), -xtable), y = Frecuencia)) +
-      geom_col(aes(fill = "Frecuencia"), width = 0.7) +
-      geom_point(aes(y = Frec.Acum, color = "Frecuencia Acumulada"), size = 3) +
-      geom_line(aes(y = Frec.Acum, group = 1, color = "Frecuencia Acumulada"), size = 0.5) +
+    p <- ggplot(data, aes(x = reorder(names(xtable), -xtable), y = Frequency)) +
+      geom_col(aes(fill = "Frequency"), width = 0.7) +
+      geom_point(aes(y = Cum.Frequency, color = "Cumulative Percentage"), size = 3) +
+      geom_line(aes(y = Cum.Frequency, group = 1, color = "Cumulative Percentage"), size = 0.5) +
       scale_y_continuous(name = ylab,
                          sec.axis = sec_axis(~ . / sum(xtable),
-                                             name = "Porcentaje",
+                                             name = "Cumulative Percentage",
                                              labels = percentVec)) +
       scale_x_discrete(name = xlab) +
-      scale_color_manual(values = c(corp.border, corp.border)) +
-      scale_fill_manual(values = corp.col) + 
+      scale_color_manual(values = c(border, border)) +
+      scale_fill_manual(values = col) + 
       theme(legend.position = "none") +
       labs(title = main)
   }
@@ -139,15 +138,20 @@ paretoChart(defectos)
 Pareto_ggplot(defectos)
 ```
 
+Podemos utilizar parámetros para mostrar la tabla o la gráfica:
 
 ```{r}
-# Podemos modificar si mostrar la tabla, la gráfica etc:
-
 # Mostrar solo la gráfica
 Pareto_ggplot(defectos, showTable = FALSE)
 
 # Mostrar solo la tabla
 Pareto_ggplot(defectos, showPlot = FALSE)
+```
+
+Podemos cambiar los colores de los puntos y las barras:
+
+```{r}
+Pareto_ggplot(defectos, col='blue', border='green')
 ```
 
 
@@ -280,7 +284,7 @@ cgRunChart_ggplot <- function (x, target, tolerance, ref.interval, facCg, facCgk
   df$Cgk <- Cgk
   
   # Create the ggplot
-  # 1. Grafica principal y linea target
+  # 1. Principal plot and target line
   p <- ggplot(df, aes(x = seq_along(x), y = x)) +
     geom_point(color = col, shape = pch) +
     geom_line(color = col, linetype = "solid") +
@@ -288,19 +292,20 @@ cgRunChart_ggplot <- function (x, target, tolerance, ref.interval, facCg, facCgk
     scale_y_continuous(limits = ylim, expand = c(0, 0)) +
     labs(title = main, x = "Index", y = "x") +
     theme_minimal() +
-    geom_hline(aes(yintercept = target)) # Linea target
+    geom_hline(aes(yintercept = target))+ # Linea target
+    scale_y_continuous(sec.axis = sec_axis(~ .,labels="target"))
   
-  # 2. Grafica Roja (Lowess)
+  # 2. Red Plot (Lowess)
   p <- p + geom_smooth(method = "loess", color = "red", se = FALSE, span = 1.25, size = 0.25,)
   
-  # 3. Lineas verdes
-  p <- p + geom_hline(aes(yintercept = mean), linetype = "dashed", color = "seagreen") + # Linea del centro
-    geom_hline(aes(yintercept = quant1), linetype = "dashed", color = "seagreen") + # Linea de Abajo
-    geom_hline(aes(yintercept = quant2), linetype = "dashed", color = "seagreen")   # Linea de Arriba
+  # 3. Green lines
+  p <- p + geom_hline(aes(yintercept = mean), linetype = "dashed", color = "seagreen") + # Center line
+    geom_hline(aes(yintercept = quant1), linetype = "dashed", color = "seagreen") + # Bottom line
+    geom_hline(aes(yintercept = quant2), linetype = "dashed", color = "seagreen")   # Top line
   # 4. Xtar +- 0.1
   p <- p + geom_hline(yintercept = c(target + n/2 * (abs(diff(tolerance))), target - n/2 * (abs(diff(tolerance)))), color = "#012B78", linetype = "solid") # Agregar líneas 
   
-  # Añadir label del Cg y Cgk
+  # Label  Cg and Cgk
   if (cgOut == TRUE) {
     p <- p +
       annotation_custom(
