@@ -352,6 +352,167 @@ cgRunChart_ggplot(x = x, target = target, tolerance = tolerance,
 
 #### cgHist
 
+```{r}
+# Nueva función
+cgHistChart <- function (x, target, tolerance, ref.interval, facCg, facCgk, 
+          n = 0.2, col, xlim, ylim, main, conf.level = 0.95, cex.val = 1, 
+          cgOut = TRUE) 
+{
+  if (missing(x)) 
+    stop("x must be given as a vector")
+  if (missing(target)) {
+    target = mean(x)
+    targetmissing = FALSE
+  }
+  else targetmissing = TRUE
+  if (missing(ref.interval)) 
+    ref.interval = pnorm(3) - pnorm(-3)
+  sd = sd(x)
+  mean = mean(x)
+  ref.ar = qnorm(ref.interval, mean, sd) - qnorm(1 - ref.interval, 
+                                                 mean, sd)
+  if (missing(facCg)) 
+    facCg = 0.2
+  if (missing(facCgk)) 
+    facCgk = 0.1
+  if (missing(tolerance)) 
+    warning("Missing tolerance! The specification limits are choosen to get Cg = 1")
+  if (missing(tolerance)) {
+    width = ref.ar/facCg
+    tolerance = numeric(2)
+    tolerance[1] = mean(x) - width/2
+    tolerance[2] = mean(x) + width/2
+  }
+  quant1 = qnorm((1 - ref.interval)/2, mean, sd)
+  quant2 = qnorm(ref.interval + (1 - ref.interval)/2, mean, 
+                 sd)
+  if (length(tolerance) != 2) 
+    stop("tolerance has wrong length")
+  if (missing(col)) 
+    col = "lightblue"
+  if (missing(xlim)) 
+    xlim = c(0, length(x))
+  if (missing(ylim)) 
+    ylim = c(min(x, target - n/2 * (abs(diff(tolerance))), 
+                 quant1, quant2), max(x, target + n/2 * (abs(diff(tolerance))), 
+                                      quant1, quant2))
+  if (missing(main)) 
+    main = paste("Histogram of", deparse(substitute(x)), 
+                 "- target")
+  
+  Cg <- (facCg * tolerance[2]-tolerance[1])/ref.interval
+  Cgk <- (facCgk * abs(target-mean(x))/(ref.interval/2))
+  
+  # Calculos previos
+  x.c <- x - target
+  temp <- hist(x.c, plot = FALSE)
+  # Obtenemos la información para el histograma
+  df <- data.frame(
+    mid = temp$mids,
+    density = temp$density
+  )
+  width <- diff(df$mid)[1] # Ancho de cada barra
+  # Histograma
+  p <- ggplot(df, aes(x = mid, y = density)) +
+    geom_bar(stat = "identity", width = width, fill = "lightblue", color = "black", alpha = 0.5) +
+    labs(y = "Density", x = "x.c", title = main) +
+    theme_minimal() +
+    guides(color = guide_legend(title.position = "top", title.hjust = 0.5))
+  # Linea x=0
+  p <- p + geom_vline(xintercept = 0, color = "red")
+  # Intervalos de Confianza - Azules
+  test = t.test(x.c, mu = 0, conf.level = conf.level)
+  p <- p + geom_vline(aes(xintercept = test$conf.int[1], color = "Confidence interval"), linetype = "dashed", col = "blue") +
+    geom_vline(aes(xintercept = test$conf.int[2], color = "Confidence interval"), linetype = "dashed", col = "blue") + 
+    theme(legend.position = "none")
+  # Curva de densidad
+  p <- p + geom_line(data = data.frame(x = density(x.c)$x, y = density(x.c)$y), aes(x = x, y = y), color = "black", size = 0.5)
+  
+  # Hipotesis, P_val y t_val
+  p <- p + annotation_custom(grob = grid::textGrob(label = c(expression(paste(H[0], " : Bias = 0"))),
+                                                   x = unit(0.05, "npc") + unit(0.05, "cm"), y = unit(1, "npc") - unit(0.05, "cm"), 
+                                                   just = c("left", "top"),
+                                                   gp = grid::gpar(fontsize = 12, fontface = "bold")
+                                                   )
+                             ) + 
+    annotation_custom( grob = grid::textGrob( label = c(paste("t-value: ", round(test$statistic, 3))),
+                                              x = unit(0.05, "npc") + unit(0.05, "cm"),
+                                              y = unit(1, "npc") - unit(0.5, "cm"), 
+                                              just = c("left", "top"), 
+                                              gp = grid::gpar(fontsize = 11, fontface = "bold")
+                                              )
+                       ) + 
+    annotation_custom(grob = grid::textGrob(label = c(paste("p-value: ", round(test$p.value, 3))),
+                                            x = unit(0.05, "npc") + unit(0.05, "cm"),
+                                            y = unit(1, "npc") - unit(0.85, "cm"),
+                                            just = c("left", "top"),
+                                            gp = grid::gpar(fontsize = 11, fontface = "bold")
+                                            )
+                      ) 
+  
+  # Añadir label del Cg y Cgk
+  if (cgOut == TRUE) {
+    p <- p +
+      annotation_custom(
+        grob = grid::textGrob(
+          label = c(paste("Cg: ", round(Cg,digits = 6))),
+          x = unit(1, "npc") - unit(0.15, "cm"),
+          y = unit(1, "npc") - unit(0.05, "cm"),
+          just = c("right", "top"),
+          gp = grid::gpar(fontsize = 12, fontface = "bold")
+        )
+      ) + 
+      annotation_custom(
+        grob = grid::textGrob(
+          label = c(paste("Cgk:", round(Cgk,digits = 6))),
+          x = unit(1, "npc") - unit(0.15, "cm"),
+          y = unit(1, "npc") - unit(0.6, "cm"),
+          just = c("right", "top"),
+          gp = grid::gpar(fontsize = 12, fontface = "bold")
+        )
+      )
+    show(p)
+  }
+  else{
+    p <- p +
+      annotation_custom(
+        grob = grid::textGrob(
+          label = c(paste("---: conf. int")),
+          x = unit(1, "npc") - unit(0.15, "cm"),
+          y = unit(1, "npc") - unit(0.05, "cm"),
+          just = c("right", "top"),
+          gp = grid::gpar(fontsize = 12, fontface = "bold")
+        )
+      )
+    show(p)
+  }
+  invisible(list(Cg, Cgk))
+}
+```
+
+* Resultados Anteriores:
+
+```{r}
+cgHist(x = x, target = target, tolerance = tolerance, ref.interval = ref.interval, 
+       facCg = facCg, facCgk = facCgk, n = n, col = "lightblue", 
+       xlim = xlim, ylim = ylim, main = paste("Histogram of", 
+                                              deparse(substitute(x)), "- target"), conf.level
+       = conf.level, 
+       cex.val = cex.val, cgOut = FALSE)
+```
+
+* Resultados Ahora:
+
+```{r}
+cgHistChart(x = x, target = target, tolerance = tolerance, ref.interval = ref.interval, 
+            facCg = facCg, facCgk = facCgk, n = n, col = "lightblue", 
+            xlim = xlim, ylim = ylim, main = paste("Histogram of", 
+                                                   deparse(substitute(x)), "- target"),
+            conf.level = conf.level, 
+            cex.val = cex.val, cgOut = FALSE)
+```
+
+
 #### cgToleranceView
 
 ```{r}

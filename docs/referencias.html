@@ -1,106 +1,335 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="" xml:lang="">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Referencias | Integración del Paquete QualityTools con Tidyverse</title>
-<meta name="author" content="Miguel Flores">
-<meta name="author" content="Andrea Barahona">
-<meta name="author" content="Fabián Encarnación">
-<meta name="author" content="Dario Quishpe">
-<meta name="generator" content="bookdown 0.38 with bs4_book()">
-<meta property="og:title" content="Referencias | Integración del Paquete QualityTools con Tidyverse">
-<meta property="og:type" content="book">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Referencias | Integración del Paquete QualityTools con Tidyverse">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
-    
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  </style>
-<meta name="description" content="Wickham, H. (2019). Advanced r. chapman and hall/CRC. Chang W (2022). R6: Encapsulated Classes with Reference Semantics. https://r6.r-lib.org, https://github.com/r-lib/R6/. Dancho, M (2023). R...">
-<meta property="og:description" content="Wickham, H. (2019). Advanced r. chapman and hall/CRC. Chang W (2022). R6: Encapsulated Classes with Reference Semantics. https://r6.r-lib.org, https://github.com/r-lib/R6/. Dancho, M (2023). R...">
-<meta name="twitter:description" content="Wickham, H. (2019). Advanced r. chapman and hall/CRC. Chang W (2022). R6: Encapsulated Classes with Reference Semantics. https://r6.r-lib.org, https://github.com/r-lib/R6/. Dancho, M (2023). R...">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Referencias | Integración del Paquete QualityTools con Tidyverse</title>
+  <meta name="description" content="Referencias | Integración del Paquete QualityTools con Tidyverse" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Referencias | Integración del Paquete QualityTools con Tidyverse" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta name="github-repo" content="rstudio/Libro_TidyQualityTools" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Referencias | Integración del Paquete QualityTools con Tidyverse" />
+  
+  
+  
+
+<meta name="author" content="Miguel Flores" />
+<meta name="author" content="Andrea Barahona" />
+<meta name="author" content="Fabián Encarnación" />
+<meta name="author" content="Dario Quishpe" />
+
+
+<meta name="date" content="2024-04-23" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="cambio-de-funciones.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
 </head>
-<body data-spy="scroll" data-target="#toc">
 
-<div class="container-fluid">
-<div class="row">
-  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+<body>
 
-    <div class="d-flex align-items-start justify-content-between">
-      <h1>
-        <a href="index.html" title="">Integración del Paquete QualityTools con Tidyverse</a>
-      </h1>
-      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
-    </div>
 
-    <div id="main-nav" class="collapse-lg">
-      <form role="search">
-        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
-</form>
 
-      <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html"><span class="header-section-number">1</span> Preámbulo</a></li>
-<li><a class="" href="poo-programaci%C3%B3n-orientada-a-objetos.html"><span class="header-section-number">2</span> (POO) Programación Orientada a Objetos</a></li>
-<li><a class="" href="r6.html"><span class="header-section-number">3</span> R6</a></li>
-<li><a class="" href="tidyquant.html"><span class="header-section-number">4</span> TidyQuant</a></li>
-<li><a class="" href="qualitytools.html"><span class="header-section-number">5</span> QualityTools</a></li>
-<li><a class="active" href="referencias.html">Referencias</a></li>
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">UDC</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preámbulo</a></li>
+<li class="chapter" data-level="2" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html"><i class="fa fa-check"></i><b>2</b> (POO) Programación Orientada a Objetos</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#introducción"><i class="fa fa-check"></i><b>2.1</b> Introducción</a></li>
+<li class="chapter" data-level="2.2" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#sistemas-de-programación-orientada-a-objetos"><i class="fa fa-check"></i><b>2.2</b> Sistemas de programación orientada a objetos</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#paradigmas"><i class="fa fa-check"></i><b>2.2.1</b> Paradigmas</a></li>
+<li class="chapter" data-level="2.2.2" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#especificaciones-de-los-principales-sistemas-poo-en-r"><i class="fa fa-check"></i><b>2.2.2</b> Especificaciones de los principales sistemas POO en R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#tipos-de-bases"><i class="fa fa-check"></i><b>2.3</b> Tipos de bases</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#objetos-base-vs-objetos-oo"><i class="fa fa-check"></i><b>2.3.1</b> Objetos Base vs Objetos OO</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="r6.html"><a href="r6.html"><i class="fa fa-check"></i><b>3</b> R6</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="r6.html"><a href="r6.html#clases-y-métodos"><i class="fa fa-check"></i><b>3.1</b> Clases y métodos</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="r6.html"><a href="r6.html#encadenamiento-de-métodos"><i class="fa fa-check"></i><b>3.1.1</b> Encadenamiento de métodos</a></li>
+<li class="chapter" data-level="3.1.2" data-path="r6.html"><a href="r6.html#métodos-importantes"><i class="fa fa-check"></i><b>3.1.2</b> Métodos importantes</a></li>
+<li class="chapter" data-level="3.1.3" data-path="r6.html"><a href="r6.html#agregar-métodos-después-de-la-creación"><i class="fa fa-check"></i><b>3.1.3</b> Agregar métodos después de la creación</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="r6.html"><a href="r6.html#controles-de-acceso"><i class="fa fa-check"></i><b>3.2</b> Controles de Acceso</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="r6.html"><a href="r6.html#privacidad"><i class="fa fa-check"></i><b>3.2.1</b> Privacidad</a></li>
+<li class="chapter" data-level="3.2.2" data-path="r6.html"><a href="r6.html#campos-activos"><i class="fa fa-check"></i><b>3.2.2</b> Campos Activos</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="r6.html"><a href="r6.html#semántica-de-referencia"><i class="fa fa-check"></i><b>3.3</b> Semántica de referencia</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="r6.html"><a href="r6.html#razonamientos"><i class="fa fa-check"></i><b>3.3.1</b> Razonamientos</a></li>
+<li class="chapter" data-level="3.3.2" data-path="r6.html"><a href="r6.html#finalización"><i class="fa fa-check"></i><b>3.3.2</b> Finalización</a></li>
+<li class="chapter" data-level="3.3.3" data-path="r6.html"><a href="r6.html#campos-en-r6"><i class="fa fa-check"></i><b>3.3.3</b> Campos en R6</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="r6.html"><a href="r6.html#por-qué-r6"><i class="fa fa-check"></i><b>3.4</b> ¿Por qué R6?</a></li>
+<li class="chapter" data-level="3.5" data-path="r6.html"><a href="r6.html#ejercicios-prácticos"><i class="fa fa-check"></i><b>3.5</b> Ejercicios prácticos</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="tidyquant.html"><a href="tidyquant.html"><i class="fa fa-check"></i><b>4</b> TidyQuant</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="tidyquant.html"><a href="tidyquant.html#compatibilidad-de-funciones"><i class="fa fa-check"></i><b>4.1</b> Compatibilidad de funciones</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-zoo"><i class="fa fa-check"></i><b>4.1.1</b> Funcionalidad zoo</a></li>
+<li class="chapter" data-level="4.1.2" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-xts"><i class="fa fa-check"></i><b>4.1.2</b> Funcionalidad xts</a></li>
+<li class="chapter" data-level="4.1.3" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-quantmod"><i class="fa fa-check"></i><b>4.1.3</b> Funcionalidad quantmod</a></li>
+<li class="chapter" data-level="4.1.4" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-ttr"><i class="fa fa-check"></i><b>4.1.4</b> Funcionalidad TTR</a></li>
+<li class="chapter" data-level="4.1.5" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-performanceanalytics"><i class="fa fa-check"></i><b>4.1.5</b> Funcionalidad PerformanceAnalytics</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="tidyquant.html"><a href="tidyquant.html#poder-cuantitativo-en-acción"><i class="fa fa-check"></i><b>4.2</b> Poder Cuantitativo en Acción</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-1-utilizar-quantmod-periodreturn-para-convertir-precios-en-rentabilidad"><i class="fa fa-check"></i><b>4.2.1</b> Ejemplo 1: utilizar quantmod periodReturn para convertir precios en rentabilidad</a></li>
+<li class="chapter" data-level="4.2.2" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-2-utilice-xts-to.period-para-cambiar-la-periodicidad-de-diaria-a-mensual"><i class="fa fa-check"></i><b>4.2.2</b> Ejemplo 2: utilice xts to.period para cambiar la periodicidad de diaria a mensual</a></li>
+<li class="chapter" data-level="4.2.3" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-3-utilice-ttr-runcor-para-visualizar-correlaciones-continuas-de-rendimientos"><i class="fa fa-check"></i><b>4.2.3</b> Ejemplo 3: utilice TTR runCor para visualizar correlaciones continuas de rendimientos</a></li>
+<li class="chapter" data-level="4.2.4" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-4-utilizar-ttrmacd-para-visualizar-la-divergencia-y-convergencia-de-la-media-móvil"><i class="fa fa-check"></i><b>4.2.4</b> Ejemplo 4: utilizar TTR::MACD para visualizar la divergencia y convergencia de la media móvil</a></li>
+<li class="chapter" data-level="4.2.5" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-5-utilizar-xtsapply.quarterly-para-obtener-el-precio-máximo-y-mínimo-para-cada-trimestre"><i class="fa fa-check"></i><b>4.2.5</b> Ejemplo 5: utilizar xts::apply.quarterly para obtener el precio máximo y mínimo para cada trimestre</a></li>
+<li class="chapter" data-level="4.2.6" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-6-utilizar-zoorollapply-para-visualizar-una-regresión-continua"><i class="fa fa-check"></i><b>4.2.6</b> Ejemplo 6: utilizar zoo::rollapply para visualizar una regresión continua</a></li>
+<li class="chapter" data-level="4.2.7" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-7-utilizar-return.clean-y-return.excess-para-limpiar-y-calcular-el-exceso-de-rendimiento"><i class="fa fa-check"></i><b>4.2.7</b> Ejemplo 7: utilizar return.clean y return.excess para limpiar y calcular el exceso de rendimiento</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="qualitytools.html"><a href="qualitytools.html"><i class="fa fa-check"></i><b>5</b> QualityTools</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="qualitytools.html"><a href="qualitytools.html#fase-1-definir"><i class="fa fa-check"></i><b>5.1</b> Fase 1: Definir</a></li>
+<li class="chapter" data-level="5.2" data-path="qualitytools.html"><a href="qualitytools.html#fase-2-medir"><i class="fa fa-check"></i><b>5.2</b> Fase 2: Medir</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="qualitytools.html"><a href="qualitytools.html#capacidad-de-calibre---msa-tipo-i"><i class="fa fa-check"></i><b>5.2.1</b> Capacidad de calibre - MSA Tipo I</a></li>
+<li class="chapter" data-level="5.2.2" data-path="qualitytools.html"><a href="qualitytools.html#repetibilidad-y-reproducibidad-del-calibre---msa-tipo-ii"><i class="fa fa-check"></i><b>5.2.2</b> Repetibilidad y reproducibidad del calibre - MSA Tipo II</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="qualitytools.html"><a href="qualitytools.html#fase-3-analizar"><i class="fa fa-check"></i><b>5.3</b> Fase 3: Analizar</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="qualitytools.html"><a href="qualitytools.html#capacidad-del-proceso"><i class="fa fa-check"></i><b>5.3.1</b> Capacidad del Proceso</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="qualitytools.html"><a href="qualitytools.html#fase-4-mejorar"><i class="fa fa-check"></i><b>5.4</b> Fase 4: Mejorar</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="qualitytools.html"><a href="qualitytools.html#diseños-factoriales-2k"><i class="fa fa-check"></i><b>5.4.1</b> Diseños factoriales <span class="math inline">\(2^{k}\)</span></a></li>
+<li class="chapter" data-level="5.4.2" data-path="qualitytools.html"><a href="qualitytools.html#diseños-factoriales-fraccionarios-2k-p"><i class="fa fa-check"></i><b>5.4.2</b> Diseños factoriales fraccionarios <span class="math inline">\(2^{k-p}\)</span></a></li>
+<li class="chapter" data-level="5.4.3" data-path="qualitytools.html"><a href="qualitytools.html#diseños-replicados-y-puntos-centrales"><i class="fa fa-check"></i><b>5.4.3</b> Diseños replicados y puntos centrales</a></li>
+<li class="chapter" data-level="5.4.4" data-path="qualitytools.html"><a href="qualitytools.html#respuestas-múltiples"><i class="fa fa-check"></i><b>5.4.4</b> Respuestas múltiples</a></li>
+<li class="chapter" data-level="5.4.5" data-path="qualitytools.html"><a href="qualitytools.html#pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado"><i class="fa fa-check"></i><b>5.4.5</b> Pasar a un entorno de proceso con un mayor rendimiento esperado</a></li>
+<li class="chapter" data-level="5.4.6" data-path="qualitytools.html"><a href="qualitytools.html#diseños-de-superficies-de-respuesta"><i class="fa fa-check"></i><b>5.4.6</b> Diseños de superficies de respuesta</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="qualitytools.html"><a href="qualitytools.html#deseabilidades"><i class="fa fa-check"></i><b>5.5</b> Deseabilidades</a></li>
+<li class="chapter" data-level="5.6" data-path="qualitytools.html"><a href="qualitytools.html#utilización-de-deseabilidades-junto-con-experimentos-diseñados"><i class="fa fa-check"></i><b>5.6</b> Utilización de deseabilidades junto con experimentos diseñados</a></li>
+<li class="chapter" data-level="5.7" data-path="qualitytools.html"><a href="qualitytools.html#diseños-taguchi"><i class="fa fa-check"></i><b>5.7</b> Diseños Taguchi</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="cambio-de-funciones.html"><a href="cambio-de-funciones.html"><i class="fa fa-check"></i><b>6</b> Cambio de Funciones</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="cambio-de-funciones.html"><a href="cambio-de-funciones.html#fase-1-definir-1"><i class="fa fa-check"></i><b>6.1</b> Fase 1: Definir</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="cambio-de-funciones.html"><a href="cambio-de-funciones.html#función-pareto"><i class="fa fa-check"></i><b>6.1.1</b> 1. Función Pareto</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="cambio-de-funciones.html"><a href="cambio-de-funciones.html#fase-2-medir-1"><i class="fa fa-check"></i><b>6.2</b> Fase 2: Medir</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="cambio-de-funciones.html"><a href="cambio-de-funciones.html#función-cg"><i class="fa fa-check"></i><b>6.2.1</b> 1. Función cg</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
 </ul>
 
-        <div class="book-extra">
-          
-        </div>
       </nav>
-</div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="referencias" class="section level1 unnumbered">
-<h1>Referencias<a class="anchor" aria-label="anchor" href="#referencias"><i class="fas fa-link"></i></a>
-</h1>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Integración del Paquete QualityTools con Tidyverse</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="referencias" class="section level1 unnumbered hasAnchor">
+<h1>Referencias<a href="referencias.html#referencias" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <ul>
 <li>Wickham, H. (2019). Advanced r. chapman and hall/CRC.</li>
 <li>Chang W (2022). R6: Encapsulated Classes with Reference Semantics. <a href="https://r6.r-lib.org" class="uri">https://r6.r-lib.org</a>, <a href="https://github.com/r-lib/R6/" class="uri">https://github.com/r-lib/R6/</a>.</li>
-<li>Dancho, M (2023). R Quantitative Analysis Package Integrations in tidyquant. <a href="https://cran.r-project.org/web/packages/tidyquant/vignettes/TQ02-quant-integrations-in-tidyquant.html" class="uri">https://cran.r-project.org/web/packages/tidyquant/vignettes/TQ02-quant-integrations-in-tidyquant.html</a>
-</li>
+<li>Dancho, M (2023). R Quantitative Analysis Package Integrations in tidyquant. <a href="https://cran.r-project.org/web/packages/tidyquant/vignettes/TQ02-quant-integrations-in-tidyquant.html" class="uri">https://cran.r-project.org/web/packages/tidyquant/vignettes/TQ02-quant-integrations-in-tidyquant.html</a></li>
 <li>Roth, T. (2016). Working with the qualityTools package.</li>
-<li>Six Sigma Daily (2012). What is DMAIC?. recuperado de: <a href="https://www.sixsigmadaily.com/what-is-dmaic/" class="uri">https://www.sixsigmadaily.com/what-is-dmaic/</a>
-</li>
+<li>Six Sigma Daily (2012). What is DMAIC?. recuperado de: <a href="https://www.sixsigmadaily.com/what-is-dmaic/" class="uri">https://www.sixsigmadaily.com/what-is-dmaic/</a></li>
 </ul>
-</div>
-  <div class="chapter-nav">
-<div class="prev"><a href="qualitytools.html"><span class="header-section-number">5</span> QualityTools</a></div>
-<div class="empty"></div>
-</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#referencias">Referencias</a></li></ul>
-
-      <div class="book-extra">
-        <ul class="list-unstyled">
-          
-        </ul>
-</div>
-    </nav>
-</div>
 
 </div>
-</div> <!-- .container -->
+            </section>
 
-<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+          </div>
+        </div>
+      </div>
+<a href="cambio-de-funciones.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-  <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Integración del Paquete QualityTools con Tidyverse</strong>" was written by Miguel Flores, Andrea Barahona, Fabián Encarnación, Dario Quishpe. It was last built on 2024-04-22.</p>
+    </div>
   </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/Libro_TidyQualityTools/edit/master/06-Bibliografía.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Libro_TidyQualityTools.pdf", "Libro_TidyQualityTools.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
 
-  <div class="col-12 col-md-6 mt-3">
-    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
-  </div>
-
-</div></div>
-</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -112,22 +341,7 @@
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
-</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
-for (let popover of popovers) {
-  const div = document.createElement('div');
-  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
-  div.innerHTML = popover.getAttribute('data-content');
-
-  var has_math = div.querySelector("span.math");
-  if (has_math) {
-    document.body.appendChild(div);
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
-    MathJax.Hub.Queue(function() {
-      popover.setAttribute('data-content', div.innerHTML);
-      document.body.removeChild(div);
-    })
-  }
-}
 </script>
 </body>
+
 </html>
