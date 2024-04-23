@@ -1,247 +1,48 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html lang="en">
 <head>
-
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 5 QualityTools | Integración del Paquete QualityTools con Tidyverse</title>
-  <meta name="description" content="Capítulo 5 QualityTools | Integración del Paquete QualityTools con Tidyverse" />
-  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
-
-  <meta property="og:title" content="Capítulo 5 QualityTools | Integración del Paquete QualityTools con Tidyverse" />
-  <meta property="og:type" content="book" />
-  
-  
-  <meta name="github-repo" content="rstudio/Libro_TidyQualityTools" />
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 5 QualityTools | Integración del Paquete QualityTools con Tidyverse" />
-  
-  
-  
-
-<meta name="author" content="Miguel Flores" />
-<meta name="author" content="Andrea Barahona" />
-<meta name="author" content="Fabián Encarnación" />
-<meta name="author" content="Dario Quishpe" />
-
-
-<meta name="date" content="2024-04-23" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-<link rel="prev" href="tidyquant.html"/>
-<link rel="next" href="cambio-de-funciones.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-
-
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
-
-<style type="text/css">
-  
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-</style>
-
-<link rel="stylesheet" href="style.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capítulo 5 QualityTools | Integración del Paquete QualityTools con Tidyverse</title>
+<meta name="author" content="Miguel Flores">
+<meta name="author" content="Andrea Barahona">
+<meta name="author" content="Fabián Encarnación">
+<meta name="author" content="Dario Quishpe">
+<meta name="generator" content="bookdown 0.38 with bs4_book()">
+<meta property="og:title" content="Capítulo 5 QualityTools | Integración del Paquete QualityTools con Tidyverse">
+<meta property="og:type" content="book">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capítulo 5 QualityTools | Integración del Paquete QualityTools con Tidyverse">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<meta name="description" content="Este trabajo pretende dar una breve introducción a los métodos del paquete QualityTools. Este paquete se implementó con fines didácticos para servir como una “Caja de Herramientas” (Six-Sigma) y...">
+<meta property="og:description" content="Este trabajo pretende dar una breve introducción a los métodos del paquete QualityTools. Este paquete se implementó con fines didácticos para servir como una “Caja de Herramientas” (Six-Sigma) y...">
+<meta name="twitter:description" content="Este trabajo pretende dar una breve introducción a los métodos del paquete QualityTools. Este paquete se implementó con fines didácticos para servir como una “Caja de Herramientas” (Six-Sigma) y...">
 </head>
+<body data-spy="scroll" data-target="#toc">
 
-<body>
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Integración del Paquete QualityTools con Tidyverse</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
 
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
 
-<<<<<<< HEAD
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
-
-    <div class="book-summary">
-      <nav role="navigation">
-
-<ul class="summary">
-<li><a href="./">UDC</a></li>
-
-<li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preámbulo</a></li>
-<li class="chapter" data-level="2" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html"><i class="fa fa-check"></i><b>2</b> (POO) Programación Orientada a Objetos</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#introducción"><i class="fa fa-check"></i><b>2.1</b> Introducción</a></li>
-<li class="chapter" data-level="2.2" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#sistemas-de-programación-orientada-a-objetos"><i class="fa fa-check"></i><b>2.2</b> Sistemas de programación orientada a objetos</a>
-<ul>
-<li class="chapter" data-level="2.2.1" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#paradigmas"><i class="fa fa-check"></i><b>2.2.1</b> Paradigmas</a></li>
-<li class="chapter" data-level="2.2.2" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#especificaciones-de-los-principales-sistemas-poo-en-r"><i class="fa fa-check"></i><b>2.2.2</b> Especificaciones de los principales sistemas POO en R</a></li>
-</ul></li>
-<li class="chapter" data-level="2.3" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#tipos-de-bases"><i class="fa fa-check"></i><b>2.3</b> Tipos de bases</a>
-<ul>
-<li class="chapter" data-level="2.3.1" data-path="poo-programación-orientada-a-objetos.html"><a href="poo-programación-orientada-a-objetos.html#objetos-base-vs-objetos-oo"><i class="fa fa-check"></i><b>2.3.1</b> Objetos Base vs Objetos OO</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="r6.html"><a href="r6.html"><i class="fa fa-check"></i><b>3</b> R6</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="r6.html"><a href="r6.html#clases-y-métodos"><i class="fa fa-check"></i><b>3.1</b> Clases y métodos</a>
-<ul>
-<li class="chapter" data-level="3.1.1" data-path="r6.html"><a href="r6.html#encadenamiento-de-métodos"><i class="fa fa-check"></i><b>3.1.1</b> Encadenamiento de métodos</a></li>
-<li class="chapter" data-level="3.1.2" data-path="r6.html"><a href="r6.html#métodos-importantes"><i class="fa fa-check"></i><b>3.1.2</b> Métodos importantes</a></li>
-<li class="chapter" data-level="3.1.3" data-path="r6.html"><a href="r6.html#agregar-métodos-después-de-la-creación"><i class="fa fa-check"></i><b>3.1.3</b> Agregar métodos después de la creación</a></li>
-</ul></li>
-<li class="chapter" data-level="3.2" data-path="r6.html"><a href="r6.html#controles-de-acceso"><i class="fa fa-check"></i><b>3.2</b> Controles de Acceso</a>
-<ul>
-<li class="chapter" data-level="3.2.1" data-path="r6.html"><a href="r6.html#privacidad"><i class="fa fa-check"></i><b>3.2.1</b> Privacidad</a></li>
-<li class="chapter" data-level="3.2.2" data-path="r6.html"><a href="r6.html#campos-activos"><i class="fa fa-check"></i><b>3.2.2</b> Campos Activos</a></li>
-</ul></li>
-<li class="chapter" data-level="3.3" data-path="r6.html"><a href="r6.html#semántica-de-referencia"><i class="fa fa-check"></i><b>3.3</b> Semántica de referencia</a>
-<ul>
-<li class="chapter" data-level="3.3.1" data-path="r6.html"><a href="r6.html#razonamientos"><i class="fa fa-check"></i><b>3.3.1</b> Razonamientos</a></li>
-<li class="chapter" data-level="3.3.2" data-path="r6.html"><a href="r6.html#finalización"><i class="fa fa-check"></i><b>3.3.2</b> Finalización</a></li>
-<li class="chapter" data-level="3.3.3" data-path="r6.html"><a href="r6.html#campos-en-r6"><i class="fa fa-check"></i><b>3.3.3</b> Campos en R6</a></li>
-</ul></li>
-<li class="chapter" data-level="3.4" data-path="r6.html"><a href="r6.html#por-qué-r6"><i class="fa fa-check"></i><b>3.4</b> ¿Por qué R6?</a></li>
-<li class="chapter" data-level="3.5" data-path="r6.html"><a href="r6.html#ejercicios-prácticos"><i class="fa fa-check"></i><b>3.5</b> Ejercicios prácticos</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="tidyquant.html"><a href="tidyquant.html"><i class="fa fa-check"></i><b>4</b> TidyQuant</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="tidyquant.html"><a href="tidyquant.html#compatibilidad-de-funciones"><i class="fa fa-check"></i><b>4.1</b> Compatibilidad de funciones</a>
-<ul>
-<li class="chapter" data-level="4.1.1" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-zoo"><i class="fa fa-check"></i><b>4.1.1</b> Funcionalidad zoo</a></li>
-<li class="chapter" data-level="4.1.2" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-xts"><i class="fa fa-check"></i><b>4.1.2</b> Funcionalidad xts</a></li>
-<li class="chapter" data-level="4.1.3" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-quantmod"><i class="fa fa-check"></i><b>4.1.3</b> Funcionalidad quantmod</a></li>
-<li class="chapter" data-level="4.1.4" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-ttr"><i class="fa fa-check"></i><b>4.1.4</b> Funcionalidad TTR</a></li>
-<li class="chapter" data-level="4.1.5" data-path="tidyquant.html"><a href="tidyquant.html#funcionalidad-performanceanalytics"><i class="fa fa-check"></i><b>4.1.5</b> Funcionalidad PerformanceAnalytics</a></li>
-</ul></li>
-<li class="chapter" data-level="4.2" data-path="tidyquant.html"><a href="tidyquant.html#poder-cuantitativo-en-acción"><i class="fa fa-check"></i><b>4.2</b> Poder Cuantitativo en Acción</a>
-<ul>
-<li class="chapter" data-level="4.2.1" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-1-utilizar-quantmod-periodreturn-para-convertir-precios-en-rentabilidad"><i class="fa fa-check"></i><b>4.2.1</b> Ejemplo 1: utilizar quantmod periodReturn para convertir precios en rentabilidad</a></li>
-<li class="chapter" data-level="4.2.2" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-2-utilice-xts-to.period-para-cambiar-la-periodicidad-de-diaria-a-mensual"><i class="fa fa-check"></i><b>4.2.2</b> Ejemplo 2: utilice xts to.period para cambiar la periodicidad de diaria a mensual</a></li>
-<li class="chapter" data-level="4.2.3" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-3-utilice-ttr-runcor-para-visualizar-correlaciones-continuas-de-rendimientos"><i class="fa fa-check"></i><b>4.2.3</b> Ejemplo 3: utilice TTR runCor para visualizar correlaciones continuas de rendimientos</a></li>
-<li class="chapter" data-level="4.2.4" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-4-utilizar-ttrmacd-para-visualizar-la-divergencia-y-convergencia-de-la-media-móvil"><i class="fa fa-check"></i><b>4.2.4</b> Ejemplo 4: utilizar TTR::MACD para visualizar la divergencia y convergencia de la media móvil</a></li>
-<li class="chapter" data-level="4.2.5" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-5-utilizar-xtsapply.quarterly-para-obtener-el-precio-máximo-y-mínimo-para-cada-trimestre"><i class="fa fa-check"></i><b>4.2.5</b> Ejemplo 5: utilizar xts::apply.quarterly para obtener el precio máximo y mínimo para cada trimestre</a></li>
-<li class="chapter" data-level="4.2.6" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-6-utilizar-zoorollapply-para-visualizar-una-regresión-continua"><i class="fa fa-check"></i><b>4.2.6</b> Ejemplo 6: utilizar zoo::rollapply para visualizar una regresión continua</a></li>
-<li class="chapter" data-level="4.2.7" data-path="tidyquant.html"><a href="tidyquant.html#ejemplo-7-utilizar-return.clean-y-return.excess-para-limpiar-y-calcular-el-exceso-de-rendimiento"><i class="fa fa-check"></i><b>4.2.7</b> Ejemplo 7: utilizar return.clean y return.excess para limpiar y calcular el exceso de rendimiento</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="qualitytools.html"><a href="qualitytools.html"><i class="fa fa-check"></i><b>5</b> QualityTools</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="qualitytools.html"><a href="qualitytools.html#fase-1-definir"><i class="fa fa-check"></i><b>5.1</b> Fase 1: Definir</a></li>
-<li class="chapter" data-level="5.2" data-path="qualitytools.html"><a href="qualitytools.html#fase-2-medir"><i class="fa fa-check"></i><b>5.2</b> Fase 2: Medir</a>
-<ul>
-<li class="chapter" data-level="5.2.1" data-path="qualitytools.html"><a href="qualitytools.html#capacidad-de-calibre---msa-tipo-i"><i class="fa fa-check"></i><b>5.2.1</b> Capacidad de calibre - MSA Tipo I</a></li>
-<li class="chapter" data-level="5.2.2" data-path="qualitytools.html"><a href="qualitytools.html#repetibilidad-y-reproducibidad-del-calibre---msa-tipo-ii"><i class="fa fa-check"></i><b>5.2.2</b> Repetibilidad y reproducibidad del calibre - MSA Tipo II</a></li>
-</ul></li>
-<li class="chapter" data-level="5.3" data-path="qualitytools.html"><a href="qualitytools.html#fase-3-analizar"><i class="fa fa-check"></i><b>5.3</b> Fase 3: Analizar</a>
-<ul>
-<li class="chapter" data-level="5.3.1" data-path="qualitytools.html"><a href="qualitytools.html#capacidad-del-proceso"><i class="fa fa-check"></i><b>5.3.1</b> Capacidad del Proceso</a></li>
-</ul></li>
-<li class="chapter" data-level="5.4" data-path="qualitytools.html"><a href="qualitytools.html#fase-4-mejorar"><i class="fa fa-check"></i><b>5.4</b> Fase 4: Mejorar</a>
-<ul>
-<li class="chapter" data-level="5.4.1" data-path="qualitytools.html"><a href="qualitytools.html#diseños-factoriales-2k"><i class="fa fa-check"></i><b>5.4.1</b> Diseños factoriales <span class="math inline">\(2^{k}\)</span></a></li>
-<li class="chapter" data-level="5.4.2" data-path="qualitytools.html"><a href="qualitytools.html#diseños-factoriales-fraccionarios-2k-p"><i class="fa fa-check"></i><b>5.4.2</b> Diseños factoriales fraccionarios <span class="math inline">\(2^{k-p}\)</span></a></li>
-<li class="chapter" data-level="5.4.3" data-path="qualitytools.html"><a href="qualitytools.html#diseños-replicados-y-puntos-centrales"><i class="fa fa-check"></i><b>5.4.3</b> Diseños replicados y puntos centrales</a></li>
-<li class="chapter" data-level="5.4.4" data-path="qualitytools.html"><a href="qualitytools.html#respuestas-múltiples"><i class="fa fa-check"></i><b>5.4.4</b> Respuestas múltiples</a></li>
-<li class="chapter" data-level="5.4.5" data-path="qualitytools.html"><a href="qualitytools.html#pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado"><i class="fa fa-check"></i><b>5.4.5</b> Pasar a un entorno de proceso con un mayor rendimiento esperado</a></li>
-<li class="chapter" data-level="5.4.6" data-path="qualitytools.html"><a href="qualitytools.html#diseños-de-superficies-de-respuesta"><i class="fa fa-check"></i><b>5.4.6</b> Diseños de superficies de respuesta</a></li>
-</ul></li>
-<li class="chapter" data-level="5.5" data-path="qualitytools.html"><a href="qualitytools.html#deseabilidades"><i class="fa fa-check"></i><b>5.5</b> Deseabilidades</a></li>
-<li class="chapter" data-level="5.6" data-path="qualitytools.html"><a href="qualitytools.html#utilización-de-deseabilidades-junto-con-experimentos-diseñados"><i class="fa fa-check"></i><b>5.6</b> Utilización de deseabilidades junto con experimentos diseñados</a></li>
-<li class="chapter" data-level="5.7" data-path="qualitytools.html"><a href="qualitytools.html#diseños-taguchi"><i class="fa fa-check"></i><b>5.7</b> Diseños Taguchi</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="cambio-de-funciones.html"><a href="cambio-de-funciones.html"><i class="fa fa-check"></i><b>6</b> Cambio de Funciones</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="cambio-de-funciones.html"><a href="cambio-de-funciones.html#fase-1-definir-1"><i class="fa fa-check"></i><b>6.1</b> Fase 1: Definir</a>
-<ul>
-<li class="chapter" data-level="6.1.1" data-path="cambio-de-funciones.html"><a href="cambio-de-funciones.html#función-pareto"><i class="fa fa-check"></i><b>6.1.1</b> 1. Función Pareto</a></li>
-</ul></li>
-<li class="chapter" data-level="6.2" data-path="cambio-de-funciones.html"><a href="cambio-de-funciones.html#fase-2-medir-1"><i class="fa fa-check"></i><b>6.2</b> Fase 2: Medir</a>
-<ul>
-<li class="chapter" data-level="6.2.1" data-path="cambio-de-funciones.html"><a href="cambio-de-funciones.html#función-cg"><i class="fa fa-check"></i><b>6.2.1</b> 1. Función cg</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
-<li class="divider"></li>
-<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-
-=======
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html"><span class="header-section-number">1</span> Preámbulo</a></li>
@@ -251,28 +52,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a class="active" href="qualitytools.html"><span class="header-section-number">5</span> QualityTools</a></li>
 <li><a class="" href="cambio-de-funciones.html"><span class="header-section-number">6</span> Cambio de Funciones</a></li>
 <li><a class="" href="referencias.html">Referencias</a></li>
->>>>>>> a8b725b107cd3ade9afd4976ed6558cfc0d3c521
 </ul>
 
-      </nav>
-    </div>
-
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Integración del Paquete QualityTools con Tidyverse</a>
-          </h1>
+        <div class="book-extra">
+          
         </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
-<div id="qualitytools" class="section level1 hasAnchor" number="5">
-<h1><span class="header-section-number">Capítulo 5</span> QualityTools<a href="qualitytools.html#qualitytools" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="qualitytools" class="section level1" number="5">
+<h1>
+<span class="header-section-number">Capítulo 5</span> QualityTools<a class="anchor" aria-label="anchor" href="#qualitytools"><i class="fas fa-link"></i></a>
+</h1>
 <div>
-<img src='graficos/introduccion.png' width="120" align="right">
+<img src="graficos/introduccion.png" width="120" align="right">
 </div>
 <p>Este trabajo pretende dar una breve introducción a los métodos del paquete <strong>QualityTools</strong>. Este paquete se implementó con fines didácticos para servir como una “Caja de Herramientas” (Six-Sigma) y contiene métodos asociados con el ciclo de resolución con la metodología de: “Definir, Medir, Analizar, Mejorar y Controlar” (con sus siglas en inglés DMAIC).</p>
 <p>El uso de estos métodos se ilustran con ayuda de conjuntos de datos creados artificalmente, a continuación se explica, el objetivo de cada una de las fases de este ciclo:</p>
@@ -286,24 +78,31 @@ contribuya a las mediciones como sea posible). Dentro de esta fase se proporcion
 configuraciones o soluciones óptimas para un problema.</p></li>
 <li><p><strong>Controlar</strong>: Una vez que se logró una mejora, es necesario asegurarla, lo que significa que se deben implementar acuerdos para garantizar el nivel de mejora. El uso de control estadístico de procesos (es decir, gráficos de control de calidad) se puede utilizar para monitorear el comportamiento de un proceso</p></li>
 </ul>
-<div id="fase-1-definir" class="section level2 hasAnchor" number="5.1">
-<h2><span class="header-section-number">5.1</span> Fase 1: Definir<a href="qualitytools.html#fase-1-definir" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="fase-1-definir" class="section level2" number="5.1">
+<h2>
+<span class="header-section-number">5.1</span> Fase 1: Definir<a class="anchor" aria-label="anchor" href="#fase-1-definir"><i class="fas fa-link"></i></a>
+</h2>
 <p>La mayoría de las técnicas utilizadas en esta fase no están relacionadas con el uso sustancial de métodos estadísticos. Su objetivo es captar los conocimientos e ideas sobre el proceso involucrado, establecer un objetivo común y definir cómo cada parte contribuye a la solución.</p>
 <p>Una técnica de visualización clásica que se utiliza en esta fase y está disponible en el paquete QualityTools es el <strong>Diagrama de Pareto</strong>, que nos ayuda a separar las pocas causas vitales de las muchas causas triviales.</p>
 <p>Por ejemplo, en la causa más frecuente de un producto defectuoso, el diagrama de Pareto nos ayuda a visualizar cuánto contribuye una causa a un problema. Supongamos que una empresa está investigando unidades (productos) que no cumplen. 120 unidades fueron investigadas y se encontraron 6 tipos diferentes de defectos (datos cualitativos). Los defectos son denominados de A a F por fines prácticos.</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="qualitytools.html#cb93-1" tabindex="-1"></a>defectos <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;E&quot;</span>,<span class="dv">62</span>),<span class="fu">rep</span>(<span class="st">&quot;B&quot;</span>,<span class="dv">15</span>),<span class="fu">rep</span>(<span class="st">&quot;F&quot;</span>,<span class="dv">3</span>),<span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>,<span class="dv">10</span>),<span class="fu">rep</span>(<span class="st">&quot;C&quot;</span>,<span class="dv">20</span>),<span class="fu">rep</span>(<span class="st">&quot;D&quot;</span>,<span class="dv">10</span>))</span>
-<span id="cb93-2"><a href="qualitytools.html#cb93-2" tabindex="-1"></a><span class="fu">paretoChart</span>(defectos)</span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-79-1.png" width="768" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">defectos</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"E"</span>,<span class="fl">62</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"B"</span>,<span class="fl">15</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"F"</span>,<span class="fl">3</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"A"</span>,<span class="fl">10</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"C"</span>,<span class="fl">20</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"D"</span>,<span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">paretoChart</span><span class="op">(</span><span class="va">defectos</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-79-1.png" width="768" style="display: block; margin: auto;"></div>
 <p>En este diagrama de Pareto podría transmitir el mensaje de que para resolver el <span class="math inline">\(68\%\)</span> de los problemas, el <span class="math inline">\(33 \%\)</span> de las causas (menos vitales) necesitan ser objeto de investigación.</p>
 <p>Además de este uso, los diagramas de Pareto también se utilizan para visualizar los tamaños de efectos de los diferentes factores para los experimentos diseñados, a continución se muestra un ejemplo de una gráfica de errores de medición.</p>
-<p><img src="graficos/erroresMedida.png" width="700" /></p>
+<div class="inline-figure"><img src="graficos/erroresMedida.png" width="700"></div>
 </div>
-<div id="fase-2-medir" class="section level2 hasAnchor" number="5.2">
-<h2><span class="header-section-number">5.2</span> Fase 2: Medir<a href="qualitytools.html#fase-2-medir" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="fase-2-medir" class="section level2" number="5.2">
+<h2>
+<span class="header-section-number">5.2</span> Fase 2: Medir<a class="anchor" aria-label="anchor" href="#fase-2-medir"><i class="fas fa-link"></i></a>
+</h2>
 <p>La recopilación de datos implica el uso de sistemas de medición a menudo denominados calibres. Para hacer una declaración sobre la calidad, el sistema de medición utilizado debe ser validado, y por lo tanto la variación para repetidas mediciones de la misma unidad debe ser tolerable, y por supuesto, debe depender del número de categorías distintivas qque necesita para poder identificar y caracterizar el producto.</p>
 <p>Esta cantidad tolerable de variación para un sistema de medición se relaciona directamente al rango de tolerancia de las características de un producto. La capacidad de un sistema de mediciones es crucial para cualquier conclusión basada en datos y está directamente relacionada con los costos que implican los errores tipo I y tipo II.</p>
-<div id="capacidad-de-calibre---msa-tipo-i" class="section level3 hasAnchor" number="5.2.1">
-<h3><span class="header-section-number">5.2.1</span> Capacidad de calibre - MSA Tipo I<a href="qualitytools.html#capacidad-de-calibre---msa-tipo-i" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="capacidad-de-calibre---msa-tipo-i" class="section level3" number="5.2.1">
+<h3>
+<span class="header-section-number">5.2.1</span> Capacidad de calibre - MSA Tipo I<a class="anchor" aria-label="anchor" href="#capacidad-de-calibre---msa-tipo-i"><i class="fas fa-link"></i></a>
+</h3>
 <p>Supongamos que un ingeniero quiere comprobar la capacidad de un dispositivo de medición óptico. Una unidad con característica conocida (<span class="math inline">\(x_m = 10.033mm\)</span>) se mide repetidamente <span class="math inline">\(n=25\)</span> veces. De los valores de medición se obtiene la media <span class="math inline">\(\bar{x_g}\)</span> y la desviación estándar <span class="math inline">\(s_g\)</span>.</p>
 <p>Basicamente el cálculo de un índice de capacidad comprende dos pasos: primero se calcula una fracción del ancho de toletancia (es decir, <span class="math inline">\(USL - LSL\)</span>), la fracción típicamente se relaciona a <span class="math inline">\(0.2\)</span>. En un segundo paso esta fracción se relaciona con una medida de la dispersión del proceso (es decir, el rango en el que el <span class="math inline">\(95,5\%\)</span>, o el <span class="math inline">\(99.73\%\)</span> de las características de un proceso son esperados).</p>
 <p>Para valores de medición distribuidos normalmentem esto se relaciona con <span class="math inline">\(k = 2 \sigma_g\)</span> y <span class="math inline">\(k = 3 \sigma_g\)</span> calculados a partir de llos valores de medición; y para datos que no están distribuidos normalmente, se pueden tomar los cuantiles correspondientes. Si no hay sesgo, este cálculo representa el índice de capacidad <span class="math inline">\(c_g\)</span> y refleja la verdadera capacidad del dispositivo de medición.</p>
@@ -322,17 +121,20 @@ c_{gk} = \frac{0.1 \cdot (USL - LSL) - |x_m - x_g|}{3 \cdot s_g}
 t = \frac{diferencia de medias}{error estandar de la diferencia} = \frac{Dif}{s_{Dif}/\sqrt{n}}
 \]</span></p>
 <p>Además del sesgo y la desviación estándar, es importante comprobar el diagrama de ejecución de los valores de medición. Usando el paquete QualityTools, todo esto se logra fácilmente usando el método <code>cg</code>, su resultado se muestra a continuación:</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="qualitytools.html#cb94-1" tabindex="-1"></a><span class="fu">library</span>(qualityTools)</span>
-<span id="cb94-2"><a href="qualitytools.html#cb94-2" tabindex="-1"></a></span>
-<span id="cb94-3"><a href="qualitytools.html#cb94-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span> ( <span class="fl">9.991</span>, <span class="fl">10.013</span>, <span class="fl">10.001</span>, <span class="fl">10.007</span>, <span class="fl">10.010</span>, <span class="fl">10.013</span>, <span class="fl">10.008</span>, <span class="fl">10.017</span>, <span class="fl">10.005</span>, <span class="fl">10.005</span>, <span class="fl">10.002</span>,</span>
-<span id="cb94-4"><a href="qualitytools.html#cb94-4" tabindex="-1"></a>        <span class="fl">10.017</span>, <span class="fl">10.005</span>, <span class="fl">10.002</span>, <span class="fl">9.996</span>, <span class="fl">10.011</span>, <span class="fl">10.009</span> , <span class="fl">10.006</span>, <span class="fl">10.008</span>, <span class="fl">10.003</span>, <span class="fl">10.002</span>, <span class="fl">10.006</span>, </span>
-<span id="cb94-5"><a href="qualitytools.html#cb94-5" tabindex="-1"></a>        <span class="fl">10.010</span>, <span class="fl">9.992</span>, <span class="fl">10.013</span>)</span>
-<span id="cb94-6"><a href="qualitytools.html#cb94-6" tabindex="-1"></a></span>
-<span id="cb94-7"><a href="qualitytools.html#cb94-7" tabindex="-1"></a><span class="fu">cg</span>(x, <span class="at">target =</span> <span class="fl">10.003</span>, <span class="at">tolerance =</span> <span class="fu">c</span>(<span class="fl">9.903</span>, <span class="fl">10.103</span>))</span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-80-1.png" width="768" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.r-qualitytools.org">qualityTools</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span> <span class="op">(</span> <span class="fl">9.991</span>, <span class="fl">10.013</span>, <span class="fl">10.001</span>, <span class="fl">10.007</span>, <span class="fl">10.010</span>, <span class="fl">10.013</span>, <span class="fl">10.008</span>, <span class="fl">10.017</span>, <span class="fl">10.005</span>, <span class="fl">10.005</span>, <span class="fl">10.002</span>,</span>
+<span>        <span class="fl">10.017</span>, <span class="fl">10.005</span>, <span class="fl">10.002</span>, <span class="fl">9.996</span>, <span class="fl">10.011</span>, <span class="fl">10.009</span> , <span class="fl">10.006</span>, <span class="fl">10.008</span>, <span class="fl">10.003</span>, <span class="fl">10.002</span>, <span class="fl">10.006</span>, </span>
+<span>        <span class="fl">10.010</span>, <span class="fl">9.992</span>, <span class="fl">10.013</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/cg.html">cg</a></span><span class="op">(</span><span class="va">x</span>, target <span class="op">=</span> <span class="fl">10.003</span>, tolerance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">9.903</span>, <span class="fl">10.103</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-80-1.png" width="768" style="display: block; margin: auto;"></div>
 </div>
-<div id="repetibilidad-y-reproducibidad-del-calibre---msa-tipo-ii" class="section level3 hasAnchor" number="5.2.2">
-<h3><span class="header-section-number">5.2.2</span> Repetibilidad y reproducibidad del calibre - MSA Tipo II<a href="qualitytools.html#repetibilidad-y-reproducibidad-del-calibre---msa-tipo-ii" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="repetibilidad-y-reproducibidad-del-calibre---msa-tipo-ii" class="section level3" number="5.2.2">
+<h3>
+<span class="header-section-number">5.2.2</span> Repetibilidad y reproducibidad del calibre - MSA Tipo II<a class="anchor" aria-label="anchor" href="#repetibilidad-y-reproducibidad-del-calibre---msa-tipo-ii"><i class="fas fa-link"></i></a>
+</h3>
 <p>Un procedimineto común aplicado en la industria es realizar un análisis <em>Gage R&amp;R</em> para evaluar la repetibilidad y reproducibilidad de un sistema de medición (‘R&amp;R’ significa repetibilidad y reproducibilidad).</p>
 <p>La repetibilidad se refiere a la precisión de un sistema de medición, es decir, a la desviación estándar de mediciones posteriores de la misma unidad. miestras que reproducibilidad es la parte de la varianza general que modela el efecto de diferentes, por ejemplo, operadores que realizan mediciones en la misma unidad y una posible interacción entre diferentes operadores y piezas medidas dentro de este “Gage R&amp;R”, el modelo general está dado por:</p>
 <p><span class="math display">\[
@@ -346,16 +148,17 @@ t = \frac{diferencia de medias}{error estandar de la diferencia} = \frac{Dif}{s_
 </ul>
 <p>Ahora, supongamos que 3 operadores elegidos al azar midieron 10 unidades elegidas al azar. Cada operador midió cada unidad dos veces en un orden elegido al azar y las unidades no puedes distingirse entre si.</p>
 <p>El <em>Diseño R&amp;R del Calibre</em> correspondiente se puede crear utilizando el método <code>gageRRDesign</code> del paquete QualityTools, y las medidas se asignan a este diseño utilizando el método de respuesta, dados por <code>gageRR</code> y <code>plot</code>.</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="qualitytools.html#cb95-1" tabindex="-1"></a><span class="fu">library</span>(qualityTools)</span>
-<span id="cb95-2"><a href="qualitytools.html#cb95-2" tabindex="-1"></a></span>
-<span id="cb95-3"><a href="qualitytools.html#cb95-3" tabindex="-1"></a><span class="co"># Crear un diseño R&amp;R de Calibre</span></span>
-<span id="cb95-4"><a href="qualitytools.html#cb95-4" tabindex="-1"></a>dis <span class="ot">&lt;-</span> <span class="fu">gageRRDesign</span>(<span class="at">Operators =</span> <span class="dv">3</span>, <span class="at">Parts =</span> <span class="dv">10</span>, <span class="at">Measurements =</span> <span class="dv">2</span>, <span class="at">randomize =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb95-5"><a href="qualitytools.html#cb95-5" tabindex="-1"></a></span>
-<span id="cb95-6"><a href="qualitytools.html#cb95-6" tabindex="-1"></a><span class="co"># Establecemos las respuestas de medición</span></span>
-<span id="cb95-7"><a href="qualitytools.html#cb95-7" tabindex="-1"></a><span class="fu">response</span>(dis) <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">25</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">20</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">25</span>, <span class="dv">27</span>, <span class="dv">28</span>, <span class="dv">23</span>, <span class="dv">24</span>, <span class="dv">23</span>, <span class="dv">24</span>, <span class="dv">24</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">25</span>, <span class="dv">24</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">21</span>, <span class="dv">20</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">21</span>, <span class="dv">21</span>, <span class="dv">24</span>, <span class="dv">27</span>,  <span class="dv">25</span>, <span class="dv">27</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">25</span>, <span class="dv">23</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">25</span>, <span class="dv">21</span>, <span class="dv">24</span>, <span class="dv">23</span>)</span>
-<span id="cb95-8"><a href="qualitytools.html#cb95-8" tabindex="-1"></a></span>
-<span id="cb95-9"><a href="qualitytools.html#cb95-9" tabindex="-1"></a><span class="co"># Realizamos Gage R&amp;R</span></span>
-<span id="cb95-10"><a href="qualitytools.html#cb95-10" tabindex="-1"></a>gdo <span class="ot">&lt;-</span> <span class="fu">gageRR_abc</span>(dis)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.r-qualitytools.org">qualityTools</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Crear un diseño R&amp;R de Calibre</span></span>
+<span><span class="va">dis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/gageRRDesign.html">gageRRDesign</a></span><span class="op">(</span>Operators <span class="op">=</span> <span class="fl">3</span>, Parts <span class="op">=</span> <span class="fl">10</span>, Measurements <span class="op">=</span> <span class="fl">2</span>, randomize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Establecemos las respuestas de medición</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/response-methods.html">response</a></span><span class="op">(</span><span class="va">dis</span><span class="op">)</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">23</span>, <span class="fl">22</span>, <span class="fl">22</span>, <span class="fl">22</span>, <span class="fl">22</span>, <span class="fl">25</span>, <span class="fl">23</span>, <span class="fl">22</span>, <span class="fl">23</span>, <span class="fl">22</span>, <span class="fl">20</span>, <span class="fl">22</span>, <span class="fl">22</span>, <span class="fl">22</span>, <span class="fl">24</span>, <span class="fl">25</span>, <span class="fl">27</span>, <span class="fl">28</span>, <span class="fl">23</span>, <span class="fl">24</span>, <span class="fl">23</span>, <span class="fl">24</span>, <span class="fl">24</span>, <span class="fl">22</span>, <span class="fl">22</span>, <span class="fl">22</span>, <span class="fl">24</span>, <span class="fl">23</span>, <span class="fl">22</span>, <span class="fl">24</span>, <span class="fl">20</span>, <span class="fl">20</span>, <span class="fl">25</span>, <span class="fl">24</span>, <span class="fl">22</span>, <span class="fl">24</span>, <span class="fl">21</span>, <span class="fl">20</span>, <span class="fl">21</span>, <span class="fl">22</span>, <span class="fl">21</span>, <span class="fl">22</span>, <span class="fl">21</span>, <span class="fl">21</span>, <span class="fl">24</span>, <span class="fl">27</span>,  <span class="fl">25</span>, <span class="fl">27</span>, <span class="fl">23</span>, <span class="fl">22</span>, <span class="fl">25</span>, <span class="fl">23</span>, <span class="fl">23</span>, <span class="fl">22</span>, <span class="fl">22</span>, <span class="fl">23</span>, <span class="fl">25</span>, <span class="fl">21</span>, <span class="fl">24</span>, <span class="fl">23</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Realizamos Gage R&amp;R</span></span>
+<span><span class="va">gdo</span> <span class="op">&lt;-</span> <span class="fu">gageRR_abc</span><span class="op">(</span><span class="va">dis</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ## AnOVa Table -  crossed Design
 ##               Df Sum Sq Mean Sq F value   Pr(&gt;F)    
@@ -364,7 +167,7 @@ t = \frac{diferencia de medias}{error estandar de la diferencia} = \frac{Dif}{s_
 ## Operator:Part 18  22.03   1.224   1.020  0.46732    
 ## Residuals     30  36.00   1.200                     
 ## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## ----------
 ## AnOVa Table Without Interaction -  crossed Design
@@ -373,7 +176,7 @@ t = \frac{diferencia de medias}{error estandar de la diferencia} = \frac{Dif}{s_
 ## Part         9 107.07  11.896   9.840 2.39e-08 ***
 ## Residuals   48  58.03   1.209                     
 ## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## ----------
 ## 
@@ -390,23 +193,22 @@ t = \frac{diferencia de medias}{error estandar de la diferencia} = \frac{Dif}{s_
 ## ---
 ##  * Contrib equals Contribution in %
 ##  **Number of Distinct Categories (truncated signal-to-noise-ratio) = 1</code></pre>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="qualitytools.html#cb97-1" tabindex="-1"></a><span class="co"># Visualización de Gage R&amp;R</span></span>
-<span id="cb97-2"><a href="qualitytools.html#cb97-2" tabindex="-1"></a><span class="fu">plot</span>(gdo)</span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-83-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Visualización de Gage R&amp;R</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">gdo</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-83-1.png" width="672" style="display: block; margin: auto;"></div>
 <p>El diagrama de barras ofrece una representación visual de los componentes de la varianza. <code>totalRR</code> representa la repetibilidad y reproducibilidad totales. El <span class="math inline">\(48\%\)</span> de la variación se debe al <span class="math inline">\(35\%\)</span> de <em>repitibilidad</em>, es decir, variación del propio calibre, y al <span class="math inline">\(13\%\)</span> de reproducibilidad, es decir, efecto del operador y la interación entre el operador y la pieza.</p>
 <p>Se puede ver en la tabla Anova que no existe interacción entre piezas y operadores. El <span class="math inline">\(52\%\)</span> de la variación (columna <strong>VarCompContrib</strong>) se debe a diferencias entre las partes tomadas del proceso (variación inherente), que se puede ver en el gráfico <strong>Measurement by Part</strong>. La variación de las mediciones tomadas por un operador es aproximadamente igual para los tres operadores (<strong>Measurement by Operator</strong>), aunque el operador C parece producir valores que la mayoría de las veces son mayores que los valores de los otros operadores (<strong>Interaction Operator: Part</strong>).</p>
 <p>Además de esta interpretación de los resultados, en la industria se utilizan valores críticos para <strong>totalRR</strong>, también denominado en la industria como “GRR”. Sin embargo, un sistema de medición nunca debe juzgarse únicamente por sus valores críticos.</p>
-<table>
+<div class="inline-table"><table class="table table-sm">
 <colgroup>
-<col width="58%" />
-<col width="41%" />
+<col width="58%">
+<col width="41%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th>Contribución total RR</th>
 <th>Capacidad</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td>≤ 0.1</td>
@@ -421,7 +223,7 @@ t = \frac{diferencia de medias}{error estandar de la diferencia} = \frac{Dif}{s_
 <td>No adecuada</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <ul>
 <li><p><strong>Verificación de interacción: </strong> El gráfico de interacción proporciona una verificación visual de posibles interacciones entre el Operador y la Pieza. Para cada operador se muestra el valor medio de la
 medición en función del número de pieza. Las líneas cruzadas indican que los operadores están asignando lecturas diferentes a idénticas dependiendo de la combinación de Operador y Pieza.
@@ -434,10 +236,14 @@ una idea del proceso. Una línea que conecta la media de las mediciones de cada 
 <p>Como no hay interacción, la reproducibilidad asciende a <span class="math inline">\(0.455\)</span>. <em>Parte a Parte</em> asciende a <span class="math inline">\(1.781\)</span>. Junto con el total de repetibilidad y reproducibilidad, esto da <span class="math inline">\(\sigma^2_{Total} = 3.446\)</span>.</p>
 </div>
 </div>
-<div id="fase-3-analizar" class="section level2 hasAnchor" number="5.3">
-<h2><span class="header-section-number">5.3</span> Fase 3: Analizar<a href="qualitytools.html#fase-3-analizar" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="capacidad-del-proceso" class="section level3 hasAnchor" number="5.3.1">
-<h3><span class="header-section-number">5.3.1</span> Capacidad del Proceso<a href="qualitytools.html#capacidad-del-proceso" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="fase-3-analizar" class="section level2" number="5.3">
+<h2>
+<span class="header-section-number">5.3</span> Fase 3: Analizar<a class="anchor" aria-label="anchor" href="#fase-3-analizar"><i class="fas fa-link"></i></a>
+</h2>
+<div id="capacidad-del-proceso" class="section level3" number="5.3.1">
+<h3>
+<span class="header-section-number">5.3.1</span> Capacidad del Proceso<a class="anchor" aria-label="anchor" href="#capacidad-del-proceso"><i class="fas fa-link"></i></a>
+</h3>
 <p>Además de la capacidad de un sistema de medición, a menudo la capacidad de un proceso es de interés o necesidad que debe evaluarse, por ejemplo, como parte de una relación entre proveedor y cliente en la industria.</p>
 <p>Los índices de capacidad del proceso básicamente indican cuánto del rango de tolerancia está siendo utilizado por la variación debida a causas comunes del proceso considerado. Utilizando estas técnicas, se puede determinar cuántas unidades (por ejemplo, productos) se espera que caigan fuera del rango de tolerancia, es decir, defectuoso con respecto a los requisitos determinados. También proporciona información sobre dónde centrar el proceso si el desplazamiento es posible y significativo en términos de costos.</p>
 <p><span class="math display">\[
@@ -451,7 +257,8 @@ c_{pkU} = \frac{USL - Q_{0.5}}{Q_{0.99865} - Q_{0.5}}
 \]</span>
 * <span class="math inline">\(c_p\)</span>: Es la capacidad potencial del proceso que podría lograrse si el proceso se pudiera centrar dentro de los límites de especificación.</p>
 <ul>
-<li><span class="math inline">\(c_{pk}\)</span>: Es la capacidad real del proceso que incorpora la ubicación de la distribución (es decir, el centro) de la característica dentro de los límites de especificación.</li>
+<li>
+<span class="math inline">\(c_{pk}\)</span>: Es la capacidad real del proceso que incorpora la ubicación de la distribución (es decir, el centro) de la característica dentro de los límites de especificación.</li>
 </ul>
 <p>Para límites de especificación unilaterales, existen <span class="math inline">\(c_{pkL}\)</span> y <span class="math inline">\(c_{pkU}\)</span>, siendo <span class="math inline">\(c_{pk}\)</span> igual al índice de capacidad más pequeño. Como se puede imaginar, además de la ubicación de la distribución de la característica, la forma de la distribución también es relevante. Evaluar el ajuste de una distribución específica para datos dados se puede hacer a través de gráficos de probabilidad (ppPlot) y gráficos de cuantiles-cuantiles (qqPlot), así como métodos de prueba formales como la Prueba de Anderson-Darling.</p>
 <p>Las capacidades del proceso pueden calcularse con el método <strong>pcr</strong> del paquete qualityTools. El método pcr traza un histograma de los datos, la distribución ajustada y devuelve los índices de capacidad junto con los parámetros estimados de la distribución, una Prueba de Anderson-Darling para la distribución especificada y el correspondiente QQ-Plot.</p>
@@ -459,82 +266,102 @@ c_{pkU} = \frac{USL - Q_{0.5}}{Q_{0.99865} - Q_{0.5}}
 <ol style="list-style-type: decimal">
 <li>Distribución Normal</li>
 </ol>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="qualitytools.html#cb98-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb98-2"><a href="qualitytools.html#cb98-2" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">20</span>)</span>
-<span id="cb98-3"><a href="qualitytools.html#cb98-3" tabindex="-1"></a><span class="fu">pcr</span>(datos, <span class="st">&quot;normal&quot;</span>, <span class="at">lsl =</span> <span class="dv">17</span>, <span class="at">usl =</span> <span class="dv">23</span>)</span>
-<span id="cb98-4"><a href="qualitytools.html#cb98-4" tabindex="-1"></a><span class="do">## Error in round(x$statistic, 4): non-numeric argument to mathematical function</span></span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-85-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">20</span>, mean <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/pcr.html">pcr</a></span><span class="op">(</span><span class="va">datos</span>, <span class="st">"normal"</span>, lsl <span class="op">=</span> <span class="fl">17</span>, usl <span class="op">=</span> <span class="fl">23</span><span class="op">)</span></span>
+<span><span class="co">## Error in round(x$statistic, 4): non-numeric argument to mathematical function</span></span></code></pre></div>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-85-1.png" width="672" style="display: block; margin: auto;"></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Distribución Weibull</li>
 </ol>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="qualitytools.html#cb99-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb99-2"><a href="qualitytools.html#cb99-2" tabindex="-1"></a>weib <span class="ot">&lt;-</span> <span class="fu">rweibull</span>(<span class="dv">20</span>, <span class="at">shape =</span> <span class="dv">2</span>, <span class="at">scale =</span> <span class="dv">8</span>)</span>
-<span id="cb99-3"><a href="qualitytools.html#cb99-3" tabindex="-1"></a><span class="fu">pcr</span>(weib, <span class="st">&quot;weibull&quot;</span>, <span class="at">usl =</span> <span class="dv">20</span>)</span>
-<span id="cb99-4"><a href="qualitytools.html#cb99-4" tabindex="-1"></a><span class="do">## Error in round(x$statistic, 4): non-numeric argument to mathematical function</span></span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-86-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">weib</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Weibull.html">rweibull</a></span><span class="op">(</span><span class="fl">20</span>, shape <span class="op">=</span> <span class="fl">2</span>, scale <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/pcr.html">pcr</a></span><span class="op">(</span><span class="va">weib</span>, <span class="st">"weibull"</span>, usl <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
+<span><span class="co">## Error in round(x$statistic, 4): non-numeric argument to mathematical function</span></span></code></pre></div>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-86-1.png" width="672" style="display: block; margin: auto;"></div>
 <p>Junto con la representación gráfica se presenta un Test de Anderson Darling y se devuelve la distribución</p>
-<p><img src="graficos/AndersonDarling.png" /></p>
+<div class="inline-figure"><img src="graficos/AndersonDarling.png"></div>
 <p>Los gráficos QQ-plot pueden obtenerse a partir del paquete QualityTools, de la siguiente forma:</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="qualitytools.html#cb100-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb100-2"><a href="qualitytools.html#cb100-2" tabindex="-1"></a><span class="fu">qqPlot</span>(weib, <span class="st">&quot;weibull&quot;</span>); <span class="fu">qqPlot</span>(datos, <span class="st">&quot;normal&quot;</span>)</span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-87-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/qqPlot.html">qqPlot</a></span><span class="op">(</span><span class="va">weib</span>, <span class="st">"weibull"</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/qqPlot.html">qqPlot</a></span><span class="op">(</span><span class="va">datos</span>, <span class="st">"normal"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-87-1.png" width="672" style="display: block; margin: auto;"></div>
 <p>Y los gráficos de probabilidad se pueden calcular con la función ppPlot del mismo paquete, de la siguiente manera:</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="qualitytools.html#cb101-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb101-2"><a href="qualitytools.html#cb101-2" tabindex="-1"></a><span class="fu">ppPlot</span>(weib, <span class="st">&quot;weibull&quot;</span>); <span class="fu">ppPlot</span>(datos, <span class="st">&quot;normal&quot;</span>)</span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-88-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/ppPlot.html">ppPlot</a></span><span class="op">(</span><span class="va">weib</span>, <span class="st">"weibull"</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/ppPlot.html">ppPlot</a></span><span class="op">(</span><span class="va">datos</span>, <span class="st">"normal"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-88-1.png" width="672" style="display: block; margin: auto;"></div>
 </div>
 </div>
-<div id="fase-4-mejorar" class="section level2 hasAnchor" number="5.4">
-<h2><span class="header-section-number">5.4</span> Fase 4: Mejorar<a href="qualitytools.html#fase-4-mejorar" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="diseños-factoriales-2k" class="section level3 hasAnchor" number="5.4.1">
-<h3><span class="header-section-number">5.4.1</span> Diseños factoriales <span class="math inline">\(2^{k}\)</span><a href="qualitytools.html#diseños-factoriales-2k" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="fase-4-mejorar" class="section level2" number="5.4">
+<h2>
+<span class="header-section-number">5.4</span> Fase 4: Mejorar<a class="anchor" aria-label="anchor" href="#fase-4-mejorar"><i class="fas fa-link"></i></a>
+</h2>
+<div id="diseños-factoriales-2k" class="section level3" number="5.4.1">
+<h3>
+<span class="header-section-number">5.4.1</span> Diseños factoriales <span class="math inline">\(2^{k}\)</span><a class="anchor" aria-label="anchor" href="#dise%C3%B1os-factoriales-2k"><i class="fas fa-link"></i></a>
+</h3>
 <p>El método <code>facDesign</code> diseña un modelo de <em>k</em> factores y 2 combinaciones por factor, el cual es llamado <span class="math inline">\(2^k\)</span>.</p>
 <p>Supondremos un ejemplo de un proceso que tiene 5 factores A, B, C, D y E, de los cuales tres se consideran relevantes para el rendimiento del proceso (A, B y C).</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="qualitytools.html#cb102-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb102-2"><a href="qualitytools.html#cb102-2" tabindex="-1"></a>dfac <span class="ot">&lt;-</span> <span class="fu">facDesign</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="at">centerCube =</span> <span class="dv">4</span>)</span>
-<span id="cb102-3"><a href="qualitytools.html#cb102-3" tabindex="-1"></a><span class="fu">names</span>(dfac) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Facto 1&#39;</span>, <span class="st">&#39;Factor 2&#39;</span>, <span class="st">&#39;Factor 3&#39;</span>)</span>
-<span id="cb102-4"><a href="qualitytools.html#cb102-4" tabindex="-1"></a><span class="fu">lows</span>(df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">80</span>,<span class="dv">120</span>,<span class="dv">1</span>)</span>
-<span id="cb102-5"><a href="qualitytools.html#cb102-5" tabindex="-1"></a><span class="fu">highs</span>(fdo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">120</span>,<span class="dv">140</span>,<span class="dv">2</span>)</span>
-<span id="cb102-6"><a href="qualitytools.html#cb102-6" tabindex="-1"></a><span class="fu">summary</span>(dfac)</span></code></pre></div>
-<p><img src="graficos/dfac.png" width="260" /></p>
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">dfac</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/facDesign.html">facDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, centerCube <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dfac</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Facto 1'</span>, <span class="st">'Factor 2'</span>, <span class="st">'Factor 3'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/lows-methods.html">lows</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">80</span>,<span class="fl">120</span>,<span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/highs-methods.html">highs</a></span><span class="op">(</span><span class="va">fdo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">120</span>,<span class="fl">140</span>,<span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">dfac</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="graficos/dfac.png" width="260"></div>
 <p>El proceso se simula con el método <code>simProc</code>:</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="qualitytools.html#cb103-1" tabindex="-1"></a><span class="co">#Primeros valores</span></span>
-<span id="cb103-2"><a href="qualitytools.html#cb103-2" tabindex="-1"></a>rend <span class="ot">&lt;-</span> <span class="fu">simProc</span>(<span class="at">x1=</span><span class="dv">120</span>,<span class="at">x2=</span><span class="dv">140</span>,<span class="at">x3=</span><span class="dv">2</span>)</span>
-<span id="cb103-3"><a href="qualitytools.html#cb103-3" tabindex="-1"></a><span class="co">#valores completos</span></span>
-<span id="cb103-4"><a href="qualitytools.html#cb103-4" tabindex="-1"></a>rend <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">simProc</span>(<span class="dv">120</span>,<span class="dv">140</span>,<span class="dv">1</span>),<span class="fu">simProc</span>(<span class="dv">80</span>,<span class="dv">140</span>,<span class="dv">1</span>),<span class="fu">simProc</span>(<span class="dv">120</span>,<span class="dv">140</span>,<span class="dv">2</span>),<span class="fu">simProc</span>(<span class="dv">120</span>,<span class="dv">120</span>,<span class="dv">1</span>),<span class="fu">simProc</span>(<span class="dv">90</span>,<span class="dv">130</span>,<span class="fl">1.5</span>),<span class="fu">simProc</span>(<span class="dv">90</span>,<span class="dv">130</span>,<span class="fl">1.5</span>),<span class="fu">simProc</span>(<span class="dv">80</span>,<span class="dv">120</span>,<span class="dv">2</span>),<span class="fu">simProc</span>(<span class="dv">90</span>,<span class="dv">130</span>,<span class="fl">1.5</span>),<span class="fu">simProc</span>(<span class="dv">90</span>,<span class="dv">130</span>,<span class="fl">1.5</span>),<span class="fu">simProc</span>(<span class="dv">120</span>,<span class="dv">120</span>,<span class="dv">2</span>),<span class="fu">simProc</span>(<span class="dv">80</span>,<span class="dv">140</span>,<span class="dv">2</span>),<span class="fu">simProc</span>(<span class="dv">80</span>,<span class="dv">120</span>,<span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Primeros valores</span></span>
+<span><span class="va">rend</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span>x1<span class="op">=</span><span class="fl">120</span>,x2<span class="op">=</span><span class="fl">140</span>,x3<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co">#valores completos</span></span>
+<span><span class="va">rend</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">120</span>,<span class="fl">140</span>,<span class="fl">1</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">80</span>,<span class="fl">140</span>,<span class="fl">1</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">120</span>,<span class="fl">140</span>,<span class="fl">2</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">120</span>,<span class="fl">120</span>,<span class="fl">1</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">90</span>,<span class="fl">130</span>,<span class="fl">1.5</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">90</span>,<span class="fl">130</span>,<span class="fl">1.5</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">80</span>,<span class="fl">120</span>,<span class="fl">2</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">90</span>,<span class="fl">130</span>,<span class="fl">1.5</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">90</span>,<span class="fl">130</span>,<span class="fl">1.5</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">120</span>,<span class="fl">120</span>,<span class="fl">2</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">80</span>,<span class="fl">140</span>,<span class="fl">2</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">80</span>,<span class="fl">120</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Se asigna el rendimiento al diseño factorial:</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="qualitytools.html#cb104-1" tabindex="-1"></a><span class="fu">response</span>(dfac) <span class="ot">&lt;-</span> rend</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/response-methods.html">response</a></span><span class="op">(</span><span class="va">dfac</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">rend</span></span></code></pre></div>
 <p>Para el análisis del diseño se puede usar los métodos <code>effectPlot</code>, <code>interactionPlot</code>, <code>lm</code>, <code>wirePlot</code>, <code>contourPlot</code>.</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="qualitytools.html#cb105-1" tabindex="-1"></a><span class="fu">effectPlot</span>(dfac, <span class="at">classic =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/effectPlot.html">effectPlot</a></span><span class="op">(</span><span class="va">dfac</span>, classic <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div style="text-align:center">
-<p><img src="graficos/effectplot.png" width="500"></p>
+<div class="inline-figure"><img src="graficos/effectplot.png" width="500"></div>
 </div>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="qualitytools.html#cb106-1" tabindex="-1"></a><span class="fu">interactionPlot</span>(dfac)</span></code></pre></div>
-<p><img src="graficos/interactionplot.png" width="500" /></p>
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/interactionPlot.html">interactionPlot</a></span><span class="op">(</span><span class="va">dfac</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="graficos/interactionplot.png" width="500"></div>
 <p>Se puede usar el método de R <code>lm</code>, vemos a continuación:</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="qualitytools.html#cb107-1" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(rend <span class="sc">~</span> A<span class="sc">*</span>B<span class="sc">*</span>C, <span class="at">data=</span>dfac)</span>
-<span id="cb107-2"><a href="qualitytools.html#cb107-2" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div>
-<p><img src="graficos/lmdfac.png" width="600" /></p>
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">rend</span> <span class="op">~</span> <span class="va">A</span><span class="op">*</span><span class="va">B</span><span class="op">*</span><span class="va">C</span>, data<span class="op">=</span><span class="va">dfac</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="graficos/lmdfac.png" width="600"></div>
 <p>Se puede que ver que A, B y AB son significativos.</p>
 <p>También se puede obtener dos gráficas mediante <code>paretoPlot</code> y <code>normalPlot</code> del mismo paquete qualityTools.</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="qualitytools.html#cb108-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb108-2"><a href="qualitytools.html#cb108-2" tabindex="-1"></a><span class="fu">paretoPlot</span>(dfac)</span>
-<span id="cb108-3"><a href="qualitytools.html#cb108-3" tabindex="-1"></a><span class="fu">normalPlot</span>(dfac)</span></code></pre></div>
-<p><img src="graficos/dfac2plots.png" width="700" /></p>
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/paretoPlot.html">paretoPlot</a></span><span class="op">(</span><span class="va">dfac</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/normalPlot.html">normalPlot</a></span><span class="op">(</span><span class="va">dfac</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="graficos/dfac2plots.png" width="700"></div>
 <p>La relación entre el factor A y el B se puede visualizar mediante una representación 3D mediante <code>wirePlot</code> y <code>contourPlot</code></p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="qualitytools.html#cb109-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb109-2"><a href="qualitytools.html#cb109-2" tabindex="-1"></a><span class="fu">wirePlot</span>(A,B,rend,<span class="at">data=</span>dfac)</span>
-<span id="cb109-3"><a href="qualitytools.html#cb109-3" tabindex="-1"></a><span class="fu">contourPlot</span>(A,B,rend,<span class="at">data=</span>dfac)</span></code></pre></div>
-<p><img src="graficos/dfac3d.png" width="700" /></p>
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/wirePlot.html">wirePlot</a></span><span class="op">(</span><span class="va">A</span>,<span class="va">B</span>,<span class="va">rend</span>,data<span class="op">=</span><span class="va">dfac</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/contourPlot.html">contourPlot</a></span><span class="op">(</span><span class="va">A</span>,<span class="va">B</span>,<span class="va">rend</span>,data<span class="op">=</span><span class="va">dfac</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="graficos/dfac3d.png" width="700"></div>
 </div>
-<div id="diseños-factoriales-fraccionarios-2k-p" class="section level3 hasAnchor" number="5.4.2">
-<h3><span class="header-section-number">5.4.2</span> Diseños factoriales fraccionarios <span class="math inline">\(2^{k-p}\)</span><a href="qualitytools.html#diseños-factoriales-fraccionarios-2k-p" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="diseños-factoriales-fraccionarios-2k-p" class="section level3" number="5.4.2">
+<h3>
+<span class="header-section-number">5.4.2</span> Diseños factoriales fraccionarios <span class="math inline">\(2^{k-p}\)</span><a class="anchor" aria-label="anchor" href="#dise%C3%B1os-factoriales-fraccionarios-2k-p"><i class="fas fa-link"></i></a>
+</h3>
 <p>Este diseño tiene <span class="math inline">\(k\)</span> factores y se prueba en <span class="math inline">\(2k-p\)</span> ejecuciones, por ejemplo para un diseño <span class="math inline">\(2^{5-1}\)</span> se prueban cinco factores en 24 ejecuciones.</p>
 <p>Para realizar esto se utiliza el método <code>fracDesign</code>, vamos a realizar el ejemplo de un diseño <span class="math inline">\(2^{3-1}\)</span>, para ello se debe utilizar el argumento <code>gen='C=AB'</code>, lo cual quiere decir que el efecto de C es equivalente al de AB:</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="qualitytools.html#cb110-1" tabindex="-1"></a>dfacfrac <span class="ot">&lt;-</span> <span class="fu">fracDesign</span>(<span class="at">k=</span><span class="dv">3</span>,<span class="at">gen=</span><span class="st">&#39;C=AB&#39;</span>,<span class="at">centerCube =</span> <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dfacfrac</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/fracDesign.html">fracDesign</a></span><span class="op">(</span>k<span class="op">=</span><span class="fl">3</span>,gen<span class="op">=</span><span class="st">'C=AB'</span>,centerCube <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
 <p>Se puede obtener información específica del diseño mediante <code>summary</code>:</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="qualitytools.html#cb111-1" tabindex="-1"></a><span class="fu">summary</span>(dfacfrac)</span></code></pre></div>
-<p><img src="graficos/fracdfac.png" width="270" /></p>
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">dfacfrac</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="graficos/fracdfac.png" width="270"></div>
 <p>Vemos que en el modelo se muestra que <code>I=ABC</code> y por lo tanto se cumplen las siguientes reglas:</p>
 <p><span class="math display">\[\begin{align}
 I\times A&amp;=A\\
@@ -542,72 +369,92 @@ A\times A&amp;=I\\
 A\times B&amp;=B\times A
 \end{align}\]</span></p>
 <p>Para encontrar todos los efectos equivalentes se puede usar los comandos:</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="qualitytools.html#cb112-1" tabindex="-1"></a><span class="fu">aliasTable</span>(dfacfrac)</span></code></pre></div>
-<p><img src="graficos/aliastabledf.png" width="130" /></p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="qualitytools.html#cb113-1" tabindex="-1"></a><span class="fu">confounds</span>(dfacfrac)</span></code></pre></div>
-<p><img src="graficos/confoundsdf.png" width="270" /></p>
+<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/aliasTable.html">aliasTable</a></span><span class="op">(</span><span class="va">dfacfrac</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="graficos/aliastabledf.png" width="130"></div>
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/confounds.html">confounds</a></span><span class="op">(</span><span class="va">dfacfrac</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="graficos/confoundsdf.png" width="270"></div>
 <p>Estos diseños se pueden generar asignando los generadores apropiados, el cual se puede elegir entre tabla predefinidas usando el método <code>fracChoose</code> y seleccionando el diseño deseado:</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="qualitytools.html#cb114-1" tabindex="-1"></a><span class="fu">fracChoose</span>()</span></code></pre></div>
-<p><img src="graficos/dfchoose.png" width="700" /></p>
+<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/fracChoose.html">fracChoose</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="graficos/dfchoose.png" width="700"></div>
 </div>
-<div id="diseños-replicados-y-puntos-centrales" class="section level3 hasAnchor" number="5.4.3">
-<h3><span class="header-section-number">5.4.3</span> Diseños replicados y puntos centrales<a href="qualitytools.html#diseños-replicados-y-puntos-centrales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="diseños-replicados-y-puntos-centrales" class="section level3" number="5.4.3">
+<h3>
+<span class="header-section-number">5.4.3</span> Diseños replicados y puntos centrales<a class="anchor" aria-label="anchor" href="#dise%C3%B1os-replicados-y-puntos-centrales"><i class="fas fa-link"></i></a>
+</h3>
 <p>Se puede crear un diseño replicado con puntos centrales adicionales usando <code>replicates</code> y <code>centerCube</code>:</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="qualitytools.html#cb115-1" tabindex="-1"></a>dfac1 <span class="ot">&lt;-</span> <span class="fu">facDesign</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="at">centerCube =</span> <span class="dv">2</span>, <span class="at">replicates =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dfac1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/facDesign.html">facDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, centerCube <span class="op">=</span> <span class="fl">2</span>, replicates <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="respuestas-múltiples" class="section level3 hasAnchor" number="5.4.4">
-<h3><span class="header-section-number">5.4.4</span> Respuestas múltiples<a href="qualitytools.html#respuestas-múltiples" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="respuestas-múltiples" class="section level3" number="5.4.4">
+<h3>
+<span class="header-section-number">5.4.4</span> Respuestas múltiples<a class="anchor" aria-label="anchor" href="#respuestas-m%C3%BAltiples"><i class="fas fa-link"></i></a>
+</h3>
 <p>Se puede agregar vectores de respuesta al diseño con el método <code>response</code>. Por ejemplo, se crea una segunda respuesta <code>y2</code> que se llena con números aleatorios y se agrega al objeto creado.</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="qualitytools.html#cb116-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb116-2"><a href="qualitytools.html#cb116-2" tabindex="-1"></a>y2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">12</span>,<span class="at">mean=</span><span class="dv">120</span>)</span>
-<span id="cb116-3"><a href="qualitytools.html#cb116-3" tabindex="-1"></a><span class="fu">response</span>(dfac) <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(yield,y2)</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">y2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">12</span>,mean<span class="op">=</span><span class="fl">120</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/response-methods.html">response</a></span><span class="op">(</span><span class="va">dfac</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">yield</span>,<span class="va">y2</span><span class="op">)</span></span></code></pre></div>
 <p>Se puede visualizar en 3D con los métodos <code>wirePlot</code> y <code>contourPlot</code> especificando con <code>form</code>:</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="qualitytools.html#cb117-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mforw =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb117-2"><a href="qualitytools.html#cb117-2" tabindex="-1"></a><span class="fu">wirePlot</span>(A, B, yield, <span class="at">data =</span> dfac, <span class="at">form =</span> <span class="st">&quot;yield~A+B+C+A*B&quot;</span>)</span>
-<span id="cb117-3"><a href="qualitytools.html#cb117-3" tabindex="-1"></a><span class="fu">contourPlot</span>(A, B, y2, <span class="at">data =</span> fdo, <span class="at">form =</span> <span class="st">&quot;y2~A+B+C+A*B&quot;</span>)</span></code></pre></div>
-<p><img src="graficos/multidfac1.png" width="700" /></p>
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mforw <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/wirePlot.html">wirePlot</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, <span class="va">yield</span>, data <span class="op">=</span> <span class="va">dfac</span>, form <span class="op">=</span> <span class="st">"yield~A+B+C+A*B"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/contourPlot.html">contourPlot</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, <span class="va">y2</span>, data <span class="op">=</span> <span class="va">fdo</span>, form <span class="op">=</span> <span class="st">"y2~A+B+C+A*B"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="graficos/multidfac1.png" width="700"></div>
 <p>Se puede crear los gráficos con el tercer factor C en -1 y <span class="math inline">\(C=1\)</span>, de la forma:</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="qualitytools.html#cb118-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb118-2"><a href="qualitytools.html#cb118-2" tabindex="-1"></a><span class="fu">wirePlot</span>(A, B, y2, <span class="at">data =</span> dfrac, <span class="at">factors =</span> <span class="fu">list</span>(<span class="at">C=</span><span class="sc">-</span><span class="dv">1</span>), <span class="at">form =</span> <span class="st">&quot;y2~A*B*C&quot;</span>)</span>
-<span id="cb118-3"><a href="qualitytools.html#cb118-3" tabindex="-1"></a><span class="fu">wirePlot</span>(A, B, y2, <span class="at">data =</span> dfrac, <span class="at">factors =</span> <span class="fu">list</span>(<span class="at">C=</span><span class="dv">1</span>), <span class="at">form =</span> <span class="st">&quot;y2∼A∗B∗C&quot;</span>)</span></code></pre></div>
-<p><img src="graficos/multidfac2.png" width="700" /></p>
+<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/wirePlot.html">wirePlot</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, <span class="va">y2</span>, data <span class="op">=</span> <span class="va">dfrac</span>, factors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>C<span class="op">=</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, form <span class="op">=</span> <span class="st">"y2~A*B*C"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/wirePlot.html">wirePlot</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, <span class="va">y2</span>, data <span class="op">=</span> <span class="va">dfrac</span>, factors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>C<span class="op">=</span><span class="fl">1</span><span class="op">)</span>, form <span class="op">=</span> <span class="st">"y2∼A∗B∗C"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="graficos/multidfac2.png" width="700"></div>
 <p>Si no se proporciona ninguna fórmula explícitamente, los métodos predeterminados son el ajuste completo o el que está almacenado en el objeto de diseño factorial. El almacenamiento del ajusto se puede realizar con el método <code>fits</code> y se utiliza cuando se trabaja con más de una respuesta. Además, se utiliza <code>lm</code> para analizar el diseño factorial fraccionario.</p>
 <div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="qualitytools.html#cb119-1" tabindex="-1"></a><span class="fu">fits</span>(fdo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(yield∼A<span class="sc">+</span>B, <span class="at">data =</span> fdo)</span>
 <span id="cb119-2"><a href="qualitytools.html#cb119-2" tabindex="-1"></a><span class="fu">fits</span>(fdo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(y2∼A∗B∗C, <span class="at">data =</span> fdo)</span>
 <span id="cb119-3"><a href="qualitytools.html#cb119-3" tabindex="-1"></a><span class="fu">fits</span>(fdo)</span></code></pre></div>
-<p><img src="graficos/multidfaclm.png" width="500" /></p>
+<div class="inline-figure"><img src="graficos/multidfaclm.png" width="500"></div>
 </div>
-<div id="pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado" class="section level3 hasAnchor" number="5.4.5">
-<h3><span class="header-section-number">5.4.5</span> Pasar a un entorno de proceso con un mayor rendimiento esperado<a href="qualitytools.html#pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado" class="section level3" number="5.4.5">
+<h3>
+<span class="header-section-number">5.4.5</span> Pasar a un entorno de proceso con un mayor rendimiento esperado<a class="anchor" aria-label="anchor" href="#pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado"><i class="fas fa-link"></i></a>
+</h3>
 <p>Como el proceso puede ser modelado por una relación lineal se puede determinar un alto rendimiento fácilmente, esto se puede calcular gráficamente o utilizando el método <code>steepAscent</code>:</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="qualitytools.html#cb120-1" tabindex="-1"></a>sao <span class="ot">&lt;-</span> <span class="fu">steepAscent</span>(<span class="at">factors =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="at">response =</span> <span class="st">&quot;yield&quot;</span>, <span class="at">data =</span> dfac, <span class="at">steps =</span> <span class="dv">20</span>)</span></code></pre></div>
-<p><img src="graficos/renddfac1.png" width="300" /></p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="qualitytools.html#cb121-1" tabindex="-1"></a>sao</span></code></pre></div>
-<p><img src="graficos/renddfac2.png" width="300" /></p>
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sao</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/steepAscent.html">steepAscent</a></span><span class="op">(</span>factors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, response <span class="op">=</span> <span class="st">"yield"</span>, data <span class="op">=</span> <span class="va">dfac</span>, steps <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="graficos/renddfac1.png" width="300"></div>
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sao</span></span></code></pre></div>
+<div class="inline-figure"><img src="graficos/renddfac2.png" width="300"></div>
 <p>Como se estableció los valores reales anteriormente con los métodos <code>highs</code> y <code>lows</code> son mostrados como valores reales. Los valores de respuesta de <code>sao</code> pueden ser establecidos con el método <code>response</code> y graficados con <code>plot</code></p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="qualitytools.html#cb122-1" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> <span class="fu">simProc</span>(sao[,<span class="dv">5</span>], sao[,<span class="dv">6</span>])</span>
-<span id="cb122-2"><a href="qualitytools.html#cb122-2" tabindex="-1"></a><span class="fu">responde</span>(sao) <span class="ot">&lt;-</span> predicted</span>
-<span id="cb122-3"><a href="qualitytools.html#cb122-3" tabindex="-1"></a><span class="fu">plot</span>(sao, <span class="at">type=</span><span class="st">&#39;b&#39;</span>, <span class="at">col=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">predicted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="va">sao</span><span class="op">[</span>,<span class="fl">5</span><span class="op">]</span>, <span class="va">sao</span><span class="op">[</span>,<span class="fl">6</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu">responde</span><span class="op">(</span><span class="va">sao</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">predicted</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sao</span>, type<span class="op">=</span><span class="st">'b'</span>, col<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="diseños-de-superficies-de-respuesta" class="section level3 hasAnchor" number="5.4.6">
-<h3><span class="header-section-number">5.4.6</span> Diseños de superficies de respuesta<a href="qualitytools.html#diseños-de-superficies-de-respuesta" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="diseños-de-superficies-de-respuesta" class="section level3" number="5.4.6">
+<h3>
+<span class="header-section-number">5.4.6</span> Diseños de superficies de respuesta<a class="anchor" aria-label="anchor" href="#dise%C3%B1os-de-superficies-de-respuesta"><i class="fas fa-link"></i></a>
+</h3>
 <p>Se debe tener en cuenta que no todas las relaciones son lineales por lo cual para detectar y modelizar las relaciones no lineales se necesitan más de dos combinaciones por factor. Para averiguar si un diseño de superficie de respuesta es necesario (es decir, un diseño con más de dos combinaciones por factor) se puede
 comparar el valor esperado de la(s) variable(s) de respuesta con la(s) observada(s) utilizando
 puntos centrales . Cuanto mayor sea la diferencia entre los valores
 esperados, más improbable será que esta diferencia sea el resultado de ruido aleatorio.
 Bajo el contexto del ejercicio desarrollado en la sección de diseño factorial <span class="math inline">\(2^{k}\)</span> utilizamos el método <strong>steepAscent</strong> de qualityTools para pasar a una mejor región del proceso. El centro de la
 nueva región de proceso está definido por 144 y 165 en valores reales la cual es el inicio del nuevo diseño.</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="qualitytools.html#cb123-1" tabindex="-1"></a><span class="co">#Semilla</span></span>
-<span id="cb123-2"><a href="qualitytools.html#cb123-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb123-3"><a href="qualitytools.html#cb123-3" tabindex="-1"></a>fdo2 <span class="ot">&lt;-</span> <span class="fu">facDesign</span>(<span class="at">k =</span> <span class="dv">2</span>, <span class="at">centerCube =</span> <span class="dv">3</span>)</span>
-<span id="cb123-4"><a href="qualitytools.html#cb123-4" tabindex="-1"></a><span class="fu">names</span>(fdo2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Factor1&quot;</span>, <span class="st">&quot;Factor2&quot;</span>)</span>
-<span id="cb123-5"><a href="qualitytools.html#cb123-5" tabindex="-1"></a><span class="fu">lows</span>(fdo2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">13</span>, <span class="dv">4</span>, <span class="dv">155</span>)</span>
-<span id="cb123-6"><a href="qualitytools.html#cb123-6" tabindex="-1"></a><span class="fu">highs</span>(fdo2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">5</span>, <span class="dv">175</span>)</span></code></pre></div>
-<p><img src="graficos/dario.jpg" width="700" /></p>
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Semilla</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">fdo2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/facDesign.html">facDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">2</span>, centerCube <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">fdo2</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Factor1"</span>, <span class="st">"Factor2"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/lows-methods.html">lows</a></span><span class="op">(</span><span class="va">fdo2</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">13</span>, <span class="fl">4</span>, <span class="fl">155</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/highs-methods.html">highs</a></span><span class="op">(</span><span class="va">fdo2</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">5</span>, <span class="fl">175</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="graficos/dario.jpg" width="700"></div>
 <p>el rendimiento se obtiene utilizando el <code>simProc</code> y se asigna al nuevo diseño con la
 ayuda del método genérico de <code>response</code> del paquete <strong>qualityTools</strong></p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="qualitytools.html#cb124-1" tabindex="-1"></a>rendimiento<span class="ot">=</span><span class="fu">c</span>(<span class="fu">simProc</span>(<span class="dv">134</span>,<span class="dv">175</span>),<span class="fu">simProc</span>(<span class="fl">144.5</span>,<span class="fl">165.5</span>),<span class="fu">simProc</span>(<span class="dv">155</span>,<span class="dv">155</span>),<span class="fu">simProc</span>(<span class="fl">144.5</span>,<span class="fl">165.5</span>),<span class="fu">simProc</span>(<span class="dv">155</span>,<span class="dv">175</span>),<span class="fu">simProc</span>(<span class="fl">144.5</span>,<span class="fl">165.5</span>),<span class="fu">simProc</span>(<span class="dv">134</span>,<span class="dv">155</span>))</span>
-<span id="cb124-2"><a href="qualitytools.html#cb124-2" tabindex="-1"></a><span class="fu">response</span>(fdo2)<span class="ot">=</span>rendimiento</span></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rendimiento</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">134</span>,<span class="fl">175</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">144.5</span>,<span class="fl">165.5</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">155</span>,<span class="fl">155</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">144.5</span>,<span class="fl">165.5</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">155</span>,<span class="fl">175</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">144.5</span>,<span class="fl">165.5</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">134</span>,<span class="fl">155</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/response-methods.html">response</a></span><span class="op">(</span><span class="va">fdo2</span><span class="op">)</span><span class="op">=</span><span class="va">rendimiento</span></span></code></pre></div>
 <p>Si se observan los gráficos de residuos, se apreciará una diferencia sustancial entre los valores esperados
 y los valores observados (podría realizarse una prueba de falta de ajuste para verificarlo).
 Para llegar a un modelo que describa la relación hay que añadir más puntos
@@ -617,19 +464,18 @@ Por defecto, el valor de alfa se elige de forma que ambos criterios, ortogonalid
 rotatabilidad se cumplan . Se llama al método starDesign en el objeto de diseño factorial
 factorial <code>fdo2</code>. La llamada a <code>rsdo</code> le mostrará el diseño de superficie de respuesta resultante.Debe tener una porción cúbica que conste de 4 runs, 3 puntos centrales en la porción cúbica, 4
 axiales y 3 puntos centrales en la porción de estrella (<strong>starportion</strong>).</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="qualitytools.html#cb125-1" tabindex="-1"></a>rsdo<span class="ot">=</span> <span class="fu">starDesign</span>( <span class="at">data =</span>fdo2 )</span>
-<span id="cb125-2"><a href="qualitytools.html#cb125-2" tabindex="-1"></a>rsdo</span></code></pre></div>
-<table>
-<thead>
-<tr class="header">
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rsdo</span><span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/starDesign.html">starDesign</a></span><span class="op">(</span> data <span class="op">=</span><span class="va">fdo2</span> <span class="op">)</span></span>
+<span><span class="va">rsdo</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
 <th>StandOrd</th>
 <th>RunOrder</th>
 <th>Block</th>
 <th>A</th>
 <th>B</th>
 <th>rendimiento</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td>3</td>
@@ -744,37 +590,42 @@ axiales y 3 puntos centrales en la porción de estrella (<strong>starportion</st
 <td>NA</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>Utilizando el método estrella del paquete <strong>qualityTools</strong> se pueden ensamblar fácilmente diseños
 secuencialmente. Esta estrategia secuencial ahorra recursos pues, en comparación con empezar con
 diseño de superficie de respuesta desde el principio, la parte en estrella sólo se ejecuta si es realmente necesaria. Los rendimientos del proceso siguen estando dados por el método <code>simProc</code>.</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="qualitytools.html#cb126-1" tabindex="-1"></a>yield2 <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb126-2"><a href="qualitytools.html#cb126-2" tabindex="-1"></a>  yield,</span>
-<span id="cb126-3"><a href="qualitytools.html#cb126-3" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">130</span>, <span class="dv">165</span>),</span>
-<span id="cb126-4"><a href="qualitytools.html#cb126-4" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">155</span>, <span class="dv">165</span>),</span>
-<span id="cb126-5"><a href="qualitytools.html#cb126-5" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">144</span>, <span class="dv">155</span>),</span>
-<span id="cb126-6"><a href="qualitytools.html#cb126-6" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">144</span>, <span class="dv">179</span>),</span>
-<span id="cb126-7"><a href="qualitytools.html#cb126-7" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">144</span>, <span class="dv">165</span>),</span>
-<span id="cb126-8"><a href="qualitytools.html#cb126-8" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">144</span>, <span class="dv">165</span>),</span>
-<span id="cb126-9"><a href="qualitytools.html#cb126-9" tabindex="-1"></a>  <span class="fu">simProc</span>(<span class="dv">144</span>, <span class="dv">165</span>)</span>
-<span id="cb126-10"><a href="qualitytools.html#cb126-10" tabindex="-1"></a>)</span>
-<span id="cb126-11"><a href="qualitytools.html#cb126-11" tabindex="-1"></a></span>
-<span id="cb126-12"><a href="qualitytools.html#cb126-12" tabindex="-1"></a><span class="fu">response</span>(rsdo) <span class="ot">&lt;-</span> yield2</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">yield2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>  <span class="va">yield</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">130</span>, <span class="fl">165</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">155</span>, <span class="fl">165</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">144</span>, <span class="fl">155</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">144</span>, <span class="fl">179</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">144</span>, <span class="fl">165</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">144</span>, <span class="fl">165</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/simProc.html">simProc</a></span><span class="op">(</span><span class="fl">144</span>, <span class="fl">165</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/response-methods.html">response</a></span><span class="op">(</span><span class="va">rsdo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">yield2</span></span></code></pre></div>
 <p>Se ajusta un modelo cuadrático completo utilizando el método <strong>lm</strong></p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="qualitytools.html#cb127-1" tabindex="-1"></a>lm<span class="fl">.3</span> <span class="ot">&lt;-</span> <span class="fu">lm</span>(yield2 <span class="sc">~</span> A<span class="sc">*</span>B <span class="sc">+</span> <span class="fu">I</span>(A<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(B<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> rsdo)</span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lm.3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">yield2</span> <span class="op">~</span> <span class="va">A</span><span class="op">*</span><span class="va">B</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">A</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">B</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">rsdo</span><span class="op">)</span></span></code></pre></div>
 <p>La superficie de respuesta puede visualizarse utilizando <code>wirePlot</code> y <code>contourPlot</code>.</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="qualitytools.html#cb128-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb128-2"><a href="qualitytools.html#cb128-2" tabindex="-1"></a><span class="fu">wirePlot</span>(A, B, yield2, <span class="at">form =</span> <span class="st">&quot;yield2 ~ A*B + I(A^2) + I(B^2)&quot;</span>, <span class="at">data =</span> rsdo, <span class="at">theta =</span> <span class="sc">-</span><span class="dv">70</span>)</span>
-<span id="cb128-3"><a href="qualitytools.html#cb128-3" tabindex="-1"></a><span class="fu">contourPlot</span>(A, B, yield2, <span class="at">form =</span> <span class="st">&quot;yield2 ~ A*B + I(A^2) + I(B^2)&quot;</span>, <span class="at">data =</span> rsdo)</span></code></pre></div>
-<p><img src="graficos/dario1.jpg" width="700" />
-<img src="graficos/dario2.jpg" width="700" /></p>
+<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/wirePlot.html">wirePlot</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, <span class="va">yield2</span>, form <span class="op">=</span> <span class="st">"yield2 ~ A*B + I(A^2) + I(B^2)"</span>, data <span class="op">=</span> <span class="va">rsdo</span>, theta <span class="op">=</span> <span class="op">-</span><span class="fl">70</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/contourPlot.html">contourPlot</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, <span class="va">yield2</span>, form <span class="op">=</span> <span class="st">"yield2 ~ A*B + I(A^2) + I(B^2)"</span>, data <span class="op">=</span> <span class="va">rsdo</span><span class="op">)</span></span></code></pre></div>
+<p><img src="graficos/dario1.jpg" width="700"><img src="graficos/dario2.jpg" width="700"></p>
 <p>Se compara los resultados de los diseños factorial y de superficie de respuesta con el proceso simulado.</p>
 <p>Se pueden crear diseños de superficie de respuesta utilizando el método <code>rsmDesign</code>. Por ejemplo un diseño con alfa = 1.633, 0 puntos centrales en la parte del cubo y 6 puntos centrales en la parte de la estrella con:</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="qualitytools.html#cb129-1" tabindex="-1"></a>fdo <span class="ot">&lt;-</span> <span class="fu">rsmDesign</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">1.633</span>, <span class="at">cc =</span> <span class="dv">0</span>, <span class="at">cs =</span> <span class="dv">6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fdo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/rsmDesign.html">rsmDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, alpha <span class="op">=</span> <span class="fl">1.633</span>, cc <span class="op">=</span> <span class="fl">0</span>, cs <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 <p>y el diseño se puede poner en orden estándar utilizando el método <code>randomize</code> con el argumento <code>so=TRUE</code> (es decir, orden estándar). <code>cc</code> significa centerCube y <code>cs</code> para centerStar.</p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="qualitytools.html#cb130-1" tabindex="-1"></a>fdo <span class="ot">&lt;-</span> <span class="fu">randomizeDesign</span>(fdo, <span class="at">so =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fdo</span> <span class="op">&lt;-</span> <span class="fu">randomizeDesign</span><span class="op">(</span><span class="va">fdo</span>, so <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>Los diseños de superficie de respuesta también pueden elegirse a partir de una tabla utilizando el método <code>rsmChoose</code>.</p>
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="qualitytools.html#cb131-1" tabindex="-1"></a>rsdo <span class="ot">&lt;-</span> <span class="fu">rsmDesign</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rsdo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/rsmDesign.html">rsmDesign</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 ### Montaje secuencial de diseños de superficie de respuesta
 =======
@@ -782,10 +633,11 @@ diseño de superficie de respuesta desde el principio, la parte en estrella sól
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; 38aa7fcbe69006ca620167942eac17f3b64293c9</p>
 <p>El ensamblaje secuencial es una característica importante de los diseños de superficie de respuesta. En función de de las características del diseño factorial (fraccional) puede aumentarse una porción de estrella utilizando el método <code>starDesign</code>. Una porción en estrella consta de recorridos axiales
 y puntos centrales opcionales (<code>cs</code>) en la parte axial a diferencia de los puntos centrales (<code>cc</code>) en la parteparte cúbica.</p>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="qualitytools.html#cb132-1" tabindex="-1"></a>fdo3 <span class="ot">&lt;-</span> <span class="fu">facDesign</span>(<span class="at">k =</span> <span class="dv">6</span>)</span>
-<span id="cb132-2"><a href="qualitytools.html#cb132-2" tabindex="-1"></a>rsdo <span class="ot">&lt;-</span> <span class="fu">starDesign</span>(<span class="at">alpha =</span> <span class="st">&quot;orthogonal&quot;</span>, <span class="at">data =</span> fdo3)</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fdo3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/facDesign.html">facDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">rsdo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/starDesign.html">starDesign</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="st">"orthogonal"</span>, data <span class="op">=</span> <span class="va">fdo3</span><span class="op">)</span></span></code></pre></div>
 <p>En caso de que no se entregue ningún diseño factorial (fraccional) al método <code>starDesign</code>, se devuelve una lista con <code>data.frames</code> que pueden asignarse al diseño factorial (fraccional) existente utilizando los métodos <code>star</code>, <code>centerStar</code> y <code>centerCube</code>.</p>
-<p><img src="graficos/dario3.jpg" width="700" /></p>
+<div class="inline-figure"><img src="graficos/dario3.jpg" width="700"></div>
 <p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 ### Aleatorización
 =======
@@ -793,9 +645,11 @@ y puntos centrales opcionales (<code>cs</code>) en la parte axial a diferencia d
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; 38aa7fcbe69006ca620167942eac17f3b64293c9</p>
 <p>La aleatorización se consigue utilizando el método <code>randomize</code>.
 Es necesario suministrar una semilla aleatoria (random.seed) que es útil para tener el mismo orden de ejecución en cualquier máquina.</p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="qualitytools.html#cb133-1" tabindex="-1"></a><span class="fu">randomize</span>(fdo, <span class="at">random.seed =</span> <span class="dv">123</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/randomize.html">randomize</a></span><span class="op">(</span><span class="va">fdo</span>, random.seed <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span></code></pre></div>
 <p>El método <code>randomize</code> se puede utilizar para obtener un diseño en orden estándar con la ayuda del argumento <code>so</code>.</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="qualitytools.html#cb134-1" tabindex="-1"></a><span class="fu">randomizeDesign</span>(fdo, <span class="at">so =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">randomizeDesign</span><span class="op">(</span><span class="va">fdo</span>, so <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 ### Bloqueo
 =======
@@ -805,8 +659,10 @@ Es necesario suministrar una semilla aleatoria (random.seed) que es útil para t
 Sin embargo, no es problemático durante el montaje secuencial.</p>
 </div>
 </div>
-<div id="deseabilidades" class="section level2 hasAnchor" number="5.5">
-<h2><span class="header-section-number">5.5</span> Deseabilidades<a href="qualitytools.html#deseabilidades" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="deseabilidades" class="section level2" number="5.5">
+<h2>
+<span class="header-section-number">5.5</span> Deseabilidades<a class="anchor" aria-label="anchor" href="#deseabilidades"><i class="fas fa-link"></i></a>
+</h2>
 <p>Muchos problemas requieren optimización simultánea de más de una variable de respuesta. La optimización puede lograrse maximizando o minimizando el valor de la respuesta o tratando de situar la respuesta en un objetivo específico.En la Optimización mediante el enfoque de las deseabilidades Derringer y Suich [1980], los valores (predichos) de las variables de respuesta se transforman en valores dentro del intervalo [0,1] utilizando tres métodos de deseabilidad diferentes
 para los tres criterios de optimización diferentes (es decir, minimizar, maximizar, objetivo). A cada valor de una variable de respuesta se le puede asignar una deseabilidad específica, optimizando más de una variable de respuesta. La media geométrica de las deseabilidades específicas caracteriza la deseabilidad global.</p>
 <p><span class="math display">\[\sqrt[n]{\prod^n_{i=1}d_i}\]</span></p>
@@ -821,17 +677,20 @@ viene dada por la media geométrica.</p>
 <p><strong>target = max:</strong> min es el valor mínimo aceptable. Si la variable de respuesta toma valores por debajo de min, la deseabilidad correspondiente será cero. Para valores iguales o mayores que min, la deseabilidad será mayor que cero.</p>
 <p><strong>target = min:</strong> max es el valor máximo aceptable. Si la variable de respuesta toma valores por encima de max, la deseabilidad correspondiente será cero. Para valores iguales o menores que max, la deseabilidad será mayor que cero.</p>
 <p><strong>target = valor:</strong> una variable de respuesta con un valor de valor se relaciona con la deseabilidad más alta alcanzable de 1. Los valores fuera de min o max llevan a una deseabilidad de cero, dentro de min y max a valores dentro de (0,1].</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="qualitytools.html#cb135-1" tabindex="-1"></a><span class="co">#EJEMPLO:</span></span>
-<span id="cb135-2"><a href="qualitytools.html#cb135-2" tabindex="-1"></a></span>
-<span id="cb135-3"><a href="qualitytools.html#cb135-3" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">desirability</span>(y1, <span class="dv">120</span>, <span class="dv">170</span>, <span class="at">scale =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">target =</span> <span class="st">&quot;max&quot;</span>)</span>
-<span id="cb135-4"><a href="qualitytools.html#cb135-4" tabindex="-1"></a>d3 <span class="ot">&lt;-</span> <span class="fu">desirability</span>(y3, <span class="dv">400</span>, <span class="dv">600</span>, <span class="at">target =</span> <span class="dv">500</span>)</span>
-<span id="cb135-5"><a href="qualitytools.html#cb135-5" tabindex="-1"></a>d1</span>
-<span id="cb135-6"><a href="qualitytools.html#cb135-6" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb135-7"><a href="qualitytools.html#cb135-7" tabindex="-1"></a><span class="fu">plot</span>(d1, <span class="at">col =</span> <span class="dv">2</span>)</span>
-<span id="cb135-8"><a href="qualitytools.html#cb135-8" tabindex="-1"></a><span class="fu">plot</span>(d3, <span class="at">col =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#EJEMPLO:</span></span>
+<span></span>
+<span><span class="va">d1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/desirability.html">desirability</a></span><span class="op">(</span><span class="va">y1</span>, <span class="fl">120</span>, <span class="fl">170</span>, scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, target <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span></span>
+<span><span class="va">d3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/desirability.html">desirability</a></span><span class="op">(</span><span class="va">y3</span>, <span class="fl">400</span>, <span class="fl">600</span>, target <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
+<span><span class="va">d1</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">d1</span>, col <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">d3</span>, col <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="utilización-de-deseabilidades-junto-con-experimentos-diseñados" class="section level2 hasAnchor" number="5.6">
-<h2><span class="header-section-number">5.6</span> Utilización de deseabilidades junto con experimentos diseñados<a href="qualitytools.html#utilización-de-deseabilidades-junto-con-experimentos-diseñados" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="utilización-de-deseabilidades-junto-con-experimentos-diseñados" class="section level2" number="5.6">
+<h2>
+<span class="header-section-number">5.6</span> Utilización de deseabilidades junto con experimentos diseñados<a class="anchor" aria-label="anchor" href="#utilizaci%C3%B3n-de-deseabilidades-junto-con-experimentos-dise%C3%B1ados"><i class="fas fa-link"></i></a>
+</h2>
 <p>La metodología de la deseabilidad se apoya en los objetos de diseño factorial. El resultado
 del método de deseabilidad puede almacenarse en el objeto de diseño, de modo que la información que
 pertenece a cada uno se almacena en el mismo lugar (es decir, el propio diseño).</p>
@@ -840,67 +699,77 @@ Los datos utilizados proceden de Derringer y Suich [1980]. Se definieron cuatro 
 Los factores utilizados en este experimento fueron la sílicio, el silano y el azufre con ajustes de factor alto de <span class="math inline">\(1,7, 60, 2,8\)</span> y factores bajos de <span class="math inline">\(0,7, 40, 1,8\)</span>. Se desea maximizar <span class="math inline">\(y_1\)</span> e <span class="math inline">\(y_2\)</span>
 e <span class="math inline">\(y_3\)</span> e <span class="math inline">\(y_4\)</span> fijados en un objetivo específico.
 En primer lugar, se crea el diseño correspondiente y a continuación, utilizamos el método <code>randomize</code> para obtener el orden estándar del diseño.</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="qualitytools.html#cb136-1" tabindex="-1"></a>ddo <span class="ot">&lt;-</span> <span class="fu">rsmDesign</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">1.633</span>, <span class="at">cc =</span> <span class="dv">0</span>, <span class="at">cs =</span> <span class="dv">6</span>)</span>
-<span id="cb136-2"><a href="qualitytools.html#cb136-2" tabindex="-1"></a>ddo <span class="ot">&lt;-</span> <span class="fu">randomize</span>(ddo, <span class="at">so =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb136-3"><a href="qualitytools.html#cb136-3" tabindex="-1"></a></span>
-<span id="cb136-4"><a href="qualitytools.html#cb136-4" tabindex="-1"></a><span class="co"># Opcional</span></span>
-<span id="cb136-5"><a href="qualitytools.html#cb136-5" tabindex="-1"></a><span class="fu">names</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;silica&quot;</span>, <span class="st">&quot;silan&quot;</span>, <span class="st">&quot;sulfur&quot;</span>)</span>
-<span id="cb136-6"><a href="qualitytools.html#cb136-6" tabindex="-1"></a></span>
-<span id="cb136-7"><a href="qualitytools.html#cb136-7" tabindex="-1"></a><span class="co"># Opcional</span></span>
-<span id="cb136-8"><a href="qualitytools.html#cb136-8" tabindex="-1"></a><span class="fu">highs</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.7</span>, <span class="dv">60</span>, <span class="fl">2.8</span>)</span>
-<span id="cb136-9"><a href="qualitytools.html#cb136-9" tabindex="-1"></a></span>
-<span id="cb136-10"><a href="qualitytools.html#cb136-10" tabindex="-1"></a><span class="co"># Opcional</span></span>
-<span id="cb136-11"><a href="qualitytools.html#cb136-11" tabindex="-1"></a><span class="fu">lows</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="dv">40</span>, <span class="fl">1.8</span>)</span>
-<span id="cb136-12"><a href="qualitytools.html#cb136-12" tabindex="-1"></a></span>
-<span id="cb136-13"><a href="qualitytools.html#cb136-13" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb136-14"><a href="qualitytools.html#cb136-14" tabindex="-1"></a></span>
-<span id="cb136-15"><a href="qualitytools.html#cb136-15" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">102</span>, <span class="dv">120</span>, <span class="dv">117</span>, <span class="dv">198</span>, <span class="dv">103</span>, <span class="dv">132</span>, <span class="dv">132</span>, <span class="dv">139</span>, <span class="dv">102</span>, <span class="dv">154</span>, <span class="dv">96</span>, <span class="dv">163</span>, <span class="dv">116</span>, <span class="dv">153</span>, <span class="dv">133</span>, <span class="dv">133</span>, <span class="dv">140</span>, <span class="dv">142</span>, <span class="dv">145</span>, <span class="dv">142</span>)</span>
-<span id="cb136-16"><a href="qualitytools.html#cb136-16" tabindex="-1"></a>y2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">900</span>, <span class="dv">860</span>, <span class="dv">800</span>, <span class="dv">2294</span>, <span class="dv">490</span>, <span class="dv">1289</span>, <span class="dv">1270</span>, <span class="dv">1090</span>, <span class="dv">770</span>, <span class="dv">1690</span>, <span class="dv">700</span>, <span class="dv">1540</span>, <span class="dv">2184</span>, <span class="dv">1784</span>, <span class="dv">1300</span>, <span class="dv">1300</span>, <span class="dv">1145</span>, <span class="dv">1090</span>, <span class="dv">1260</span>, <span class="dv">1344</span>)</span>
-<span id="cb136-17"><a href="qualitytools.html#cb136-17" tabindex="-1"></a>y3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">470</span>, <span class="dv">410</span>, <span class="dv">570</span>, <span class="dv">240</span>, <span class="dv">640</span>, <span class="dv">270</span>, <span class="dv">410</span>, <span class="dv">380</span>, <span class="dv">590</span>, <span class="dv">260</span>, <span class="dv">520</span>, <span class="dv">380</span>, <span class="dv">520</span>, <span class="dv">290</span>, <span class="dv">380</span>, <span class="dv">380</span>, <span class="dv">430</span>, <span class="dv">430</span>, <span class="dv">390</span>, <span class="dv">390</span>)</span>
-<span id="cb136-18"><a href="qualitytools.html#cb136-18" tabindex="-1"></a>y4 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">67.5</span>, <span class="dv">65</span>, <span class="fl">77.5</span>, <span class="fl">74.5</span>, <span class="fl">62.5</span>, <span class="dv">67</span>, <span class="dv">78</span>, <span class="dv">70</span>, <span class="dv">76</span>, <span class="dv">70</span>, <span class="dv">63</span>, <span class="dv">75</span>, <span class="dv">65</span>, <span class="dv">71</span>, <span class="dv">70</span>, <span class="fl">68.5</span>, <span class="dv">68</span>, <span class="dv">68</span>, <span class="dv">69</span>, <span class="dv">70</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ddo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/rsmDesign.html">rsmDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, alpha <span class="op">=</span> <span class="fl">1.633</span>, cc <span class="op">=</span> <span class="fl">0</span>, cs <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">ddo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/randomize.html">randomize</a></span><span class="op">(</span><span class="va">ddo</span>, so <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Opcional</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ddo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"silica"</span>, <span class="st">"silan"</span>, <span class="st">"sulfur"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Opcional</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/highs-methods.html">highs</a></span><span class="op">(</span><span class="va">ddo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.7</span>, <span class="fl">60</span>, <span class="fl">2.8</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Opcional</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/lows-methods.html">lows</a></span><span class="op">(</span><span class="va">ddo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">40</span>, <span class="fl">1.8</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#</span></span>
+<span></span>
+<span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">102</span>, <span class="fl">120</span>, <span class="fl">117</span>, <span class="fl">198</span>, <span class="fl">103</span>, <span class="fl">132</span>, <span class="fl">132</span>, <span class="fl">139</span>, <span class="fl">102</span>, <span class="fl">154</span>, <span class="fl">96</span>, <span class="fl">163</span>, <span class="fl">116</span>, <span class="fl">153</span>, <span class="fl">133</span>, <span class="fl">133</span>, <span class="fl">140</span>, <span class="fl">142</span>, <span class="fl">145</span>, <span class="fl">142</span><span class="op">)</span></span>
+<span><span class="va">y2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">900</span>, <span class="fl">860</span>, <span class="fl">800</span>, <span class="fl">2294</span>, <span class="fl">490</span>, <span class="fl">1289</span>, <span class="fl">1270</span>, <span class="fl">1090</span>, <span class="fl">770</span>, <span class="fl">1690</span>, <span class="fl">700</span>, <span class="fl">1540</span>, <span class="fl">2184</span>, <span class="fl">1784</span>, <span class="fl">1300</span>, <span class="fl">1300</span>, <span class="fl">1145</span>, <span class="fl">1090</span>, <span class="fl">1260</span>, <span class="fl">1344</span><span class="op">)</span></span>
+<span><span class="va">y3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">470</span>, <span class="fl">410</span>, <span class="fl">570</span>, <span class="fl">240</span>, <span class="fl">640</span>, <span class="fl">270</span>, <span class="fl">410</span>, <span class="fl">380</span>, <span class="fl">590</span>, <span class="fl">260</span>, <span class="fl">520</span>, <span class="fl">380</span>, <span class="fl">520</span>, <span class="fl">290</span>, <span class="fl">380</span>, <span class="fl">380</span>, <span class="fl">430</span>, <span class="fl">430</span>, <span class="fl">390</span>, <span class="fl">390</span><span class="op">)</span></span>
+<span><span class="va">y4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">67.5</span>, <span class="fl">65</span>, <span class="fl">77.5</span>, <span class="fl">74.5</span>, <span class="fl">62.5</span>, <span class="fl">67</span>, <span class="fl">78</span>, <span class="fl">70</span>, <span class="fl">76</span>, <span class="fl">70</span>, <span class="fl">63</span>, <span class="fl">75</span>, <span class="fl">65</span>, <span class="fl">71</span>, <span class="fl">70</span>, <span class="fl">68.5</span>, <span class="fl">68</span>, <span class="fl">68</span>, <span class="fl">69</span>, <span class="fl">70</span><span class="op">)</span></span></code></pre></div>
 <p>El <code>data.frame</code> ordenado de estas 4 respuestas se asigna al objeto de diseño <code>ddo</code>.</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="qualitytools.html#cb137-1" tabindex="-1"></a><span class="fu">response</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y1, y2, y3, y4)[<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">4</span>, <span class="dv">9</span><span class="sc">:</span><span class="dv">20</span>), ]</span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/response-methods.html">response</a></span><span class="op">(</span><span class="va">ddo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">y1</span>, <span class="va">y2</span>, <span class="va">y3</span>, <span class="va">y4</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">8</span>, <span class="fl">1</span>, <span class="fl">6</span>, <span class="fl">7</span>, <span class="fl">4</span>, <span class="fl">9</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div>
 <p>Las deseabilidades se incorporan con el método <code>desires</code> .
 Ya se han definido <span class="math inline">\(y_1\)</span> e <span class="math inline">\(y_3\)</span>, por lo que quedan por definir las deseabilidades de <span class="math inline">\(y_2\)</span> e <span class="math inline">\(y_4\)</span>.</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="qualitytools.html#cb138-1" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">desirability</span>(y2, <span class="dv">1000</span>, <span class="dv">1300</span>, <span class="at">target =</span> <span class="st">&quot;max&quot;</span>)</span>
-<span id="cb138-2"><a href="qualitytools.html#cb138-2" tabindex="-1"></a>d4 <span class="ot">&lt;-</span> <span class="fu">desirability</span>(y4, <span class="dv">60</span>, <span class="dv">75</span>, <span class="at">target =</span> <span class="fl">67.5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/desirability.html">desirability</a></span><span class="op">(</span><span class="va">y2</span>, <span class="fl">1000</span>, <span class="fl">1300</span>, target <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span></span>
+<span><span class="va">d4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/desirability.html">desirability</a></span><span class="op">(</span><span class="va">y4</span>, <span class="fl">60</span>, <span class="fl">75</span>, target <span class="op">=</span> <span class="fl">67.5</span><span class="op">)</span></span></code></pre></div>
 <p>Es necesario definir las deseabilidades con los nombres de las variables de respuesta para poder utilizarlas con el objeto de diseño. El método de los deseos se utiliza del siguiente modo</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="qualitytools.html#cb139-1" tabindex="-1"></a><span class="fu">desires</span>(ddo) <span class="ot">&lt;-</span> d1</span>
-<span id="cb139-2"><a href="qualitytools.html#cb139-2" tabindex="-1"></a><span class="fu">desires</span>(ddo) <span class="ot">&lt;-</span> d2</span>
-<span id="cb139-3"><a href="qualitytools.html#cb139-3" tabindex="-1"></a><span class="fu">desires</span>(ddo) <span class="ot">&lt;-</span> d3</span>
-<span id="cb139-4"><a href="qualitytools.html#cb139-4" tabindex="-1"></a><span class="fu">desires</span>(ddo) <span class="ot">&lt;-</span> d4</span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/desires-methods.html">desires</a></span><span class="op">(</span><span class="va">ddo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">d1</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/desires-methods.html">desires</a></span><span class="op">(</span><span class="va">ddo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">d2</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/desires-methods.html">desires</a></span><span class="op">(</span><span class="va">ddo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">d3</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/desires-methods.html">desires</a></span><span class="op">(</span><span class="va">ddo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">d4</span></span></code></pre></div>
 <p>Los ajustes se establecen como en Derringer y Suich [1980] utilizando los métodos de ajuste del paquete qualityTools de calidad.</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="qualitytools.html#cb140-1" tabindex="-1"></a><span class="fu">fits</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(y1 <span class="sc">~</span> A <span class="sc">+</span> B <span class="sc">+</span> C <span class="sc">+</span> A<span class="sc">:</span>B <span class="sc">+</span> A<span class="sc">:</span>C <span class="sc">+</span> B<span class="sc">:</span>C <span class="sc">+</span> <span class="fu">I</span>(A<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(B<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(C<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> ddo)</span>
-<span id="cb140-2"><a href="qualitytools.html#cb140-2" tabindex="-1"></a><span class="fu">fits</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(y2 <span class="sc">~</span> A <span class="sc">+</span> B <span class="sc">+</span> C <span class="sc">+</span> A<span class="sc">:</span>B <span class="sc">+</span> A<span class="sc">:</span>C <span class="sc">+</span> B<span class="sc">:</span>C <span class="sc">+</span> <span class="fu">I</span>(A<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(B<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(C<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> ddo)</span>
-<span id="cb140-3"><a href="qualitytools.html#cb140-3" tabindex="-1"></a><span class="fu">fits</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(y3 <span class="sc">~</span> A <span class="sc">+</span> B <span class="sc">+</span> C <span class="sc">+</span> A<span class="sc">:</span>B <span class="sc">+</span> A<span class="sc">:</span>C <span class="sc">+</span> B<span class="sc">:</span>C <span class="sc">+</span> <span class="fu">I</span>(A<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(B<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(C<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> ddo)</span>
-<span id="cb140-4"><a href="qualitytools.html#cb140-4" tabindex="-1"></a><span class="fu">fits</span>(ddo) <span class="ot">&lt;-</span> <span class="fu">lm</span>(y4 <span class="sc">~</span> A <span class="sc">+</span> B <span class="sc">+</span> C <span class="sc">+</span> A<span class="sc">:</span>B <span class="sc">+</span> A<span class="sc">:</span>C <span class="sc">+</span> B<span class="sc">:</span>C <span class="sc">+</span> <span class="fu">I</span>(A<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(B<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(C<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> ddo)</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/fits-methods.html">fits</a></span><span class="op">(</span><span class="va">ddo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y1</span> <span class="op">~</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span> <span class="op">+</span> <span class="va">C</span> <span class="op">+</span> <span class="va">A</span><span class="op">:</span><span class="va">B</span> <span class="op">+</span> <span class="va">A</span><span class="op">:</span><span class="va">C</span> <span class="op">+</span> <span class="va">B</span><span class="op">:</span><span class="va">C</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">A</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">B</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">C</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">ddo</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/fits-methods.html">fits</a></span><span class="op">(</span><span class="va">ddo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y2</span> <span class="op">~</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span> <span class="op">+</span> <span class="va">C</span> <span class="op">+</span> <span class="va">A</span><span class="op">:</span><span class="va">B</span> <span class="op">+</span> <span class="va">A</span><span class="op">:</span><span class="va">C</span> <span class="op">+</span> <span class="va">B</span><span class="op">:</span><span class="va">C</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">A</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">B</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">C</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">ddo</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/fits-methods.html">fits</a></span><span class="op">(</span><span class="va">ddo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y3</span> <span class="op">~</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span> <span class="op">+</span> <span class="va">C</span> <span class="op">+</span> <span class="va">A</span><span class="op">:</span><span class="va">B</span> <span class="op">+</span> <span class="va">A</span><span class="op">:</span><span class="va">C</span> <span class="op">+</span> <span class="va">B</span><span class="op">:</span><span class="va">C</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">A</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">B</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">C</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">ddo</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/fits-methods.html">fits</a></span><span class="op">(</span><span class="va">ddo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y4</span> <span class="op">~</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span> <span class="op">+</span> <span class="va">C</span> <span class="op">+</span> <span class="va">A</span><span class="op">:</span><span class="va">B</span> <span class="op">+</span> <span class="va">A</span><span class="op">:</span><span class="va">C</span> <span class="op">+</span> <span class="va">B</span><span class="op">:</span><span class="va">C</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">A</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">B</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">C</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">ddo</span><span class="op">)</span></span></code></pre></div>
 <p>Finalmente se tiene que</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="qualitytools.html#cb141-1" tabindex="-1"></a><span class="fu">optimum</span>(ddo, <span class="at">type =</span> <span class="st">&quot;optim&quot;</span>)</span></code></pre></div>
-<p><img src="graficos/dario4.jpg" width="700" />
-## Diseños de mezclas</p>
+<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/optimum.html">optimum</a></span><span class="op">(</span><span class="va">ddo</span>, type <span class="op">=</span> <span class="st">"optim"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure">
+<img src="graficos/dario4.jpg" width="700">
+## Diseños de mezclas</div>
 <p>La generación de los diferentes tipos de diseños de mezcla es totalmente compatible
 incluyendo un contorno ternario y un gráfico 3D. El análisis de estos diseños debe realizarse sin ningún soporte específico mediante un método del paquete <code>qualityTools</code>.
 El método mixDesign puede utilizarse, por ejemplo, para crear diseños de celosía simplex y diseños de centroide simplex.
 Los métodos genéricos <code>response</code>, <code>names</code>, <code>highs</code>, <code>lows</code>, <code>units</code> y <code>types</code> vuelven a estar presentes.
 Un conjunto de datos Cornell [op. 2002] viene dado por el alargamiento del hilo para varias mezclas de tres factores. Este ejemplo puede reconstruirse utilizando el método <code>mixDesign</code>.</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="qualitytools.html#cb142-1" tabindex="-1"></a><span class="co">#EJEMPLO </span></span>
-<span id="cb142-2"><a href="qualitytools.html#cb142-2" tabindex="-1"></a></span>
-<span id="cb142-3"><a href="qualitytools.html#cb142-3" tabindex="-1"></a>mdo <span class="ot">&lt;-</span> <span class="fu">mixDesign</span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="at">center =</span> <span class="cn">FALSE</span>, <span class="at">axial =</span> <span class="cn">FALSE</span>, <span class="at">randomize =</span> <span class="cn">FALSE</span>, <span class="at">replicates =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
-<pre><code>## Warning in `[&lt;-`(`*tmp*`, i, value = new(&quot;doeFactor&quot;)): implicit list embedding
+<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#EJEMPLO </span></span>
+<span></span>
+<span><span class="va">mdo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/mixDesign.html">mixDesign</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span>, center <span class="op">=</span> <span class="cn">FALSE</span>, axial <span class="op">=</span> <span class="cn">FALSE</span>, randomize <span class="op">=</span> <span class="cn">FALSE</span>, replicates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning in `[&lt;-`(`*tmp*`, i, value = new("doeFactor")): implicit list embedding
 ## of S4 objects is deprecated
 
-## Warning in `[&lt;-`(`*tmp*`, i, value = new(&quot;doeFactor&quot;)): implicit list embedding
+## Warning in `[&lt;-`(`*tmp*`, i, value = new("doeFactor")): implicit list embedding
 ## of S4 objects is deprecated
 
-## Warning in `[&lt;-`(`*tmp*`, i, value = new(&quot;doeFactor&quot;)): implicit list embedding
+## Warning in `[&lt;-`(`*tmp*`, i, value = new("doeFactor")): implicit list embedding
 ## of S4 objects is deprecated</code></pre>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="qualitytools.html#cb144-1" tabindex="-1"></a><span class="fu">names</span>(mdo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;polyethylene&quot;</span>, <span class="st">&quot;polystyrene&quot;</span>, <span class="st">&quot;polypropylene&quot;</span>)</span>
-<span id="cb144-2"><a href="qualitytools.html#cb144-2" tabindex="-1"></a></span>
-<span id="cb144-3"><a href="qualitytools.html#cb144-3" tabindex="-1"></a><span class="co"># Establecer respuesta (es decir, elongación del hilo)</span></span>
-<span id="cb144-4"><a href="qualitytools.html#cb144-4" tabindex="-1"></a>elongation <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">11.0</span>, <span class="fl">12.4</span>, <span class="fl">15.0</span>, <span class="fl">14.8</span>, <span class="fl">16.1</span>, <span class="fl">17.7</span>, <span class="fl">16.4</span>, <span class="fl">16.6</span>, <span class="fl">8.8</span>, <span class="fl">10.0</span>, <span class="fl">10.0</span>, <span class="fl">9.7</span>, <span class="fl">11.8</span>, <span class="fl">16.8</span>, <span class="fl">16.0</span>)</span>
-<span id="cb144-5"><a href="qualitytools.html#cb144-5" tabindex="-1"></a><span class="fu">response</span>(mdo) <span class="ot">&lt;-</span> elongation</span></code></pre></div>
-<pre><code>## [1] &quot;elongation&quot;</code></pre>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="qualitytools.html#cb146-1" tabindex="-1"></a>mdo</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">mdo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"polyethylene"</span>, <span class="st">"polystyrene"</span>, <span class="st">"polypropylene"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Establecer respuesta (es decir, elongación del hilo)</span></span>
+<span><span class="va">elongation</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">11.0</span>, <span class="fl">12.4</span>, <span class="fl">15.0</span>, <span class="fl">14.8</span>, <span class="fl">16.1</span>, <span class="fl">17.7</span>, <span class="fl">16.4</span>, <span class="fl">16.6</span>, <span class="fl">8.8</span>, <span class="fl">10.0</span>, <span class="fl">10.0</span>, <span class="fl">9.7</span>, <span class="fl">11.8</span>, <span class="fl">16.8</span>, <span class="fl">16.0</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/response-methods.html">response</a></span><span class="op">(</span><span class="va">mdo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">elongation</span></span></code></pre></div>
+<pre><code>## [1] "elongation"</code></pre>
+<div class="sourceCode" id="cb146"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mdo</span></span></code></pre></div>
 <pre><code>##    StandOrder RunOrder    Type   A   B   C elongation
 ## 1           1        1 1-blend 1.0 0.0 0.0       11.0
 ## 2           2        2 1-blend 1.0 0.0 0.0       12.4
@@ -917,13 +786,16 @@ Un conjunto de datos Cornell [op. 2002] viene dado por el alargamiento del hilo 
 ## 13         13       13 2-blend 0.0 0.5 0.5       11.8
 ## 14         14       14 1-blend 0.0 0.0 1.0       16.8
 ## 15         15       15 1-blend 0.0 0.0 1.0       16.0</code></pre>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="qualitytools.html#cb148-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb148-2"><a href="qualitytools.html#cb148-2" tabindex="-1"></a><span class="fu">contourPlot3</span>(A, B, C, elongation, <span class="at">data =</span> mdo, <span class="at">form =</span> <span class="st">&quot;quadratic&quot;</span>)</span>
-<span id="cb148-3"><a href="qualitytools.html#cb148-3" tabindex="-1"></a><span class="fu">wirePlot3</span>(A, B, C, elongation, <span class="at">data =</span> mdo, <span class="at">form =</span> <span class="st">&quot;quadratic&quot;</span>, <span class="at">theta =</span> <span class="sc">-</span><span class="dv">170</span>)</span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
+<div class="sourceCode" id="cb148"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/contourPlot3.html">contourPlot3</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, <span class="va">C</span>, <span class="va">elongation</span>, data <span class="op">=</span> <span class="va">mdo</span>, form <span class="op">=</span> <span class="st">"quadratic"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/wirePlot3.html">wirePlot3</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, <span class="va">C</span>, <span class="va">elongation</span>, data <span class="op">=</span> <span class="va">mdo</span>, form <span class="op">=</span> <span class="st">"quadratic"</span>, theta <span class="op">=</span> <span class="op">-</span><span class="fl">170</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-130-1.png" width="672"></div>
 </div>
-<div id="diseños-taguchi" class="section level2 hasAnchor" number="5.7">
-<h2><span class="header-section-number">5.7</span> Diseños Taguchi<a href="qualitytools.html#diseños-taguchi" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="diseños-taguchi" class="section level2" number="5.7">
+<h2>
+<span class="header-section-number">5.7</span> Diseños Taguchi<a class="anchor" aria-label="anchor" href="#dise%C3%B1os-taguchi"><i class="fas fa-link"></i></a>
+</h2>
 <p>Los diseños Taguchi están disponibles utilizando el método <code>taguchiDesign</code>.</p>
 <p>Hay dos tipos de diseños taguchi:</p>
 <ul>
@@ -932,24 +804,26 @@ Un conjunto de datos Cornell [op. 2002] viene dado por el alargamiento del hilo 
 </ul>
 <p>Sin embargo, la mayoría de los diseños que se popularizaron como diseños Taguchi son factoriales fraccionados <span class="math inline">\(2^k\)</span> con una resolución muy baja de III (es decir, los efectos principales se confunden con interacciones de dos factores) u otros diseños de nivel mixto.
 Se puede crear un diseño utilizando el método <code>taguchiDesign</code>. Los nombres de métodos genéricos, unidades, valores, resumen, trazado, lm y otros métodos se pueden utilizar.</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="qualitytools.html#cb149-1" tabindex="-1"></a><span class="co">#EJEMPLO</span></span>
-<span id="cb149-2"><a href="qualitytools.html#cb149-2" tabindex="-1"></a></span>
-<span id="cb149-3"><a href="qualitytools.html#cb149-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb149-4"><a href="qualitytools.html#cb149-4" tabindex="-1"></a>tdo <span class="ot">&lt;-</span> <span class="fu">taguchiDesign</span>(<span class="st">&quot;L9_3&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning in `[&lt;-`(`*tmp*`, i, value = new(&quot;taguchiFactor&quot;)): implicit list
+<div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#EJEMPLO</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">tdo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/taguchiDesign.html">taguchiDesign</a></span><span class="op">(</span><span class="st">"L9_3"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning in `[&lt;-`(`*tmp*`, i, value = new("taguchiFactor")): implicit list
 ## embedding of S4 objects is deprecated
 
-## Warning in `[&lt;-`(`*tmp*`, i, value = new(&quot;taguchiFactor&quot;)): implicit list
+## Warning in `[&lt;-`(`*tmp*`, i, value = new("taguchiFactor")): implicit list
 ## embedding of S4 objects is deprecated
 
-## Warning in `[&lt;-`(`*tmp*`, i, value = new(&quot;taguchiFactor&quot;)): implicit list
+## Warning in `[&lt;-`(`*tmp*`, i, value = new("taguchiFactor")): implicit list
 ## embedding of S4 objects is deprecated
 
-## Warning in `[&lt;-`(`*tmp*`, i, value = new(&quot;taguchiFactor&quot;)): implicit list
+## Warning in `[&lt;-`(`*tmp*`, i, value = new("taguchiFactor")): implicit list
 ## embedding of S4 objects is deprecated</code></pre>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="qualitytools.html#cb151-1" tabindex="-1"></a><span class="fu">values</span>(tdo) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">A =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">60</span>), <span class="at">B =</span> <span class="fu">c</span>(<span class="st">&quot;material 1&quot;</span>, <span class="st">&quot;material 2&quot;</span>, <span class="st">&quot;material 3&quot;</span>), <span class="at">C =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span>
-<span id="cb151-2"><a href="qualitytools.html#cb151-2" tabindex="-1"></a><span class="fu">names</span>(tdo) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Factor 1&quot;</span>, <span class="st">&quot;Factor 2&quot;</span>, <span class="st">&quot;Factor 3&quot;</span>, <span class="st">&quot;Factor 4&quot;</span>)</span>
-<span id="cb151-3"><a href="qualitytools.html#cb151-3" tabindex="-1"></a><span class="fu">summary</span>(tdo)</span></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/values-methods.html">values</a></span><span class="op">(</span><span class="va">tdo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">40</span>, <span class="fl">60</span><span class="op">)</span>, B <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"material 1"</span>, <span class="st">"material 2"</span>, <span class="st">"material 3"</span><span class="op">)</span>, C <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">tdo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Factor 1"</span>, <span class="st">"Factor 2"</span>, <span class="st">"Factor 3"</span>, <span class="st">"Factor 4"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">tdo</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Taguchi SINGLE Design
 ## Information about the factors:
 ## 
@@ -977,12 +851,14 @@ Se puede crear un diseño utilizando el método <code>taguchiDesign</code>. Los 
 ## -----------</code></pre>
 <p>El método <code>response</code> se utiliza para asignar los valores de las variables de respuesta. <code>effectPlot</code>
 puede utilizarse una vez más para visualizar los tamaños del efecto de los factores</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="qualitytools.html#cb153-1" tabindex="-1"></a><span class="fu">response</span>(tdo) <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">9</span>)</span>
-<span id="cb153-2"><a href="qualitytools.html#cb153-2" tabindex="-1"></a><span class="fu">effectPlot</span>(tdo, <span class="at">col =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-132-1.png" width="672" />
+<div class="sourceCode" id="cb153"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/response-methods.html">response</a></span><span class="op">(</span><span class="va">tdo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">9</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/effectPlot.html">effectPlot</a></span><span class="op">(</span><span class="va">tdo</span>, col <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-132-1.png" width="672">
 Como extra es importante el uso del comando <code>sessionInfo</code> con el fin de obtener el número de versión de R y los paquetes cargados :</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="qualitytools.html#cb154-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
-<pre><code>## R version 4.3.2 (2023-10-31 ucrt)
+<div class="sourceCode" id="cb154"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## R version 4.3.1 (2023-06-16 ucrt)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows 11 x64 (build 22631)
 ## 
@@ -1003,11 +879,11 @@ Como extra es importante el uso del comando <code>sessionInfo</code> con el fin 
 ## other attached packages:
 ##  [1] qualityTools_1.55          MASS_7.3-60               
 ##  [3] Rsolnp_1.16                tidyquant_1.0.7           
-##  [5] quantmod_0.4.25            TTR_0.24.4                
+##  [5] quantmod_0.4.25            TTR_0.24.3                
 ##  [7] PerformanceAnalytics_2.0.4 xts_0.13.1                
-##  [9] zoo_1.8-12                 lubridate_1.9.3           
-## [11] forcats_1.0.0              stringr_1.5.1             
-## [13] dplyr_1.1.4                purrr_1.0.2               
+##  [9] zoo_1.8-12                 lubridate_1.9.2           
+## [11] forcats_1.0.0              stringr_1.5.0             
+## [13] dplyr_1.1.2                purrr_1.0.2               
 ## [15] readr_2.1.4                tidyr_1.3.0               
 ## [17] tibble_3.2.1               ggplot2_3.4.4             
 ## [19] tidyverse_2.0.0            R6_2.5.1                  
@@ -1016,45 +892,36 @@ Como extra es importante el uso del comando <code>sessionInfo</code> con el fin 
 ## loaded via a namespace (and not attached):
 ##  [1] tidyselect_1.2.0    timeDate_4022.108   farver_2.1.1       
 ##  [4] blob_1.2.4          fastmap_1.1.1       lazyeval_0.2.2     
-##  [7] digest_0.6.33       rpart_4.1.21        timechange_0.2.0   
-## [10] lifecycle_1.0.4     survival_3.5-7      RSQLite_2.3.5      
-## [13] magrittr_2.0.3      compiler_4.3.2      rlang_1.1.2        
-## [16] sass_0.4.7          tools_4.3.2         utf8_1.2.4         
+##  [7] digest_0.6.33       rpart_4.1.19        timechange_0.2.0   
+## [10] lifecycle_1.0.3     survival_3.5-5      RSQLite_2.3.6      
+## [13] magrittr_2.0.3      compiler_4.3.1      rlang_1.1.1        
+## [16] sass_0.4.7          tools_4.3.1         utf8_1.2.3         
 ## [19] yaml_2.3.7          data.table_1.14.8   knitr_1.45         
-## [22] labeling_0.4.3      bit_4.0.5           curl_5.1.0         
-## [25] withr_2.5.2         nnet_7.3-19         grid_4.3.2         
-## [28] fansi_1.0.5         timetk_2.9.0        colorspace_2.1-0   
-## [31] future_1.33.1       globals_0.16.2      scales_1.2.1       
-## [34] cli_3.6.1           rmarkdown_2.25      generics_0.1.3     
-## [37] rstudioapi_0.15.0   future.apply_1.11.1 httr_1.4.7         
-## [40] tzdb_0.4.0          DBI_1.2.2           cachem_1.0.8       
-## [43] splines_4.3.2       parallel_4.3.2      vctrs_0.6.4        
-## [46] hardhat_1.3.1       Matrix_1.6-1.1      jsonlite_1.8.7     
-## [49] bookdown_0.37       hms_1.1.3           bit64_4.0.5        
-## [52] listenv_0.9.1       gower_1.0.1         jquerylib_0.1.4    
-## [55] recipes_1.0.9       glue_1.6.2          parallelly_1.36.0  
-## [58] codetools_0.2-19    Quandl_2.11.0       rsample_1.2.1      
-## [61] stringi_1.8.2       gtable_0.3.4        quadprog_1.5-8     
-## [64] munsell_0.5.0       furrr_0.3.1         pillar_1.9.0       
-## [67] htmltools_0.5.7     ipred_0.9-14        truncnorm_1.0-9    
-## [70] lava_1.7.3          evaluate_0.23       lattice_0.21-9     
-## [73] highr_0.10          memoise_2.0.1       bslib_0.6.0        
-## [76] class_7.3-22        Rcpp_1.0.11         nlme_3.1-163       
-## [79] prodlim_2023.08.28  mgcv_1.9-0          xfun_0.41          
-## [82] pkgconfig_2.0.3</code></pre>
+## [22] labeling_0.4.2      bit_4.0.5           curl_5.0.2         
+## [25] xml2_1.3.5          withr_2.5.0         nnet_7.3-19        
+## [28] grid_4.3.1          fansi_1.0.4         timetk_2.9.0       
+## [31] colorspace_2.1-0    future_1.33.0       globals_0.16.2     
+## [34] scales_1.2.1        cli_3.6.1           rmarkdown_2.24     
+## [37] generics_0.1.3      rstudioapi_0.15.0   future.apply_1.11.0
+## [40] httr_1.4.7          tzdb_0.4.0          DBI_1.2.2          
+## [43] cachem_1.0.8        splines_4.3.1       parallel_4.3.1     
+## [46] vctrs_0.6.3         hardhat_1.3.0       Matrix_1.6-5       
+## [49] jsonlite_1.8.7      bookdown_0.38       hms_1.1.3          
+## [52] bit64_4.0.5         listenv_0.9.0       gower_1.0.1        
+## [55] jquerylib_0.1.4     recipes_1.0.7       parallelly_1.36.0  
+## [58] glue_1.6.2          codetools_0.2-19    Quandl_2.11.0      
+## [61] rsample_1.2.1       stringi_1.7.12      gtable_0.3.4       
+## [64] quadprog_1.5-8      downlit_0.4.3       munsell_0.5.0      
+## [67] furrr_0.3.1         pillar_1.9.0        htmltools_0.5.6    
+## [70] ipred_0.9-14        truncnorm_1.0-9     lava_1.7.2.1       
+## [73] evaluate_0.21       lattice_0.21-8      highr_0.10         
+## [76] memoise_2.0.1       bslib_0.5.1         class_7.3-22       
+## [79] Rcpp_1.0.11         nlme_3.1-162        prodlim_2023.03.31 
+## [82] mgcv_1.8-42         xfun_0.40           fs_1.6.3           
+## [85] pkgconfig_2.0.3</code></pre>
 
 </div>
 </div>
-<<<<<<< HEAD
-            </section>
-
-          </div>
-        </div>
-      </div>
-<a href="tidyquant.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="cambio-de-funciones.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
-=======
   <div class="chapter-nav">
 <div class="prev"><a href="tidyquant.html"><span class="header-section-number">4</span> TidyQuant</a></div>
 <div class="next"><a href="cambio-de-funciones.html"><span class="header-section-number">6</span> Cambio de Funciones</a></div>
@@ -1102,61 +969,14 @@ Como extra es importante el uso del comando <code>sessionInfo</code> con el fin 
 
   <div class="col-12 col-md-6 mt-3">
     <p>"<strong>Integración del Paquete QualityTools con Tidyverse</strong>" was written by Miguel Flores, Andrea Barahona, Fabián Encarnación, Dario Quishpe. It was last built on 2024-04-23.</p>
->>>>>>> a8b725b107cd3ade9afd4976ed6558cfc0d3c521
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/rstudio/Libro_TidyQualityTools/edit/master/04-QualityTools.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["Libro_TidyQualityTools.pdf", "Libro_TidyQualityTools.epub"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
-});
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -1168,7 +988,22 @@ gitbook.start({
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
-
 </html>

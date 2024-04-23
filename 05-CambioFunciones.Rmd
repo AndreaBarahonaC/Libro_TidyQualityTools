@@ -289,21 +289,23 @@ cgRunChart_ggplot <- function (x, target, tolerance, ref.interval, facCg, facCgk
     geom_point(color = col, shape = pch) +
     geom_line(color = col, linetype = "solid") +
     scale_x_continuous(limits = c(xlim[1] - 0.05 * xlim[2], xlim[2]), expand = c(0, 0)) +
-    scale_y_continuous(limits = ylim, expand = c(0, 0)) +
     labs(title = main, x = "Index", y = "x") +
     theme_minimal() +
-    geom_hline(aes(yintercept = target))+ # Linea target
-    scale_y_continuous(sec.axis = sec_axis(~ .,labels="target"))
-  
+    geom_hline(aes(yintercept = target)) # Linea target
+    
   # 2. Red Plot (Lowess)
   p <- p + geom_smooth(method = "loess", color = "red", se = FALSE, span = 1.25, size = 0.25,)
   
   # 3. Green lines
-  p <- p + geom_hline(aes(yintercept = mean), linetype = "dashed", color = "seagreen") + # Center line
+  p <- p + geom_hline(aes(yintercept = mean), linetype = "dashed", color = "seagreen")+  #center line
     geom_hline(aes(yintercept = quant1), linetype = "dashed", color = "seagreen") + # Bottom line
     geom_hline(aes(yintercept = quant2), linetype = "dashed", color = "seagreen")   # Top line
   # 4. Xtar +- 0.1
-  p <- p + geom_hline(yintercept = c(target + n/2 * (abs(diff(tolerance))), target - n/2 * (abs(diff(tolerance)))), color = "#012B78", linetype = "solid") # Agregar líneas 
+  p <- p + geom_hline(yintercept = c(target + n/2 * (abs(diff(tolerance))), target - n/2 * (abs(diff(tolerance)))), color = "#012B78", linetype = "solid") # Agregar líneas    
+  #Label
+  p <- p + scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ .,breaks = c(target,mean,quant1,quant2,target + n/2 * (abs(diff(tolerance))), target - n/2 * (abs(diff(tolerance)))),labels=c("target",expression(bar(x)),substitute(x[a * b], list(a = round(((1 - ref.interval)/2) * 100, 3), b = "%")), substitute(x[a * b], list(a = round(((ref.interval + (1 - ref.interval)/2)) * 100, 
+    3), b = "%")),substitute(x[tar] + a, list(a = round(n/2, 4))),substitute(x[tar] - a, list(a = round(n/2, 4))))))+theme(axis.text.y.right = element_text(size = 15))
+  
   
   # Label  Cg and Cgk
   if (cgOut == TRUE) {
@@ -326,10 +328,10 @@ cgRunChart_ggplot <- function (x, target, tolerance, ref.interval, facCg, facCgk
           gp = grid::gpar(fontsize = 12, fontface = "bold")
         )
       )
-    show(p)
+    suppressMessages(show(p))
   }
   else{
-    show(p)
+    suppressMessages(show(p))
   }
   invisible(list(Cg, Cgk))
 }
