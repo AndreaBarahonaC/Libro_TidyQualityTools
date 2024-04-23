@@ -284,7 +284,7 @@ cgRunChart_ggplot <- function (x, target, tolerance, ref.interval, facCg, facCgk
   df$Cgk <- Cgk
   
   # Create the ggplot
-  # 1. Grafica principal y linea target
+  # 1. Principal plot and target line
   p <- ggplot(df, aes(x = seq_along(x), y = x)) +
     geom_point(color = col, shape = pch) +
     geom_line(color = col, linetype = "solid") +
@@ -292,19 +292,20 @@ cgRunChart_ggplot <- function (x, target, tolerance, ref.interval, facCg, facCgk
     scale_y_continuous(limits = ylim, expand = c(0, 0)) +
     labs(title = main, x = "Index", y = "x") +
     theme_minimal() +
-    geom_hline(aes(yintercept = target)) # Linea target
+    geom_hline(aes(yintercept = target))+ # Linea target
+    scale_y_continuous(sec.axis = sec_axis(~ .,labels="target"))
   
-  # 2. Grafica Roja (Lowess)
+  # 2. Red Plot (Lowess)
   p <- p + geom_smooth(method = "loess", color = "red", se = FALSE, span = 1.25, size = 0.25,)
   
-  # 3. Lineas verdes
-  p <- p + geom_hline(aes(yintercept = mean), linetype = "dashed", color = "seagreen") + # Linea del centro
-    geom_hline(aes(yintercept = quant1), linetype = "dashed", color = "seagreen") + # Linea de Abajo
-    geom_hline(aes(yintercept = quant2), linetype = "dashed", color = "seagreen")   # Linea de Arriba
+  # 3. Green lines
+  p <- p + geom_hline(aes(yintercept = mean), linetype = "dashed", color = "seagreen") + # Center line
+    geom_hline(aes(yintercept = quant1), linetype = "dashed", color = "seagreen") + # Bottom line
+    geom_hline(aes(yintercept = quant2), linetype = "dashed", color = "seagreen")   # Top line
   # 4. Xtar +- 0.1
   p <- p + geom_hline(yintercept = c(target + n/2 * (abs(diff(tolerance))), target - n/2 * (abs(diff(tolerance)))), color = "#012B78", linetype = "solid") # Agregar líneas 
   
-  # Añadir label del Cg y Cgk
+  # Label  Cg and Cgk
   if (cgOut == TRUE) {
     p <- p +
       annotation_custom(
