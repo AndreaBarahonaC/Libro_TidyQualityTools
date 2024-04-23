@@ -1,1 +1,472 @@
 # Cambio de Funciones
+
+```{css, echo=FALSE}
+.scroll-100 {
+  max-height: 100px;
+  overflow-y: auto;
+  background-color: inherit;
+}
+```
+
+
+```{r, warning=FALSE, message=FALSE, collapse=TRUE}
+library(qualityTools)
+
+# Paquetes necesarios
+
+# install.packages("ggplot2")
+# install.packages("patchwork")
+# install.packages("gridExtra")
+library(ggplot2)
+library(patchwork)
+library(gridExtra)
+
+```
+
+
+## Fase 1: Definir
+
+### 1. Función Pareto
+
+```{r, class.output="scroll-100"}
+# Nueva Función
+Pareto_ggplot <- function (x, weight, showTable = TRUE, showPlot = TRUE, las = 0, main, col, border, 
+                         xlab, ylab = "Frecuencia", percentVec, ...) 
+{
+  varName = deparse(substitute(x))[1]
+  corp.col = "#C4B9FF"
+  corp.border = "#9E0138"
+  if (!is.vector(x) & !is.data.frame(x) & !is.table(x)) 
+    stop("x debe ser de tipo: vector, dataframe o table")
+  if (is.table(x)) {
+    xtable = x
+  }
+  if (is.vector(x)) {
+    if (!is.null(names(x))) 
+      xtable = as.table(x)
+    else xtable = table(x)
+  }
+  if (!missing(weight)) {
+    if (!is.numeric(weight)) 
+      stop("weight must be numeric!")
+    if (is.null(names(weight))) 
+      stop("weight is missing names for matching!")
+    else {
+      if (FALSE %in% (sort(names(weight)) == sort(names(xtable)))) 
+        stop("names of weight and table do not match!")
+      else {
+        for (i in 1:length(xtable)) {
+          xtable[i] = weight[names(weight) == names(xtable)[i]] * 
+            xtable[i]
+        }
+      }
+    }
+  }
+  else {
+    weight = FALSE
+  }
+  if (missing(showTable)) 
+    showTable = TRUE
+  if (missing(xlab)) 
+    xlab = ""
+  if (missing(main)) 
+    main = paste("Gráfica de Pareto de", varName)
+  if (missing(col)) 
+    col = corp.col
+  if (missing(border)) 
+    border = corp.border
+  if (missing(percentVec)) 
+    percentVec = seq(0, 1, by = 0.25)
+  call <- match.call(expand.dots = TRUE)
+  # Grafica
+  if (length(xtable) > 1) {
+    ylim = c(min(xtable), max(xtable) * 1.025)
+    xtable = c(sort(xtable, decreasing = TRUE, na.last = TRUE))
+    cumFreq = cumsum(xtable)
+    sumFreq = sum(xtable)
+    percentage = xtable/sum(xtable) * 100
+    cumPerc = cumFreq/sumFreq * 100  
+    
+    
+    data <- data.frame(Frecuencia = xtable,
+                       Frec.Acum = cumFreq,
+                       Porcentaje = round(percentage, digits = 2),
+                       Por.Acum = round(cumPerc, digits = 2))
+    tabla <- t(data)
+    
+    p <- ggplot(data, aes(x = reorder(names(xtable), -xtable), y = Frecuencia)) +
+      geom_col(aes(fill = "Frecuencia"), width = 0.7) +
+      geom_point(aes(y = Frec.Acum, color = "Frecuencia Acumulada"), size = 3) +
+      geom_line(aes(y = Frec.Acum, group = 1, color = "Frecuencia Acumulada"), size = 0.5) +
+      scale_y_continuous(name = ylab,
+                         sec.axis = sec_axis(~ . / sum(xtable),
+                                             name = "Porcentaje",
+                                             labels = percentVec)) +
+      scale_x_discrete(name = xlab) +
+      scale_color_manual(values = c(corp.border, corp.border)) +
+      scale_fill_manual(values = corp.col) + 
+      theme(legend.position = "none") +
+      labs(title = main)
+  }
+  else {
+    warning("data should have at least two categories!")
+  }
+  if(showPlot == TRUE){
+    if(showTable == TRUE){
+        show(p/tableGrob(tabla))
+    }
+    else {
+      show(p)
+    }
+  }
+  else{
+    show(tabla)
+  }
+}
+```
+
+* Resultados antes:
+
+```{r}
+defectos <-c(rep("E",62),rep("B",15),rep("F",3),rep("A",10),rep("C",20),rep("D",10))
+
+paretoChart(defectos)
+```
+
+* Resultados ahora:
+
+```{r}
+Pareto_ggplot(defectos)
+```
+
+
+```{r}
+# Podemos modificar si mostrar la tabla, la gráfica etc:
+
+# Mostrar solo la gráfica
+Pareto_ggplot(defectos, showTable = FALSE)
+
+# Mostrar solo la tabla
+Pareto_ggplot(defectos, showPlot = FALSE)
+```
+
+
+
+## Fase 2: Medir
+
+### 1. Función cg 
+
+Para poder implementar esta función, primero debemos modificar 3 funciones que se utilizan en esta función macro.
+
+Además utilizaremos los siguientes datos de pruebas:
+
+```{r}
+x <- c(9.991, 10.013, 10.001, 10.007, 10.010, 10.013, 10.008, 10.017, 10.005, 10.005, 10.002, 10.017, 10.005, 10.002, 9.996, 10.011, 10.009, 10.006, 10.008, 10.003, 10.002, 10.006, 10.010, 9.992, 10.013)
+
+target = 10.003
+tolerance = c(9.903, 10.103)
+ref.interval = pnorm(3) - pnorm(-3)
+facCg = 0.2
+facCgk = 0.1 
+n = 0.2
+type = "b"
+col = "black"
+pch = 19
+#xlim = NULL
+#ylim = NULL
+conf.level = 0.95
+cex.val = 1.5
+```
+
+```{r}
+sd = sd(x)
+  mean = mean(x)
+  ref.ar = qnorm(ref.interval, mean, sd) - qnorm(1 - ref.interval, 
+                                                 mean, sd)
+quant1 = qnorm((1 - ref.interval)/2, mean, sd)
+  quant2 = qnorm(ref.interval + (1 - ref.interval)/2, mean, 
+                 sd)
+
+
+xlim = c(0, length(x))
+ylim = c(min(x, target - n/2 * (abs(diff(tolerance))), 
+             quant1, quant2), max(x, target + n/2 * (abs(diff(tolerance))), 
+                                  quant1, quant2))
+```
+
+#### CgRunChart
+
+```{r}
+cgRunChart_ggplot <- function (x, target, tolerance, ref.interval, facCg, facCgk,
+                       n = 0.2, type = "b", col = "black", pch = 19,
+                       xlim = NULL, ylim = NULL, main = "Run Chart",
+                       conf.level = 0.95, cex.val = 1, cgOut = TRUE) 
+{
+  if (missing(x)) {
+    stop("x must be given as a vector")
+  }
+  
+  if (missing(target)) {
+    target <- mean(x)
+    targetmissing <- FALSE
+  } else {
+    targetmissing <- TRUE
+  }
+  
+  if (missing(ref.interval)) {
+    ref.interval <- qnorm(0.99865) - qnorm(0.00135)
+  }
+  
+  sd <- sd(x)
+  mean <- mean(x)
+  ref.ar <- qnorm(ref.interval, mean, sd) - qnorm(1 - ref.interval, mean, sd)
+  
+  if (missing(facCg)) {
+    facCg <- 0.2
+  }
+  
+  if (missing(facCgk)) {
+    facCgk <- 0.1
+  }
+  
+  if (missing(tolerance)) {
+    width <- ref.ar/facCg
+    tolerance <- numeric(2)
+    tolerance[1] <- mean - width/2
+    tolerance[2] <- mean + width/2
+  }
+  
+  quant1 <- qnorm((1 - ref.interval)/2, mean, sd)
+  quant2 <- qnorm(ref.interval + (1 - ref.interval)/2, mean, sd)
+  
+  if (length(tolerance) != 2) {
+    stop("tolerance has wrong length")
+  }
+  
+  if (missing(xlim)) {
+    xlim <- c(0, length(x))
+  }
+  
+  if (missing(ylim)) {
+    ylim <- c(min(x, target - n/2 * (abs(diff(tolerance))), quant1, quant2),
+              max(x, target + n/2 * (abs(diff(tolerance))), quant1, quant2))
+  }
+  
+  if (missing(main)) {
+    main <- "Run Chart"
+  }
+  
+  Cg <- (facCg * tolerance[2]-tolerance[1])/ref.interval
+  Cgk <- (facCgk * abs(target-mean(x))/(ref.interval/2))
+  
+  # Create a data frame for plotting
+  df <- data.frame(x = x, y = x)
+  
+  # Add target line
+  df$y_target <- target
+  
+  # Calculate the upper and lower control limits
+  df$y_lower <- quant1
+  df$y_upper <- quant2
+  # Calculate the tolerance limits
+  df$y_tolerance_lower <- tolerance[1]
+  df$y_tolerance_upper <- tolerance[2]
+  
+  # Calculate the mean
+  df$y_mean <- mean
+  
+  # Calculate the Cg and Cgk values
+  df$Cg <- Cg
+  df$Cgk <- Cgk
+  
+  # Create the ggplot
+  # 1. Grafica principal y linea target
+  p <- ggplot(df, aes(x = seq_along(x), y = x)) +
+    geom_point(color = col, shape = pch) +
+    geom_line(color = col, linetype = "solid") +
+    scale_x_continuous(limits = c(xlim[1] - 0.05 * xlim[2], xlim[2]), expand = c(0, 0)) +
+    scale_y_continuous(limits = ylim, expand = c(0, 0)) +
+    labs(title = main, x = "Index", y = "x") +
+    theme_minimal() +
+    geom_hline(aes(yintercept = target)) # Linea target
+  
+  # 2. Grafica Roja (Lowess)
+  p <- p + geom_smooth(method = "loess", color = "red", se = FALSE, span = 1.25, size = 0.25,)
+  
+  # 3. Lineas verdes
+  p <- p + geom_hline(aes(yintercept = mean), linetype = "dashed", color = "seagreen") + # Linea del centro
+    geom_hline(aes(yintercept = quant1), linetype = "dashed", color = "seagreen") + # Linea de Abajo
+    geom_hline(aes(yintercept = quant2), linetype = "dashed", color = "seagreen")   # Linea de Arriba
+  # 4. Xtar +- 0.1
+  p <- p + geom_hline(yintercept = c(target + n/2 * (abs(diff(tolerance))), target - n/2 * (abs(diff(tolerance)))), color = "#012B78", linetype = "solid") # Agregar líneas 
+  
+  # Añadir label del Cg y Cgk
+  if (cgOut == TRUE) {
+    p <- p +
+      annotation_custom(
+        grob = grid::textGrob(
+          label = c(paste("Cg: ", round(Cg,digits = 6))),
+          x = unit(1, "npc") - unit(0.15, "cm"),
+          y = unit(1, "npc") - unit(0.05, "cm"),
+          just = c("right", "top"),
+          gp = grid::gpar(fontsize = 12, fontface = "bold")
+        )
+      ) + 
+      annotation_custom(
+        grob = grid::textGrob(
+          label = c(paste("Cgk:", round(Cgk,digits = 6))),
+          x = unit(1, "npc") - unit(0.15, "cm"),
+          y = unit(1, "npc") - unit(0.6, "cm"),
+          just = c("right", "top"),
+          gp = grid::gpar(fontsize = 12, fontface = "bold")
+        )
+      )
+    show(p)
+  }
+  else{
+    show(p)
+  }
+  invisible(list(Cg, Cgk))
+}
+```
+
+* Resultados antes:
+
+```{r}
+cgRunChart(x = x, target = target, tolerance = tolerance, 
+           ref.interval = ref.interval, facCg = facCg, facCgk = facCgk, 
+           n = n, type = type, col = col, pch = pch, xlim = xlim, 
+           ylim = ylim, main = "Run Chart", conf.level = conf.level, 
+           cex.val = cex.val, cgOut = FALSE)
+```
+
+* Resultados Ahora:
+
+```{r}
+cgRunChart_ggplot(x = x, target = target, tolerance = tolerance, 
+                    ref.interval = ref.interval, facCg = facCg, facCgk = facCgk, 
+                    n = n, type = type, col = col, pch = pch, xlim = xlim, 
+                    ylim = ylim, main = "Run Chart", conf.level = conf.level, 
+                    cex.val = cex.val, cgOut = FALSE)
+```
+
+#### cgHist
+
+#### cgToleranceView
+
+```{r}
+# Nueva Función
+cgToleranceChart <- function (x, target, tolerance, ref.interval, facCg, facCgk, 
+                              n = 0.2, type, col, pch, xlim, ylim, main, conf.level = 0.95, 
+                              cex.val = 1, cgOut = TRUE) 
+{
+  if (missing(x)) 
+    stop("x must be given as a vector")
+  if (missing(target)) {
+    target = mean(x)
+    targetmissing = FALSE
+  }
+  else targetmissing = TRUE
+  if (missing(ref.interval)) 
+    ref.interval = pnorm(3) - pnorm(-3)
+  sd = sd(x)
+  mean = mean(x)
+  ref.ar = qnorm(ref.interval, mean, sd) - qnorm(1 - ref.interval, 
+                                                 mean, sd)
+  if (missing(facCg)) 
+    facCg = 0.2
+  if (missing(facCgk)) 
+    facCgk = 0.1
+  if (missing(tolerance)) 
+    warning("Missing tolerance! The specification limits are choosen to get Cg = 1")
+  if (missing(tolerance)) {
+    width = ref.ar/facCg
+    tolerance = numeric(2)
+    tolerance[1] = mean(x) - width/2
+    tolerance[2] = mean(x) + width/2
+  }
+  quant1 = qnorm((1 - ref.interval)/2, mean, sd)
+  quant2 = qnorm(ref.interval + (1 - ref.interval)/2, mean, 
+                 sd)
+  if (length(tolerance) != 2) 
+    stop("tolerance has wrong length")
+  if (missing(type)) 
+    type = "b"
+  if (missing(col)) 
+    col = 1
+  if (missing(pch)) 
+    pch = 19
+  if (missing(xlim)) 
+    xlim = c(0, length(x))
+  if (missing(ylim)) 
+    ylim = c(min(x, target - n/2 * (abs(diff(tolerance))), 
+                 quant1, quant2), max(x, target + n/2 * (abs(diff(tolerance))), 
+                                      quant1, quant2))
+  if (missing(main)) 
+    main = "Tolerance View"
+  Cg <- (facCg * tolerance[2]-tolerance[1])/ref.interval
+  Cgk <- (facCgk * abs(target-mean(x))/(ref.interval/2))
+  
+  # Gráfica
+  p <- ggplot(data.frame(x = 1:length(x), y = x), aes(x = x, y = y)) +
+    geom_point(aes(color = "Data"), size = cex.val) +
+    geom_hline(aes(yintercept = target), linetype = "dashed", color = "red") +
+    geom_hline(aes(yintercept = tolerance[1]), linetype = "dashed", color = "blue") +
+    geom_hline(aes(yintercept = tolerance[2]), linetype = "dashed", color = "blue") +
+    geom_hline(aes(yintercept = (target + n/2 * (tolerance[2] - tolerance[1]))), color = "black") +
+    geom_hline(aes(yintercept = (target - n/2 * (tolerance[2] - tolerance[1]))), color = "black") +
+    scale_color_manual(values = c("Data" = col)) +
+    labs(x = "", y = "x", color = "Variable", title = "Vista de Tolerancia") +
+    theme_bw() + theme(legend.position = "none")
+  
+  if (cgOut == TRUE) {
+    p <- p +
+      annotation_custom(
+        grob = grid::textGrob(
+          label = c(paste("Cg: ", round(Cg,digits = 6))),
+          x = unit(1, "npc") - unit(0.15, "cm"),
+          y = unit(1, "npc") - unit(0.05, "cm"),
+          just = c("right", "top"),
+          gp = grid::gpar(fontsize = 12, fontface = "bold")
+        )
+      ) + 
+      annotation_custom(
+        grob = grid::textGrob(
+          label = c(paste("Cgk:", round(Cgk,digits = 6))),
+          x = unit(1, "npc") - unit(0.15, "cm"),
+          y = unit(1, "npc") - unit(0.6, "cm"),
+          just = c("right", "top"),
+          gp = grid::gpar(fontsize = 12, fontface = "bold")
+        )
+      )
+    show(p)
+  }
+  else{
+    show(p)
+  }
+  invisible(list(Cg, Cgk))
+}
+```
+
+* Resultados Antes:
+
+```{r}
+cgToleranceView(x = x, target = target, tolerance = tolerance, 
+                ref.interval = ref.interval, facCg = facCg, facCgk = facCgk, 
+                n = n, type = type, col = col, pch = pch, xlim = xlim, 
+                ylim = ylim, main = "Tolerance View", conf.level = conf.level, 
+                cex.val = cex.val, cgOut = TRUE)
+```
+
+* Resultados Ahora:
+
+```{r}
+cgToleranceChart(x = x, target = target, tolerance = tolerance, 
+                 ref.interval = ref.interval, facCg = facCg, facCgk = facCgk, 
+                 n = n, type = type, col = col, pch = pch, xlim = xlim, 
+                 ylim = ylim, main = "Tolerance View", conf.level = conf.level, 
+                 cex.val = cex.val, cgOut = TRUE)
+```
+
+
+
