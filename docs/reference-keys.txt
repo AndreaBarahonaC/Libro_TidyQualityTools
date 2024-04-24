@@ -62,3 +62,4 @@ función-cg
 cgrunchart
 cghist
 cgtoleranceview
+funcion-cg

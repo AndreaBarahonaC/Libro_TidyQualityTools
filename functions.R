@@ -547,7 +547,7 @@ cg_ <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
     geom_line(color = col, linetype = "solid") +
     scale_x_continuous(limits = c(xlim[1] - 0.05 * xlim[2], xlim[2]),
                        expand = c(0, 0)) +
-    labs(title = main, x = "Index", y = "x") +
+    labs(title = "Run Chart", x = "Index", y = "x") +
     theme_minimal() + theme(plot.title = element_text(hjust = 0.5, face = "bold")) +
     geom_hline(aes(yintercept = target)) +
     geom_smooth(
@@ -617,7 +617,7 @@ cg_ <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
       color = "black",
       alpha = 0.5
     ) +
-    labs(y = "Density", x = "x.c", title = main) +
+    labs(y = "Density", x = "x.c", title = paste("Histogram of",deparse(substitute(x)),"- target")) +
     theme_minimal() + theme(plot.title = element_text(hjust = 0.5, face = "bold")) +
     guides(color = guide_legend(title.position = "top", title.hjust = 0.5)) +
     geom_vline(xintercept = 0, color = "red")
@@ -690,7 +690,7 @@ cg_ <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
       x = "",
       y = "x",
       color = "Variable",
-      title = main
+      title = "Tolerance View"
     ) +
     theme_minimal() + theme(plot.title = element_text(hjust = 0.5, face = "bold")) +
     theme(legend.position = "none")
