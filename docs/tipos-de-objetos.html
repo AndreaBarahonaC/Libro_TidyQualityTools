@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Capítulo 2 (POO) Programación Orientada a Objetos | Integración del Paquete QualityTools con Tidyverse</title>
+<title>Capítulo 3 Tipos de objetos | Integración del Paquete QualityTools con Tidyverse</title>
 <meta name="author" content="Miguel Flores">
 <meta name="author" content="Andrea Barahona">
 <meta name="author" content="Fabián Encarnación">
 <meta name="author" content="Dario Quishpe">
 <meta name="generator" content="bookdown 0.38 with bs4_book()">
-<meta property="og:title" content="Capítulo 2 (POO) Programación Orientada a Objetos | Integración del Paquete QualityTools con Tidyverse">
+<meta property="og:title" content="Capítulo 3 Tipos de objetos | Integración del Paquete QualityTools con Tidyverse">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Capítulo 2 (POO) Programación Orientada a Objetos | Integración del Paquete QualityTools con Tidyverse">
+<meta name="twitter:title" content="Capítulo 3 Tipos de objetos | Integración del Paquete QualityTools con Tidyverse">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -21,9 +21,9 @@
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-<meta name="description" content="2.1 Introducción En primer lugar debemos tener en mente que la POO en R presenta ciertos desafíos en comparación con otros lenguajes esto debido a : La presencia de más de un sistema de OOP para...">
-<meta property="og:description" content="2.1 Introducción En primer lugar debemos tener en mente que la POO en R presenta ciertos desafíos en comparación con otros lenguajes esto debido a : La presencia de más de un sistema de OOP para...">
-<meta name="twitter:description" content="2.1 Introducción En primer lugar debemos tener en mente que la POO en R presenta ciertos desafíos en comparación con otros lenguajes esto debido a : La presencia de más de un sistema de OOP para...">
+<meta name="description" content="Para tratar el tema de objetos y POO en R, en primer lugar se tiene que aclarar la confusión entre los usos de la palabra “objeto”. Por lo general se piensa que “Todo lo que existe en R es un...">
+<meta property="og:description" content="Para tratar el tema de objetos y POO en R, en primer lugar se tiene que aclarar la confusión entre los usos de la palabra “objeto”. Por lo general se piensa que “Todo lo que existe en R es un...">
+<meta name="twitter:description" content="Para tratar el tema de objetos y POO en R, en primer lugar se tiene que aclarar la confusión entre los usos de la palabra “objeto”. Por lo general se piensa que “Todo lo que existe en R es un...">
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -46,11 +46,12 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html"><span class="header-section-number">1</span> Preámbulo</a></li>
-<li><a class="active" href="poo-programaci%C3%B3n-orientada-a-objetos.html"><span class="header-section-number">2</span> (POO) Programación Orientada a Objetos</a></li>
-<li><a class="" href="r6.html"><span class="header-section-number">3</span> R6</a></li>
-<li><a class="" href="tidyquant.html"><span class="header-section-number">4</span> TidyQuant</a></li>
-<li><a class="" href="qualitytools.html"><span class="header-section-number">5</span> QualityTools</a></li>
-<li><a class="" href="cambio-de-funciones.html"><span class="header-section-number">6</span> Cambio de Funciones</a></li>
+<li><a class="" href="poo-programaci%C3%B3n-orientada-a-objetos.html"><span class="header-section-number">2</span> (POO) Programación Orientada a Objetos</a></li>
+<li><a class="active" href="tipos-de-objetos.html"><span class="header-section-number">3</span> Tipos de objetos</a></li>
+<li><a class="" href="r6.html"><span class="header-section-number">4</span> R6</a></li>
+<li><a class="" href="tidyquant.html"><span class="header-section-number">5</span> TidyQuant</a></li>
+<li><a class="" href="qualitytools.html"><span class="header-section-number">6</span> QualityTools</a></li>
+<li><a class="" href="cambio-de-funciones.html"><span class="header-section-number">7</span> Cambio de Funciones</a></li>
 <li><a class="" href="referencias.html">Referencias</a></li>
 </ul>
 
@@ -59,79 +60,16 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="poo-programación-orientada-a-objetos" class="section level1" number="2">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="tipos-de-objetos" class="section level1" number="3">
 <h1>
-<span class="header-section-number">Capítulo 2</span> (POO) Programación Orientada a Objetos<a class="anchor" aria-label="anchor" href="#poo-programaci%C3%B3n-orientada-a-objetos"><i class="fas fa-link"></i></a>
+<span class="header-section-number">Capítulo 3</span> Tipos de objetos<a class="anchor" aria-label="anchor" href="#tipos-de-objetos"><i class="fas fa-link"></i></a>
 </h1>
-<div id="introducción" class="section level2" number="2.1">
-<h2>
-<span class="header-section-number">2.1</span> Introducción<a class="anchor" aria-label="anchor" href="#introducci%C3%B3n"><i class="fas fa-link"></i></a>
-</h2>
-<p>En primer lugar debemos tener en mente que la POO en R presenta ciertos desafíos en comparación con otros lenguajes esto debido a :</p>
-<ul>
-<li><p>La presencia de más de un sistema de OOP para elegir. Dentro de los más importantes tenemos : S3, R6 y S4. Donde S3 y S4 vienen en R base y R6 en el paquete con la misma denominación</p></li>
-<li><p>Existe discrepancia sobre la importancia de los sistemas POO mencionado.</p></li>
-<li><p>La sintaxis utilizada para la implementación de la POO en R en comparación con otros lenguajes populares es diferente.</p></li>
-</ul>
-<p>Aunque la programación funcional es más utilizada en R que la POO, es importante comprender estos sistemas por las siguientes razones :</p>
-<ul>
-<li><p>S3 permite que las funciones devuelvan resultados con una visualización amigable y una estructura interna agradable para el programador. S3 se utiliza en todo R base, por lo que es importante dominarlo si se desea modificar las funciones de R base para trabajar con nuevos tipos de entrada.</p></li>
-<li><p>R6 proporciona una forma de escapar de la semántica copy-on-modify de R. Esto es especialmente importante si se desea modelar objetos que existen independientemente de R. Hoy en día, una necesidad común de R6 es modelar datos que provienen de una API web, y donde los cambios provienen de dentro o fuera de R.</p></li>
-<li><p>S4 es un sistema riguroso que obliga a pensar detenidamente en el diseño de los programas. Es adecuado para la construcción de grandes sistemas que evolucionan con el tiempo y recibirán contribuciones de muchos programadores.</p></li>
-</ul>
-</div>
-<div id="sistemas-de-programación-orientada-a-objetos" class="section level2" number="2.2">
-<h2>
-<span class="header-section-number">2.2</span> Sistemas de programación orientada a objetos<a class="anchor" aria-label="anchor" href="#sistemas-de-programaci%C3%B3n-orientada-a-objetos"><i class="fas fa-link"></i></a>
-</h2>
-<p>La principal razón para utilizar la POO es el polimorfismo. El polimorfismo significa que un programador puede considerar la interfaz de una función separadamente de su implementación, lo cual hace posible usar la misma forma de función para diferentes tipos de entrada. Esto está estrechamente relacionado con la idea de encapsulación: el usuario no necesita preocuparse por los detalles de un objeto porque están encapsulados tras una interfaz estándar.</p>
-<p>Para ejemplificar esta idea, el polimorfismo es lo que permite a summary() producir diferentes salidas para diferentes entradas:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Utilizamos el dataframe diamonds</span></span>
-<span><span class="va">diamonds</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="va"><a href="https://ggplot2.tidyverse.org/reference/diamonds.html">diamonds</a></span></span>
-<span><span class="co">#carat: variable cuantitativa</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">diamonds</span><span class="op">$</span><span class="va">carat</span><span class="op">)</span></span>
-<span><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span><span class="co">##  0.2000  0.4000  0.7000  0.7979  1.0400  5.0100</span></span>
-<span><span class="co">#cut: Variable cualitativa</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">diamonds</span><span class="op">$</span><span class="va">cut</span><span class="op">)</span></span>
-<span><span class="co">##      Fair      Good Very Good   Premium     Ideal </span></span>
-<span><span class="co">##      1610      4906     12082     13791     21551</span></span></code></pre></div>
-<p>Esto no implica que summary() contenga una serie if-else para cada caso.</p>
-<p>Los sistemas de POO llaman clase a lo que define que es un objeto y los métodos describen lo que ese objeto puede hacer. La clase define los campos, las características que posee cada instancia de esa clase (variables ,propiedades ,métodos). Las clases se organizan en una jerarquía de forma que si un método no existe para una clase, se utiliza el método de su padre, y se dice que el hijo hereda el comportamiento. Por ejemplo, en R, un factor ordenado hereda de un factor regular, y un modelo lineal generalizado hereda de un modelo lineal. El proceso de encontrar el método correcto dada una clase se denomina despacho del método.</p>
-<center>
-<div class="inline-figure"><img src="graficasR6/clasesherencia.jpg"></div>
-<img src="graficasR6/ejemploherencia.jpg">
-</center>
-<div id="paradigmas" class="section level3" number="2.2.1">
-<h3>
-<span class="header-section-number">2.2.1</span> Paradigmas<a class="anchor" aria-label="anchor" href="#paradigmas"><i class="fas fa-link"></i></a>
-</h3>
-<p>Existen dos paradigmas principales de POO : encapsulado y funcional:</p>
-<p>En la <strong>POO encapsulada</strong>, los métodos pertenecen a objetos o clases, y las llamadas a métodos suelen tener el aspecto de object.method(arg1, arg2). Se denomina encapsulada porque el objeto encapsula tanto las variables (con campos) como el comportamiento (con métodos), y es el paradigma que se encuentra en los lenguajes más populares (Python,Java,C,C++).</p>
-<p>En la <strong>POO funcional</strong>, los métodos pertenecen a funciones genéricas, y las llamadas a métodos parecen llamadas a funciones ordinarias: generic(object, arg2, arg3). Esto se llama funcional porque desde fuera parece una llamada a una función normal, e internamente los componentes también son funciones.</p>
-</div>
-<div id="especificaciones-de-los-principales-sistemas-poo-en-r" class="section level3" number="2.2.2">
-<h3>
-<span class="header-section-number">2.2.2</span> Especificaciones de los principales sistemas POO en R<a class="anchor" aria-label="anchor" href="#especificaciones-de-los-principales-sistemas-poo-en-r"><i class="fas fa-link"></i></a>
-</h3>
-<p>Sistemas POO del R base: S3, S4 y RC :</p>
-<p><strong>S3</strong> es el primer sistema POO de R, el cual es una implementación informal de POO funcional y se basa en convenciones comunes en lugar de garantías férreas. Esto hace que sea fácil empezar a trabajar con él, proporcionando una forma de óptima de resolver muchos problemas sencillos.</p>
-<p><strong>S4</strong> es una reescritura formal y rigurosa de S3, esta requiere más trabajo inicial que S3, pero a cambio proporciona más garantías y una mayor encapsulación. S4 se implementa en el paquete de métodos base, que siempre se instala con R. Dentro de <strong>S4</strong> tenemos <strong>RC</strong> la cual implementa POO encapsulada. Los objetos RC son un tipo especial de objetos <strong>S4</strong> que también son mutables, es decir, en lugar de utilizar la semántica habitual de R de copy-on-modify, pueden modificarse en ese mismo lugar específico. Esto los hace más difíciles de razonar, pero les permite solucionar problemas que son difíciles de resolver en el estilo funcional POO de S3 y S4.</p>
-<p>El sistema POO proporcionado por paquete CRAN de nuestro interes es:</p>
-<p><strong>R6</strong> implementa POO encapsulada como RC, pero resuelve algunos problemas importantes.Mas adelante se aprenderá a detalle sobre el uso R6 .</p>
-</div>
-</div>
-<div id="tipos-de-objetos" class="section level2" number="2.3">
-<h2>
-<span class="header-section-number">2.3</span> Tipos de objetos<a class="anchor" aria-label="anchor" href="#tipos-de-objetos"><i class="fas fa-link"></i></a>
-</h2>
 <p>Para tratar el tema de objetos y POO en R, en primer lugar se tiene que aclarar la confusión entre los usos de la palabra “objeto”. Por lo general se piensa que “Todo lo que existe en R es un objeto”, sin embargo, aunque todo es un objeto, no todo está orientado a objetos. Esta confusión surge porque los objetos de R base proceden de S, y se desarrollaron antes de que nadie pensara que S podría necesitar un sistema POO.</p>
 <p>Los términos que se usan para diferenciar los dos tipos de objeto son: <strong>objetos base y objetos OO para distinguirlos.</strong></p>
-<div id="objetos-base-vs-objetos-oo" class="section level3" number="2.3.1">
-<h3>
-<span class="header-section-number">2.3.1</span> Objetos Base vs Objetos OO<a class="anchor" aria-label="anchor" href="#objetos-base-vs-objetos-oo"><i class="fas fa-link"></i></a>
-</h3>
+<div id="objetos-base-vs-objetos-oo" class="section level2" number="3.1">
+<h2>
+<span class="header-section-number">3.1</span> Objetos Base vs Objetos OO<a class="anchor" aria-label="anchor" href="#objetos-base-vs-objetos-oo"><i class="fas fa-link"></i></a>
+</h2>
 <p>Para diferenciar entre un objeto base y uno OO, se utiliza is.object() o sloop::otype()</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -343,24 +281,14 @@
 
 </div>
 </div>
-</div>
   <div class="chapter-nav">
-<div class="prev"><a href="index.html"><span class="header-section-number">1</span> Preámbulo</a></div>
-<div class="next"><a href="r6.html"><span class="header-section-number">3</span> R6</a></div>
+<div class="prev"><a href="poo-programaci%C3%B3n-orientada-a-objetos.html"><span class="header-section-number">2</span> (POO) Programación Orientada a Objetos</a></div>
+<div class="next"><a href="r6.html"><span class="header-section-number">4</span> R6</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#poo-programaci%C3%B3n-orientada-a-objetos"><span class="header-section-number">2</span> (POO) Programación Orientada a Objetos</a></li>
-<li><a class="nav-link" href="#introducci%C3%B3n"><span class="header-section-number">2.1</span> Introducción</a></li>
-<li>
-<a class="nav-link" href="#sistemas-de-programaci%C3%B3n-orientada-a-objetos"><span class="header-section-number">2.2</span> Sistemas de programación orientada a objetos</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#paradigmas"><span class="header-section-number">2.2.1</span> Paradigmas</a></li>
-<li><a class="nav-link" href="#especificaciones-de-los-principales-sistemas-poo-en-r"><span class="header-section-number">2.2.2</span> Especificaciones de los principales sistemas POO en R</a></li>
-</ul>
-</li>
-<li>
-<a class="nav-link" href="#tipos-de-objetos"><span class="header-section-number">2.3</span> Tipos de objetos</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#objetos-base-vs-objetos-oo"><span class="header-section-number">2.3.1</span> Objetos Base vs Objetos OO</a></li></ul>
-</li>
+<li><a class="nav-link" href="#tipos-de-objetos"><span class="header-section-number">3</span> Tipos de objetos</a></li>
+<li><a class="nav-link" href="#objetos-base-vs-objetos-oo"><span class="header-section-number">3.1</span> Objetos Base vs Objetos OO</a></li>
 </ul>
 
       <div class="book-extra">

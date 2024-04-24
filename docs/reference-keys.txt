@@ -4,7 +4,7 @@ introducción
 sistemas-de-programación-orientada-a-objetos
 paradigmas
 especificaciones-de-los-principales-sistemas-poo-en-r
-tipos-de-bases
+tipos-de-objetos
 objetos-base-vs-objetos-oo
 r6
 clases-y-métodos

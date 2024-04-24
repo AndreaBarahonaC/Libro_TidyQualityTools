@@ -127,7 +127,7 @@
 
 \title{Integración del Paquete QualityTools con Tidyverse}
 \author{Miguel Flores \and Andrea Barahona \and Fabián Encarnación \and Dario Quishpe}
-\date{2024-04-24}
+\date{2024-04-25}
 
 \begin{document}
 \maketitle
@@ -153,7 +153,7 @@ En primer lugar debemos tener en mente que la POO en R presenta ciertos desafío
 \item
   La presencia de más de un sistema de OOP para elegir. Dentro de los más importantes tenemos : S3, R6 y S4. Donde S3 y S4 vienen en R base y R6 en el paquete con la misma denominación
 \item
-  Dentro de la comunidad existe discrepancia sobre la importancia de los sistemas POO mencionados , pues algunos consideran que el orden de importancia es S3,R6 y S4 pero por otro lado otros consideran que S3 se debe evitar.
+  Existe discrepancia sobre la importancia de los sistemas POO mencionado.
 \item
   La sintaxis utilizada para la implementación de la POO en R en comparación con otros lenguajes populares es diferente.
 \end{itemize}
@@ -162,19 +162,17 @@ Aunque la programación funcional es más utilizada en R que la POO, es importan
 
 \begin{itemize}
 \item
-  S3 permite que las funciones devuelvan resultados con una visualización amigable y una estructura interna agradable para el programador. S3 se utiliza en todo R base, por lo que es importante dominarlo si se desea modeificar las funciones de R base para trabajar con nuevos tipos de entrada.
+  S3 permite que las funciones devuelvan resultados con una visualización amigable y una estructura interna agradable para el programador. S3 se utiliza en todo R base, por lo que es importante dominarlo si se desea modificar las funciones de R base para trabajar con nuevos tipos de entrada.
 \item
   R6 proporciona una forma de escapar de la semántica copy-on-modify de R. Esto es especialmente importante si se desea modelar objetos que existen independientemente de R. Hoy en día, una necesidad común de R6 es modelar datos que provienen de una API web, y donde los cambios provienen de dentro o fuera de R.
 \item
   S4 es un sistema riguroso que obliga a pensar detenidamente en el diseño de los programas. Es adecuado para la construcción de grandes sistemas que evolucionan con el tiempo y recibirán contribuciones de muchos programadores.
 \end{itemize}
 
-En resumen la programación orientada a objetos (POO) en R presenta sus desafíos únicos debido a la presencia de múltiples sistemas y desacuerdos sobre su importancia relativa donde también es fundamental tener idea de sus aplicaciones y razones para aprender cada uno, aunque su uso efectivo puede ser complejo y requiere un tratamiento más detallado.
-
 \hypertarget{sistemas-de-programaciuxf3n-orientada-a-objetos}{%
 \section{Sistemas de programación orientada a objetos}\label{sistemas-de-programaciuxf3n-orientada-a-objetos}}
 
-La principal razón para utilizar la POO es el polimorfismo. El polimorfismo significa que un programador puede considerar la interfaz de una función separadamente de su implementación, lo cual hace posible usar la misma forma de función para diferentes tipos de entrada.Esto está estrechamente relacionado con la idea de encapsulación: el usuario no necesita preocuparse por los detalles de un objeto porque están encapsulados tras una interfaz estándar.
+La principal razón para utilizar la POO es el polimorfismo. El polimorfismo significa que un programador puede considerar la interfaz de una función separadamente de su implementación, lo cual hace posible usar la misma forma de función para diferentes tipos de entrada. Esto está estrechamente relacionado con la idea de encapsulación: el usuario no necesita preocuparse por los detalles de un objeto porque están encapsulados tras una interfaz estándar.
 
 Para ejemplificar esta idea, el polimorfismo es lo que permite a summary() producir diferentes salidas para diferentes entradas:
 
@@ -195,7 +193,7 @@ Para ejemplificar esta idea, el polimorfismo es lo que permite a summary() produ
 
 Esto no implica que summary() contenga una serie if-else para cada caso.
 
-Los sistemas de POO llaman clase a lo que define que es un objeto y los métodos describen lo que ese objeto puede hacer. La clase define los campos, los datos que posee cada instancia de esa clase. Las clases se organizan en una jerarquía de forma que si un método no existe para una clase, se utiliza el método de su padre, y se dice que el hijo hereda el comportamiento. Por ejemplo, en R, un factor ordenado hereda de un factor regular, y un modelo lineal generalizado hereda de un modelo lineal. El proceso de encontrar el método correcto dada una clase se denomina despacho del método.
+Los sistemas de POO llaman clase a lo que define que es un objeto y los métodos describen lo que ese objeto puede hacer. La clase define los campos, las características que posee cada instancia de esa clase (variables ,propiedades ,métodos). Las clases se organizan en una jerarquía de forma que si un método no existe para una clase, se utiliza el método de su padre, y se dice que el hijo hereda el comportamiento. Por ejemplo, en R, un factor ordenado hereda de un factor regular, y un modelo lineal generalizado hereda de un modelo lineal. El proceso de encontrar el método correcto dada una clase se denomina despacho del método.
 
 \includegraphics{graficasR6/clasesherencia.jpg}
 
@@ -206,29 +204,27 @@ Los sistemas de POO llaman clase a lo que define que es un objeto y los métodos
 
 Existen dos paradigmas principales de POO : encapsulado y funcional:
 
-En la \textbf{POO encapsulada}, los métodos pertenecen a objetos o clases, y las llamadas a métodos suelen tener el aspecto de object.method(arg1, arg2). Se denomina encapsulada porque el objeto encapsula tanto los datos (con campos) como el comportamiento (con métodos), y es el paradigma que se encuentra en los lenguajes más populares.
+En la \textbf{POO encapsulada}, los métodos pertenecen a objetos o clases, y las llamadas a métodos suelen tener el aspecto de object.method(arg1, arg2). Se denomina encapsulada porque el objeto encapsula tanto las variables (con campos) como el comportamiento (con métodos), y es el paradigma que se encuentra en los lenguajes más populares (Python,Java,C,C++).
 
 En la \textbf{POO funcional}, los métodos pertenecen a funciones genéricas, y las llamadas a métodos parecen llamadas a funciones ordinarias: generic(object, arg2, arg3). Esto se llama funcional porque desde fuera parece una llamada a una función normal, e internamente los componentes también son funciones.
 
 \hypertarget{especificaciones-de-los-principales-sistemas-poo-en-r}{%
 \subsection{Especificaciones de los principales sistemas POO en R}\label{especificaciones-de-los-principales-sistemas-poo-en-r}}
 
-Sistemas OOP del R base: S3, S4 y RC :
+Sistemas POO del R base: S3, S4 y RC :
 
 \textbf{S3} es el primer sistema POO de R, el cual es una implementación informal de POO funcional y se basa en convenciones comunes en lugar de garantías férreas. Esto hace que sea fácil empezar a trabajar con él, proporcionando una forma de óptima de resolver muchos problemas sencillos.
 
-\textbf{S4} es una reescritura formal y rigurosa de S3, esta requiere más trabajo inicial que S3, pero a cambio proporciona más garantías y una mayor encapsulación. S4 se implementa en el paquete de métodos base, que siempre se instala con R.
-
-\textbf{RC} implementa POO encapsulada. Los objetos RC son un tipo especial de objetos S4 que también son mutables, es decir, en lugar de utilizar la semántica habitual de R de copy-on-modify, pueden modificarse en el lugar. Esto los hace más difíciles de razonar, pero les permite solucionar problemas que son difíciles de resolver en el estilo funcional POO de S3 y S4.
+\textbf{S4} es una reescritura formal y rigurosa de S3, esta requiere más trabajo inicial que S3, pero a cambio proporciona más garantías y una mayor encapsulación. S4 se implementa en el paquete de métodos base, que siempre se instala con R. Dentro de \textbf{S4} tenemos \textbf{RC} la cual implementa POO encapsulada. Los objetos RC son un tipo especial de objetos \textbf{S4} que también son mutables, es decir, en lugar de utilizar la semántica habitual de R de copy-on-modify, pueden modificarse en ese mismo lugar específico. Esto los hace más difíciles de razonar, pero les permite solucionar problemas que son difíciles de resolver en el estilo funcional POO de S3 y S4.
 
 El sistema POO proporcionado por paquete CRAN de nuestro interes es:
 
 \textbf{R6} implementa POO encapsulada como RC, pero resuelve algunos problemas importantes.Mas adelante se aprenderá a detalle sobre el uso R6 .
 
-\hypertarget{tipos-de-bases}{%
-\section{Tipos de bases}\label{tipos-de-bases}}
+\hypertarget{tipos-de-objetos}{%
+\section{Tipos de objetos}\label{tipos-de-objetos}}
 
-Para tratar el tema de objetos y POO en R, en primer lugar se tiene que aclarar la confusión entre los usos de la palabra ``objeto''.Por lo general se piensa que ``Todo lo que existe en R es un objeto'', sin embargo, aunque todo es un objeto, no todo está orientado a objetos. Esta confusión surge porque los objetos base proceden de S, y se desarrollaron antes de que nadie pensara que S podría necesitar un sistema POO.
+Para tratar el tema de objetos y POO en R, en primer lugar se tiene que aclarar la confusión entre los usos de la palabra ``objeto''. Por lo general se piensa que ``Todo lo que existe en R es un objeto'', sin embargo, aunque todo es un objeto, no todo está orientado a objetos. Esta confusión surge porque los objetos de R base proceden de S, y se desarrollaron antes de que nadie pensara que S podría necesitar un sistema POO.
 
 Los términos que se usan para diferenciar los dos tipos de objeto son: \textbf{objetos base y objetos OO para distinguirlos.}
 
@@ -290,7 +286,7 @@ por otro lado cada objeto tiene un \textbf{base type}:
 \end{Highlighting}
 \end{Shaded}
 
-En total, hay 25 tipos de bases \textbf{base type} diferentes.Estos tipos son más importantes en código C, por lo que a menudo se verán llamados por sus nombres de tipo C (estos se encuentran en paréntesis). Los presentamos a continuación
+En total, hay 25 tipos de \textbf{base type} diferentes. Estos tipos son más importantes en código C, por lo que a menudo se verán llamados por sus nombres de tipo C (estos se encuentran en paréntesis). Los presentamos a continuación
 
 \textbf{Para vectores} tenemos los tipos :
 
@@ -444,7 +440,7 @@ Ahora hay que tener cuidado al momento de referirnos sobre los tipos númericos 
 \begin{itemize}
 \tightlist
 \item
-  \texttt{is.numeric()} comprueba so los objetos se comportan como números . Por ejemplo, los factores tienen tipo ``entero'' pero no se comportan como números (es decir, no tiene sentido tomar la media del factor).
+  \texttt{is.numeric()} comprueba si los objetos se comportan como números . Por ejemplo, los factores tienen tipo ``entero'' pero no se comportan como números (es decir, no tiene sentido tomar la media del factor).
 \end{itemize}
 
 \begin{Shaded}
@@ -840,11 +836,11 @@ Por ejemplo, creemos un campo activo llamado \texttt{random} que nos devuelva un
 \NormalTok{))}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Ran}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.2467416}
+\DocumentationTok{\#\# [1] 0.1502285}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.9874333}
+\DocumentationTok{\#\# [1] 0.3916464}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.6323843}
+\DocumentationTok{\#\# [1] 0.3627036}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1265,11 +1261,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \DocumentationTok{\#\# [49] "J♥"  "Q♦"  "K♣"}
 \NormalTok{mazo}\SpecialCharTok{$}\FunctionTok{reshuffle}\NormalTok{()}
 \NormalTok{mazo}\SpecialCharTok{$}\NormalTok{.cartas}
-\DocumentationTok{\#\#  [1] "2♦"  "3♦"  "10♠" "5♥"  "2♣"  "6♥"  "K♦"  "Q♠"  "Q♥"  "A♥"  "6♠"  "4♠" }
-\DocumentationTok{\#\# [13] "5♠"  "5♣"  "9♣"  "Q♣"  "2♥"  "9♠"  "8♠"  "4♥"  "2♠"  "A♣"  "7♣"  "J♠" }
-\DocumentationTok{\#\# [25] "J♣"  "7♥"  "K♥"  "10♥" "K♣"  "A♠"  "3♣"  "4♦"  "5♦"  "10♦" "3♥"  "9♥" }
-\DocumentationTok{\#\# [37] "J♥"  "Q♦"  "9♦"  "7♠"  "7♦"  "10♣" "8♣"  "8♦"  "6♦"  "4♣"  "8♥"  "3♠" }
-\DocumentationTok{\#\# [49] "A♦"  "6♣"  "K♠"  "J♦"}
+\DocumentationTok{\#\#  [1] "4♠"  "10♥" "10♣" "10♠" "4♦"  "A♦"  "A♠"  "J♠"  "8♣"  "10♦" "9♥"  "8♦" }
+\DocumentationTok{\#\# [13] "3♣"  "J♦"  "6♠"  "4♥"  "9♦"  "2♥"  "Q♠"  "J♥"  "K♣"  "Q♦"  "5♣"  "2♠" }
+\DocumentationTok{\#\# [25] "7♠"  "9♣"  "5♦"  "2♣"  "8♠"  "2♦"  "K♥"  "K♦"  "3♥"  "6♣"  "4♣"  "6♦" }
+\DocumentationTok{\#\# [37] "A♣"  "8♥"  "3♠"  "5♠"  "J♣"  "6♥"  "Q♥"  "K♠"  "7♦"  "9♠"  "5♥"  "7♣" }
+\DocumentationTok{\#\# [49] "Q♣"  "7♥"  "A♥"  "3♦"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1440,11 +1436,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \NormalTok{)}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Rando}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.7891316}
+\DocumentationTok{\#\# [1] 0.5260441}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.923576}
+\DocumentationTok{\#\# [1] 0.01245125}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{previous}
-\DocumentationTok{\#\# [1] 0.923576}
+\DocumentationTok{\#\# [1] 0.01245125}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2081,7 +2077,7 @@ Las correlaciones de rendimiento son una forma para analizar la medida en que un
 ##  7 FB     2013-07-31          0.479              0.0373 
 ##  8 FB     2013-08-30          0.122             -0.0104 
 ##  9 FB     2013-09-30          0.217              0.0253 
-## 10 FB     2013-10-31         -0.000398           0.0502 
+## 10 FB     2013-10-31         -0.000398           0.0503 
 ## # i 182 more rows
 \end{verbatim}
 
@@ -2304,12 +2300,12 @@ Se puede ver estadísticas de la relación a partir de la función \texttt{lm}:
 ## 
 ## Residuals:
 ##        Min         1Q     Median         3Q        Max 
-## -0.0269582 -0.0039656  0.0002148  0.0039650  0.0289462 
+## -0.0269575 -0.0039654  0.0002145  0.0039653  0.0289459 
 ## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(>|t|)    
 ## (Intercept) 0.0001130  0.0003097   0.365    0.715    
-## V           0.8133657  0.0226393  35.927   <2e-16 ***
+## V           0.8133641  0.0226393  35.927   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -4645,13 +4641,13 @@ Ahora la función \texttt{cg} se modificará de la siguiente forma:
 \item
   Wickham, H. (2019). Advanced r. chapman and hall/CRC.
 \item
-  Chang W (2022). R6: Encapsulated Classes with Reference Semantics. \url{https://r6.r-lib.org}, \url{https://github.com/r-lib/R6/}.
+  Chang W (2022). R6: Encapsulated Classes with Reference Semantics.
 \item
-  Dancho, M (2023). R Quantitative Analysis Package Integrations in tidyquant. \url{https://cran.r-project.org/web/packages/tidyquant/vignettes/TQ02-quant-integrations-in-tidyquant.html}
+  Dancho, M (2023). R Quantitative Analysis Package Integrations in tidyquant.
 \item
   Roth, T. (2016). Working with the qualityTools package.
 \item
-  Six Sigma Daily (2012). What is DMAIC?. recuperado de: \url{https://www.sixsigmadaily.com/what-is-dmaic/}
+  Six Sigma Daily (2012). What is DMAIC?.
 \end{itemize}
 
   \bibliography{book.bib,packages.bib}
