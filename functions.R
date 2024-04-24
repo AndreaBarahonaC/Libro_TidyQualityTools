@@ -63,14 +63,14 @@ ParetoChart_ <- function (x, weight, showTable = TRUE, showPlot = TRUE, main, co
     sumFreq = sum(xtable)
     percentage = xtable/sum(xtable) * 100
     cumPerc = cumFreq/sumFreq * 100
-    
-    
+
+
     data <- data.frame(Frequency = xtable,
                        Cum.Frequency = cumFreq,
                        Percentage = round(percentage, digits = 2),
                        Cum.Percentage = round(cumPerc, digits = 2))
     tabla <- t(data)
-    
+
     p <- ggplot(data, aes(x = reorder(names(xtable), -xtable), y = Frequency)) +
       geom_col(aes(fill = "Frequency"), width = 0.7) +
       geom_point(aes(y = Cum.Frequency, color = "Cumulative Percentage"), size = 3) +
@@ -83,6 +83,7 @@ ParetoChart_ <- function (x, weight, showTable = TRUE, showPlot = TRUE, main, co
       scale_color_manual(values = c(border, border)) +
       scale_fill_manual(values = col) +
       theme(legend.position = "none") +
+      theme_minimal() +
       labs(title = main)+theme(plot.title = element_text(hjust = 0.5,face = "bold"))
   }
   else {
@@ -110,80 +111,80 @@ cg_RunChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
   if (missing(x)) {
     stop("x must be given as a vector")
   }
-  
+
   if (missing(target)) {
     target <- mean(x)
     targetmissing <- FALSE
   } else {
     targetmissing <- TRUE
   }
-  
+
   if (missing(ref.interval)) {
     ref.interval <- qnorm(0.99865) - qnorm(0.00135)
   }
-  
+
   sd <- sd(x)
   mean <- mean(x)
   ref.ar <- qnorm(ref.interval, mean, sd) - qnorm(1 - ref.interval, mean, sd)
-  
+
   if (missing(facCg)) {
     facCg <- 0.2
   }
-  
+
   if (missing(facCgk)) {
     facCgk <- 0.1
   }
-  
+
   if (missing(tolerance)) {
     width <- ref.ar/facCg
     tolerance <- numeric(2)
     tolerance[1] <- mean - width/2
     tolerance[2] <- mean + width/2
   }
-  
+
   quant1 <- qnorm((1 - ref.interval)/2, mean, sd)
   quant2 <- qnorm(ref.interval + (1 - ref.interval)/2, mean, sd)
-  
+
   if (length(tolerance) != 2) {
     stop("tolerance has wrong length")
   }
-  
+
   if (missing(xlim)) {
     xlim <- c(0, length(x))
   }
-  
+
   if (missing(ylim)) {
     ylim <- c(min(x, target - n/2 * (abs(diff(tolerance))), quant1, quant2),
               max(x, target + n/2 * (abs(diff(tolerance))), quant1, quant2))
   }
-  
+
   if (missing(main)) {
     main <- "Run Chart"
   }
-  
+
   Cg <- (facCg * tolerance[2]-tolerance[1])/ref.interval
   Cgk <- (facCgk * abs(target-mean(x))/(ref.interval/2))
-  
+
   # Create a data frame for plotting
   df <- data.frame(x = x, y = x)
-  
+
   # Add target line
   df$y_target <- target
-  
+
   # Calculate the upper and lower control limits
   df$y_lower <- quant1
   df$y_upper <- quant2
   # Calculate the tolerance limits
   df$y_tolerance_lower <- tolerance[1]
   df$y_tolerance_upper <- tolerance[2]
-  
+
   # Calculate the mean
   df$y_mean <- mean
-  
+
   # Calculate the Cg and Cgk values
   df$Cg <- Cg
   df$Cgk <- Cgk
-  
+
   # Create the ggplot
   # 1. Principal plot and target line
   p <- ggplot(df, aes(x = seq_along(x), y = x)) +
@@ -193,10 +194,10 @@ cg_RunChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
     labs(title = main, x = "Index", y = "x") +
     theme_minimal() + theme(plot.title = element_text(hjust = 0.5,face = "bold"))+
     geom_hline(aes(yintercept = target)) # Linea target
-  
+
   # 2. Red Plot (Lowess)
   p <- p + geom_smooth(method = "loess", color = "red", se = FALSE, span = 1.25, size = 0.25,)
-  
+
   # 3. Green lines
   p <- p + geom_hline(aes(yintercept = mean), linetype = "dashed", color = "seagreen")+  #center line
     geom_hline(aes(yintercept = quant1), linetype = "dashed", color = "seagreen") + # Bottom line
@@ -204,14 +205,14 @@ cg_RunChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
   # 4. Xtar +- 0.1
   p <- p + geom_hline(yintercept = c(target + n/2 * (abs(diff(tolerance))), target - n/2 * (abs(diff(tolerance)))), color = "#012B78", linetype = "solid") # Agregar líneas
   #Label
-  p <- p + scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = 
+  p <- p + scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis =
                                 sec_axis(~ .,breaks = c(target,mean,quant1,quant2,target + n/2 * (abs(diff(tolerance))),
                                                         target - n/2 * (abs(diff(tolerance)))),
                                          labels=c("target",expression(bar(x)),substitute(x[a * b], list(a = round(((1 - ref.interval)/2) * 100, 3), b = "%")),
                                                   substitute(x[a * b], list(a = round(((ref.interval + (1 - ref.interval)/2)) * 100,
                                                                                       3), b = "%")),substitute(x[tar] + a, list(a = round(n/2, 4))),substitute(x[tar] - a, list(a = round(n/2, 4))))))+
     theme(axis.text.y.right = element_text(size = 15))
-  
+
   # Label  Cg and Cgk
   if (cgOut == TRUE) {
     p <- p +
@@ -286,10 +287,10 @@ cg_HistChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
   if (missing(main))
     main = paste("Histogram of", deparse(substitute(x)),
                  "- target")
-  
+
   Cg <- (facCg * tolerance[2]-tolerance[1])/ref.interval
   Cgk <- (facCgk * abs(target-mean(x))/(ref.interval/2))
-  
+
   # Calculos previos
   x.c <- x - target
   temp <- hist(x.c, plot = FALSE)
@@ -314,7 +315,7 @@ cg_HistChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
     theme(legend.position = "none")
   # Curva de densidad
   p <- p + geom_line(data = data.frame(x = density(x.c)$x, y = density(x.c)$y), aes(x = x, y = y), color = "black", linewidth = 0.5)
-  
+
   # Hipotesis, P_val y t_val
   p <- p + annotation_custom(grob = grid::textGrob(label = c(expression(paste(H[0], " : Bias = 0"))),
                                                    x = unit(0.05, "npc") + unit(0.05, "cm"), y = unit(1, "npc") - unit(0.05, "cm"),
@@ -336,7 +337,7 @@ cg_HistChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
                                             gp = grid::gpar(fontsize = 11)
     )
     )
-  
+
   # Añadir label del Cg y Cgk
   if (cgOut == TRUE) {
     p <- p +
@@ -428,7 +429,7 @@ cg_ToleranceChart <- function (x, target, tolerance, ref.interval, facCg, facCgk
     main = "Tolerance View"
   Cg <- (facCg * tolerance[2]-tolerance[1])/ref.interval
   Cgk <- (facCgk * abs(target-mean(x))/(ref.interval/2))
-  
+
   # Gráfica
   p <- ggplot(data.frame(x = 1:length(x), y = x), aes(x = x, y = y)) +
     geom_point(color = col, shape = pch) +
@@ -440,9 +441,9 @@ cg_ToleranceChart <- function (x, target, tolerance, ref.interval, facCg, facCgk
     geom_hline(aes(yintercept = (target - n/2 * (tolerance[2] - tolerance[1]))), color = "black") +
     scale_color_manual(values = c("Data" = col)) +
     labs(x = "", y = "x", color = "Variable", title = main)+
-    theme_bw()+theme(plot.title = element_text(hjust = 0.5,face = "bold"))+
+    theme_minimal()+theme(plot.title = element_text(hjust = 0.5,face = "bold"))+
     theme(legend.position = "none")
-  
+
   if (cgOut == TRUE) {
     p <- p +
       annotation_custom(
@@ -474,7 +475,7 @@ cg_ToleranceChart <- function (x, target, tolerance, ref.interval, facCg, facCgk
 
 
 ######FUNCION cg##########################################
-cg_ <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2, 
+cg_ <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
                  type, col, pch, xlim, ylim, conf.level = 0.95, cex.val = 1.5)
 {
   old.par <- par(no.readonly = TRUE)
@@ -528,9 +529,9 @@ cg_ <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
     quant1, quant2))
   Cg <- (facCg * tolerance[2] - tolerance[1]) / ref.interval
   Cgk <- (facCgk * abs(target - mean(x)) / (ref.interval / 2))
-  
+
   # Plots
-  
+
   # RunChart
   df1 <- data.frame(x = x, y = x)
   df1$y_target <- target
@@ -620,7 +621,7 @@ cg_ <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
     theme_minimal() + theme(plot.title = element_text(hjust = 0.5, face = "bold")) +
     guides(color = guide_legend(title.position = "top", title.hjust = 0.5)) +
     geom_vline(xintercept = 0, color = "red")
-  
+
   test = t.test(x.c, mu = 0, conf.level = conf.level)
   p3 <-
     p3 + geom_vline(
@@ -640,7 +641,7 @@ cg_ <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
       color = "black",
       linewidth = 0.5
     )
-  
+
   p3 <-
     p3 + annotation_custom(grob = grid::textGrob(
       label = c(expression(paste(H[0], " : Bias = 0"))),
@@ -663,7 +664,7 @@ cg_ <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
       just = c("left", "top"),
       gp = grid::gpar(fontsize = 11)
     ))
-  
+
   # Tolerance View
   p4 <-
     ggplot(data.frame(x = 1:length(x), y = x), aes(x = x, y = y)) +
@@ -691,9 +692,9 @@ cg_ <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
       color = "Variable",
       title = main
     ) +
-    theme_bw() + theme(plot.title = element_text(hjust = 0.5, face = "bold")) +
+    theme_minimal() + theme(plot.title = element_text(hjust = 0.5, face = "bold")) +
     theme(legend.position = "none")
-  
+
   # Data Box
   p2 <- ggplot(data = data.frame(x = 0, y = 0), aes(x, y)) +
     theme_bw() +
@@ -750,22 +751,22 @@ cg_ <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
       panel.grid.minor = element_blank()
     ) +
     xlim(c(0.15, 0.5)) + ylim(c(0.1, 0.5))
-  
+
   design <- "
   112
   113
   114
   "
   p <- p1 + p2 + p3 + p4 + plot_layout(design = design)
-  
+
   suppressMessages(show(p))
-  
+
   invisible(list(Cg, Cgk))
 }
 
 
 x <- c ( 9.991, 10.013, 10.001, 10.007, 10.010, 10.013, 10.008, 10.017, 10.005, 10.005, 10.002,
-         10.017, 10.005, 10.002, 9.996, 10.011, 10.009 , 10.006, 10.008, 10.003, 10.002, 10.006, 
+         10.017, 10.005, 10.002, 9.996, 10.011, 10.009 , 10.006, 10.008, 10.003, 10.002, 10.006,
          10.010, 9.992, 10.013)
 
 cg_(x, target = 10.003, tolerance = c(9.903, 10.103))
