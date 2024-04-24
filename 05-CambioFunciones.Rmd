@@ -105,7 +105,7 @@ Pareto_ggplot <- function (x, weight, showTable = TRUE, showPlot = TRUE, main, c
       scale_color_manual(values = c(border, border)) +
       scale_fill_manual(values = col) + 
       theme(legend.position = "none") +
-      labs(title = main)
+      labs(title = main)+theme(plot.title = element_text(hjust = 0.5,face = "bold"))
   }
   else {
     warning("data should have at least two categories!")
@@ -290,7 +290,7 @@ cgRunChart_ggplot <- function (x, target, tolerance, ref.interval, facCg, facCgk
     geom_line(color = col, linetype = "solid") +
     scale_x_continuous(limits = c(xlim[1] - 0.05 * xlim[2], xlim[2]), expand = c(0, 0)) +
     labs(title = main, x = "Index", y = "x") +
-    theme_minimal() +
+    theme_minimal() + theme(plot.title = element_text(hjust = 0.5,face = "bold"))+
     geom_hline(aes(yintercept = target)) # Linea target
     
   # 2. Red Plot (Lowess)
@@ -423,7 +423,7 @@ cgHistChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
   p <- ggplot(df, aes(x = mid, y = density)) +
     geom_bar(stat = "identity", width = width, fill = "lightblue", color = "black", alpha = 0.5) +
     labs(y = "Density", x = "x.c", title = main) +
-    theme_minimal() +
+    theme_minimal() + theme(plot.title = element_text(hjust = 0.5,face = "bold"))+
     guides(color = guide_legend(title.position = "top", title.hjust = 0.5))
   # Linea x=0
   p <- p + geom_vline(xintercept = 0, color = "red")
@@ -433,7 +433,7 @@ cgHistChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
     geom_vline(aes(xintercept = test$conf.int[2], color = "Confidence interval"), linetype = "dashed", col = "blue") + 
     theme(legend.position = "none")
   # Curva de densidad
-  p <- p + geom_line(data = data.frame(x = density(x.c)$x, y = density(x.c)$y), aes(x = x, y = y), color = "black", size = 0.5)
+  p <- p + geom_line(data = data.frame(x = density(x.c)$x, y = density(x.c)$y), aes(x = x, y = y), color = "black", linewidth = 0.5)
   
   # Hipotesis, P_val y t_val
   p <- p + annotation_custom(grob = grid::textGrob(label = c(expression(paste(H[0], " : Bias = 0"))),
@@ -446,14 +446,14 @@ cgHistChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
                                               x = unit(0.05, "npc") + unit(0.05, "cm"),
                                               y = unit(1, "npc") - unit(0.5, "cm"), 
                                               just = c("left", "top"), 
-                                              gp = grid::gpar(fontsize = 11, fontface = "bold")
+                                              gp = grid::gpar(fontsize = 11)
                                               )
                        ) + 
     annotation_custom(grob = grid::textGrob(label = c(paste("p-value: ", round(test$p.value, 3))),
                                             x = unit(0.05, "npc") + unit(0.05, "cm"),
                                             y = unit(1, "npc") - unit(0.85, "cm"),
                                             just = c("left", "top"),
-                                            gp = grid::gpar(fontsize = 11, fontface = "bold")
+                                            gp = grid::gpar(fontsize = 11)
                                             )
                       ) 
   
@@ -466,7 +466,7 @@ cgHistChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
           x = unit(1, "npc") - unit(0.15, "cm"),
           y = unit(1, "npc") - unit(0.05, "cm"),
           just = c("right", "top"),
-          gp = grid::gpar(fontsize = 12, fontface = "bold")
+          gp = grid::gpar(fontsize = 12)
         )
       ) + 
       annotation_custom(
@@ -475,7 +475,7 @@ cgHistChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
           x = unit(1, "npc") - unit(0.15, "cm"),
           y = unit(1, "npc") - unit(0.6, "cm"),
           just = c("right", "top"),
-          gp = grid::gpar(fontsize = 12, fontface = "bold")
+          gp = grid::gpar(fontsize = 12)
         )
       )
     show(p)
@@ -484,11 +484,11 @@ cgHistChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
     p <- p +
       annotation_custom(
         grob = grid::textGrob(
-          label = c(paste("---: conf. int")),
+          label = c(paste("---- conf. int")),
           x = unit(1, "npc") - unit(0.15, "cm"),
           y = unit(1, "npc") - unit(0.05, "cm"),
           just = c("right", "top"),
-          gp = grid::gpar(fontsize = 12, fontface = "bold")
+          gp = grid::gpar(fontsize = 12)
         )
       )
     show(p)
@@ -577,15 +577,17 @@ cgToleranceChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
   
   # Gráfica
   p <- ggplot(data.frame(x = 1:length(x), y = x), aes(x = x, y = y)) +
-    geom_point(aes(color = "Data"), size = cex.val) +
+    geom_point(color = col, shape = pch) +
+    geom_line(color = col, linetype = "solid")+
     geom_hline(aes(yintercept = target), linetype = "dashed", color = "red") +
     geom_hline(aes(yintercept = tolerance[1]), linetype = "dashed", color = "blue") +
     geom_hline(aes(yintercept = tolerance[2]), linetype = "dashed", color = "blue") +
     geom_hline(aes(yintercept = (target + n/2 * (tolerance[2] - tolerance[1]))), color = "black") +
     geom_hline(aes(yintercept = (target - n/2 * (tolerance[2] - tolerance[1]))), color = "black") +
     scale_color_manual(values = c("Data" = col)) +
-    labs(x = "", y = "x", color = "Variable", title = "Vista de Tolerancia") +
-    theme_bw() + theme(legend.position = "none")
+    labs(x = "", y = "x", color = "Variable", title = main)+
+    theme_bw()+theme(plot.title = element_text(hjust = 0.5,face = "bold"))+
+     theme(legend.position = "none")
   
   if (cgOut == TRUE) {
     p <- p +
@@ -636,5 +638,5 @@ cgToleranceChart(x = x, target = target, tolerance = tolerance,
                  cex.val = cex.val, cgOut = TRUE)
 ```
 
-
+Ahora la función `cg` se modificará de la siguiente forma: 
 
