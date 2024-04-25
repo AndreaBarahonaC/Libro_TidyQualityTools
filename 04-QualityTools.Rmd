@@ -734,11 +734,9 @@ Los diseños de superficie de respuesta también pueden elegirse a partir de una
 rsdo <- rsmDesign()
 ```
 
-<<<<<<< HEAD
-### Montaje secuencial de diseños de superficie de respuesta
-=======
+
 #### Montaje secuencial de diseños de superficie de respuesta
->>>>>>> 38aa7fcbe69006ca620167942eac17f3b64293c9
+
 
 El ensamblaje secuencial es una característica  importante de los diseños de superficie de respuesta. En función de de las características del diseño factorial (fraccional) puede aumentarse una porción de estrella utilizando el método `starDesign`. Una porción en estrella consta de recorridos axiales
 y puntos centrales opcionales (`cs`) en la parte axial a diferencia de los puntos centrales (`cc`) en la parteparte cúbica.
@@ -753,11 +751,7 @@ En caso de que no se entregue ningún diseño factorial (fraccional)  al método
 
 ![](graficos/dario3.jpg){width=700}
 
-<<<<<<< HEAD
-### Aleatorización
-=======
 #### Aleatorización
->>>>>>> 38aa7fcbe69006ca620167942eac17f3b64293c9
 
 La aleatorización se consigue utilizando el método `randomize`.
 Es necesario suministrar una semilla aleatoria (random.seed) que es útil para tener el mismo orden de ejecución en cualquier máquina.
@@ -772,16 +766,13 @@ El método `randomize`  se puede utilizar para obtener un diseño en orden está
 randomizeDesign(fdo, so = TRUE)
 
 ```
-<<<<<<< HEAD
-### Bloqueo
-=======
+
 #### Bloqueo
->>>>>>> 38aa7fcbe69006ca620167942eac17f3b64293c9
 
 El bloqueo es otra característica relevante y puede conseguirse mediante el método de `blocking`. Bloquear un diseño a posteriori no siempre tiene éxito.
 Sin embargo, no es problemático durante el montaje secuencial.
 
-## Deseabilidades
+### Deseabilidades
 
 Muchos problemas requieren  optimización simultánea de más de una variable de respuesta. La optimización puede lograrse maximizando o minimizando el valor de la respuesta o tratando de situar la respuesta en un objetivo específico.En la  Optimización mediante el enfoque de las deseabilidades Derringer y Suich [1980], los valores (predichos) de las variables de respuesta se transforman en valores dentro del intervalo [0,1] utilizando tres métodos de deseabilidad diferentes
 para los tres criterios de optimización diferentes (es decir, minimizar, maximizar, objetivo). A cada valor de una variable de respuesta se le puede asignar una deseabilidad específica, optimizando más de una variable de respuesta. La media geométrica de las deseabilidades específicas caracteriza la deseabilidad global.
@@ -821,7 +812,7 @@ plot(d3, col = 2)
 
 ```
 
-## Utilización de deseabilidades junto con experimentos diseñados
+### Utilización de deseabilidades junto con experimentos diseñados
 
 La metodología de la deseabilidad se apoya en los objetos de diseño factorial. El resultado
 del método de deseabilidad puede almacenarse en el objeto de diseño, de modo que la información que
@@ -895,7 +886,8 @@ optimum(ddo, type = "optim")
 
 ```
 ![](graficos/dario4.jpg){width=700}
-## Diseños de mezclas
+
+### Diseños de mezclas
 
 La generación de los diferentes tipos de diseños de mezcla es totalmente compatible
 incluyendo un contorno ternario y un gráfico 3D. El análisis de estos diseños debe realizarse sin ningún soporte específico mediante un método del paquete `qualityTools`.
@@ -921,7 +913,7 @@ wirePlot3(A, B, C, elongation, data = mdo, form = "quadratic", theta = -170)
 
 ```
 
-## Diseños Taguchi
+### Diseños Taguchi
 
 Los diseños Taguchi están disponibles utilizando el método `taguchiDesign`.
 

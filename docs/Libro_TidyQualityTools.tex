@@ -127,7 +127,7 @@
 
 \title{Integración del Paquete QualityTools con Tidyverse}
 \author{Miguel Flores \and Andrea Barahona \and Fabián Encarnación \and Dario Quishpe}
-\date{2024-04-24}
+\date{2024-04-25}
 
 \begin{document}
 \maketitle
@@ -153,7 +153,7 @@ En primer lugar debemos tener en mente que la POO en R presenta ciertos desafío
 \item
   La presencia de más de un sistema de OOP para elegir. Dentro de los más importantes tenemos : S3, R6 y S4. Donde S3 y S4 vienen en R base y R6 en el paquete con la misma denominación
 \item
-  Dentro de la comunidad existe discrepancia sobre la importancia de los sistemas POO mencionados , pues algunos consideran que el orden de importancia es S3,R6 y S4 pero por otro lado otros consideran que S3 se debe evitar.
+  Existe discrepancia sobre la importancia de los sistemas POO mencionado.
 \item
   La sintaxis utilizada para la implementación de la POO en R en comparación con otros lenguajes populares es diferente.
 \end{itemize}
@@ -162,19 +162,17 @@ Aunque la programación funcional es más utilizada en R que la POO, es importan
 
 \begin{itemize}
 \item
-  S3 permite que las funciones devuelvan resultados con una visualización amigable y una estructura interna agradable para el programador. S3 se utiliza en todo R base, por lo que es importante dominarlo si se desea modeificar las funciones de R base para trabajar con nuevos tipos de entrada.
+  S3 permite que las funciones devuelvan resultados con una visualización amigable y una estructura interna agradable para el programador. S3 se utiliza en todo R base, por lo que es importante dominarlo si se desea modificar las funciones de R base para trabajar con nuevos tipos de entrada.
 \item
   R6 proporciona una forma de escapar de la semántica copy-on-modify de R. Esto es especialmente importante si se desea modelar objetos que existen independientemente de R. Hoy en día, una necesidad común de R6 es modelar datos que provienen de una API web, y donde los cambios provienen de dentro o fuera de R.
 \item
   S4 es un sistema riguroso que obliga a pensar detenidamente en el diseño de los programas. Es adecuado para la construcción de grandes sistemas que evolucionan con el tiempo y recibirán contribuciones de muchos programadores.
 \end{itemize}
 
-En resumen la programación orientada a objetos (POO) en R presenta sus desafíos únicos debido a la presencia de múltiples sistemas y desacuerdos sobre su importancia relativa donde también es fundamental tener idea de sus aplicaciones y razones para aprender cada uno, aunque su uso efectivo puede ser complejo y requiere un tratamiento más detallado.
-
 \hypertarget{sistemas-de-programaciuxf3n-orientada-a-objetos}{%
 \section{Sistemas de programación orientada a objetos}\label{sistemas-de-programaciuxf3n-orientada-a-objetos}}
 
-La principal razón para utilizar la POO es el polimorfismo. El polimorfismo significa que un programador puede considerar la interfaz de una función separadamente de su implementación, lo cual hace posible usar la misma forma de función para diferentes tipos de entrada.Esto está estrechamente relacionado con la idea de encapsulación: el usuario no necesita preocuparse por los detalles de un objeto porque están encapsulados tras una interfaz estándar.
+La principal razón para utilizar la POO es el polimorfismo. El polimorfismo significa que un programador puede considerar la interfaz de una función separadamente de su implementación, lo cual hace posible usar la misma forma de función para diferentes tipos de entrada. Esto está estrechamente relacionado con la idea de encapsulación: el usuario no necesita preocuparse por los detalles de un objeto porque están encapsulados tras una interfaz estándar.
 
 Para ejemplificar esta idea, el polimorfismo es lo que permite a summary() producir diferentes salidas para diferentes entradas:
 
@@ -195,7 +193,7 @@ Para ejemplificar esta idea, el polimorfismo es lo que permite a summary() produ
 
 Esto no implica que summary() contenga una serie if-else para cada caso.
 
-Los sistemas de POO llaman clase a lo que define que es un objeto y los métodos describen lo que ese objeto puede hacer. La clase define los campos, los datos que posee cada instancia de esa clase. Las clases se organizan en una jerarquía de forma que si un método no existe para una clase, se utiliza el método de su padre, y se dice que el hijo hereda el comportamiento. Por ejemplo, en R, un factor ordenado hereda de un factor regular, y un modelo lineal generalizado hereda de un modelo lineal. El proceso de encontrar el método correcto dada una clase se denomina despacho del método.
+Los sistemas de POO llaman clase a lo que define que es un objeto y los métodos describen lo que ese objeto puede hacer. La clase define los campos, las características que posee cada instancia de esa clase (variables ,propiedades ,métodos). Las clases se organizan en una jerarquía de forma que si un método no existe para una clase, se utiliza el método de su padre, y se dice que el hijo hereda el comportamiento. Por ejemplo, en R, un factor ordenado hereda de un factor regular, y un modelo lineal generalizado hereda de un modelo lineal. El proceso de encontrar el método correcto dada una clase se denomina despacho del método.
 
 \includegraphics{graficasR6/clasesherencia.jpg}
 
@@ -206,29 +204,27 @@ Los sistemas de POO llaman clase a lo que define que es un objeto y los métodos
 
 Existen dos paradigmas principales de POO : encapsulado y funcional:
 
-En la \textbf{POO encapsulada}, los métodos pertenecen a objetos o clases, y las llamadas a métodos suelen tener el aspecto de object.method(arg1, arg2). Se denomina encapsulada porque el objeto encapsula tanto los datos (con campos) como el comportamiento (con métodos), y es el paradigma que se encuentra en los lenguajes más populares.
+En la \textbf{POO encapsulada}, los métodos pertenecen a objetos o clases, y las llamadas a métodos suelen tener el aspecto de object.method(arg1, arg2). Se denomina encapsulada porque el objeto encapsula tanto las variables (con campos) como el comportamiento (con métodos), y es el paradigma que se encuentra en los lenguajes más populares (Python,Java,C,C++).
 
 En la \textbf{POO funcional}, los métodos pertenecen a funciones genéricas, y las llamadas a métodos parecen llamadas a funciones ordinarias: generic(object, arg2, arg3). Esto se llama funcional porque desde fuera parece una llamada a una función normal, e internamente los componentes también son funciones.
 
 \hypertarget{especificaciones-de-los-principales-sistemas-poo-en-r}{%
 \subsection{Especificaciones de los principales sistemas POO en R}\label{especificaciones-de-los-principales-sistemas-poo-en-r}}
 
-Sistemas OOP del R base: S3, S4 y RC :
+Sistemas POO del R base: S3, S4 y RC :
 
 \textbf{S3} es el primer sistema POO de R, el cual es una implementación informal de POO funcional y se basa en convenciones comunes en lugar de garantías férreas. Esto hace que sea fácil empezar a trabajar con él, proporcionando una forma de óptima de resolver muchos problemas sencillos.
 
-\textbf{S4} es una reescritura formal y rigurosa de S3, esta requiere más trabajo inicial que S3, pero a cambio proporciona más garantías y una mayor encapsulación. S4 se implementa en el paquete de métodos base, que siempre se instala con R.
-
-\textbf{RC} implementa POO encapsulada. Los objetos RC son un tipo especial de objetos S4 que también son mutables, es decir, en lugar de utilizar la semántica habitual de R de copy-on-modify, pueden modificarse en el lugar. Esto los hace más difíciles de razonar, pero les permite solucionar problemas que son difíciles de resolver en el estilo funcional POO de S3 y S4.
+\textbf{S4} es una reescritura formal y rigurosa de S3, esta requiere más trabajo inicial que S3, pero a cambio proporciona más garantías y una mayor encapsulación. S4 se implementa en el paquete de métodos base, que siempre se instala con R. Dentro de \textbf{S4} tenemos \textbf{RC} la cual implementa POO encapsulada. Los objetos RC son un tipo especial de objetos \textbf{S4} que también son mutables, es decir, en lugar de utilizar la semántica habitual de R de copy-on-modify, pueden modificarse en ese mismo lugar específico. Esto los hace más difíciles de razonar, pero les permite solucionar problemas que son difíciles de resolver en el estilo funcional POO de S3 y S4.
 
 El sistema POO proporcionado por paquete CRAN de nuestro interes es:
 
 \textbf{R6} implementa POO encapsulada como RC, pero resuelve algunos problemas importantes.Mas adelante se aprenderá a detalle sobre el uso R6 .
 
-\hypertarget{tipos-de-bases}{%
-\section{Tipos de bases}\label{tipos-de-bases}}
+\hypertarget{tipos-de-objetos}{%
+\section{Tipos de objetos}\label{tipos-de-objetos}}
 
-Para tratar el tema de objetos y POO en R, en primer lugar se tiene que aclarar la confusión entre los usos de la palabra ``objeto''.Por lo general se piensa que ``Todo lo que existe en R es un objeto'', sin embargo, aunque todo es un objeto, no todo está orientado a objetos. Esta confusión surge porque los objetos base proceden de S, y se desarrollaron antes de que nadie pensara que S podría necesitar un sistema POO.
+Para tratar el tema de objetos y POO en R, en primer lugar se tiene que aclarar la confusión entre los usos de la palabra ``objeto''. Por lo general se piensa que ``Todo lo que existe en R es un objeto'', sin embargo, aunque todo es un objeto, no todo está orientado a objetos. Esta confusión surge porque los objetos de R base proceden de S, y se desarrollaron antes de que nadie pensara que S podría necesitar un sistema POO.
 
 Los términos que se usan para diferenciar los dos tipos de objeto son: \textbf{objetos base y objetos OO para distinguirlos.}
 
@@ -290,7 +286,7 @@ por otro lado cada objeto tiene un \textbf{base type}:
 \end{Highlighting}
 \end{Shaded}
 
-En total, hay 25 tipos de bases \textbf{base type} diferentes.Estos tipos son más importantes en código C, por lo que a menudo se verán llamados por sus nombres de tipo C (estos se encuentran en paréntesis). Los presentamos a continuación
+En total, hay 25 tipos de \textbf{base type} diferentes. Estos tipos son más importantes en código C, por lo que a menudo se verán llamados por sus nombres de tipo C (estos se encuentran en paréntesis). Los presentamos a continuación
 
 \textbf{Para vectores} tenemos los tipos :
 
@@ -444,7 +440,7 @@ Ahora hay que tener cuidado al momento de referirnos sobre los tipos númericos 
 \begin{itemize}
 \tightlist
 \item
-  \texttt{is.numeric()} comprueba so los objetos se comportan como números . Por ejemplo, los factores tienen tipo ``entero'' pero no se comportan como números (es decir, no tiene sentido tomar la media del factor).
+  \texttt{is.numeric()} comprueba si los objetos se comportan como números . Por ejemplo, los factores tienen tipo ``entero'' pero no se comportan como números (es decir, no tiene sentido tomar la media del factor).
 \end{itemize}
 
 \begin{Shaded}
@@ -840,11 +836,11 @@ Por ejemplo, creemos un campo activo llamado \texttt{random} que nos devuelva un
 \NormalTok{))}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Ran}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.1863726}
+\DocumentationTok{\#\# [1] 0.7172222}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.2243393}
+\DocumentationTok{\#\# [1] 0.7017826}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.9750558}
+\DocumentationTok{\#\# [1] 0.1049183}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1265,11 +1261,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \DocumentationTok{\#\# [49] "J♥"  "Q♦"  "K♣"}
 \NormalTok{mazo}\SpecialCharTok{$}\FunctionTok{reshuffle}\NormalTok{()}
 \NormalTok{mazo}\SpecialCharTok{$}\NormalTok{.cartas}
-\DocumentationTok{\#\#  [1] "2♥"  "3♠"  "Q♥"  "5♣"  "2♦"  "8♠"  "9♥"  "8♦"  "J♦"  "4♥"  "2♠"  "5♠" }
-\DocumentationTok{\#\# [13] "K♦"  "10♠" "4♦"  "7♦"  "K♠"  "3♥"  "Q♠"  "10♦" "6♦"  "6♠"  "J♣"  "A♣" }
-\DocumentationTok{\#\# [25] "8♥"  "7♣"  "4♣"  "7♥"  "A♠"  "8♣"  "9♦"  "A♦"  "3♣"  "9♣"  "6♥"  "10♣"}
-\DocumentationTok{\#\# [37] "K♥"  "Q♣"  "4♠"  "10♥" "3♦"  "J♥"  "9♠"  "J♠"  "Q♦"  "2♣"  "6♣"  "7♠" }
-\DocumentationTok{\#\# [49] "5♦"  "5♥"  "A♥"  "K♣"}
+\DocumentationTok{\#\#  [1] "8♦"  "4♦"  "Q♦"  "8♠"  "J♦"  "Q♥"  "10♣" "6♠"  "6♥"  "5♥"  "6♣"  "10♦"}
+\DocumentationTok{\#\# [13] "3♥"  "7♣"  "3♣"  "6♦"  "Q♣"  "8♣"  "Q♠"  "9♦"  "5♣"  "J♥"  "J♣"  "10♥"}
+\DocumentationTok{\#\# [25] "K♣"  "5♠"  "7♠"  "A♣"  "A♥"  "7♥"  "4♣"  "K♥"  "9♣"  "9♠"  "3♠"  "2♣" }
+\DocumentationTok{\#\# [37] "8♥"  "2♠"  "9♥"  "4♠"  "3♦"  "4♥"  "J♠"  "A♦"  "2♦"  "K♦"  "5♦"  "K♠" }
+\DocumentationTok{\#\# [49] "A♠"  "10♠" "2♥"  "7♦"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1440,11 +1436,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \NormalTok{)}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Rando}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.903465}
+\DocumentationTok{\#\# [1] 0.1531249}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.897481}
+\DocumentationTok{\#\# [1] 0.2052977}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{previous}
-\DocumentationTok{\#\# [1] 0.897481}
+\DocumentationTok{\#\# [1] 0.2052977}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2304,12 +2300,12 @@ Se puede ver estadísticas de la relación a partir de la función \texttt{lm}:
 ## 
 ## Residuals:
 ##        Min         1Q     Median         3Q        Max 
-## -0.0269575 -0.0039655  0.0002147  0.0039655  0.0289458 
+## -0.0269572 -0.0039657  0.0002148  0.0039648  0.0289463 
 ## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(>|t|)    
 ## (Intercept) 0.0001130  0.0003097   0.365    0.715    
-## V           0.8133656  0.0226393  35.927   <2e-16 ***
+## V           0.8133671  0.0226393  35.927   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -3133,11 +3129,8 @@ Los diseños de superficie de respuesta también pueden elegirse a partir de una
 \end{Highlighting}
 \end{Shaded}
 
-\textless\textless\textless\textless\textless\textless\textless{} HEAD
-\#\#\# Montaje secuencial de diseños de superficie de respuesta
-=======
-\#\#\#\# Montaje secuencial de diseños de superficie de respuesta
-\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater{} 38aa7fcbe69006ca620167942eac17f3b64293c9
+\hypertarget{montaje-secuencial-de-diseuxf1os-de-superficie-de-respuesta}{%
+\subsubsection{Montaje secuencial de diseños de superficie de respuesta}\label{montaje-secuencial-de-diseuxf1os-de-superficie-de-respuesta}}
 
 El ensamblaje secuencial es una característica importante de los diseños de superficie de respuesta. En función de de las características del diseño factorial (fraccional) puede aumentarse una porción de estrella utilizando el método \texttt{starDesign}. Una porción en estrella consta de recorridos axiales
 y puntos centrales opcionales (\texttt{cs}) en la parte axial a diferencia de los puntos centrales (\texttt{cc}) en la parteparte cúbica.
@@ -3153,11 +3146,8 @@ En caso de que no se entregue ningún diseño factorial (fraccional) al método 
 
 \includegraphics[width=7.29167in,height=\textheight]{graficos/dario3.jpg}
 
-\textless\textless\textless\textless\textless\textless\textless{} HEAD
-\#\#\# Aleatorización
-=======
-\#\#\#\# Aleatorización
-\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater{} 38aa7fcbe69006ca620167942eac17f3b64293c9
+\hypertarget{aleatorizaciuxf3n}{%
+\subsubsection{Aleatorización}\label{aleatorizaciuxf3n}}
 
 La aleatorización se consigue utilizando el método \texttt{randomize}.
 Es necesario suministrar una semilla aleatoria (random.seed) que es útil para tener el mismo orden de ejecución en cualquier máquina.
@@ -3176,17 +3166,14 @@ El método \texttt{randomize} se puede utilizar para obtener un diseño en orden
 \end{Highlighting}
 \end{Shaded}
 
-\textless\textless\textless\textless\textless\textless\textless{} HEAD
-\#\#\# Bloqueo
-=======
-\#\#\#\# Bloqueo
-\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater{} 38aa7fcbe69006ca620167942eac17f3b64293c9
+\hypertarget{bloqueo}{%
+\subsubsection{Bloqueo}\label{bloqueo}}
 
 El bloqueo es otra característica relevante y puede conseguirse mediante el método de \texttt{blocking}. Bloquear un diseño a posteriori no siempre tiene éxito.
 Sin embargo, no es problemático durante el montaje secuencial.
 
 \hypertarget{deseabilidades}{%
-\section{Deseabilidades}\label{deseabilidades}}
+\subsection{Deseabilidades}\label{deseabilidades}}
 
 Muchos problemas requieren optimización simultánea de más de una variable de respuesta. La optimización puede lograrse maximizando o minimizando el valor de la respuesta o tratando de situar la respuesta en un objetivo específico.En la Optimización mediante el enfoque de las deseabilidades Derringer y Suich {[}1980{]}, los valores (predichos) de las variables de respuesta se transforman en valores dentro del intervalo {[}0,1{]} utilizando tres métodos de deseabilidad diferentes
 para los tres criterios de optimización diferentes (es decir, minimizar, maximizar, objetivo). A cada valor de una variable de respuesta se le puede asignar una deseabilidad específica, optimizando más de una variable de respuesta. La media geométrica de las deseabilidades específicas caracteriza la deseabilidad global.
@@ -3224,7 +3211,7 @@ Los métodos de deseabilidad pueden definirse mediante el método \texttt{desire
 \end{Shaded}
 
 \hypertarget{utilizaciuxf3n-de-deseabilidades-junto-con-experimentos-diseuxf1ados}{%
-\section{Utilización de deseabilidades junto con experimentos diseñados}\label{utilizaciuxf3n-de-deseabilidades-junto-con-experimentos-diseuxf1ados}}
+\subsection{Utilización de deseabilidades junto con experimentos diseñados}\label{utilizaciuxf3n-de-deseabilidades-junto-con-experimentos-diseuxf1ados}}
 
 La metodología de la deseabilidad se apoya en los objetos de diseño factorial. El resultado
 del método de deseabilidad puede almacenarse en el objeto de diseño, de modo que la información que
@@ -3308,7 +3295,9 @@ Finalmente se tiene que
 \end{Shaded}
 
 \includegraphics[width=7.29167in,height=\textheight]{graficos/dario4.jpg}
-\#\# Diseños de mezclas
+
+\hypertarget{diseuxf1os-de-mezclas}{%
+\subsection{Diseños de mezclas}\label{diseuxf1os-de-mezclas}}
 
 La generación de los diferentes tipos de diseños de mezcla es totalmente compatible
 incluyendo un contorno ternario y un gráfico 3D. El análisis de estos diseños debe realizarse sin ningún soporte específico mediante un método del paquete \texttt{qualityTools}.
@@ -3385,7 +3374,7 @@ Un conjunto de datos Cornell {[}op. 2002{]} viene dado por el alargamiento del h
 \includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-130-1.pdf}
 
 \hypertarget{diseuxf1os-taguchi}{%
-\section{Diseños Taguchi}\label{diseuxf1os-taguchi}}
+\subsection{Diseños Taguchi}\label{diseuxf1os-taguchi}}
 
 Los diseños Taguchi están disponibles utilizando el método \texttt{taguchiDesign}.
 
@@ -3545,124 +3534,11 @@ Como extra es importante el uso del comando \texttt{sessionInfo} con el fin de o
 \hypertarget{cambio-de-funciones}{%
 \chapter{Cambio de Funciones}\label{cambio-de-funciones}}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(qualityTools)}
-\FunctionTok{library}\NormalTok{(tidyverse)}
-\CommentTok{\# Paquetes necesarios}
-
-\CommentTok{\# install.packages("ggplot2")}
-\CommentTok{\# install.packages("patchwork")}
-\CommentTok{\# install.packages("gridExtra")}
-\FunctionTok{library}\NormalTok{(ggplot2)}
-\FunctionTok{library}\NormalTok{(patchwork)}
-\FunctionTok{library}\NormalTok{(gridExtra)}
-\end{Highlighting}
-\end{Shaded}
-
 \hypertarget{fase-1-definir-1}{%
 \section{Fase 1: Definir}\label{fase-1-definir-1}}
 
 \hypertarget{funciuxf3n-pareto}{%
 \subsection{1. Función Pareto}\label{funciuxf3n-pareto}}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Nueva Función (se quita argumento \textasciigrave{}las\textasciigrave{})}
-\NormalTok{Pareto\_ggplot }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{ (x, weight, }\AttributeTok{showTable =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{showPlot =} \ConstantTok{TRUE}\NormalTok{, main, col, border, xlab, }\AttributeTok{ylab =} \StringTok{"Frequency"}\NormalTok{, percentVec, ...) }
-\NormalTok{\{}
-\NormalTok{  varName }\OtherTok{=} \FunctionTok{deparse}\NormalTok{(}\FunctionTok{substitute}\NormalTok{(x))[}\DecValTok{1}\NormalTok{]}
-\NormalTok{  corp.col }\OtherTok{=} \StringTok{"\#C4B9FF"}
-\NormalTok{  corp.border }\OtherTok{=} \StringTok{"\#9E0138"}
-  \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{is.vector}\NormalTok{(x) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.data.frame}\NormalTok{(x) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.table}\NormalTok{(x)) }
-    \FunctionTok{stop}\NormalTok{(}\StringTok{"x should be a vector, dataframe or a table"}\NormalTok{)}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.table}\NormalTok{(x)) \{}
-\NormalTok{    xtable }\OtherTok{=}\NormalTok{ x}
-\NormalTok{  \}}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.vector}\NormalTok{(x)) \{}
-    \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{is.null}\NormalTok{(}\FunctionTok{names}\NormalTok{(x))) }
-\NormalTok{      xtable }\OtherTok{=} \FunctionTok{as.table}\NormalTok{(x)}
-    \ControlFlowTok{else}\NormalTok{ xtable }\OtherTok{=} \FunctionTok{table}\NormalTok{(x)}
-\NormalTok{  \}}
-  \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{missing}\NormalTok{(weight)) \{}
-    \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{is.numeric}\NormalTok{(weight)) }
-      \FunctionTok{stop}\NormalTok{(}\StringTok{"weight must be numeric!"}\NormalTok{)}
-    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.null}\NormalTok{(}\FunctionTok{names}\NormalTok{(weight))) }
-      \FunctionTok{stop}\NormalTok{(}\StringTok{"weight is missing names for matching!"}\NormalTok{)}
-    \ControlFlowTok{else}\NormalTok{ \{}
-      \ControlFlowTok{if}\NormalTok{ (}\ConstantTok{FALSE} \SpecialCharTok{\%in\%}\NormalTok{ (}\FunctionTok{sort}\NormalTok{(}\FunctionTok{names}\NormalTok{(weight)) }\SpecialCharTok{==} \FunctionTok{sort}\NormalTok{(}\FunctionTok{names}\NormalTok{(xtable)))) }
-        \FunctionTok{stop}\NormalTok{(}\StringTok{"names of weight and table do not match!"}\NormalTok{)}
-      \ControlFlowTok{else}\NormalTok{ \{}
-        \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(xtable)) \{}
-\NormalTok{          xtable[i] }\OtherTok{=}\NormalTok{ weight[}\FunctionTok{names}\NormalTok{(weight) }\SpecialCharTok{==} \FunctionTok{names}\NormalTok{(xtable)[i]] }\SpecialCharTok{*} 
-\NormalTok{            xtable[i]}
-\NormalTok{        \}}
-\NormalTok{      \}}
-\NormalTok{    \}}
-\NormalTok{  \}}
-  \ControlFlowTok{else}\NormalTok{ \{}
-\NormalTok{    weight }\OtherTok{=} \ConstantTok{FALSE}
-\NormalTok{  \}}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(showTable)) }
-\NormalTok{    showTable }\OtherTok{=} \ConstantTok{TRUE}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(xlab)) }
-\NormalTok{    xlab }\OtherTok{=} \StringTok{""}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(main)) }
-\NormalTok{    main }\OtherTok{=} \FunctionTok{paste}\NormalTok{(}\StringTok{"Pareto Chart for"}\NormalTok{, varName)}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(col)) }
-\NormalTok{    col }\OtherTok{=}\NormalTok{ corp.col}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(border)) }
-\NormalTok{    border }\OtherTok{=}\NormalTok{ corp.border}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(percentVec)) }
-\NormalTok{    percentVec }\OtherTok{=} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\AttributeTok{by =} \FloatTok{0.25}\NormalTok{)}
-\NormalTok{  call }\OtherTok{\textless{}{-}} \FunctionTok{match.call}\NormalTok{(}\AttributeTok{expand.dots =} \ConstantTok{TRUE}\NormalTok{)}
-  \CommentTok{\# Plot}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(xtable) }\SpecialCharTok{\textgreater{}} \DecValTok{1}\NormalTok{) \{}
-\NormalTok{    ylim }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\FunctionTok{min}\NormalTok{(xtable), }\FunctionTok{max}\NormalTok{(xtable) }\SpecialCharTok{*} \FloatTok{1.025}\NormalTok{)}
-\NormalTok{    xtable }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\FunctionTok{sort}\NormalTok{(xtable, }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{na.last =} \ConstantTok{TRUE}\NormalTok{))}
-\NormalTok{    cumFreq }\OtherTok{=} \FunctionTok{cumsum}\NormalTok{(xtable)}
-\NormalTok{    sumFreq }\OtherTok{=} \FunctionTok{sum}\NormalTok{(xtable)}
-\NormalTok{    percentage }\OtherTok{=}\NormalTok{ xtable}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(xtable) }\SpecialCharTok{*} \DecValTok{100}
-\NormalTok{    cumPerc }\OtherTok{=}\NormalTok{ cumFreq}\SpecialCharTok{/}\NormalTok{sumFreq }\SpecialCharTok{*} \DecValTok{100}  
-    
-    
-\NormalTok{    data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Frequency =}\NormalTok{ xtable,}
-                       \AttributeTok{Cum.Frequency =}\NormalTok{ cumFreq,}
-                       \AttributeTok{Percentage =} \FunctionTok{round}\NormalTok{(percentage, }\AttributeTok{digits =} \DecValTok{2}\NormalTok{),}
-                       \AttributeTok{Cum.Percentage =} \FunctionTok{round}\NormalTok{(cumPerc, }\AttributeTok{digits =} \DecValTok{2}\NormalTok{))}
-\NormalTok{    tabla }\OtherTok{\textless{}{-}} \FunctionTok{t}\NormalTok{(data)}
-    
-\NormalTok{    p }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{reorder}\NormalTok{(}\FunctionTok{names}\NormalTok{(xtable), }\SpecialCharTok{{-}}\NormalTok{xtable), }\AttributeTok{y =}\NormalTok{ Frequency)) }\SpecialCharTok{+}
-      \FunctionTok{geom\_col}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =} \StringTok{"Frequency"}\NormalTok{), }\AttributeTok{width =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}
-      \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ Cum.Frequency, }\AttributeTok{color =} \StringTok{"Cumulative Percentage"}\NormalTok{), }\AttributeTok{size =} \DecValTok{3}\NormalTok{) }\SpecialCharTok{+}
-      \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ Cum.Frequency, }\AttributeTok{group =} \DecValTok{1}\NormalTok{, }\AttributeTok{color =} \StringTok{"Cumulative Percentage"}\NormalTok{), }\AttributeTok{size =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
-      \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{name =}\NormalTok{ ylab,}
-                         \AttributeTok{sec.axis =} \FunctionTok{sec\_axis}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ . }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(xtable),}
-                                             \AttributeTok{name =} \StringTok{"Cumulative Percentage"}\NormalTok{,}
-                                             \AttributeTok{labels =}\NormalTok{ percentVec)) }\SpecialCharTok{+}
-      \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{name =}\NormalTok{ xlab) }\SpecialCharTok{+}
-      \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(border, border)) }\SpecialCharTok{+}
-      \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ col) }\SpecialCharTok{+} 
-      \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\SpecialCharTok{+}
-      \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =}\NormalTok{ main)}\SpecialCharTok{+}\FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{,}\AttributeTok{face =} \StringTok{"bold"}\NormalTok{))}
-\NormalTok{  \}}
-  \ControlFlowTok{else}\NormalTok{ \{}
-    \FunctionTok{warning}\NormalTok{(}\StringTok{"data should have at least two categories!"}\NormalTok{)}
-\NormalTok{  \}}
-  \ControlFlowTok{if}\NormalTok{(showPlot }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{)\{}
-    \ControlFlowTok{if}\NormalTok{(showTable }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{)\{}
-        \FunctionTok{show}\NormalTok{(p}\SpecialCharTok{/}\FunctionTok{tableGrob}\NormalTok{(tabla))}
-\NormalTok{    \}}
-    \ControlFlowTok{else}\NormalTok{ \{}
-      \FunctionTok{show}\NormalTok{(p)}
-\NormalTok{    \}}
-\NormalTok{  \}}
-  \ControlFlowTok{else}\NormalTok{\{}
-    \FunctionTok{show}\NormalTok{(tabla)}
-\NormalTok{  \}}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{itemize}
 \tightlist
@@ -3704,9 +3580,14 @@ Como extra es importante el uso del comando \texttt{sessionInfo} con el fin de o
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{Pareto\_ggplot}\NormalTok{(defectos)}
+\FunctionTok{ParetoChart\_}\NormalTok{(defectos)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## Warning in geom_line(aes(y = Cum.Frequency, group = 1, color = "Cumulative
+## Percentage"), : Ignoring unknown parameters: `line`
+\end{verbatim}
 
 \includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-138-1.pdf}
 
@@ -3715,18 +3596,28 @@ Podemos utilizar parámetros para mostrar la tabla o la gráfica:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Mostrar solo la gráfica}
-\FunctionTok{Pareto\_ggplot}\NormalTok{(defectos, }\AttributeTok{showTable =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{ParetoChart\_}\NormalTok{(defectos, }\AttributeTok{showTable =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## Warning in geom_line(aes(y = Cum.Frequency, group = 1, color = "Cumulative
+## Percentage"), : Ignoring unknown parameters: `line`
+\end{verbatim}
 
 \includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-139-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Mostrar solo la tabla}
-\FunctionTok{Pareto\_ggplot}\NormalTok{(defectos, }\AttributeTok{showPlot =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{ParetoChart\_}\NormalTok{(defectos, }\AttributeTok{showPlot =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## Warning in geom_line(aes(y = Cum.Frequency, group = 1, color = "Cumulative
+## Percentage"), : Ignoring unknown parameters: `line`
+\end{verbatim}
 
 \begin{verbatim}
 ##                    E     C     B      A      D     F
@@ -3740,9 +3631,14 @@ Podemos cambiar los colores de los puntos y las barras:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{Pareto\_ggplot}\NormalTok{(defectos, }\AttributeTok{col=}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{, }\AttributeTok{border=}\StringTok{\textquotesingle{}green\textquotesingle{}}\NormalTok{)}
+\FunctionTok{ParetoChart\_}\NormalTok{(defectos, }\AttributeTok{col=}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{, }\AttributeTok{border=}\StringTok{\textquotesingle{}green\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## Warning in geom_line(aes(y = Cum.Frequency, group = 1, color = "Cumulative
+## Percentage"), : Ignoring unknown parameters: `line`
+\end{verbatim}
 
 \includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-140-1.pdf}
 
@@ -3797,145 +3693,6 @@ Además utilizaremos los siguientes datos de pruebas:
 \hypertarget{cgrunchart}{%
 \subsubsection{CgRunChart}\label{cgrunchart}}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{cgRunChart\_ggplot }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{ (x, target, tolerance, ref.interval, facCg, facCgk,}
-                       \AttributeTok{n =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{type =} \StringTok{"b"}\NormalTok{, }\AttributeTok{col =} \StringTok{"black"}\NormalTok{, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{,}
-                       \AttributeTok{xlim =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{ylim =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{main =} \StringTok{"Run Chart"}\NormalTok{,}
-                       \AttributeTok{conf.level =} \FloatTok{0.95}\NormalTok{, }\AttributeTok{cex.val =} \DecValTok{1}\NormalTok{, }\AttributeTok{cgOut =} \ConstantTok{TRUE}\NormalTok{) }
-\NormalTok{\{}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(x)) \{}
-    \FunctionTok{stop}\NormalTok{(}\StringTok{"x must be given as a vector"}\NormalTok{)}
-\NormalTok{  \}}
-  
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(target)) \{}
-\NormalTok{    target }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(x)}
-\NormalTok{    targetmissing }\OtherTok{\textless{}{-}} \ConstantTok{FALSE}
-\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
-\NormalTok{    targetmissing }\OtherTok{\textless{}{-}} \ConstantTok{TRUE}
-\NormalTok{  \}}
-  
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(ref.interval)) \{}
-\NormalTok{    ref.interval }\OtherTok{\textless{}{-}} \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.99865}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.00135}\NormalTok{)}
-\NormalTok{  \}}
-  
-\NormalTok{  sd }\OtherTok{\textless{}{-}} \FunctionTok{sd}\NormalTok{(x)}
-\NormalTok{  mean }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(x)}
-\NormalTok{  ref.ar }\OtherTok{\textless{}{-}} \FunctionTok{qnorm}\NormalTok{(ref.interval, mean, sd) }\SpecialCharTok{{-}} \FunctionTok{qnorm}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ ref.interval, mean, sd)}
-  
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(facCg)) \{}
-\NormalTok{    facCg }\OtherTok{\textless{}{-}} \FloatTok{0.2}
-\NormalTok{  \}}
-  
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(facCgk)) \{}
-\NormalTok{    facCgk }\OtherTok{\textless{}{-}} \FloatTok{0.1}
-\NormalTok{  \}}
-  
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(tolerance)) \{}
-\NormalTok{    width }\OtherTok{\textless{}{-}}\NormalTok{ ref.ar}\SpecialCharTok{/}\NormalTok{facCg}
-\NormalTok{    tolerance }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(}\DecValTok{2}\NormalTok{)}
-\NormalTok{    tolerance[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ mean }\SpecialCharTok{{-}}\NormalTok{ width}\SpecialCharTok{/}\DecValTok{2}
-\NormalTok{    tolerance[}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ mean }\SpecialCharTok{+}\NormalTok{ width}\SpecialCharTok{/}\DecValTok{2}
-\NormalTok{  \}}
-  
-\NormalTok{  quant1 }\OtherTok{\textless{}{-}} \FunctionTok{qnorm}\NormalTok{((}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ ref.interval)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, mean, sd)}
-\NormalTok{  quant2 }\OtherTok{\textless{}{-}} \FunctionTok{qnorm}\NormalTok{(ref.interval }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ ref.interval)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, mean, sd)}
-  
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(tolerance) }\SpecialCharTok{!=} \DecValTok{2}\NormalTok{) \{}
-    \FunctionTok{stop}\NormalTok{(}\StringTok{"tolerance has wrong length"}\NormalTok{)}
-\NormalTok{  \}}
-  
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(xlim)) \{}
-\NormalTok{    xlim }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FunctionTok{length}\NormalTok{(x))}
-\NormalTok{  \}}
-  
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(ylim)) \{}
-\NormalTok{    ylim }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{min}\NormalTok{(x, target }\SpecialCharTok{{-}}\NormalTok{ n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(}\FunctionTok{diff}\NormalTok{(tolerance))), quant1, quant2),}
-              \FunctionTok{max}\NormalTok{(x, target }\SpecialCharTok{+}\NormalTok{ n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(}\FunctionTok{diff}\NormalTok{(tolerance))), quant1, quant2))}
-\NormalTok{  \}}
-  
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(main)) \{}
-\NormalTok{    main }\OtherTok{\textless{}{-}} \StringTok{"Run Chart"}
-\NormalTok{  \}}
-  
-\NormalTok{  Cg }\OtherTok{\textless{}{-}}\NormalTok{ (facCg }\SpecialCharTok{*}\NormalTok{ tolerance[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{{-}}\NormalTok{tolerance[}\DecValTok{1}\NormalTok{])}\SpecialCharTok{/}\NormalTok{ref.interval}
-\NormalTok{  Cgk }\OtherTok{\textless{}{-}}\NormalTok{ (facCgk }\SpecialCharTok{*} \FunctionTok{abs}\NormalTok{(target}\SpecialCharTok{{-}}\FunctionTok{mean}\NormalTok{(x))}\SpecialCharTok{/}\NormalTok{(ref.interval}\SpecialCharTok{/}\DecValTok{2}\NormalTok{))}
-  
-  \CommentTok{\# Create a data frame for plotting}
-\NormalTok{  df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{y =}\NormalTok{ x)}
-  
-  \CommentTok{\# Add target line}
-\NormalTok{  df}\SpecialCharTok{$}\NormalTok{y\_target }\OtherTok{\textless{}{-}}\NormalTok{ target}
-  
-  \CommentTok{\# Calculate the upper and lower control limits}
-\NormalTok{  df}\SpecialCharTok{$}\NormalTok{y\_lower }\OtherTok{\textless{}{-}}\NormalTok{ quant1}
-\NormalTok{  df}\SpecialCharTok{$}\NormalTok{y\_upper }\OtherTok{\textless{}{-}}\NormalTok{ quant2}
-  \CommentTok{\# Calculate the tolerance limits}
-\NormalTok{  df}\SpecialCharTok{$}\NormalTok{y\_tolerance\_lower }\OtherTok{\textless{}{-}}\NormalTok{ tolerance[}\DecValTok{1}\NormalTok{]}
-\NormalTok{  df}\SpecialCharTok{$}\NormalTok{y\_tolerance\_upper }\OtherTok{\textless{}{-}}\NormalTok{ tolerance[}\DecValTok{2}\NormalTok{]}
-  
-  \CommentTok{\# Calculate the mean}
-\NormalTok{  df}\SpecialCharTok{$}\NormalTok{y\_mean }\OtherTok{\textless{}{-}}\NormalTok{ mean}
-  
-  \CommentTok{\# Calculate the Cg and Cgk values}
-\NormalTok{  df}\SpecialCharTok{$}\NormalTok{Cg }\OtherTok{\textless{}{-}}\NormalTok{ Cg}
-\NormalTok{  df}\SpecialCharTok{$}\NormalTok{Cgk }\OtherTok{\textless{}{-}}\NormalTok{ Cgk}
-  
-  \CommentTok{\# Create the ggplot}
-  \CommentTok{\# 1. Principal plot and target line}
-\NormalTok{  p }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{seq\_along}\NormalTok{(x), }\AttributeTok{y =}\NormalTok{ x)) }\SpecialCharTok{+}
-    \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{color =}\NormalTok{ col, }\AttributeTok{shape =}\NormalTok{ pch) }\SpecialCharTok{+}
-    \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color =}\NormalTok{ col, }\AttributeTok{linetype =} \StringTok{"solid"}\NormalTok{) }\SpecialCharTok{+}
-    \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{limits =} \FunctionTok{c}\NormalTok{(xlim[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{{-}} \FloatTok{0.05} \SpecialCharTok{*}\NormalTok{ xlim[}\DecValTok{2}\NormalTok{], xlim[}\DecValTok{2}\NormalTok{]), }\AttributeTok{expand =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{)) }\SpecialCharTok{+}
-    \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =}\NormalTok{ main, }\AttributeTok{x =} \StringTok{"Index"}\NormalTok{, }\AttributeTok{y =} \StringTok{"x"}\NormalTok{) }\SpecialCharTok{+}
-    \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{,}\AttributeTok{face =} \StringTok{"bold"}\NormalTok{))}\SpecialCharTok{+}
-    \FunctionTok{geom\_hline}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{yintercept =}\NormalTok{ target)) }\CommentTok{\# Linea target}
-    
-  \CommentTok{\# 2. Red Plot (Lowess)}
-\NormalTok{  p }\OtherTok{\textless{}{-}}\NormalTok{ p }\SpecialCharTok{+} \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"loess"}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{, }\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{span =} \FloatTok{1.25}\NormalTok{, }\AttributeTok{size =} \FloatTok{0.25}\NormalTok{,)}
-  
-  \CommentTok{\# 3. Green lines}
-\NormalTok{  p }\OtherTok{\textless{}{-}}\NormalTok{ p }\SpecialCharTok{+} \FunctionTok{geom\_hline}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{yintercept =}\NormalTok{ mean), }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{color =} \StringTok{"seagreen"}\NormalTok{)}\SpecialCharTok{+}  \CommentTok{\#center line}
-    \FunctionTok{geom\_hline}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{yintercept =}\NormalTok{ quant1), }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{color =} \StringTok{"seagreen"}\NormalTok{) }\SpecialCharTok{+} \CommentTok{\# Bottom line}
-    \FunctionTok{geom\_hline}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{yintercept =}\NormalTok{ quant2), }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{color =} \StringTok{"seagreen"}\NormalTok{)   }\CommentTok{\# Top line}
-  \CommentTok{\# 4. Xtar +{-} 0.1}
-\NormalTok{  p }\OtherTok{\textless{}{-}}\NormalTok{ p }\SpecialCharTok{+} \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \FunctionTok{c}\NormalTok{(target }\SpecialCharTok{+}\NormalTok{ n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(}\FunctionTok{diff}\NormalTok{(tolerance))), target }\SpecialCharTok{{-}}\NormalTok{ n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(}\FunctionTok{diff}\NormalTok{(tolerance)))), }\AttributeTok{color =} \StringTok{"\#012B78"}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"solid"}\NormalTok{) }\CommentTok{\# Agregar líneas    }
-  \CommentTok{\#Label}
-\NormalTok{  p }\OtherTok{\textless{}{-}}\NormalTok{ p }\SpecialCharTok{+} \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{limits =}\NormalTok{ ylim, }\AttributeTok{expand =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{),}\AttributeTok{sec.axis =} \FunctionTok{sec\_axis}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ .,}\AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(target,mean,quant1,quant2,target }\SpecialCharTok{+}\NormalTok{ n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(}\FunctionTok{diff}\NormalTok{(tolerance))), target }\SpecialCharTok{{-}}\NormalTok{ n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(}\FunctionTok{diff}\NormalTok{(tolerance)))),}\AttributeTok{labels=}\FunctionTok{c}\NormalTok{(}\StringTok{"target"}\NormalTok{,}\FunctionTok{expression}\NormalTok{(}\FunctionTok{bar}\NormalTok{(x)),}\FunctionTok{substitute}\NormalTok{(x[a }\SpecialCharTok{*}\NormalTok{ b], }\FunctionTok{list}\NormalTok{(}\AttributeTok{a =} \FunctionTok{round}\NormalTok{(((}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ ref.interval)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{, }\DecValTok{3}\NormalTok{), }\AttributeTok{b =} \StringTok{"\%"}\NormalTok{)), }\FunctionTok{substitute}\NormalTok{(x[a }\SpecialCharTok{*}\NormalTok{ b], }\FunctionTok{list}\NormalTok{(}\AttributeTok{a =} \FunctionTok{round}\NormalTok{(((ref.interval }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ ref.interval)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{, }
-    \DecValTok{3}\NormalTok{), }\AttributeTok{b =} \StringTok{"\%"}\NormalTok{)),}\FunctionTok{substitute}\NormalTok{(x[tar] }\SpecialCharTok{+}\NormalTok{ a, }\FunctionTok{list}\NormalTok{(}\AttributeTok{a =} \FunctionTok{round}\NormalTok{(n}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{))),}\FunctionTok{substitute}\NormalTok{(x[tar] }\SpecialCharTok{{-}}\NormalTok{ a, }\FunctionTok{list}\NormalTok{(}\AttributeTok{a =} \FunctionTok{round}\NormalTok{(n}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{))))))}\SpecialCharTok{+}\FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.y.right =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{15}\NormalTok{))}
-  
-  
-  \CommentTok{\# Label  Cg and Cgk}
-  \ControlFlowTok{if}\NormalTok{ (cgOut }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{) \{}
-\NormalTok{    p }\OtherTok{\textless{}{-}}\NormalTok{ p }\SpecialCharTok{+}
-      \FunctionTok{annotation\_custom}\NormalTok{(}
-        \AttributeTok{grob =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{textGrob}\NormalTok{(}
-          \AttributeTok{label =} \FunctionTok{c}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Cg: "}\NormalTok{, }\FunctionTok{round}\NormalTok{(Cg,}\AttributeTok{digits =} \DecValTok{6}\NormalTok{))),}
-          \AttributeTok{x =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.15}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-          \AttributeTok{y =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-          \AttributeTok{just =} \FunctionTok{c}\NormalTok{(}\StringTok{"right"}\NormalTok{, }\StringTok{"top"}\NormalTok{),}
-          \AttributeTok{gp =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{gpar}\NormalTok{(}\AttributeTok{fontsize =} \DecValTok{12}\NormalTok{, }\AttributeTok{fontface =} \StringTok{"bold"}\NormalTok{)}
-\NormalTok{        )}
-\NormalTok{      ) }\SpecialCharTok{+} 
-      \FunctionTok{annotation\_custom}\NormalTok{(}
-        \AttributeTok{grob =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{textGrob}\NormalTok{(}
-          \AttributeTok{label =} \FunctionTok{c}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Cgk:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(Cgk,}\AttributeTok{digits =} \DecValTok{6}\NormalTok{))),}
-          \AttributeTok{x =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.15}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-          \AttributeTok{y =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-          \AttributeTok{just =} \FunctionTok{c}\NormalTok{(}\StringTok{"right"}\NormalTok{, }\StringTok{"top"}\NormalTok{),}
-          \AttributeTok{gp =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{gpar}\NormalTok{(}\AttributeTok{fontsize =} \DecValTok{12}\NormalTok{, }\AttributeTok{fontface =} \StringTok{"bold"}\NormalTok{)}
-\NormalTok{        )}
-\NormalTok{      )}
-    \FunctionTok{suppressMessages}\NormalTok{(}\FunctionTok{show}\NormalTok{(p))}
-\NormalTok{  \}}
-  \ControlFlowTok{else}\NormalTok{\{}
-    \FunctionTok{suppressMessages}\NormalTok{(}\FunctionTok{show}\NormalTok{(p))}
-\NormalTok{  \}}
-  \FunctionTok{invisible}\NormalTok{(}\FunctionTok{list}\NormalTok{(Cg, Cgk))}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{itemize}
 \tightlist
 \item
@@ -3947,8 +3704,7 @@ Además utilizaremos los siguientes datos de pruebas:
 \FunctionTok{cgRunChart}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{target =}\NormalTok{ target, }\AttributeTok{tolerance =}\NormalTok{ tolerance, }
            \AttributeTok{ref.interval =}\NormalTok{ ref.interval, }\AttributeTok{facCg =}\NormalTok{ facCg, }\AttributeTok{facCgk =}\NormalTok{ facCgk, }
            \AttributeTok{n =}\NormalTok{ n, }\AttributeTok{type =}\NormalTok{ type, }\AttributeTok{col =}\NormalTok{ col, }\AttributeTok{pch =}\NormalTok{ pch, }\AttributeTok{xlim =}\NormalTok{ xlim, }
-           \AttributeTok{ylim =}\NormalTok{ ylim, }\AttributeTok{main =} \StringTok{"Run Chart"}\NormalTok{, }\AttributeTok{conf.level =}\NormalTok{ conf.level, }
-           \AttributeTok{cex.val =}\NormalTok{ cex.val, }\AttributeTok{cgOut =} \ConstantTok{FALSE}\NormalTok{)}
+           \AttributeTok{ylim =}\NormalTok{ ylim, }\AttributeTok{main =} \StringTok{"Run Chart"}\NormalTok{, }\AttributeTok{conf.level =}\NormalTok{ conf.level, }\AttributeTok{cgOut =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3962,11 +3718,10 @@ Además utilizaremos los siguientes datos de pruebas:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cgRunChart\_ggplot}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{target =}\NormalTok{ target, }\AttributeTok{tolerance =}\NormalTok{ tolerance, }
+\FunctionTok{cg\_RunChart}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{target =}\NormalTok{ target, }\AttributeTok{tolerance =}\NormalTok{ tolerance, }
                     \AttributeTok{ref.interval =}\NormalTok{ ref.interval, }\AttributeTok{facCg =}\NormalTok{ facCg, }\AttributeTok{facCgk =}\NormalTok{ facCgk, }
                     \AttributeTok{n =}\NormalTok{ n, }\AttributeTok{type =}\NormalTok{ type, }\AttributeTok{col =}\NormalTok{ col, }\AttributeTok{pch =}\NormalTok{ pch, }\AttributeTok{xlim =}\NormalTok{ xlim, }
-                    \AttributeTok{ylim =}\NormalTok{ ylim, }\AttributeTok{main =} \StringTok{"Run Chart"}\NormalTok{, }\AttributeTok{conf.level =}\NormalTok{ conf.level, }
-                    \AttributeTok{cex.val =}\NormalTok{ cex.val, }\AttributeTok{cgOut =} \ConstantTok{FALSE}\NormalTok{)}
+                    \AttributeTok{ylim =}\NormalTok{ ylim, }\AttributeTok{main =} \StringTok{"Run Chart"}\NormalTok{, }\AttributeTok{conf.level =}\NormalTok{ conf.level, }\AttributeTok{cgOut =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3974,146 +3729,6 @@ Además utilizaremos los siguientes datos de pruebas:
 
 \hypertarget{cghist}{%
 \subsubsection{cgHist}\label{cghist}}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Nueva función}
-\NormalTok{cgHistChart }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{ (x, target, tolerance, ref.interval, facCg, facCgk, }
-          \AttributeTok{n =} \FloatTok{0.2}\NormalTok{, col, xlim, ylim, main, }\AttributeTok{conf.level =} \FloatTok{0.95}\NormalTok{, }\AttributeTok{cex.val =} \DecValTok{1}\NormalTok{, }
-          \AttributeTok{cgOut =} \ConstantTok{TRUE}\NormalTok{) }
-\NormalTok{\{}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(x)) }
-    \FunctionTok{stop}\NormalTok{(}\StringTok{"x must be given as a vector"}\NormalTok{)}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(target)) \{}
-\NormalTok{    target }\OtherTok{=} \FunctionTok{mean}\NormalTok{(x)}
-\NormalTok{    targetmissing }\OtherTok{=} \ConstantTok{FALSE}
-\NormalTok{  \}}
-  \ControlFlowTok{else}\NormalTok{ targetmissing }\OtherTok{=} \ConstantTok{TRUE}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(ref.interval)) }
-\NormalTok{    ref.interval }\OtherTok{=} \FunctionTok{pnorm}\NormalTok{(}\DecValTok{3}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{pnorm}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{)}
-\NormalTok{  sd }\OtherTok{=} \FunctionTok{sd}\NormalTok{(x)}
-\NormalTok{  mean }\OtherTok{=} \FunctionTok{mean}\NormalTok{(x)}
-\NormalTok{  ref.ar }\OtherTok{=} \FunctionTok{qnorm}\NormalTok{(ref.interval, mean, sd) }\SpecialCharTok{{-}} \FunctionTok{qnorm}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ ref.interval, }
-\NormalTok{                                                 mean, sd)}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(facCg)) }
-\NormalTok{    facCg }\OtherTok{=} \FloatTok{0.2}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(facCgk)) }
-\NormalTok{    facCgk }\OtherTok{=} \FloatTok{0.1}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(tolerance)) }
-    \FunctionTok{warning}\NormalTok{(}\StringTok{"Missing tolerance! The specification limits are choosen to get Cg = 1"}\NormalTok{)}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(tolerance)) \{}
-\NormalTok{    width }\OtherTok{=}\NormalTok{ ref.ar}\SpecialCharTok{/}\NormalTok{facCg}
-\NormalTok{    tolerance }\OtherTok{=} \FunctionTok{numeric}\NormalTok{(}\DecValTok{2}\NormalTok{)}
-\NormalTok{    tolerance[}\DecValTok{1}\NormalTok{] }\OtherTok{=} \FunctionTok{mean}\NormalTok{(x) }\SpecialCharTok{{-}}\NormalTok{ width}\SpecialCharTok{/}\DecValTok{2}
-\NormalTok{    tolerance[}\DecValTok{2}\NormalTok{] }\OtherTok{=} \FunctionTok{mean}\NormalTok{(x) }\SpecialCharTok{+}\NormalTok{ width}\SpecialCharTok{/}\DecValTok{2}
-\NormalTok{  \}}
-\NormalTok{  quant1 }\OtherTok{=} \FunctionTok{qnorm}\NormalTok{((}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ ref.interval)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, mean, sd)}
-\NormalTok{  quant2 }\OtherTok{=} \FunctionTok{qnorm}\NormalTok{(ref.interval }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ ref.interval)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, mean, }
-\NormalTok{                 sd)}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(tolerance) }\SpecialCharTok{!=} \DecValTok{2}\NormalTok{) }
-    \FunctionTok{stop}\NormalTok{(}\StringTok{"tolerance has wrong length"}\NormalTok{)}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(col)) }
-\NormalTok{    col }\OtherTok{=} \StringTok{"lightblue"}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(xlim)) }
-\NormalTok{    xlim }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FunctionTok{length}\NormalTok{(x))}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(ylim)) }
-\NormalTok{    ylim }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\FunctionTok{min}\NormalTok{(x, target }\SpecialCharTok{{-}}\NormalTok{ n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(}\FunctionTok{diff}\NormalTok{(tolerance))), }
-\NormalTok{                 quant1, quant2), }\FunctionTok{max}\NormalTok{(x, target }\SpecialCharTok{+}\NormalTok{ n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(}\FunctionTok{diff}\NormalTok{(tolerance))), }
-\NormalTok{                                      quant1, quant2))}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(main)) }
-\NormalTok{    main }\OtherTok{=} \FunctionTok{paste}\NormalTok{(}\StringTok{"Histogram of"}\NormalTok{, }\FunctionTok{deparse}\NormalTok{(}\FunctionTok{substitute}\NormalTok{(x)), }
-                 \StringTok{"{-} target"}\NormalTok{)}
-  
-\NormalTok{  Cg }\OtherTok{\textless{}{-}}\NormalTok{ (facCg }\SpecialCharTok{*}\NormalTok{ tolerance[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{{-}}\NormalTok{tolerance[}\DecValTok{1}\NormalTok{])}\SpecialCharTok{/}\NormalTok{ref.interval}
-\NormalTok{  Cgk }\OtherTok{\textless{}{-}}\NormalTok{ (facCgk }\SpecialCharTok{*} \FunctionTok{abs}\NormalTok{(target}\SpecialCharTok{{-}}\FunctionTok{mean}\NormalTok{(x))}\SpecialCharTok{/}\NormalTok{(ref.interval}\SpecialCharTok{/}\DecValTok{2}\NormalTok{))}
-  
-  \CommentTok{\# Calculos previos}
-\NormalTok{  x.c }\OtherTok{\textless{}{-}}\NormalTok{ x }\SpecialCharTok{{-}}\NormalTok{ target}
-\NormalTok{  temp }\OtherTok{\textless{}{-}} \FunctionTok{hist}\NormalTok{(x.c, }\AttributeTok{plot =} \ConstantTok{FALSE}\NormalTok{)}
-  \CommentTok{\# Obtenemos la información para el histograma}
-\NormalTok{  df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
-    \AttributeTok{mid =}\NormalTok{ temp}\SpecialCharTok{$}\NormalTok{mids,}
-    \AttributeTok{density =}\NormalTok{ temp}\SpecialCharTok{$}\NormalTok{density}
-\NormalTok{  )}
-\NormalTok{  width }\OtherTok{\textless{}{-}} \FunctionTok{diff}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{mid)[}\DecValTok{1}\NormalTok{] }\CommentTok{\# Ancho de cada barra}
-  \CommentTok{\# Histograma}
-\NormalTok{  p }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ mid, }\AttributeTok{y =}\NormalTok{ density)) }\SpecialCharTok{+}
-    \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{width =}\NormalTok{ width, }\AttributeTok{fill =} \StringTok{"lightblue"}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
-    \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Density"}\NormalTok{, }\AttributeTok{x =} \StringTok{"x.c"}\NormalTok{, }\AttributeTok{title =}\NormalTok{ main) }\SpecialCharTok{+}
-    \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{,}\AttributeTok{face =} \StringTok{"bold"}\NormalTok{))}\SpecialCharTok{+}
-    \FunctionTok{guides}\NormalTok{(}\AttributeTok{color =} \FunctionTok{guide\_legend}\NormalTok{(}\AttributeTok{title.position =} \StringTok{"top"}\NormalTok{, }\AttributeTok{title.hjust =} \FloatTok{0.5}\NormalTok{))}
-  \CommentTok{\# Linea x=0}
-\NormalTok{  p }\OtherTok{\textless{}{-}}\NormalTok{ p }\SpecialCharTok{+} \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{)}
-  \CommentTok{\# Intervalos de Confianza {-} Azules}
-\NormalTok{  test }\OtherTok{=} \FunctionTok{t.test}\NormalTok{(x.c, }\AttributeTok{mu =} \DecValTok{0}\NormalTok{, }\AttributeTok{conf.level =}\NormalTok{ conf.level)}
-\NormalTok{  p }\OtherTok{\textless{}{-}}\NormalTok{ p }\SpecialCharTok{+} \FunctionTok{geom\_vline}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{xintercept =}\NormalTok{ test}\SpecialCharTok{$}\NormalTok{conf.int[}\DecValTok{1}\NormalTok{], }\AttributeTok{color =} \StringTok{"Confidence interval"}\NormalTok{), }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
-    \FunctionTok{geom\_vline}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{xintercept =}\NormalTok{ test}\SpecialCharTok{$}\NormalTok{conf.int[}\DecValTok{2}\NormalTok{], }\AttributeTok{color =} \StringTok{"Confidence interval"}\NormalTok{), }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+} 
-    \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{)}
-  \CommentTok{\# Curva de densidad}
-\NormalTok{  p }\OtherTok{\textless{}{-}}\NormalTok{ p }\SpecialCharTok{+} \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{data =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{x =} \FunctionTok{density}\NormalTok{(x.c)}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{y =} \FunctionTok{density}\NormalTok{(x.c)}\SpecialCharTok{$}\NormalTok{y), }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{y =}\NormalTok{ y), }\AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{linewidth =} \FloatTok{0.5}\NormalTok{)}
-  
-  \CommentTok{\# Hipotesis, P\_val y t\_val}
-\NormalTok{  p }\OtherTok{\textless{}{-}}\NormalTok{ p }\SpecialCharTok{+} \FunctionTok{annotation\_custom}\NormalTok{(}\AttributeTok{grob =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{textGrob}\NormalTok{(}\AttributeTok{label =} \FunctionTok{c}\NormalTok{(}\FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(H[}\DecValTok{0}\NormalTok{], }\StringTok{" : Bias = 0"}\NormalTok{))),}
-                                                   \AttributeTok{x =} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\StringTok{"cm"}\NormalTok{), }\AttributeTok{y =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\StringTok{"cm"}\NormalTok{), }
-                                                   \AttributeTok{just =} \FunctionTok{c}\NormalTok{(}\StringTok{"left"}\NormalTok{, }\StringTok{"top"}\NormalTok{),}
-                                                   \AttributeTok{gp =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{gpar}\NormalTok{(}\AttributeTok{fontsize =} \DecValTok{12}\NormalTok{, }\AttributeTok{fontface =} \StringTok{"bold"}\NormalTok{)}
-\NormalTok{                                                   )}
-\NormalTok{                             ) }\SpecialCharTok{+} 
-    \FunctionTok{annotation\_custom}\NormalTok{( }\AttributeTok{grob =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{textGrob}\NormalTok{( }\AttributeTok{label =} \FunctionTok{c}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"t{-}value: "}\NormalTok{, }\FunctionTok{round}\NormalTok{(test}\SpecialCharTok{$}\NormalTok{statistic, }\DecValTok{3}\NormalTok{))),}
-                                              \AttributeTok{x =} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-                                              \AttributeTok{y =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.5}\NormalTok{, }\StringTok{"cm"}\NormalTok{), }
-                                              \AttributeTok{just =} \FunctionTok{c}\NormalTok{(}\StringTok{"left"}\NormalTok{, }\StringTok{"top"}\NormalTok{), }
-                                              \AttributeTok{gp =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{gpar}\NormalTok{(}\AttributeTok{fontsize =} \DecValTok{11}\NormalTok{)}
-\NormalTok{                                              )}
-\NormalTok{                       ) }\SpecialCharTok{+} 
-    \FunctionTok{annotation\_custom}\NormalTok{(}\AttributeTok{grob =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{textGrob}\NormalTok{(}\AttributeTok{label =} \FunctionTok{c}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"p{-}value: "}\NormalTok{, }\FunctionTok{round}\NormalTok{(test}\SpecialCharTok{$}\NormalTok{p.value, }\DecValTok{3}\NormalTok{))),}
-                                            \AttributeTok{x =} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-                                            \AttributeTok{y =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.85}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-                                            \AttributeTok{just =} \FunctionTok{c}\NormalTok{(}\StringTok{"left"}\NormalTok{, }\StringTok{"top"}\NormalTok{),}
-                                            \AttributeTok{gp =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{gpar}\NormalTok{(}\AttributeTok{fontsize =} \DecValTok{11}\NormalTok{)}
-\NormalTok{                                            )}
-\NormalTok{                      ) }
-  
-  \CommentTok{\# Añadir label del Cg y Cgk}
-  \ControlFlowTok{if}\NormalTok{ (cgOut }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{) \{}
-\NormalTok{    p }\OtherTok{\textless{}{-}}\NormalTok{ p }\SpecialCharTok{+}
-      \FunctionTok{annotation\_custom}\NormalTok{(}
-        \AttributeTok{grob =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{textGrob}\NormalTok{(}
-          \AttributeTok{label =} \FunctionTok{c}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Cg: "}\NormalTok{, }\FunctionTok{round}\NormalTok{(Cg,}\AttributeTok{digits =} \DecValTok{6}\NormalTok{))),}
-          \AttributeTok{x =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.15}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-          \AttributeTok{y =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-          \AttributeTok{just =} \FunctionTok{c}\NormalTok{(}\StringTok{"right"}\NormalTok{, }\StringTok{"top"}\NormalTok{),}
-          \AttributeTok{gp =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{gpar}\NormalTok{(}\AttributeTok{fontsize =} \DecValTok{12}\NormalTok{)}
-\NormalTok{        )}
-\NormalTok{      ) }\SpecialCharTok{+} 
-      \FunctionTok{annotation\_custom}\NormalTok{(}
-        \AttributeTok{grob =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{textGrob}\NormalTok{(}
-          \AttributeTok{label =} \FunctionTok{c}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Cgk:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(Cgk,}\AttributeTok{digits =} \DecValTok{6}\NormalTok{))),}
-          \AttributeTok{x =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.15}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-          \AttributeTok{y =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-          \AttributeTok{just =} \FunctionTok{c}\NormalTok{(}\StringTok{"right"}\NormalTok{, }\StringTok{"top"}\NormalTok{),}
-          \AttributeTok{gp =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{gpar}\NormalTok{(}\AttributeTok{fontsize =} \DecValTok{12}\NormalTok{)}
-\NormalTok{        )}
-\NormalTok{      )}
-    \FunctionTok{show}\NormalTok{(p)}
-\NormalTok{  \}}
-  \ControlFlowTok{else}\NormalTok{\{}
-\NormalTok{    p }\OtherTok{\textless{}{-}}\NormalTok{ p }\SpecialCharTok{+}
-      \FunctionTok{annotation\_custom}\NormalTok{(}
-        \AttributeTok{grob =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{textGrob}\NormalTok{(}
-          \AttributeTok{label =} \FunctionTok{c}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"{-}{-}{-}{-} conf. int"}\NormalTok{)),}
-          \AttributeTok{x =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.15}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-          \AttributeTok{y =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-          \AttributeTok{just =} \FunctionTok{c}\NormalTok{(}\StringTok{"right"}\NormalTok{, }\StringTok{"top"}\NormalTok{),}
-          \AttributeTok{gp =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{gpar}\NormalTok{(}\AttributeTok{fontsize =} \DecValTok{12}\NormalTok{)}
-\NormalTok{        )}
-\NormalTok{      )}
-    \FunctionTok{show}\NormalTok{(p)}
-\NormalTok{  \}}
-  \FunctionTok{invisible}\NormalTok{(}\FunctionTok{list}\NormalTok{(Cg, Cgk))}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{itemize}
 \tightlist
@@ -4127,8 +3742,7 @@ Además utilizaremos los siguientes datos de pruebas:
        \AttributeTok{facCg =}\NormalTok{ facCg, }\AttributeTok{facCgk =}\NormalTok{ facCgk, }\AttributeTok{n =}\NormalTok{ n, }\AttributeTok{col =} \StringTok{"lightblue"}\NormalTok{, }
        \AttributeTok{xlim =}\NormalTok{ xlim, }\AttributeTok{ylim =}\NormalTok{ ylim, }\AttributeTok{main =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Histogram of"}\NormalTok{, }
                                               \FunctionTok{deparse}\NormalTok{(}\FunctionTok{substitute}\NormalTok{(x)), }\StringTok{"{-} target"}\NormalTok{), conf.level}
-       \OtherTok{=}\NormalTok{ conf.level, }
-       \AttributeTok{cex.val =}\NormalTok{ cex.val, }\AttributeTok{cgOut =} \ConstantTok{FALSE}\NormalTok{)}
+       \OtherTok{=}\NormalTok{ conf.level, }\AttributeTok{cgOut =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4142,12 +3756,11 @@ Además utilizaremos los siguientes datos de pruebas:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cgHistChart}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{target =}\NormalTok{ target, }\AttributeTok{tolerance =}\NormalTok{ tolerance, }\AttributeTok{ref.interval =}\NormalTok{ ref.interval, }
+\FunctionTok{cg\_HistChart}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{target =}\NormalTok{ target, }\AttributeTok{tolerance =}\NormalTok{ tolerance, }\AttributeTok{ref.interval =}\NormalTok{ ref.interval, }
             \AttributeTok{facCg =}\NormalTok{ facCg, }\AttributeTok{facCgk =}\NormalTok{ facCgk, }\AttributeTok{n =}\NormalTok{ n, }\AttributeTok{col =} \StringTok{"lightblue"}\NormalTok{, }
             \AttributeTok{xlim =}\NormalTok{ xlim, }\AttributeTok{ylim =}\NormalTok{ ylim, }\AttributeTok{main =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Histogram of"}\NormalTok{, }
                                                    \FunctionTok{deparse}\NormalTok{(}\FunctionTok{substitute}\NormalTok{(x)), }\StringTok{"{-} target"}\NormalTok{),}
-            \AttributeTok{conf.level =}\NormalTok{ conf.level, }
-            \AttributeTok{cex.val =}\NormalTok{ cex.val, }\AttributeTok{cgOut =} \ConstantTok{FALSE}\NormalTok{)}
+            \AttributeTok{conf.level =}\NormalTok{ conf.level, }\AttributeTok{cgOut =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4155,104 +3768,6 @@ Además utilizaremos los siguientes datos de pruebas:
 
 \hypertarget{cgtoleranceview}{%
 \subsubsection{cgToleranceView}\label{cgtoleranceview}}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Nueva Función}
-\NormalTok{cgToleranceChart }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{ (x, target, tolerance, ref.interval, facCg, facCgk, }
-                              \AttributeTok{n =} \FloatTok{0.2}\NormalTok{, type, col, pch, xlim, ylim, main, }\AttributeTok{conf.level =} \FloatTok{0.95}\NormalTok{, }
-                              \AttributeTok{cex.val =} \DecValTok{1}\NormalTok{, }\AttributeTok{cgOut =} \ConstantTok{TRUE}\NormalTok{) }
-\NormalTok{\{}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(x)) }
-    \FunctionTok{stop}\NormalTok{(}\StringTok{"x must be given as a vector"}\NormalTok{)}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(target)) \{}
-\NormalTok{    target }\OtherTok{=} \FunctionTok{mean}\NormalTok{(x)}
-\NormalTok{    targetmissing }\OtherTok{=} \ConstantTok{FALSE}
-\NormalTok{  \}}
-  \ControlFlowTok{else}\NormalTok{ targetmissing }\OtherTok{=} \ConstantTok{TRUE}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(ref.interval)) }
-\NormalTok{    ref.interval }\OtherTok{=} \FunctionTok{pnorm}\NormalTok{(}\DecValTok{3}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{pnorm}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{)}
-\NormalTok{  sd }\OtherTok{=} \FunctionTok{sd}\NormalTok{(x)}
-\NormalTok{  mean }\OtherTok{=} \FunctionTok{mean}\NormalTok{(x)}
-\NormalTok{  ref.ar }\OtherTok{=} \FunctionTok{qnorm}\NormalTok{(ref.interval, mean, sd) }\SpecialCharTok{{-}} \FunctionTok{qnorm}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ ref.interval, }
-\NormalTok{                                                 mean, sd)}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(facCg)) }
-\NormalTok{    facCg }\OtherTok{=} \FloatTok{0.2}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(facCgk)) }
-\NormalTok{    facCgk }\OtherTok{=} \FloatTok{0.1}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(tolerance)) }
-    \FunctionTok{warning}\NormalTok{(}\StringTok{"Missing tolerance! The specification limits are choosen to get Cg = 1"}\NormalTok{)}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(tolerance)) \{}
-\NormalTok{    width }\OtherTok{=}\NormalTok{ ref.ar}\SpecialCharTok{/}\NormalTok{facCg}
-\NormalTok{    tolerance }\OtherTok{=} \FunctionTok{numeric}\NormalTok{(}\DecValTok{2}\NormalTok{)}
-\NormalTok{    tolerance[}\DecValTok{1}\NormalTok{] }\OtherTok{=} \FunctionTok{mean}\NormalTok{(x) }\SpecialCharTok{{-}}\NormalTok{ width}\SpecialCharTok{/}\DecValTok{2}
-\NormalTok{    tolerance[}\DecValTok{2}\NormalTok{] }\OtherTok{=} \FunctionTok{mean}\NormalTok{(x) }\SpecialCharTok{+}\NormalTok{ width}\SpecialCharTok{/}\DecValTok{2}
-\NormalTok{  \}}
-\NormalTok{  quant1 }\OtherTok{=} \FunctionTok{qnorm}\NormalTok{((}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ ref.interval)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, mean, sd)}
-\NormalTok{  quant2 }\OtherTok{=} \FunctionTok{qnorm}\NormalTok{(ref.interval }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ ref.interval)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, mean, }
-\NormalTok{                 sd)}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(tolerance) }\SpecialCharTok{!=} \DecValTok{2}\NormalTok{) }
-    \FunctionTok{stop}\NormalTok{(}\StringTok{"tolerance has wrong length"}\NormalTok{)}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(type)) }
-\NormalTok{    type }\OtherTok{=} \StringTok{"b"}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(col)) }
-\NormalTok{    col }\OtherTok{=} \DecValTok{1}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(pch)) }
-\NormalTok{    pch }\OtherTok{=} \DecValTok{19}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(xlim)) }
-\NormalTok{    xlim }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FunctionTok{length}\NormalTok{(x))}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(ylim)) }
-\NormalTok{    ylim }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\FunctionTok{min}\NormalTok{(x, target }\SpecialCharTok{{-}}\NormalTok{ n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(}\FunctionTok{diff}\NormalTok{(tolerance))), }
-\NormalTok{                 quant1, quant2), }\FunctionTok{max}\NormalTok{(x, target }\SpecialCharTok{+}\NormalTok{ n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(}\FunctionTok{diff}\NormalTok{(tolerance))), }
-\NormalTok{                                      quant1, quant2))}
-  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(main)) }
-\NormalTok{    main }\OtherTok{=} \StringTok{"Tolerance View"}
-\NormalTok{  Cg }\OtherTok{\textless{}{-}}\NormalTok{ (facCg }\SpecialCharTok{*}\NormalTok{ tolerance[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{{-}}\NormalTok{tolerance[}\DecValTok{1}\NormalTok{])}\SpecialCharTok{/}\NormalTok{ref.interval}
-\NormalTok{  Cgk }\OtherTok{\textless{}{-}}\NormalTok{ (facCgk }\SpecialCharTok{*} \FunctionTok{abs}\NormalTok{(target}\SpecialCharTok{{-}}\FunctionTok{mean}\NormalTok{(x))}\SpecialCharTok{/}\NormalTok{(ref.interval}\SpecialCharTok{/}\DecValTok{2}\NormalTok{))}
-  
-  \CommentTok{\# Gráfica}
-\NormalTok{  p }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{x =} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(x), }\AttributeTok{y =}\NormalTok{ x), }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{y =}\NormalTok{ y)) }\SpecialCharTok{+}
-    \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{color =}\NormalTok{ col, }\AttributeTok{shape =}\NormalTok{ pch) }\SpecialCharTok{+}
-    \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color =}\NormalTok{ col, }\AttributeTok{linetype =} \StringTok{"solid"}\NormalTok{)}\SpecialCharTok{+}
-    \FunctionTok{geom\_hline}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{yintercept =}\NormalTok{ target), }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
-    \FunctionTok{geom\_hline}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{yintercept =}\NormalTok{ tolerance[}\DecValTok{1}\NormalTok{]), }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
-    \FunctionTok{geom\_hline}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{yintercept =}\NormalTok{ tolerance[}\DecValTok{2}\NormalTok{]), }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
-    \FunctionTok{geom\_hline}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{yintercept =}\NormalTok{ (target }\SpecialCharTok{+}\NormalTok{ n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (tolerance[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ tolerance[}\DecValTok{1}\NormalTok{]))), }\AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
-    \FunctionTok{geom\_hline}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{yintercept =}\NormalTok{ (target }\SpecialCharTok{{-}}\NormalTok{ n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (tolerance[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ tolerance[}\DecValTok{1}\NormalTok{]))), }\AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
-    \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"Data"} \OtherTok{=}\NormalTok{ col)) }\SpecialCharTok{+}
-    \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{""}\NormalTok{, }\AttributeTok{y =} \StringTok{"x"}\NormalTok{, }\AttributeTok{color =} \StringTok{"Variable"}\NormalTok{, }\AttributeTok{title =}\NormalTok{ main)}\SpecialCharTok{+}
-    \FunctionTok{theme\_bw}\NormalTok{()}\SpecialCharTok{+}\FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{,}\AttributeTok{face =} \StringTok{"bold"}\NormalTok{))}\SpecialCharTok{+}
-     \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{)}
-  
-  \ControlFlowTok{if}\NormalTok{ (cgOut }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{) \{}
-\NormalTok{    p }\OtherTok{\textless{}{-}}\NormalTok{ p }\SpecialCharTok{+}
-      \FunctionTok{annotation\_custom}\NormalTok{(}
-        \AttributeTok{grob =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{textGrob}\NormalTok{(}
-          \AttributeTok{label =} \FunctionTok{c}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Cg: "}\NormalTok{, }\FunctionTok{round}\NormalTok{(Cg,}\AttributeTok{digits =} \DecValTok{6}\NormalTok{))),}
-          \AttributeTok{x =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.15}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-          \AttributeTok{y =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-          \AttributeTok{just =} \FunctionTok{c}\NormalTok{(}\StringTok{"right"}\NormalTok{, }\StringTok{"top"}\NormalTok{),}
-          \AttributeTok{gp =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{gpar}\NormalTok{(}\AttributeTok{fontsize =} \DecValTok{12}\NormalTok{, }\AttributeTok{fontface =} \StringTok{"bold"}\NormalTok{)}
-\NormalTok{        )}
-\NormalTok{      ) }\SpecialCharTok{+} 
-      \FunctionTok{annotation\_custom}\NormalTok{(}
-        \AttributeTok{grob =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{textGrob}\NormalTok{(}
-          \AttributeTok{label =} \FunctionTok{c}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Cgk:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(Cgk,}\AttributeTok{digits =} \DecValTok{6}\NormalTok{))),}
-          \AttributeTok{x =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.15}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-          \AttributeTok{y =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"npc"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\StringTok{"cm"}\NormalTok{),}
-          \AttributeTok{just =} \FunctionTok{c}\NormalTok{(}\StringTok{"right"}\NormalTok{, }\StringTok{"top"}\NormalTok{),}
-          \AttributeTok{gp =}\NormalTok{ grid}\SpecialCharTok{::}\FunctionTok{gpar}\NormalTok{(}\AttributeTok{fontsize =} \DecValTok{12}\NormalTok{, }\AttributeTok{fontface =} \StringTok{"bold"}\NormalTok{)}
-\NormalTok{        )}
-\NormalTok{      )}
-    \FunctionTok{show}\NormalTok{(p)}
-\NormalTok{  \}}
-  \ControlFlowTok{else}\NormalTok{\{}
-    \FunctionTok{show}\NormalTok{(p)}
-\NormalTok{  \}}
-  \FunctionTok{invisible}\NormalTok{(}\FunctionTok{list}\NormalTok{(Cg, Cgk))}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{itemize}
 \tightlist
@@ -4265,8 +3780,7 @@ Además utilizaremos los siguientes datos de pruebas:
 \FunctionTok{cgToleranceView}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{target =}\NormalTok{ target, }\AttributeTok{tolerance =}\NormalTok{ tolerance, }
                 \AttributeTok{ref.interval =}\NormalTok{ ref.interval, }\AttributeTok{facCg =}\NormalTok{ facCg, }\AttributeTok{facCgk =}\NormalTok{ facCgk, }
                 \AttributeTok{n =}\NormalTok{ n, }\AttributeTok{type =}\NormalTok{ type, }\AttributeTok{col =}\NormalTok{ col, }\AttributeTok{pch =}\NormalTok{ pch, }\AttributeTok{xlim =}\NormalTok{ xlim, }
-                \AttributeTok{ylim =}\NormalTok{ ylim, }\AttributeTok{main =} \StringTok{"Tolerance View"}\NormalTok{, }\AttributeTok{conf.level =}\NormalTok{ conf.level, }
-                \AttributeTok{cex.val =}\NormalTok{ cex.val, }\AttributeTok{cgOut =} \ConstantTok{TRUE}\NormalTok{)}
+                \AttributeTok{ylim =}\NormalTok{ ylim, }\AttributeTok{main =} \StringTok{"Tolerance View"}\NormalTok{, }\AttributeTok{conf.level =}\NormalTok{ conf.level, }\AttributeTok{cgOut =} \ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4280,30 +3794,64 @@ Además utilizaremos los siguientes datos de pruebas:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cgToleranceChart}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{target =}\NormalTok{ target, }\AttributeTok{tolerance =}\NormalTok{ tolerance, }
+\FunctionTok{cg\_ToleranceChart}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{target =}\NormalTok{ target, }\AttributeTok{tolerance =}\NormalTok{ tolerance, }
                  \AttributeTok{ref.interval =}\NormalTok{ ref.interval, }\AttributeTok{facCg =}\NormalTok{ facCg, }\AttributeTok{facCgk =}\NormalTok{ facCgk, }
                  \AttributeTok{n =}\NormalTok{ n, }\AttributeTok{type =}\NormalTok{ type, }\AttributeTok{col =}\NormalTok{ col, }\AttributeTok{pch =}\NormalTok{ pch, }\AttributeTok{xlim =}\NormalTok{ xlim, }
-                 \AttributeTok{ylim =}\NormalTok{ ylim, }\AttributeTok{main =} \StringTok{"Tolerance View"}\NormalTok{, }\AttributeTok{conf.level =}\NormalTok{ conf.level, }
-                 \AttributeTok{cex.val =}\NormalTok{ cex.val, }\AttributeTok{cgOut =} \ConstantTok{TRUE}\NormalTok{)}
+                 \AttributeTok{ylim =}\NormalTok{ ylim, }\AttributeTok{main =} \StringTok{"Tolerance View"}\NormalTok{, }\AttributeTok{conf.level =}\NormalTok{ conf.level, }\AttributeTok{cgOut =} \ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-151-1.pdf}
+
+\hypertarget{funcion-cg}{%
+\subsubsection{Funcion cg}\label{funcion-cg}}
 
 Ahora la función \texttt{cg} se modificará de la siguiente forma:
 
 \begin{itemize}
 \tightlist
 \item
+  Resultados Antes:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{ ( }\FloatTok{9.991}\NormalTok{, }\FloatTok{10.013}\NormalTok{, }\FloatTok{10.001}\NormalTok{, }\FloatTok{10.007}\NormalTok{, }\FloatTok{10.010}\NormalTok{, }\FloatTok{10.013}\NormalTok{, }\FloatTok{10.008}\NormalTok{, }\FloatTok{10.017}\NormalTok{, }\FloatTok{10.005}\NormalTok{, }\FloatTok{10.005}\NormalTok{, }\FloatTok{10.002}\NormalTok{,}
+         \FloatTok{10.017}\NormalTok{, }\FloatTok{10.005}\NormalTok{, }\FloatTok{10.002}\NormalTok{, }\FloatTok{9.996}\NormalTok{, }\FloatTok{10.011}\NormalTok{, }\FloatTok{10.009}\NormalTok{ , }\FloatTok{10.006}\NormalTok{, }\FloatTok{10.008}\NormalTok{, }\FloatTok{10.003}\NormalTok{, }\FloatTok{10.002}\NormalTok{, }\FloatTok{10.006}\NormalTok{, }
+         \FloatTok{10.010}\NormalTok{, }\FloatTok{9.992}\NormalTok{, }\FloatTok{10.013}\NormalTok{)}
+
+\FunctionTok{cg}\NormalTok{(x, }\AttributeTok{target =} \FloatTok{10.003}\NormalTok{, }\AttributeTok{tolerance =} \FunctionTok{c}\NormalTok{(}\FloatTok{9.903}\NormalTok{, }\FloatTok{10.103}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-153-1.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  Resultados Ahora:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cg\_}\NormalTok{(x, }\AttributeTok{target =} \FloatTok{10.003}\NormalTok{, }\AttributeTok{tolerance =} \FunctionTok{c}\NormalTok{(}\FloatTok{9.903}\NormalTok{, }\FloatTok{10.103}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-154-1.pdf}
+
+\begin{itemize}
+\tightlist
+\item
   Wickham, H. (2019). Advanced r. chapman and hall/CRC.
 \item
-  Chang W (2022). R6: Encapsulated Classes with Reference Semantics. \url{https://r6.r-lib.org}, \url{https://github.com/r-lib/R6/}.
+  Chang W (2022). R6: Encapsulated Classes with Reference Semantics.
 \item
-  Dancho, M (2023). R Quantitative Analysis Package Integrations in tidyquant. \url{https://cran.r-project.org/web/packages/tidyquant/vignettes/TQ02-quant-integrations-in-tidyquant.html}
+  Dancho, M (2023). R Quantitative Analysis Package Integrations in tidyquant.
 \item
   Roth, T. (2016). Working with the qualityTools package.
 \item
-  Six Sigma Daily (2012). What is DMAIC?. recuperado de: \url{https://www.sixsigmadaily.com/what-is-dmaic/}
+  Six Sigma Daily (2012). What is DMAIC?.
 \end{itemize}
 
   \bibliography{book.bib,packages.bib}

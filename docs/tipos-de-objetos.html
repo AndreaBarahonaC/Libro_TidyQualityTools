@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capítulo 3 Tipos de objetos | Integración del Paquete QualityTools con Tidyverse</title>
+<meta name="author" content="Miguel Flores">
+<meta name="author" content="Andrea Barahona">
+<meta name="author" content="Fabián Encarnación">
+<meta name="author" content="Dario Quishpe">
+<meta name="generator" content="bookdown 0.38 with bs4_book()">
+<meta property="og:title" content="Capítulo 3 Tipos de objetos | Integración del Paquete QualityTools con Tidyverse">
+<meta property="og:type" content="book">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capítulo 3 Tipos de objetos | Integración del Paquete QualityTools con Tidyverse">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<meta name="description" content="Para tratar el tema de objetos y POO en R, en primer lugar se tiene que aclarar la confusión entre los usos de la palabra “objeto”. Por lo general se piensa que “Todo lo que existe en R es un...">
+<meta property="og:description" content="Para tratar el tema de objetos y POO en R, en primer lugar se tiene que aclarar la confusión entre los usos de la palabra “objeto”. Por lo general se piensa que “Todo lo que existe en R es un...">
+<meta name="twitter:description" content="Para tratar el tema de objetos y POO en R, en primer lugar se tiene que aclarar la confusión entre los usos de la palabra “objeto”. Por lo general se piensa que “Todo lo que existe en R es un...">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Integración del Paquete QualityTools con Tidyverse</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Preámbulo</a></li>
+<li><a class="" href="poo-programaci%C3%B3n-orientada-a-objetos.html"><span class="header-section-number">2</span> (POO) Programación Orientada a Objetos</a></li>
+<li><a class="active" href="tipos-de-objetos.html"><span class="header-section-number">3</span> Tipos de objetos</a></li>
+<li><a class="" href="r6.html"><span class="header-section-number">4</span> R6</a></li>
+<li><a class="" href="tidyquant.html"><span class="header-section-number">5</span> TidyQuant</a></li>
+<li><a class="" href="qualitytools.html"><span class="header-section-number">6</span> QualityTools</a></li>
+<li><a class="" href="cambio-de-funciones.html"><span class="header-section-number">7</span> Cambio de Funciones</a></li>
+<li><a class="" href="referencias.html">Referencias</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="tipos-de-objetos" class="section level1" number="3">
+<h1>
+<span class="header-section-number">Capítulo 3</span> Tipos de objetos<a class="anchor" aria-label="anchor" href="#tipos-de-objetos"><i class="fas fa-link"></i></a>
+</h1>
+<p>Para tratar el tema de objetos y POO en R, en primer lugar se tiene que aclarar la confusión entre los usos de la palabra “objeto”. Por lo general se piensa que “Todo lo que existe en R es un objeto”, sin embargo, aunque todo es un objeto, no todo está orientado a objetos. Esta confusión surge porque los objetos de R base proceden de S, y se desarrollaron antes de que nadie pensara que S podría necesitar un sistema POO.</p>
+<p>Los términos que se usan para diferenciar los dos tipos de objeto son: <strong>objetos base y objetos OO para distinguirlos.</strong></p>
+<div id="objetos-base-vs-objetos-oo" class="section level2" number="3.1">
+<h2>
+<span class="header-section-number">3.1</span> Objetos Base vs Objetos OO<a class="anchor" aria-label="anchor" href="#objetos-base-vs-objetos-oo"><i class="fas fa-link"></i></a>
+</h2>
+<p>Para diferenciar entre un objeto base y uno OO, se utiliza is.object() o sloop::otype()</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#EJEMPLO 1</span></span>
+<span><span class="co"># UN OBJETO BASE:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/is.object.html">is.object</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">## [1] FALSE</span></span>
+<span></span>
+<span><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">## [1] "base"</span></span>
+<span></span>
+<span><span class="co"># Utilizamos el dataframe mtcars</span></span>
+<span></span>
+<span><span class="co"># UN OBJETO OO</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/is.object.html">is.object</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
+<span><span class="co">## [1] TRUE</span></span>
+<span></span>
+<span><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
+<span><span class="co">## [1] "S3"</span></span></code></pre></div>
+<p>Para diferenciarlos también se puede tomar en cuenta que solo los objetos OO tienen el atributo “<strong>class</strong>”</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Objeto base</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="st">"class"</span><span class="op">)</span></span>
+<span><span class="co">## NULL</span></span>
+<span></span>
+<span></span>
+<span><span class="co">#Objeto OO</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"class"</span><span class="op">)</span></span>
+<span><span class="co">## [1] "data.frame"</span></span></code></pre></div>
+<p>por otro lado cada objeto tiene un <strong>base type</strong>:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Objeto Base</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">## [1] "integer"</span></span>
+<span></span>
+<span></span>
+<span><span class="co">#Objeto OO</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
+<span><span class="co">## [1] "list"</span></span></code></pre></div>
+<p>En total, hay 25 tipos de <strong>base type</strong> diferentes. Estos tipos son más importantes en código C, por lo que a menudo se verán llamados por sus nombres de tipo C (estos se encuentran en paréntesis). Los presentamos a continuación</p>
+<p><strong>Para vectores</strong> tenemos los tipos :</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th>Tipo</th>
+<th>Descripción</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>NULL (NILSXP)</td>
+<td>Tipo nulo</td>
+</tr>
+<tr class="even">
+<td>logical (LGLSXP)</td>
+<td>Tipo lógico</td>
+</tr>
+<tr class="odd">
+<td>integer (INTSXP)</td>
+<td>Tipo entero</td>
+</tr>
+<tr class="even">
+<td>double (REALSXP)</td>
+<td>Tipo decimal de precisión doble</td>
+</tr>
+<tr class="odd">
+<td>complex (CPLXSXP)</td>
+<td>Tipo complejo</td>
+</tr>
+<tr class="even">
+<td>character (STRSXP)</td>
+<td>Tipo caracter</td>
+</tr>
+<tr class="odd">
+<td>list (VECSXP)</td>
+<td>Tipo lista</td>
+</tr>
+<tr class="even">
+<td>raw (RAWSXP)</td>
+<td>Tipo de datos binarios</td>
+</tr>
+</tbody>
+</table></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#EJEMPLOS</span></span>
+<span></span>
+<span><span class="co">#NULL</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="co">## [1] "NULL"</span></span>
+<span></span>
+<span></span>
+<span><span class="co">#integer</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fl">1L</span><span class="op">)</span></span>
+<span><span class="co">## [1] "integer"</span></span>
+<span></span>
+<span></span>
+<span><span class="co">#COMPLEX</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fl">1i</span><span class="op">)</span></span>
+<span><span class="co">## [1] "complex"</span></span></code></pre></div>
+<p><strong>Para funciones</strong> :</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th>Tipo</th>
+<th>Descripción</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>closure (CLOSXP)</td>
+<td>Funciones regulares de R</td>
+</tr>
+<tr class="even">
+<td>special (SPECIALSXP)</td>
+<td>Funciones internas de R</td>
+</tr>
+<tr class="odd">
+<td>builtin (BUILTINSXP)</td>
+<td>Funciones primitivas de R</td>
+</tr>
+</tbody>
+</table></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Ejemplos</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span> <span class="co">#closure</span></span>
+<span><span class="co">## [1] "closure"</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">`[`</span><span class="op">)</span> <span class="co">#special</span></span>
+<span><span class="co">## [1] "special"</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">sum</span><span class="op">)</span> <span class="co">#builtin</span></span>
+<span><span class="co">## [1] "builtin"</span></span></code></pre></div>
+<p><strong>Para Entornos :</strong> environment (ENVSXP).</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Ejemplos</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/environment.html">globalenv</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## [1] "environment"</span></span></code></pre></div>
+<p><strong>Para Componentes de Lenguaje :</strong> incluyen</p>
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="31%">
+<col width="68%">
+</colgroup>
+<thead><tr class="header">
+<th>Tipo</th>
+<th>Información extra</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>symbol (SYMSXP)</td>
+<td>Conocido como:name</td>
+</tr>
+<tr class="even">
+<td>language (LANGSXP)</td>
+<td>Conodido como: calls</td>
+</tr>
+<tr class="odd">
+<td>pairlist (LISTSXP)</td>
+<td>Utilizado para los argumentos de funciones</td>
+</tr>
+</tbody>
+</table></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Ejemplos</span></span>
+<span></span>
+<span><span class="co"># "symbol"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html">quote</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## [1] "symbol"</span></span>
+<span></span>
+<span><span class="co">#"language"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html">quote</a></span><span class="op">(</span><span class="va">a</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## [1] "language"</span></span>
+<span></span>
+<span><span class="co">#"pairlist"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/formals.html">formals</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## [1] "pairlist"</span></span></code></pre></div>
+<p>Los tipos restantes son esotéricos y raramente vistos en R. Son importantes principalmente para el código C: externalptr (EXTPTRSXP), weakref (WEAKREFSXP), bytecode (BCODESXP), promise (PROMSXP), … (DOTSXP), and any (ANYSXP).</p>
+<p>Ahora hay que tener cuidado al momento de referirnos sobre los tipos númericos : <strong>numeric type</strong> , pues el tipo <strong>numeric</strong> en R suele utilizarce para referirse a 3 cosas ligeramentes distintas :</p>
+<ul>
+<li>En algunos lugares <strong>numeric</strong> se utiliza como alias del tipo double. Por ejemplo <code><a href="https://rdrr.io/r/base/numeric.html">as.numeric()</a></code> es idéntico a <code><a href="https://rdrr.io/r/base/double.html">as.double()</a></code>, y <code><a href="https://rdrr.io/r/base/numeric.html">numeric()</a></code> es idéntico a <code><a href="https://rdrr.io/r/base/double.html">double()</a></code>.</li>
+</ul>
+<p>(R también utiliza ocasionalmente real en lugar de double; <code>NA_real_</code> es el único lugar donde es probable encontrar esto en la práctica).</p>
+<ul>
+<li>En los sistemas S3 y S4, numeric se utiliza como una abreviatura para el tipo integer o double, y se utiliza cuando se seleccionan métodos:</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#EJEMPLOS</span></span>
+<span></span>
+<span><span class="co">#"double" "numeric"</span></span>
+<span><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/s3_class.html">s3_class</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">## [1] "double"  "numeric"</span></span>
+<span></span>
+<span><span class="co">#"integer" "numeric"</span></span>
+<span><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/s3_class.html">s3_class</a></span><span class="op">(</span><span class="fl">1L</span><span class="op">)</span></span>
+<span><span class="co">## [1] "integer" "numeric"</span></span></code></pre></div>
+<ul>
+<li>
+<code><a href="https://rdrr.io/r/base/numeric.html">is.numeric()</a></code> comprueba si los objetos se comportan como números . Por ejemplo, los factores tienen tipo “entero” pero no se comportan como números (es decir, no tiene sentido tomar la media del factor).</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#Factor es tipo entero </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## [1] "integer"</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Pero NO SE COMPORTAN COMO ENTERO </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">is.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## [1] FALSE</span></span></code></pre></div>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="poo-programaci%C3%B3n-orientada-a-objetos.html"><span class="header-section-number">2</span> (POO) Programación Orientada a Objetos</a></div>
+<div class="next"><a href="r6.html"><span class="header-section-number">4</span> R6</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#tipos-de-objetos"><span class="header-section-number">3</span> Tipos de objetos</a></li>
+<li><a class="nav-link" href="#objetos-base-vs-objetos-oo"><span class="header-section-number">3.1</span> Objetos Base vs Objetos OO</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Integración del Paquete QualityTools con Tidyverse</strong>" was written by Miguel Flores, Andrea Barahona, Fabián Encarnación, Dario Quishpe. It was last built on 2024-04-25.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>
