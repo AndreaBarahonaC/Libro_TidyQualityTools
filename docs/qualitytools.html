@@ -626,11 +626,10 @@ diseño de superficie de respuesta desde el principio, la parte en estrella sól
 <p>Los diseños de superficie de respuesta también pueden elegirse a partir de una tabla utilizando el método <code>rsmChoose</code>.</p>
 <div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rsdo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/rsmDesign.html">rsmDesign</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-### Montaje secuencial de diseños de superficie de respuesta
-=======
-#### Montaje secuencial de diseños de superficie de respuesta
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; 38aa7fcbe69006ca620167942eac17f3b64293c9</p>
+<div id="montaje-secuencial-de-diseños-de-superficie-de-respuesta" class="section level4" number="5.4.6.1">
+<h4>
+<span class="header-section-number">5.4.6.1</span> Montaje secuencial de diseños de superficie de respuesta<a class="anchor" aria-label="anchor" href="#montaje-secuencial-de-dise%C3%B1os-de-superficie-de-respuesta"><i class="fas fa-link"></i></a>
+</h4>
 <p>El ensamblaje secuencial es una característica importante de los diseños de superficie de respuesta. En función de de las características del diseño factorial (fraccional) puede aumentarse una porción de estrella utilizando el método <code>starDesign</code>. Una porción en estrella consta de recorridos axiales
 y puntos centrales opcionales (<code>cs</code>) en la parte axial a diferencia de los puntos centrales (<code>cc</code>) en la parteparte cúbica.</p>
 <div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
@@ -638,11 +637,11 @@ y puntos centrales opcionales (<code>cs</code>) en la parte axial a diferencia d
 <span><span class="va">rsdo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/starDesign.html">starDesign</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="st">"orthogonal"</span>, data <span class="op">=</span> <span class="va">fdo3</span><span class="op">)</span></span></code></pre></div>
 <p>En caso de que no se entregue ningún diseño factorial (fraccional) al método <code>starDesign</code>, se devuelve una lista con <code>data.frames</code> que pueden asignarse al diseño factorial (fraccional) existente utilizando los métodos <code>star</code>, <code>centerStar</code> y <code>centerCube</code>.</p>
 <div class="inline-figure"><img src="graficos/dario3.jpg" width="700"></div>
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-### Aleatorización
-=======
-#### Aleatorización
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; 38aa7fcbe69006ca620167942eac17f3b64293c9</p>
+</div>
+<div id="aleatorización" class="section level4" number="5.4.6.2">
+<h4>
+<span class="header-section-number">5.4.6.2</span> Aleatorización<a class="anchor" aria-label="anchor" href="#aleatorizaci%C3%B3n"><i class="fas fa-link"></i></a>
+</h4>
 <p>La aleatorización se consigue utilizando el método <code>randomize</code>.
 Es necesario suministrar una semilla aleatoria (random.seed) que es útil para tener el mismo orden de ejecución en cualquier máquina.</p>
 <div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
@@ -650,19 +649,19 @@ Es necesario suministrar una semilla aleatoria (random.seed) que es útil para t
 <p>El método <code>randomize</code> se puede utilizar para obtener un diseño en orden estándar con la ayuda del argumento <code>so</code>.</p>
 <div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">randomizeDesign</span><span class="op">(</span><span class="va">fdo</span>, so <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-### Bloqueo
-=======
-#### Bloqueo
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; 38aa7fcbe69006ca620167942eac17f3b64293c9</p>
+</div>
+<div id="bloqueo" class="section level4" number="5.4.6.3">
+<h4>
+<span class="header-section-number">5.4.6.3</span> Bloqueo<a class="anchor" aria-label="anchor" href="#bloqueo"><i class="fas fa-link"></i></a>
+</h4>
 <p>El bloqueo es otra característica relevante y puede conseguirse mediante el método de <code>blocking</code>. Bloquear un diseño a posteriori no siempre tiene éxito.
 Sin embargo, no es problemático durante el montaje secuencial.</p>
 </div>
 </div>
-<div id="deseabilidades" class="section level2" number="5.5">
-<h2>
-<span class="header-section-number">5.5</span> Deseabilidades<a class="anchor" aria-label="anchor" href="#deseabilidades"><i class="fas fa-link"></i></a>
-</h2>
+<div id="deseabilidades" class="section level3" number="5.4.7">
+<h3>
+<span class="header-section-number">5.4.7</span> Deseabilidades<a class="anchor" aria-label="anchor" href="#deseabilidades"><i class="fas fa-link"></i></a>
+</h3>
 <p>Muchos problemas requieren optimización simultánea de más de una variable de respuesta. La optimización puede lograrse maximizando o minimizando el valor de la respuesta o tratando de situar la respuesta en un objetivo específico.En la Optimización mediante el enfoque de las deseabilidades Derringer y Suich [1980], los valores (predichos) de las variables de respuesta se transforman en valores dentro del intervalo [0,1] utilizando tres métodos de deseabilidad diferentes
 para los tres criterios de optimización diferentes (es decir, minimizar, maximizar, objetivo). A cada valor de una variable de respuesta se le puede asignar una deseabilidad específica, optimizando más de una variable de respuesta. La media geométrica de las deseabilidades específicas caracteriza la deseabilidad global.</p>
 <p><span class="math display">\[\sqrt[n]{\prod^n_{i=1}d_i}\]</span></p>
@@ -687,10 +686,10 @@ viene dada por la media geométrica.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">d1</span>, col <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">d3</span>, col <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="utilización-de-deseabilidades-junto-con-experimentos-diseñados" class="section level2" number="5.6">
-<h2>
-<span class="header-section-number">5.6</span> Utilización de deseabilidades junto con experimentos diseñados<a class="anchor" aria-label="anchor" href="#utilizaci%C3%B3n-de-deseabilidades-junto-con-experimentos-dise%C3%B1ados"><i class="fas fa-link"></i></a>
-</h2>
+<div id="utilización-de-deseabilidades-junto-con-experimentos-diseñados" class="section level3" number="5.4.8">
+<h3>
+<span class="header-section-number">5.4.8</span> Utilización de deseabilidades junto con experimentos diseñados<a class="anchor" aria-label="anchor" href="#utilizaci%C3%B3n-de-deseabilidades-junto-con-experimentos-dise%C3%B1ados"><i class="fas fa-link"></i></a>
+</h3>
 <p>La metodología de la deseabilidad se apoya en los objetos de diseño factorial. El resultado
 del método de deseabilidad puede almacenarse en el objeto de diseño, de modo que la información que
 pertenece a cada uno se almacena en el mismo lugar (es decir, el propio diseño).</p>
@@ -741,9 +740,12 @@ Ya se han definido <span class="math inline">\(y_1\)</span> e <span class="math 
 <p>Finalmente se tiene que</p>
 <div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/optimum.html">optimum</a></span><span class="op">(</span><span class="va">ddo</span>, type <span class="op">=</span> <span class="st">"optim"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure">
-<img src="graficos/dario4.jpg" width="700">
-## Diseños de mezclas</div>
+<div class="inline-figure"><img src="graficos/dario4.jpg" width="700"></div>
+</div>
+<div id="diseños-de-mezclas" class="section level3" number="5.4.9">
+<h3>
+<span class="header-section-number">5.4.9</span> Diseños de mezclas<a class="anchor" aria-label="anchor" href="#dise%C3%B1os-de-mezclas"><i class="fas fa-link"></i></a>
+</h3>
 <p>La generación de los diferentes tipos de diseños de mezcla es totalmente compatible
 incluyendo un contorno ternario y un gráfico 3D. El análisis de estos diseños debe realizarse sin ningún soporte específico mediante un método del paquete <code>qualityTools</code>.
 El método mixDesign puede utilizarse, por ejemplo, para crear diseños de celosía simplex y diseños de centroide simplex.
@@ -792,10 +794,10 @@ Un conjunto de datos Cornell [op. 2002] viene dado por el alargamiento del hilo 
 <span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/wirePlot3.html">wirePlot3</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, <span class="va">C</span>, <span class="va">elongation</span>, data <span class="op">=</span> <span class="va">mdo</span>, form <span class="op">=</span> <span class="st">"quadratic"</span>, theta <span class="op">=</span> <span class="op">-</span><span class="fl">170</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-130-1.png" width="672"></div>
 </div>
-<div id="diseños-taguchi" class="section level2" number="5.7">
-<h2>
-<span class="header-section-number">5.7</span> Diseños Taguchi<a class="anchor" aria-label="anchor" href="#dise%C3%B1os-taguchi"><i class="fas fa-link"></i></a>
-</h2>
+<div id="diseños-taguchi" class="section level3" number="5.4.10">
+<h3>
+<span class="header-section-number">5.4.10</span> Diseños Taguchi<a class="anchor" aria-label="anchor" href="#dise%C3%B1os-taguchi"><i class="fas fa-link"></i></a>
+</h3>
 <p>Los diseños Taguchi están disponibles utilizando el método <code>taguchiDesign</code>.</p>
 <p>Hay dos tipos de diseños taguchi:</p>
 <ul>
@@ -922,6 +924,7 @@ Como extra es importante el uso del comando <code>sessionInfo</code> con el fin 
 
 </div>
 </div>
+</div>
   <div class="chapter-nav">
 <div class="prev"><a href="tidyquant.html"><span class="header-section-number">4</span> TidyQuant</a></div>
 <div class="next"><a href="cambio-de-funciones.html"><span class="header-section-number">6</span> Cambio de Funciones</a></div>
@@ -947,11 +950,12 @@ Como extra es importante el uso del comando <code>sessionInfo</code> con el fin 
 <li><a class="nav-link" href="#respuestas-m%C3%BAltiples"><span class="header-section-number">5.4.4</span> Respuestas múltiples</a></li>
 <li><a class="nav-link" href="#pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado"><span class="header-section-number">5.4.5</span> Pasar a un entorno de proceso con un mayor rendimiento esperado</a></li>
 <li><a class="nav-link" href="#dise%C3%B1os-de-superficies-de-respuesta"><span class="header-section-number">5.4.6</span> Diseños de superficies de respuesta</a></li>
+<li><a class="nav-link" href="#deseabilidades"><span class="header-section-number">5.4.7</span> Deseabilidades</a></li>
+<li><a class="nav-link" href="#utilizaci%C3%B3n-de-deseabilidades-junto-con-experimentos-dise%C3%B1ados"><span class="header-section-number">5.4.8</span> Utilización de deseabilidades junto con experimentos diseñados</a></li>
+<li><a class="nav-link" href="#dise%C3%B1os-de-mezclas"><span class="header-section-number">5.4.9</span> Diseños de mezclas</a></li>
+<li><a class="nav-link" href="#dise%C3%B1os-taguchi"><span class="header-section-number">5.4.10</span> Diseños Taguchi</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#deseabilidades"><span class="header-section-number">5.5</span> Deseabilidades</a></li>
-<li><a class="nav-link" href="#utilizaci%C3%B3n-de-deseabilidades-junto-con-experimentos-dise%C3%B1ados"><span class="header-section-number">5.6</span> Utilización de deseabilidades junto con experimentos diseñados</a></li>
-<li><a class="nav-link" href="#dise%C3%B1os-taguchi"><span class="header-section-number">5.7</span> Diseños Taguchi</a></li>
 </ul>
 
       <div class="book-extra">

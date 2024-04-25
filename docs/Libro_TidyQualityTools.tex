@@ -836,11 +836,11 @@ Por ejemplo, creemos un campo activo llamado \texttt{random} que nos devuelva un
 \NormalTok{))}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Ran}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.1502285}
+\DocumentationTok{\#\# [1] 0.09555931}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.3916464}
+\DocumentationTok{\#\# [1] 0.550929}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.3627036}
+\DocumentationTok{\#\# [1] 0.5683465}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1261,11 +1261,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \DocumentationTok{\#\# [49] "J♥"  "Q♦"  "K♣"}
 \NormalTok{mazo}\SpecialCharTok{$}\FunctionTok{reshuffle}\NormalTok{()}
 \NormalTok{mazo}\SpecialCharTok{$}\NormalTok{.cartas}
-\DocumentationTok{\#\#  [1] "4♠"  "10♥" "10♣" "10♠" "4♦"  "A♦"  "A♠"  "J♠"  "8♣"  "10♦" "9♥"  "8♦" }
-\DocumentationTok{\#\# [13] "3♣"  "J♦"  "6♠"  "4♥"  "9♦"  "2♥"  "Q♠"  "J♥"  "K♣"  "Q♦"  "5♣"  "2♠" }
-\DocumentationTok{\#\# [25] "7♠"  "9♣"  "5♦"  "2♣"  "8♠"  "2♦"  "K♥"  "K♦"  "3♥"  "6♣"  "4♣"  "6♦" }
-\DocumentationTok{\#\# [37] "A♣"  "8♥"  "3♠"  "5♠"  "J♣"  "6♥"  "Q♥"  "K♠"  "7♦"  "9♠"  "5♥"  "7♣" }
-\DocumentationTok{\#\# [49] "Q♣"  "7♥"  "A♥"  "3♦"}
+\DocumentationTok{\#\#  [1] "8♥"  "Q♣"  "6♥"  "J♦"  "2♥"  "10♣" "4♠"  "K♦"  "2♠"  "9♥"  "A♠"  "A♦" }
+\DocumentationTok{\#\# [13] "Q♥"  "7♠"  "4♦"  "J♣"  "Q♠"  "5♣"  "Q♦"  "3♠"  "5♥"  "8♣"  "A♥"  "A♣" }
+\DocumentationTok{\#\# [25] "10♥" "K♠"  "J♥"  "7♦"  "4♣"  "6♣"  "6♠"  "9♦"  "8♦"  "10♠" "K♣"  "5♦" }
+\DocumentationTok{\#\# [37] "7♥"  "7♣"  "3♣"  "4♥"  "2♦"  "5♠"  "K♥"  "9♠"  "2♣"  "3♦"  "J♠"  "6♦" }
+\DocumentationTok{\#\# [49] "9♣"  "3♥"  "10♦" "8♠"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1436,11 +1436,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \NormalTok{)}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Rando}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.5260441}
+\DocumentationTok{\#\# [1] 0.1590716}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.01245125}
+\DocumentationTok{\#\# [1] 0.5612872}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{previous}
-\DocumentationTok{\#\# [1] 0.01245125}
+\DocumentationTok{\#\# [1] 0.5612872}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2077,7 +2077,7 @@ Las correlaciones de rendimiento son una forma para analizar la medida en que un
 ##  7 FB     2013-07-31          0.479              0.0373 
 ##  8 FB     2013-08-30          0.122             -0.0104 
 ##  9 FB     2013-09-30          0.217              0.0253 
-## 10 FB     2013-10-31         -0.000398           0.0503 
+## 10 FB     2013-10-31         -0.000398           0.0502 
 ## # i 182 more rows
 \end{verbatim}
 
@@ -2300,12 +2300,12 @@ Se puede ver estadísticas de la relación a partir de la función \texttt{lm}:
 ## 
 ## Residuals:
 ##        Min         1Q     Median         3Q        Max 
-## -0.0269575 -0.0039654  0.0002145  0.0039653  0.0289459 
+## -0.0269573 -0.0039657  0.0002153  0.0039653  0.0289460 
 ## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(>|t|)    
 ## (Intercept) 0.0001130  0.0003097   0.365    0.715    
-## V           0.8133641  0.0226393  35.927   <2e-16 ***
+## V           0.8133665  0.0226393  35.927   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -3129,11 +3129,8 @@ Los diseños de superficie de respuesta también pueden elegirse a partir de una
 \end{Highlighting}
 \end{Shaded}
 
-\textless\textless\textless\textless\textless\textless\textless{} HEAD
-\#\#\# Montaje secuencial de diseños de superficie de respuesta
-=======
-\#\#\#\# Montaje secuencial de diseños de superficie de respuesta
-\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater{} 38aa7fcbe69006ca620167942eac17f3b64293c9
+\hypertarget{montaje-secuencial-de-diseuxf1os-de-superficie-de-respuesta}{%
+\subsubsection{Montaje secuencial de diseños de superficie de respuesta}\label{montaje-secuencial-de-diseuxf1os-de-superficie-de-respuesta}}
 
 El ensamblaje secuencial es una característica importante de los diseños de superficie de respuesta. En función de de las características del diseño factorial (fraccional) puede aumentarse una porción de estrella utilizando el método \texttt{starDesign}. Una porción en estrella consta de recorridos axiales
 y puntos centrales opcionales (\texttt{cs}) en la parte axial a diferencia de los puntos centrales (\texttt{cc}) en la parteparte cúbica.
@@ -3149,11 +3146,8 @@ En caso de que no se entregue ningún diseño factorial (fraccional) al método 
 
 \includegraphics[width=7.29167in,height=\textheight]{graficos/dario3.jpg}
 
-\textless\textless\textless\textless\textless\textless\textless{} HEAD
-\#\#\# Aleatorización
-=======
-\#\#\#\# Aleatorización
-\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater{} 38aa7fcbe69006ca620167942eac17f3b64293c9
+\hypertarget{aleatorizaciuxf3n}{%
+\subsubsection{Aleatorización}\label{aleatorizaciuxf3n}}
 
 La aleatorización se consigue utilizando el método \texttt{randomize}.
 Es necesario suministrar una semilla aleatoria (random.seed) que es útil para tener el mismo orden de ejecución en cualquier máquina.
@@ -3172,17 +3166,14 @@ El método \texttt{randomize} se puede utilizar para obtener un diseño en orden
 \end{Highlighting}
 \end{Shaded}
 
-\textless\textless\textless\textless\textless\textless\textless{} HEAD
-\#\#\# Bloqueo
-=======
-\#\#\#\# Bloqueo
-\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater{} 38aa7fcbe69006ca620167942eac17f3b64293c9
+\hypertarget{bloqueo}{%
+\subsubsection{Bloqueo}\label{bloqueo}}
 
 El bloqueo es otra característica relevante y puede conseguirse mediante el método de \texttt{blocking}. Bloquear un diseño a posteriori no siempre tiene éxito.
 Sin embargo, no es problemático durante el montaje secuencial.
 
 \hypertarget{deseabilidades}{%
-\section{Deseabilidades}\label{deseabilidades}}
+\subsection{Deseabilidades}\label{deseabilidades}}
 
 Muchos problemas requieren optimización simultánea de más de una variable de respuesta. La optimización puede lograrse maximizando o minimizando el valor de la respuesta o tratando de situar la respuesta en un objetivo específico.En la Optimización mediante el enfoque de las deseabilidades Derringer y Suich {[}1980{]}, los valores (predichos) de las variables de respuesta se transforman en valores dentro del intervalo {[}0,1{]} utilizando tres métodos de deseabilidad diferentes
 para los tres criterios de optimización diferentes (es decir, minimizar, maximizar, objetivo). A cada valor de una variable de respuesta se le puede asignar una deseabilidad específica, optimizando más de una variable de respuesta. La media geométrica de las deseabilidades específicas caracteriza la deseabilidad global.
@@ -3220,7 +3211,7 @@ Los métodos de deseabilidad pueden definirse mediante el método \texttt{desire
 \end{Shaded}
 
 \hypertarget{utilizaciuxf3n-de-deseabilidades-junto-con-experimentos-diseuxf1ados}{%
-\section{Utilización de deseabilidades junto con experimentos diseñados}\label{utilizaciuxf3n-de-deseabilidades-junto-con-experimentos-diseuxf1ados}}
+\subsection{Utilización de deseabilidades junto con experimentos diseñados}\label{utilizaciuxf3n-de-deseabilidades-junto-con-experimentos-diseuxf1ados}}
 
 La metodología de la deseabilidad se apoya en los objetos de diseño factorial. El resultado
 del método de deseabilidad puede almacenarse en el objeto de diseño, de modo que la información que
@@ -3304,7 +3295,9 @@ Finalmente se tiene que
 \end{Shaded}
 
 \includegraphics[width=7.29167in,height=\textheight]{graficos/dario4.jpg}
-\#\# Diseños de mezclas
+
+\hypertarget{diseuxf1os-de-mezclas}{%
+\subsection{Diseños de mezclas}\label{diseuxf1os-de-mezclas}}
 
 La generación de los diferentes tipos de diseños de mezcla es totalmente compatible
 incluyendo un contorno ternario y un gráfico 3D. El análisis de estos diseños debe realizarse sin ningún soporte específico mediante un método del paquete \texttt{qualityTools}.
@@ -3381,7 +3374,7 @@ Un conjunto de datos Cornell {[}op. 2002{]} viene dado por el alargamiento del h
 \includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-130-1.pdf}
 
 \hypertarget{diseuxf1os-taguchi}{%
-\section{Diseños Taguchi}\label{diseuxf1os-taguchi}}
+\subsection{Diseños Taguchi}\label{diseuxf1os-taguchi}}
 
 Los diseños Taguchi están disponibles utilizando el método \texttt{taguchiDesign}.
 
