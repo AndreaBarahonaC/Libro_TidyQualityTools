@@ -9,14 +9,14 @@
 <meta name="author" content="Andrea Barahona">
 <meta name="author" content="Fabián Encarnación">
 <meta name="author" content="Dario Quishpe">
-<meta name="generator" content="bookdown 0.38 with bs4_book()">
+<meta name="generator" content="bookdown 0.37 with bs4_book()">
 <meta property="og:title" content="Capítulo 5 QualityTools | Integración del Paquete QualityTools con Tidyverse">
 <meta property="og:type" content="book">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Capítulo 5 QualityTools | Integración del Paquete QualityTools con Tidyverse">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.0/transition.js"></script><script src="libs/bs3compat-0.6.0/tabs.js"></script><script src="libs/bs3compat-0.6.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -860,7 +860,7 @@ puede utilizarse una vez más para visualizar los tamaños del efecto de los fac
 Como extra es importante el uso del comando <code>sessionInfo</code> con el fin de obtener el número de versión de R y los paquetes cargados :</p>
 <div class="sourceCode" id="cb154"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## R version 4.3.1 (2023-06-16 ucrt)
+<pre><code>## R version 4.3.2 (2023-10-31 ucrt)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows 11 x64 (build 22631)
 ## 
@@ -881,11 +881,11 @@ Como extra es importante el uso del comando <code>sessionInfo</code> con el fin 
 ## other attached packages:
 ##  [1] qualityTools_1.55          MASS_7.3-60               
 ##  [3] Rsolnp_1.16                tidyquant_1.0.7           
-##  [5] quantmod_0.4.25            TTR_0.24.3                
+##  [5] quantmod_0.4.25            TTR_0.24.4                
 ##  [7] PerformanceAnalytics_2.0.4 xts_0.13.1                
-##  [9] zoo_1.8-12                 lubridate_1.9.2           
-## [11] forcats_1.0.0              stringr_1.5.0             
-## [13] dplyr_1.1.2                purrr_1.0.2               
+##  [9] zoo_1.8-12                 lubridate_1.9.3           
+## [11] forcats_1.0.0              stringr_1.5.1             
+## [13] dplyr_1.1.4                purrr_1.0.2               
 ## [15] readr_2.1.4                tidyr_1.3.0               
 ## [17] tibble_3.2.1               ggplot2_3.4.4             
 ## [19] tidyverse_2.0.0            R6_2.5.1                  
@@ -894,32 +894,32 @@ Como extra es importante el uso del comando <code>sessionInfo</code> con el fin 
 ## loaded via a namespace (and not attached):
 ##  [1] tidyselect_1.2.0    timeDate_4022.108   farver_2.1.1       
 ##  [4] blob_1.2.4          fastmap_1.1.1       lazyeval_0.2.2     
-##  [7] digest_0.6.33       rpart_4.1.19        timechange_0.2.0   
-## [10] lifecycle_1.0.3     survival_3.5-5      RSQLite_2.3.6      
-## [13] magrittr_2.0.3      compiler_4.3.1      rlang_1.1.1        
-## [16] sass_0.4.7          tools_4.3.1         utf8_1.2.3         
+##  [7] digest_0.6.33       rpart_4.1.21        timechange_0.2.0   
+## [10] lifecycle_1.0.4     survival_3.5-7      RSQLite_2.3.5      
+## [13] magrittr_2.0.3      compiler_4.3.2      rlang_1.1.2        
+## [16] sass_0.4.7          tools_4.3.2         utf8_1.2.4         
 ## [19] yaml_2.3.7          data.table_1.14.8   knitr_1.45         
-## [22] labeling_0.4.2      bit_4.0.5           curl_5.0.2         
-## [25] xml2_1.3.5          withr_2.5.0         nnet_7.3-19        
-## [28] grid_4.3.1          fansi_1.0.4         timetk_2.9.0       
-## [31] colorspace_2.1-0    future_1.33.0       globals_0.16.2     
-## [34] scales_1.2.1        cli_3.6.1           rmarkdown_2.24     
-## [37] generics_0.1.3      rstudioapi_0.15.0   future.apply_1.11.0
+## [22] labeling_0.4.3      bit_4.0.5           curl_5.1.0         
+## [25] xml2_1.3.5          withr_2.5.2         nnet_7.3-19        
+## [28] grid_4.3.2          fansi_1.0.5         timetk_2.9.0       
+## [31] colorspace_2.1-0    future_1.33.1       globals_0.16.2     
+## [34] scales_1.2.1        cli_3.6.1           rmarkdown_2.25     
+## [37] generics_0.1.3      rstudioapi_0.15.0   future.apply_1.11.1
 ## [40] httr_1.4.7          tzdb_0.4.0          DBI_1.2.2          
-## [43] cachem_1.0.8        splines_4.3.1       parallel_4.3.1     
-## [46] vctrs_0.6.3         hardhat_1.3.0       Matrix_1.6-5       
-## [49] jsonlite_1.8.7      bookdown_0.38       hms_1.1.3          
-## [52] bit64_4.0.5         listenv_0.9.0       gower_1.0.1        
-## [55] jquerylib_0.1.4     recipes_1.0.7       parallelly_1.36.0  
+## [43] cachem_1.0.8        splines_4.3.2       parallel_4.3.2     
+## [46] vctrs_0.6.4         hardhat_1.3.1       Matrix_1.6-1.1     
+## [49] jsonlite_1.8.7      bookdown_0.37       hms_1.1.3          
+## [52] bit64_4.0.5         listenv_0.9.1       gower_1.0.1        
+## [55] jquerylib_0.1.4     recipes_1.0.9       parallelly_1.36.0  
 ## [58] glue_1.6.2          codetools_0.2-19    Quandl_2.11.0      
-## [61] rsample_1.2.1       stringi_1.7.12      gtable_0.3.4       
+## [61] rsample_1.2.1       stringi_1.8.2       gtable_0.3.4       
 ## [64] quadprog_1.5-8      downlit_0.4.3       munsell_0.5.0      
-## [67] furrr_0.3.1         pillar_1.9.0        htmltools_0.5.6    
-## [70] ipred_0.9-14        truncnorm_1.0-9     lava_1.7.2.1       
-## [73] evaluate_0.21       lattice_0.21-8      highr_0.10         
-## [76] memoise_2.0.1       bslib_0.5.1         class_7.3-22       
-## [79] Rcpp_1.0.11         nlme_3.1-162        prodlim_2023.03.31 
-## [82] mgcv_1.8-42         xfun_0.40           fs_1.6.3           
+## [67] furrr_0.3.1         pillar_1.9.0        htmltools_0.5.7    
+## [70] ipred_0.9-14        truncnorm_1.0-9     lava_1.7.3         
+## [73] evaluate_0.23       lattice_0.21-9      highr_0.10         
+## [76] memoise_2.0.1       bslib_0.6.0         class_7.3-22       
+## [79] Rcpp_1.0.11         nlme_3.1-163        prodlim_2023.08.28 
+## [82] mgcv_1.9-0          xfun_0.41           fs_1.6.3           
 ## [85] pkgconfig_2.0.3</code></pre>
 
 </div>
