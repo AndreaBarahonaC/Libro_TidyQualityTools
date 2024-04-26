@@ -603,6 +603,7 @@ cg_ <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
           )
         )
     ) + theme(axis.text.y.right = element_text(size = 15))
+
   # HistChart
   x.c <- x - target
   temp <- hist(x.c, plot = FALSE)
@@ -648,21 +649,21 @@ cg_ <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
       x = unit(0.05, "npc") + unit(0.05, "cm"),
       y = unit(1, "npc") - unit(0.05, "cm"),
       just = c("left", "top"),
-      gp = grid::gpar(fontsize = 12, fontface = "bold")
+      gp = grid::gpar(fontsize = 6, fontface = "bold")
     )) +
     annotation_custom(grob = grid::textGrob(
       label = c(paste("t-value: ", round(test$statistic, 3))),
       x = unit(0.05, "npc") + unit(0.05, "cm"),
-      y = unit(1, "npc") - unit(0.5, "cm"),
+      y = unit(1, "npc") - unit(0.4, "cm"),
       just = c("left", "top"),
-      gp = grid::gpar(fontsize = 11)
+      gp = grid::gpar(fontsize = 6)
     )) +
     annotation_custom(grob = grid::textGrob(
       label = c(paste("p-value: ", round(test$p.value, 3))),
       x = unit(0.05, "npc") + unit(0.05, "cm"),
-      y = unit(1, "npc") - unit(0.85, "cm"),
+      y = unit(1, "npc") - unit(0.65, "cm"),
       just = c("left", "top"),
-      gp = grid::gpar(fontsize = 11)
+      gp = grid::gpar(fontsize = 6)
     ))
 
   # Tolerance View

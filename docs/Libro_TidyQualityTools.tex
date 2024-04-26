@@ -127,7 +127,7 @@
 
 \title{Integración del Paquete QualityTools con Tidyverse}
 \author{Miguel Flores \and Andrea Barahona \and Fabián Encarnación \and Dario Quishpe}
-\date{2024-04-25}
+\date{2024-04-26}
 
 \begin{document}
 \maketitle
@@ -836,11 +836,11 @@ Por ejemplo, creemos un campo activo llamado \texttt{random} que nos devuelva un
 \NormalTok{))}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Ran}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.2431854}
+\DocumentationTok{\#\# [1] 0.1705572}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.4312071}
+\DocumentationTok{\#\# [1] 0.3478659}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.3314526}
+\DocumentationTok{\#\# [1] 0.7865287}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1261,11 +1261,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \DocumentationTok{\#\# [49] "J♥"  "Q♦"  "K♣"}
 \NormalTok{mazo}\SpecialCharTok{$}\FunctionTok{reshuffle}\NormalTok{()}
 \NormalTok{mazo}\SpecialCharTok{$}\NormalTok{.cartas}
-\DocumentationTok{\#\#  [1] "6♦"  "A♦"  "9♣"  "Q♦"  "3♦"  "5♥"  "9♥"  "8♦"  "7♠"  "3♥"  "4♣"  "10♥"}
-\DocumentationTok{\#\# [13] "7♣"  "J♠"  "A♠"  "9♦"  "4♠"  "6♣"  "5♣"  "3♠"  "2♠"  "Q♣"  "2♥"  "4♦" }
-\DocumentationTok{\#\# [25] "6♥"  "8♠"  "A♥"  "4♥"  "5♦"  "6♠"  "J♦"  "Q♥"  "J♥"  "8♥"  "5♠"  "10♦"}
-\DocumentationTok{\#\# [37] "K♥"  "2♦"  "7♥"  "K♦"  "A♣"  "2♣"  "9♠"  "3♣"  "7♦"  "10♣" "K♠"  "Q♠" }
-\DocumentationTok{\#\# [49] "10♠" "J♣"  "K♣"  "8♣"}
+\DocumentationTok{\#\#  [1] "8♦"  "3♦"  "J♥"  "K♥"  "J♣"  "5♦"  "6♥"  "8♣"  "4♦"  "9♦"  "J♠"  "3♣" }
+\DocumentationTok{\#\# [13] "K♦"  "10♥" "9♣"  "Q♠"  "10♦" "3♠"  "6♦"  "K♠"  "8♥"  "10♠" "A♣"  "Q♥" }
+\DocumentationTok{\#\# [25] "Q♣"  "2♣"  "9♥"  "3♥"  "K♣"  "5♥"  "4♣"  "4♠"  "A♥"  "A♦"  "5♠"  "7♣" }
+\DocumentationTok{\#\# [37] "4♥"  "10♣" "7♥"  "9♠"  "7♦"  "7♠"  "8♠"  "2♦"  "J♦"  "6♠"  "2♠"  "5♣" }
+\DocumentationTok{\#\# [49] "6♣"  "2♥"  "A♠"  "Q♦"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1437,11 +1437,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \NormalTok{)}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Rando}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.5611005}
+\DocumentationTok{\#\# [1] 0.400959}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.2025066}
+\DocumentationTok{\#\# [1] 0.8996583}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{previous}
-\DocumentationTok{\#\# [1] 0.2025066}
+\DocumentationTok{\#\# [1] 0.8996583}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2301,12 +2301,12 @@ Se puede ver estadísticas de la relación a partir de la función \texttt{lm}:
 ## 
 ## Residuals:
 ##        Min         1Q     Median         3Q        Max 
-## -0.0269573 -0.0039657  0.0002147  0.0039657  0.0289459 
+## -0.0269571 -0.0039654  0.0002151  0.0039652  0.0289459 
 ## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(>|t|)    
 ## (Intercept) 0.0001130  0.0003097   0.365    0.715    
-## V           0.8133652  0.0226394  35.927   <2e-16 ***
+## V           0.8133666  0.0226394  35.927   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
