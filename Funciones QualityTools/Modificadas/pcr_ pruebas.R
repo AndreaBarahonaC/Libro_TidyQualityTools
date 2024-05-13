@@ -698,13 +698,14 @@ qqPlot_o(x, y = distribution, ylab = "", main = "",
 
 qqPlot(x[,1], distribution = distribution,
        ylab = "", xlab = "", )
+
 nada <- FitDistr(x[,1],"normal")
 nada$estimate
 # Creamos un objeto DistrCollection
 distr_coll <- DistrCollection$new()
 
 # Creamos un objeto Distr para una distribución normal
-distr_normal <- Distr$new(x[,1], name = "normal", parameters = nada$estimate, sd = nada$sd,n = nada$n ,loglik = nada$loglik)
+distr_normal <- Distr$new(x, name = "normal", parameters = nada$estimate, sd = nada$sd,n = nada$n ,loglik = nada$loglik)
 
 # Agregamos el objeto Distr a la colección
 distr_coll$add(distr_normal)
