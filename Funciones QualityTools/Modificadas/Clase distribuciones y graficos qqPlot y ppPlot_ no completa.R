@@ -1,6 +1,5 @@
 library(R6)
 library(MASS)
-library(patchwork)
 
 # Class Distr ----
 Distr <- R6Class("Distr",
@@ -32,15 +31,19 @@ Distr <- R6Class("Distr",
                      if (missing(line.col)) {
                        line.col <- "red"
                      }
+
                      if (missing(line.width)) {
                        line.width <- 1
                      }
+
                      if (missing(main)) {
                        main <- object$name
                      }
+
                      if (missing(xlab)) {
                        xlab <- "x"
                      }
+
                      if (missing(ylab)) {
                        ylab <- "Density"
                      }
@@ -78,66 +81,15 @@ Distr <- R6Class("Distr",
                        ylim <- range(0, histObj$density, yPoints)
                      }
 
-                     # Histograma
-                     p1 <- ggplot(df, aes(x = mid, y = density)) +
-                       geom_bar(stat = "identity", width = width, fill = "lightblue", color = "black", alpha = 0.5) +
-                       labs(y = "Density", x = "x", title = main) +
-                       theme_minimal() + theme(plot.title = element_text(hjust = 0.5,face = "bold"))+
-                       guides(color = guide_legend(title.position = "top", title.hjust = 0.5))+
-                       geom_line(data = data.frame(x = xVec, y = yVec), aes(x = x, y = y), color = "red", linewidth = 0.5) + # densidad
-                       theme(legend.position = "none")
+                     hist(xVals, freq = FALSE, xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim, main = main, ...)
+                     lines(xPoints, yPoints, col = line.col, lwd = line.width)
+                     abline(h = 0)
+                     legend("topright", c(paste(c(names(parameters), "A", "p"), ": ", c(format(parameters, digits = 3), format(A, digits = 3), format(p, digits = 3))), sep = " "),
+                            inset = 0.02)
 
-                     # Caja de Info
-                     p2 <- ggplot(data = data.frame(x = 0, y = 0), aes(x, y)) +
-                       theme_bw() +
-                       theme(
-                         axis.text = element_blank(),
-                         axis.ticks = element_blank(),
-                         axis.title = element_blank(),
-                         panel.grid.major = element_blank(),
-                         panel.grid.minor = element_blank()
-                       ) +
-                       xlim(c(0.25,0.26)) + ylim(c(0.19, 0.36))
-                     {
-                       # n y A
-                       p2 <- p2 +
-                         annotate('text', x = 0.25, y = 0.25,
-                                  label = paste("A==", round(as.numeric(A), digits = 3)),
-                                  parse = TRUE, size = 3, hjust = 0)
-
-                       # p
-                       if (!is.null(adTestStats$smaller) && adTestStats$smaller){
-                         p2 <- p2 +
-                           annotate('text',x = 0.25,y = 0.20,
-                           label = paste("p<", round(as.numeric(p), digits =3)),
-                           parse = TRUE,size = 3,hjust = 0
-                         )
-                       }
-                       if (!is.null(adTestStats$smaller) && !adTestStats$smaller){
-                         p2 <- p2 +
-                           annotate('text',x = 0.25, y = 0.20,
-                           label = paste("p>=", round(as.numeric(p),digits = 3)),
-                           parse = TRUE,size = 3,hjust = 0
-                         )
-                       }
-                       if (is.null(adTestStats$smaller)){
-                         p2 <- p2 +
-                           annotate('text',x = 0.25,y = 0.20,
-                           label = paste("p==", round(as.numeric(p), digits = 3)),
-                           parse = TRUE,size = 3,hjust = 0
-                         )
-                       }
-
-                       # mean y sd
-                       p2 <- p2 + annotate('text', x = 0.25, y = 0.35,
-                                           label = paste("mean==", round(parameters[[1]], digits = 3)),
-                                           parse = TRUE, size = 3, hjust = 0) +
-                         annotate('text', x = 0.25, y = 0.30,
-                                  label = paste("sd==", round(parameters[[2]], digits = 3)),
-                                  parse = TRUE, size = 3, hjust = 0)
-                       }
-
-                     p1 + inset_element(p2, left = 0.7, right = 1, top = 1, bottom = 0.60)
+                     if (box) {
+                       box()
+                     }
                    }
                  )
 )
@@ -452,177 +404,173 @@ distribution <- function(x = NULL, distrib = "weibull", start, ...) {
 # Funcion qqPlot falta cambiaaaar desde aquiiii ---------------------
 qqPlot_o <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim, border = "red", bounds.col = "black", bounds.lty = 1, start, ...) {
   DB = FALSE
-  parList = list(...)
-  if (is.null(parList[["col"]]))
+  parList = list()
+  if (is.null(parList[["col"]])){
     parList$col = 1:2
-  if (is.null(parList[["pch"]]))
+  }
+  if (is.null(parList[["pch"]])){
     parList$pch = 19
-  if (is.null(parList[["lwd"]]))
+  }
+  if (is.null(parList[["lwd"]])){
     parList$lwd = 1
-  if (is.null(parList[["cex"]]))
+  }
+  if (is.null(parList[["cex"]])){
     parList$cex = 1
-
-  distr_coll <- DistrCollection$new()
+  }
   if (inherits(x, "DistrCollection")) {
-    aux <- FitDistr(x[,1],distribution)
-    new_dis <- Distr$new(x[,1],
-                         name = distribution,
-                         parameters = aux$estimate,
-                         sd = aux$sd,
-                         n = aux$n,
-                         loglik = aux$loglik
-    )
-    distr_coll$add(new_dis)
-    for (i in seq_along(distr_coll$distr)) {
-      d <- distr_coll$distr[[i]]
-      do.call(qqPlot, c(list(x = d$x[,1], y = d$name), parList))
+    distList <- x$distr
+    for (i in 1:length(distList)){
+      d <- distList[[i]]
+      do.call(qqPlot_o, c(list(x = d$x, y = d$name), parList))
     }
     invisible()
   }
-  if (missing(y))
-    y = "normal"
-  if(missing(alpha))
-    alpha = 0.05
-  if (alpha <=0 || alpha >=1)
-    stop(paste("alpha should be between 0 and 1!"))
-  if (missing(main))
-    main = paste("Q-Q Plot for", deparse(substitute(y)),
-                 "distribution")
-  if (missing(xlab))
-    xlab = paste("Quantiles for", deparse(substitute(x)))
-  if (missing(ylab))
-    ylab = paste("Quantiles from", deparse(substitute(y)),
-                 "distribution")
-  if (is.numeric(y)) {
-    cat("\ncalling (original) qqplot from namespace stats!\n")
-    return(stats::qqplot(x, y, ...))
-  }
-  qFun = NULL
-  theoretical.quantiles = NULL
-  xs = sort(x[,1])
-  distribution = tolower(y)
-  distWhichNeedParameters = c("weibull", "logistic", "gamma",
-                              "exponential", "f", "geometric", "chi-squared", "negative binomial",
-                              "poisson")
-
-  threeParameterDistr = c("weibull3", "lognormal3", "gamma3")
-  threeParameter = distribution %in% threeParameterDistr
-  if(threeParameter) distribution = substr(distribution, 1, nchar(distribution)-1)
-
-  if (is.character(distribution)) {
-    qFun = .charToDistFunc(distribution, type = "q")
-    if (is.null(qFun))
-      stop(paste(deparse(substitute(y)), "distribution could not be found!"))
-  }
-  theoretical.probs = ppoints(xs)
-
-  xq = NULL
-  yq = quantile(xs, prob = c(0.25, 0.75))
-  dots <- list(...)
-  if (TRUE) {
-    if (DB)
-      print("TODO: Pass the estimated parameters correctly")
-    fitList = .lfkp(parList, formals(qFun))
-    fitList$x = xs
-    fitList$densfun = distribution
-    if (!missing(start))
-      fitList$start = start
-    if (DB) {
-      print(fitList)
-      print("Ende")
+  else{
+    if (missing(y))
+      y = "normal"
+    if(missing(alpha))
+      alpha = 0.05
+    if (alpha <=0 || alpha >=1)
+      stop(paste("alpha should be between 0 and 1!"))
+    if (missing(main))
+      main = paste("Q-Q Plot for", deparse(substitute(y)),
+                   "distribution")
+    if (missing(xlab))
+      xlab = paste("Quantiles for", deparse(substitute(x)))
+    if (missing(ylab))
+      ylab = paste("Quantiles from", deparse(substitute(y)),
+                   "distribution")
+    if (is.numeric(y)) {
+      cat("\ncalling (original) qqplot from namespace stats!\n")
+      return(stats::qqplot(x, y, ...))
     }
-    if(!threeParameter){
-      fittedDistr = do.call(fitdistr, fitList)
-      parameter = fittedDistr$estimate
+    qFun = NULL
+    theoretical.quantiles = NULL
+    xs = sort(x)
+    distribution = tolower(y)
+    distWhichNeedParameters = c("weibull", "logistic", "gamma",
+                                "exponential", "f", "geometric", "chi-squared", "negative binomial",
+                                "poisson")
 
-      thethas = fittedDistr$estimate
-      varmatrix = fittedDistr$vcov
+    threeParameterDistr = c("weibull3", "lognormal3", "gamma3")
+    threeParameter = distribution %in% threeParameterDistr
+    if(threeParameter) distribution = substr(distribution, 1, nchar(distribution)-1)
 
-    } else {
-      parameter = do.call(paste(".",distribution, "3", sep = ""), list(xs) )    ####
-      threshold = parameter$threshold
+    if (is.character(distribution)) {
+      qFun = .charToDistFunc(distribution, type = "q")
+      if (is.null(qFun))
+        stop(paste(deparse(substitute(y)), "distribution could not be found!"))
     }
+    theoretical.probs = ppoints(xs)
 
-    parameter = .lfkp(as.list(parameter), formals(qFun))
-    params = .lfkp(parList, formals(qFun))
-    parameter = .lfrm(as.list(parameter), params)
-    parameter = c(parameter, params)
-    theoretical.quantiles = do.call(qFun, c(list(c(theoretical.probs)),
-                                            parameter))
+    xq = NULL
+    yq = quantile(xs, prob = c(0.25, 0.75))
+    dots <- list(...)
+    if (TRUE) {
+      if (DB)
+        print("TODO: Pass the estimated parameters correctly")
+      fitList = .lfkp(parList, formals(qFun))
+      fitList$x = xs
+      fitList$densfun = distribution
+      if (!missing(start))
+        fitList$start = start
+      if (DB) {
+        print(fitList)
+        print("Ende")
+      }
+      if(!threeParameter){
+        fittedDistr = do.call(fitdistr, fitList)
+        parameter = fittedDistr$estimate
 
-    if(!threeParameter){
-      confIntCapable = c("exponential", "log-normal", "logistic", "normal", "weibull", "gamma", "beta", "cauchy")
-      getConfIntFun = .charToDistFunc(distribution, type = ".confint")
-      if(confbounds == TRUE){
-        if(distribution %in% confIntCapable){
-          confInt = getConfIntFun(xs, thethas, varmatrix, alpha)
+        thethas = fittedDistr$estimate
+        varmatrix = fittedDistr$vcov
+
+      } else {
+        parameter = do.call(paste(".",distribution, "3", sep = ""), list(xs) )    ####
+        threshold = parameter$threshold
+      }
+
+      parameter = .lfkp(as.list(parameter), formals(qFun))
+      params = .lfkp(parList, formals(qFun))
+      parameter = .lfrm(as.list(parameter), params)
+      parameter = c(parameter, params)
+      theoretical.quantiles = do.call(qFun, c(list(c(theoretical.probs)),
+                                              parameter))
+
+      if(!threeParameter){
+        confIntCapable = c("exponential", "log-normal", "logistic", "normal", "weibull", "gamma", "beta", "cauchy")
+        getConfIntFun = .charToDistFunc(distribution, type = ".confint")
+        if(confbounds == TRUE){
+          if(distribution %in% confIntCapable){
+            confInt = getConfIntFun(xs, thethas, varmatrix, alpha)
+          }
         }
       }
-    }
 
-    xq <- do.call(qFun, c(list(c(0.25, 0.75)), parameter))
-    if (DB) {
-      print(paste("parameter: ", parameter))
-      print(xq)
-    }
-  }
-  else {
-    params =.lfkp(parList, formals(qFun))
-    params$p = theoretical.probs
-    theoretical.quantiles = do.call(qFun, params)
-    params$p = c(0.25, 0.75)
-    xq = do.call(qFun, params)
-  }
-
-  params =.lfkp(parList, c(formals(plot.default), par()))
-
-  if(!threeParameter){
-    params$y = theoretical.quantiles
-  }  else {
-    params$y = theoretical.quantiles+threshold
-  }
-  params$x = xs
-  params$xlab = xlab
-  params$ylab = ylab
-  params$main = main
-  if (!(is.null(params$col[1]) || is.na(params$col[1])))
-    params$col = params$col[1]
-  if (!missing(xlim))
-    params$xlim = xlim
-  if (!missing(ylim))
-    params$ylim = ylim
-  params$lwd = 1
-  do.call(plot, params)
-  pParams = params
-  pParams =.lfkp(pParams, list(x = 1, y = 1, col = 1, cex = 1))
-  do.call(points, pParams)
-  params =.lfkp(parList, c(formals(abline), par()))
-  params$a = 0
-  params$b = 1
-  params$col = border
-  do.call(abline, params)
-
-  if(!threeParameter){
-    if(confbounds == TRUE){
-      if(distribution %in% confIntCapable){
-        params =.lfkp(parList, c(formals(lines), par()))
-        params$x = confInt[[3]]
-        params$y = confInt[[1]]
-        params$col = bounds.col
-        params$lty = bounds.lty
-        do.call(lines, params)
-
-        params$x = confInt[[3]]
-        params$y = confInt[[2]]
-        params$col = bounds.col
-        params$lty = bounds.lty
-        do.call(lines, params)
+      xq <- do.call(qFun, c(list(c(0.25, 0.75)), parameter))
+      if (DB) {
+        print(paste("parameter: ", parameter))
+        print(xq)
       }
-    } #end of my function
-  }
+    }
+    else {
+      params =.lfkp(parList, formals(qFun))
+      params$p = theoretical.probs
+      theoretical.quantiles = do.call(qFun, params)
+      params$p = c(0.25, 0.75)
+      xq = do.call(qFun, params)
+    }
 
-  invisible(list(x = theoretical.quantiles, y = xs, int = params$a,
-                 slope = params$b))
+    params =.lfkp(parList, c(formals(plot.default), par()))
+
+    if(!threeParameter){
+      params$y = theoretical.quantiles
+    }  else {
+      params$y = theoretical.quantiles+threshold
+    }
+    params$x = xs
+    params$xlab = xlab
+    params$ylab = ylab
+    params$main = main
+    if (!(is.null(params$col[1]) || is.na(params$col[1])))
+      params$col = params$col[1]
+    if (!missing(xlim))
+      params$xlim = xlim
+    if (!missing(ylim))
+      params$ylim = ylim
+    params$lwd = 1
+    do.call(plot, params)
+    pParams = params
+    pParams =.lfkp(pParams, list(x = 1, y = 1, col = 1, cex = 1))
+    do.call(points, pParams)
+    params =.lfkp(parList, c(formals(abline), par()))
+    params$a = 0
+    params$b = 1
+    params$col = border
+    do.call(abline, params)
+
+    if(!threeParameter){
+      if(confbounds == TRUE){
+        if(distribution %in% confIntCapable){
+          params =.lfkp(parList, c(formals(lines), par()))
+          params$x = confInt[[3]]
+          params$y = confInt[[1]]
+          params$col = bounds.col
+          params$lty = bounds.lty
+          do.call(lines, params)
+
+          params$x = confInt[[3]]
+          params$y = confInt[[2]]
+          params$col = bounds.col
+          params$lty = bounds.lty
+          do.call(lines, params)
+        }
+      } #end of my function
+    }
+
+    invisible(list(x = theoretical.quantiles, y = xs, int = params$a,
+                   slope = params$b))
+  }
 }
 
 
