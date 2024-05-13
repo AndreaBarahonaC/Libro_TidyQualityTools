@@ -698,17 +698,25 @@ qqPlot(x[,1], y = distribution, ylab = "", main = "",
 
 qqPlot(x[,1], y = distribution,
        ylab = "", xlab = "", )
+<<<<<<< HEAD
 qqPlot_o(x[,1], y = distribution,
        ylab = "", xlab = "" )
 qqPlot_o(distr_coll)
+=======
+
+>>>>>>> be182ba073d2ecebca671b7cf35b0c917b268f89
 nada <- FitDistr(x[,1],"normal")
 nada$estimate
 # Creamos un objeto DistrCollection
 distr_coll <- DistrCollection$new()
 
 # Creamos un objeto Distr para una distribución normal
+<<<<<<< HEAD
 distr_normal <- Distr$new(x[,1], name = "normal", parameters = nada$estimate, sd = nada$sd,n = nada$n ,loglik = nada$loglik)
 distr_normal2 <- Distr$new(x[,1], name = "normal", parameters = nada$estimate, sd = nada$sd,n = nada$n ,loglik = nada$loglik)
+=======
+distr_normal <- Distr$new(x, name = "normal", parameters = nada$estimate, sd = nada$sd,n = nada$n ,loglik = nada$loglik)
+>>>>>>> be182ba073d2ecebca671b7cf35b0c917b268f89
 
 # Agregamos el objeto Distr a la colección
 distr_coll$add(distr_normal)
