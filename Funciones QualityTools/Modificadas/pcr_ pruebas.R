@@ -355,7 +355,7 @@ if (distribution != "weibull3" && distribution != "lognormal3" &&
     distribution != "gamma3")
   not3distr = TRUE
 if (boxcox) {
-  distribution = "norm"
+  distribution = "normal"
   if (length(lambda) >= 2) {
     temp = boxcox(x[, 1] ~ 1, lambda = seq(min(lambda),
                                            max(lambda), 1/10), plotit = FALSE)
@@ -423,7 +423,7 @@ fitList$start = start
 #### Solo en este caso qFUN es eval(parse(text = paste("q", "norm", sep = "")))
 qFun = eval(parse(text = paste("q", "norm", sep = "")))
 paramsList = c(paramsList, .lfkp(parList, formals(qFun)))
-if (distribution == "norm") {
+if (distribution == "normal") {
   paramsList$mean = center
   paramsList$sd = std.dev
   estimates = paramsList
@@ -714,7 +714,6 @@ qqPlot_o(x[,1], y = distribution,ylab = "", xlab = "" )
 qqPlot_o(distr_coll)
 
 
->>>>>>> be182ba073d2ecebca671b7cf35b0c917b268f89
 nada <- FitDistr(x[,1],"normal")
 nada$estimate
 # Creamos un objeto DistrCollection

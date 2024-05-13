@@ -1,5 +1,6 @@
 library(R6)
 library(MASS)
+library(patchwork)
 
 # Class Distr ----
 Distr <- R6Class("Distr",
@@ -20,7 +21,7 @@ Distr <- R6Class("Distr",
                      self$loglik <- loglik
                    },
 
-                   plot = function(main = NULL, xlab = NULL, xlim = NULL, ylim = NULL, ylab = NULL, line.col = "red", line.width = 1, box = TRUE, ...)
+                   plot = function(main = NULL, xlab = NULL, xlim = NULL, ylim = NULL, ylab = NULL, line.col = "red", box=TRUE,line.width = 1, ...)
                    {
                      object <- self
                      xVals <- object$x
@@ -81,13 +82,17 @@ Distr <- R6Class("Distr",
                      # Histograma
                      p1 <- ggplot(df, aes(x = mid, y = density)) +
                        geom_bar(stat = "identity", width = width, fill = "lightblue", color = "black", alpha = 0.5) +
-                       labs(y = "Density", x = "x", title = main) +
+                       labs(y = ylab, x = xlab, title = main) + xlim(xlim) + ylim(ylim)
                        theme_minimal() + theme(plot.title = element_text(hjust = 0.5,face = "bold"))+
                        guides(color = guide_legend(title.position = "top", title.hjust = 0.5))+
-                       geom_line(data = data.frame(x = xVec, y = yVec), aes(x = x, y = y), color = "red", linewidth = 0.5) + # densidad
+                       geom_line(data = data.frame(x = xPoints, y = yPoints), aes(x = x, y = y), color = line.col, linewidth = lineWidth) + # densidad
                        theme(legend.position = "none")
 
                      # Caja de Info
+                     if (box==FALSE) {
+                       p1
+                     }
+                     else {
                      p2 <- ggplot(data = data.frame(x = 0, y = 0), aes(x, y)) +
                        theme_bw() +
                        theme(
@@ -134,6 +139,7 @@ Distr <- R6Class("Distr",
                        }
 
                      p1 + inset_element(p2, left = 0.7, right = 1, top = 1, bottom = 0.60)
+                     }
                    }
                  )
 )
@@ -189,7 +195,7 @@ DistrCollection <- R6::R6Class("DistrCollection",
                                    gofMatrixPrint[, 3] <- signif(as.numeric(gofMatrixPrint[, 3]), 4)
                                    print(gofMatrixPrint)
                                  },
-                                 plot = function(xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL, line.col = "red", line.width = 1, ...) {
+                                 plot = function(xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL, line.col = "red", line.width = 1, box = TRUE , ...) {
                                    distrList <- self$distr
                                    numDist <- length(self$distr)
                                    numColWin <- ceiling(numDist/2)
@@ -205,11 +211,11 @@ DistrCollection <- R6::R6Class("DistrCollection",
                                    if (missing(line.width)) {
                                      line.width <- 1
                                    }
-                                   lapply(distrList, function(d) plot(d, xlim = xlim, ylim = ylim, line.col = line.col, line.width = line.width, ...))
-                                   cat(paste("Total of", numDist, "plots created"))
-                                   cat("\n")
-                                   cat(paste("Use par(mfrow = c(2,", numColWin, ") to see all of them!", sep = ""))
-                                   cat("\n")
+                                   p<-distrList[[1]]$plot(xlab = xlab, xlim = xlim, ylim = ylim, ylab = ylab, line.col = line.col, line.width = line.width, box = box)
+                                   for (i in 2:length(distrList)) {
+                                     p<-p+distrList[[i]]$plot(xlab = xlab, xlim = xlim, ylim = ylim, ylab = ylab, line.col = line.col, line.width = line.width, box = box)
+                                   }
+                                   p
                                  }
                                )
 )
