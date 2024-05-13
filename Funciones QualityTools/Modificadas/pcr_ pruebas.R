@@ -691,13 +691,16 @@ if (any3distr) {
 ###################################################3## Quantile Quantile PLot ############################################################################3
 # Para este necesitamos que funcione el archivo "Clase distribuciones y graficos"
 
-qqPlot_o(x, y = distribution, ylab = "", main = "",
+qqPlot(x[,1], y = distribution, ylab = "", main = "",
        axes = FALSE, bounds.lty = bounds.lty, bounds.col = bounds.col)
 
 
 
-qqPlot(x[,1], distribution = distribution,
+qqPlot(x[,1], y = distribution,
        ylab = "", xlab = "", )
+qqPlot_o(x[,1], y = distribution,
+       ylab = "", xlab = "" )
+qqPlot_o(distr_coll)
 nada <- FitDistr(x[,1],"normal")
 nada$estimate
 # Creamos un objeto DistrCollection
@@ -705,9 +708,41 @@ distr_coll <- DistrCollection$new()
 
 # Creamos un objeto Distr para una distribución normal
 distr_normal <- Distr$new(x[,1], name = "normal", parameters = nada$estimate, sd = nada$sd,n = nada$n ,loglik = nada$loglik)
+distr_normal2 <- Distr$new(x[,1], name = "normal", parameters = nada$estimate, sd = nada$sd,n = nada$n ,loglik = nada$loglik)
 
 # Agregamos el objeto Distr a la colección
 distr_coll$add(distr_normal)
+distr_coll$add(distr_normal2)
+
+typeof(distr_coll$distr) # si es una lista
+distr_coll$distr[[1]]$x
+c(list(x = distr_coll$distr[[4]]$x, y = distr_coll$distr[[1]]$name))
+do.call(qqPlot_o,c(list(x = distr_coll$distr[[1]]$x, y = distr_coll$distr[[1]]$name)))
+
+qqplot(distr_coll)
+ggplot(x,aes(x))+geom_point()
+
+qqPlot_o(distr_coll$distr[[1]]$x)
+
+parList <- list()
+if (is.null(parList[["col"]])){
+  parList$col = 1:2
+}
+
+if (is.null(parList[["pch"]]))
+  parList$pch = 19
+if (is.null(parList[["lwd"]]))
+  parList$lwd = 1
+if (is.null(parList[["cex"]]))
+  parList$cex = 1
+
+
+
+
+
+
+
+
 
 # Creamos un objeto Distr para una distribución exponencial
 distr_exp <- Distr$new(x = rexp(100), name = "exponential", parameters = c(rate = 1))
@@ -718,6 +753,7 @@ distr_coll$add(distr_exp)
 # Llamamos a la función qqPlot_o con la colección de distribuciones
 qqPlot_o(distr_coll, y = "normal", confbounds = TRUE, alpha = 0.05, main = "Q-Q Plot")
 
+qqPlot_o(distr_coll)
 
 
 for (i in seq_along(distr_coll$distr)) {
@@ -725,6 +761,24 @@ for (i in seq_along(distr_coll$distr)) {
   do.call(qqPlot, c(list(x = d$x, y = d$name), parList))
 }
 
-d <- distr_coll$distr[[1]]
-do.call(qqPlot, c(list(x = d$x, y = d$name), parList))
+parList = list()
+if (is.null(parList[["col"]])){
+  parList$col = 1:2
+}
+if (is.null(parList[["pch"]])){
+  parList$pch = 19
+}
+if (is.null(parList[["lwd"]])){
+  parList$lwd = 1
+}
+if (is.null(parList[["cex"]])){
+  parList$cex = 1
+}
+
+distList <- distr_coll$distr
+for (i in 1:length(distList)){
+  d <- distList[[i]]
+  do.call(qqPlot_o, c(list(x = d$x, y = d$name), parList))
+}
+invisible()
 
