@@ -290,6 +290,7 @@
 
 library(qualityTools)
 library(ggplot2)
+library(patchwork)
 
 set.seed(1234)
 x <- rnorm(20, mean = 20)
@@ -597,7 +598,7 @@ p2 <- ggplot(data = data.frame(x = 0, y = 0), aes(x, y)) +
 # 3. Cajita de info n, means, sd
 index = 1:(length(estimates) + 3)
 names(x) = data.name
-if (not3distr) {
+if(not3distr) {
   names(x) = data.name
   adTestStats = .myADTest(x, distribution)
   A = numeric()
@@ -671,7 +672,7 @@ if (not3distr) {
                parse = TRUE, size = 3, hjust = 0)
     }
 }
-if (any3distr) {
+if(any3distr){
   p3 <- ggplot(data = data.frame(x = 0, y = 0), aes(x, y)) +
     theme_bw() +
     theme(
@@ -705,13 +706,11 @@ if (any3distr) {
 ###################################################3## Quantile Quantile PLot ############################################################################3
 # Para este necesitamos que funcione el archivo "Clase distribuciones y graficos"
 
-qqPlot(x[,1], y = distribution, ylab = "", main = "",
-       axes = FALSE, bounds.lty = bounds.lty, bounds.col = bounds.col)
+qqPlot(x[, 1], y = distribution, xlab = "", ylab = "", main = "", xlim = xlim, ylim = ylim,
+        axes = FALSE, bounds.lty = bounds.lty, bounds.col = bounds.col)
 
+# PRUEBAS
 
-
-qqPlot_o(x[,1], y = distribution,ylab = "", xlab = "" )
-qqPlot_o(distr_coll)
 
 
 nada <- FitDistr(x[,1],"normal")
@@ -732,18 +731,13 @@ typeof(distr_coll$distr) # si es una lista
 distr_coll$distr[[1]]$x
 
 
-# Llamamos a la función qqPlot_o con la colección de distribuciones
-qqPlot_o(distr_coll, y = "normal", confbounds = TRUE, alpha = 0.05, main = "Q-Q Plot")
+hola <- qqPlot(x[,1])
+hola$plot
+distr_coll$plot()
 
-qqPlot_o(x[,1])
+qqPlot_(distr_coll)
+prueba <- qqPlot_(x[,1], grapic = FALSE)
+prueba$plot
 
-
-# Creamos un objeto Distr para una distribución exponencial
-distr_exp <- Distr$new(x = rexp(100), name = "exponential", parameters = c(rate = 1))
-
-# Agregamos el objeto Distr a la colección
-distr_coll$add(distr_exp)
-
-
-
+distList <- distr_coll$distr
 
