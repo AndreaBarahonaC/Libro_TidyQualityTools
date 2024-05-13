@@ -185,7 +185,7 @@ SumaAcum$set('public','y',0)
 Se puede también bloquear o desbloquear la clase mediante `$lock()` y `$unlock()` respectivamente.
 
 
-###Herencia
+### Herencia
 
 Se puede heredar los comportamientos de una clase existente a otra utilizando `inherit`, para ello veamos el ejemplo:
 
@@ -208,7 +208,7 @@ x2 <- SumAcumMsg$new()
 x2$sumar(5)$sumar(3)$suma
 ```
 
-###Introspección
+### Introspección
 
 Para determinar la clase y todas las que hereda podemos utilizar `class()`:
 
