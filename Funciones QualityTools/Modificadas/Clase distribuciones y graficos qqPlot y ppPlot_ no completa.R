@@ -1,6 +1,7 @@
 library(R6)
 library(MASS)
 library(patchwork)
+library(ggplot2)
 
 # Class Distr ----
 Distr <- R6Class("Distr",
@@ -467,7 +468,7 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
   if (is.null(parList[["cex"]])){
     parList$cex = 1
   }
-  if (inherits(x, "DistrCollection")) {
+  if(inherits(x, "DistrCollection")){
     distList <- x$distr
     grap <- qqPlot(distList[[1]]$x, grapic = FALSE, ylab = "", xlab = "", main = paste(distList[[1]]$name,"distribution"))
     for (i in 2:length(distList)){
