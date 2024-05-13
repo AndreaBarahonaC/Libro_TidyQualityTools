@@ -691,12 +691,10 @@ if (any3distr) {
 ###################################################3## Quantile Quantile PLot ############################################################################3
 # Para este necesitamos que funcione el archivo "Clase distribuciones y graficos"
 
-qqPlot_o(x[, 1], y = distribution, ylab = "", main = "",
+qqPlot_o(x, y = distribution, ylab = "", main = "",
        axes = FALSE, bounds.lty = bounds.lty, bounds.col = bounds.col)
 
 
-library(car)
-car::qqPlot(x[,1], ylab = "", distribution = dis)
 
 qqPlot(x[,1], distribution = distribution,
        ylab = "", xlab = "", )
@@ -706,7 +704,7 @@ nada$estimate
 distr_coll <- DistrCollection$new()
 
 # Creamos un objeto Distr para una distribución normal
-distr_normal <- Distr$new(x = rnorm(100), name = "normal", parameters = c(mean = 0, sd = 1))
+distr_normal <- Distr$new(x[,1], name = "normal", parameters = nada$estimate, sd = nada$sd,n = nada$n ,loglik = nada$loglik)
 
 # Agregamos el objeto Distr a la colección
 distr_coll$add(distr_normal)
