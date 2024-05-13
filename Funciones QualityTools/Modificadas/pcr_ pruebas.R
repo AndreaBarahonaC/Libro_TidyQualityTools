@@ -41,6 +41,19 @@
   filteredList = wholeList[unlist(logVec)]
   return(filteredList)
 }
+.lfrm = function(wholeList, filterList) {
+  if (!is.list(wholeList))
+    stop(paste(deparse(substitute(wholeList)), "is not a list!"))
+  if (length(wholeList) == 0)
+    return(wholeList)
+  if (!is.list(filterList))
+    stop(paste(deparse(substitute(filterList)), "is not a list!"))
+  if (length(filterList) == 0)
+    return(wholeList)
+  logVec = lapply(names(wholeList), "%in%", names(filterList))
+  filteredList = wholeList[!unlist(logVec)]
+  return(filteredList)
+}
 .myADTest = function(x, distribution, ...) {                                                                     ####   .MYADTESTS-FUNCTION
   #require(MASS, quietly = TRUE)
   if (missing(distribution))
@@ -273,6 +286,7 @@
     fun = eval(parse(text = paste(type, "gamma3", sep = "")))
   return(fun)
 }
+# Correr todas las funciones de internals.r
 
 library(qualityTools)
 library(ggplot2)
@@ -696,13 +710,9 @@ qqPlot(x[,1], y = distribution, ylab = "", main = "",
 
 
 
-qqPlot(x[,1], y = distribution,
-       ylab = "", xlab = "", )
-<<<<<<< HEAD
-qqPlot_o(x[,1], y = distribution,
-       ylab = "", xlab = "" )
+qqPlot_o(x[,1], y = distribution,ylab = "", xlab = "" )
 qqPlot_o(distr_coll)
-=======
+
 
 >>>>>>> be182ba073d2ecebca671b7cf35b0c917b268f89
 nada <- FitDistr(x[,1],"normal")
@@ -729,36 +739,12 @@ qqPlot_o(distr_coll, y = "normal", confbounds = TRUE, alpha = 0.05, main = "Q-Q 
 qqPlot_o(x[,1])
 
 
-for (i in seq_along(distr_coll$distr)) {
-  d <- distr_coll$distr[[i]]
-  do.call(qqPlot, c(list(x = d$x, y = d$name), parList))
-}
-
-parList = list()
-if (is.null(parList[["col"]])){
-  parList$col = 1:2
-}
-if (is.null(parList[["pch"]])){
-  parList$pch = 19
-}
-if (is.null(parList[["lwd"]])){
-  parList$lwd = 1
-}
-if (is.null(parList[["cex"]])){
-  parList$cex = 1
-}
-
-distList <- distr_coll$distr
-for (i in 1:length(distList)){
-  d <- distList[[i]]
-  do.call(qqPlot_o, c(list(x = d$x, y = d$name), parList))
-}
-invisible()
-
-
-
 # Creamos un objeto Distr para una distribución exponencial
 distr_exp <- Distr$new(x = rexp(100), name = "exponential", parameters = c(rate = 1))
 
 # Agregamos el objeto Distr a la colección
 distr_coll$add(distr_exp)
+
+
+
+

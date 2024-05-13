@@ -20,7 +20,8 @@ Distr <- R6Class("Distr",
                      self$loglik <- loglik
                    },
 
-                   plot = function(main = NULL, xlab = NULL, xlim = NULL, ylim = NULL, ylab = NULL, line.col = "red", line.width = 1, box = TRUE, ...) {
+                   plot = function(main = NULL, xlab = NULL, xlim = NULL, ylim = NULL, ylab = NULL, line.col = "red", line.width = 1, box = TRUE, ...)
+                   {
                      object <- self
                      xVals <- object$x
                      parameters <- object$parameters
@@ -31,19 +32,15 @@ Distr <- R6Class("Distr",
                      if (missing(line.col)) {
                        line.col <- "red"
                      }
-
                      if (missing(line.width)) {
                        line.width <- 1
                      }
-
                      if (missing(main)) {
                        main <- object$name
                      }
-
                      if (missing(xlab)) {
                        xlab <- "x"
                      }
-
                      if (missing(ylab)) {
                        ylab <- "Density"
                      }
@@ -81,15 +78,62 @@ Distr <- R6Class("Distr",
                        ylim <- range(0, histObj$density, yPoints)
                      }
 
-                     hist(xVals, freq = FALSE, xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim, main = main, ...)
-                     lines(xPoints, yPoints, col = line.col, lwd = line.width)
-                     abline(h = 0)
-                     legend("topright", c(paste(c(names(parameters), "A", "p"), ": ", c(format(parameters, digits = 3), format(A, digits = 3), format(p, digits = 3))), sep = " "),
-                            inset = 0.02)
+                     # Histograma
+                     p1 <- ggplot(df, aes(x = mid, y = density)) +
+                       geom_bar(stat = "identity", width = width, fill = "lightblue", color = "black", alpha = 0.5) +
+                       labs(y = "Density", x = "x", title = main) +
+                       theme_minimal() + theme(plot.title = element_text(hjust = 0.5,face = "bold"))+
+                       guides(color = guide_legend(title.position = "top", title.hjust = 0.5))+
+                       geom_line(data = data.frame(x = xVec, y = yVec), aes(x = x, y = y), color = "red", linewidth = 0.5) + # densidad
+                       theme(legend.position = "none")
 
-                     if (box) {
-                       box()
-                     }
+                     # Caja de Info
+                     p2 <- ggplot(data = data.frame(x = 0, y = 0), aes(x, y)) +
+                       theme_bw() +
+                       theme(
+                         axis.text = element_blank(),
+                         axis.ticks = element_blank(),
+                         axis.title = element_blank(),
+                         panel.grid.major = element_blank(),
+                         panel.grid.minor = element_blank()
+                       ) +
+                       xlim(c(0.25,0.26)) + ylim(c(0.19, 0.36))
+                     {
+                       # n y A
+                       p2 <- p2 +
+                         annotate('text', x = 0.25, y = 0.25,
+                                  label = paste("A==", round(as.numeric(A), digits = 3)),
+                                  parse = TRUE, size = 3, hjust = 0)
+                       # p
+                       if (!is.null(adTestStats$smaller) && adTestStats$smaller){
+                         p2 <- p2 +
+                           annotate('text',x = 0.25,y = 0.20,
+                                    label = paste("p<", round(as.numeric(p), digits =3)),
+                                    parse = TRUE,size = 3,hjust = 0)
+                       }
+                       if (!is.null(adTestStats$smaller) && !adTestStats$smaller){
+                         p2 <- p2 +
+                           annotate('text',x = 0.25, y = 0.20,
+                                    label = paste("p>=", round(as.numeric(p),digits = 3)),
+                                    parse = TRUE,size = 3,hjust = 0)
+                       }
+                       if (is.null(adTestStats$smaller)){
+                         p2 <- p2 +
+                           annotate('text',x = 0.25,y = 0.20,
+                                    label = paste("p==", round(as.numeric(p), digits = 3)),
+                                    parse = TRUE,size = 3,hjust = 0)
+                       }
+
+                       # mean y sd
+                       p2 <- p2 + annotate('text', x = 0.25, y = 0.35,
+                                           label = paste("mean==", round(parameters[[1]], digits = 3)),
+                                           parse = TRUE, size = 3, hjust = 0) +
+                         annotate('text', x = 0.25, y = 0.30,
+                                  label = paste("sd==", round(parameters[[2]], digits = 3)),
+                                  parse = TRUE, size = 3, hjust = 0)
+                       }
+
+                     p1 + inset_element(p2, left = 0.7, right = 1, top = 1, bottom = 0.60)
                    }
                  )
 )
