@@ -82,7 +82,7 @@ Distr <- R6Class("Distr",
                      # Histograma
                      p1 <- ggplot(df, aes(x = mid, y = density)) +
                        geom_bar(stat = "identity", width = width, fill = "lightblue", color = "black", alpha = 0.5) +
-                       labs(y = ylab, x = xlab, title = main) + xlim(xlim) + ylim(ylim)
+                       labs(y = ylab, x = xlab, title = main) + xlim(xlim) + ylim(ylim) +
                        theme_minimal() + theme(plot.title = element_text(hjust = 0.5,face = "bold"))+
                        guides(color = guide_legend(title.position = "top", title.hjust = 0.5))+
                        geom_line(data = data.frame(x = xPoints, y = yPoints), aes(x = x, y = y), color = line.col, linewidth = lineWidth) + # densidad
@@ -131,10 +131,10 @@ Distr <- R6Class("Distr",
 
                        # mean y sd
                        p2 <- p2 + annotate('text', x = 0.25, y = 0.35,
-                                           label = paste("mean==", round(parameters[[1]], digits = 3)),
+                                           label = paste("mean==", round(self$parameters[[1]], digits = 3)),
                                            parse = TRUE, size = 3, hjust = 0) +
                          annotate('text', x = 0.25, y = 0.30,
-                                  label = paste("sd==", round(parameters[[2]], digits = 3)),
+                                  label = paste("sd==", round(self$parameters[[2]], digits = 3)),
                                   parse = TRUE, size = 3, hjust = 0)
                        }
 
@@ -211,9 +211,9 @@ DistrCollection <- R6::R6Class("DistrCollection",
                                    if (missing(line.width)) {
                                      line.width <- 1
                                    }
-                                   p<-distrList[[1]]$plot(xlab = xlab, xlim = xlim, ylim = ylim, ylab = ylab, line.col = line.col, line.width = line.width, box = box)
+                                   p <- distrList[[1]]$plot(xlab = xlab, ylab = ylab, line.col = line.col, line.width = line.width, box = box)
                                    for (i in 2:length(distrList)) {
-                                     p<-p+distrList[[i]]$plot(xlab = xlab, xlim = xlim, ylim = ylim, ylab = ylab, line.col = line.col, line.width = line.width, box = box)
+                                     p<-p+distrList[[i]]$plot(xlab = xlab, ylab = ylab, line.col = line.col, line.width = line.width, box = box)
                                    }
                                    p
                                  }
@@ -452,7 +452,7 @@ distribution <- function(x = NULL, distrib = "weibull", start, ...) {
 
 
 # Funcion qqPlot falta cambiaaaar desde aquiiii ---------------------
-qqPlot_o <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim, border = "red", bounds.col = "black", bounds.lty = 1, start, ...) {
+qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim, border = "red", bounds.col = "black", bounds.lty = 1, start, grapic = TRUE, ...) {
   DB = FALSE
   parList = list()
   if (is.null(parList[["col"]])){
@@ -462,17 +462,19 @@ qqPlot_o <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, yli
     parList$pch = 19
   }
   if (is.null(parList[["lwd"]])){
-    parList$lwd = 1
+    parList$lwd = 0.5
   }
   if (is.null(parList[["cex"]])){
     parList$cex = 1
   }
   if (inherits(x, "DistrCollection")) {
     distList <- x$distr
-    for (i in 1:length(distList)){
-      d <- distList[[i]]
-      do.call(qqPlot_o, c(list(x = d$x, y = d$name), parList))
+    grap <- qqPlot(distList[[1]]$x, grapic = FALSE, ylab = "", xlab = "", main = paste(distList[[1]]$name,"distribution"))
+    for (i in 2:length(distList)){
+      aux <- qqPlot(distList[[i]]$x, grapic = FALSE, ylab = "", xlab = "", main = paste(distList[[i]]$name,"distribution"))
+      grap$plot <-  grap$plot + aux$plot
     }
+    show(grap$plot + plot_annotation(title = "QQ Plot for a Collection Distribution"))
     invisible()
   }
   else{
@@ -483,13 +485,11 @@ qqPlot_o <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, yli
     if (alpha <=0 || alpha >=1)
       stop(paste("alpha should be between 0 and 1!"))
     if (missing(main))
-      main = paste("Q-Q Plot for", deparse(substitute(y)),
-                   "distribution")
+      main = paste("QQ Plot for", deparse(substitute(y)), "distribution")
     if (missing(xlab))
       xlab = paste("Quantiles for", deparse(substitute(x)))
     if (missing(ylab))
-      ylab = paste("Quantiles from", deparse(substitute(y)),
-                   "distribution")
+      ylab = paste("Quantiles from", deparse(substitute(y)), "distribution")
     if (is.numeric(y)) {
       cat("\ncalling (original) qqplot from namespace stats!\n")
       return(stats::qqplot(x, y, ...))
@@ -498,44 +498,49 @@ qqPlot_o <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, yli
     theoretical.quantiles = NULL
     xs = sort(x)
     distribution = tolower(y)
-    distWhichNeedParameters = c("weibull", "logistic", "gamma",
-                                "exponential", "f", "geometric", "chi-squared", "negative binomial",
+    distWhichNeedParameters = c("weibull", "logistic", "gamma","exponential", "f",
+                                "geometric", "chi-squared", "negative binomial",
                                 "poisson")
 
     threeParameterDistr = c("weibull3", "lognormal3", "gamma3")
     threeParameter = distribution %in% threeParameterDistr
     if(threeParameter) distribution = substr(distribution, 1, nchar(distribution)-1)
-
-    if (is.character(distribution)) {
+    if(is.character(distribution)){
       qFun = .charToDistFunc(distribution, type = "q")
       if (is.null(qFun))
         stop(paste(deparse(substitute(y)), "distribution could not be found!"))
     }
+    # Puntos teoricos
     theoretical.probs = ppoints(xs)
-
+    # Quantiles
     xq = NULL
     yq = quantile(xs, prob = c(0.25, 0.75))
+
+
     dots <- list(...)
-    if (TRUE) {
+
+    if(TRUE){
       if (DB)
         print("TODO: Pass the estimated parameters correctly")
       fitList = .lfkp(parList, formals(qFun))
       fitList$x = xs
       fitList$densfun = distribution
-      if (!missing(start))
+      if(!missing(start))
         fitList$start = start
-      if (DB) {
+      if(DB){
         print(fitList)
         print("Ende")
       }
       if(!threeParameter){
-        fittedDistr = do.call(fitdistr, fitList)
+        fittedDistr = do.call(FitDistr, fitList)
         parameter = fittedDistr$estimate
 
+        #save the distribution parameter#
         thethas = fittedDistr$estimate
+        # save the cariance-covariance matrix
         varmatrix = fittedDistr$vcov
 
-      } else {
+      }else{
         parameter = do.call(paste(".",distribution, "3", sep = ""), list(xs) )    ####
         threshold = parameter$threshold
       }
@@ -544,8 +549,7 @@ qqPlot_o <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, yli
       params = .lfkp(parList, formals(qFun))
       parameter = .lfrm(as.list(parameter), params)
       parameter = c(parameter, params)
-      theoretical.quantiles = do.call(qFun, c(list(c(theoretical.probs)),
-                                              parameter))
+      theoretical.quantiles = do.call(qFun, c(list(c(theoretical.probs)), parameter))
 
       if(!threeParameter){
         confIntCapable = c("exponential", "log-normal", "logistic", "normal", "weibull", "gamma", "beta", "cauchy")
@@ -575,7 +579,7 @@ qqPlot_o <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, yli
 
     if(!threeParameter){
       params$y = theoretical.quantiles
-    }  else {
+    }else{
       params$y = theoretical.quantiles+threshold
     }
     params$x = xs
@@ -584,20 +588,18 @@ qqPlot_o <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, yli
     params$main = main
     if (!(is.null(params$col[1]) || is.na(params$col[1])))
       params$col = params$col[1]
-    if (!missing(xlim))
-      params$xlim = xlim
-    if (!missing(ylim))
-      params$ylim = ylim
+
     params$lwd = 1
-    do.call(plot, params)
-    pParams = params
-    pParams =.lfkp(pParams, list(x = 1, y = 1, col = 1, cex = 1))
-    do.call(points, pParams)
+
+    ############ Desde Aquí comienza la gráfica ############
+    p <- ggplot(data = data.frame(x=params$x, y=params$y), mapping=aes(x=x, y=y)) +
+      geom_point() + labs(x = xlab, y = ylab, title = main) + theme_minimal()
+
     params =.lfkp(parList, c(formals(abline), par()))
     params$a = 0
     params$b = 1
     params$col = border
-    do.call(abline, params)
+    p <- p + geom_abline(intercept = params$a, slope = params$b, col = params$col, lwd = params$lwd)
 
     if(!threeParameter){
       if(confbounds == TRUE){
@@ -607,38 +609,28 @@ qqPlot_o <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, yli
           params$y = confInt[[1]]
           params$col = bounds.col
           params$lty = bounds.lty
-          do.call(lines, params)
-
+          # La curva de abajo
+          p <- p + geom_line(data = data.frame(x=params$x, y=params$y), aes(x = x, y = y),
+                             col = params$col, lty = params$lty, lwd = params$lwd)
           params$x = confInt[[3]]
           params$y = confInt[[2]]
           params$col = bounds.col
           params$lty = bounds.lty
-          do.call(lines, params)
+          # curva de arriba
+          p <- p + geom_line(data = data.frame(x=params$x, y=params$y), aes(x = x, y = y),
+                             col = params$col, lty = params$lty, lwd = params$lwd)
         }
-      } #end of my function
+      }
     }
-
-    invisible(list(x = theoretical.quantiles, y = xs, int = params$a,
-                   slope = params$b))
+    if(grapic == TRUE){
+      show(p)
+      invisible(list(x = theoretical.quantiles, y = xs, int = params$a, slope = params$b, plot = p))
+    }
+    else{
+      invisible(list(x = theoretical.quantiles, y = xs, int = params$a, slope = params$b, plot = p))
+    }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
