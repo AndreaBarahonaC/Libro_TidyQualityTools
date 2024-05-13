@@ -711,12 +711,9 @@ nada$estimate
 distr_coll <- DistrCollection$new()
 
 # Creamos un objeto Distr para una distribución normal
-<<<<<<< HEAD
+
 distr_normal <- Distr$new(x[,1], name = "normal", parameters = nada$estimate, sd = nada$sd,n = nada$n ,loglik = nada$loglik)
 distr_normal2 <- Distr$new(x[,1], name = "normal", parameters = nada$estimate, sd = nada$sd,n = nada$n ,loglik = nada$loglik)
-=======
-distr_normal <- Distr$new(x, name = "normal", parameters = nada$estimate, sd = nada$sd,n = nada$n ,loglik = nada$loglik)
->>>>>>> be182ba073d2ecebca671b7cf35b0c917b268f89
 
 # Agregamos el objeto Distr a la colección
 distr_coll$add(distr_normal)
@@ -724,44 +721,12 @@ distr_coll$add(distr_normal2)
 
 typeof(distr_coll$distr) # si es una lista
 distr_coll$distr[[1]]$x
-c(list(x = distr_coll$distr[[4]]$x, y = distr_coll$distr[[1]]$name))
-do.call(qqPlot_o,c(list(x = distr_coll$distr[[1]]$x, y = distr_coll$distr[[1]]$name)))
 
-qqplot(distr_coll)
-ggplot(x,aes(x))+geom_point()
-
-qqPlot_o(distr_coll$distr[[1]]$x)
-
-parList <- list()
-if (is.null(parList[["col"]])){
-  parList$col = 1:2
-}
-
-if (is.null(parList[["pch"]]))
-  parList$pch = 19
-if (is.null(parList[["lwd"]]))
-  parList$lwd = 1
-if (is.null(parList[["cex"]]))
-  parList$cex = 1
-
-
-
-
-
-
-
-
-
-# Creamos un objeto Distr para una distribución exponencial
-distr_exp <- Distr$new(x = rexp(100), name = "exponential", parameters = c(rate = 1))
-
-# Agregamos el objeto Distr a la colección
-distr_coll$add(distr_exp)
 
 # Llamamos a la función qqPlot_o con la colección de distribuciones
 qqPlot_o(distr_coll, y = "normal", confbounds = TRUE, alpha = 0.05, main = "Q-Q Plot")
 
-qqPlot_o(distr_coll)
+qqPlot_o(x[,1])
 
 
 for (i in seq_along(distr_coll$distr)) {
@@ -790,3 +755,10 @@ for (i in 1:length(distList)){
 }
 invisible()
 
+
+
+# Creamos un objeto Distr para una distribución exponencial
+distr_exp <- Distr$new(x = rexp(100), name = "exponential", parameters = c(rate = 1))
+
+# Agregamos el objeto Distr a la colección
+distr_coll$add(distr_exp)
