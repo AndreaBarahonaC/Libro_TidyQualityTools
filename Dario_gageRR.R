@@ -1,0 +1,622 @@
+
+library(R6)
+# Definición de la clase gageRR
+gageRR <- R6Class("gageRR",
+                  public = list(
+                    X = NULL,
+                    ANOVA = NULL,
+                    RedANOVA = NULL,
+                    method = NULL,
+                    Estimates = NULL,
+                    Varcomp = NULL,
+                    Sigma = NULL,
+                    GageName = NULL,
+                    GageTolerance = NULL,
+                    DateOfStudy = NULL,
+                    PersonResponsible = NULL,
+                    Comments = NULL,
+                    b = NULL,
+                    a = NULL,
+                    y = NULL,
+                    facNames = NULL,
+                    numO = NULL,
+                    numP = NULL,
+                    numM = NULL,
+                    initialize = function(X, ANOVA = NULL, RedANOVA = NULL, method = NULL, Estimates = NULL, Varcomp = NULL,
+                                                                Sigma = NULL, GageName = NULL, GageTolerance = NULL, DateOfStudy = NULL,
+                                                                PersonResponsible = NULL, Comments = NULL, b = NULL, a = NULL, y = NULL,
+                                                                facNames = NULL, numO = NULL, numP = NULL, numM = NULL) {
+                      self$X <- X
+                      self$ANOVA <- ANOVA
+                      self$RedANOVA <- RedANOVA
+                      self$method <- method
+                      self$Estimates <- Estimates
+                      self$Varcomp <- Varcomp
+                      self$Sigma <- Sigma
+                      self$GageName <- GageName
+                      self$GageTolerance <- GageTolerance
+                      self$DateOfStudy <- DateOfStudy
+                      self$PersonResponsible <- PersonResponsible
+                      self$Comments <- Comments
+                      self$b <- b
+                      self$a <- a
+                      self$y <- y
+                      self$facNames <- facNames
+                      self$numO <- numO
+                      self$numP <- numP
+                      self$numM <- numM
+                    },
+    show = function() {
+      print(as.data.frame(self$X))
+    },
+    subset = function(i, j) {
+      return(self$X[i, j])
+    },
+    summary = function() {
+      if (all(is.na(self$X$Measurement))) {
+        cat("Gage R&R Summary\n")
+        cat("-----------------\n")
+        cat("Method: ", self$method, "\n")
+        cat("Sigma: ", self$Sigma, "\n")
+        cat("Gage Name: ", self$GageName, "\n")
+        cat("Gage Tolerance: ", self$GageTolerance, "\n")
+        cat("Date of Study: ", self$DateOfStudy, "\n")
+        cat("Person Responsible: ", self$PersonResponsible, "\n")
+        cat("Comments: ", self$Comments, "\n")
+        cat("Operators: ", self$numO, "\n")
+        cat("Parts: ", self$numP, "\n")
+        cat("Measurements per Part: ", self$numM, "\n")
+      } else {
+        cat("\n")
+        cat("Operators:\t", self$numO, "\tParts:\t", self$numP, "\n")
+        cat("Measurements:\t", self$numM, "\tTotal:\t", nrow(self$X), "\n")
+        cat("----------\n")
+      }
+      return(invisible(self))
+    },
+    response = function() {
+      return(self$X$Measurement)
+    },
+    replace_response = function(value) {
+      self$X$Measurement = value
+      return(self)
+    },
+    names = function() {
+      return(names(as.data.frame(self)))
+    },
+    as_data_frame = function() {
+      return(as.data.frame(self))
+    },
+    get_tolerance = function() {
+      return(unlist(self$GageTolerance))
+    },
+    set_tolerance = function(value) {
+      if (!is.numeric(value))
+        stop("GageTolerance needs to be numeric")
+      self$GageTolerance = value
+      return(self)
+    },
+    get_sigma = function() {
+      return(unlist(self$Sigma))
+    },
+    set_sigma = function(value) {
+      if (!is.numeric(value))
+        stop("Sigma needs to be numeric")
+      self$Sigma = value
+      return(self)
+    }
+                  )
+)
+
+.aip = function(x.factor, trace.factor, response, fun = mean, type = c("l", "p", "b"), legend = FALSE, trace.label = deparse(substitute(trace.factor)),
+                fixed = FALSE, xlab = deparse(substitute(x.factor)), ylab = ylabel, ylim = range(cellNew, na.rm = TRUE), lty = nc:1, col = 1, pch = c(1L:9, 0, letters),
+                xpd = NULL, leg.bg = par("bg"), leg.bty = "o", xtick = FALSE, xaxt = par("xaxt"), axes = TRUE, title = "", ...) {
+  ylabel <- paste(deparse(substitute(fun)), "of ", deparse(substitute(response)))
+  type <- match.arg(type)
+  cellNew <- tapply(response, list(x.factor, trace.factor), fun)
+  nr <- nrow(cellNew)
+  nc <- ncol(cellNew)
+  xvals <- 1L:nr
+  if (is.ordered(x.factor)) {
+    wn <- getOption("warn")
+    options(warn = -1)
+    xnm <- as.numeric(levels(x.factor))
+    options(warn = wn)
+    if (!any(is.na(xnm)))
+      xvals <- xnm
+  }
+  xlabs <- rownames(cellNew)
+  ylabs <- colnames(cellNew)
+  nch <- max(sapply(ylabs, nchar, type = "width"))
+  if (is.null(xlabs))
+    xlabs <- as.character(xvals)
+  if (is.null(ylabs))
+    ylabs <- as.character(1L:nc)
+  xlim <- range(xvals)
+  xleg <- xlim[2L] + 0.05 * diff(xlim)
+  xlim <- xlim + c(-0.2/nr, if (legend) 0.2 + 0.02 * nch else 0.2/nr) * diff(xlim)
+  matplot(xvals, cellNew, ..., type = type, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, axes = axes, xaxt = "n", col = col, lty = lty, pch = pch)
+  if (axes && xaxt != "n") {
+    axisInt <- function(x, main, sub, lwd, bg, log, asp, ...) axis(1, x, ...)
+    mgp. <- par("mgp")
+    if (!xtick)
+      mgp.[2L] <- 0
+    axisInt(1, at = xvals, labels = xlabs, tick = xtick, mgp = mgp., xaxt = xaxt, ...)
+  }
+  if (legend) {
+    legend("topright", legend = ylabs, title = title, col = col, pch = if (type %in% c("p", "b"))
+      pch, lty = if (type %in% c("l", "b"))
+        lty, bty = leg.bty, bg = leg.bg, inset = 0.02)
+  }
+  legend("topright", legend = ylabs, title = title, col = col, pch = if (type %in% c("p", "b"))
+    pch, lty = if (type %in% c("l", "b"))
+      lty, bty = leg.bty, bg = leg.bg, inset = c(-0.2, 0), xpd = TRUE)
+  invisible()
+}
+
+gageRRDesign = function(Operators = 3, Parts = 10, Measurements = 3, method = "crossed", sigma = 6, randomize = TRUE) {
+  # Validación de argumentos
+  if (!is.numeric(sigma))
+    stop("sigma needs to be numeric")
+  if (method != "nested" && method != "crossed")
+    stop("Unknown method specified. Use 'method = nested' or 'method = crossed'.")
+  Measurements <- as.integer(Measurements)
+  if (!is.numeric(Measurements) || Measurements <= 0)
+    stop("Number of Measurements per Part must be a positive integer.")
+
+  #method <- method  # Redundante, ya que se asigna como argumento
+
+  opvec <- factor()
+  partvec <- factor()
+  #yName <- aName <- bName <- abName <- NA
+
+  yName <- "Measurement"
+  aName <- "Operator"
+  bName <- "Part"
+  abName <- "Operator:Part"
+
+  Operators <- unique(Operators)
+  Parts <- unique(Parts)
+
+  if (is.numeric(Operators))
+    opvec <- factor(LETTERS[1:Operators[1]])
+  if (is.character(Operators))
+    opvec <- factor(Operators)
+
+  if (length(unique(opvec)) > 26)
+    stop("Too many Operators!")
+  if (length(unique(opvec)) < 2)
+    stop("Not enough Operators")
+
+  if (is.numeric(Parts))
+    partvec <- factor(LETTERS[1:Parts[1]])
+  if (is.character(Parts))
+    partvec <- factor(Parts)
+
+  if (length(unique(partvec)) > 26)
+    stop("Too many Parts!")
+  if (length(unique(partvec)) < 2)
+    stop("Too few Parts")
+
+  Measurement <- rep(NA, (length(opvec) * length(partvec) * Measurements))
+  outFrame <- data.frame()
+
+  if (method == "crossed") {
+    temp <- expand.grid(opvec, partvec)
+    o <- rep(temp[, 1], Measurements)
+    p <- rep(temp[, 2], Measurements)
+  } else {
+    p <- rep(sort(rep(partvec, length(opvec))), Measurements)
+    o <- (rep(opvec, length(Measurement) / length(opvec)))
+    p <- p[order(o,p)]
+    o <- o[order(o,p)]
+  }
+
+  if (randomize)
+    outFrame <- data.frame(StandardOrder = 1:length(Measurement), RunOrder = sample(1:length(Measurement), length(Measurement)), Operator = factor(o), Part = factor(p), Measurement)
+  else
+    outFrame <- data.frame(StandardOrder = 1:length(Measurement), RunOrder = 1:length(Measurement), Operator = factor(o), Part = factor(p), Measurement)
+
+  outFrame <- outFrame[order(outFrame$RunOrder), ]
+
+  gageRRObj <- gageRR$new(
+    X = outFrame,
+    ANOVA = NULL,  # Proporcionar un valor predeterminado
+    RedANOVA = NULL,  # Proporcionar un valor predeterminado
+    method = method,
+    Estimates = NULL,  # Proporcionar un valor predeterminado
+    Varcomp = NULL,  # Proporcionar un valor predeterminado
+    Sigma = sigma,
+    GageName = NULL,  # Proporcionar un valor predeterminado
+    GageTolerance = NULL,  # Proporcionar un valor predeterminado
+    DateOfStudy = Sys.Date(),  # Proporcionar un valor predeterminado
+    PersonResponsible = NULL,  # Proporcionar un valor predeterminado
+    Comments = NULL,  # Proporcionar un valor predeterminado
+    b = factor(p),
+    a = factor(o),
+    y = as.numeric(Measurement),
+    facNames = c(yName, aName, bName, abName),
+    numO = length(unique(opvec)),  # Número de operadores
+    numP = length(unique(partvec)),  # Número de partes
+    numM = Measurements  # Número de mediciones
+  )
+
+  return(gageRRObj)
+}
+
+gageRR_ = function(gdo, method = "crossed", sigma = 6, alpha = 0.25, DM = NULL, HM = NULL, tolerance = NULL, dig = 3, ...) {
+  method <- method
+
+  yName <- "Measurement"
+  aName <- "Operator"
+  bName <- "Part"
+
+  abName <- if(method == "crossed") paste(aName, ":", bName, sep = "")
+  else if(method == "nested") paste(bName, "(", aName, ")", sep = "")
+  else NA
+
+  bTobName <- paste(bName, "to", bName, sep = " ")
+
+  if (is.null(tolerance)) tolerance <- gdo$get_tolerance()
+
+  y <- gdo$X[[yName]]
+  a <- gdo$X[[aName]]
+  b <- gdo$X[[bName]]
+
+  nestedFormula <- as.formula(paste(yName, "~", aName, "/", bName))
+  crossedFormula <- as.formula(paste(yName, "~", aName, "*", bName))
+  reducedFormula <- as.formula(paste(yName, "~", aName, "+", bName))
+
+  if (method == "nested") {
+    numA <- nlevels(a)
+    numB <- nlevels(b)
+    numMPP <- length(y) / (numB * numA)
+
+    gdo$numO <- numA
+    gdo$numP <- numB
+    gdo$numM <- numMPP
+
+    fit <- aov(nestedFormula, data = gdo$X)
+    meanSq <- anova(fit)[, 3]
+
+    gdo$ANOVA <- fit
+    gdo$method <- "nested"
+
+    MSa <- meanSq[1]
+    MSab <- meanSq[2]
+    MSe <- meanSq[3]
+
+    Cerror <- MSe
+    Cb <- (MSab - MSe) / numMPP
+    Ca <- (MSa - MSab) / (numB * numMPP)
+
+    if (Ca <= 0) Ca <- 0
+    if (Cb <= 0) Cb <- 0
+
+    Cab <- 0
+    totalRR <- Ca + Cab + Cerror
+    repeatability <- Cerror
+    reproducibility <- Ca
+    bTob <- Cb
+    totalVar <- Cb + Ca + Cab + Cerror
+
+    estimates <- list(Cb = Cb, Ca = Ca, Cab = Cab, Cerror = Cerror)
+    varcomp <- list(totalRR = totalRR, repeatability = repeatability, reproducibility = reproducibility, bTob = bTob, totalVar = totalVar)
+
+    gdo$Estimates <- estimates
+    gdo$Varcomp <- varcomp
+  }
+
+  if (method == "crossed") {
+    numA <- nlevels(a)
+    numB <- nlevels(b)
+    numMPP <- length(a) / (numA * numB)
+
+    gdo$numO <- numA
+    gdo$numP <- numB
+    gdo$numM <- numMPP
+
+    fit <- aov(crossedFormula, data = gdo$X)
+    model <- anova(fit)
+
+    gdo$ANOVA <- fit
+    gdo$method <- "crossed"
+
+    MSb <- MSa <- MSab <- MSe <- 0
+
+    if (bName %in% row.names(model)) MSb <- model[bName, "Mean Sq"]
+    else warning(paste("missing factor", bName, "in model"))
+
+    if (aName %in% row.names(model)) MSa <- model[aName, "Mean Sq"]
+    else warning(paste("missing factor", aName, "in model"))
+
+    if (abName %in% row.names(model)) MSab <- model[abName, "Mean Sq"]
+    else warning(paste("missing interaction", abName, "in model"))
+
+    if ("Residuals" %in% row.names(model)) MSe <- model["Residuals", "Mean Sq"]
+    else warning("missing Residuals in model")
+
+    Cb <- Ca <- Cab <- Cerror <- 0
+
+    Cb <- (MSb - MSab) / (numA * numMPP)
+    Ca <- (MSa - MSab) / (numB * numMPP)
+    Cab <- (MSab - MSe) / numMPP
+    Cerror <- (MSe)
+
+    gdo$RedANOVA <- gdo$ANOVA
+
+    if ((Cab < 0) || (model[abName, "Pr(>F)"] >= alpha)) {
+      redFit <- aov(reducedFormula, data = gdo$X)
+      model <- anova(redFit)
+
+      MSb <- MSa <- MSab <- MSe <- 0
+
+      if (bName %in% row.names(model)) MSb <- model[bName, "Mean Sq"]
+      else warning(paste("missing factor", bName, "in model"))
+
+      if (aName %in% row.names(model)) MSa <- model[aName, "Mean Sq"]
+      else warning(paste("missing factor", aName, "in model"))
+
+      if ("Residuals" %in% row.names(model)) MSe <- model["Residuals", "Mean Sq"]
+      else warning("missing Residuals in model")
+
+      Cb <- Ca <- Cab <- Cerror <- 0
+
+      Cb <- (MSb - MSe) / (numA * numMPP)
+      Ca <- (MSa - MSe) / (numB * numMPP)
+      Cab <- 0
+      Cerror <- (MSe)
+
+      gdo$RedANOVA <- redFit
+    }
+
+    gdo$method <- "crossed"
+    Ca <- max(0, Ca)
+    Cb <- max(0, Cb)
+    Cab <- max(0, Cab)
+
+    totalRR <- Ca + Cab + Cerror
+    repeatability <- Cerror
+    reproducibility <- Ca + Cab
+    bTob <- max(0, Cb)
+    totalVar <- Cb + Ca + Cab + Cerror
+
+    estimates <- list(Cb = Cb, Ca = Ca, Cab = Cab, Cerror = Cerror)
+    varcomp <- list(totalRR = totalRR, repeatability = repeatability, reproducibility = reproducibility, a = Ca, a_b = Cab, bTob = bTob, totalVar = totalVar)
+
+    gdo$Estimates <- estimates
+    gdo$Varcomp <- varcomp
+  }
+
+  cat("\n")
+  cat(paste("AnOVa Table - ", gdo$method, "Design\n"))
+  print(summary(gdo$ANOVA))
+  cat("\n")
+  cat("----------\n")
+
+  if (!identical(gdo$RedANOVA, gdo$ANOVA) && gdo$method == "crossed") {
+    cat(paste("AnOVa Table Without Interaction - ", gdo$method, "Design\n"))
+    print(summary(gdo$RedANOVA))
+    cat("\n")
+    cat("----------\n")
+  }
+
+  Source <- names(gdo$Varcomp)
+  Source[Source == "repeatability"] <- " repeatability"
+  Source[Source == "reproducibility"] <- " reproducibility"
+  Source[Source == "a_b"] <- paste("  ", abName)
+  Source[Source == "a"] <- paste("  ", aName)
+  Source[Source == "bTob"] <- bTobName
+
+  VarComp <- round(as.numeric(gdo$Varcomp[c(1:length(gdo$Varcomp))]), 3)
+  Contribution <- round(as.numeric(gdo$Varcomp[c(1:length(gdo$Varcomp))]) / as.numeric(gdo$Varcomp[length(gdo$Varcomp)]), 3)
+  VarComp <- t(data.frame(gdo$Varcomp))
+  VarCompContrib <- VarComp / gdo$Varcomp$totalVar
+  Stdev <- sqrt(VarComp)
+  StudyVar <- Stdev * gdo$Sigma
+  StudyVarContrib <- StudyVar / StudyVar["totalVar", ]
+  SNR <- 1
+  ptRatio <- NULL
+  temp <- NULL
+
+  if ((length(gdo$GageTolerance) > 0) && (gdo$GageTolerance > 0)) {
+    ptRatio <- StudyVar / gdo$GageTolerance
+    temp <- data.frame(VarComp, VarCompContrib, Stdev, StudyVar, StudyVarContrib, ptRatio)
+    names(temp)[6] <- c("P/T Ratio")
+    row.names(temp) <- c(Source)
+  } else {
+    temp <- data.frame(VarComp, VarCompContrib, Stdev, StudyVar, StudyVarContrib)
+    row.names(temp) <- c(Source)
+  }
+
+  cat("\n")
+  cat("Gage R&R\n")
+  tempout <- temp
+  print(format(tempout, digits = dig))
+  cat("\n")
+  cat("---\n")
+  cat(" * Contrib equals Contribution in %\n")
+
+  SNRTemp <- sqrt(2) * (temp[bTobName, "Stdev"] / temp["totalRR", "Stdev"])
+  if (SNRTemp > 1) SNR <- SNRTemp
+
+  cat(paste(" **Number of Distinct Categories (truncated signal-to-noise-ratio) =", floor(SNR), "\n"))
+  cat("\n")
+  invisible(gdo)
+}
+setMethod("plot", signature(x = "gageRR"), function(x, y, main=NULL, xlab=NULL, ylab=NULL, col, lwd, fun = mean, ...) {
+  gdo <- x$X
+  yName <- x$facNames[1]
+  aName <- x$facNames[2]
+  bName <- x$facNames[3]
+  abName <- paste(aName, ":", bName, sep = "")
+  if (missing(col))
+    col <- 2:(length(unique(gdo[, 3])) + 1)
+  if (missing(lwd))
+    lwd <- 1
+  temp <- NULL
+  Source <- names(x$Varcomp)
+  VarComp <- round(as.numeric(x$Varcomp), 3)
+  Contribution <- round(as.numeric(x$Varcomp) / as.numeric(x$Varcomp[length(x$Varcomp)]), 3)
+  VarComp <- t(data.frame(x$Varcomp))
+  VarCompContrib <- VarComp / x$Varcomp$totalVar
+  Stdev <- sqrt(VarComp)
+  StudyVar <- Stdev * x$Sigma
+  StudyVarContrib <- StudyVar / sum(StudyVar)
+  if ((length(x$GageTolerance) > 0) && (x$GageTolerance > 0)) {
+    ptRatio <- StudyVar / x$GageTolerance
+    temp <- data.frame(VarComp, VarCompContrib, Stdev, StudyVar, StudyVarContrib, ptRatio)
+    contribFrame <- data.frame(VarCompContrib, StudyVarContrib, ptRatio)
+    names(temp)[6] <- c("P/T Ratio")
+    row.names(temp) <- c(Source)
+    SNR <- sqrt(2 * (temp["bTob", "VarComp"] / temp["totalRR", "VarComp"]))
+  } else {
+    temp <- data.frame(VarComp, VarCompContrib, Stdev, StudyVar, StudyVarContrib)
+    contribFrame <- data.frame(VarCompContrib, StudyVarContrib)
+  }
+  bTob <- paste(bName, "To", bName, sep = "")
+  Source[Source == "bTob"] <- bTob
+  row.names(contribFrame) <- Source
+  if (x$method == "crossed")
+    contribFrame <- contribFrame[-match(c("totalVar", "a", "a_b"), row.names(temp)), ]
+  else contribFrame <- contribFrame[-match(c("totalVar"), row.names(temp)), ]
+
+  # Convert data to long format for ggplot2
+  contribFrame_long <- as.data.frame(contribFrame)
+  contribFrame_long$Component <- rownames(contribFrame_long)
+  contribFrame_long <- tidyr::gather(contribFrame_long, key = "Metric", value = "Value", -Component)
+
+  # First plot: Components of Variation
+  p1 <- ggplot(contribFrame_long, aes(x = Component, y = Value, fill = Metric)) +
+    geom_bar(stat = "identity", position = "dodge") +
+    labs(title = ifelse(is.null(main[1]), "Components of Variation", main[1]),
+         x = ifelse(is.null(xlab[1]), "Component", xlab[1]),
+         y = ifelse(is.null(ylab[1]), "", ylab[1])) +
+    theme_minimal() +
+    scale_fill_manual(values = col[1:nlevels(factor(contribFrame_long$Metric))])
+
+  print(p1)
+
+  if (x$method == "crossed") {
+    # Second plot: y by b
+    p2 <- ggplot(gdo, aes_string(x = bName, y = yName)) +
+      geom_boxplot() +
+      stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", size = lwd) +
+      stat_summary(fun = median, geom = "point", color = "red", size = 3) +
+      labs(title = ifelse(is.null(main[2]), paste(yName, "by", bName), main[2]),
+           x = ifelse(is.null(xlab[2]), bName, xlab[2]),
+           y = ifelse(is.null(ylab[2]), yName, ylab[2])) +
+      theme_minimal()
+
+    print(p2)
+
+    # Third plot: y by a
+    p3 <- ggplot(gdo, aes_string(x = aName, y = yName)) +
+      geom_boxplot(aes(fill = factor(gdo[, 3]))) +
+      stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", size = lwd) +
+      stat_summary(fun = median, geom = "point", color = "red", size = 3) +
+      labs(title = ifelse(is.null(main[3]), paste(yName, "by", aName), main[3]),
+           x = ifelse(is.null(xlab[3]), aName, xlab[3]),
+           y = ifelse(is.null(ylab[3]), yName, ylab[3])) +
+      theme_minimal() +
+      scale_fill_manual(values = col)
+
+    print(p3)
+
+    # Fourth plot: x-bar chart
+    agg <- aggregate(gdo[, yName], list(gdo[, aName], gdo[, bName]), FUN = mean)
+    xm <- mean(agg[, 3])
+    aggSd <- aggregate(gdo[, yName], list(gdo[, bName], gdo[, aName]), FUN = sd)
+    sm <- mean(aggSd[, 3])
+    sgSize <- table(aggSd[, 2])[1]
+    UCL <- xm + ((3 * sm) / (.c4(sgSize) * sqrt(sgSize)))
+    LCL <- xm - ((3 * sm) / (.c4(sgSize) * sqrt(sgSize)))
+
+    p4 <- ggplot(agg, aes(x = Group.1, y = x)) +
+      geom_line(aes(group = 1), color = "blue") +
+      geom_point(size = 2, color = "blue") +
+      geom_hline(yintercept = xm, color = "green", linetype = "dashed") +
+      geom_hline(yintercept = UCL, color = "red", linetype = "dashed") +
+      geom_hline(yintercept = LCL, color = "red", linetype = "dashed") +
+      labs(title = expression(paste(bar(x), " Chart")),
+           x = aName,
+           y = expression(bar(x))) +
+      annotate("text", x = nrow(agg) + 0.5, y = UCL, label = paste("UCL =", round(UCL, 2)), color = "red") +
+      annotate("text", x = nrow(agg) + 0.5, y = xm, label = paste("XM =", round(xm, 2)), color = "green") +
+      annotate("text", x = nrow(agg) + 0.5, y = LCL, label = paste("LCL =", round(LCL, 2)), color = "red") +
+  theme_minimal()
+
+  print(p4)
+  } else {
+    # Second plot: y by a for nested method
+    p2 <- ggplot(gdo, aes_string(x = aName, y = yName)) +
+      geom_boxplot() +
+      stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", size = lwd) +
+      stat_summary(fun = median, geom = "point", color = "red", size = 3) +
+      labs(title = ifelse(is.null(main[2]), paste(yName, "by", aName), main[2]),
+           x = ifelse(is.null(xlab[2]), aName, xlab[2]),
+           y = ifelse(is.null(ylab[2]), yName, ylab[2])) +
+      theme_minimal()
+
+    print(p2)
+  }
+})
+
+# Ejemplo de uso:
+# Primero se debe crear un objeto de la clase 'gageRR'
+
+
+
+
+
+mi_gageRR <- gageRR$new(
+  X = data.frame(
+    Operator = factor(c("A", "B", "C", "A", "B")),
+    Part = factor(c("P1", "P1", "P2", "P2", "P3")),
+    Measurement = c(10, 12, 11, 13, 9)
+  ),
+  ANOVA = NULL,  # Esto puede ser NULL inicialmente y luego calcularlo
+  RedANOVA = NULL,  # Igual que ANOVA, puede ser NULL inicialmente
+  method = "crossed",
+  Estimates = list(),
+  Varcomp = list(),
+  Sigma = 0.5,
+  GageName = "Gage1",
+  GageTolerance = 0.1,
+  DateOfStudy = "2024-05-15",
+  PersonResponsible = "John Doe",
+  Comments = "Sample gage R&R study",
+  b = factor(c("A", "A", "B", "B", "C")),
+  a = factor(c("P1", "P1", "P2", "P2", "P3")),
+  y = c(10, 12, 11, 13, 9),
+  facNames = c("Measurement", "Operator", "Part"),
+  numO = 3,
+  numP = 3,
+  numM = 2
+)
+
+# Crear el objeto gageRRObj
+design_example <- gageRRDesign(
+  Operators = 3,
+  Parts = 10,
+  Measurements = 3,
+  method = "crossed",
+  sigma = 6,
+  randomize = TRUE
+)
+
+# Crear un diseño para el estudio de Gage
+design <- gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, method = "crossed", sigma = 6, randomize = TRUE)
+design$X$Measurement <- rnorm(nrow(design$X), mean = 10, sd = 2)
+
+# Ejecutar la función gageRR_
+result <- gageRR_(
+  gdo = design,
+  method = "crossed",   #  método "crossed"
+  sigma = 6,            #  sigma
+  alpha = 0.25,         # Nivel de significancia
+  tolerance = NULL,     # Tolerancia
+  dig = 3               # Número de dígitos a mostrar en los resultados
+)
+class(result)
+plot(result)
