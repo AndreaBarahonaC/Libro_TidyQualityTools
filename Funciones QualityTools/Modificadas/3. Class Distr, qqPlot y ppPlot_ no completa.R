@@ -428,31 +428,7 @@ distribution <- function(x = NULL, distrib = "weibull", start, ...) {
   }
   return(distr_coll)
 }
-# Funcion .xyLimits ----
-.xyLimits = function(distrCollection, lowerquantile = 0.001, upperquantile = 0.999) {
-  x <- NULL
-  y <- NULL
-  for (i in seq_along(distrCollection$distr)) {
-    object <- distrCollection$distr[[i]]
-    xValues <- object$x
-    parameters <- object$parameters
-    distr <- object$name
-    qFun <- .charToDistFunc(distr, type = "q")
-    dFun <- .charToDistFunc(distr, type = "d")
-    lq <- do.call(qFun, c(list(lowerquantile), as.list(parameters)))
-    uq <- do.call(qFun, c(list(upperquantile), as.list(parameters)))
-    x <- range(x, xValues, lq, uq)
-    histObj <- hist(xValues, plot = FALSE)
-    xPoints <- seq(x[1], x[2], length = 200)
-    yPoints <- do.call(dFun, c(list(xPoints), as.list(parameters)))
-    y <- range(y, 0, histObj$density, yPoints)
-  }
-  invisible(list(xlim = x, ylim = y))
-}
-
-
-
-# Funcion qqPlot falta cambiaaaar desde aquiiii ---------------------
+# Funcion qqPlot ---------------------
 qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim, border = "red", bounds.col = "black", bounds.lty = 1, start, grapic = TRUE, axis.y.right = FALSE, bw.theme = FALSE,...){
   DB = FALSE
   parList = list()
@@ -644,7 +620,7 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
 
 
 
-
+# Funcion ppPlot ---------------------
 ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab, ylab, xlim, ylim,
                     border = "red", bounds.col = "black", bounds.lty = 1, grid = TRUE, box = TRUE, stats = TRUE, start,
                     ...)
