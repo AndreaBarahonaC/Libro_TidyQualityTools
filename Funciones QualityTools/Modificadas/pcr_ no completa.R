@@ -616,10 +616,10 @@ pcr_new <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALS
   ## ---------------- end if plot == true --------------------------------------------------------------------------
   invisible(list(lambda = lambda, cp = cp, cpk = cpk, cpl = cpl,
                  cpu = cpu, ppt = ppt, ppl = ppl, ppu = ppu, usl = usl,
-                 lsl = lsl, target = target))
+                 lsl = lsl, target = target, plot = main_plot))
 }
 
 
 set.seed(1234)
 datos <- rnorm(20, mean = 20)
-pcr_new(datos, "normal", lsl = 17, usl = 23)
+pcr_new(datos, "normal", lsl = 17, usl = 23, plot = FALSE)
