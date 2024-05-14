@@ -622,4 +622,4 @@ pcr_new <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALS
 
 set.seed(1234)
 datos <- rnorm(20, mean = 20)
-pcr_new(datos, "normal", lsl = 17, usl = 23, plot = FALSE)
+pcr_new(datos, "normal", lsl = 17, usl = 23)
