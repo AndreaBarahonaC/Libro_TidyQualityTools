@@ -2,12 +2,12 @@
 # "Class Distr, pplot y qqPlot"
 # Funciones Auxilicares
 
-pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
-                     lambda = c(-5, 5), main, xlim, ylim, grouping = NULL, std.dev = NULL,
-                     conf.level = 0.9973002, start, lineWidth = 1, lineCol = "red",
-                     lineType = "solid", specCol = "red3", specWidth = 1, cex.text = 2,
-                     cex.val = 1.5, cex.col = "darkgray", plot = TRUE, bounds.lty = 3,
-                     bounds.col = "red", ...) {
+pcr_ <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
+                  lambda = c(-5, 5), main, xlim, ylim, grouping = NULL, std.dev = NULL,
+                  conf.level = 0.9973002, start, lineWidth = 1, lineCol = "red",
+                  lineType = "solid", specCol = "red3", specWidth = 1, cex.text = 2,
+                  cex.val = 1.5, cex.col = "darkgray", plot = TRUE, bounds.lty = 3,
+                  bounds.col = "red", ...) {
   DB = FALSE
   data.name = deparse(substitute(x))[1]
 
@@ -281,39 +281,39 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank()
       ) +
-      xlim(c(0.24, 0.27)) + ylim(c(0.24, 0.41))
+      xlim(c(0.24, 0.26)) + ylim(c(0.21, 0.43))
     {
       if(is.null(cpu))
         p2 <- p2 + annotate('text', x = 0.25, y = 0.40,
                             label = paste("C[pkU]==", "*"),
-                            parse = TRUE, size = 3.5, hjust = 0)
+                            parse = TRUE, size = 3.5, hjust = 0.5)
       else p2 <- p2 + annotate('text', x = 0.25, y = 0.40,
                                label = paste("C[pkU]==", round(cpu, 2)),
-                               parse = TRUE, size = 3.5, hjust = 0)
+                               parse = TRUE, size = 3.5, hjust = 0.5)
       if(is.null(cpl))
         p2 <- p2 + annotate('text', x = 0.25, y = 0.35,
                             label = paste("C[pkL]==", "*"),
-                            parse = TRUE, size = 3.5, hjust = 0)
+                            parse = TRUE, size = 3.5, hjust = 0.5)
       else
         p2 <- p2 + annotate('text', x = 0.25, y = 0.35,
                             label = paste("C[pkL]==", round(cpl, 2)),
-                            parse = TRUE, size = 3.5, hjust = 0)
+                            parse = TRUE, size = 3.5, hjust = 0.5)
       if(is.null(cpk))
         p2 <- p2 + annotate('text', x = 0.25, y = 0.30,
                             label = paste("C[pk]==", "*"),
-                            parse = TRUE, size = 3.5, hjust = 0)
+                            parse = TRUE, size = 3.5, hjust = 0.5)
       else
         p2 <- p2 + annotate('text', x = 0.25, y = 0.30,
                             label = paste("C[pk]==", round(cpk, 2)),
-                            parse = TRUE, size = 3.5, hjust = 0)
+                            parse = TRUE, size = 3.5, hjust = 0.5)
       if(is.null(cp))
         p2 <- p2 + annotate('text', x = 0.25, y = 0.25,
                             label = paste("C[p]==", "*"),
-                            parse = TRUE, size = 3.5, hjust = 0)
+                            parse = TRUE, size = 3.5, hjust = 0.5)
       else
         p2 <- p2 + annotate('text',x = 0.25,y = 0.25,
                             label = paste("C[p]==", round(cp, 2)),
-                            parse = TRUE,size = 3.5,hjust = 0)
+                            parse = TRUE,size = 3.5,hjust = 0.5)
       }
 
 
@@ -325,9 +325,9 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
       adTestStats = .myADTest(x, distribution)
       A = numeric()
       p = numeric()
-      if (class(adTestStats) == "adtest"){
-        A = adTestStats$statistic
-        p = adTestStats$p.value
+      if (adTestStats$class == "adtest"){
+        A = adTestStats$statistic$A
+        p = adTestStats$p.value$p
       }
 
       # Caja de Info
@@ -340,15 +340,15 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank()
         ) +
-        xlim(c(0.245, 0.26)) + ylim(c(0.19, 0.41))
+        xlim(c(0.24, 0.26)) + ylim(c(0.21, 0.43))
       {
         # n y A
         p3 <- p3 + annotate('text', x = 0.25, y = 0.40,
                             label = paste("n==", numObs),
-                            parse = TRUE, size = 3, hjust = 0) +
+                            parse = TRUE, size = 3, hjust = 0.5) +
           annotate('text', x = 0.25, y = 0.35,
                    label = paste("A==", format(as.numeric(A), digits = 3)),
-                   parse = TRUE, size = 3, hjust = 0)
+                   parse = TRUE, size = 3, hjust = 0.5)
 
         # p
         if (!is.null(adTestStats$smaller) && adTestStats$smaller){
@@ -359,7 +359,7 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
             label = paste("p<", format(as.numeric(p), digits =3)),
             parse = TRUE,
             size = 3,
-            hjust = 0
+            hjust = 0.5
           )
         }
         if (!is.null(adTestStats$smaller) && !adTestStats$smaller){
@@ -370,7 +370,7 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
             label = paste("p>=", format(as.numeric(p),digits = 3)),
             parse = TRUE,
             size = 3,
-            hjust = 0
+            hjust = 0.5
           )
         }
         if (is.null(adTestStats$smaller)){
@@ -381,17 +381,17 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
             label = paste("p==", format(as.numeric(p), digits = 3)),
             parse = TRUE,
             size = 3,
-            hjust = 0
+            hjust = 0.5
           )
         }
 
         # mean y sd
         p3 <- p3 + annotate('text', x = 0.25, y = 0.25,
                             label = paste("mean==", format(estimates[[1]], digits = 3)),
-                            parse = TRUE, size = 3, hjust = 0) +
+                            parse = TRUE, size = 3, hjust = 0.5) +
           annotate('text', x = 0.25, y = 0.20,
                    label = paste("sd==", format(estimates[[2]], digits = 3)),
-                   parse = TRUE, size = 3, hjust = 0)
+                   parse = TRUE, size = 3, hjust = 0.5)
         }
     }
     if(any3distr){
@@ -404,29 +404,29 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank()
         ) +
-        xlim(c(0.245, 0.26)) + ylim(c(0.19, 0.41))
+        xlim(c(0.24, 0.26)) + ylim(c(0.21, 0.43))
       {
         # n y A
         p3 <- p3 + annotate('text', x = 0.25, y = 0.40,
                             label = paste("n==", numObs),
-                            parse = TRUE, size = 3, hjust = 0) +
+                            parse = TRUE, size = 3, hjust = 0.5) +
           annotate('text', x = 0.25, y = 0.35,
                    label = paste("A = ", "*"),
-                   parse = FALSE, size = 3, hjust = 0) +
+                   parse = FALSE, size = 3, hjust = 0.5) +
           annotate('text', x = 0.25, y = 0.30,
                    label = paste("p = ", "*"),
-                   parse = FALSE, size = 3, hjust = 0) +
+                   parse = FALSE, size = 3, hjust = 0.5) +
           annotate('text', x = 0.25, y = 0.25,
                    label = paste("mean==", format(estimates[[1]], digits = 3)),
-                   parse = TRUE, size = 3, hjust = 0) +
+                   parse = TRUE, size = 3, hjust = 0.5) +
           annotate('text', x = 0.25, y = 0.20,
                    label = paste("sd==", format(estimates[[2]], digits = 3)),
-                   parse = TRUE, size = 3, hjust = 0)
+                   parse = TRUE, size = 3, hjust = 0.5)
         }
     }
 
     # 4. qqPlot --------------------------------------------------------------------------
-    p4 <- qqPlot(x[, 1], y = distribution, xlab = "", ylab = "", main = "", xlim = xlim, ylim = ylim,
+    p4 <- qqPlot(x[, 1], y = distribution, xlab = "", ylab = "", main = "",
                  axes = FALSE, bounds.lty = bounds.lty, bounds.col = bounds.col, grapic = FALSE, axis.y.right = TRUE, bw.theme = TRUE)
 
     # Unimos las 4 primeras gráficas
@@ -549,10 +549,10 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
       xlim(c(0.24, 0.26)) + ylim(c(0.27, 0.36))
     if (!is.null(lsl)){
       obsL = (sum(x < lsl)/length(x)) * 1e+06
-      p6 <- p6 + annotate("text", x = 0.25, y = 0.30, label = paste("ppm==", format(obsL, digits = 6)),
+      p6 <- p6 + annotate("text", x = 0.25, y = 0.31, label = paste("ppm==", format(obsL, digits = 6)),
                           parse = TRUE, size = 3.5, hjust = 0.5)
     } else{
-      p6 <- p6 + annotate("text", x = 0.25, y = 0.30, label = paste("ppm==", 0),
+      p6 <- p6 + annotate("text", x = 0.25, y = 0.31, label = paste("ppm==", 0),
                           parse = TRUE, size = 3.5, hjust = 0.5)
     }
     if (!is.null(usl)){
@@ -563,7 +563,7 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
       p6 <- p6 + annotate("text", x = 0.25, y = 0.28, label = paste("ppm==", 0),
                           parse = TRUE, size = 3.5, hjust = 0.5)
     }
-    p6 <- p6 + annotate("text", x = 0.25, y = 0.32, label = paste("ppm==", format(obsL + obsU, digits = 6)),
+    p6 <- p6 + annotate("text", x = 0.25, y = 0.34, label = paste("ppm==", format(obsL + obsU, digits = 6)),
                         parse = TRUE, size = 3.5, hjust = 0.5)
 
     # UNION --------------------------------------------------------------------------
@@ -572,7 +572,10 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
     box_right <- p2 / p3 / p4$plot
     box_right <- box_right/plot_spacer()
     main_plot <- (main_plot | box_right) + plot_layout(ncol = 2, widths = c(5, 1))
-
+    main_plot <- main_plot + plot_annotation(
+      title = main,
+      theme = theme(plot.title = element_text(hjust = 0.5))
+    )
     if(not3distr){
       print(adTestStats)
       show(main_plot)
@@ -595,4 +598,4 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
 # Prueba
 set.seed(1234)
 datos <- rnorm(20, mean = 20)
-pcr(datos, "normal", lsl = 17, usl = 23)
+pcr_(datos, "normal", lsl = 17, usl = 23)

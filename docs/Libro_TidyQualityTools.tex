@@ -127,7 +127,7 @@
 
 \title{Integración del Paquete QualityTools con Tidyverse}
 \author{Miguel Flores \and Andrea Barahona \and Fabián Encarnación \and Dario Quishpe}
-\date{2024-04-26}
+\date{2024-05-14}
 
 \begin{document}
 \maketitle
@@ -701,7 +701,8 @@ De esta forma si intentamos utilizar \texttt{\$set()} se tendrá un error:
 
 Se puede también bloquear o desbloquear la clase mediante \texttt{\$lock()} y \texttt{\$unlock()} respectivamente.
 
-\#\#\#Herencia
+\hypertarget{herencia}{%
+\subsection{Herencia}\label{herencia}}
 
 Se puede heredar los comportamientos de una clase existente a otra utilizando \texttt{inherit}, para ello veamos el ejemplo:
 
@@ -731,7 +732,8 @@ Al agregar \texttt{\$sumar()} se cambia la implementación de la clase que hered
 \end{Highlighting}
 \end{Shaded}
 
-\#\#\#Introspección
+\hypertarget{introspecciuxf3n}{%
+\subsection{Introspección}\label{introspecciuxf3n}}
 
 Para determinar la clase y todas las que hereda podemos utilizar \texttt{class()}:
 
@@ -836,11 +838,11 @@ Por ejemplo, creemos un campo activo llamado \texttt{random} que nos devuelva un
 \NormalTok{))}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Ran}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.1705572}
+\DocumentationTok{\#\# [1] 0.9936616}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.3478659}
+\DocumentationTok{\#\# [1] 0.2512396}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.7865287}
+\DocumentationTok{\#\# [1] 0.5582675}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1261,11 +1263,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \DocumentationTok{\#\# [49] "J♥"  "Q♦"  "K♣"}
 \NormalTok{mazo}\SpecialCharTok{$}\FunctionTok{reshuffle}\NormalTok{()}
 \NormalTok{mazo}\SpecialCharTok{$}\NormalTok{.cartas}
-\DocumentationTok{\#\#  [1] "8♦"  "3♦"  "J♥"  "K♥"  "J♣"  "5♦"  "6♥"  "8♣"  "4♦"  "9♦"  "J♠"  "3♣" }
-\DocumentationTok{\#\# [13] "K♦"  "10♥" "9♣"  "Q♠"  "10♦" "3♠"  "6♦"  "K♠"  "8♥"  "10♠" "A♣"  "Q♥" }
-\DocumentationTok{\#\# [25] "Q♣"  "2♣"  "9♥"  "3♥"  "K♣"  "5♥"  "4♣"  "4♠"  "A♥"  "A♦"  "5♠"  "7♣" }
-\DocumentationTok{\#\# [37] "4♥"  "10♣" "7♥"  "9♠"  "7♦"  "7♠"  "8♠"  "2♦"  "J♦"  "6♠"  "2♠"  "5♣" }
-\DocumentationTok{\#\# [49] "6♣"  "2♥"  "A♠"  "Q♦"}
+\DocumentationTok{\#\#  [1] "5♦"  "2♣"  "3♣"  "3♦"  "6♣"  "6♦"  "2♠"  "J♥"  "7♦"  "10♦" "A♠"  "K♦" }
+\DocumentationTok{\#\# [13] "4♠"  "8♥"  "K♠"  "Q♦"  "6♠"  "7♣"  "A♦"  "8♠"  "10♣" "4♥"  "Q♥"  "4♦" }
+\DocumentationTok{\#\# [25] "5♣"  "J♣"  "10♥" "5♠"  "9♦"  "A♥"  "8♣"  "8♦"  "K♣"  "4♣"  "6♥"  "Q♣" }
+\DocumentationTok{\#\# [37] "9♠"  "J♠"  "3♠"  "7♠"  "A♣"  "9♥"  "K♥"  "3♥"  "Q♠"  "7♥"  "10♠" "2♦" }
+\DocumentationTok{\#\# [49] "2♥"  "J♦"  "9♣"  "5♥"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1437,11 +1439,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \NormalTok{)}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Rando}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.400959}
+\DocumentationTok{\#\# [1] 0.9898986}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.8996583}
+\DocumentationTok{\#\# [1] 0.5505431}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{previous}
-\DocumentationTok{\#\# [1] 0.8996583}
+\DocumentationTok{\#\# [1] 0.5505431}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2300,13 +2302,13 @@ Se puede ver estadísticas de la relación a partir de la función \texttt{lm}:
 ## lm(formula = MA ~ V, data = rend_accion)
 ## 
 ## Residuals:
-##        Min         1Q     Median         3Q        Max 
-## -0.0269571 -0.0039654  0.0002151  0.0039652  0.0289459 
+##       Min        1Q    Median        3Q       Max 
+## -0.026958 -0.003966  0.000215  0.003965  0.028946 
 ## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(>|t|)    
 ## (Intercept) 0.0001130  0.0003097   0.365    0.715    
-## V           0.8133666  0.0226394  35.927   <2e-16 ***
+## V           0.8133651  0.0226394  35.927   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -2758,9 +2760,9 @@ Supondremos un ejemplo de un proceso que tiene 5 factores A, B, C, D y E, de los
 \begin{Highlighting}[]
 \FunctionTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
 \NormalTok{dfac }\OtherTok{\textless{}{-}} \FunctionTok{facDesign}\NormalTok{(}\AttributeTok{k =} \DecValTok{3}\NormalTok{, }\AttributeTok{centerCube =} \DecValTok{4}\NormalTok{)}
-\FunctionTok{names}\NormalTok{(dfac) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Facto 1\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Factor 2\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Factor 3\textquotesingle{}}\NormalTok{)}
-\FunctionTok{lows}\NormalTok{(df) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{80}\NormalTok{,}\DecValTok{120}\NormalTok{,}\DecValTok{1}\NormalTok{)}
-\FunctionTok{highs}\NormalTok{(fdo) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{120}\NormalTok{,}\DecValTok{140}\NormalTok{,}\DecValTok{2}\NormalTok{)}
+\FunctionTok{names}\NormalTok{(dfac) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Factor 1\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Factor 2\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Factor 3\textquotesingle{}}\NormalTok{)}
+\FunctionTok{lows}\NormalTok{(dfac) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{80}\NormalTok{,}\DecValTok{120}\NormalTok{,}\DecValTok{1}\NormalTok{)}
+\FunctionTok{highs}\NormalTok{(dfac) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{120}\NormalTok{,}\DecValTok{140}\NormalTok{,}\DecValTok{2}\NormalTok{)}
 \FunctionTok{summary}\NormalTok{(dfac)}
 \end{Highlighting}
 \end{Shaded}
@@ -3509,7 +3511,7 @@ Como extra es importante el uso del comando \texttt{sessionInfo} con el fin de o
 ## [10] lifecycle_1.0.4     survival_3.5-7      RSQLite_2.3.5      
 ## [13] magrittr_2.0.3      compiler_4.3.2      rlang_1.1.2        
 ## [16] tools_4.3.2         utf8_1.2.4          yaml_2.3.7         
-## [19] data.table_1.14.8   knitr_1.45          labeling_0.4.3     
+## [19] data.table_1.15.4   knitr_1.45          labeling_0.4.3     
 ## [22] bit_4.0.5           curl_5.1.0          withr_2.5.2        
 ## [25] nnet_7.3-19         grid_4.3.2          fansi_1.0.5        
 ## [28] timetk_2.9.0        colorspace_2.1-0    future_1.33.1      
@@ -3551,7 +3553,7 @@ Como extra es importante el uso del comando \texttt{sessionInfo} con el fin de o
 \begin{Highlighting}[]
 \NormalTok{defectos }\OtherTok{\textless{}{-}}\FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\StringTok{"E"}\NormalTok{,}\DecValTok{62}\NormalTok{),}\FunctionTok{rep}\NormalTok{(}\StringTok{"B"}\NormalTok{,}\DecValTok{15}\NormalTok{),}\FunctionTok{rep}\NormalTok{(}\StringTok{"F"}\NormalTok{,}\DecValTok{3}\NormalTok{),}\FunctionTok{rep}\NormalTok{(}\StringTok{"A"}\NormalTok{,}\DecValTok{10}\NormalTok{),}\FunctionTok{rep}\NormalTok{(}\StringTok{"C"}\NormalTok{,}\DecValTok{20}\NormalTok{),}\FunctionTok{rep}\NormalTok{(}\StringTok{"D"}\NormalTok{,}\DecValTok{10}\NormalTok{))}
 
-\FunctionTok{paretoChart}\NormalTok{(defectos)}
+\NormalTok{qualityTools}\SpecialCharTok{::}\FunctionTok{paretoChart}\NormalTok{(defectos)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3585,11 +3587,6 @@ Como extra es importante el uso del comando \texttt{sessionInfo} con el fin de o
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## Warning in geom_line(aes(y = Cum.Frequency, group = 1, color = "Cumulative
-## Percentage"), : Ignoring unknown parameters: `line`
-\end{verbatim}
-
 \includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-138-1.pdf}
 
 Podemos utilizar parámetros para mostrar la tabla o la gráfica:
@@ -3601,11 +3598,6 @@ Podemos utilizar parámetros para mostrar la tabla o la gráfica:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## Warning in geom_line(aes(y = Cum.Frequency, group = 1, color = "Cumulative
-## Percentage"), : Ignoring unknown parameters: `line`
-\end{verbatim}
-
 \includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-139-1.pdf}
 
 \begin{Shaded}
@@ -3614,11 +3606,6 @@ Podemos utilizar parámetros para mostrar la tabla o la gráfica:
 \FunctionTok{ParetoChart\_}\NormalTok{(defectos, }\AttributeTok{showPlot =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning in geom_line(aes(y = Cum.Frequency, group = 1, color = "Cumulative
-## Percentage"), : Ignoring unknown parameters: `line`
-\end{verbatim}
 
 \begin{verbatim}
 ##                    E     C     B      A      D     F
@@ -3635,11 +3622,6 @@ Podemos cambiar los colores de los puntos y las barras:
 \FunctionTok{ParetoChart\_}\NormalTok{(defectos, }\AttributeTok{col=}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{, }\AttributeTok{border=}\StringTok{\textquotesingle{}green\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning in geom_line(aes(y = Cum.Frequency, group = 1, color = "Cumulative
-## Percentage"), : Ignoring unknown parameters: `line`
-\end{verbatim}
 
 \includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-140-1.pdf}
 
@@ -3676,18 +3658,13 @@ Además utilizaremos los siguientes datos de pruebas:
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{sd }\OtherTok{=} \FunctionTok{sd}\NormalTok{(x)}
-\NormalTok{  mean }\OtherTok{=} \FunctionTok{mean}\NormalTok{(x)}
-\NormalTok{  ref.ar }\OtherTok{=} \FunctionTok{qnorm}\NormalTok{(ref.interval, mean, sd) }\SpecialCharTok{{-}} \FunctionTok{qnorm}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ ref.interval, }
-\NormalTok{                                                 mean, sd)}
+\NormalTok{mean }\OtherTok{=} \FunctionTok{mean}\NormalTok{(x)}
+\NormalTok{ref.ar }\OtherTok{=} \FunctionTok{qnorm}\NormalTok{(ref.interval, mean, sd) }\SpecialCharTok{{-}} \FunctionTok{qnorm}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ ref.interval,mean, sd)}
 \NormalTok{quant1 }\OtherTok{=} \FunctionTok{qnorm}\NormalTok{((}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ ref.interval)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, mean, sd)}
-\NormalTok{  quant2 }\OtherTok{=} \FunctionTok{qnorm}\NormalTok{(ref.interval }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ ref.interval)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, mean, }
-\NormalTok{                 sd)}
-
-
+\NormalTok{quant2 }\OtherTok{=} \FunctionTok{qnorm}\NormalTok{(ref.interval }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ ref.interval)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, mean,sd)}
 \NormalTok{xlim }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FunctionTok{length}\NormalTok{(x))}
-\NormalTok{ylim }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\FunctionTok{min}\NormalTok{(x, target }\SpecialCharTok{{-}}\NormalTok{ n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(}\FunctionTok{diff}\NormalTok{(tolerance))), }
-\NormalTok{             quant1, quant2), }\FunctionTok{max}\NormalTok{(x, target }\SpecialCharTok{+}\NormalTok{ n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(}\FunctionTok{diff}\NormalTok{(tolerance))), }
-\NormalTok{                                  quant1, quant2))}
+\NormalTok{ylim }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\FunctionTok{min}\NormalTok{(x, target }\SpecialCharTok{{-}}\NormalTok{ n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(}\FunctionTok{diff}\NormalTok{(tolerance))), quant1, quant2),}
+         \FunctionTok{max}\NormalTok{(x, target }\SpecialCharTok{+}\NormalTok{ n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (}\FunctionTok{abs}\NormalTok{(}\FunctionTok{diff}\NormalTok{(tolerance))), quant1, quant2))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3702,7 +3679,7 @@ Además utilizaremos los siguientes datos de pruebas:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cgRunChart}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{target =}\NormalTok{ target, }\AttributeTok{tolerance =}\NormalTok{ tolerance, }
+\NormalTok{qualityTools}\SpecialCharTok{::}\FunctionTok{cgRunChart}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{target =}\NormalTok{ target, }\AttributeTok{tolerance =}\NormalTok{ tolerance, }
            \AttributeTok{ref.interval =}\NormalTok{ ref.interval, }\AttributeTok{facCg =}\NormalTok{ facCg, }\AttributeTok{facCgk =}\NormalTok{ facCgk, }
            \AttributeTok{n =}\NormalTok{ n, }\AttributeTok{type =}\NormalTok{ type, }\AttributeTok{col =}\NormalTok{ col, }\AttributeTok{pch =}\NormalTok{ pch, }\AttributeTok{xlim =}\NormalTok{ xlim, }
            \AttributeTok{ylim =}\NormalTok{ ylim, }\AttributeTok{main =} \StringTok{"Run Chart"}\NormalTok{, }\AttributeTok{conf.level =}\NormalTok{ conf.level, }\AttributeTok{cgOut =} \ConstantTok{FALSE}\NormalTok{)}
@@ -3739,7 +3716,7 @@ Además utilizaremos los siguientes datos de pruebas:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cgHist}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{target =}\NormalTok{ target, }\AttributeTok{tolerance =}\NormalTok{ tolerance, }\AttributeTok{ref.interval =}\NormalTok{ ref.interval, }
+\NormalTok{qualityTools}\SpecialCharTok{::}\FunctionTok{cgHist}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{target =}\NormalTok{ target, }\AttributeTok{tolerance =}\NormalTok{ tolerance, }\AttributeTok{ref.interval =}\NormalTok{ ref.interval, }
        \AttributeTok{facCg =}\NormalTok{ facCg, }\AttributeTok{facCgk =}\NormalTok{ facCgk, }\AttributeTok{n =}\NormalTok{ n, }\AttributeTok{col =} \StringTok{"lightblue"}\NormalTok{, }
        \AttributeTok{xlim =}\NormalTok{ xlim, }\AttributeTok{ylim =}\NormalTok{ ylim, }\AttributeTok{main =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Histogram of"}\NormalTok{, }
                                               \FunctionTok{deparse}\NormalTok{(}\FunctionTok{substitute}\NormalTok{(x)), }\StringTok{"{-} target"}\NormalTok{), conf.level}
@@ -3778,7 +3755,7 @@ Además utilizaremos los siguientes datos de pruebas:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cgToleranceView}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{target =}\NormalTok{ target, }\AttributeTok{tolerance =}\NormalTok{ tolerance, }
+\NormalTok{qualityTools}\SpecialCharTok{::}\FunctionTok{cgToleranceView}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{target =}\NormalTok{ target, }\AttributeTok{tolerance =}\NormalTok{ tolerance, }
                 \AttributeTok{ref.interval =}\NormalTok{ ref.interval, }\AttributeTok{facCg =}\NormalTok{ facCg, }\AttributeTok{facCgk =}\NormalTok{ facCgk, }
                 \AttributeTok{n =}\NormalTok{ n, }\AttributeTok{type =}\NormalTok{ type, }\AttributeTok{col =}\NormalTok{ col, }\AttributeTok{pch =}\NormalTok{ pch, }\AttributeTok{xlim =}\NormalTok{ xlim, }
                 \AttributeTok{ylim =}\NormalTok{ ylim, }\AttributeTok{main =} \StringTok{"Tolerance View"}\NormalTok{, }\AttributeTok{conf.level =}\NormalTok{ conf.level, }\AttributeTok{cgOut =} \ConstantTok{TRUE}\NormalTok{)}
@@ -3821,7 +3798,7 @@ Ahora la función \texttt{cg} se modificará de la siguiente forma:
          \FloatTok{10.017}\NormalTok{, }\FloatTok{10.005}\NormalTok{, }\FloatTok{10.002}\NormalTok{, }\FloatTok{9.996}\NormalTok{, }\FloatTok{10.011}\NormalTok{, }\FloatTok{10.009}\NormalTok{ , }\FloatTok{10.006}\NormalTok{, }\FloatTok{10.008}\NormalTok{, }\FloatTok{10.003}\NormalTok{, }\FloatTok{10.002}\NormalTok{, }\FloatTok{10.006}\NormalTok{, }
          \FloatTok{10.010}\NormalTok{, }\FloatTok{9.992}\NormalTok{, }\FloatTok{10.013}\NormalTok{)}
 
-\FunctionTok{cg}\NormalTok{(x, }\AttributeTok{target =} \FloatTok{10.003}\NormalTok{, }\AttributeTok{tolerance =} \FunctionTok{c}\NormalTok{(}\FloatTok{9.903}\NormalTok{, }\FloatTok{10.103}\NormalTok{))}
+\NormalTok{qualityTools}\SpecialCharTok{::}\FunctionTok{cg}\NormalTok{(x, }\AttributeTok{target =} \FloatTok{10.003}\NormalTok{, }\AttributeTok{tolerance =} \FunctionTok{c}\NormalTok{(}\FloatTok{9.903}\NormalTok{, }\FloatTok{10.103}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3840,6 +3817,33 @@ Ahora la función \texttt{cg} se modificará de la siguiente forma:
 \end{Shaded}
 
 \includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-154-1.pdf}
+
+\hypertarget{fase-3-analizar-1}{%
+\section{Fase 3: Analizar}\label{fase-3-analizar-1}}
+
+\hypertarget{capacidad-del-proceso-1}{%
+\subsubsection{Capacidad del proceso:}\label{capacidad-del-proceso-1}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Distribución Normal
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\NormalTok{datos }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{20}\NormalTok{, }\AttributeTok{mean =} \DecValTok{20}\NormalTok{)}
+\FunctionTok{pcr\_}\NormalTok{(datos, }\StringTok{"normal"}\NormalTok{, }\AttributeTok{lsl =} \DecValTok{17}\NormalTok{, }\AttributeTok{usl =} \DecValTok{23}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Removed 1 rows containing missing values (`geom_text()`).
+\end{verbatim}
+
+\includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-157-1.pdf}
 
 \begin{itemize}
 \tightlist

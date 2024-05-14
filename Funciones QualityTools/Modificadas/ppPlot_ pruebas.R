@@ -888,6 +888,7 @@ distr_coll <- DistrCollection$new()
 # Creamos un objeto Distr para una distribución normal
 
 distr_normal <- Distr$new(x[,1], name = "normal", parameters = nada$estimate, sd = nada$sd,n = nada$n ,loglik = nada$loglik)
+distr_normal$plot()
 distr_normal2 <- Distr$new(x[,1], name = "normal", parameters = nada$estimate, sd = nada$sd,n = nada$n ,loglik = nada$loglik)
 
 # Agregamos el objeto Distr a la colección
@@ -907,4 +908,3 @@ prueba <- qqPlot_(x[,1], grapic = FALSE)
 prueba$plot
 
 distList <- distr_coll$distr
-

@@ -11,6 +11,8 @@ clases-y-métodos
 encadenamiento-de-métodos
 métodos-importantes
 agregar-métodos-después-de-la-creación
+herencia
+introspección
 controles-de-acceso
 privacidad
 campos-activos
@@ -67,3 +69,5 @@ cgrunchart
 cghist
 cgtoleranceview
 funcion-cg
+fase-3-analizar-1
+capacidad-del-proceso-1

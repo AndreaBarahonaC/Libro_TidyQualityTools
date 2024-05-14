@@ -1,5 +1,4 @@
 library(R6)
-library(MASS)
 library(patchwork)
 library(ggplot2)
 
@@ -86,7 +85,7 @@ Distr <- R6Class("Distr",
                        labs(y = ylab, x = xlab, title = main) + xlim(xlim) + ylim(ylim) +
                        theme_minimal() + theme(plot.title = element_text(hjust = 0.5,face = "bold"))+
                        guides(color = guide_legend(title.position = "top", title.hjust = 0.5))+
-                       geom_line(data = data.frame(x = xPoints, y = yPoints), aes(x = x, y = y), color = line.col, linewidth = lineWidth) + # densidad
+                       geom_line(data = data.frame(x = xPoints, y = yPoints), aes(x = x, y = y), color = line.col, linewidth = line.width) + # densidad
                        theme(legend.position = "none")
 
                      # Caja de Info
@@ -94,56 +93,57 @@ Distr <- R6Class("Distr",
                        p1
                      }
                      else {
-                     p2 <- ggplot(data = data.frame(x = 0, y = 0), aes(x, y)) +
-                       theme_bw() +
-                       theme(
-                         axis.text = element_blank(),
-                         axis.ticks = element_blank(),
-                         axis.title = element_blank(),
-                         panel.grid.major = element_blank(),
-                         panel.grid.minor = element_blank()
-                       ) +
-                       xlim(c(0.25,0.26)) + ylim(c(0.19, 0.36))
-                     {
-                       # n y A
-                       p2 <- p2 +
-                         annotate('text', x = 0.25, y = 0.25,
-                                  label = paste("A==", round(as.numeric(A), digits = 3)),
-                                  parse = TRUE, size = 3, hjust = 0)
-                       # p
-                       if (!is.null(adTestStats$smaller) && adTestStats$smaller){
+                       p2 <- ggplot(data = data.frame(x = 0, y = 0), aes(x, y)) +
+                         theme_bw() +
+                         theme(
+                           axis.text = element_blank(),
+                           axis.ticks = element_blank(),
+                           axis.title = element_blank(),
+                           panel.grid.major = element_blank(),
+                           panel.grid.minor = element_blank()
+                         ) +
+                         xlim(c(0.25,0.26)) + ylim(c(0.19, 0.36))
+                       {
+                         # n y A
                          p2 <- p2 +
-                           annotate('text',x = 0.25,y = 0.20,
-                                    label = paste("p<", round(as.numeric(p), digits =3)),
-                                    parse = TRUE,size = 3,hjust = 0)
-                       }
-                       if (!is.null(adTestStats$smaller) && !adTestStats$smaller){
-                         p2 <- p2 +
-                           annotate('text',x = 0.25, y = 0.20,
-                                    label = paste("p>=", round(as.numeric(p),digits = 3)),
-                                    parse = TRUE,size = 3,hjust = 0)
-                       }
-                       if (is.null(adTestStats$smaller)){
-                         p2 <- p2 +
-                           annotate('text',x = 0.25,y = 0.20,
-                                    label = paste("p==", round(as.numeric(p), digits = 3)),
-                                    parse = TRUE,size = 3,hjust = 0)
-                       }
+                           annotate('text', x = 0.25, y = 0.25,
+                                    label = paste("A==", round(as.numeric(A), digits = 3)),
+                                    parse = TRUE, size = 3, hjust = 0)
+                         # p
+                         if (!is.null(adTestStats$smaller) && adTestStats$smaller){
+                           p2 <- p2 +
+                             annotate('text',x = 0.25,y = 0.20,
+                                      label = paste("p<", round(as.numeric(p), digits =3)),
+                                      parse = TRUE,size = 3,hjust = 0)
+                         }
+                         if (!is.null(adTestStats$smaller) && !adTestStats$smaller){
+                           p2 <- p2 +
+                             annotate('text',x = 0.25, y = 0.20,
+                                      label = paste("p>=", round(as.numeric(p),digits = 3)),
+                                      parse = TRUE,size = 3,hjust = 0)
+                         }
+                         if (is.null(adTestStats$smaller)){
+                           p2 <- p2 +
+                             annotate('text',x = 0.25,y = 0.20,
+                                      label = paste("p==", round(as.numeric(p), digits = 3)),
+                                      parse = TRUE,size = 3,hjust = 0)
+                         }
 
-                       # mean y sd
-                       p2 <- p2 + annotate('text', x = 0.25, y = 0.35,
-                                           label = paste("mean==", round(self$parameters[[1]], digits = 3)),
-                                           parse = TRUE, size = 3, hjust = 0) +
-                         annotate('text', x = 0.25, y = 0.30,
-                                  label = paste("sd==", round(self$parameters[[2]], digits = 3)),
-                                  parse = TRUE, size = 3, hjust = 0)
-                       }
+                         # mean y sd
+                         p2 <- p2 + annotate('text', x = 0.25, y = 0.35,
+                                             label = paste("mean==", round(self$parameters[[1]], digits = 3)),
+                                             parse = TRUE, size = 3, hjust = 0) +
+                           annotate('text', x = 0.25, y = 0.30,
+                                    label = paste("sd==", round(self$parameters[[2]], digits = 3)),
+                                    parse = TRUE, size = 3, hjust = 0)
+                         }
 
-                     p1 + inset_element(p2, left = 0.7, right = 1, top = 1, bottom = 0.60)
+                       p1 + inset_element(p2, left = 0.7, right = 1, top = 1, bottom = 0.60)
                      }
                    }
                  )
 )
+
 
 # Class DistrCollection ----
 DistrCollection <- R6::R6Class("DistrCollection",
@@ -214,193 +214,14 @@ DistrCollection <- R6::R6Class("DistrCollection",
                                    }
                                    p <- distrList[[1]]$plot(xlab = xlab, ylab = ylab, line.col = line.col, line.width = line.width, box = box)
                                    for (i in 2:length(distrList)) {
-                                     p<-p+distrList[[i]]$plot(xlab = xlab, ylab = ylab, line.col = line.col, line.width = line.width, box = box)
+                                     p <- p+distrList[[i]]$plot(xlab = xlab, ylab = ylab, line.col = line.col, line.width = line.width, box = box)
                                    }
                                    p
                                  }
                                )
 )
 
-# Funcion FitDistr ----
-FitDistr <- function (x, densfun, start, ...){
-  myfn <- function(parm, ...) -sum(log(dens(parm, ...)))
-  mylogfn <- function(parm, ...) -sum(dens(parm, ..., log = TRUE))
-  mydt <- function(x, m, s, df, log) dt((x - m)/s, df, log = TRUE) -
-    log(s)
-  Call <- match.call(expand.dots = TRUE)
-  if (missing(start))
-    start <- NULL
-  dots <- names(list(...))
-  dots <- dots[!is.element(dots, c("upper", "lower"))]
-  if (missing(x) || length(x) == 0L || mode(x) != "numeric")
-    stop("'x' must be a non-empty numeric vector")
-  if (any(!is.finite(x)))
-    stop("'x' contains missing or infinite values")
-  if (missing(densfun) || !(is.function(densfun) || is.character(densfun)))
-    stop("'densfun' must be supplied as a function or name")
-  control <- list()
-  n <- length(x)
-  if (is.character(densfun)) {
-    distname <- tolower(densfun)
-    densfun <- switch(distname, beta = dbeta, cauchy = dcauchy,
-                      `chi-squared` = dchisq, exponential = dexp, f = df,
-                      gamma = dgamma, geometric = dgeom, `log-normal` = dlnorm,
-                      lognormal = dlnorm, logistic = dlogis, `negative binomial` = dnbinom,
-                      normal = dnorm, poisson = dpois, t = mydt, weibull = dweibull,
-                      NULL)
-    if (is.null(densfun))
-      stop("unsupported distribution")
-    if (distname %in% c("lognormal", "log-normal")) {
-      if (!is.null(start))
-        stop(gettextf("supplying pars for the %s distribution is not supported",
-                      "log-Normal"), domain = NA)
-      if (any(x <= 0))
-        stop("need positive values to fit a log-Normal")
-      lx <- log(x)
-      sd0 <- sqrt((n - 1)/n) * sd(lx)
-      mx <- mean(lx)
-      estimate <- c(mx, sd0)
-      sds <- c(sd0/sqrt(n), sd0/sqrt(2 * n))
-      names(estimate) <- names(sds) <- c("meanlog", "sdlog")
-      vc <- matrix(c(sds[1]^2, 0, 0, sds[2]^2), ncol = 2,
-                   dimnames = list(names(sds), names(sds)))
-      names(estimate) <- names(sds) <- c("meanlog", "sdlog")
-      return(structure(list(estimate = estimate, sd = sds,
-                            vcov = vc, n = n, loglik = sum(dlnorm(x, mx, sd0, log = TRUE))), class = "fitdistr"))
-    }
-    if (distname == "normal") {
-      if (!is.null(start))
-        stop(gettextf("supplying pars for the %s distribution is not supported",
-                      "Normal"), domain = NA)
-      sd0 <- sqrt((n - 1)/n) * sd(x)
-      mx <- mean(x)
-      estimate <- c(mx, sd0)
-      sds <- c(sd0/sqrt(n), sd0/sqrt(2 * n))
-      names(estimate) <- names(sds) <- c("mean", "sd")
-      vc <- matrix(c(sds[1]^2, 0, 0, sds[2]^2), ncol = 2,
-                   dimnames = list(names(sds), names(sds)))
-      return(structure(list(estimate = estimate, sd = sds,
-                            vcov = vc, n = n, loglik = sum(dnorm(x, mx,
-                                                                 sd0, log = TRUE))), class = "fitdistr"))
-    }
-    if (distname == "poisson") {
-      if (!is.null(start))
-        stop(gettextf("supplying pars for the %s distribution is not supported",
-                      "Poisson"), domain = NA)
-      estimate <- mean(x)
-      sds <- sqrt(estimate/n)
-      names(estimate) <- names(sds) <- "lambda"
-      vc <- matrix(sds^2, ncol = 1, nrow = 1, dimnames = list("lambda",
-                                                              "lambda"))
-      return(structure(list(estimate = estimate, sd = sds,
-                            vcov = vc, n = n, loglik = sum(dpois(x, estimate,
-                                                                 log = TRUE))), class = "fitdistr"))
-    }
-    if (distname == "exponential") {
-      if (any(x < 0))
-        stop("Exponential values must be >= 0")
-      if (!is.null(start))
-        stop(gettextf("supplying pars for the %s distribution is not supported",
-                      "exponential"), domain = NA)
-      estimate <- 1/mean(x)
-      sds <- estimate/sqrt(n)
-      vc <- matrix(sds^2, ncol = 1, nrow = 1, dimnames = list("rate",
-                                                              "rate"))
-      names(estimate) <- names(sds) <- "rate"
-      return(structure(list(estimate = estimate, sd = sds,
-                            vcov = vc, n = n, loglik = sum(dexp(x, estimate,
-                                                                log = TRUE))), class = "fitdistr"))
-    }
-    if (distname == "geometric") {
-      if (!is.null(start))
-        stop(gettextf("supplying pars for the %s distribution is not supported",
-                      "geometric"), domain = NA)
-      estimate <- 1/(1 + mean(x))
-      sds <- estimate * sqrt((1 - estimate)/n)
-      vc <- matrix(sds^2, ncol = 1, nrow = 1, dimnames = list("prob",
-                                                              "prob"))
-      names(estimate) <- names(sds) <- "prob"
-      return(structure(list(estimate = estimate, sd = sds,
-                            vcov = vc, n = n, loglik = sum(dgeom(x, estimate,
-                                                                 log = TRUE))), class = "fitdistr"))
-    }
-    if (distname == "weibull" && is.null(start)) {
-      if (any(x <= 0))
-        stop("Weibull values must be > 0")
-      lx <- log(x)
-      m <- mean(lx)
-      v <- var(lx)
-      shape <- 1.2/sqrt(v)
-      scale <- exp(m + 0.572/shape)
-      start <- list(shape = shape, scale = scale)
-      start <- start[!is.element(names(start), dots)]
-    }
-    if (distname == "gamma" && is.null(start)) {
-      if (any(x < 0))
-        stop("gamma values must be >= 0")
-      m <- mean(x)
-      v <- var(x)
-      start <- list(shape = m^2/v, rate = m/v)
-      start <- start[!is.element(names(start), dots)]
-      control <- list(parscale = c(1, start$rate))
-    }
-    if (distname == "negative binomial" && is.null(start)) {
-      m <- mean(x)
-      v <- var(x)
-      size <- if (v > m)
-        m^2/(v - m)
-      else 100
-      start <- list(size = size, mu = m)
-      start <- start[!is.element(names(start), dots)]
-    }
-    if (is.element(distname, c("cauchy", "logistic")) &&
-        is.null(start)) {
-      start <- list(location = median(x), scale = IQR(x)/2)
-      start <- start[!is.element(names(start), dots)]
-    }
-    if (distname == "t" && is.null(start)) {
-      start <- list(m = median(x), s = IQR(x)/2, df = 10)
-      start <- start[!is.element(names(start), dots)]
-    }
-  }
-  if (is.null(start) || !is.list(start))
-    stop("")
-  nm <- names(start)
-  f <- formals(densfun)
-  args <- names(f)
-  m <- match(nm, args)
-  if (any(is.na(m)))
-    stop("'start' specifies names which are not arguments to 'densfun'")
-  formals(densfun) <- c(f[c(1, m)], f[-c(1, m)])
-  dens <- function(parm, x, ...) densfun(x, parm, ...)
-  if ((l <- length(nm)) > 1L)
-    body(dens) <- parse(text = paste("densfun(x,", paste("parm[",
-                                                         1L:l, "]", collapse = ", "), ", ...)"))
-  Call[[1L]] <- quote(stats::optim)
-  Call$densfun <- Call$start <- NULL
-  Call$x <- x
-  Call$par <- start
-  Call$fn <- if ("log" %in% args)
-    mylogfn
-  else myfn
-  Call$hessian <- TRUE
-  if (length(control))
-    Call$control <- control
-  if (is.null(Call$method)) {
-    if (any(c("lower", "upper") %in% names(Call)))
-      Call$method <- "L-BFGS-B"
-    else if (length(start) > 1L)
-      Call$method <- "BFGS"
-    else Call$method <- "Nelder-Mead"
-  }
-  res <- eval.parent(Call)
-  if (res$convergence > 0L)
-    stop("optimization failed")
-  vc <- solve(res$hessian)
-  sds <- sqrt(diag(vc))
-  structure(list(estimate = res$par, sd = sds, vcov = vc,
-                 loglik = -res$value, n = n), class = "fitdistr")
-}
+
 # Funcion Distribution ----
 distribution <- function(x = NULL, distrib = "weibull", start, ...) {
   distr_coll <- DistrCollection$new()
@@ -427,6 +248,64 @@ distribution <- function(x = NULL, distrib = "weibull", start, ...) {
     distr_coll$add(fit)
   }
   return(distr_coll)
+}
+
+# Funciones auxiliares
+.sdSg = function(x, grouping = NULL, method = c("NOWEIGHT", "MVLUE", "RMSDF"), na.rm = TRUE, DB = TRUE) {
+  DB = FALSE
+  if (!is.data.frame(x) && !is.vector(x) && is.numeric(x))
+    stop("x needs to be either a data.frame or a vector and numeric")
+  if (is.null(grouping)) {
+    if (is.data.frame(x))
+      return(sd(x[, 1]))
+    else return(sd(x))
+  }
+  else grouping = as.data.frame(grouping)
+  group = unique(grouping)
+  sdVec = numeric(length = length(group))
+  for (i in 1:nrow(group)) {
+    if (is.data.frame(x))
+      temp = x[group[i, 1] == grouping[, 1], 1]
+    if (is.vector(x))
+      temp = x[group[i, 1] == grouping[, 1]]
+    sdVec[i] = sd(temp, na.rm = T)/.c4(length(temp[!is.na(temp)]))
+    if (DB) {
+      print(group[i, 1])
+      print(temp)
+      print(length(temp[!is.na(temp)]))
+    }
+  }
+  if (DB) {
+    print(paste("std.dev: ", mean(sdVec)))
+    print(sdVec)
+  }
+  return((mean(sdVec)))
+}
+.lfkp = function(wholeList, filterList) {
+  if (!is.list(wholeList))
+    stop(paste(deparse(substitute(wholeList)), "is not a list!"))
+  if (length(wholeList) == 0)
+    return(wholeList)
+  if (!is.list(filterList))
+    stop(paste(deparse(substitute(filterList)), "is not a list!"))
+  if (length(filterList) == 0)
+    return(filterList)
+  logVec = lapply(names(wholeList), "%in%", names(filterList))
+  filteredList = wholeList[unlist(logVec)]
+  return(filteredList)
+}
+.lfrm = function(wholeList, filterList) {
+  if (!is.list(wholeList))
+    stop(paste(deparse(substitute(wholeList)), "is not a list!"))
+  if (length(wholeList) == 0)
+    return(wholeList)
+  if (!is.list(filterList))
+    stop(paste(deparse(substitute(filterList)), "is not a list!"))
+  if (length(filterList) == 0)
+    return(wholeList)
+  logVec = lapply(names(wholeList), "%in%", names(filterList))
+  filteredList = wholeList[!unlist(logVec)]
+  return(filteredList)
 }
 # Funcion qqPlot ---------------------
 qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim, border = "red", bounds.col = "black", bounds.lty = 1, start, grapic = TRUE, axis.y.right = FALSE, bw.theme = FALSE,...){

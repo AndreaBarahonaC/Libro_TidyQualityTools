@@ -431,9 +431,9 @@ Supondremos un ejemplo de un proceso que tiene 5 factores A, B, C, D y E, de los
 ```{r eval=FALSE}
 set.seed(1234)
 dfac <- facDesign(k = 3, centerCube = 4)
-names(dfac) <- c('Facto 1', 'Factor 2', 'Factor 3')
-lows(df) <- c(80,120,1)
-highs(fdo) <- c(120,140,2)
+names(dfac) <- c('Factor 1', 'Factor 2', 'Factor 3')
+lows(dfac) <- c(80,120,1)
+highs(dfac) <- c(120,140,2)
 summary(dfac)
 ```
 ![](graficos/dfac.png){width=260}
