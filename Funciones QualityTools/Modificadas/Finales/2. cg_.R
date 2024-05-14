@@ -2,29 +2,6 @@ library(ggplot2)
 library(patchwork)
 library(gridExtra)
 
-.cg=function(x, target, tolerance=c(-1,1), ref.interval, facCg, facCgk)
-{
-  if (missing(x))
-    stop("x must be given as a vector")
-  if (missing(target))
-    target = mean(x)
-  if (missing(ref.interval))
-    ref.interval = pnorm(3) - pnorm(-3)
-  sd = sd(x)
-  mean = mean(x)
-  ref.ar = qnorm(ref.interval, mean, sd) - qnorm(1 - ref.interval, mean, sd)
-  if (missing(facCg))
-    facCg = 0.2
-  if (missing(facCgk))
-    facCgk = 0.1
-  if (missing(tolerance))
-    stop("tolerance is missing!")
-  if (length(tolerance) != 2)
-    stop("tolerance has wrong length")
-  Cg = (facCg * (abs(diff(tolerance))))/ref.ar
-  Cgk = (facCgk * (abs(diff(tolerance))) - abs(target - mean))/(ref.ar/2)
-  return(list(Cg, Cgk))
-}
 
 cg_RunChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
                          n = 0.2, type = "b", col = "black", pch = 19,
