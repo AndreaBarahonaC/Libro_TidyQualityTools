@@ -308,9 +308,9 @@ c_{pkU} = \frac{USL - Q_{0.5}}{Q_{0.99865} - Q_{0.5}}
 <div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">dfac</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/facDesign.html">facDesign</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span>, centerCube <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dfac</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Facto 1'</span>, <span class="st">'Factor 2'</span>, <span class="st">'Factor 3'</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/lows-methods.html">lows</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">80</span>,<span class="fl">120</span>,<span class="fl">1</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/highs-methods.html">highs</a></span><span class="op">(</span><span class="va">fdo</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">120</span>,<span class="fl">140</span>,<span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dfac</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Factor 1'</span>, <span class="st">'Factor 2'</span>, <span class="st">'Factor 3'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/lows-methods.html">lows</a></span><span class="op">(</span><span class="va">dfac</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">80</span>,<span class="fl">120</span>,<span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/highs-methods.html">highs</a></span><span class="op">(</span><span class="va">dfac</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">120</span>,<span class="fl">140</span>,<span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">dfac</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="graficos/dfac.png" width="260"></div>
 <p>El proceso se simula con el método <code>simProc</code>:</p>
@@ -898,7 +898,7 @@ Como extra es importante el uso del comando <code>sessionInfo</code> con el fin 
 ## [10] lifecycle_1.0.4     survival_3.5-7      RSQLite_2.3.5      
 ## [13] magrittr_2.0.3      compiler_4.3.2      rlang_1.1.2        
 ## [16] sass_0.4.7          tools_4.3.2         utf8_1.2.4         
-## [19] yaml_2.3.7          data.table_1.14.8   knitr_1.45         
+## [19] yaml_2.3.7          data.table_1.15.4   knitr_1.45         
 ## [22] labeling_0.4.3      bit_4.0.5           curl_5.1.0         
 ## [25] xml2_1.3.5          withr_2.5.2         nnet_7.3-19        
 ## [28] grid_4.3.2          fansi_1.0.5         timetk_2.9.0       
@@ -972,7 +972,7 @@ Como extra es importante el uso del comando <code>sessionInfo</code> con el fin 
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Integración del Paquete QualityTools con Tidyverse</strong>" was written by Miguel Flores, Andrea Barahona, Fabián Encarnación, Dario Quishpe. It was last built on 2024-04-26.</p>
+    <p>"<strong>Integración del Paquete QualityTools con Tidyverse</strong>" was written by Miguel Flores, Andrea Barahona, Fabián Encarnación, Dario Quishpe. It was last built on 2024-05-14.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
