@@ -1,5 +1,87 @@
 library(R6)
 
+####Necesito .helpAliasTable##################################################
+
+#Funcion .replace2s#
+.replace2s = function(x) {
+  if (!is.data.frame(x))
+    stop(paste(deparse(substitute(x)), "needs to be a data.frame"))
+  for (i in 1:ncol(x)) x[x[, i] == 2, i] = -1
+  return(x)
+}
+
+.helpAliasTable = function(fdo, k, degree = 3) {
+  if (degree > k) {
+    degree = k
+  }
+  if (class(fdo)[1] == "facDesign")
+    X = unique(fdo$cube)
+  if (class(fdo)[1] == "taguchiDesign") {
+    X = unique(fdo$design)
+    X = .replace2s(X)
+  }
+  N = nrow(X)
+  columns = names(X[, 1:k])
+  X1 = matrix(1, nrow = N, ncol = 1)
+  nameVec = c("Identity")
+  for (i in 1:degree) {
+    temp = combn(columns, i)
+    for (j in 1:ncol(temp)) {
+      if (class(fdo)[1] == "facDesign")
+        index = fdo$names() %in% temp[, j]
+      if (class(fdo)[1] == "taguchiDesign")
+        index = names(X) %in% temp[, j]
+      if (length((1:length(index))[index]) == 1) {
+        X1 = cbind(X1, X[, index])
+        nameVec = c(nameVec, temp[, j])
+      }
+      else {
+        X1 = cbind(X1, apply(X[, index], 1, prod))
+        nameVec = c(nameVec, paste(temp[, j], sep = "", collapse = ""))
+      }
+    }
+    X1 = data.frame(X1)
+    names(X1) = nameVec
+  }
+  return(X1)
+}
+
+####Necesito aliasTable#######################################################
+aliasTable <- function (fdo, degree, show = TRUE)
+{
+  if (class(fdo)[1] == "facDesign") {
+    X = unique(fdo$cube)
+    N = nrow(X)
+    k = log2(N)
+    kPlusP = ncol(X)
+    if (missing(degree))
+      degree = min(c(4, k + 1))
+    X1 = .helpAliasTable(fdo, k, degree = degree - 1)
+    X2 = .helpAliasTable(fdo, k = kPlusP, degree)
+  }
+  if (class(fdo)[1] == "taguchiDesign") {
+    if (length(table(as.numeric(as.matrix(fdo$design)))) !=
+        2)
+      stop("calculation of an alias table for mixed designs is not supported")
+    k = ncol(fdo$design)
+    if (missing(degree))
+      degree = min(c(3, k))
+    X1 = unique(fdo$design)
+    X1 = .replace2s(X1)
+    X2 = .helpAliasTable(fdo, k, degree)
+    X1 = cbind(data.frame(Identity = rep(1, times = nrow(X1))),
+               X1)
+  }
+  logVec = !(names(X2) %in% names(X1))
+  X2 = X2[, logVec]
+  X1 = as.matrix(X1)
+  X2 = as.matrix(X2)
+  alias.matrix = solve(t(X1) %*% X1) %*% t(X1) %*% X2
+  if (show)
+    print(round(alias.matrix, 2))
+  invisible(alias.matrix)
+}
+
 ###Necesito .fdoOrth y .NAMES#######################################
 .fdoOrth = vector(mode = "list", length = 3)
 ###
@@ -85,7 +167,8 @@ facDesign_c <- R6Class("facDesign", public = list(name = NULL,
                                                        n[i] <- self$factors[[i]]$name
                                                      }
                                                      return(n)
-                                                   } else {
+                                                   }
+                                                   else {
                                                      for (i in 1:length(self$factors)){
                                                        self$factors[[i]]$name = as.character(value[i])
                                                      }
@@ -138,19 +221,105 @@ facDesign_c <- R6Class("facDesign", public = list(name = NULL,
 
                                                  get = function(i,j){
                                                    return(self$as.data.frame()[i, j])
-                                                 }
+                                                 },
 
-                                                 lows = function(v){
-                                                   if (missing(v)) {
+                                                 lows = function(value){
+                                                   if (missing(value)) {
                                                      listOut = vector(mode = "list")
-                                                     for (i in self$names()) {
-                                                       listOut[i] = self$factors[[i]]$.low()
+                                                     for (i in seq(along = self$factors)) {
+                                                       listOut[self$factors[[i]]$name] = self$factors[[i]]$.low()
                                                      }
                                                      return(listOut)
-                                                   } else {
-
                                                    }
+                                                   else {
+                                                     for (i in seq(along = self$factors)) {
+                                                       self$factors[[i]]$.low(value[i])
+                                                     }
+                                                     invisible(self)
+                                                   }
+                                                 },
 
+                                                 highs = function(value){
+                                                   if (missing(value)) {
+                                                     listOut = vector(mode = "list")
+                                                     for (i in seq(along = self$factors)) {
+                                                       listOut[self$factors[[i]]$name] = self$factors[[i]]$.high()
+                                                     }
+                                                     return(listOut)
+                                                   }
+                                                   else {
+                                                     for (i in seq(along = self$factors)) {
+                                                       self$factors[[i]]$.high(value[i])
+                                                     }
+                                                     invisible(self)
+                                                   }
+                                                 },
+
+                                                 .nfp = function(){
+                                                   x = self$factors
+                                                   atr <- c('low','high','name','unit','type')
+                                                   if (is.list(x) && length(x[[1]]) > 0) {
+                                                     numAttr = length(x[[1]]$attributes())
+                                                     .numFac = length(x)
+                                                     frameOut = data.frame(matrix(ncol = .numFac, nrow = numAttr ))
+                                                     for (i in 1:numAttr ) {
+                                                       charVec = character(0)
+                                                       for (j in 1:.numFac) {
+                                                         charVec = c(charVec, atr[i], "\t\t")
+                                                         frameOut[i, j] = x[[j]]$attributes()[i]
+                                                       }
+                                                     }
+                                                     names(frameOut) = self$names()
+                                                     rownames(frameOut) = atr[1:numAttr ]
+                                                   }
+                                                   else {
+                                                     stop("no list given or length of list < 1")
+                                                   }
+                                                   print(frameOut)
+                                                 },
+
+                                                 identity = function(){
+                                                   identity = character(0)
+                                                   identityList = vector(mode = "list", length = 0)
+                                                   resolution = numeric(0)
+                                                   temp = NULL
+                                                   A = aliasTable(self, show = FALSE)
+                                                   if (any(dim(A) == 0))
+                                                     return(identityList)
+                                                   temp = as.matrix(A["Identity", ])
+                                                   boolTemp = apply(temp, 2, as.logical)
+                                                   identity = row.names(temp)[boolTemp[, 1]]
+                                                   if (length(identity) > 0) {
+                                                     charList = strsplit(toupper(identity), split = "")
+                                                     identityList = lapply(charList, match, .NAMES[1:25])
+                                                     names(identityList) = identity
+                                                   }
+                                                   cat("Defining relations:\n")
+                                                   if (length(identityList) > 0) {
+                                                     for (i in 1:length(identityList)) {
+                                                       identLen = length((strsplit(names(identityList)[i], split = character(0))[[1]]))
+                                                       if (length(resolution) == 0 || identLen > resolution)
+                                                         resolution = c(resolution, identLen)
+                                                       cat("I = ", names(identityList)[i], "\t\tColumns:", identityList[[i]], "\n")
+                                                     }
+                                                     cat("\nResolution: ", as.character(as.roman(min(resolution))), "\n")
+                                                   }
+                                                   invisible(identityList)
+                                                 },
+
+                                                 summary = function(){
+                                                   doeFactors = self$factors
+                                                   cat("Information about the factors:\n\n")
+                                                   self$.nfp()
+                                                   cat("-----------\n")
+                                                   print(self$as.data.frame())
+                                                   temp = aliasTable(self, show = FALSE)
+                                                   if (ncol(temp) > 0) {
+                                                     cat("\n---------\n\n")
+                                                     identity(self)
+                                                     cat("\n")
+                                                   }
+                                                   invisible(self$as.data.frame())
                                                  }
                                                  )
                       )
@@ -162,7 +331,46 @@ doeFactor_ <- R6Class('doeFactor', public = list(low = -1,
                                                  high = 1,
                                                  name = "",
                                                  unit = "",
-                                                 type = "numeric"
+                                                 type = "numeric",
+
+                                                 attributes = function(){
+                                                   v <- c(self$low, self$high, self$name, self$unit, self$type)
+                                                 },
+
+                                                 .low = function(value){
+                                                   if (missing(value)) {
+                                                     return(unlist(self$low))
+                                                   }
+                                                   else{
+                                                     boolOld = is.numeric(unlist(self$low))
+                                                     self$low <- value
+                                                     boolNew = is.numeric(self$low)
+                                                     if (boolNew)
+                                                       self$type = "numeric"
+                                                     else self$type = "factor"
+                                                     if (boolOld != boolNew)
+                                                       print("Note: The types of the factors were changed!")
+                                                     invisible(self)
+                                                   }
+                                                 },
+
+                                                 .high = function(value){
+                                                   if (missing(value)) {
+                                                     return(unlist(self$high))
+                                                   }
+                                                   else{
+                                                     boolOld = is.numeric(unlist(self$high))
+                                                     self$high <- value
+                                                     boolNew = is.numeric(self$high)
+                                                     if (boolNew)
+                                                       self$type = "numeric"
+                                                     else self$type = "factor"
+                                                     if (boolOld != boolNew)
+                                                       print("Note: The types of the factors were changed!")
+                                                     invisible(self)
+                                                   }
+                                                 }
+
                                                  )
                       )
 
@@ -668,7 +876,7 @@ fracDesign_ <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
   return(blocking(DesignOut, blocks = blocks))
 }
 
-############## funcion fac_Design########################
+############## funcion facDesign########################
 facDesign_ <- function (k = 3, p = 0, replicates = 1, blocks = 1, centerCube = 0)
 {
   frameOut = fracDesign_(k = k, p = p, gen = NULL, replicates = replicates,
@@ -683,3 +891,8 @@ dfac <- facDesign_(k = 3, centerCube = 4)
 dfac$names()
 dfac$names(c('Factor 1', 'Factor 2', 'Factor 3'))
 dfac$names()
+dfac$lows(c(80,120,1))
+dfac$lows()
+dfac$highs(c(120,140,2))
+dfac$highs()
+dfac$summary()
