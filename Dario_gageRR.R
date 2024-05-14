@@ -1,5 +1,10 @@
 
 library(R6)
+.c4 = function(n) {
+  if (n > 1 && n < 342)
+    sqrt(2/(n - 1)) * (factorial(n/2 - 1)/factorial((n - 1)/2 - 1))
+  else stop("n needs to be bigger than 1 and smaller than 342")
+}
 # Definición de la clase gageRR
 gageRR <- R6Class("gageRR",
                   public = list(
@@ -445,6 +450,7 @@ gageRR_ = function(gdo, method = "crossed", sigma = 6, alpha = 0.25, DM = NULL, 
   invisible(gdo)
 }
 setMethod("plot", signature(x = "gageRR"), function(x, y, main=NULL, xlab=NULL, ylab=NULL, col, lwd, fun = mean, ...) {
+  library(ggplot2)
   gdo <- x$X
   yName <- x$facNames[1]
   aName <- x$facNames[2]
