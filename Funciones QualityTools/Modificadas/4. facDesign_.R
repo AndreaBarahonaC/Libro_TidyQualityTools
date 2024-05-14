@@ -1,5 +1,4 @@
 library(R6)
-library(MASS)
 
 ###Necesito .fdoOrth y .NAMES#######################################
 .fdoOrth = vector(mode = "list", length = 3)
@@ -79,12 +78,79 @@ facDesign_c <- R6Class("facDesign", public = list(name = NULL,
                                                  desirability = NULL,
                                                  fits = NULL,
 
-                                                 names = function(){
-                                                   n <- c()
-                                                   for (i in 1:length(self$factors)) {
-                                                     n[i] <- self$factors[[i]]$name
+                                                 names = function(value){
+                                                   if(missing(value)){
+                                                     n <- c()
+                                                     for (i in 1:length(self$factors)) {
+                                                       n[i] <- self$factors[[i]]$name
+                                                     }
+                                                     return(n)
+                                                   } else {
+                                                     for (i in 1:length(self$factors)){
+                                                       self$factors[[i]]$name = as.character(value[i])
+                                                     }
+                                                     invisible(self)
                                                    }
-                                                   return(n)
+
+                                                 },
+
+                                                 as.data.frame = function(row.names = NULL, optional = FALSE, ...) {
+                                                   if (!is.null(self$cube)) {
+                                                     frameOut = self$cube
+                                                   }
+                                                   else return(NULL)
+                                                   if (!is.null(self$centerCube))
+                                                     frameOut = rbind(frameOut, self$centerCube)
+                                                   if (!is.null(self$star))
+                                                     frameOut = rbind(frameOut, self$star)
+                                                   if (!is.null(self$centerStar))
+                                                     frameOut = rbind(frameOut, self$centerStar)
+                                                   if (!is.null(self$factors) && length(self$factors) == dim(frameOut)[2]) {
+                                                     names(frameOut) = as.character(self$names())
+                                                   }
+                                                   if (!is.null(self$blockGen) && nrow(self$blockGen) > 0) {
+                                                     frameOut = cbind(self$blockGen, frameOut)
+                                                   }
+                                                   if (!is.null(self$block) && nrow(self$block) > 0) {
+                                                     frameOut = cbind(self$block, frameOut)
+                                                   }
+                                                   if (!is.null(self$runOrder) && nrow(self$runOrder) > 0) {
+                                                     frameOut = cbind(self$runOrder, frameOut)
+                                                   }
+                                                   if (!is.null(self$standardOrder) && nrow(self$standardOrder) > 0) {
+                                                     frameOut = cbind(self$standardOrder, frameOut)
+                                                   }
+                                                   if (!is.null(self$response) && nrow(frameOut) == nrow(self$response))
+                                                     frameOut = cbind(frameOut, self$response)
+                                                   else {
+                                                     temp = as.data.frame(matrix(NA, nrow = nrow(frameOut), ncol = ncol(self$response)))
+                                                     names(temp) = names(self$response)
+                                                     frameOut = cbind(frameOut, temp)
+                                                   }
+                                                   runIndex = order(self$runOrder[,1])
+                                                   out = frameOut[runIndex, ]
+                                                   return(out)
+                                                 },
+
+                                                 nrow = function(){
+                                                   return(nrow(self$as.data.frame()))
+                                                 },
+
+                                                 get = function(i,j){
+                                                   return(self$as.data.frame()[i, j])
+                                                 }
+
+                                                 lows = function(v){
+                                                   if (missing(v)) {
+                                                     listOut = vector(mode = "list")
+                                                     for (i in self$names()) {
+                                                       listOut[i] = self$factors[[i]]$.low()
+                                                     }
+                                                     return(listOut)
+                                                   } else {
+
+                                                   }
+
                                                  }
                                                  )
                       )
@@ -279,12 +345,54 @@ randomize <- function (fdo, random.seed, so = FALSE)
 }
 
 
+
+##Necesito .blockGenCol##########
+.blockGenCol = function(gen, fdo) {
+  DB = FALSE
+  blockVec = NULL
+  .blockCol = NULL
+  genList = gen
+  genList = strsplit(genList, split = "")
+  .fdo = fdo
+  for (i in seq(along = genList)) {
+    gen = genList[[i]]
+    for (j in seq(along = gen)) {
+      genTemp = .fdo$get(,gen[j])
+      if (j == 1)
+        blockVec = rep(1, length = length(genTemp))
+      blockVec = blockVec * genTemp
+      if (DB)
+        print(blockVec)
+    }
+    if (i == 1)
+      .blockCol = data.frame(B1 = blockVec)
+    else .blockCol = cbind(.blockCol, blockVec)
+  }
+  names(.blockCol) = paste("B", 1:ncol(.blockCol), sep = "")
+  return(.blockCol)
+}
+
+
+####Necesito .blockCol##############
+.blockCol = function(.blockGenCol) {
+  DB = FALSE
+  .blockCol = numeric(nrow(.blockGenCol))
+  uniCol = unique(.blockGenCol)
+  for (i in 1:nrow(uniCol)) {
+    if (ncol(uniCol) == 1)
+      .blockCol[apply(t(as.data.frame(apply(.blockGenCol, 1, "==", uniCol[i, ]))), 2, all)] = i
+    else .blockCol[apply(apply(.blockGenCol, 1, "==", uniCol[i, ]), 2, all)] = i
+  }
+  return(data.frame(Block = .blockCol))
+}
+
+
 ##Necesito funcion blocking######
 blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm",
                       gen)
 {
   override = FALSE
-  Block = data.frame(Block = rep(1, nrow(fdo)))
+  Block = data.frame(Block = rep(1, fdo$nrow()))
   fdo$block = Block
   fdo = randomize(fdo, so = TRUE)
   if (missing(random.seed)) {
@@ -294,7 +402,7 @@ blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm",
   if (missing(gen))
     gen = NULL
   if (blocks <= 1) {
-    Block = data.frame(Block = rep(1, nrow(fdo)))
+    Block = data.frame(Block = rep(1, fdo$nrow()))
     fdo$block = Block
     fdo = randomize(fdo, random.seed = random.seed)
     return(fdo)
@@ -304,10 +412,10 @@ blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm",
       override = TRUE
       fdo = randomize(fdo, so = TRUE)
       numB1 = nrow(fdo$cube) + nrow(fdo$centerCube)
-      numB2 = nrow(fdo) - numB1
+      numB2 = fdo$nrow() - numB1
       fdo$block = data.frame(Block = c(rep(1, numB1),
                                         rep(2, numB2)))
-      fdo$blockGen = data.frame(B1 = rep(NA, nrow(fdo)))
+      fdo$blockGen = data.frame(B1 = rep(NA, fdo$nrow()))
     }
     if (blocks %in% c(2, 3, 5, 9, 17))
       blocks = blocks - 1
@@ -326,18 +434,18 @@ blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm",
     return(fdo)
   }
   if (!override) {
-    .blockGenCol = .blockGenCol(gen, fdo) #########################
+    .blockGenCol = .blockGenCol(gen, fdo)
     .blockCol = .blockCol(.blockGenCol)
     Block = .blockCol
     BlockGenCol = .blockGenCol
-    block(fdo) = Block
-    blockGen(fdo) = BlockGenCol
+    fdo$block = Block
+    fdo$blockGen = BlockGenCol
   }
-  numCC = nrow(centerCube(fdo))
+  numCC = nrow(fdo$centerCube)
   if (numCC > 0) {
-    ccFrame = as.data.frame(matrix(0, nrow = numCC, ncol = ncol(cube(fdo))))
-    names(ccFrame) = names(names(fdo))
-    centerCube(fdo) = ccFrame
+    ccFrame = as.data.frame(matrix(0, nrow = numCC, ncol = ncol(fdo$cube)))
+    names(ccFrame) = names(fdo)
+    fdo$centerCube = ccFrame
   }
   fdo = randomize(fdo, random.seed = random.seed)
   return(fdo)
@@ -375,10 +483,13 @@ fracDesign_ <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
     stop("random.seed needs to be numeric")
   if (!is.numeric(blocks))
     stop("blocks needs to be numeric!")
-  if (!is.numeric(replicates))
+  if (!is.numeric(replicates)){
     stop("replicates needs to be numeric!")
-  else if (replicates < 0)
-    stop("replicates need to >= 0")
+  } else {
+    if (replicates < 0){
+      stop("replicates need to >= 0")
+    }
+  }
   N <- 2^k
   X <- matrix(NA, nrow = N, ncol = k)
   for (j in 1:k) X[, j] <- rep(sort(rep(c(-1, 1), N/2^j)),
@@ -521,8 +632,14 @@ fracDesign_ <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
     print("yes")
   if (DB)
     print("aha")
-  numRows = nrow(DesignOut$cube) #+ nrow(DesignOut$star) +
-    #nrow(DesignOut$centerStar) + nrow(DesignOut$centerCube)
+  if (centerCube >= 1) {
+    temp = data.frame(matrix(rep(0, centerCube * k), ncol = k,
+                             nrow = centerCube))
+    names(temp) = names(frameOut)
+    DesignOut$centerCube = temp
+  }
+  numRows = nrow(DesignOut$cube) + nrow(DesignOut$centerCube) #+ nrow(DesignOut$star) +
+    #nrow(DesignOut$centerStar)  ####################################################
   if (DB) {
     print(numRows)
     print("response")
@@ -545,12 +662,6 @@ fracDesign_ <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
   DesignOut$runOrder <- runOrder
   if (DB)
     print("3")
-  if (centerCube >= 1) {
-    temp = data.frame(matrix(rep(0, centerCube * k), ncol = k,
-      nrow = centerCube))
-    names(temp) = names(frameOut)
-    DesignOut$centerCube = temp
-  }
   temp = try(blocking(DesignOut, blocks = blocks))
   if (inherits(temp, "try-error"))
     stop("Blocking not possible!")
@@ -565,31 +676,10 @@ facDesign_ <- function (k = 3, p = 0, replicates = 1, blocks = 1, centerCube = 0
   return(frameOut)
 }
 
+
+###############USO DE facDesign#######################################################
 set.seed(1234)
 dfac <- facDesign_(k = 3, centerCube = 4)
-
-
-
-frameOut = as.data.frame(X)
-listFac <-  vector("list", ncol(frameOut))
-for (i in seq(along = listFac)) listFac[i] = doeFactor_$new()
-
-
-DesignOut <- facDesign_c$new()
-DesignOut$generator <-  gen
-DesignOut$cube <-  frameOut
-listFac <-  vector("list", ncol(frameOut))
-for (i in seq(along = listFac)){
-  listFac[[i]] = doeFactor_$new()
-  listFac[[i]]$name = names(frameOut)[i]
-}
-DesignOut$factors = listFac
-numRows = nrow(DesignOut$cube)
-standardOrder = data.frame(matrix(data = 1:numRows, nrow = numRows,
-                                  ncol = 1))
-names(standardOrder) = "StandOrder"
-DesignOut$standardOrder <-  standardOrder
-library(qualityTools)
-blocking()
-randomize
-DesignOut$factors
+dfac$names()
+dfac$names(c('Factor 1', 'Factor 2', 'Factor 3'))
+dfac$names()
