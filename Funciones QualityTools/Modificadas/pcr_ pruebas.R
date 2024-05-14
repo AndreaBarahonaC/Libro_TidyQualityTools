@@ -287,6 +287,7 @@
   return(fun)
 }
 # Correr todas las funciones de internals.r
+# Correr todo el archivo "Clase distribuciones y graficos"
 
 library(qualityTools)
 library(ggplot2)
@@ -415,12 +416,12 @@ if (is.character(distribution)) {
 
 if (DB)
     print("TODO: Pass the estimated parameters correctly")
-  fitList = vector(mode = "list", length = 0)
-  fitList$x = x[, 1]
-  fitList$densfun = dis
+fitList = vector(mode = "list", length = 0)
+fitList$x = x[, 1]
+fitList$densfun = dis
 fitList$start = start
-  if (DB)
-    print(paste("parameter: ", paramsList))
+if (DB)
+  print(paste("parameter: ", paramsList))
 #### Solo en este caso qFUN es eval(parse(text = paste("q", "norm", sep = "")))
 qFun = eval(parse(text = paste("q", "norm", sep = "")))
 paramsList = c(paramsList, .lfkp(parList, formals(qFun)))
@@ -503,7 +504,7 @@ if (missing(ylim)) {
 }
 ## ----------------
 
-# ----------------- plot
+# ----------------- plot --------------------------
 # Calculos previos
 x.c <- x[, 1]
 temp <- hist(x.c, plot = FALSE)
@@ -525,28 +526,26 @@ p1 <- ggplot(df, aes(x = mid, y = density)) +
   theme(legend.position = "none")
 
 #  etiquetas de los límites
-if (!is.null(lsl) & !is.null(usl))
-  p1 <- p1 +
-  scale_x_continuous(limits = xlim, expand = c(0, 0),
-                     sec.axis = sec_axis(~ ., breaks = c(lsl, usl),
-                                         labels = c(paste("LSL =",format(lsl, digits = 3)), paste("USL =",format(usl, digits = 3)))
-                     )) +
-  theme(axis.text.y.right = element_text(size = 15))
-else{
-  if(!is.null(lsl))
-    p1 <- p1 +
-      scale_x_continuous(limits = xlim, expand = c(0, 0),
-                         sec.axis = sec_axis(~ ., breaks = lsl,
-                                             labels = paste("LSL =",format(lsl, digits = 3)) )
-      )) +
-  theme(axis.text.y.right = element_text(size = 15))
-if(!is.null(usl))
+if (!is.null(lsl) & !is.null(usl)){
   p1 <- p1 +
     scale_x_continuous(limits = xlim, expand = c(0, 0),
-                       sec.axis = sec_axis(~ ., breaks = usl,
-                                           labels = paste("USL =",format(usl, digits = 3)) )
-    )) +
-  theme(axis.text.y.right = element_text(size = 15))
+                       sec.axis = sec_axis(~ ., breaks = c(lsl, usl),
+                                           labels = c(paste("LSL =",format(lsl, digits = 3)), paste("USL =",format(usl, digits = 3)))
+                       )) +
+    theme(axis.text.y.right = element_text(size = 15))
+}else{
+  if(!is.null(lsl)){
+    p1 <- p1 +
+      scale_x_continuous(limits = xlim, expand = c(0, 0),
+                         sec.axis = sec_axis(~ ., breaks = lsl, labels = paste("LSL =",format(lsl, digits = 3)) )) +
+      theme(axis.text.y.right = element_text(size = 15))
+  }
+  if(!is.null(usl)){
+    p1 <- p1 +
+      scale_x_continuous(limits = xlim, expand = c(0, 0),
+                         sec.axis = sec_axis(~ ., breaks = usl,labels = paste("USL =",format(usl, digits = 3)))) +
+      theme(axis.text.y.right = element_text(size = 15))
+  }
 }
 
 # 2. Cajita de info Cp's --------------------------------------------------------------------------
@@ -564,41 +563,41 @@ p2 <- ggplot(data = data.frame(x = 0, y = 0), aes(x, y)) +
   if(is.null(cpu))
     p2 <- p2 + annotate('text', x = 0.25, y = 0.40,
                         label = paste("C[pkU]==", "*"),
-                        parse = TRUE, size = 4, hjust = 0)
+                        parse = TRUE, size = 3.5, hjust = 0)
   else p2 <- p2 + annotate('text', x = 0.25, y = 0.40,
                            label = paste("C[pkU]==", round(cpu, 2)),
-                           parse = TRUE, size = 4, hjust = 0)
+                           parse = TRUE, size = 3.5, hjust = 0)
   if(is.null(cpl))
     p2 <- p2 + annotate('text', x = 0.25, y = 0.35,
                         label = paste("C[pkL]==", "*"),
-                        parse = TRUE, size = 4, hjust = 0)
+                        parse = TRUE, size = 3.5, hjust = 0)
   else
     p2 <- p2 + annotate('text', x = 0.25, y = 0.35,
                         label = paste("C[pkL]==", round(cpl, 2)),
-                        parse = TRUE, size = 4, hjust = 0)
+                        parse = TRUE, size = 3.5, hjust = 0)
   if(is.null(cpk))
     p2 <- p2 + annotate('text', x = 0.25, y = 0.30,
                         label = paste("C[pk]==", "*"),
-                        parse = TRUE, size = 4, hjust = 0)
+                        parse = TRUE, size = 3.5, hjust = 0)
   else
     p2 <- p2 + annotate('text', x = 0.25, y = 0.30,
                         label = paste("C[pk]==", round(cpk, 2)),
-                        parse = TRUE, size = 4, hjust = 0)
+                        parse = TRUE, size = 3.5, hjust = 0)
   if(is.null(cp))
     p2 <- p2 + annotate('text', x = 0.25, y = 0.25,
                         label = paste("C[p]==", "*"),
-                        parse = TRUE, size = 4, hjust = 0)
+                        parse = TRUE, size = 3.5, hjust = 0)
   else
     p2 <- p2 + annotate('text',x = 0.25,y = 0.25,
                         label = paste("C[p]==", round(cp, 2)),
-                        parse = TRUE,size = 4,hjust = 0)
+                        parse = TRUE,size = 3.5,hjust = 0)
   }
 
 
 # 3. Cajita de info n, means, sd
 index = 1:(length(estimates) + 3)
 names(x) = data.name
-if(not3distr) {
+if(not3distr){
   names(x) = data.name
   adTestStats = .myADTest(x, distribution)
   A = numeric()
@@ -703,11 +702,179 @@ if(any3distr){
     }
 }
 
-###################################################3## Quantile Quantile PLot ############################################################################3
-# Para este necesitamos que funcione el archivo "Clase distribuciones y graficos"
+# 4. qqPlot
+p4 <- qqPlot(x[, 1], y = distribution, xlab = "", ylab = "", main = "", xlim = xlim, ylim = ylim,
+        axes = FALSE, bounds.lty = bounds.lty, bounds.col = bounds.col, grapic = FALSE, axis.y.right = TRUE, bw.theme = TRUE)
 
-qqPlot(x[, 1], y = distribution, xlab = "", ylab = "", main = "", xlim = xlim, ylim = ylim,
-        axes = FALSE, bounds.lty = bounds.lty, bounds.col = bounds.col)
+# Unimos las 4 primeras gráficas
+main_plot <- p1 + (p2 / p3 / p4$plot) + plot_layout(widths = c(5, 1))
+
+# 5. Cajita de info 4 (Expected Fraction Nonconforming)
+p5 <- ggplot(data.frame(x = c(-1, 1),y = c(0.5, 5)), aes(x = x, y = y)) +
+  theme_bw() +
+  ggtitle("Expected Fraction Nonconforming") +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.background = element_rect(fill = "transparent", color = NA),
+    plot.title = element_text(hjust = 0.5, vjust = -0.5,margin = margin(b = -12),size = 10)
+  )
+
+p5_left <- ggplot(data = data.frame(x = 0, y = 0), aes(x, y)) +
+  theme_bw() +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.background = element_rect(fill = "transparent", color = NA),
+    plot.background = element_rect(fill = "transparent", color = NA),
+    panel.border = element_blank()
+  ) +
+  xlim(c(0.25,0.26)) + ylim(c(0.24, 0.36))
+{
+  p5_left <- p5_left +
+    annotate('text', x = 0.25, y = 0.35, label = "-----", size = 3, hjust = 0, colour = "white")
+  # Pt
+  p5_left <- p5_left +
+    annotate("text", x = 0.25, y = 0.33, label = paste("p[t]==", format(ppt, digits = 6)),
+             parse = TRUE, size = 3.5, hjust = 0)
+  # PL
+  if(is.null(ppl)){
+    p5_left <- p5_left +
+      annotate("text", x = 0.25, y = 0.3, label = paste("p[L]==", "0"),
+               parse = TRUE, size = 3.5, hjust = 0)
+  }else{
+    p5_left <- p5_left +
+      annotate("text", x = 0.25, y = 0.3, label = paste("p[L]==", format(ppl, digits = 6)),
+               parse = TRUE, size = 3.5, hjust = 0)
+  }
+  # PU
+  if(is.null(ppu)){
+    p5_left <- p5_left +
+      annotate("text", x = 0.25, y = 0.27, label = paste("p[U]==", "0"),
+               parse = TRUE, size = 3.5, hjust = 0)
+  }else{
+    p5_left <- p5_left +
+      annotate("text", x = 0.25, y = 0.27, label = paste("p[U]==", format(ppu, digits = 6)),
+               parse = TRUE, size = 3.5, hjust = 0)
+  }
+  }
+
+p5_right <- ggplot(data = data.frame(x = 0, y = 0), aes(x, y)) +
+  theme_bw() +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.background = element_rect(fill = "transparent", color = NA),
+    plot.background = element_rect(fill = "transparent", color = NA),
+    panel.border = element_blank()
+  ) +
+  xlim(c(0.25,0.26)) + ylim(c(0.24, 0.36))
+{
+  p5_right <- p5_right +
+    annotate('text', x = 0.25, y = 0.35, label = "-----", size = 3, hjust = 0, colour = "white")
+
+  # ppm
+  p5_right <- p5_right +
+    annotate("text", x = 0.25, y = 0.33, label = paste("ppm==", format(ppt * 1e+06, digits = 6)),
+             parse = TRUE, size = 3.5, hjust = 0)
+  if(is.null(ppl)){
+    p5_right <- p5_right +
+      annotate("text", x = 0.25, y = 0.3, label = paste("ppm==", "0"),
+               parse = TRUE, size = 3.5, hjust = 0)
+  }else{
+    p5_right <- p5_right +
+      annotate("text", x = 0.25, y = 0.3, label = paste("ppm==", format(ppl * 1e+06, digits = 6)),
+               parse = TRUE, size = 3.5, hjust = 0)
+  }
+  if(is.null(ppu)){
+    p5_right <- p5_right +
+      annotate("text", x = 0.25, y = 0.27, label = paste("ppm==", "0"),
+               parse = TRUE, size = 3.5, hjust = 0)
+  }else{
+    p5_right <- p5_right +
+      annotate("text", x = 0.25, y = 0.27, label = paste("ppm==", format(ppu * 1e+06, digits = 6)),
+               parse = TRUE, size = 3.5, hjust = 0)
+  }
+  }
+
+p5 <- p5 + inset_element(p5_left, left = 0, right = 0.5, top = 0,  bottom = 0.80)+
+  inset_element(p5_right, left = 0.5, right = 1, top = 0,  bottom = 0.80)
+
+# Caja info 6. Observed
+obsL = 0
+obsU = 0
+p6 <- ggplot(data.frame(x = 0,y = 0), aes(x = x, y = y)) +
+  theme_bw() +
+  ggtitle("Observed") +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(hjust = 0.5, vjust = -0.5,margin = margin(b = -12), size = 10)
+  ) +
+  xlim(c(0.24, 0.26)) + ylim(c(0.27, 0.36))
+if (!is.null(lsl)){
+  obsL = (sum(x < lsl)/length(x)) * 1e+06
+  p6 <- p6 + annotate("text", x = 0.25, y = 0.30, label = paste("ppm==", format(obsL, digits = 6)),
+                      parse = TRUE, size = 3.5, hjust = 0.5)
+} else{
+  p6 <- p6 + annotate("text", x = 0.25, y = 0.30, label = paste("ppm==", 0),
+                      parse = TRUE, size = 3.5, hjust = 0.5)
+}
+if (!is.null(usl)){
+  obsU = (sum(x > usl)/length(x)) * 1e+06
+  p6 <- p6 + annotate("text", x = 0.25, y = 0.28, label = paste("ppm==", format(obsU, digits = 6)),
+                      parse = TRUE, size = 3.5, hjust = 0.5)
+} else{
+  p6 <- p6 + annotate("text", x = 0.25, y = 0.28, label = paste("ppm==", 0),
+                      parse = TRUE, size = 3.5, hjust = 0.5)
+}
+p6 <- p6 + annotate("text", x = 0.25, y = 0.32, label = paste("ppm==", format(obsL + obsU, digits = 6)),
+                    parse = TRUE, size = 3.5, hjust = 0.5)
+
+box_bottom <- p5 + p6 + plot_layout(widths = c(2, 1))
+main_plot <- p1 / box_bottom + plot_layout(heights = c(1, 0.5))
+box_right <- p2 / p3 / p4$plot
+box_right <- box_right/plot_spacer()
+main_plot <- (main_plot | box_right) + plot_layout(ncol = 2, widths = c(5, 1))
+
+if(not3distr){
+  print(adTestStats)
+  invisible(list(lambda = lambda, cp = cp, cpk = cpk,
+                 cpl = cpl, cpu = cpu, ppt = ppt, ppl = ppl, ppu = ppu,
+                 A = A, usl = usl, lsl = lsl, target = target))
+}else{
+  invisible(list(lambda = lambda, cp = cp, cpk = cpk,
+                    cpl = cpl, cpu = cpu, ppt = ppt, ppl = ppl, ppu = ppu,
+                    usl = usl, lsl = lsl, target = target))
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # PRUEBAS
 

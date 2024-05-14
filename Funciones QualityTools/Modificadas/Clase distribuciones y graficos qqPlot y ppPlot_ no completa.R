@@ -453,7 +453,7 @@ distribution <- function(x = NULL, distrib = "weibull", start, ...) {
 
 
 # Funcion qqPlot falta cambiaaaar desde aquiiii ---------------------
-qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim, border = "red", bounds.col = "black", bounds.lty = 1, start, grapic = TRUE, ...) {
+qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim, border = "red", bounds.col = "black", bounds.lty = 1, start, grapic = TRUE, axis.y.right = FALSE, bw.theme = FALSE,...){
   DB = FALSE
   parList = list()
   if (is.null(parList[["col"]])){
@@ -623,7 +623,16 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
         }
       }
     }
-    if(grapic == TRUE){
+    if(axis.y.right){
+      p <- p + scale_y_continuous(position = "right")
+    }
+    if(bw.theme){
+      p <- p + theme_bw()
+    }
+    if(main == ""){
+      p <- p + labs(title = NULL)
+    }
+    if(grapic){
       show(p)
       invisible(list(x = theoretical.quantiles, y = xs, int = params$a, slope = params$b, plot = p))
     }
@@ -681,7 +690,7 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
     distribution = "normal"
   if (missing(ylim))
     ylim = NULL
-  if (missing(main))
+  if(missing(main))
     main = paste("Probability Plot for", deparse(substitute(distribution)),
                  "distribution")
   if (missing(xlab))
@@ -757,7 +766,7 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
         if(distribution %in% confIntCapable){
           confInt = getConfIntFun(x1, thethas, varmatrix, alpha)
         }
-      }# end of my code
+      }
     }
 
 
