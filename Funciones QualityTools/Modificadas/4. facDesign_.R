@@ -28,7 +28,7 @@ library(R6)
     temp = combn(columns, i)
     for (j in 1:ncol(temp)) {
       if (class(fdo)[1] == "facDesign")
-        index = fdo$names() %in% temp[, j]
+        index = names(X) %in% temp[, j]
       if (class(fdo)[1] == "taguchiDesign")
         index = names(X) %in% temp[, j]
       if (length((1:length(index))[index]) == 1) {
@@ -143,13 +143,13 @@ aliasTable <- function (fdo, degree, show = TRUE)
 
 
 
-##Necesito clase facDesign######################################################
-facDesign_c <- R6Class("facDesign", public = list(name = NULL,
+##Necesito clase facDesign.c######################################################
+facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                  factors = NULL,
-                                                 cube = NULL,
-                                                 star = NULL,
-                                                 centerCube = NULL,
-                                                 centerStar = NULL,
+                                                 cube = data.frame(),
+                                                 star = data.frame(),
+                                                 centerCube = data.frame(),
+                                                 centerStar = data.frame(),
                                                  generator = NULL,
                                                  response = NULL,
                                                  block = NULL,
@@ -327,7 +327,7 @@ facDesign_c <- R6Class("facDesign", public = list(name = NULL,
 
 
 ##Necesito clase doeFactor####################
-doeFactor_ <- R6Class('doeFactor', public = list(low = -1,
+doeFactor <- R6Class('doeFactor', public = list(low = -1,
                                                  high = 1,
                                                  name = "",
                                                  unit = "",
@@ -662,7 +662,7 @@ blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm",
 
 ###Necesito funcion "fracDesign"###################
 
-fracDesign_ <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
+fracDesign <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
   centerCube = 0, random.seed = 1234)
 {
   DB = FALSE
@@ -823,12 +823,12 @@ fracDesign_ <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
       names(frameOut)[naIndex] = charsLeft[1:length(naIndex)]
     }
   }
-  DesignOut <- facDesign_c$new()
+  DesignOut <- facDesign.c$new()
   DesignOut$generator <-  gen
   DesignOut$cube <-  frameOut
   listFac <-  vector("list", ncol(frameOut))
   for (i in seq(along = listFac)){
-    listFac[[i]] = doeFactor_$new()
+    listFac[[i]] = doeFactor$new()
     listFac[[i]]$name = names(frameOut)[i]
   }
 
@@ -846,8 +846,8 @@ fracDesign_ <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
     names(temp) = names(frameOut)
     DesignOut$centerCube = temp
   }
-  numRows = nrow(DesignOut$cube) + nrow(DesignOut$centerCube) #+ nrow(DesignOut$star) +
-    #nrow(DesignOut$centerStar)  ####################################################
+  numRows = nrow(DesignOut$cube) + nrow(DesignOut$centerCube) + nrow(DesignOut$star) +
+    nrow(DesignOut$centerStar)
   if (DB) {
     print(numRows)
     print("response")
@@ -862,37 +862,64 @@ fracDesign_ <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
   if (DB)
     print("1")
   set.seed(random.seed)
-  runOrder = as.data.frame(standardOrder[sample(1:numRows),
-    ])
+  runOrder = as.data.frame(standardOrder[sample(1:numRows),])
   if (DB)
     print("2")
   names(runOrder) = "RunOrder"
   DesignOut$runOrder <- runOrder
   if (DB)
     print("3")
-  temp = try(blocking(DesignOut, blocks = blocks))
+  temp = try(blocking(DesignOut, blocks = blocks)) #################Poner random.seed para variar con semilla
   if (inherits(temp, "try-error"))
     stop("Blocking not possible!")
-  return(blocking(DesignOut, blocks = blocks))
+  return(blocking(DesignOut, blocks = blocks))  #################Poner random.seed para variar con semilla
 }
 
 ############## funcion facDesign########################
-facDesign_ <- function (k = 3, p = 0, replicates = 1, blocks = 1, centerCube = 0)
+facDesign <- function (k = 3, p = 0, replicates = 1, blocks = 1, centerCube = 0, random.seed = 1234)
 {
-  frameOut = fracDesign_(k = k, p = p, gen = NULL, replicates = replicates,
-                        blocks = blocks, centerCube = centerCube)
+  frameOut = fracDesign(k = k, p = p, gen = NULL, replicates = replicates,
+                        blocks = blocks, centerCube = centerCube, random.seed = random.seed)
   return(frameOut)
 }
 
 
 ###############USO DE facDesign#######################################################
-set.seed(1234)
-dfac <- facDesign_(k = 3, centerCube = 4)
-dfac$names()
+dfac <- facDesign(k = 3, centerCube = 4)
+#dfac$names()
 dfac$names(c('Factor 1', 'Factor 2', 'Factor 3'))
-dfac$names()
+#dfac$names()
 dfac$lows(c(80,120,1))
-dfac$lows()
+#dfac$lows()
 dfac$highs(c(120,140,2))
-dfac$highs()
+#dfac$highs()
 dfac$summary()
+
+###############################################################################
+
+####Necesito funcion .norm2d#####################################################
+.norm2d <- function(x1, x2, mu1 = 160, mu2 = 165, rho = 0.7, sigma1 = 45, sigma2 = 22.5) {
+  z = 1/(2 * pi * sigma1 * sigma2 * sqrt(1 - rho^2)) * exp(-1/(2 * (1 - rho^2)) * (((x1 - mu1)/sigma1)^2 - 2 * rho * (x1 - mu1)/sigma1 * (x2 - mu2)/sigma2 +
+                                                                                     ((x2 - mu2)/sigma2)^2))
+  return(z)
+}
+
+####funcion simProc#####################################
+simProc <- function(x1, x2, x3, noise = TRUE) {
+  max_z = 0.0002200907
+  min_z = 8.358082e-10
+  yield = .norm2d(x1 = x1, x2 = x2)
+  yield = yield - min_z
+  yield = (yield/max_z) * 0.9
+  if (noise)
+    yield = yield + rnorm(length(yield), mean = 0, sd = 0.007)
+  return(yield)
+}
+
+
+
+#####USO simProc######################################
+#Primeros valores
+rend <- simProc(x1=120,x2=140,x3=2)
+#valores completos
+rend <- c(simProc(120,140,1),simProc(80,140,1),simProc(120,140,2),simProc(120,120,1),simProc(90,130,1.5),simProc(90,130,1.5),simProc(80,120,2),simProc(90,130,1.5),simProc(90,130,1.5),simProc(120,120,2),simProc(80,140,2),simProc(80,120,1))
