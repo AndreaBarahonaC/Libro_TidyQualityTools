@@ -1874,7 +1874,7 @@ distribution <- function(x = NULL, distrib = "weibull", start, ...) {
   return(distr_coll)
 }
 
-# Funciones auxiliares
+# Funciones necesarias
 .sdSg = function(x, grouping = NULL, method = c("NOWEIGHT", "MVLUE", "RMSDF"), na.rm = TRUE, DB = TRUE) {
   DB = FALSE
   if (!is.data.frame(x) && !is.vector(x) && is.numeric(x))

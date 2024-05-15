@@ -2,7 +2,8 @@ library(qualityTools)
 library(ggplot2)
 library(patchwork)
 
-# -------------- .cg --------------
+############################## funciones .r ##############################
+# .cg --------------
 .cg=function(x, target, tolerance=c(-1,1), ref.interval, facCg, facCgk)
 {
   if (missing(x))
@@ -26,8 +27,7 @@ library(patchwork)
   Cgk = (facCgk * (abs(diff(tolerance))) - abs(target - mean))/(ref.ar/2)
   return(list(Cg, Cgk))
 }
-
-# -------------- internals.r --------------
+# internals.r --------------
 .confintbeta= function(xs, thethas, varmatrix, alpha) {
 
   th1= thethas[[1]]
@@ -309,186 +309,6 @@ library(patchwork)
     fun = eval(parse(text = paste(type, "gamma3", sep = "")))
   return(fun)
 }
-# Funcion FitDistr ----
-FitDistr <- function (x, densfun, start, ...){
-  myfn <- function(parm, ...) -sum(log(dens(parm, ...)))
-  mylogfn <- function(parm, ...) -sum(dens(parm, ..., log = TRUE))
-  mydt <- function(x, m, s, df, log) dt((x - m)/s, df, log = TRUE) -
-    log(s)
-  Call <- match.call(expand.dots = TRUE)
-  if (missing(start))
-    start <- NULL
-  dots <- names(list(...))
-  dots <- dots[!is.element(dots, c("upper", "lower"))]
-  if (missing(x) || length(x) == 0L || mode(x) != "numeric")
-    stop("'x' must be a non-empty numeric vector")
-  if (any(!is.finite(x)))
-    stop("'x' contains missing or infinite values")
-  if (missing(densfun) || !(is.function(densfun) || is.character(densfun)))
-    stop("'densfun' must be supplied as a function or name")
-  control <- list()
-  n <- length(x)
-  if (is.character(densfun)) {
-    distname <- tolower(densfun)
-    densfun <- switch(distname, beta = dbeta, cauchy = dcauchy,
-                      `chi-squared` = dchisq, exponential = dexp, f = df,
-                      gamma = dgamma, geometric = dgeom, `log-normal` = dlnorm,
-                      lognormal = dlnorm, logistic = dlogis, `negative binomial` = dnbinom,
-                      normal = dnorm, poisson = dpois, t = mydt, weibull = dweibull,
-                      NULL)
-    if (is.null(densfun))
-      stop("unsupported distribution")
-    if (distname %in% c("lognormal", "log-normal")) {
-      if (!is.null(start))
-        stop(gettextf("supplying pars for the %s distribution is not supported",
-                      "log-Normal"), domain = NA)
-      if (any(x <= 0))
-        stop("need positive values to fit a log-Normal")
-      lx <- log(x)
-      sd0 <- sqrt((n - 1)/n) * sd(lx)
-      mx <- mean(lx)
-      estimate <- c(mx, sd0)
-      sds <- c(sd0/sqrt(n), sd0/sqrt(2 * n))
-      names(estimate) <- names(sds) <- c("meanlog", "sdlog")
-      vc <- matrix(c(sds[1]^2, 0, 0, sds[2]^2), ncol = 2,
-                   dimnames = list(names(sds), names(sds)))
-      names(estimate) <- names(sds) <- c("meanlog", "sdlog")
-      return(structure(list(estimate = estimate, sd = sds,
-                            vcov = vc, n = n, loglik = sum(dlnorm(x, mx, sd0, log = TRUE))), class = "FitDistr"))
-    }
-    if (distname == "normal") {
-      if (!is.null(start))
-        stop(gettextf("supplying pars for the %s distribution is not supported",
-                      "Normal"), domain = NA)
-      sd0 <- sqrt((n - 1)/n) * sd(x)
-      mx <- mean(x)
-      estimate <- c(mx, sd0)
-      sds <- c(sd0/sqrt(n), sd0/sqrt(2 * n))
-      names(estimate) <- names(sds) <- c("mean", "sd")
-      vc <- matrix(c(sds[1]^2, 0, 0, sds[2]^2), ncol = 2,
-                   dimnames = list(names(sds), names(sds)))
-      return(structure(list(estimate = estimate, sd = sds,
-                            vcov = vc, n = n, loglik = sum(dnorm(x, mx,
-                                                                 sd0, log = TRUE))), class = "FitDistr"))
-    }
-    if (distname == "poisson") {
-      if (!is.null(start))
-        stop(gettextf("supplying pars for the %s distribution is not supported",
-                      "Poisson"), domain = NA)
-      estimate <- mean(x)
-      sds <- sqrt(estimate/n)
-      names(estimate) <- names(sds) <- "lambda"
-      vc <- matrix(sds^2, ncol = 1, nrow = 1, dimnames = list("lambda",
-                                                              "lambda"))
-      return(structure(list(estimate = estimate, sd = sds,
-                            vcov = vc, n = n, loglik = sum(dpois(x, estimate,
-                                                                 log = TRUE))), class = "FitDistr"))
-    }
-    if (distname == "exponential") {
-      if (any(x < 0))
-        stop("Exponential values must be >= 0")
-      if (!is.null(start))
-        stop(gettextf("supplying pars for the %s distribution is not supported",
-                      "exponential"), domain = NA)
-      estimate <- 1/mean(x)
-      sds <- estimate/sqrt(n)
-      vc <- matrix(sds^2, ncol = 1, nrow = 1, dimnames = list("rate",
-                                                              "rate"))
-      names(estimate) <- names(sds) <- "rate"
-      return(structure(list(estimate = estimate, sd = sds,
-                            vcov = vc, n = n, loglik = sum(dexp(x, estimate,
-                                                                log = TRUE))), class = "FitDistr"))
-    }
-    if (distname == "geometric") {
-      if (!is.null(start))
-        stop(gettextf("supplying pars for the %s distribution is not supported",
-                      "geometric"), domain = NA)
-      estimate <- 1/(1 + mean(x))
-      sds <- estimate * sqrt((1 - estimate)/n)
-      vc <- matrix(sds^2, ncol = 1, nrow = 1, dimnames = list("prob",
-                                                              "prob"))
-      names(estimate) <- names(sds) <- "prob"
-      return(structure(list(estimate = estimate, sd = sds,
-                            vcov = vc, n = n, loglik = sum(dgeom(x, estimate,
-                                                                 log = TRUE))), class = "FitDistr"))
-    }
-    if (distname == "weibull" && is.null(start)) {
-      if (any(x <= 0))
-        stop("Weibull values must be > 0")
-      lx <- log(x)
-      m <- mean(lx)
-      v <- var(lx)
-      shape <- 1.2/sqrt(v)
-      scale <- exp(m + 0.572/shape)
-      start <- list(shape = shape, scale = scale)
-      start <- start[!is.element(names(start), dots)]
-    }
-    if (distname == "gamma" && is.null(start)) {
-      if (any(x < 0))
-        stop("gamma values must be >= 0")
-      m <- mean(x)
-      v <- var(x)
-      start <- list(shape = m^2/v, rate = m/v)
-      start <- start[!is.element(names(start), dots)]
-      control <- list(parscale = c(1, start$rate))
-    }
-    if (distname == "negative binomial" && is.null(start)) {
-      m <- mean(x)
-      v <- var(x)
-      size <- if (v > m)
-        m^2/(v - m)
-      else 100
-      start <- list(size = size, mu = m)
-      start <- start[!is.element(names(start), dots)]
-    }
-    if (is.element(distname, c("cauchy", "logistic")) &&
-        is.null(start)) {
-      start <- list(location = median(x), scale = IQR(x)/2)
-      start <- start[!is.element(names(start), dots)]
-    }
-    if (distname == "t" && is.null(start)) {
-      start <- list(m = median(x), s = IQR(x)/2, df = 10)
-      start <- start[!is.element(names(start), dots)]
-    }
-  }
-  if (is.null(start) || !is.list(start))
-    stop("")
-  nm <- names(start)
-  f <- formals(densfun)
-  args <- names(f)
-  m <- match(nm, args)
-  if (any(is.na(m)))
-    stop("'start' specifies names which are not arguments to 'densfun'")
-  formals(densfun) <- c(f[c(1, m)], f[-c(1, m)])
-  dens <- function(parm, x, ...) densfun(x, parm, ...)
-  if ((l <- length(nm)) > 1L)
-    body(dens) <- parse(text = paste("densfun(x,", paste("parm[",
-                                                         1L:l, "]", collapse = ", "), ", ...)"))
-  Call[[1L]] <- quote(stats::optim)
-  Call$densfun <- Call$start <- NULL
-  Call$x <- x
-  Call$par <- start
-  Call$fn <- if ("log" %in% args)
-    mylogfn
-  else myfn
-  Call$hessian <- TRUE
-  if (length(control))
-    Call$control <- control
-  if (is.null(Call$method)) {
-    if (any(c("lower", "upper") %in% names(Call)))
-      Call$method <- "L-BFGS-B"
-    else if (length(start) > 1L)
-      Call$method <- "BFGS"
-    else Call$method <- "Nelder-Mead"
-  }
-  res <- eval.parent(Call)
-  if (res$convergence > 0L)
-    stop("optimization failed")
-  vc <- solve(res$hessian)
-  sds <- sqrt(diag(vc))
-  structure(list(estimate = res$par, sd = sds, vcov = vc,
-                 loglik = -res$value, n = n), class = "FitDistr")
-}
 # .myADtest ---------------------
 .myADTest = function(x, distribution, ...) {                                                                     ####   .MYADTESTS-FUNCTION
   #require(MASS, quietly = TRUE)
@@ -701,9 +521,275 @@ FitDistr <- function (x, densfun, start, ...){
   }
   invisible(list(xlim = x, ylim = y))
 }
-# qqPlot ---------------------
-qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim, border = "red", bounds.col = "black", bounds.lty = 1, start, grapic = TRUE, axis.y.right = FALSE, bw.theme = FALSE,...){
+# .sdSg, lfkp, lfrm  ---------------------
+.sdSg = function(x, grouping = NULL, method = c("NOWEIGHT", "MVLUE", "RMSDF"), na.rm = TRUE, DB = TRUE) {
   DB = FALSE
+  if (!is.data.frame(x) && !is.vector(x) && is.numeric(x))
+    stop("x needs to be either a data.frame or a vector and numeric")
+  if (is.null(grouping)) {
+    if (is.data.frame(x))
+      return(sd(x[, 1]))
+    else return(sd(x))
+  }
+  else grouping = as.data.frame(grouping)
+  group = unique(grouping)
+  sdVec = numeric(length = length(group))
+  for (i in 1:nrow(group)) {
+    if (is.data.frame(x))
+      temp = x[group[i, 1] == grouping[, 1], 1]
+    if (is.vector(x))
+      temp = x[group[i, 1] == grouping[, 1]]
+    sdVec[i] = sd(temp, na.rm = T)/.c4(length(temp[!is.na(temp)]))
+    if (DB) {
+      print(group[i, 1])
+      print(temp)
+      print(length(temp[!is.na(temp)]))
+    }
+  }
+  if (DB) {
+    print(paste("std.dev: ", mean(sdVec)))
+    print(sdVec)
+  }
+  return((mean(sdVec)))
+}
+.lfkp = function(wholeList, filterList) {
+  if (!is.list(wholeList))
+    stop(paste(deparse(substitute(wholeList)), "is not a list!"))
+  if (length(wholeList) == 0)
+    return(wholeList)
+  if (!is.list(filterList))
+    stop(paste(deparse(substitute(filterList)), "is not a list!"))
+  if (length(filterList) == 0)
+    return(filterList)
+  logVec = lapply(names(wholeList), "%in%", names(filterList))
+  filteredList = wholeList[unlist(logVec)]
+  return(filteredList)
+}
+.lfrm = function(wholeList, filterList) {
+  if (!is.list(wholeList))
+    stop(paste(deparse(substitute(wholeList)), "is not a list!"))
+  if (length(wholeList) == 0)
+    return(wholeList)
+  if (!is.list(filterList))
+    stop(paste(deparse(substitute(filterList)), "is not a list!"))
+  if (length(filterList) == 0)
+    return(wholeList)
+  logVec = lapply(names(wholeList), "%in%", names(filterList))
+  filteredList = wholeList[!unlist(logVec)]
+  return(filteredList)
+}
+
+############################## FUNCIONES ##############################
+# Funcion Distribution ----
+distribution <- function(x = NULL, distrib = "weibull", start, ...) {
+  distr_coll <- DistrCollection$new()
+  if (is.character(distrib))
+    distrib = tolower(distrib)
+  allDistr = c("beta", "cauchy", "chi-squared", "exponential", "f", "gamma", "geometric", "log-normal", "logistic", "negative binomial", "normal", "poisson",
+               "t", "weibull")
+  if (distrib %in% allDistr){
+    distrVec = distrib
+  }
+  else{distrVec = c("normal")}
+  if (identical(distrib, "all"))
+    distrVec = allDistr
+  if (identical(distrib, "quality"))
+    distrVec = c("normal", "log-normal", "exponential", "weibull")
+  for (i in seq(along = distrVec)) {
+    temp <- suppressWarnings(FitDistr(x, densfun = distrVec[i]))
+    fit <- Distr$new(x = x,
+                     name = distrVec[i],
+                     parameters = temp$estimate,
+                     sd = temp$sd,
+                     loglik = temp$loglik,
+                     n = length(x))
+    distr_coll$add(fit)
+  }
+  return(distr_coll)
+}
+
+# Funcion FitDistr ----
+FitDistr <- function (x, densfun, start, ...){
+  myfn <- function(parm, ...) -sum(log(dens(parm, ...)))
+  mylogfn <- function(parm, ...) -sum(dens(parm, ..., log = TRUE))
+  mydt <- function(x, m, s, df, log) dt((x - m)/s, df, log = TRUE) -
+    log(s)
+  Call <- match.call(expand.dots = TRUE)
+  if (missing(start))
+    start <- NULL
+  dots <- names(list(...))
+  dots <- dots[!is.element(dots, c("upper", "lower"))]
+  if (missing(x) || length(x) == 0L || mode(x) != "numeric")
+    stop("'x' must be a non-empty numeric vector")
+  if (any(!is.finite(x)))
+    stop("'x' contains missing or infinite values")
+  if (missing(densfun) || !(is.function(densfun) || is.character(densfun)))
+    stop("'densfun' must be supplied as a function or name")
+  control <- list()
+  n <- length(x)
+  if (is.character(densfun)) {
+    distname <- tolower(densfun)
+    densfun <- switch(distname, beta = dbeta, cauchy = dcauchy,
+                      `chi-squared` = dchisq, exponential = dexp, f = df,
+                      gamma = dgamma, geometric = dgeom, `log-normal` = dlnorm,
+                      lognormal = dlnorm, logistic = dlogis, `negative binomial` = dnbinom,
+                      normal = dnorm, poisson = dpois, t = mydt, weibull = dweibull,
+                      NULL)
+    if (is.null(densfun))
+      stop("unsupported distribution")
+    if (distname %in% c("lognormal", "log-normal")) {
+      if (!is.null(start))
+        stop(gettextf("supplying pars for the %s distribution is not supported",
+                      "log-Normal"), domain = NA)
+      if (any(x <= 0))
+        stop("need positive values to fit a log-Normal")
+      lx <- log(x)
+      sd0 <- sqrt((n - 1)/n) * sd(lx)
+      mx <- mean(lx)
+      estimate <- c(mx, sd0)
+      sds <- c(sd0/sqrt(n), sd0/sqrt(2 * n))
+      names(estimate) <- names(sds) <- c("meanlog", "sdlog")
+      vc <- matrix(c(sds[1]^2, 0, 0, sds[2]^2), ncol = 2,
+                   dimnames = list(names(sds), names(sds)))
+      names(estimate) <- names(sds) <- c("meanlog", "sdlog")
+      return(structure(list(estimate = estimate, sd = sds,
+                            vcov = vc, n = n, loglik = sum(dlnorm(x, mx, sd0, log = TRUE))), class = "FitDistr"))
+    }
+    if (distname == "normal") {
+      if (!is.null(start))
+        stop(gettextf("supplying pars for the %s distribution is not supported",
+                      "Normal"), domain = NA)
+      sd0 <- sqrt((n - 1)/n) * sd(x)
+      mx <- mean(x)
+      estimate <- c(mx, sd0)
+      sds <- c(sd0/sqrt(n), sd0/sqrt(2 * n))
+      names(estimate) <- names(sds) <- c("mean", "sd")
+      vc <- matrix(c(sds[1]^2, 0, 0, sds[2]^2), ncol = 2,
+                   dimnames = list(names(sds), names(sds)))
+      return(structure(list(estimate = estimate, sd = sds,
+                            vcov = vc, n = n, loglik = sum(dnorm(x, mx,
+                                                                 sd0, log = TRUE))), class = "FitDistr"))
+    }
+    if (distname == "poisson") {
+      if (!is.null(start))
+        stop(gettextf("supplying pars for the %s distribution is not supported",
+                      "Poisson"), domain = NA)
+      estimate <- mean(x)
+      sds <- sqrt(estimate/n)
+      names(estimate) <- names(sds) <- "lambda"
+      vc <- matrix(sds^2, ncol = 1, nrow = 1, dimnames = list("lambda",
+                                                              "lambda"))
+      return(structure(list(estimate = estimate, sd = sds,
+                            vcov = vc, n = n, loglik = sum(dpois(x, estimate,
+                                                                 log = TRUE))), class = "FitDistr"))
+    }
+    if (distname == "exponential") {
+      if (any(x < 0))
+        stop("Exponential values must be >= 0")
+      if (!is.null(start))
+        stop(gettextf("supplying pars for the %s distribution is not supported",
+                      "exponential"), domain = NA)
+      estimate <- 1/mean(x)
+      sds <- estimate/sqrt(n)
+      vc <- matrix(sds^2, ncol = 1, nrow = 1, dimnames = list("rate",
+                                                              "rate"))
+      names(estimate) <- names(sds) <- "rate"
+      return(structure(list(estimate = estimate, sd = sds,
+                            vcov = vc, n = n, loglik = sum(dexp(x, estimate,
+                                                                log = TRUE))), class = "FitDistr"))
+    }
+    if (distname == "geometric") {
+      if (!is.null(start))
+        stop(gettextf("supplying pars for the %s distribution is not supported",
+                      "geometric"), domain = NA)
+      estimate <- 1/(1 + mean(x))
+      sds <- estimate * sqrt((1 - estimate)/n)
+      vc <- matrix(sds^2, ncol = 1, nrow = 1, dimnames = list("prob",
+                                                              "prob"))
+      names(estimate) <- names(sds) <- "prob"
+      return(structure(list(estimate = estimate, sd = sds,
+                            vcov = vc, n = n, loglik = sum(dgeom(x, estimate,
+                                                                 log = TRUE))), class = "FitDistr"))
+    }
+    if (distname == "weibull" && is.null(start)) {
+      if (any(x <= 0))
+        stop("Weibull values must be > 0")
+      lx <- log(x)
+      m <- mean(lx)
+      v <- var(lx)
+      shape <- 1.2/sqrt(v)
+      scale <- exp(m + 0.572/shape)
+      start <- list(shape = shape, scale = scale)
+      start <- start[!is.element(names(start), dots)]
+    }
+    if (distname == "gamma" && is.null(start)) {
+      if (any(x < 0))
+        stop("gamma values must be >= 0")
+      m <- mean(x)
+      v <- var(x)
+      start <- list(shape = m^2/v, rate = m/v)
+      start <- start[!is.element(names(start), dots)]
+      control <- list(parscale = c(1, start$rate))
+    }
+    if (distname == "negative binomial" && is.null(start)) {
+      m <- mean(x)
+      v <- var(x)
+      size <- if (v > m)
+        m^2/(v - m)
+      else 100
+      start <- list(size = size, mu = m)
+      start <- start[!is.element(names(start), dots)]
+    }
+    if (is.element(distname, c("cauchy", "logistic")) &&
+        is.null(start)) {
+      start <- list(location = median(x), scale = IQR(x)/2)
+      start <- start[!is.element(names(start), dots)]
+    }
+    if (distname == "t" && is.null(start)) {
+      start <- list(m = median(x), s = IQR(x)/2, df = 10)
+      start <- start[!is.element(names(start), dots)]
+    }
+  }
+  if (is.null(start) || !is.list(start))
+    stop("")
+  nm <- names(start)
+  f <- formals(densfun)
+  args <- names(f)
+  m <- match(nm, args)
+  if (any(is.na(m)))
+    stop("'start' specifies names which are not arguments to 'densfun'")
+  formals(densfun) <- c(f[c(1, m)], f[-c(1, m)])
+  dens <- function(parm, x, ...) densfun(x, parm, ...)
+  if ((l <- length(nm)) > 1L)
+    body(dens) <- parse(text = paste("densfun(x,", paste("parm[",
+                                                         1L:l, "]", collapse = ", "), ", ...)"))
+  Call[[1L]] <- quote(stats::optim)
+  Call$densfun <- Call$start <- NULL
+  Call$x <- x
+  Call$par <- start
+  Call$fn <- if ("log" %in% args)
+    mylogfn
+  else myfn
+  Call$hessian <- TRUE
+  if (length(control))
+    Call$control <- control
+  if (is.null(Call$method)) {
+    if (any(c("lower", "upper") %in% names(Call)))
+      Call$method <- "L-BFGS-B"
+    else if (length(start) > 1L)
+      Call$method <- "BFGS"
+    else Call$method <- "Nelder-Mead"
+  }
+  res <- eval.parent(Call)
+  if (res$convergence > 0L)
+    stop("optimization failed")
+  vc <- solve(res$hessian)
+  sds <- sqrt(diag(vc))
+  structure(list(estimate = res$par, sd = sds, vcov = vc,
+                 loglik = -res$value, n = n), class = "FitDistr")
+}
+# Funcion qqPlot ---------------------
+qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim, border = "red", bounds.col = "black", bounds.lty = 1, start, grapic = TRUE, axis.y.right = FALSE, bw.theme = FALSE,...){
   parList = list()
   if (is.null(parList[["col"]])){
     parList$col = 1:2
@@ -770,17 +856,11 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
     dots <- list(...)
 
     if(TRUE){
-      if (DB)
-        print("TODO: Pass the estimated parameters correctly")
       fitList = .lfkp(parList, formals(qFun))
       fitList$x = xs
       fitList$densfun = distribution
       if(!missing(start))
         fitList$start = start
-      if(DB){
-        print(fitList)
-        print("Ende")
-      }
       if(!threeParameter){
         fittedDistr = do.call(FitDistr, fitList)
         parameter = fittedDistr$estimate
@@ -812,10 +892,6 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
       }
 
       xq <- do.call(qFun, c(list(c(0.25, 0.75)), parameter))
-      if (DB) {
-        print(paste("parameter: ", parameter))
-        print(xq)
-      }
     }
     else {
       params =.lfkp(parList, formals(qFun))
@@ -891,5 +967,207 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
   }
 }
 
+
+
+# Funcion ppPlot ---------------------
+ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab, ylab, xlim, ylim, border = "red", bounds.col = "black", bounds.lty = 1, start, grapic = TRUE, axis.y.right = FALSE, bw.theme = FALSE,...)
+{
+  conf.level = 0.95
+  conf.lines = TRUE
+  if (!(is.numeric(x) | inherits(x, "DistrCollection")))
+    stop(paste(deparse(substitute(x)), " needs to be numeric or an object of class distrCollection"))
+  parList = list(...)
+  if (is.null(parList[["col"]]))
+    parList$col = c("black", "red", "gray")
+  if (is.null(parList[["pch"]]))
+    parList$pch = 19
+  if(is.null(parList[["lwd"]]))
+    parList$lwd = 1
+  if (is.null(parList[["cex"]]))
+    parList$cex = 1
+  qFun = NULL
+  xq = NULL
+  yq = NULL
+  x1 = NULL
+  if(missing(alpha))
+    alpha = 0.05
+  if (alpha <=0 || alpha >=1)
+    stop(paste("alpha should be between 0 and 1!"))
+  if (missing(probs))
+    probs = ppoints(11)
+  else if (min(probs) <= 0 || max(probs) >= 1)
+    stop("probs should be values within (0,1)!")
+  probs = round(probs, 2)
+  if (is.numeric(x)) {
+    x1 <- sort(na.omit(x))
+    if (missing(xlim))
+      xlim = c(min(x1) - 0.1 * diff(range(x1)), max(x1) +0.1 * diff(range(x1)))
+  }
+  if (missing(distribution))
+    distribution = "normal"
+  if (missing(ylim))
+    ylim = NULL
+  if (missing(main))
+    main = paste("Probability Plot for", deparse(substitute(distribution)),
+                 "distribution")
+  if (missing(xlab))
+    xlab = deparse(substitute(x))
+  if (missing(ylab))
+    ylab = "Probability"
+  if(inherits(x, "DistrCollection")){
+    distList <- x$distr
+    grap <- ppPlot(distList[[1]]$x, grapic = FALSE, ylab = "", xlab = "", main = paste(distList[[1]]$name,"distribution"))
+    for (i in 2:length(distList)){
+      aux <- ppPlot(distList[[i]]$x, grapic = FALSE, ylab = "", xlab = "", main = paste(distList[[i]]$name,"distribution"))
+      grap$plot <-  grap$plot + aux$plot
+    }
+    show(grap$plot + plot_annotation(title = "QQ Plot for a Collection Distribution"))
+    invisible()
+  }
+  distWhichNeedParameters = c("weibull", "gamma", "logistic","exponential","f",
+                              "geometric", "chi-squared", "negative binomial",
+                              "poisson")
+  # new
+  threeParameterDistr = c("weibull3", "lognormal3", "gamma3")
+  threeParameter = distribution %in% threeParameterDistr
+  if(threeParameter) distribution = substr(distribution, 1, nchar(distribution)-1)
+  # end new
+  if (is.character(distribution)) {
+    qFun = .charToDistFunc(distribution, type = "q")
+    pFun = .charToDistFunc(distribution, type = "p")
+    dFun = .charToDistFunc(distribution, type = "d")
+    if (is.null(qFun))
+      stop(paste(deparse(substitute(y)), "distribution could not be found!"))
+  }
+  dots <- list(...)
+  if (TRUE) {
+    fitList = .lfkp(parList, formals(qFun))
+    fitList$x = x1
+    fitList$densfun = distribution
+    if (!missing(start))
+      fitList$start = start
+    if(!threeParameter){
+      fittedDistr = do.call(FitDistr, fitList)
+      parameter = fittedDistr$estimate
+      #save the distribution parameter#
+      thethas = fittedDistr$estimate
+      # save the cariance-covariance matrix
+      varmatrix = fittedDistr$vcov
+    }else{
+      parameter = do.call(paste(".",distribution, "3", sep = ""), list(x1) )    ####
+      print(parameter[3])
+      threshold = parameter$threshold
+    }
+    parameter = .lfkp(as.list(parameter), formals(qFun))
+    params = .lfkp(parList, formals(qFun))
+    parameter = .lfrm(as.list(parameter), params)
+    print(parameter)
+    parameter = c(parameter, params)
+    # new
+    if(!threeParameter){
+      # array containing names of the distributions, for which conf intervals can be computed
+      confIntCapable = c("exponential", "log-normal", "logistic", "normal", "weibull", "gamma", "beta", "cauchy")
+      getConfIntFun = .charToDistFunc(distribution, type = ".confint")
+      # if possible, compute the conf intervals
+      if(confbounds == TRUE){
+        if(distribution %in% confIntCapable){
+          confInt = getConfIntFun(x1, thethas, varmatrix, alpha)
+        }
+      }# end of my code
+    }
+    y = do.call(qFun, c(list(ppoints(x1)), as.list(parameter)))
+    yc = do.call(qFun, c(list(ppoints(x1)), as.list(parameter)))
+    cv = do.call(dFun, c(list(yc), as.list(parameter)))
+    print(cv)
+    axisAtY = do.call(qFun, c(list(probs), as.list(parameter)))
+    yq = do.call(qFun, c(list(c(0.25, 0.75)), as.list(parameter)))
+    xq = quantile(x1, probs = c(0.25, 0.75))
+  }
+  else {
+    params = .lfkp(parList, formals(qFun))
+    params$p = ppoints(x1)
+    y = do.call(qFun, params)
+    params$p = probs
+    axisAtY = do.call(qFun, params)
+    params$p = c(0.25, 0.75)
+    yq = do.call(qFun, params)
+    xq = quantile(x1, probs = c(0.25, 0.75))
+  }
+  params = .lfkp(parList, c(formals(plot.default), par()))
+  params$x = x1
+  params$y = y
+  params$xlab = xlab
+  params$ylab = ylab
+  params$main = main
+  params$xlim = xlim
+  params$axes = FALSE
+  params$lwd = 1
+  if (!(is.null(params$col[1]) || is.na(params$col[1])))
+    params$col = params$col[1]
+  # PLOT
+  p <- ggplot(data.frame(x = x1, y = y), aes(x = x, y = y)) +
+    geom_point(size = 1, color = "black") +
+    labs(x = xlab, y = ylab, title = main) +
+    scale_x_continuous(limits = xlim, expand = c(0, 0)) +
+    scale_y_continuous(labels = scales::percent_format(scale = 1/max(x1), suffix = "", accuracy = 0.01))+
+    theme_minimal() +
+    theme(axis.text.x = element_text(size = 12),
+          axis.text.y = element_text(size = 12),
+          axis.title.x = element_text(size = 14, face = "bold"),
+          axis.title.y = element_text(size = 14, face = "bold"),
+          plot.title = element_text(size = 16, face = "bold"))
+  # Regression line
+  params = .lfkp(parList, c(formals(abline), par()))
+  if(!threeParameter){
+    params$a = 0
+  }else{
+    params$a = -threshold
+  }
+  params$b = 1
+  params$col = border
+  p <- p + geom_abline(intercept = params$a, slope = params$b, color = border)
+  if(!threeParameter){
+    if(confbounds == TRUE){
+      if(distribution %in% confIntCapable){
+        params =.lfkp(parList, c(formals(lines), par()))
+        params$x = confInt[[3]]
+        params$y = confInt[[1]]
+        params$col = bounds.col
+        params$lty = bounds.lty
+        # La curva de abajo
+        p <- p + geom_line(data = data.frame(x=params$x, y=params$y), aes(x = x, y = y),
+                           col = params$col, lty = params$lty, lwd = params$lwd)
+        params$x = confInt[[3]]
+        params$y = confInt[[2]]
+        params$col = bounds.col
+        params$lty = bounds.lty
+        # curva de arriba
+        p <- p + geom_line(data = data.frame(x=params$x, y=params$y), aes(x = x, y = y),
+                           col = params$col, lty = params$lty, lwd = params$lwd)
+      }
+    }
+  }
+  if(axis.y.right){
+    p <- p + scale_y_continuous(position = "right")
+  }
+  if(bw.theme){
+    p <- p + theme_bw()
+  }
+  if(main == ""){
+    p <- p + labs(title = NULL)
+  }
+  if(grapic){
+    show(p)
+    invisible(list(x = x, y = y, int = params$a, slope = params$b, plot = p))
+  }
+  else{
+    invisible(list(x = x, y = y, int = params$a, slope = params$b, plot = p))
+  }
+}
+
+set.seed(1234)
+x <- rnorm(20, mean = 20)
+distribution <- "normal"
+ppPlot(x, distribution, bounds.lty = 3, bounds.col = "red")
 
 

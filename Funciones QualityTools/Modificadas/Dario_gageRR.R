@@ -1,5 +1,6 @@
 
 library(R6)
+# Funcion auxiliar
 .c4 = function(n) {
   if (n > 1 && n < 342)
     sqrt(2/(n - 1)) * (factorial(n/2 - 1)/factorial((n - 1)/2 - 1))
@@ -113,51 +114,6 @@ gageRR <- R6Class("gageRR",
                   )
 )
 
-.aip = function(x.factor, trace.factor, response, fun = mean, type = c("l", "p", "b"), legend = FALSE, trace.label = deparse(substitute(trace.factor)),
-                fixed = FALSE, xlab = deparse(substitute(x.factor)), ylab = ylabel, ylim = range(cellNew, na.rm = TRUE), lty = nc:1, col = 1, pch = c(1L:9, 0, letters),
-                xpd = NULL, leg.bg = par("bg"), leg.bty = "o", xtick = FALSE, xaxt = par("xaxt"), axes = TRUE, title = "", ...) {
-  ylabel <- paste(deparse(substitute(fun)), "of ", deparse(substitute(response)))
-  type <- match.arg(type)
-  cellNew <- tapply(response, list(x.factor, trace.factor), fun)
-  nr <- nrow(cellNew)
-  nc <- ncol(cellNew)
-  xvals <- 1L:nr
-  if (is.ordered(x.factor)) {
-    wn <- getOption("warn")
-    options(warn = -1)
-    xnm <- as.numeric(levels(x.factor))
-    options(warn = wn)
-    if (!any(is.na(xnm)))
-      xvals <- xnm
-  }
-  xlabs <- rownames(cellNew)
-  ylabs <- colnames(cellNew)
-  nch <- max(sapply(ylabs, nchar, type = "width"))
-  if (is.null(xlabs))
-    xlabs <- as.character(xvals)
-  if (is.null(ylabs))
-    ylabs <- as.character(1L:nc)
-  xlim <- range(xvals)
-  xleg <- xlim[2L] + 0.05 * diff(xlim)
-  xlim <- xlim + c(-0.2/nr, if (legend) 0.2 + 0.02 * nch else 0.2/nr) * diff(xlim)
-  matplot(xvals, cellNew, ..., type = type, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, axes = axes, xaxt = "n", col = col, lty = lty, pch = pch)
-  if (axes && xaxt != "n") {
-    axisInt <- function(x, main, sub, lwd, bg, log, asp, ...) axis(1, x, ...)
-    mgp. <- par("mgp")
-    if (!xtick)
-      mgp.[2L] <- 0
-    axisInt(1, at = xvals, labels = xlabs, tick = xtick, mgp = mgp., xaxt = xaxt, ...)
-  }
-  if (legend) {
-    legend("topright", legend = ylabs, title = title, col = col, pch = if (type %in% c("p", "b"))
-      pch, lty = if (type %in% c("l", "b"))
-        lty, bty = leg.bty, bg = leg.bg, inset = 0.02)
-  }
-  legend("topright", legend = ylabs, title = title, col = col, pch = if (type %in% c("p", "b"))
-    pch, lty = if (type %in% c("l", "b"))
-      lty, bty = leg.bty, bg = leg.bg, inset = c(-0.2, 0), xpd = TRUE)
-  invisible()
-}
 
 gageRRDesign = function(Operators = 3, Parts = 10, Measurements = 3, method = "crossed", sigma = 6, randomize = TRUE) {
   # Validación de argumentos
@@ -223,20 +179,20 @@ gageRRDesign = function(Operators = 3, Parts = 10, Measurements = 3, method = "c
     outFrame <- data.frame(StandardOrder = 1:length(Measurement), RunOrder = 1:length(Measurement), Operator = factor(o), Part = factor(p), Measurement)
 
   outFrame <- outFrame[order(outFrame$RunOrder), ]
-
+  # Valores predeterminados
   gageRRObj <- gageRR$new(
     X = outFrame,
-    ANOVA = NULL,  # Proporcionar un valor predeterminado
-    RedANOVA = NULL,  # Proporcionar un valor predeterminado
+    ANOVA = NULL,
+    RedANOVA = NULL,
     method = method,
-    Estimates = NULL,  # Proporcionar un valor predeterminado
-    Varcomp = NULL,  # Proporcionar un valor predeterminado
+    Estimates = NULL,
+    Varcomp = NULL,
     Sigma = sigma,
-    GageName = NULL,  # Proporcionar un valor predeterminado
-    GageTolerance = NULL,  # Proporcionar un valor predeterminado
-    DateOfStudy = Sys.Date(),  # Proporcionar un valor predeterminado
-    PersonResponsible = NULL,  # Proporcionar un valor predeterminado
-    Comments = NULL,  # Proporcionar un valor predeterminado
+    GageName = NULL,
+    GageTolerance = NULL,
+    DateOfStudy = Sys.Date(),
+    PersonResponsible = NULL,
+    Comments = NULL,
     b = factor(p),
     a = factor(o),
     y = as.numeric(Measurement),
@@ -487,12 +443,12 @@ setMethod("plot", signature(x = "gageRR"), function(x, y, main=NULL, xlab=NULL, 
     contribFrame <- contribFrame[-match(c("totalVar", "a", "a_b"), row.names(temp)), ]
   else contribFrame <- contribFrame[-match(c("totalVar"), row.names(temp)), ]
 
-  # Convert data to long format for ggplot2
+  #  format for ggplot2
   contribFrame_long <- as.data.frame(contribFrame)
   contribFrame_long$Component <- rownames(contribFrame_long)
   contribFrame_long <- tidyr::gather(contribFrame_long, key = "Metric", value = "Value", -Component)
 
-  # First plot: Components of Variation
+  # Components of Variation
   p1 <- ggplot(contribFrame_long, aes(x = Component, y = Value, fill = Metric)) +
     geom_bar(stat = "identity", position = "dodge") +
     labs(title = ifelse(is.null(main[1]), "Components of Variation", main[1]),
@@ -504,7 +460,7 @@ setMethod("plot", signature(x = "gageRR"), function(x, y, main=NULL, xlab=NULL, 
   print(p1)
 
   if (x$method == "crossed") {
-    # Second plot: y by b
+    # y by b
     p2 <- ggplot(gdo, aes_string(x = bName, y = yName)) +
       geom_boxplot() +
       stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", size = lwd) +
@@ -516,7 +472,7 @@ setMethod("plot", signature(x = "gageRR"), function(x, y, main=NULL, xlab=NULL, 
 
     print(p2)
 
-    # Third plot: y by a
+    #  y by a
     p3 <- ggplot(gdo, aes_string(x = aName, y = yName)) +
       geom_boxplot(aes(fill = factor(gdo[, 3]))) +
       stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", size = lwd) +
@@ -529,7 +485,7 @@ setMethod("plot", signature(x = "gageRR"), function(x, y, main=NULL, xlab=NULL, 
 
     print(p3)
 
-    # Fourth plot: x-bar chart
+    # x-bar chart
     agg <- aggregate(gdo[, yName], list(gdo[, aName], gdo[, bName]), FUN = mean)
     xm <- mean(agg[, 3])
     aggSd <- aggregate(gdo[, yName], list(gdo[, bName], gdo[, aName]), FUN = sd)
@@ -554,7 +510,7 @@ setMethod("plot", signature(x = "gageRR"), function(x, y, main=NULL, xlab=NULL, 
 
   print(p4)
   } else {
-    # Second plot: y by a for nested method
+    #   nested method
     p2 <- ggplot(gdo, aes_string(x = aName, y = yName)) +
       geom_boxplot() +
       stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", size = lwd) +
@@ -569,12 +525,7 @@ setMethod("plot", signature(x = "gageRR"), function(x, y, main=NULL, xlab=NULL, 
 })
 
 # Ejemplo de uso:
-# Primero se debe crear un objeto de la clase 'gageRR'
-
-
-
-
-
+# crear un objeto de la clase 'gageRR'
 mi_gageRR <- gageRR$new(
   X = data.frame(
     Operator = factor(c("A", "B", "C", "A", "B")),
