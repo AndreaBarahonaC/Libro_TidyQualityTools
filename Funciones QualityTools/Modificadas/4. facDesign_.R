@@ -143,6 +143,68 @@ aliasTable <- function (fdo, degree, show = TRUE)
 
 
 
+####Necesito .m.interaction.plot###########################
+.m.interaction.plot <- function(x.factor, trace.factor, response, fun = mean, type = c("l", "p", "b"), legend = TRUE, trace.label = deparse(substitute(trace.factor)),
+                                fixed = FALSE, xlab = deparse(substitute(x.factor)), ylab = ylabel, ylim = range(cells, na.rm = TRUE), lty = nc:1, col = 1, pch = c(1L:9, 0, letters), xpd = NULL,
+                                leg.bg = par("bg"), leg.bty = "n", xtick = FALSE, xaxt = par("xaxt"), axes = TRUE, ...) {
+  ylabel <- paste(deparse(substitute(fun)), "of ", deparse(substitute(response)))
+  type <- match.arg(type)
+  cells <- tapply(response, list(x.factor, trace.factor), fun)
+  nr <- nrow(cells)
+  nc <- ncol(cells)
+  xvals <- 1L:nr
+  xvals = as.numeric(rownames(cells))
+  if (is.ordered(x.factor)) {
+    wn <- getOption("warn")
+    options(warn = -1)
+    xnm <- as.numeric(levels(x.factor))
+    options(warn = wn)
+    if (!any(is.na(xnm)))
+      xvals <- xnm
+  }
+  xlabs <- rownames(cells)
+  ylabs <- colnames(cells)
+  nch <- max(sapply(ylabs, nchar, type = "width"))
+  if (is.null(xlabs))
+    xlabs <- as.character(xvals)
+  if (is.null(ylabs))
+    ylabs <- as.character(1L:nc)
+  xlim <- range(xvals)
+  xleg <- xlim[2L] + 0.05 * diff(xlim)
+  xlim <- xlim + c(-0.2/nr, if (legend) 0.2 + 0.02 * nch else 0.2/nr) * diff(xlim)
+  matplot(xvals, cells, ..., type = type, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, axes = axes, xaxt = "n", col = col, lty = lty, pch = pch)
+  if (axes && xaxt != "n") {
+    axisInt <- function(x, main, sub, lwd, bg, log, asp, ...) axis(1, x, ...)
+    mgp. <- par("mgp")
+    if (!xtick)
+      mgp.[2L] <- 0
+    axisInt(1, at = xvals, labels = xlabs, tick = xtick, mgp = mgp., xaxt = xaxt, ...)
+  }
+  if (legend) {
+    yrng <- diff(ylim)
+    yleg <- ylim[2L] - 0.1 * yrng
+    if (!is.null(xpd) || {
+      xpd. <- par("xpd")
+      !is.na(xpd.) && !xpd. && (xpd <- TRUE)
+    }) {
+      op <- par(xpd = xpd)
+      on.exit(par(op))
+    }
+    text(xleg, ylim[2L] - 0.05 * yrng, paste("  ", trace.label), adj = 0)
+    if (!fixed) {
+      ord <- sort.list(cells[nr, ], decreasing = TRUE)
+      ylabs <- ylabs[ord]
+      lty <- lty[1 + (ord - 1)%%length(lty)]
+      col <- col[1 + (ord - 1)%%length(col)]
+      pch <- pch[ord]
+    }
+    legend(xleg, yleg, legend = ylabs, col = col, pch = if (type %in% c("p", "b"))
+      pch, lty = if (type %in% c("l", "b"))
+        lty, bty = leg.bty, bg = leg.bg)
+  }
+  invisible(xvals)
+}
+
 ##Necesito clase facDesign.c######################################################
 facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                  factors = NULL,
@@ -320,7 +382,180 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                      cat("\n")
                                                    }
                                                    invisible(self$as.data.frame())
+                                                 },
+
+                                                 .response = function(value){
+                                                   if(missing(value)){
+                                                     iIntern <- order(self$runOrder[,1])
+                                                     out <- data.frame(self$response[iIntern,])
+                                                     names(out) <- names(self$response)
+                                                     return(out)
+                                                   }
+                                                   else{
+                                                     index = order(self$runOrder[,1])
+                                                     if (!is.vector(value) && !is.data.frame(value))
+                                                       stop("vector or data.frame expected!")
+                                                     if (is.vector(value) && (is.numeric(value) || is.na(value))) {
+                                                       if (nrow(self$response) != length(value))
+                                                         stop(paste("Number of rows for Design does not equal length of vector ", nrow(object),
+                                                                    " != ", length(value), " "))
+                                                       self$response <- data.frame(value)
+                                                       self$response[index, ] <- value
+                                                       names(self$response) <- make.names(deparse(substitute(value)))
+                                                       invisible(self)
+                                                     }
+                                                     if (is.data.frame(value)) {
+                                                       self$response <- value
+                                                       self$response[index, ] <- value
+                                                       invisible(self)
+                                                     }
+
+                                                   }
+
+                                                 },
+
+                                                 effectPlot = function(factors, fun = mean, response = NULL, single = FALSE, points = FALSE, classic = FALSE, axes = TRUE, ###
+                                                                       lty, xlab, ylab, main, ylim, ...) {
+                                                   oldMar = par("mar")
+                                                   oldOma = par("oma")
+                                                   oldMfrow = par("mfrow")
+                                                   oldMfcol = par("mfcol")
+                                                   on.exit(par(mar = oldMar, oma = oldOma, mfrow = oldMfrow, mfcol = oldMfcol))
+                                                   if(is.null(response)==FALSE)                                                ###
+                                                   {                                                                           ###
+                                                     temp=self$.response()[response]                                            ###
+                                                     self$.response(temp)                                                      ###
+                                                   }                                                                           ###
+                                                   ylabmiss = FALSE
+                                                   xlabmiss = FALSE
+                                                   mainmiss = FALSE
+                                                   ylimmiss = FALSE
+                                                   if (missing(ylim))
+                                                     ylimmiss = TRUE
+                                                   if (missing(lty))
+                                                     lty = 1
+                                                   X = self$cube
+                                                   Y = as.data.frame(self$response[1:nrow(X), ])
+                                                   names(Y) = names(self$.response())
+                                                   if (!missing(factors))
+                                                     k = length(factors)
+                                                   else #(missing(factors))                                                    ###
+                                                   {
+                                                     k = ncol(X)
+                                                     factors = names(X)
+                                                   }
+                                                   numCol = 1
+                                                   numRow = 1
+                                                   if (!single && missing(factors)) {                                          ###
+                                                     if (ncol(X) == 2) {
+                                                       numCol = 2
+                                                       numRow = 1
+                                                     }
+                                                     if (ncol(X) > 2) {
+                                                       numCol = 2
+                                                       numRow = 2
+                                                     }
+                                                   }
+                                                   if (!single && !missing(factors)) {                                         ###
+                                                     if (length(factors) == 2) {                                             ###
+                                                       numCol = 2                                                          ###
+                                                       numRow = 1                                                          ###
+                                                     }                                                                       ###
+                                                     if (length(factors) == 3) {                                             ###
+                                                       numCol = 3                                                          ###
+                                                       numRow = 1                                                          ###
+                                                     }                                                                       ###
+                                                     if (length(factors) == 4) {                                             ###
+                                                       numCol = 2                                                          ###
+                                                       numRow = 2                                                          ###
+                                                     }                                                                       ###
+                                                     if (length(factors) == 5) {                                             ###
+                                                       numCol = 3                                                          ###
+                                                       numRow = 2                                                          ###
+                                                     }                                                                       ###
+                                                     if (length(factors) == 6) {                                             ###
+                                                       numCol = 3                                                          ###
+                                                       numRow = 2                                                          ###
+                                                     }                                                                       ###
+                                                     if (length(factors) > 6) {                                              ###
+                                                       numRow = ceiling(sqrt(length(factors)))                             ###
+                                                       numCol = ceiling(sqrt(length(factors)))                             ###
+                                                     }                                                                       ###
+                                                   }                                                                           ###
+                                                   if (classic) {
+                                                     numCol = ncol(X)
+                                                     numRow = 1
+                                                   }
+                                                   if (!single)
+                                                     par(mfrow = c(numRow, numCol))
+                                                   nextResponse = FALSE
+                                                   for (j in 1:ncol(Y)) {
+                                                     counter = 0
+                                                     cells = numeric(0)
+                                                     for (i in 1:length(factors)) {
+                                                       cells = c(cells, as.vector(tapply(Y[, j], list(X[, factors[i]], rep(0, nrow(X))), fun)))
+                                                       if (points)
+                                                         cells = range(Y)
+                                                     }
+                                                     if (nextResponse & !single) {
+                                                       dev.new()
+                                                       par(mfrow = c(numRow, numCol))
+                                                     }
+                                                     for (i in 1:length(factors)) {
+                                                       if ((counter != 0 & counter%%(numCol * numRow) == 0) & !single) {
+                                                         dev.new()
+                                                         par(mfrow = c(numRow, numCol))
+                                                       }
+                                                       if (missing(main)) {
+                                                         main = paste("Effect Plot for", names(Y)[j])
+                                                         mainmiss = TRUE
+                                                       }
+                                                       if (mainmiss)
+                                                         main = paste("Effect Plot for", names(Y)[j])
+                                                       if (missing(xlab)) {
+                                                         xlab = factors[i]
+                                                         xlabmiss = TRUE
+                                                       }
+                                                       if (xlabmiss) {
+                                                         if (identical(" ", self$names()[[i]]))
+                                                           xlab = factors[i]
+                                                         else xlab = paste(factors[i], ": ", self$names()[[i]], sep = "")
+                                                       }
+                                                       if (missing(ylab)) {
+                                                         ylab = paste(deparse(substitute(fun)), "of ", names(Y)[j])
+                                                         ylabmiss = TRUE
+                                                       }
+                                                       if (ylabmiss)
+                                                         ylab = paste(deparse(substitute(fun)), "of ", names(Y)[j])
+                                                       if (ylimmiss)
+                                                         ylim = range(cells, na.rm = TRUE)
+                                                       if (classic & i == 1) {
+                                                         par(mar = c(5, 0, 0, 0) + 0.1)
+                                                         par(oma = c(-0.1, 4, 4, 1) + 0.1)
+                                                       }
+                                                       if (classic) {
+                                                         .m.interaction.plot(x.factor = X[, factors[i]], trace.factor = rep(0, nrow(X)), response = Y[, j], lty = lty, ylim = ylim, xlab = xlab, fun = fun,
+                                                                             ylab = ylab, legend = FALSE, axes = FALSE, main = " ", ...)
+                                                         grid(NA, 2)
+                                                         axis(1, at = X[, factors[i]])
+                                                         if (i == 1)
+                                                           axis(2)
+                                                         box()
+                                                         title(main, outer = TRUE)
+                                                       }
+                                                       else {
+                                                         .m.interaction.plot(x.factor = X[, factors[i]], trace.factor = rep(0, nrow(X)), response = Y[, j], lty = lty, ylim = ylim, xlab = xlab, fun = fun,
+                                                                             ylab = ylab, legend = FALSE, axes = axes, main = main, ...)
+                                                         grid(NA, 2)
+                                                       }
+                                                       if (points)
+                                                         points(X[, factors[i]], Y[, j], ...)
+                                                       counter = counter + 1
+                                                     }
+                                                     nextResponse = TRUE
+                                                   }
                                                  }
+
                                                  )
                       )
 
@@ -923,3 +1158,247 @@ simProc <- function(x1, x2, x3, noise = TRUE) {
 rend <- simProc(x1=120,x2=140,x3=2)
 #valores completos
 rend <- c(simProc(120,140,1),simProc(80,140,1),simProc(120,140,2),simProc(120,120,1),simProc(90,130,1.5),simProc(90,130,1.5),simProc(80,120,2),simProc(90,130,1.5),simProc(90,130,1.5),simProc(120,120,2),simProc(80,140,2),simProc(80,120,1))
+
+#Asignar rendimiento al diseño factorial
+dfac$.response(rend)
+
+######effectPlot###############################################################
+dfac$effectPlot(classic = TRUE)
+
+
+#####Necesito .letterPos .testFun###########################################
+
+.letterPos <- function(LETTER) {
+  if (!(nchar(LETTER) == 1))
+    stop("factor names should be single characters only")
+  return((1:26)[LETTERS[1:26] == LETTER])
+}
+.testFun <- function(x.factor, trace.factor, response, fun = mean, type = c("l", "p", "b"), legend = TRUE, trace.label = deparse(substitute(trace.factor)),
+                    fixed = FALSE, xlab = deparse(substitute(x.factor)), ylab = ylabel, ylim = range(cellNew, na.rm = TRUE), lty = nc:1, col = 1, pch = c(1L:9, 0, letters),
+                    xpd = NULL, leg.bg = par("bg"), leg.bty = "o", xtick = FALSE, xaxt = par("xaxt"), axes = TRUE, title = "", ...) {
+  ylabel <- paste(deparse(substitute(fun)), "of ", deparse(substitute(response)))
+  type <- match.arg(type)
+  cellNew <- tapply(response, list(x.factor, trace.factor), fun)
+  nr <- nrow(cellNew)
+  nc <- ncol(cellNew)
+  xvals <- 1L:nr
+  if (is.ordered(x.factor)) {
+    wn <- getOption("warn")
+    options(warn = -1)
+    xnm <- as.numeric(levels(x.factor))
+    options(warn = wn)
+    if (!any(is.na(xnm)))
+      xvals <- xnm
+  }
+  xlabs <- rownames(cellNew)
+  ylabs <- colnames(cellNew)
+  nch <- max(sapply(ylabs, nchar, type = "width"))
+  if (is.null(xlabs))
+    xlabs <- as.character(xvals)
+  if (is.null(ylabs))
+    ylabs <- as.character(1L:nc)
+  xlim <- range(xvals)
+  xleg <- xlim[2L] + 0.05 * diff(xlim)
+  xlim <- xlim + c(-0.2/nr, if (legend) 0.2 + 0.02 * nch else 0.2/nr) * diff(xlim)
+  matplot(xvals, cellNew, ..., type = type, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, axes = axes, xaxt = "n", col = col, lty = lty, pch = pch)
+  if (axes && xaxt != "n") {
+    axisInt <- function(x, main, sub, lwd, bg, log, asp, ...) axis(1, x, ...)
+    mgp. <- par("mgp")
+    if (!xtick)
+      mgp.[2L] <- 0
+    axisInt(1, at = xvals, labels = xlabs, tick = xtick, mgp = mgp., xaxt = xaxt, ...)
+  }
+  if (legend) {
+    legpretty = ylabs
+    legend("topright", legend = legpretty, title = title, col = col, pch = if (type %in% c("p", "b"))
+      pch, lty = if (type %in% c("l", "b"))
+        lty, bty = leg.bty, bg = leg.bg, inset = 0.02)
+  }
+  return(list(xvals, xlabs))
+}
+
+###### Necesito InteractionPlot#########################################################
+interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, col = 1:2, ...) { ###
+  DB = FALSE
+  mainmiss = FALSE
+  if (missing(main))
+    mainmiss = TRUE
+  if (missing(fdo) || class(fdo)[1]!="facDesign")                                ###
+    stop("fdo needs to be an object of class facDesign")                    ###
+  parList = list(...)
+  old.par <- par(no.readonly = TRUE)
+  fdoName = deparse(substitute(fdo))                                          ###
+  if(is.null(response)==FALSE)                                                ###
+  {                                                                           ###
+    temp=fdo$.response()[response]                                               ###
+    fdo$.response(temp)                                                         ###
+  }                                                                           ###
+  diagNames = character(0)
+  x = fdo$cube
+  runIndex = order(fdo$runOrder[,1])
+  x = x[runIndex[1:nrow(x)], ]
+  y = fdo$.response()[1:nrow(x), ]
+  numFac = ncol(x)
+  combMat = combn(names(x), 2)
+  if (numFac == 2) {
+    facName2 = combMat[1, 1]
+    facName1 = combMat[2, 1]
+    temp = with(cbind(y, x), .testFun(eval(parse(text = facName2)), eval(parse(text = facName1)), xlab = facName1, response = y, trace.label = facName1,
+                                      ylim = range(y), axes = F, fun, title = facName1, col = col, ...))
+    tempList = parList
+    tempList$col = 1
+    tempList$lwd = 1
+    tempList$side = c(2)
+    do.call(axis, tempList)
+    box()
+    tempList$at = temp[[1]]
+    tempList$labels = temp[[2]]
+    tempList$side = c(1)
+    do.call(axis, tempList)
+    invisible()
+  }
+  for (r in 1:ncol(fdo$.response())) {
+    if (r > 1)
+      dev.new()
+    y = fdo$.response()[1:nrow(x), r]
+    par(mfrow = c(numFac, numFac))
+    par(mar = c(0, 0, 0, 0))
+    par(oma = c(0, 0, 8, 8))
+    plot(1, 1, type = "n", axes = FALSE, xlab = "", ylab = "", main = "")
+    for (i in 1:ncol(combMat)) {
+      facName1 = combMat[1, i]
+      facName2 = combMat[2, i]
+      rowNum = .letterPos(facName1)
+      colNum = .letterPos(facName2)
+      if (DB) {
+        print(numFac)
+        print(rowNum)
+        print(colNum)
+        print(facName1)
+        print(facName2)
+        print(y)
+        print(fun)
+        cat(paste(i, "\t", c(rowNum, colNum)))
+      }
+      par(mfg = c(rowNum, colNum))
+      temp = with(cbind(x, y), .testFun(eval(parse(text = facName2)), eval(parse(text = facName1)), response = y, trace.label = facName1, ylim = range(y),
+                                        axes = F, fun = fun, title = facName1, col = col, ...))
+      if (colNum == numFac) {
+        tempList = parList
+        tempList$col = 1
+        tempList$lwd = 1
+        tempList$side = 4
+        do.call(axis, tempList)
+      }
+      if (rowNum == 1) {
+        tempList = parList
+        tempList$col = 1
+        tempList$lwd = 1
+        tempList$side = 3
+        tempList$at = temp[[1]]
+        tempList$labels = temp[[2]]
+        do.call(axis, tempList)
+      }
+      box(which = "plot")
+      par(mfg = c(rowNum, rowNum))
+      plot(c(-1, 1), c(-1, 1), type = "n", axes = F, xlab = "", ylab = "", main = "")
+      text(0, 0, facName1, cex = 4)
+      diagNames = c(diagNames, facName1)
+    }
+    par(mfg = c(numFac, numFac))
+    plot(c(-1, 1), c(-1, 1), type = "n", axes = F, xlab = "", ylab = "", main = "")
+    text(0, 0, setdiff(names(x), diagNames), cex = 4)
+    if (mainmiss) {
+      main = paste("Interaction plot for", names(fdo$.response())[r], "in", fdoName)         ###
+      title(main, outer = T, ...)
+    }
+    else title(main[r], outer = T, ...)
+  }
+  #    }
+  par(old.par)
+  invisible()
+}
+
+
+
+####Uso interactionPlot#########################################################
+interactionPlot(dfac)
+
+######lm##########################################################################
+m1 <- lm(formula(rend ~ A*B*C), data=dfac)
+summary(m1)
+
+
+library(qualityTools)
+function (formula=rend ~ A*B*C, data=dfac, subset, weights, na.action, method = "qr",
+          model = TRUE, x = FALSE, y = FALSE, qr = TRUE, singular.ok = TRUE,
+          contrasts = NULL, offset, ...)
+{
+  ret.x <- x
+  ret.y <- y
+  cl <- match.call()
+  mf <- match.call(expand.dots = FALSE)
+  m <- match(c("formula", "data", "subset", "weights", "na.action",
+               "offset"), names(mf), 0L)
+  mf <- mf[c(1L, m)]
+  mf$drop.unused.levels <- TRUE
+  mf[[1L]] <- quote(stats::model.frame)
+  mf <- eval(mf, parent.frame())
+  if (method == "model.frame")
+    return(mf)
+  else if (method != "qr")
+    warning(gettextf("method = '%s' is not supported. Using 'qr'",
+                     method), domain = NA)
+  mt <- attr(mf, "terms")
+  y <- model.response(mf, "numeric")
+  w <- as.vector(model.weights(mf))
+  if (!is.null(w) && !is.numeric(w))
+    stop("'weights' must be a numeric vector")
+  offset <- model.offset(mf)
+  mlm <- is.matrix(y)
+  ny <- if (mlm)
+    nrow(y)
+  else length(y)
+  if (!is.null(offset)) {
+    if (!mlm)
+      offset <- as.vector(offset)
+    if (NROW(offset) != ny)
+      stop(gettextf("number of offsets is %d, should equal %d (number of observations)",
+                    NROW(offset), ny), domain = NA)
+  }
+  if (is.empty.model(mt)) {
+    x <- NULL
+    z <- list(coefficients = if (mlm) matrix(NA_real_, 0,
+                                             ncol(y)) else numeric(), residuals = y, fitted.values = 0 *
+                y, weights = w, rank = 0L, df.residual = if (!is.null(w)) sum(w !=
+                                                                                0) else ny)
+    if (!is.null(offset)) {
+      z$fitted.values <- offset
+      z$residuals <- y - offset
+    }
+  }
+  else {
+    x <- model.matrix(mt, mf, contrasts)
+    z <- if (is.null(w))
+      lm.fit(x, y, offset = offset, singular.ok = singular.ok,
+             ...)
+    else lm.wfit(x, y, w, offset = offset, singular.ok = singular.ok,
+                 ...)
+  }
+  class(z) <- c(if (mlm) "mlm", "lm")
+  z$na.action <- attr(mf, "na.action")
+  z$offset <- offset
+  z$contrasts <- attr(x, "contrasts")
+  z$xlevels <- .getXlevels(mt, mf)
+  z$call <- cl
+  z$terms <- mt
+  if (model)
+    z$model <- mf
+  if (ret.x)
+    z$x <- x
+  if (ret.y)
+    z$y <- y
+  if (!qr)
+    z$qr <- NULL
+  z
+}
