@@ -1,4 +1,5 @@
 library(R6)
+library(MASS)
 
 ####Necesito .helpAliasTable##################################################
 
@@ -251,7 +252,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                    if (!is.null(self$centerStar))
                                                      frameOut = rbind(frameOut, self$centerStar)
                                                    if (!is.null(self$factors) && length(self$factors) == dim(frameOut)[2]) {
-                                                     names(frameOut) = as.character(self$names())
+                                                     names(frameOut) = as.character(names(self$cube))
                                                    }
                                                    if (!is.null(self$blockGen) && nrow(self$blockGen) > 0) {
                                                      frameOut = cbind(self$blockGen, frameOut)
@@ -554,6 +555,24 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                      }
                                                      nextResponse = TRUE
                                                    }
+                                                 },
+
+                                                 lm = function(formula){
+                                                   invisible(lm(formula, data = self$as.data.frame()))
+
+                                                 },
+
+                                                 desires = function(value){
+                                                   if (!any(value$response == names(self$.response())))
+                                                     stop(paste(value$response, "is not a response!"))
+                                                   listPos = length(self$desirability) + 1
+                                                   yName = value$response
+                                                   isIn = (yName == names(self$desirability))
+                                                   if (any(isIn))
+                                                     listPos = (1:length(names(self$desirability)))[isIn]
+                                                   x$desirability[[listPos]] = value
+                                                   names(x$desirability)[listPos] = yName
+                                                   invisible(x)
                                                  }
 
                                                  )
@@ -1161,7 +1180,7 @@ rend <- c(simProc(120,140,1),simProc(80,140,1),simProc(120,140,2),simProc(120,12
 
 #Asignar rendimiento al diseño factorial
 dfac$.response(rend)
-
+dfac$.response()
 ######effectPlot###############################################################
 dfac$effectPlot(classic = TRUE)
 
@@ -1325,80 +1344,543 @@ interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, co
 interactionPlot(dfac)
 
 ######lm##########################################################################
-m1 <- lm(formula(rend ~ A*B*C), data=dfac)
+m1 <- dfac$lm(rend ~ A*B*C)
 summary(m1)
 
 
-library(qualityTools)
-function (formula=rend ~ A*B*C, data=dfac, subset, weights, na.action, method = "qr",
-          model = TRUE, x = FALSE, y = FALSE, qr = TRUE, singular.ok = TRUE,
-          contrasts = NULL, offset, ...)
-{
-  ret.x <- x
-  ret.y <- y
-  cl <- match.call()
-  mf <- match.call(expand.dots = FALSE)
-  m <- match(c("formula", "data", "subset", "weights", "na.action",
-               "offset"), names(mf), 0L)
-  mf <- mf[c(1L, m)]
-  mf$drop.unused.levels <- TRUE
-  mf[[1L]] <- quote(stats::model.frame)
-  mf <- eval(mf, parent.frame())
-  if (method == "model.frame")
-    return(mf)
-  else if (method != "qr")
-    warning(gettextf("method = '%s' is not supported. Using 'qr'",
-                     method), domain = NA)
-  mt <- attr(mf, "terms")
-  y <- model.response(mf, "numeric")
-  w <- as.vector(model.weights(mf))
-  if (!is.null(w) && !is.numeric(w))
-    stop("'weights' must be a numeric vector")
-  offset <- model.offset(mf)
-  mlm <- is.matrix(y)
-  ny <- if (mlm)
-    nrow(y)
-  else length(y)
-  if (!is.null(offset)) {
-    if (!mlm)
-      offset <- as.vector(offset)
-    if (NROW(offset) != ny)
-      stop(gettextf("number of offsets is %d, should equal %d (number of observations)",
-                    NROW(offset), ny), domain = NA)
+#####Necesito .splotDev##########################################
+.splitDev = function(x) {
+  if (x > 6)
+    dev = TRUE
+  else dev = FALSE
+  if (x == 1)
+    mfrow = c(1, 1)
+  if (x == 2)
+    mfrow = c(1, 2)
+  if (x == 3)
+    mfrow = c(2, 2)
+  if (x == 4)
+    mfrow = c(2, 2)
+  if (x == 5)
+    mfrow = c(2, 3)
+  if (x == 6)
+    mfrow = c(2, 3)
+  if (x >= 7)
+    mfrow = c(3, 3)
+  return(list(dev, mfrow))
+}
+##### funcion paretoPlot#################################
+paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.last = NA, alpha = 0.05, response = NULL, xlim, ylim, xlab, ylab, main, single = TRUE, ...) {  ###
+  DB = FALSE
+  if(single==FALSE)                                                           ###
+    par(mfrow=.splitDev(length(fdo$.response()))[[2]])                           ###
+  if(is.null(response)==FALSE)                                                ###
+  {                                                                           ###
+    temp=fdo$.response()[response]                                               ###
+    fdo$.response(temp)                                                         ###
+  }                                                                           ###
+  ylimMissing = FALSE
+  if (missing(ylim))
+    ylimMissing = TRUE
+  if (missing(xlab))
+    xlab = ""
+  location = "topright"
+  if (decreasing == F) {
+    location = "topleft"
   }
-  if (is.empty.model(mt)) {
-    x <- NULL
-    z <- list(coefficients = if (mlm) matrix(NA_real_, 0,
-                                             ncol(y)) else numeric(), residuals = y, fitted.values = 0 *
-                y, weights = w, rank = 0L, df.residual = if (!is.null(w)) sum(w !=
-                                                                                0) else ny)
-    if (!is.null(offset)) {
-      z$fitted.values <- offset
-      z$residuals <- y - offset
+  xVals = numeric(0)
+  sig.neg = NULL
+  sig.pos = NULL
+  effect.list = vector("list")
+  for (j in 1:ncol(fdo$.response())) {
+    par(mar = c(5.1, 4.1, 4.1, 4.1))
+    if (j > 1 && single==TRUE) {
+      dev.new()
+      par(mar = c(5.1, 4.1, 4.1, 4.1))
+    }
+    if (!any(is.na(fdo$.response()[, j]))) {
+      if (missing(ylab))
+        ylabel = names(fdo$.response())[j]                                ###
+      else                                                                ###
+        ylabel = ylab                                                   ###
+      form = paste("fdo$.response()[,", j, "]~")
+      for (i in 1:ncol(fdo$cube)) {
+        form = paste(form, names(fdo$cube)[i], sep = "")
+        if (i < ncol(fdo$cube))
+          form = paste(form, "*", sep = "")
+      }
+      if (DB == TRUE)
+        print(form)
+      lm.1 = lm(as.formula(form), data = fdo$as.data.frame())
+      coefs = coef(lm.1)[-pmatch("(Intercept)", names(coef(lm.1)))]
+      df.resid = df.residual(lm.1)
+      num.c = nrow(fdo$centerCube)
+      if (df.resid == 0) {
+        effect = 2 * coefs
+        effect = effect[!is.na(effect)]
+        effect.list[[j]] = effect
+        if (missing(main))
+          main = "Lenth Plot of effects"
+        plt = TRUE
+        limits = TRUE
+        faclab = NULL
+        m = length(effect)
+        d = m/3
+        s0 = 1.5 * median(abs(effect))
+        rmedian = effect[abs(effect) < 2.5 * s0]
+        PSE = 1.5 * median(abs(rmedian))
+        ME = qt(1 - alpha/2, d) * PSE
+        Gamma = (1 + (1 - alpha)^(1/m))/2
+        SME = qt(Gamma, d) * PSE
+        n = length(effect)
+        if (ylimMissing)
+          if (abs)
+            ylim <- (range(c(0, abs(effect), 1.3 * ME))) * 1.1
+        else ylim <- (range(c(effect, -1.3 * ME, 1.3 * ME))) * 1.1
+        if (abs) {
+          xVals = barplot(abs(effect), las = 2, main = main, xlab = xlab, ylim = ylim, ylab = ylabel, ...)
+          abline(h = ME, col = "red")
+          abline(h = SME, col = "red")
+          try(axis(4, at = ME, labels = round(ME, 3), las = 2), silent = T)
+          text(x = xVals[1], y = ME, "ME", pos = 3)
+          try(axis(4, at = SME, labels = round(SME, 3), las = 2), silent = T)
+          text(x = xVals[2], y = SME, "SME", pos = 3)
+        }
+        else {
+          xVals = barplot(effect, las = 2, main = main, xlab = xlab, ylim = ylim, ylab = ylabel, ...)
+          abline(h = c(-ME, ME), col = "red")
+          abline(h = c(-SME, SME), col = "red")
+          try(axis(4, at = c(-ME, ME), labels = round(c(-ME, ME), 3), las = 2), silent = T)
+          text(x = xVals[1], y = c(-ME, ME), "ME", pos = c(1, 3))
+          try(axis(4, at = c(-SME, SME), labels = round(c(-SME, SME), 3), las = 2), silent = T)
+          text(x = xVals[2], y = c(-SME, SME), "SME", pos = c(1, 3))
+        }
+        if (length(xVals) >= 1)
+          for (i in 1:length(xVals)) {
+            text(xVals[i], effect[i] + max(ylim) * sign(effect[i]) * 0.05, format(round(effect[i], 3)))
+          }
+        if (DB)
+          print(paste("MSE:", ME, "SME:", SME))
+      }
+      else {
+        if (missing(main))
+          main = "Standardized main effects and interactions"
+        effect = ((summary(lm.1)$coefficients[-pmatch("(Intercept)", names(coef(lm.1))), 1])/(summary(lm.1)$coefficients[-pmatch("(Intercept)", names(coef(lm.1))),
+                                                                                                                         2]))
+        if (all(is.na(effect)))
+          stop("effects could not be calculated")
+        effect = effect[!is.na(effect)]
+        effect.list[[j]] = effect
+        if ((df.resid) > 0) {
+          sig.pos = -qt(alpha/2, df.resid)
+          sig.neg = +qt(alpha/2, df.resid)
+        }
+        if (ylimMissing)
+          if (abs) {
+            tempVec = c(effect, sig.pos)
+            tempVec = tempVec[!is.na(tempVec)]
+            ylim = c(0, 1.3 * max(tempVec))
+          }
+        else {
+          tempVec1 = c(0, effect, sig.neg, sig.pos)
+          tempVec1 = tempVec1[!is.na(tempVec1)]
+          tempVec2 = c(abs(effect), sig.pos, sig.neg)
+          tempVec2 = tempVec2[!is.na(tempVec2)]
+          ylim = c(1.3 * min(tempVec1), 1.3 * max(tempVec2))
+        }
+        if (DB)
+          print(paste("ylim:", ylim))
+        effect = effect[order(abs(effect), na.last = TRUE, decreasing = decreasing)]
+        effect = round(effect, 3)
+        if (abs) {
+          xVals = barplot(abs(effect), las = 2, main = main, xlab = xlab, ylim = ylim, ylab = ylabel, ...)
+          if (length(xVals) >= 1)
+            for (i in 1:length(xVals)) {
+              text(xVals[i], abs(effect[i] + max(ylim) * sign(effect[i]) * 0.05), format(effect[i]))
+            }
+        }
+        else {
+          xVals = barplot(effect, las = 2, main = main, xlab = xlab, ylim = ylim, ylab = ylabel, ...)
+          if (length(xVals) >= 1)
+            for (i in 1:length(xVals)) {
+              text(xVals[i], effect[i] + max(ylim) * sign(effect[i]) * 0.05, format(effect[i]))
+            }
+        }
+        myDelta = diff(range(ylim)) * 0.02
+        try(abline(h = sig.pos, col = "red"), silent = TRUE)
+        try(axis(4, at = c(sig.pos, sig.neg), labels = round(c(sig.pos, sig.neg), 3), las = 2), silent = T)
+        try(abline(h = sig.neg, col = "red"), silent = TRUE)
+      }
+      legend(location, legend = fdo$names(), pch = paste(names(fdo$cube), sep = ""), bg = "white", inset = 0.02)
+      abline(h = 0)
+      box()
+    }
+    if (DB) {
+      print(df.resid)
+      print(num.c)
+      print(effect)
     }
   }
-  else {
-    x <- model.matrix(mt, mf, contrasts)
-    z <- if (is.null(w))
-      lm.fit(x, y, offset = offset, singular.ok = singular.ok,
-             ...)
-    else lm.wfit(x, y, w, offset = offset, singular.ok = singular.ok,
-                 ...)
-  }
-  class(z) <- c(if (mlm) "mlm", "lm")
-  z$na.action <- attr(mf, "na.action")
-  z$offset <- offset
-  z$contrasts <- attr(x, "contrasts")
-  z$xlevels <- .getXlevels(mt, mf)
-  z$call <- cl
-  z$terms <- mt
-  if (model)
-    z$model <- mf
-  if (ret.x)
-    z$x <- x
-  if (ret.y)
-    z$y <- y
-  if (!qr)
-    z$qr <- NULL
-  z
+  invisible(effect.list)
 }
+
+########uso paretoPlot#################################
+paretoPlot(dfac)
+
+
+
+####necesito .lfkp####################
+.lfkp = function(wholeList, filterList) {
+  if (!is.list(wholeList))
+    stop(paste(deparse(substitute(wholeList)), "is not a list!"))
+  if (length(wholeList) == 0)
+    return(wholeList)
+  if (!is.list(filterList))
+    stop(paste(deparse(substitute(filterList)), "is not a list!"))
+  if (length(filterList) == 0)
+    return(filterList)
+  logVec = lapply(names(wholeList), "%in%", names(filterList))
+  filteredList = wholeList[unlist(logVec)]
+  return(filteredList)
+}
+#####funcion normalPlot#####################
+normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, response = NULL, sig.col = c("red1", "red2", "red3"), sig.pch = c(1,2,3), main, ylim, xlim, xlab, ylab, pch,  ###
+                      col, border = "red", ...) {
+  DB = FALSE
+  old.par <- par(no.readonly = TRUE)
+  on.exit(par(old.par))
+  fdoName = deparse(substitute(fdo))                                          ###
+  if(is.null(response)==FALSE)                                                ###
+  {                                                                           ###
+    temp=fdo$.response()[response]                                               ###
+    fdo$.response(temp)                                                         ###
+  }                                                                           ###
+  parList = list(...)
+  params = list()
+  if (length(sig.col) < 3)
+    sig.col = as.vector(matrix(sig.col, nrow = 1, ncol = 3))
+  XLIM=FALSE;YLIM=FALSE                                                       ###
+  if (!(class(fdo)[1] == "facDesign"))
+    stop(paste(deparse(substitute(fdo)), "is not an object of class facDesign"))
+  mainmiss = FALSE                                                            ###
+  if (missing(main))                                                          ###
+    mainmiss = TRUE                                                         ###
+  if (missing(ylim))                                                          ###
+    YLIM=TRUE                                                               ###
+  if (missing(xlim))                                                          ###
+    XLIM=TRUE                                                               ###
+  if (missing(xlab))
+    xlab = "Coefficients"
+  if (missing(ylab))
+    ylab = "Theoretical Quantiles"
+  if (missing(pch))
+    pch = 19
+  if (missing(col))
+    col = "black"
+  for (j in 1:ncol(fdo$.response())) {
+    parList = list(...)                                                     ###
+    params = list()                                                         ###
+    leg.col = vector()                                                      ###
+    p.col = vector()                                                        ###
+    p.pch = vector()                                                        ###
+    leg.txt = vector()                                                      ###
+    main = paste("Normal plot for", names(fdo$.response())[j], "in", fdoName) ###
+    if (j > 1)
+      dev.new()
+    form = paste("fdo$.response()[,", j, "]~")
+    for (i in 1:ncol(fdo$cube)) {
+      form = paste(form, names(fdo$cube)[i], sep = "")
+      if (i < ncol(fdo$cube))
+        form = paste(form, "*", sep = "")
+    }
+    if (DB == TRUE)
+      print(paste("form:", form))
+    lm.1 = lm(as.formula(form), data = fdo$as.data.frame())
+    lm.1s = summary(lm.1)
+    effect = coef(lm.1s)[row.names(coef(lm.1s)) != "(Intercept)", "t value"]
+    print(effect)
+    if (all(is.na(effect)))
+      effect = 2 * coef(lm.1)[-pmatch("(Intercept)", names(coef(lm.1)))]      ###
+    #            stop("effects could not be calculated")                            ###
+    sig = summary(lm.1)$coefficients[, "Pr(>|t|)"][-pmatch("(Intercept)", names(coef(lm.1)))]
+    df.resid = df.residual(lm.1)
+    nc = nrow(fdo$centerCube)
+    if (DB) {
+      print(paste("effect:", effect))
+      print(paste("df.resid:", df.resid))
+      print(paste("nc:", nc))
+      print(paste("sig:", sig))
+      print(summary(lm.1))
+    }
+    tQ = ppoints(effect)
+    index = order(effect)
+    sQ = effect[index]
+    sig = sig[index]
+    if (df.resid > 0) {
+      for (k in seq(along = sig)) {
+        setted = FALSE
+        if (abs(sig)[k] < 0.01) {
+          if (!setted) {
+            p.col[k] = sig.col[1]
+            p.pch[k] = sig.pch[1]
+            leg.txt = c(leg.txt, "p < 0.01")
+            leg.col = c(leg.col, p.col)
+            setted = TRUE
+          }
+        }
+        if (abs(sig)[k] < 0.05) {
+          if (!setted) {
+            p.col[k] = sig.col[2]
+            p.pch[k] = sig.pch[2]
+            leg.txt = c(leg.txt, "p < 0.05")
+            leg.col = c(leg.col, p.col)
+            setted = TRUE
+          }
+        }
+        if (abs(sig)[k] < 0.1) {
+          if (!setted) {
+            p.col[k] = sig.col[3]
+            p.pch[k] = sig.pch[3]
+            leg.txt = c(leg.txt, "p < 0.1")
+            leg.col = c(leg.col, p.col)
+            setted = TRUE
+          }
+        }
+        if (abs(sig)[k] >= 0.1) {
+          if (!setted) {
+            p.col[k] = col
+            p.pch[k] = pch
+            leg.txt = c(leg.txt, "p >= 0.1")
+            leg.col = c(leg.col, p.col)
+            setted = TRUE
+          }
+        }
+      }
+      leg.txt = unique(leg.txt)
+      leg.col = unique(leg.col)
+    }
+    else                                                                    ###
+    {p.col=col
+    p.pch=pch}                                                              ###
+    mid = round(length(tQ)/2)
+    last = length(tQ)
+    params$p = ppoints(effect)
+    estimates = MASS::fitdistr(effect, "normal")
+    params$mean = estimates$estimate[["mean"]]
+    params$sd = estimates$estimate[["sd"]]
+    y = do.call(qnorm, params)
+    if (XLIM)                                                               ###
+      xlim = range(sQ)
+    if (YLIM)                                                               ###
+      ylim = range(y)
+    params = .lfkp(parList, c(formals(plot.default), par()))
+    params$x = sQ
+    params$y = y
+    params$xlab = xlab
+    params$ylab = ylab
+    params$main = main
+    params$xlim = xlim
+    params$ylim = ylim
+    params$pch = p.pch
+    params$col = p.col
+
+    do.call(plot, params)
+    xp = c(qnorm(0.1), qnorm(0.99))
+    yp = c(qnorm(0.1, mean = estimates$estimate[["mean"]], sd = estimates$estimate[["sd"]]), qnorm(0.99, mean = estimates$estimate[["mean"]], sd = estimates$estimate[["sd"]]))
+    slope = (yp[2] - yp[1])/(xp[2] - xp[1])
+    int = yp[1] - slope * xp[1]
+    abline(a = int, b = slope, col = border)
+    text(sQ[1:mid], y[1:mid], names(sQ)[1:mid], pos = 4)
+    text(sQ[(mid + 1):last], y[(mid + 1):last], names(sQ)[(mid + 1):last], pos = 2)
+    if (df.resid > 0)
+      legend("topleft", legend = leg.txt, col = leg.col, pch = p.pch, inset = 0.02)
+  }
+}
+
+##########uso normalPlot#################
+normalPlot(dfac)
+
+###Necesito clase desirability#################
+###Necesito .desirFun###############
+####funcion wirePlot###################
+wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, border, sub, zlab, form = "fit", phi, theta, ticktype, col = 1, steps,
+                    factors, fun, plot) {
+  DB = FALSE
+  form = form
+  fact = NULL
+  if (missing(steps))
+    steps = 25
+  fdo = data
+  fit = NULL
+  lm.1 = NULL
+  if (!is.function(col)) {
+    if (identical(col, 1))
+      col = colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"))
+    if (identical(col, 2))
+      col = colorRampPalette(c("blue", "white", "red"), space = "Lab")
+    if (identical(col, 3))
+      col = colorRampPalette(c("blue", "white", "orange"))
+    if (identical(col, 4))
+      col = colorRampPalette(c("gold", "white", "firebrick"))
+  }
+  if (is.null(data)) {
+    cat("\n defaulting to persp function\n")
+    return("persp")
+  }
+  if (class(data)[1] != "facDesign") {
+    cat("\n defaulting to persp function using formula\n")
+    return("persp")
+  }
+  x.c = deparse(substitute(x))
+  y.c = deparse(substitute(y))
+  z.c = deparse(substitute(z))
+  if (missing(plot))
+    plot = TRUE
+  if (missing(main))
+    main = paste("Response Surface for", z.c)
+  if (missing(ylab))
+    ylab = paste(y.c, ": ", fdo$names()[[y.c]])
+  if (missing(xlab))
+    xlab = paste(x.c, ": ", fdo$names()[[x.c]])
+  if (missing(zlab))
+    zlab = paste(x.c, ": ", names(fdo$.response()))
+  if (missing(ticktype))
+    ticktype = "detailed"
+  if (missing(border))
+    border = NULL
+  if (missing(phi))
+    phi = 30
+  if (missing(theta))
+    theta = -30
+  if (missing(factors))
+    factors = NULL
+  if (missing(xlim))
+    xlim = c(min(fdo$get(, x.c)), max(fdo$get(, x.c)))
+  if (missing(ylim))
+    ylim = c(min(fdo$get(, y.c)), max(fdo$get(, y.c)))
+  allVars = c(names(fdo$names()), names(fdo$.response))
+  isct = intersect(c(x.c, y.c, z.c), c(fdo$names(), names(fdo$.response)))
+  if (DB) {
+    print(allVars)
+    print(isct)
+  }
+  if (length(isct) < length(c(x.c, y.c, z.c))) {
+    d = setdiff(isct, allVars)
+    stop(paste(d, "could not be found\n"))
+  }
+  if (missing(fun))
+    fun = NULL
+  if (!is.function(fun) & !is.null(fun))
+    if (!(fun %in% c("overall", "desirability")))
+      stop("fun should be a function, \"overall\" or \"desirability\"")
+  if (identical(fun, "desirability")) {
+    obj = desires(fdo)[[z.c]]
+    fun = .desireFun(obj@low, obj@high, obj@target, obj@scale, obj@importance)
+  }
+  if (form %in% c("fit")) {
+    lm.1 = fits(fdo)[[z.c]]
+    if (DB)
+      print(lm.1)
+    if (is.null(fit))
+      form = "full"
+  }
+  if (form %in% c("quadratic", "full", "interaction", "linear")) {
+  }
+  if (identical(form, "interaction")) {
+    form = paste(z.c, "~", x.c, "+", y.c, "+", x.c, ":", y.c)
+  }
+  if (identical(form, "linear")) {
+    form = paste(z.c, "~", x.c, "+", y.c)
+  }
+  if (identical(form, "quadratic")) {
+    form = paste(z.c, "~I(", x.c, "^2) + I(", y.c, "^2)")
+  }
+  if (identical(form, "full")) {
+    form = paste(z.c, "~", x.c, "+", y.c, "+", x.c, ":", y.c)
+    if (nrow(star(fdo)) > 0)
+      form = paste(form, "+ I(", x.c, "^2) + I(", y.c, "^2)")
+    if (DB)
+      print(form)
+  }
+  if (is.null(form))
+    stop(paste("invalid formula", form))
+  if (is.null(lm.1))
+    lm.1 = lm(form, data = fdo)
+  if (missing(sub))
+    sub = deparse(formula(lm.1))
+  if (DB)
+    print(lm.1)
+  dcList = vector(mode = "list", length = length(names(fdo)))
+  names(dcList) = names(names(fdo))
+  dcList[1:length(names(fdo))] = 0
+  if (!is.null(factors)) {
+    for (i in names(factors)) dcList[[i]] = factors[[i]][1]
+  }
+  if (DB)
+    print(dcList)
+  help.predict = function(x, y, x.c, y.c, lm.1, ...) {
+    dcList[[x.c]] = x
+    dcList[[y.c]] = y
+    temp = do.call(data.frame, dcList)
+    invisible(predict(lm.1, temp))
+  }
+  if (DB) {
+    print(x.c)
+    print(y.c)
+    print(help.predict(1, 2, "A", "B", lm.1 = lm.1))
+    print(help.predict(1, 2, x.c, y.c, lm.1 = lm.1))
+  }
+  xVec = seq(min(xlim), max(xlim), length = steps)
+  yVec = seq(min(ylim), max(ylim), length = steps)
+  mat = outer(xVec, yVec, help.predict, x.c, y.c, lm.1)
+  if (is.function(fun))
+    mat = try(apply(mat, c(1, 2), fun))
+  if (identical(fun, "overall")) {
+    main = "composed desirability"
+    mat = matrix(1, nrow = nrow(mat), ncol = ncol(mat))
+    for (i in names(response(fdo))) {
+      obj = desires(fdo)[[i]]
+      fun = .desireFun(obj@low, obj@high, obj@target, obj@scale, obj@importance)
+      temp = outer(xVec, yVec, help.predict, x.c, y.c, fits(fdo)[[i]])
+      temp = try(apply(temp, c(1, 2), fun))
+      mat = mat * temp
+    }
+    mat = mat^(1/length(names(response(fdo))))
+  }
+  if (is.function(col)) {
+    nrMat <- nrow(mat)
+    ncMat <- ncol(mat)
+    jet.colors <- colorRampPalette(c("blue", "green"))
+    nbcol <- 100
+    color <- col(nbcol)
+    matFacet <- mat[-1, -1] + mat[-1, -ncMat] + mat[-nrMat, -1] + mat[-nrMat, -ncMat]
+    facetcol <- cut(matFacet, nbcol)
+  }
+  else {
+    color = col
+    facetcol = 1
+  }
+  if (plot) {
+    if (missing(zlim))
+      zlim = range(mat)
+    persp(xVec, yVec, mat, main = main, sub = sub, xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim, zlim = zlim, zlab = zlab, col = color[facetcol],
+          border = border, ticktype = ticktype, phi = phi, theta = theta)
+    if (is.function(col)) {
+      zlim = range(mat)
+      leglevel = pretty(zlim, 6)
+      legcol = col(length(leglevel))
+      legpretty = as.character(abs(leglevel))
+      temp = character(length(leglevel))
+      temp[leglevel > 0] = "+"
+      temp[leglevel < 0] = "-"
+      temp[leglevel == 0] = " "
+      legpretty = paste(temp, legpretty, sep = "")
+      legend("topright", inset = 0.02, legend = paste(">", legpretty), col = legcol, bg = "white", pt.cex = 1.5, cex = 0.75, pch = 15)
+    }
+  }
+  invisible(list(x = xVec, y = yVec, z = mat))
+}
+
+###uso wirePlot###############################
+wirePlot(A,B,rend,data=dfac)
+names(dfac$.response())
