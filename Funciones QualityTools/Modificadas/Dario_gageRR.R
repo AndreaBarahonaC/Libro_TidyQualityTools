@@ -1,6 +1,50 @@
 
 library(R6)
-# Funcion auxiliar
+# Funciones auxiliares
+.aip <- function(x.factor, trace.factor, response, fun = mean, type = c("l", "p", "b"), legend = TRUE, trace.label = NULL,
+                       fixed = FALSE, xlab = deparse(substitute(x.factor)), ylab ="Measurement" , ylim = NULL, lty = 1:length(unique(trace.factor)),
+                       col = 1, pch = c(1L:9, 0, letters), xpd = NULL, leg.bg = par("bg"), leg.bty = "o", xtick = FALSE, xaxt = par("xaxt"), axes = TRUE, title = "", ...) {
+  ylabel <- paste(ylab )
+  type <- match.arg(type)
+
+  # Asegurarse de que los factores son realmente factores
+  x.factor <- factor(x.factor)
+  trace.factor <- factor(trace.factor)
+
+  # Calcular los valores de celda
+  cellNew <- tapply(response, list(x.factor, trace.factor), fun)
+  cellNew <- as.data.frame(as.table(cellNew))
+  colnames(cellNew) <- c("x.factor", "trace.factor", "response")
+
+  # Convertir x.factor a numérico sólo para la visualización, pero mantenerlo como factor en los datos
+  cellNew$x.numeric <- as.numeric(cellNew$x.factor)
+
+  # Crear el gráfico
+  p <- ggplot(cellNew, aes(x = x.numeric, y = response, group = trace.factor, color = trace.factor, shape = trace.factor, linetype = trace.factor)) +
+    geom_line() +
+    geom_point(size = 4) +
+    # geom_text(aes(label = round(response, 2)), vjust = -0.5) +  # Comentar o eliminar esta línea para ocultar números
+    scale_x_continuous(breaks = unique(cellNew$x.numeric), labels = levels(cellNew$x.factor)) +  # Etiquetas de x.factor
+    labs(x = xlab, y = ylabel, title = title, color = trace.label, shape = trace.label, linetype = trace.label) +
+    theme_minimal()
+
+  if (!is.null(ylim)) {
+    p <- p + ylim(ylim)
+  }
+
+  if (legend) {
+    p <- p + theme(legend.position = "top")
+  } else {
+    p <- p + theme(legend.position = "none")
+  }
+
+  print(p)
+
+  invisible()
+}
+
+
+
 .c4 = function(n) {
   if (n > 1 && n < 342)
     sqrt(2/(n - 1)) * (factorial(n/2 - 1)/factorial((n - 1)/2 - 1))
@@ -114,7 +158,7 @@ gageRR <- R6Class("gageRR",
                   )
 )
 
-
+# función gageRRdesign modificada
 gageRRDesign = function(Operators = 3, Parts = 10, Measurements = 3, method = "crossed", sigma = 6, randomize = TRUE) {
   # Validación de argumentos
   if (!is.numeric(sigma))
@@ -125,11 +169,9 @@ gageRRDesign = function(Operators = 3, Parts = 10, Measurements = 3, method = "c
   if (!is.numeric(Measurements) || Measurements <= 0)
     stop("Number of Measurements per Part must be a positive integer.")
 
-  #method <- method  # Redundante, ya que se asigna como argumento
 
   opvec <- factor()
   partvec <- factor()
-  #yName <- aName <- bName <- abName <- NA
 
   yName <- "Measurement"
   aName <- "Operator"
@@ -406,27 +448,31 @@ gageRR_ = function(gdo, method = "crossed", sigma = 6, alpha = 0.25, DM = NULL, 
   invisible(gdo)
 }
 setMethod("plot", signature(x = "gageRR"), function(x, y, main=NULL, xlab=NULL, ylab=NULL, col, lwd, fun = mean, ...) {
-  library(ggplot2)
-  gdo <- x$X
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(tibble)
+library(gridExtra)
+  gdo <- x
   yName <- x$facNames[1]
   aName <- x$facNames[2]
   bName <- x$facNames[3]
   abName <- paste(aName, ":", bName, sep = "")
   if (missing(col))
-    col <- 2:(length(unique(gdo[, 3])) + 1)
+    col <- 2:(length(unique(gdo$b)) + 1)
   if (missing(lwd))
     lwd <- 1
   temp <- NULL
-  Source <- names(x$Varcomp)
-  VarComp <- round(as.numeric(x$Varcomp), 3)
-  Contribution <- round(as.numeric(x$Varcomp) / as.numeric(x$Varcomp[length(x$Varcomp)]), 3)
-  VarComp <- t(data.frame(x$Varcomp))
-  VarCompContrib <- VarComp / x$Varcomp$totalVar
+  Source <- names(gdo$Varcomp)
+  VarComp <- round(as.numeric(gdo$Varcomp), 3)
+  Contribution <- round(as.numeric(gdo$Varcomp) / as.numeric(gdo$Varcomp[length(gdo$Varcomp)]), 3)
+  VarComp <- t(data.frame(gdo$Varcomp))
+  VarCompContrib <- VarComp / gdo$Varcomp$totalVar
   Stdev <- sqrt(VarComp)
-  StudyVar <- Stdev * x$Sigma
-  StudyVarContrib <- StudyVar / sum(StudyVar)
-  if ((length(x$GageTolerance) > 0) && (x$GageTolerance > 0)) {
-    ptRatio <- StudyVar / x$GageTolerance
+  StudyVar <- Stdev * gdo$Sigma
+  StudyVarContrib <- StudyVar / StudyVar["totalVar", ]
+  if ((length(gdo$GageTolerance) > 0) && (gdo$GageTolerance > 0)) {
+    ptRatio <- StudyVar / gdo$GageTolerance
     temp <- data.frame(VarComp, VarCompContrib, Stdev, StudyVar, StudyVarContrib, ptRatio)
     contribFrame <- data.frame(VarCompContrib, StudyVarContrib, ptRatio)
     names(temp)[6] <- c("P/T Ratio")
@@ -439,15 +485,23 @@ setMethod("plot", signature(x = "gageRR"), function(x, y, main=NULL, xlab=NULL, 
   bTob <- paste(bName, "To", bName, sep = "")
   Source[Source == "bTob"] <- bTob
   row.names(contribFrame) <- Source
-  if (x$method == "crossed")
+  if (gdo$method == "crossed")
     contribFrame <- contribFrame[-match(c("totalVar", "a", "a_b"), row.names(temp)), ]
   else contribFrame <- contribFrame[-match(c("totalVar"), row.names(temp)), ]
-
+  numBars <-ncol(contribFrame)
+  # Convertir los datos en un formato adecuado
+  contrib_df <- as.data.frame(contribFrame)
+  contrib_df$component <- rownames(contribFrame)
+  contrib_df <- contrib_df %>%
+    rownames_to_column(var = "Source") %>%
+    filter(Source != "totalVar")
+  ymax <- max(max(contribFrame))
+  main1 <- NA
+  # Crear el gráfico
   #  format for ggplot2
   contribFrame_long <- as.data.frame(contribFrame)
   contribFrame_long$Component <- rownames(contribFrame_long)
   contribFrame_long <- tidyr::gather(contribFrame_long, key = "Metric", value = "Value", -Component)
-
   # Components of Variation
   p1 <- ggplot(contribFrame_long, aes(x = Component, y = Value, fill = Metric)) +
     geom_bar(stat = "identity", position = "dodge") +
@@ -458,71 +512,102 @@ setMethod("plot", signature(x = "gageRR"), function(x, y, main=NULL, xlab=NULL, 
     scale_fill_manual(values = col[1:nlevels(factor(contribFrame_long$Metric))])
 
   print(p1)
+  #Measurement by part
+  main2<-NA
+  if (gdo$method == "crossed") {
+    main2 <- NA
+    if (missing(main) || is.na(main[2]))
+      main2 <- paste(yName, "by", bName)
+    else main2 <- main[2]
+    xlab2 <- NA
+    if (missing(xlab) || is.na(xlab[2]))
+      xlab2 <- bName
+    else xlab2 <- xlab[2]
+    ylab2 <- NA
+    if (missing(ylab) || is.na(ylab[2]))
+      ylab2 <- yName
+    else ylab2 <- ylab[2]
+  p2 <- ggplot(gdo$X, aes_string(x = bName, y = yName)) +
+    geom_boxplot() +
+    stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", size = lwd) +
+    stat_summary(fun = median, geom = "point", color = "red", size = 3) +
+    labs(title = ifelse(is.null(main2), paste(yName, "by", bName), main2),
+         x = ifelse(is.null(xlab2), bName, xlab2),
+         y = ifelse(is.null(ylab2), yName, ylab2)) +
+    theme_minimal()
 
-  if (x$method == "crossed") {
-    # y by b
-    p2 <- ggplot(gdo, aes_string(x = bName, y = yName)) +
-      geom_boxplot() +
-      stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", size = lwd) +
-      stat_summary(fun = median, geom = "point", color = "red", size = 3) +
-      labs(title = ifelse(is.null(main[2]), paste(yName, "by", bName), main[2]),
-           x = ifelse(is.null(xlab[2]), bName, xlab[2]),
-           y = ifelse(is.null(ylab[2]), yName, ylab[2])) +
-      theme_minimal()
+  print(p2)
+  #Measurement by operator
+  main3 = NA
+  if (missing(main) || is.na(main[3]))
+    main3 = paste(yName, "by", aName)
+  else main3 = main[3]
+  xlab3 = NA
+  if (missing(xlab) || is.na(xlab[3]))
+    xlab3 = aName
+  else xlab3 = xlab[3]
+  ylab3 = NA
+  if (missing(ylab) || is.na(ylab[3]))
+    ylab3 = yName
+  else ylab3 = ylab[3]
 
-    print(p2)
+  p3 <- ggplot(gdo$X, aes_string(x = aName, y = yName)) +
+    geom_boxplot(aes(fill = factor(gdo$X[, 3]))) +
+    stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", size = lwd) +
+    stat_summary(fun = median, geom = "point", color = "red", size = 3) +
+    labs(title = ifelse(is.null(main[3]), paste(yName, "by", aName), main[3]),
+         x = ifelse(is.null(xlab[3]), aName, xlab[3]),
+         y = ifelse(is.null(ylab[3]), yName, ylab[3]),
+         fill = "Factor") +
+    theme_minimal() +
+    scale_fill_manual(values = col)
 
-    #  y by a
-    p3 <- ggplot(gdo, aes_string(x = aName, y = yName)) +
-      geom_boxplot(aes(fill = factor(gdo[, 3]))) +
-      stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", size = lwd) +
-      stat_summary(fun = median, geom = "point", color = "red", size = 3) +
-      labs(title = ifelse(is.null(main[3]), paste(yName, "by", aName), main[3]),
-           x = ifelse(is.null(xlab[3]), aName, xlab[3]),
-           y = ifelse(is.null(ylab[3]), yName, ylab[3])) +
-      theme_minimal() +
-      scale_fill_manual(values = col)
+  print(p3)
+  #R chart
+  main4 <- NA
+  if (missing(main) || is.na(main[4]))
+    main4 <- paste("Interaction", abName)
+  else main4 <- main[4]
 
-    print(p3)
+  xlab4 <- NA
+  if (missing(xlab) || is.na(xlab[4]))
+    xlab4 <- colnames(gdo$X)[4]
+  else xlab4 <- xlab[4]
 
-    # x-bar chart
-    agg <- aggregate(gdo[, yName], list(gdo[, aName], gdo[, bName]), FUN = mean)
-    xm <- mean(agg[, 3])
-    aggSd <- aggregate(gdo[, yName], list(gdo[, bName], gdo[, aName]), FUN = sd)
-    sm <- mean(aggSd[, 3])
-    sgSize <- table(aggSd[, 2])[1]
-    UCL <- xm + ((3 * sm) / (.c4(sgSize) * sqrt(sgSize)))
-    LCL <- xm - ((3 * sm) / (.c4(sgSize) * sqrt(sgSize)))
+  ylab4 <- NA
+  if (missing(ylab) || is.na(ylab[4]))
+    ylab4 <- paste(as.character(body(match.fun(fun)))[2], "of", colnames(gdo$X)[5])
+  else ylab4 <- ylab[4]
+  agg <- aggregate(gdo$X[, yName], list(gdo$X[, aName], gdo$X[, bName]), FUN = mean)
+  tab <- table(agg[, 2])
+  sgSize <- tab[1]
+  old.par <- par()$mar
+  par(mar = c(5.1, 4.1, 4.1, 10.1))
+  #funcion de interaccion
+  .aip(gdo$X[, 4], gdo$X[, 3], response = gdo$X[, 5], xlab = xlab4, ylab = ylab4, title = "Interaction Operator: Part", legend = TRUE,col = col, type = "b", ...)
+  par(mar = old.par)
+  # Convertir datos a formato adecuado
+  D3 <- c(0, 0, 0, 0, 0, 0.076, 0.136, 0.184, 0.223, 0.256, 0.284, 0.308, 0.329, 0.348)
+  D4 <- c(0, 3.267, 2.574, 2.282, 2.115, 2.004, 1.924, 1.864, 1.816, 1.777, 1.744, 1.716, 1.692, 1.671, 1.652)
+  # Calcular Rm, UCL, LCL
+  helpRange <-function(x) {
+    return(diff(range(x)))
+  }
+  aggForLimits <- aggregate(gdo$X[, yName], list(gdo$X[, aName], gdo$X[, bName]), FUN = helpRange)
+  agg <-aggregate(gdo$X[, yName], list(gdo$X[, bName], gdo$X[, aName]), FUN = helpRange)
 
-    p4 <- ggplot(agg, aes(x = Group.1, y = x)) +
-      geom_line(aes(group = 1), color = "blue") +
-      geom_point(size = 2, color = "blue") +
-      geom_hline(yintercept = xm, color = "green", linetype = "dashed") +
-      geom_hline(yintercept = UCL, color = "red", linetype = "dashed") +
-      geom_hline(yintercept = LCL, color = "red", linetype = "dashed") +
-      labs(title = expression(paste(bar(x), " Chart")),
-           x = aName,
-           y = expression(bar(x))) +
-      annotate("text", x = nrow(agg) + 0.5, y = UCL, label = paste("UCL =", round(UCL, 2)), color = "red") +
-      annotate("text", x = nrow(agg) + 0.5, y = xm, label = paste("XM =", round(xm, 2)), color = "green") +
-      annotate("text", x = nrow(agg) + 0.5, y = LCL, label = paste("LCL =", round(LCL, 2)), color = "red") +
-  theme_minimal()
+  df <- agg %>%
+    mutate(Group = paste(Group.1, Group.2, sep = "")) %>%
+    select(-Group.1, -Group.2) %>%
+    arrange(Group)
 
-  print(p4)
-  } else {
-    #   nested method
-    p2 <- ggplot(gdo, aes_string(x = aName, y = yName)) +
-      geom_boxplot() +
-      stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", size = lwd) +
-      stat_summary(fun = median, geom = "point", color = "red", size = 3) +
-      labs(title = ifelse(is.null(main[2]), paste(yName, "by", aName), main[2]),
-           x = ifelse(is.null(xlab[2]), aName, xlab[2]),
-           y = ifelse(is.null(ylab[2]), yName, ylab[2])) +
-      theme_minimal()
 
-    print(p2)
   }
 })
+
+
+
+
 
 # Ejemplo de uso:
 # crear un objeto de la clase 'gageRR'
@@ -565,7 +650,7 @@ design_example <- gageRRDesign(
 # Crear un diseño para el estudio de Gage
 design <- gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, method = "crossed", sigma = 6, randomize = TRUE)
 design$X$Measurement <- rnorm(nrow(design$X), mean = 10, sd = 2)
-
+design$X$y <- rnorm(nrow(design$X), mean = 10, sd = 2)
 # Ejecutar la función gageRR_
 result <- gageRR_(
   gdo = design,
@@ -575,5 +660,7 @@ result <- gageRR_(
   tolerance = NULL,     # Tolerancia
   dig = 3               # Número de dígitos a mostrar en los resultados
 )
-class(result)
+
+
 plot(result)
+
