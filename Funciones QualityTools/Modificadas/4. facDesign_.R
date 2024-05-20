@@ -220,7 +220,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                  runOrder = NULL,
                                                  standardOrder = NULL,
                                                  desireVal = NULL,
-                                                 desirability = NULL,
+                                                 desirability = list(),
                                                  fits = NULL,
 
                                                  names = function(value){
@@ -563,22 +563,42 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                  },
 
                                                  desires = function(value){
-                                                   if (!any(value$response == names(self$.response())))
-                                                     stop(paste(value$response, "is not a response!"))
-                                                   listPos = length(self$desirability) + 1
-                                                   yName = value$response
-                                                   isIn = (yName == names(self$desirability))
+                                                   if (missing(values)) {
+                                                     return(self$desirability)
+                                                   }
+                                                   else{
+                                                     if (!any(value$response == names(self$.response())))
+                                                       stop(paste(value$response, "is not a response!"))
+                                                     listPos = length(self$desirability) + 1
+                                                     yName = value$response
+                                                     isIn = (yName == names(self$desirability))
+                                                     if (any(isIn))
+                                                       listPos = (1:length(names(self$desirability)))[isIn]
+                                                     self$desirability[[listPos]] = value
+                                                     names(self$desirability)[listPos] = yName
+                                                     invisible(self)
+                                                   }
+
+                                                 },
+
+                                                 set.fits = function(value){
+                                                   if (!identical(class(value), "lm"))
+                                                     stop(paste(deparse(substitute(value)), "needs to an object of class lm"))
+                                                   if (!any(names(value$model)[1] == names(self$.response())))
+                                                     stop(paste("fitted response", names(value$model)[1], "could not be found in", deparse(substitute(x))))
+                                                   listPos = length(self$fits) + 1
+                                                   yName = names(value$model)[1]
+                                                   isIn = (yName == names(self$fits))
                                                    if (any(isIn))
-                                                     listPos = (1:length(names(self$desirability)))[isIn]
-                                                   x$desirability[[listPos]] = value
-                                                   names(x$desirability)[listPos] = yName
-                                                   invisible(x)
+                                                     listPos = (1:length(names(self$fits)))[isIn]
+                                                   xfits[[listPos]] = value
+                                                   names(self$fits)[listPos] = yName
+                                                   return(self)
+
                                                  }
 
                                                  )
                       )
-
-
 
 ##Necesito clase doeFactor####################
 doeFactor <- R6Class('doeFactor', public = list(low = -1,
@@ -1701,7 +1721,63 @@ normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, respon
 normalPlot(dfac)
 
 ###Necesito clase desirability#################
-###Necesito .desirFun###############
+desirability <- R6Class("facDesign", public = list(response = NULL,
+                                                   low = NULL,
+                                                   high = NULL,
+                                                   target = NULL,
+                                                   scale = NULL,
+                                                   importance = NULL
+                                                  )
+                       )
+
+###Necesito .desireFun###############
+.desireFun = function(low, high, target = "max", scale = c(1, 1), importance = 1) {
+  DB = FALSE
+  if (importance > 10 | importance < 0.1)
+    stop("importance needs to be in [0.1, 10]")
+  if (low >= high)
+    stop("the lower bound must be greater than the high bound!")
+  if (any(scale <= 0))
+    stop("the scale parameter must be greater than zero!")
+  if (is.numeric(target)) {
+    out = function(y) {
+      if (DB)
+        print("target")
+      flush.console()
+      d = rep(0, length(y))
+      d[y >= low & y <= target] = ((y[y >= low & y <= target] - low)/(target - low))^scale[1]
+      d[y >= target & y <= high] = ((y[y >= target & y <= high] - high)/(target - high))^scale[2]
+      return(d^importance)
+    }
+    return(out)
+  }
+  if (identical(tolower(target), "min")) {
+    out = function(y) {
+      if (DB)
+        print("min")
+      d = rep(0, length(y))
+      d[y > high] = 0
+      d[y < low] = 1
+      d[y >= low & y <= high] = ((y[y >= low & y <= high] - high)/(low - high))^scale[1]
+      return(d^importance)
+    }
+    return(out)
+  }
+  if (identical(tolower(target), "max")) {
+    out = function(y) {
+      if (DB)
+        print("max")
+      d = rep(0, length(y))
+      d[y < low] = 0
+      d[y > high] = 1
+      d[y >= low & y <= high] = ((y[y >= low & y <= high] - low)/(high - low))^scale[1]
+      return(d^importance)
+    }
+    return(out)
+  }
+}
+
+
 ####funcion wirePlot###################
 wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, border, sub, zlab, form = "fit", phi, theta, ticktype, col = 1, steps,
                     factors, fun, plot) {
@@ -1738,10 +1814,11 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
     plot = TRUE
   if (missing(main))
     main = paste("Response Surface for", z.c)
+  aux<-list(A=fdo$names()[1],B=fdo$names()[2],C=fdo$names()[3])
   if (missing(ylab))
-    ylab = paste(y.c, ": ", fdo$names()[[y.c]])
+    ylab = paste(y.c, ": ", aux[[y.c]])
   if (missing(xlab))
-    xlab = paste(x.c, ": ", fdo$names()[[x.c]])
+    xlab = paste(x.c, ": ", aux[[x.c]])
   if (missing(zlab))
     zlab = paste(x.c, ": ", names(fdo$.response()))
   if (missing(ticktype))
@@ -1758,8 +1835,8 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
     xlim = c(min(fdo$get(, x.c)), max(fdo$get(, x.c)))
   if (missing(ylim))
     ylim = c(min(fdo$get(, y.c)), max(fdo$get(, y.c)))
-  allVars = c(names(fdo$names()), names(fdo$.response))
-  isct = intersect(c(x.c, y.c, z.c), c(fdo$names(), names(fdo$.response)))
+  allVars = c(fdo$names(), names(fdo$.response()))
+  isct = intersect(c(aux[[x.c]], aux[[y.c]], z.c), c(fdo$names(), names(fdo$.response())))
   if (DB) {
     print(allVars)
     print(isct)
@@ -1774,11 +1851,11 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
     if (!(fun %in% c("overall", "desirability")))
       stop("fun should be a function, \"overall\" or \"desirability\"")
   if (identical(fun, "desirability")) {
-    obj = desires(fdo)[[z.c]]
-    fun = .desireFun(obj@low, obj@high, obj@target, obj@scale, obj@importance)
+    obj = fdo$desires()[[z.c]]
+    fun = .desireFun(obj$low, obj$high, obj$target, obj$scale, obj$importance)
   }
   if (form %in% c("fit")) {
-    lm.1 = fits(fdo)[[z.c]]
+    lm.1 = fdo$fits[[z.c]]
     if (DB)
       print(lm.1)
     if (is.null(fit))
@@ -1797,7 +1874,7 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
   }
   if (identical(form, "full")) {
     form = paste(z.c, "~", x.c, "+", y.c, "+", x.c, ":", y.c)
-    if (nrow(star(fdo)) > 0)
+    if (nrow(fdo$star) > 0)
       form = paste(form, "+ I(", x.c, "^2) + I(", y.c, "^2)")
     if (DB)
       print(form)
@@ -1805,14 +1882,14 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
   if (is.null(form))
     stop(paste("invalid formula", form))
   if (is.null(lm.1))
-    lm.1 = lm(form, data = fdo)
+    lm.1 = fdo$lm(form)
   if (missing(sub))
     sub = deparse(formula(lm.1))
   if (DB)
     print(lm.1)
-  dcList = vector(mode = "list", length = length(names(fdo)))
-  names(dcList) = names(names(fdo))
-  dcList[1:length(names(fdo))] = 0
+  dcList = vector(mode = "list", length = length(fdo$names()))
+  names(dcList) = fdo$names()
+  dcList[1:length(fdo$names())] = 0
   if (!is.null(factors)) {
     for (i in names(factors)) dcList[[i]] = factors[[i]][1]
   }
@@ -1838,14 +1915,14 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
   if (identical(fun, "overall")) {
     main = "composed desirability"
     mat = matrix(1, nrow = nrow(mat), ncol = ncol(mat))
-    for (i in names(response(fdo))) {
-      obj = desires(fdo)[[i]]
-      fun = .desireFun(obj@low, obj@high, obj@target, obj@scale, obj@importance)
+    for (i in names(fdo$.response())) {
+      obj = fdo$desires()[[i]]
+      fun = .desireFun(obj$low, obj$high, obj$target, obj$scale, obj$importance)
       temp = outer(xVec, yVec, help.predict, x.c, y.c, fits(fdo)[[i]])
       temp = try(apply(temp, c(1, 2), fun))
       mat = mat * temp
     }
-    mat = mat^(1/length(names(response(fdo))))
+    mat = mat^(1/length(names(fdo$response())))
   }
   if (is.function(col)) {
     nrMat <- nrow(mat)
@@ -1883,4 +1960,3 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
 
 ###uso wirePlot###############################
 wirePlot(A,B,rend,data=dfac)
-names(dfac$.response())
