@@ -577,7 +577,7 @@ pcr_ <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
       theme = theme(plot.title = element_text(hjust = 0.5))
     )
     if(not3distr){
-      print(adTestStats)
+      print.adtest(adTestStats)
       show(main_plot)
       invisible(list(lambda = lambda, cp = cp, cpk = cpk,
                      cpl = cpl, cpu = cpu, ppt = ppt, ppl = ppl, ppu = ppu,

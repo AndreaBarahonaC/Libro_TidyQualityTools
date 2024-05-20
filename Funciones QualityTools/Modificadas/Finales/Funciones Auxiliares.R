@@ -500,6 +500,50 @@ library(patchwork)
   out$class = "adtest"
   invisible(out)
 }
+
+# print.adtest ---------------------
+print.adtest <- function(x, digits = 4, quote = TRUE, prefix = "", ...) {
+  cat("\n")
+  cat(strwrap(x$method, prefix = "\t"), sep = "\n")
+  cat("\n")
+  cat("data: ", x$data.name, "\n")
+  out <- character()
+  if (!is.null(x$statistic))
+    out <- c(out, paste(names(x$statistic), "=", format(round(x$statistic[[1]], 4))))
+  if (!is.null(x$parameter))
+    out <- c(out, paste(names(x$parameter), "=", format(round(x$parameter, 3))))
+  if (!is.null(x$p.value)) {
+    fp <- format.pval(x$p.value[[1]], digits = digits)
+    if (x$tableValue) {
+      if (x$smaller)
+        out <- c(out, paste("p-value", if (substr(fp, 1L, 1L) == "<") fp else paste("<=", fp)))
+      else out <- c(out, paste("p-value", if (substr(fp, 1L, 1L) == "=") fp else paste(">", fp)))
+    }
+    else {
+      out <- c(out, paste("p-value", if (substr(fp, 1L, 1L) == "<") fp else paste("=", fp)))
+    }
+  }
+  cat(strwrap(paste(out, collapse = ", ")), sep = "\n")
+  cat("alternative hypothesis: ")
+  if (!is.null(x$null.value)) {
+    if (length(x$null.value) == 1) {
+      cat("true", names(x$null.value), "is not equal to", x$null.value, "\n")
+    }
+    else {
+      cat(x$alternative, "\nnull values:\n")
+      print(x$null.value, ...)
+    }
+  }
+  if (!is.null(x$conf.int)) {
+    cat(format(100 * attr(x$conf.int, "conf.level")), "percent confidence interval:\n", format(c(x$conf.int[1L], x$conf.int[2L])), "\n")
+  }
+  if (!is.null(x$estimate)) {
+    cat("sample estimates:\n")
+    print(x$estimate, ...)
+  }
+  cat("\n")
+  invisible(x)
+}
 # .xyLimits -------------------
 .xyLimits = function(distrCollection, lowerquantile = 0.001, upperquantile = 0.999) {
   x <- NULL
