@@ -127,7 +127,7 @@
 
 \title{Integración del Paquete QualityTools con Tidyverse}
 \author{Miguel Flores \and Andrea Barahona \and Fabián Encarnación \and Dario Quishpe}
-\date{2024-05-14}
+\date{2024-05-20}
 
 \begin{document}
 \maketitle
@@ -838,11 +838,11 @@ Por ejemplo, creemos un campo activo llamado \texttt{random} que nos devuelva un
 \NormalTok{))}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Ran}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.9936616}
+\DocumentationTok{\#\# [1] 0.8291698}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.2512396}
+\DocumentationTok{\#\# [1] 0.82229}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.5582675}
+\DocumentationTok{\#\# [1] 0.4337626}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1263,11 +1263,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \DocumentationTok{\#\# [49] "J♥"  "Q♦"  "K♣"}
 \NormalTok{mazo}\SpecialCharTok{$}\FunctionTok{reshuffle}\NormalTok{()}
 \NormalTok{mazo}\SpecialCharTok{$}\NormalTok{.cartas}
-\DocumentationTok{\#\#  [1] "5♦"  "2♣"  "3♣"  "3♦"  "6♣"  "6♦"  "2♠"  "J♥"  "7♦"  "10♦" "A♠"  "K♦" }
-\DocumentationTok{\#\# [13] "4♠"  "8♥"  "K♠"  "Q♦"  "6♠"  "7♣"  "A♦"  "8♠"  "10♣" "4♥"  "Q♥"  "4♦" }
-\DocumentationTok{\#\# [25] "5♣"  "J♣"  "10♥" "5♠"  "9♦"  "A♥"  "8♣"  "8♦"  "K♣"  "4♣"  "6♥"  "Q♣" }
-\DocumentationTok{\#\# [37] "9♠"  "J♠"  "3♠"  "7♠"  "A♣"  "9♥"  "K♥"  "3♥"  "Q♠"  "7♥"  "10♠" "2♦" }
-\DocumentationTok{\#\# [49] "2♥"  "J♦"  "9♣"  "5♥"}
+\DocumentationTok{\#\#  [1] "A♠"  "9♠"  "4♥"  "K♠"  "6♣"  "2♠"  "Q♦"  "8♦"  "5♥"  "10♦" "K♥"  "A♥" }
+\DocumentationTok{\#\# [13] "8♠"  "10♣" "Q♥"  "J♦"  "4♣"  "A♦"  "6♠"  "5♣"  "4♠"  "6♦"  "4♦"  "3♠" }
+\DocumentationTok{\#\# [25] "7♥"  "K♣"  "9♦"  "A♣"  "8♥"  "7♣"  "Q♣"  "2♥"  "2♣"  "3♥"  "7♦"  "5♦" }
+\DocumentationTok{\#\# [37] "J♠"  "10♠" "K♦"  "3♦"  "J♣"  "8♣"  "9♥"  "3♣"  "5♠"  "2♦"  "J♥"  "9♣" }
+\DocumentationTok{\#\# [49] "Q♠"  "10♥" "6♥"  "7♠"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1439,11 +1439,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \NormalTok{)}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Rando}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.9898986}
+\DocumentationTok{\#\# [1] 0.4851212}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.5505431}
+\DocumentationTok{\#\# [1] 0.4080417}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{previous}
-\DocumentationTok{\#\# [1] 0.5505431}
+\DocumentationTok{\#\# [1] 0.4080417}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2080,7 +2080,7 @@ Las correlaciones de rendimiento son una forma para analizar la medida en que un
 ##  7 FB     2013-07-31          0.479              0.0373 
 ##  8 FB     2013-08-30          0.122             -0.0104 
 ##  9 FB     2013-09-30          0.217              0.0253 
-## 10 FB     2013-10-31         -0.000398           0.0502 
+## 10 FB     2013-10-31         -0.000398           0.0503 
 ## # i 182 more rows
 \end{verbatim}
 
@@ -2302,13 +2302,13 @@ Se puede ver estadísticas de la relación a partir de la función \texttt{lm}:
 ## lm(formula = MA ~ V, data = rend_accion)
 ## 
 ## Residuals:
-##       Min        1Q    Median        3Q       Max 
-## -0.026958 -0.003966  0.000215  0.003965  0.028946 
+##        Min         1Q     Median         3Q        Max 
+## -0.0269573 -0.0039654  0.0002152  0.0039652  0.0289459 
 ## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(>|t|)    
 ## (Intercept) 0.0001130  0.0003097   0.365    0.715    
-## V           0.8133651  0.0226394  35.927   <2e-16 ***
+## V           0.8133665  0.0226393  35.927   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -3844,6 +3844,772 @@ Ahora la función \texttt{cg} se modificará de la siguiente forma:
 \end{verbatim}
 
 \includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-157-1.pdf}
+
+\hypertarget{funciuxf3n-gagerrdesign-y-gagerr_-modificadas-para-trabajar-con-objetos-r6}{%
+\subsection{Función gageRRDesign y gageRR\_ modificadas para trabajar con objetos R6}\label{funciuxf3n-gagerrdesign-y-gagerr_-modificadas-para-trabajar-con-objetos-r6}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Funciones auxiliares}
+\NormalTok{.aip }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x.factor, trace.factor, response, }\AttributeTok{fun =}\NormalTok{ mean, }\AttributeTok{type =} \FunctionTok{c}\NormalTok{(}\StringTok{"l"}\NormalTok{, }\StringTok{"p"}\NormalTok{, }\StringTok{"b"}\NormalTok{), }\AttributeTok{legend =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{trace.label =} \ConstantTok{NULL}\NormalTok{,}
+                       \AttributeTok{fixed =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{xlab =} \FunctionTok{deparse}\NormalTok{(}\FunctionTok{substitute}\NormalTok{(x.factor)), }\AttributeTok{ylab =}\StringTok{"Measurement"}\NormalTok{ , }\AttributeTok{ylim =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(trace.factor)),}
+                       \AttributeTok{col =} \DecValTok{1}\NormalTok{, }\AttributeTok{pch =} \FunctionTok{c}\NormalTok{(1L}\SpecialCharTok{:}\DecValTok{9}\NormalTok{, }\DecValTok{0}\NormalTok{, letters), }\AttributeTok{xpd =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{leg.bg =} \FunctionTok{par}\NormalTok{(}\StringTok{"bg"}\NormalTok{), }\AttributeTok{leg.bty =} \StringTok{"o"}\NormalTok{, }\AttributeTok{xtick =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{xaxt =} \FunctionTok{par}\NormalTok{(}\StringTok{"xaxt"}\NormalTok{), }\AttributeTok{axes =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{title =} \StringTok{""}\NormalTok{, ...) \{}
+\NormalTok{  ylabel }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(ylab )}
+\NormalTok{  type }\OtherTok{\textless{}{-}} \FunctionTok{match.arg}\NormalTok{(type)}
+
+  \CommentTok{\# Asegurarse de que los factores son realmente factores}
+\NormalTok{  x.factor }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(x.factor)}
+\NormalTok{  trace.factor }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(trace.factor)}
+
+  \CommentTok{\# Calcular los valores de celda}
+\NormalTok{  cellNew }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(response, }\FunctionTok{list}\NormalTok{(x.factor, trace.factor), fun)}
+\NormalTok{  cellNew }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{as.table}\NormalTok{(cellNew))}
+  \FunctionTok{colnames}\NormalTok{(cellNew) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"x.factor"}\NormalTok{, }\StringTok{"trace.factor"}\NormalTok{, }\StringTok{"response"}\NormalTok{)}
+
+  \CommentTok{\# Convertir x.factor a numérico sólo para la visualización, pero mantenerlo como factor en los datos}
+\NormalTok{  cellNew}\SpecialCharTok{$}\NormalTok{x.numeric }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(cellNew}\SpecialCharTok{$}\NormalTok{x.factor)}
+
+  \CommentTok{\# Crear el gráfico}
+\NormalTok{  p }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(cellNew, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x.numeric, }\AttributeTok{y =}\NormalTok{ response, }\AttributeTok{group =}\NormalTok{ trace.factor, }\AttributeTok{color =}\NormalTok{ trace.factor, }\AttributeTok{shape =}\NormalTok{ trace.factor, }\AttributeTok{linetype =}\NormalTok{ trace.factor)) }\SpecialCharTok{+}
+    \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
+    \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size =} \DecValTok{4}\NormalTok{) }\SpecialCharTok{+}
+    \CommentTok{\# geom\_text(aes(label = round(response, 2)), vjust = {-}0.5) +  \# Comentar o eliminar esta línea para ocultar números}
+    \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{unique}\NormalTok{(cellNew}\SpecialCharTok{$}\NormalTok{x.numeric), }\AttributeTok{labels =} \FunctionTok{levels}\NormalTok{(cellNew}\SpecialCharTok{$}\NormalTok{x.factor)) }\SpecialCharTok{+}  \CommentTok{\# Etiquetas de x.factor}
+    \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =}\NormalTok{ xlab, }\AttributeTok{y =}\NormalTok{ ylabel, }\AttributeTok{title =}\NormalTok{ title, }\AttributeTok{color =}\NormalTok{ trace.label, }\AttributeTok{shape =}\NormalTok{ trace.label, }\AttributeTok{linetype =}\NormalTok{ trace.label) }\SpecialCharTok{+}
+    \FunctionTok{theme\_minimal}\NormalTok{()}
+
+  \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{is.null}\NormalTok{(ylim)) \{}
+\NormalTok{    p }\OtherTok{\textless{}{-}}\NormalTok{ p }\SpecialCharTok{+} \FunctionTok{ylim}\NormalTok{(ylim)}
+\NormalTok{  \}}
+
+  \ControlFlowTok{if}\NormalTok{ (legend) \{}
+\NormalTok{    p }\OtherTok{\textless{}{-}}\NormalTok{ p }\SpecialCharTok{+} \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"top"}\NormalTok{)}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{    p }\OtherTok{\textless{}{-}}\NormalTok{ p }\SpecialCharTok{+} \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{)}
+\NormalTok{  \}}
+
+  \FunctionTok{print}\NormalTok{(p)}
+
+  \FunctionTok{invisible}\NormalTok{()}
+\NormalTok{\}}
+
+
+
+\NormalTok{.c4 }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(n) \{}
+  \ControlFlowTok{if}\NormalTok{ (n }\SpecialCharTok{\textgreater{}} \DecValTok{1} \SpecialCharTok{\&\&}\NormalTok{ n }\SpecialCharTok{\textless{}} \DecValTok{342}\NormalTok{)}
+    \FunctionTok{sqrt}\NormalTok{(}\DecValTok{2}\SpecialCharTok{/}\NormalTok{(n }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)) }\SpecialCharTok{*}\NormalTok{ (}\FunctionTok{factorial}\NormalTok{(n}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{factorial}\NormalTok{((n }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{{-}} \DecValTok{1}\NormalTok{))}
+  \ControlFlowTok{else} \FunctionTok{stop}\NormalTok{(}\StringTok{"n needs to be bigger than 1 and smaller than 342"}\NormalTok{)}
+\NormalTok{\}}
+\CommentTok{\# Definición de la clase gageRR}
+\NormalTok{gageRR }\OtherTok{\textless{}{-}} \FunctionTok{R6Class}\NormalTok{(}\StringTok{"gageRR"}\NormalTok{,}
+                  \AttributeTok{public =} \FunctionTok{list}\NormalTok{(}
+                    \AttributeTok{X =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{ANOVA =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{RedANOVA =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{method =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{Estimates =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{Varcomp =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{Sigma =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{GageName =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{GageTolerance =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{DateOfStudy =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{PersonResponsible =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{Comments =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{b =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{a =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{y =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{facNames =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{numO =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{numP =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{numM =} \ConstantTok{NULL}\NormalTok{,}
+                    \AttributeTok{initialize =} \ControlFlowTok{function}\NormalTok{(X, }\AttributeTok{ANOVA =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{RedANOVA =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{method =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{Estimates =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{Varcomp =} \ConstantTok{NULL}\NormalTok{,}
+                                                                \AttributeTok{Sigma =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{GageName =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{GageTolerance =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{DateOfStudy =} \ConstantTok{NULL}\NormalTok{,}
+                                                                \AttributeTok{PersonResponsible =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{Comments =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{b =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{a =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{y =} \ConstantTok{NULL}\NormalTok{,}
+                                                                \AttributeTok{facNames =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{numO =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{numP =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{numM =} \ConstantTok{NULL}\NormalTok{) \{}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{X }\OtherTok{\textless{}{-}}\NormalTok{ X}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{ANOVA }\OtherTok{\textless{}{-}}\NormalTok{ ANOVA}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{RedANOVA }\OtherTok{\textless{}{-}}\NormalTok{ RedANOVA}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{method }\OtherTok{\textless{}{-}}\NormalTok{ method}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{Estimates }\OtherTok{\textless{}{-}}\NormalTok{ Estimates}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{Varcomp }\OtherTok{\textless{}{-}}\NormalTok{ Varcomp}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{Sigma }\OtherTok{\textless{}{-}}\NormalTok{ Sigma}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{GageName }\OtherTok{\textless{}{-}}\NormalTok{ GageName}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{GageTolerance }\OtherTok{\textless{}{-}}\NormalTok{ GageTolerance}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{DateOfStudy }\OtherTok{\textless{}{-}}\NormalTok{ DateOfStudy}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{PersonResponsible }\OtherTok{\textless{}{-}}\NormalTok{ PersonResponsible}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{Comments }\OtherTok{\textless{}{-}}\NormalTok{ Comments}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{b }\OtherTok{\textless{}{-}}\NormalTok{ b}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{a }\OtherTok{\textless{}{-}}\NormalTok{ a}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{y }\OtherTok{\textless{}{-}}\NormalTok{ y}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{facNames }\OtherTok{\textless{}{-}}\NormalTok{ facNames}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{numO }\OtherTok{\textless{}{-}}\NormalTok{ numO}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{numP }\OtherTok{\textless{}{-}}\NormalTok{ numP}
+\NormalTok{                      self}\SpecialCharTok{$}\NormalTok{numM }\OtherTok{\textless{}{-}}\NormalTok{ numM}
+\NormalTok{                    \},}
+    \AttributeTok{show =} \ControlFlowTok{function}\NormalTok{() \{}
+      \FunctionTok{print}\NormalTok{(}\FunctionTok{as.data.frame}\NormalTok{(self}\SpecialCharTok{$}\NormalTok{X))}
+\NormalTok{    \},}
+    \AttributeTok{subset =} \ControlFlowTok{function}\NormalTok{(i, j) \{}
+      \FunctionTok{return}\NormalTok{(self}\SpecialCharTok{$}\NormalTok{X[i, j])}
+\NormalTok{    \},}
+    \AttributeTok{summary =} \ControlFlowTok{function}\NormalTok{() \{}
+      \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{all}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(self}\SpecialCharTok{$}\NormalTok{X}\SpecialCharTok{$}\NormalTok{Measurement))) \{}
+        \FunctionTok{cat}\NormalTok{(}\StringTok{"Gage R\&R Summary}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+        \FunctionTok{cat}\NormalTok{(}\StringTok{"{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+        \FunctionTok{cat}\NormalTok{(}\StringTok{"Method: "}\NormalTok{, self}\SpecialCharTok{$}\NormalTok{method, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+        \FunctionTok{cat}\NormalTok{(}\StringTok{"Sigma: "}\NormalTok{, self}\SpecialCharTok{$}\NormalTok{Sigma, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+        \FunctionTok{cat}\NormalTok{(}\StringTok{"Gage Name: "}\NormalTok{, self}\SpecialCharTok{$}\NormalTok{GageName, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+        \FunctionTok{cat}\NormalTok{(}\StringTok{"Gage Tolerance: "}\NormalTok{, self}\SpecialCharTok{$}\NormalTok{GageTolerance, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+        \FunctionTok{cat}\NormalTok{(}\StringTok{"Date of Study: "}\NormalTok{, self}\SpecialCharTok{$}\NormalTok{DateOfStudy, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+        \FunctionTok{cat}\NormalTok{(}\StringTok{"Person Responsible: "}\NormalTok{, self}\SpecialCharTok{$}\NormalTok{PersonResponsible, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+        \FunctionTok{cat}\NormalTok{(}\StringTok{"Comments: "}\NormalTok{, self}\SpecialCharTok{$}\NormalTok{Comments, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+        \FunctionTok{cat}\NormalTok{(}\StringTok{"Operators: "}\NormalTok{, self}\SpecialCharTok{$}\NormalTok{numO, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+        \FunctionTok{cat}\NormalTok{(}\StringTok{"Parts: "}\NormalTok{, self}\SpecialCharTok{$}\NormalTok{numP, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+        \FunctionTok{cat}\NormalTok{(}\StringTok{"Measurements per Part: "}\NormalTok{, self}\SpecialCharTok{$}\NormalTok{numM, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{      \} }\ControlFlowTok{else}\NormalTok{ \{}
+        \FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+        \FunctionTok{cat}\NormalTok{(}\StringTok{"Operators:}\SpecialCharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, self}\SpecialCharTok{$}\NormalTok{numO, }\StringTok{"}\SpecialCharTok{\textbackslash{}t}\StringTok{Parts:}\SpecialCharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, self}\SpecialCharTok{$}\NormalTok{numP, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+        \FunctionTok{cat}\NormalTok{(}\StringTok{"Measurements:}\SpecialCharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, self}\SpecialCharTok{$}\NormalTok{numM, }\StringTok{"}\SpecialCharTok{\textbackslash{}t}\StringTok{Total:}\SpecialCharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(self}\SpecialCharTok{$}\NormalTok{X), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+        \FunctionTok{cat}\NormalTok{(}\StringTok{"{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{      \}}
+      \FunctionTok{return}\NormalTok{(}\FunctionTok{invisible}\NormalTok{(self))}
+\NormalTok{    \},}
+    \AttributeTok{response =} \ControlFlowTok{function}\NormalTok{() \{}
+      \FunctionTok{return}\NormalTok{(self}\SpecialCharTok{$}\NormalTok{X}\SpecialCharTok{$}\NormalTok{Measurement)}
+\NormalTok{    \},}
+    \AttributeTok{replace\_response =} \ControlFlowTok{function}\NormalTok{(value) \{}
+\NormalTok{      self}\SpecialCharTok{$}\NormalTok{X}\SpecialCharTok{$}\NormalTok{Measurement }\OtherTok{=}\NormalTok{ value}
+      \FunctionTok{return}\NormalTok{(self)}
+\NormalTok{    \},}
+    \AttributeTok{names =} \ControlFlowTok{function}\NormalTok{() \{}
+      \FunctionTok{return}\NormalTok{(}\FunctionTok{names}\NormalTok{(}\FunctionTok{as.data.frame}\NormalTok{(self)))}
+\NormalTok{    \},}
+    \AttributeTok{as\_data\_frame =} \ControlFlowTok{function}\NormalTok{() \{}
+      \FunctionTok{return}\NormalTok{(}\FunctionTok{as.data.frame}\NormalTok{(self))}
+\NormalTok{    \},}
+    \AttributeTok{get\_tolerance =} \ControlFlowTok{function}\NormalTok{() \{}
+      \FunctionTok{return}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(self}\SpecialCharTok{$}\NormalTok{GageTolerance))}
+\NormalTok{    \},}
+    \AttributeTok{set\_tolerance =} \ControlFlowTok{function}\NormalTok{(value) \{}
+      \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{is.numeric}\NormalTok{(value))}
+        \FunctionTok{stop}\NormalTok{(}\StringTok{"GageTolerance needs to be numeric"}\NormalTok{)}
+\NormalTok{      self}\SpecialCharTok{$}\NormalTok{GageTolerance }\OtherTok{=}\NormalTok{ value}
+      \FunctionTok{return}\NormalTok{(self)}
+\NormalTok{    \},}
+    \AttributeTok{get\_sigma =} \ControlFlowTok{function}\NormalTok{() \{}
+      \FunctionTok{return}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(self}\SpecialCharTok{$}\NormalTok{Sigma))}
+\NormalTok{    \},}
+    \AttributeTok{set\_sigma =} \ControlFlowTok{function}\NormalTok{(value) \{}
+      \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{is.numeric}\NormalTok{(value))}
+        \FunctionTok{stop}\NormalTok{(}\StringTok{"Sigma needs to be numeric"}\NormalTok{)}
+\NormalTok{      self}\SpecialCharTok{$}\NormalTok{Sigma }\OtherTok{=}\NormalTok{ value}
+      \FunctionTok{return}\NormalTok{(self)}
+\NormalTok{    \}}
+\NormalTok{                  )}
+\NormalTok{)}
+
+\CommentTok{\# función gageRRdesign modificada}
+\NormalTok{gageRRDesign }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(}\AttributeTok{Operators =} \DecValTok{3}\NormalTok{, }\AttributeTok{Parts =} \DecValTok{10}\NormalTok{, }\AttributeTok{Measurements =} \DecValTok{3}\NormalTok{, }\AttributeTok{method =} \StringTok{"crossed"}\NormalTok{, }\AttributeTok{sigma =} \DecValTok{6}\NormalTok{, }\AttributeTok{randomize =} \ConstantTok{TRUE}\NormalTok{) \{}
+  \CommentTok{\# Validación de argumentos}
+  \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{is.numeric}\NormalTok{(sigma))}
+    \FunctionTok{stop}\NormalTok{(}\StringTok{"sigma needs to be numeric"}\NormalTok{)}
+  \ControlFlowTok{if}\NormalTok{ (method }\SpecialCharTok{!=} \StringTok{"nested"} \SpecialCharTok{\&\&}\NormalTok{ method }\SpecialCharTok{!=} \StringTok{"crossed"}\NormalTok{)}
+    \FunctionTok{stop}\NormalTok{(}\StringTok{"Unknown method specified. Use \textquotesingle{}method = nested\textquotesingle{} or \textquotesingle{}method = crossed\textquotesingle{}."}\NormalTok{)}
+\NormalTok{  Measurements }\OtherTok{\textless{}{-}} \FunctionTok{as.integer}\NormalTok{(Measurements)}
+  \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{is.numeric}\NormalTok{(Measurements) }\SpecialCharTok{||}\NormalTok{ Measurements }\SpecialCharTok{\textless{}=} \DecValTok{0}\NormalTok{)}
+    \FunctionTok{stop}\NormalTok{(}\StringTok{"Number of Measurements per Part must be a positive integer."}\NormalTok{)}
+
+
+\NormalTok{  opvec }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{()}
+\NormalTok{  partvec }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{()}
+
+\NormalTok{  yName }\OtherTok{\textless{}{-}} \StringTok{"Measurement"}
+\NormalTok{  aName }\OtherTok{\textless{}{-}} \StringTok{"Operator"}
+\NormalTok{  bName }\OtherTok{\textless{}{-}} \StringTok{"Part"}
+\NormalTok{  abName }\OtherTok{\textless{}{-}} \StringTok{"Operator:Part"}
+
+\NormalTok{  Operators }\OtherTok{\textless{}{-}} \FunctionTok{unique}\NormalTok{(Operators)}
+\NormalTok{  Parts }\OtherTok{\textless{}{-}} \FunctionTok{unique}\NormalTok{(Parts)}
+
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.numeric}\NormalTok{(Operators))}
+\NormalTok{    opvec }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(LETTERS[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{Operators[}\DecValTok{1}\NormalTok{]])}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.character}\NormalTok{(Operators))}
+\NormalTok{    opvec }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Operators)}
+
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(opvec)) }\SpecialCharTok{\textgreater{}} \DecValTok{26}\NormalTok{)}
+    \FunctionTok{stop}\NormalTok{(}\StringTok{"Too many Operators!"}\NormalTok{)}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(opvec)) }\SpecialCharTok{\textless{}} \DecValTok{2}\NormalTok{)}
+    \FunctionTok{stop}\NormalTok{(}\StringTok{"Not enough Operators"}\NormalTok{)}
+
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.numeric}\NormalTok{(Parts))}
+\NormalTok{    partvec }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(LETTERS[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{Parts[}\DecValTok{1}\NormalTok{]])}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.character}\NormalTok{(Parts))}
+\NormalTok{    partvec }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Parts)}
+
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(partvec)) }\SpecialCharTok{\textgreater{}} \DecValTok{26}\NormalTok{)}
+    \FunctionTok{stop}\NormalTok{(}\StringTok{"Too many Parts!"}\NormalTok{)}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(partvec)) }\SpecialCharTok{\textless{}} \DecValTok{2}\NormalTok{)}
+    \FunctionTok{stop}\NormalTok{(}\StringTok{"Too few Parts"}\NormalTok{)}
+
+\NormalTok{  Measurement }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{, (}\FunctionTok{length}\NormalTok{(opvec) }\SpecialCharTok{*} \FunctionTok{length}\NormalTok{(partvec) }\SpecialCharTok{*}\NormalTok{ Measurements))}
+\NormalTok{  outFrame }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{()}
+
+  \ControlFlowTok{if}\NormalTok{ (method }\SpecialCharTok{==} \StringTok{"crossed"}\NormalTok{) \{}
+\NormalTok{    temp }\OtherTok{\textless{}{-}} \FunctionTok{expand.grid}\NormalTok{(opvec, partvec)}
+\NormalTok{    o }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(temp[, }\DecValTok{1}\NormalTok{], Measurements)}
+\NormalTok{    p }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(temp[, }\DecValTok{2}\NormalTok{], Measurements)}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{    p }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\FunctionTok{sort}\NormalTok{(}\FunctionTok{rep}\NormalTok{(partvec, }\FunctionTok{length}\NormalTok{(opvec))), Measurements)}
+\NormalTok{    o }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{rep}\NormalTok{(opvec, }\FunctionTok{length}\NormalTok{(Measurement) }\SpecialCharTok{/} \FunctionTok{length}\NormalTok{(opvec)))}
+\NormalTok{    p }\OtherTok{\textless{}{-}}\NormalTok{ p[}\FunctionTok{order}\NormalTok{(o,p)]}
+\NormalTok{    o }\OtherTok{\textless{}{-}}\NormalTok{ o[}\FunctionTok{order}\NormalTok{(o,p)]}
+\NormalTok{  \}}
+
+  \ControlFlowTok{if}\NormalTok{ (randomize)}
+\NormalTok{    outFrame }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{StandardOrder =} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(Measurement), }\AttributeTok{RunOrder =} \FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(Measurement), }\FunctionTok{length}\NormalTok{(Measurement)), }\AttributeTok{Operator =} \FunctionTok{factor}\NormalTok{(o), }\AttributeTok{Part =} \FunctionTok{factor}\NormalTok{(p), Measurement)}
+  \ControlFlowTok{else}
+\NormalTok{    outFrame }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{StandardOrder =} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(Measurement), }\AttributeTok{RunOrder =} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(Measurement), }\AttributeTok{Operator =} \FunctionTok{factor}\NormalTok{(o), }\AttributeTok{Part =} \FunctionTok{factor}\NormalTok{(p), Measurement)}
+
+\NormalTok{  outFrame }\OtherTok{\textless{}{-}}\NormalTok{ outFrame[}\FunctionTok{order}\NormalTok{(outFrame}\SpecialCharTok{$}\NormalTok{RunOrder), ]}
+  \CommentTok{\# Valores predeterminados}
+\NormalTok{  gageRRObj }\OtherTok{\textless{}{-}}\NormalTok{ gageRR}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}
+    \AttributeTok{X =}\NormalTok{ outFrame,}
+    \AttributeTok{ANOVA =} \ConstantTok{NULL}\NormalTok{,}
+    \AttributeTok{RedANOVA =} \ConstantTok{NULL}\NormalTok{,}
+    \AttributeTok{method =}\NormalTok{ method,}
+    \AttributeTok{Estimates =} \ConstantTok{NULL}\NormalTok{,}
+    \AttributeTok{Varcomp =} \ConstantTok{NULL}\NormalTok{,}
+    \AttributeTok{Sigma =}\NormalTok{ sigma,}
+    \AttributeTok{GageName =} \ConstantTok{NULL}\NormalTok{,}
+    \AttributeTok{GageTolerance =} \ConstantTok{NULL}\NormalTok{,}
+    \AttributeTok{DateOfStudy =} \FunctionTok{Sys.Date}\NormalTok{(),}
+    \AttributeTok{PersonResponsible =} \ConstantTok{NULL}\NormalTok{,}
+    \AttributeTok{Comments =} \ConstantTok{NULL}\NormalTok{,}
+    \AttributeTok{b =} \FunctionTok{factor}\NormalTok{(p),}
+    \AttributeTok{a =} \FunctionTok{factor}\NormalTok{(o),}
+    \AttributeTok{y =} \FunctionTok{as.numeric}\NormalTok{(Measurement),}
+    \AttributeTok{facNames =} \FunctionTok{c}\NormalTok{(yName, aName, bName, abName),}
+    \AttributeTok{numO =} \FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(opvec)),  }\CommentTok{\# Número de operadores}
+    \AttributeTok{numP =} \FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(partvec)),  }\CommentTok{\# Número de partes}
+    \AttributeTok{numM =}\NormalTok{ Measurements  }\CommentTok{\# Número de mediciones}
+\NormalTok{  )}
+
+  \FunctionTok{return}\NormalTok{(gageRRObj)}
+\NormalTok{\}}
+
+\NormalTok{gageRR\_ }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(gdo, }\AttributeTok{method =} \StringTok{"crossed"}\NormalTok{, }\AttributeTok{sigma =} \DecValTok{6}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.25}\NormalTok{, }\AttributeTok{DM =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{HM =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{tolerance =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{dig =} \DecValTok{3}\NormalTok{, ...) \{}
+\NormalTok{  method }\OtherTok{\textless{}{-}}\NormalTok{ method}
+
+\NormalTok{  yName }\OtherTok{\textless{}{-}} \StringTok{"Measurement"}
+\NormalTok{  aName }\OtherTok{\textless{}{-}} \StringTok{"Operator"}
+\NormalTok{  bName }\OtherTok{\textless{}{-}} \StringTok{"Part"}
+
+\NormalTok{  abName }\OtherTok{\textless{}{-}} \ControlFlowTok{if}\NormalTok{(method }\SpecialCharTok{==} \StringTok{"crossed"}\NormalTok{) }\FunctionTok{paste}\NormalTok{(aName, }\StringTok{":"}\NormalTok{, bName, }\AttributeTok{sep =} \StringTok{""}\NormalTok{)}
+  \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(method }\SpecialCharTok{==} \StringTok{"nested"}\NormalTok{) }\FunctionTok{paste}\NormalTok{(bName, }\StringTok{"("}\NormalTok{, aName, }\StringTok{")"}\NormalTok{, }\AttributeTok{sep =} \StringTok{""}\NormalTok{)}
+  \ControlFlowTok{else} \ConstantTok{NA}
+
+\NormalTok{  bTobName }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(bName, }\StringTok{"to"}\NormalTok{, bName, }\AttributeTok{sep =} \StringTok{" "}\NormalTok{)}
+
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.null}\NormalTok{(tolerance)) tolerance }\OtherTok{\textless{}{-}}\NormalTok{ gdo}\SpecialCharTok{$}\FunctionTok{get\_tolerance}\NormalTok{()}
+
+\NormalTok{  y }\OtherTok{\textless{}{-}}\NormalTok{ gdo}\SpecialCharTok{$}\NormalTok{X[[yName]]}
+\NormalTok{  a }\OtherTok{\textless{}{-}}\NormalTok{ gdo}\SpecialCharTok{$}\NormalTok{X[[aName]]}
+\NormalTok{  b }\OtherTok{\textless{}{-}}\NormalTok{ gdo}\SpecialCharTok{$}\NormalTok{X[[bName]]}
+
+\NormalTok{  nestedFormula }\OtherTok{\textless{}{-}} \FunctionTok{as.formula}\NormalTok{(}\FunctionTok{paste}\NormalTok{(yName, }\StringTok{"\textasciitilde{}"}\NormalTok{, aName, }\StringTok{"/"}\NormalTok{, bName))}
+\NormalTok{  crossedFormula }\OtherTok{\textless{}{-}} \FunctionTok{as.formula}\NormalTok{(}\FunctionTok{paste}\NormalTok{(yName, }\StringTok{"\textasciitilde{}"}\NormalTok{, aName, }\StringTok{"*"}\NormalTok{, bName))}
+\NormalTok{  reducedFormula }\OtherTok{\textless{}{-}} \FunctionTok{as.formula}\NormalTok{(}\FunctionTok{paste}\NormalTok{(yName, }\StringTok{"\textasciitilde{}"}\NormalTok{, aName, }\StringTok{"+"}\NormalTok{, bName))}
+
+  \ControlFlowTok{if}\NormalTok{ (method }\SpecialCharTok{==} \StringTok{"nested"}\NormalTok{) \{}
+\NormalTok{    numA }\OtherTok{\textless{}{-}} \FunctionTok{nlevels}\NormalTok{(a)}
+\NormalTok{    numB }\OtherTok{\textless{}{-}} \FunctionTok{nlevels}\NormalTok{(b)}
+\NormalTok{    numMPP }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(y) }\SpecialCharTok{/}\NormalTok{ (numB }\SpecialCharTok{*}\NormalTok{ numA)}
+
+\NormalTok{    gdo}\SpecialCharTok{$}\NormalTok{numO }\OtherTok{\textless{}{-}}\NormalTok{ numA}
+\NormalTok{    gdo}\SpecialCharTok{$}\NormalTok{numP }\OtherTok{\textless{}{-}}\NormalTok{ numB}
+\NormalTok{    gdo}\SpecialCharTok{$}\NormalTok{numM }\OtherTok{\textless{}{-}}\NormalTok{ numMPP}
+
+\NormalTok{    fit }\OtherTok{\textless{}{-}} \FunctionTok{aov}\NormalTok{(nestedFormula, }\AttributeTok{data =}\NormalTok{ gdo}\SpecialCharTok{$}\NormalTok{X)}
+\NormalTok{    meanSq }\OtherTok{\textless{}{-}} \FunctionTok{anova}\NormalTok{(fit)[, }\DecValTok{3}\NormalTok{]}
+
+\NormalTok{    gdo}\SpecialCharTok{$}\NormalTok{ANOVA }\OtherTok{\textless{}{-}}\NormalTok{ fit}
+\NormalTok{    gdo}\SpecialCharTok{$}\NormalTok{method }\OtherTok{\textless{}{-}} \StringTok{"nested"}
+
+\NormalTok{    MSa }\OtherTok{\textless{}{-}}\NormalTok{ meanSq[}\DecValTok{1}\NormalTok{]}
+\NormalTok{    MSab }\OtherTok{\textless{}{-}}\NormalTok{ meanSq[}\DecValTok{2}\NormalTok{]}
+\NormalTok{    MSe }\OtherTok{\textless{}{-}}\NormalTok{ meanSq[}\DecValTok{3}\NormalTok{]}
+
+\NormalTok{    Cerror }\OtherTok{\textless{}{-}}\NormalTok{ MSe}
+\NormalTok{    Cb }\OtherTok{\textless{}{-}}\NormalTok{ (MSab }\SpecialCharTok{{-}}\NormalTok{ MSe) }\SpecialCharTok{/}\NormalTok{ numMPP}
+\NormalTok{    Ca }\OtherTok{\textless{}{-}}\NormalTok{ (MSa }\SpecialCharTok{{-}}\NormalTok{ MSab) }\SpecialCharTok{/}\NormalTok{ (numB }\SpecialCharTok{*}\NormalTok{ numMPP)}
+
+    \ControlFlowTok{if}\NormalTok{ (Ca }\SpecialCharTok{\textless{}=} \DecValTok{0}\NormalTok{) Ca }\OtherTok{\textless{}{-}} \DecValTok{0}
+    \ControlFlowTok{if}\NormalTok{ (Cb }\SpecialCharTok{\textless{}=} \DecValTok{0}\NormalTok{) Cb }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+\NormalTok{    Cab }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{    totalRR }\OtherTok{\textless{}{-}}\NormalTok{ Ca }\SpecialCharTok{+}\NormalTok{ Cab }\SpecialCharTok{+}\NormalTok{ Cerror}
+\NormalTok{    repeatability }\OtherTok{\textless{}{-}}\NormalTok{ Cerror}
+\NormalTok{    reproducibility }\OtherTok{\textless{}{-}}\NormalTok{ Ca}
+\NormalTok{    bTob }\OtherTok{\textless{}{-}}\NormalTok{ Cb}
+\NormalTok{    totalVar }\OtherTok{\textless{}{-}}\NormalTok{ Cb }\SpecialCharTok{+}\NormalTok{ Ca }\SpecialCharTok{+}\NormalTok{ Cab }\SpecialCharTok{+}\NormalTok{ Cerror}
+
+\NormalTok{    estimates }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\AttributeTok{Cb =}\NormalTok{ Cb, }\AttributeTok{Ca =}\NormalTok{ Ca, }\AttributeTok{Cab =}\NormalTok{ Cab, }\AttributeTok{Cerror =}\NormalTok{ Cerror)}
+\NormalTok{    varcomp }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\AttributeTok{totalRR =}\NormalTok{ totalRR, }\AttributeTok{repeatability =}\NormalTok{ repeatability, }\AttributeTok{reproducibility =}\NormalTok{ reproducibility, }\AttributeTok{bTob =}\NormalTok{ bTob, }\AttributeTok{totalVar =}\NormalTok{ totalVar)}
+
+\NormalTok{    gdo}\SpecialCharTok{$}\NormalTok{Estimates }\OtherTok{\textless{}{-}}\NormalTok{ estimates}
+\NormalTok{    gdo}\SpecialCharTok{$}\NormalTok{Varcomp }\OtherTok{\textless{}{-}}\NormalTok{ varcomp}
+\NormalTok{  \}}
+
+  \ControlFlowTok{if}\NormalTok{ (method }\SpecialCharTok{==} \StringTok{"crossed"}\NormalTok{) \{}
+\NormalTok{    numA }\OtherTok{\textless{}{-}} \FunctionTok{nlevels}\NormalTok{(a)}
+\NormalTok{    numB }\OtherTok{\textless{}{-}} \FunctionTok{nlevels}\NormalTok{(b)}
+\NormalTok{    numMPP }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(a) }\SpecialCharTok{/}\NormalTok{ (numA }\SpecialCharTok{*}\NormalTok{ numB)}
+
+\NormalTok{    gdo}\SpecialCharTok{$}\NormalTok{numO }\OtherTok{\textless{}{-}}\NormalTok{ numA}
+\NormalTok{    gdo}\SpecialCharTok{$}\NormalTok{numP }\OtherTok{\textless{}{-}}\NormalTok{ numB}
+\NormalTok{    gdo}\SpecialCharTok{$}\NormalTok{numM }\OtherTok{\textless{}{-}}\NormalTok{ numMPP}
+
+\NormalTok{    fit }\OtherTok{\textless{}{-}} \FunctionTok{aov}\NormalTok{(crossedFormula, }\AttributeTok{data =}\NormalTok{ gdo}\SpecialCharTok{$}\NormalTok{X)}
+\NormalTok{    model }\OtherTok{\textless{}{-}} \FunctionTok{anova}\NormalTok{(fit)}
+
+\NormalTok{    gdo}\SpecialCharTok{$}\NormalTok{ANOVA }\OtherTok{\textless{}{-}}\NormalTok{ fit}
+\NormalTok{    gdo}\SpecialCharTok{$}\NormalTok{method }\OtherTok{\textless{}{-}} \StringTok{"crossed"}
+
+\NormalTok{    MSb }\OtherTok{\textless{}{-}}\NormalTok{ MSa }\OtherTok{\textless{}{-}}\NormalTok{ MSab }\OtherTok{\textless{}{-}}\NormalTok{ MSe }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+    \ControlFlowTok{if}\NormalTok{ (bName }\SpecialCharTok{\%in\%} \FunctionTok{row.names}\NormalTok{(model)) MSb }\OtherTok{\textless{}{-}}\NormalTok{ model[bName, }\StringTok{"Mean Sq"}\NormalTok{]}
+    \ControlFlowTok{else} \FunctionTok{warning}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"missing factor"}\NormalTok{, bName, }\StringTok{"in model"}\NormalTok{))}
+
+    \ControlFlowTok{if}\NormalTok{ (aName }\SpecialCharTok{\%in\%} \FunctionTok{row.names}\NormalTok{(model)) MSa }\OtherTok{\textless{}{-}}\NormalTok{ model[aName, }\StringTok{"Mean Sq"}\NormalTok{]}
+    \ControlFlowTok{else} \FunctionTok{warning}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"missing factor"}\NormalTok{, aName, }\StringTok{"in model"}\NormalTok{))}
+
+    \ControlFlowTok{if}\NormalTok{ (abName }\SpecialCharTok{\%in\%} \FunctionTok{row.names}\NormalTok{(model)) MSab }\OtherTok{\textless{}{-}}\NormalTok{ model[abName, }\StringTok{"Mean Sq"}\NormalTok{]}
+    \ControlFlowTok{else} \FunctionTok{warning}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"missing interaction"}\NormalTok{, abName, }\StringTok{"in model"}\NormalTok{))}
+
+    \ControlFlowTok{if}\NormalTok{ (}\StringTok{"Residuals"} \SpecialCharTok{\%in\%} \FunctionTok{row.names}\NormalTok{(model)) MSe }\OtherTok{\textless{}{-}}\NormalTok{ model[}\StringTok{"Residuals"}\NormalTok{, }\StringTok{"Mean Sq"}\NormalTok{]}
+    \ControlFlowTok{else} \FunctionTok{warning}\NormalTok{(}\StringTok{"missing Residuals in model"}\NormalTok{)}
+
+\NormalTok{    Cb }\OtherTok{\textless{}{-}}\NormalTok{ Ca }\OtherTok{\textless{}{-}}\NormalTok{ Cab }\OtherTok{\textless{}{-}}\NormalTok{ Cerror }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+\NormalTok{    Cb }\OtherTok{\textless{}{-}}\NormalTok{ (MSb }\SpecialCharTok{{-}}\NormalTok{ MSab) }\SpecialCharTok{/}\NormalTok{ (numA }\SpecialCharTok{*}\NormalTok{ numMPP)}
+\NormalTok{    Ca }\OtherTok{\textless{}{-}}\NormalTok{ (MSa }\SpecialCharTok{{-}}\NormalTok{ MSab) }\SpecialCharTok{/}\NormalTok{ (numB }\SpecialCharTok{*}\NormalTok{ numMPP)}
+\NormalTok{    Cab }\OtherTok{\textless{}{-}}\NormalTok{ (MSab }\SpecialCharTok{{-}}\NormalTok{ MSe) }\SpecialCharTok{/}\NormalTok{ numMPP}
+\NormalTok{    Cerror }\OtherTok{\textless{}{-}}\NormalTok{ (MSe)}
+
+\NormalTok{    gdo}\SpecialCharTok{$}\NormalTok{RedANOVA }\OtherTok{\textless{}{-}}\NormalTok{ gdo}\SpecialCharTok{$}\NormalTok{ANOVA}
+
+    \ControlFlowTok{if}\NormalTok{ ((Cab }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{) }\SpecialCharTok{||}\NormalTok{ (model[abName, }\StringTok{"Pr(\textgreater{}F)"}\NormalTok{] }\SpecialCharTok{\textgreater{}=}\NormalTok{ alpha)) \{}
+\NormalTok{      redFit }\OtherTok{\textless{}{-}} \FunctionTok{aov}\NormalTok{(reducedFormula, }\AttributeTok{data =}\NormalTok{ gdo}\SpecialCharTok{$}\NormalTok{X)}
+\NormalTok{      model }\OtherTok{\textless{}{-}} \FunctionTok{anova}\NormalTok{(redFit)}
+
+\NormalTok{      MSb }\OtherTok{\textless{}{-}}\NormalTok{ MSa }\OtherTok{\textless{}{-}}\NormalTok{ MSab }\OtherTok{\textless{}{-}}\NormalTok{ MSe }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+      \ControlFlowTok{if}\NormalTok{ (bName }\SpecialCharTok{\%in\%} \FunctionTok{row.names}\NormalTok{(model)) MSb }\OtherTok{\textless{}{-}}\NormalTok{ model[bName, }\StringTok{"Mean Sq"}\NormalTok{]}
+      \ControlFlowTok{else} \FunctionTok{warning}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"missing factor"}\NormalTok{, bName, }\StringTok{"in model"}\NormalTok{))}
+
+      \ControlFlowTok{if}\NormalTok{ (aName }\SpecialCharTok{\%in\%} \FunctionTok{row.names}\NormalTok{(model)) MSa }\OtherTok{\textless{}{-}}\NormalTok{ model[aName, }\StringTok{"Mean Sq"}\NormalTok{]}
+      \ControlFlowTok{else} \FunctionTok{warning}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"missing factor"}\NormalTok{, aName, }\StringTok{"in model"}\NormalTok{))}
+
+      \ControlFlowTok{if}\NormalTok{ (}\StringTok{"Residuals"} \SpecialCharTok{\%in\%} \FunctionTok{row.names}\NormalTok{(model)) MSe }\OtherTok{\textless{}{-}}\NormalTok{ model[}\StringTok{"Residuals"}\NormalTok{, }\StringTok{"Mean Sq"}\NormalTok{]}
+      \ControlFlowTok{else} \FunctionTok{warning}\NormalTok{(}\StringTok{"missing Residuals in model"}\NormalTok{)}
+
+\NormalTok{      Cb }\OtherTok{\textless{}{-}}\NormalTok{ Ca }\OtherTok{\textless{}{-}}\NormalTok{ Cab }\OtherTok{\textless{}{-}}\NormalTok{ Cerror }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+\NormalTok{      Cb }\OtherTok{\textless{}{-}}\NormalTok{ (MSb }\SpecialCharTok{{-}}\NormalTok{ MSe) }\SpecialCharTok{/}\NormalTok{ (numA }\SpecialCharTok{*}\NormalTok{ numMPP)}
+\NormalTok{      Ca }\OtherTok{\textless{}{-}}\NormalTok{ (MSa }\SpecialCharTok{{-}}\NormalTok{ MSe) }\SpecialCharTok{/}\NormalTok{ (numB }\SpecialCharTok{*}\NormalTok{ numMPP)}
+\NormalTok{      Cab }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{      Cerror }\OtherTok{\textless{}{-}}\NormalTok{ (MSe)}
+
+\NormalTok{      gdo}\SpecialCharTok{$}\NormalTok{RedANOVA }\OtherTok{\textless{}{-}}\NormalTok{ redFit}
+\NormalTok{    \}}
+
+\NormalTok{    gdo}\SpecialCharTok{$}\NormalTok{method }\OtherTok{\textless{}{-}} \StringTok{"crossed"}
+\NormalTok{    Ca }\OtherTok{\textless{}{-}} \FunctionTok{max}\NormalTok{(}\DecValTok{0}\NormalTok{, Ca)}
+\NormalTok{    Cb }\OtherTok{\textless{}{-}} \FunctionTok{max}\NormalTok{(}\DecValTok{0}\NormalTok{, Cb)}
+\NormalTok{    Cab }\OtherTok{\textless{}{-}} \FunctionTok{max}\NormalTok{(}\DecValTok{0}\NormalTok{, Cab)}
+
+\NormalTok{    totalRR }\OtherTok{\textless{}{-}}\NormalTok{ Ca }\SpecialCharTok{+}\NormalTok{ Cab }\SpecialCharTok{+}\NormalTok{ Cerror}
+\NormalTok{    repeatability }\OtherTok{\textless{}{-}}\NormalTok{ Cerror}
+\NormalTok{    reproducibility }\OtherTok{\textless{}{-}}\NormalTok{ Ca }\SpecialCharTok{+}\NormalTok{ Cab}
+\NormalTok{    bTob }\OtherTok{\textless{}{-}} \FunctionTok{max}\NormalTok{(}\DecValTok{0}\NormalTok{, Cb)}
+\NormalTok{    totalVar }\OtherTok{\textless{}{-}}\NormalTok{ Cb }\SpecialCharTok{+}\NormalTok{ Ca }\SpecialCharTok{+}\NormalTok{ Cab }\SpecialCharTok{+}\NormalTok{ Cerror}
+
+\NormalTok{    estimates }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\AttributeTok{Cb =}\NormalTok{ Cb, }\AttributeTok{Ca =}\NormalTok{ Ca, }\AttributeTok{Cab =}\NormalTok{ Cab, }\AttributeTok{Cerror =}\NormalTok{ Cerror)}
+\NormalTok{    varcomp }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\AttributeTok{totalRR =}\NormalTok{ totalRR, }\AttributeTok{repeatability =}\NormalTok{ repeatability, }\AttributeTok{reproducibility =}\NormalTok{ reproducibility, }\AttributeTok{a =}\NormalTok{ Ca, }\AttributeTok{a\_b =}\NormalTok{ Cab, }\AttributeTok{bTob =}\NormalTok{ bTob, }\AttributeTok{totalVar =}\NormalTok{ totalVar)}
+
+\NormalTok{    gdo}\SpecialCharTok{$}\NormalTok{Estimates }\OtherTok{\textless{}{-}}\NormalTok{ estimates}
+\NormalTok{    gdo}\SpecialCharTok{$}\NormalTok{Varcomp }\OtherTok{\textless{}{-}}\NormalTok{ varcomp}
+\NormalTok{  \}}
+
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"AnOVa Table {-} "}\NormalTok{, gdo}\SpecialCharTok{$}\NormalTok{method, }\StringTok{"Design}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{))}
+  \FunctionTok{print}\NormalTok{(}\FunctionTok{summary}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{ANOVA))}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+
+  \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{identical}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{RedANOVA, gdo}\SpecialCharTok{$}\NormalTok{ANOVA) }\SpecialCharTok{\&\&}\NormalTok{ gdo}\SpecialCharTok{$}\NormalTok{method }\SpecialCharTok{==} \StringTok{"crossed"}\NormalTok{) \{}
+    \FunctionTok{cat}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"AnOVa Table Without Interaction {-} "}\NormalTok{, gdo}\SpecialCharTok{$}\NormalTok{method, }\StringTok{"Design}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{))}
+    \FunctionTok{print}\NormalTok{(}\FunctionTok{summary}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{RedANOVA))}
+    \FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+    \FunctionTok{cat}\NormalTok{(}\StringTok{"{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{  \}}
+
+\NormalTok{  Source }\OtherTok{\textless{}{-}} \FunctionTok{names}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{Varcomp)}
+\NormalTok{  Source[Source }\SpecialCharTok{==} \StringTok{"repeatability"}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{" repeatability"}
+\NormalTok{  Source[Source }\SpecialCharTok{==} \StringTok{"reproducibility"}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{" reproducibility"}
+\NormalTok{  Source[Source }\SpecialCharTok{==} \StringTok{"a\_b"}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"  "}\NormalTok{, abName)}
+\NormalTok{  Source[Source }\SpecialCharTok{==} \StringTok{"a"}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"  "}\NormalTok{, aName)}
+\NormalTok{  Source[Source }\SpecialCharTok{==} \StringTok{"bTob"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ bTobName}
+
+\NormalTok{  VarComp }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{Varcomp[}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{Varcomp))]), }\DecValTok{3}\NormalTok{)}
+\NormalTok{  Contribution }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{Varcomp[}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{Varcomp))]) }\SpecialCharTok{/} \FunctionTok{as.numeric}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{Varcomp[}\FunctionTok{length}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{Varcomp)]), }\DecValTok{3}\NormalTok{)}
+\NormalTok{  VarComp }\OtherTok{\textless{}{-}} \FunctionTok{t}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{Varcomp))}
+\NormalTok{  VarCompContrib }\OtherTok{\textless{}{-}}\NormalTok{ VarComp }\SpecialCharTok{/}\NormalTok{ gdo}\SpecialCharTok{$}\NormalTok{Varcomp}\SpecialCharTok{$}\NormalTok{totalVar}
+\NormalTok{  Stdev }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(VarComp)}
+\NormalTok{  StudyVar }\OtherTok{\textless{}{-}}\NormalTok{ Stdev }\SpecialCharTok{*}\NormalTok{ gdo}\SpecialCharTok{$}\NormalTok{Sigma}
+\NormalTok{  StudyVarContrib }\OtherTok{\textless{}{-}}\NormalTok{ StudyVar }\SpecialCharTok{/}\NormalTok{ StudyVar[}\StringTok{"totalVar"}\NormalTok{, ]}
+\NormalTok{  SNR }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{  ptRatio }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\NormalTok{  temp }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+
+  \ControlFlowTok{if}\NormalTok{ ((}\FunctionTok{length}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{GageTolerance) }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{) }\SpecialCharTok{\&\&}\NormalTok{ (gdo}\SpecialCharTok{$}\NormalTok{GageTolerance }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{)) \{}
+\NormalTok{    ptRatio }\OtherTok{\textless{}{-}}\NormalTok{ StudyVar }\SpecialCharTok{/}\NormalTok{ gdo}\SpecialCharTok{$}\NormalTok{GageTolerance}
+\NormalTok{    temp }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(VarComp, VarCompContrib, Stdev, StudyVar, StudyVarContrib, ptRatio)}
+    \FunctionTok{names}\NormalTok{(temp)[}\DecValTok{6}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"P/T Ratio"}\NormalTok{)}
+    \FunctionTok{row.names}\NormalTok{(temp) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(Source)}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{    temp }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(VarComp, VarCompContrib, Stdev, StudyVar, StudyVarContrib)}
+    \FunctionTok{row.names}\NormalTok{(temp) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(Source)}
+\NormalTok{  \}}
+
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"Gage R\&R}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{  tempout }\OtherTok{\textless{}{-}}\NormalTok{ temp}
+  \FunctionTok{print}\NormalTok{(}\FunctionTok{format}\NormalTok{(tempout, }\AttributeTok{digits =}\NormalTok{ dig))}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"{-}{-}{-}}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{" * Contrib equals Contribution in \%}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+
+\NormalTok{  SNRTemp }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\DecValTok{2}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ (temp[bTobName, }\StringTok{"Stdev"}\NormalTok{] }\SpecialCharTok{/}\NormalTok{ temp[}\StringTok{"totalRR"}\NormalTok{, }\StringTok{"Stdev"}\NormalTok{])}
+  \ControlFlowTok{if}\NormalTok{ (SNRTemp }\SpecialCharTok{\textgreater{}} \DecValTok{1}\NormalTok{) SNR }\OtherTok{\textless{}{-}}\NormalTok{ SNRTemp}
+
+  \FunctionTok{cat}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{" **Number of Distinct Categories (truncated signal{-}to{-}noise{-}ratio) ="}\NormalTok{, }\FunctionTok{floor}\NormalTok{(SNR), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{))}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{invisible}\NormalTok{(gdo)}
+\NormalTok{\}}
+\FunctionTok{setMethod}\NormalTok{(}\StringTok{"plot"}\NormalTok{, }\FunctionTok{signature}\NormalTok{(}\AttributeTok{x =} \StringTok{"gageRR"}\NormalTok{), }\ControlFlowTok{function}\NormalTok{(x, y, }\AttributeTok{main=}\ConstantTok{NULL}\NormalTok{, }\AttributeTok{xlab=}\ConstantTok{NULL}\NormalTok{, }\AttributeTok{ylab=}\ConstantTok{NULL}\NormalTok{, col, lwd, }\AttributeTok{fun =}\NormalTok{ mean, ...) \{}
+\NormalTok{  gdo }\OtherTok{\textless{}{-}}\NormalTok{ x}
+\NormalTok{  yName }\OtherTok{\textless{}{-}}\NormalTok{ x}\SpecialCharTok{$}\NormalTok{facNames[}\DecValTok{1}\NormalTok{]}
+\NormalTok{  aName }\OtherTok{\textless{}{-}}\NormalTok{ x}\SpecialCharTok{$}\NormalTok{facNames[}\DecValTok{2}\NormalTok{]}
+\NormalTok{  bName }\OtherTok{\textless{}{-}}\NormalTok{ x}\SpecialCharTok{$}\NormalTok{facNames[}\DecValTok{3}\NormalTok{]}
+\NormalTok{  abName }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(aName, }\StringTok{":"}\NormalTok{, bName, }\AttributeTok{sep =} \StringTok{""}\NormalTok{)}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(col))}
+\NormalTok{    col }\OtherTok{\textless{}{-}} \DecValTok{2}\SpecialCharTok{:}\NormalTok{(}\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{b)) }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(lwd))}
+\NormalTok{    lwd }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{  temp }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\NormalTok{  Source }\OtherTok{\textless{}{-}} \FunctionTok{names}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{Varcomp)}
+\NormalTok{  VarComp }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{Varcomp), }\DecValTok{3}\NormalTok{)}
+\NormalTok{  Contribution }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{Varcomp) }\SpecialCharTok{/} \FunctionTok{as.numeric}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{Varcomp[}\FunctionTok{length}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{Varcomp)]), }\DecValTok{3}\NormalTok{)}
+\NormalTok{  VarComp }\OtherTok{\textless{}{-}} \FunctionTok{t}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{Varcomp))}
+\NormalTok{  VarCompContrib }\OtherTok{\textless{}{-}}\NormalTok{ VarComp }\SpecialCharTok{/}\NormalTok{ gdo}\SpecialCharTok{$}\NormalTok{Varcomp}\SpecialCharTok{$}\NormalTok{totalVar}
+\NormalTok{  Stdev }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(VarComp)}
+\NormalTok{  StudyVar }\OtherTok{\textless{}{-}}\NormalTok{ Stdev }\SpecialCharTok{*}\NormalTok{ gdo}\SpecialCharTok{$}\NormalTok{Sigma}
+\NormalTok{  StudyVarContrib }\OtherTok{\textless{}{-}}\NormalTok{ StudyVar }\SpecialCharTok{/}\NormalTok{ StudyVar[}\StringTok{"totalVar"}\NormalTok{, ]}
+  \ControlFlowTok{if}\NormalTok{ ((}\FunctionTok{length}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{GageTolerance) }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{) }\SpecialCharTok{\&\&}\NormalTok{ (gdo}\SpecialCharTok{$}\NormalTok{GageTolerance }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{)) \{}
+\NormalTok{    ptRatio }\OtherTok{\textless{}{-}}\NormalTok{ StudyVar }\SpecialCharTok{/}\NormalTok{ gdo}\SpecialCharTok{$}\NormalTok{GageTolerance}
+\NormalTok{    temp }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(VarComp, VarCompContrib, Stdev, StudyVar, StudyVarContrib, ptRatio)}
+\NormalTok{    contribFrame }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(VarCompContrib, StudyVarContrib, ptRatio)}
+    \FunctionTok{names}\NormalTok{(temp)[}\DecValTok{6}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"P/T Ratio"}\NormalTok{)}
+    \FunctionTok{row.names}\NormalTok{(temp) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(Source)}
+\NormalTok{    SNR }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (temp[}\StringTok{"bTob"}\NormalTok{, }\StringTok{"VarComp"}\NormalTok{] }\SpecialCharTok{/}\NormalTok{ temp[}\StringTok{"totalRR"}\NormalTok{, }\StringTok{"VarComp"}\NormalTok{]))}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{    temp }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(VarComp, VarCompContrib, Stdev, StudyVar, StudyVarContrib)}
+\NormalTok{    contribFrame }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(VarCompContrib, StudyVarContrib)}
+\NormalTok{  \}}
+\NormalTok{  bTob }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(bName, }\StringTok{"To"}\NormalTok{, bName, }\AttributeTok{sep =} \StringTok{""}\NormalTok{)}
+\NormalTok{  Source[Source }\SpecialCharTok{==} \StringTok{"bTob"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ bTob}
+  \FunctionTok{row.names}\NormalTok{(contribFrame) }\OtherTok{\textless{}{-}}\NormalTok{ Source}
+  \ControlFlowTok{if}\NormalTok{ (gdo}\SpecialCharTok{$}\NormalTok{method }\SpecialCharTok{==} \StringTok{"crossed"}\NormalTok{)}
+\NormalTok{    contribFrame }\OtherTok{\textless{}{-}}\NormalTok{ contribFrame[}\SpecialCharTok{{-}}\FunctionTok{match}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"totalVar"}\NormalTok{, }\StringTok{"a"}\NormalTok{, }\StringTok{"a\_b"}\NormalTok{), }\FunctionTok{row.names}\NormalTok{(temp)), ]}
+  \ControlFlowTok{else}\NormalTok{ contribFrame }\OtherTok{\textless{}{-}}\NormalTok{ contribFrame[}\SpecialCharTok{{-}}\FunctionTok{match}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"totalVar"}\NormalTok{), }\FunctionTok{row.names}\NormalTok{(temp)), ]}
+\NormalTok{  numBars }\OtherTok{\textless{}{-}}\FunctionTok{ncol}\NormalTok{(contribFrame)}
+  \CommentTok{\# Convertir los datos en un formato adecuado}
+\NormalTok{  contrib\_df }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(contribFrame)}
+\NormalTok{  contrib\_df}\SpecialCharTok{$}\NormalTok{component }\OtherTok{\textless{}{-}} \FunctionTok{rownames}\NormalTok{(contribFrame)}
+\NormalTok{  contrib\_df }\OtherTok{\textless{}{-}}\NormalTok{ contrib\_df }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{rownames\_to\_column}\NormalTok{(}\AttributeTok{var =} \StringTok{"Source"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{filter}\NormalTok{(Source }\SpecialCharTok{!=} \StringTok{"totalVar"}\NormalTok{)}
+\NormalTok{  ymax }\OtherTok{\textless{}{-}} \FunctionTok{max}\NormalTok{(}\FunctionTok{max}\NormalTok{(contribFrame))}
+\NormalTok{  main1 }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+  \CommentTok{\# Crear el gráfico}
+  \CommentTok{\#  format for ggplot2}
+\NormalTok{  contribFrame\_long }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(contribFrame)}
+\NormalTok{  contribFrame\_long}\SpecialCharTok{$}\NormalTok{Component }\OtherTok{\textless{}{-}} \FunctionTok{rownames}\NormalTok{(contribFrame\_long)}
+\NormalTok{  contribFrame\_long }\OtherTok{\textless{}{-}}\NormalTok{ tidyr}\SpecialCharTok{::}\FunctionTok{gather}\NormalTok{(contribFrame\_long, }\AttributeTok{key =} \StringTok{"Metric"}\NormalTok{, }\AttributeTok{value =} \StringTok{"Value"}\NormalTok{, }\SpecialCharTok{{-}}\NormalTok{Component)}
+  \CommentTok{\# Components of Variation}
+\NormalTok{  p1 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(contribFrame\_long, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Component, }\AttributeTok{y =}\NormalTok{ Value, }\AttributeTok{fill =}\NormalTok{ Metric)) }\SpecialCharTok{+}
+    \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{) }\SpecialCharTok{+}
+    \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.null}\NormalTok{(main[}\DecValTok{1}\NormalTok{]), }\StringTok{"Components of Variation"}\NormalTok{, main[}\DecValTok{1}\NormalTok{]),}
+         \AttributeTok{x =} \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.null}\NormalTok{(xlab[}\DecValTok{1}\NormalTok{]), }\StringTok{"Component"}\NormalTok{, xlab[}\DecValTok{1}\NormalTok{]),}
+         \AttributeTok{y =} \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.null}\NormalTok{(ylab[}\DecValTok{1}\NormalTok{]), }\StringTok{""}\NormalTok{, ylab[}\DecValTok{1}\NormalTok{])) }\SpecialCharTok{+}
+    \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+    \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ col[}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{nlevels}\NormalTok{(}\FunctionTok{factor}\NormalTok{(contribFrame\_long}\SpecialCharTok{$}\NormalTok{Metric))])}
+
+  \FunctionTok{print}\NormalTok{(p1)}
+  \CommentTok{\#Measurement by part}
+\NormalTok{  main2}\OtherTok{\textless{}{-}}\ConstantTok{NA}
+  \ControlFlowTok{if}\NormalTok{ (gdo}\SpecialCharTok{$}\NormalTok{method }\SpecialCharTok{==} \StringTok{"crossed"}\NormalTok{) \{}
+\NormalTok{    main2 }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(main) }\SpecialCharTok{||} \FunctionTok{is.na}\NormalTok{(main[}\DecValTok{2}\NormalTok{]))}
+\NormalTok{      main2 }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(yName, }\StringTok{"by"}\NormalTok{, bName)}
+    \ControlFlowTok{else}\NormalTok{ main2 }\OtherTok{\textless{}{-}}\NormalTok{ main[}\DecValTok{2}\NormalTok{]}
+\NormalTok{    xlab2 }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(xlab) }\SpecialCharTok{||} \FunctionTok{is.na}\NormalTok{(xlab[}\DecValTok{2}\NormalTok{]))}
+\NormalTok{      xlab2 }\OtherTok{\textless{}{-}}\NormalTok{ bName}
+    \ControlFlowTok{else}\NormalTok{ xlab2 }\OtherTok{\textless{}{-}}\NormalTok{ xlab[}\DecValTok{2}\NormalTok{]}
+\NormalTok{    ylab2 }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(ylab) }\SpecialCharTok{||} \FunctionTok{is.na}\NormalTok{(ylab[}\DecValTok{2}\NormalTok{]))}
+\NormalTok{      ylab2 }\OtherTok{\textless{}{-}}\NormalTok{ yName}
+    \ControlFlowTok{else}\NormalTok{ ylab2 }\OtherTok{\textless{}{-}}\NormalTok{ ylab[}\DecValTok{2}\NormalTok{]}
+\NormalTok{  p2 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X, }\FunctionTok{aes\_string}\NormalTok{(}\AttributeTok{x =}\NormalTok{ bName, }\AttributeTok{y =}\NormalTok{ yName)) }\SpecialCharTok{+}
+    \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+}
+    \FunctionTok{stat\_summary}\NormalTok{(}\AttributeTok{fun =}\NormalTok{ median, }\AttributeTok{geom =} \StringTok{"line"}\NormalTok{, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{group =} \DecValTok{1}\NormalTok{), }\AttributeTok{color =} \StringTok{"red"}\NormalTok{, }\AttributeTok{size =}\NormalTok{ lwd) }\SpecialCharTok{+}
+    \FunctionTok{stat\_summary}\NormalTok{(}\AttributeTok{fun =}\NormalTok{ median, }\AttributeTok{geom =} \StringTok{"point"}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{, }\AttributeTok{size =} \DecValTok{3}\NormalTok{) }\SpecialCharTok{+}
+    \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.null}\NormalTok{(main2), }\FunctionTok{paste}\NormalTok{(yName, }\StringTok{"by"}\NormalTok{, bName), main2),}
+         \AttributeTok{x =} \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.null}\NormalTok{(xlab2), bName, xlab2),}
+         \AttributeTok{y =} \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.null}\NormalTok{(ylab2), yName, ylab2)) }\SpecialCharTok{+}
+    \FunctionTok{theme\_minimal}\NormalTok{()}
+
+  \FunctionTok{print}\NormalTok{(p2)}
+  \CommentTok{\#Measurement by operator}
+\NormalTok{  main3 }\OtherTok{=} \ConstantTok{NA}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(main) }\SpecialCharTok{||} \FunctionTok{is.na}\NormalTok{(main[}\DecValTok{3}\NormalTok{]))}
+\NormalTok{    main3 }\OtherTok{=} \FunctionTok{paste}\NormalTok{(yName, }\StringTok{"by"}\NormalTok{, aName)}
+  \ControlFlowTok{else}\NormalTok{ main3 }\OtherTok{=}\NormalTok{ main[}\DecValTok{3}\NormalTok{]}
+\NormalTok{  xlab3 }\OtherTok{=} \ConstantTok{NA}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(xlab) }\SpecialCharTok{||} \FunctionTok{is.na}\NormalTok{(xlab[}\DecValTok{3}\NormalTok{]))}
+\NormalTok{    xlab3 }\OtherTok{=}\NormalTok{ aName}
+  \ControlFlowTok{else}\NormalTok{ xlab3 }\OtherTok{=}\NormalTok{ xlab[}\DecValTok{3}\NormalTok{]}
+\NormalTok{  ylab3 }\OtherTok{=} \ConstantTok{NA}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(ylab) }\SpecialCharTok{||} \FunctionTok{is.na}\NormalTok{(ylab[}\DecValTok{3}\NormalTok{]))}
+\NormalTok{    ylab3 }\OtherTok{=}\NormalTok{ yName}
+  \ControlFlowTok{else}\NormalTok{ ylab3 }\OtherTok{=}\NormalTok{ ylab[}\DecValTok{3}\NormalTok{]}
+
+\NormalTok{  p3 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X, }\FunctionTok{aes\_string}\NormalTok{(}\AttributeTok{x =}\NormalTok{ aName, }\AttributeTok{y =}\NormalTok{ yName)) }\SpecialCharTok{+}
+    \FunctionTok{geom\_boxplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =} \FunctionTok{factor}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X[, }\DecValTok{3}\NormalTok{]))) }\SpecialCharTok{+}
+    \FunctionTok{stat\_summary}\NormalTok{(}\AttributeTok{fun =}\NormalTok{ median, }\AttributeTok{geom =} \StringTok{"line"}\NormalTok{, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{group =} \DecValTok{1}\NormalTok{), }\AttributeTok{color =} \StringTok{"red"}\NormalTok{, }\AttributeTok{size =}\NormalTok{ lwd) }\SpecialCharTok{+}
+    \FunctionTok{stat\_summary}\NormalTok{(}\AttributeTok{fun =}\NormalTok{ median, }\AttributeTok{geom =} \StringTok{"point"}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{, }\AttributeTok{size =} \DecValTok{3}\NormalTok{) }\SpecialCharTok{+}
+    \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.null}\NormalTok{(main[}\DecValTok{3}\NormalTok{]), }\FunctionTok{paste}\NormalTok{(yName, }\StringTok{"by"}\NormalTok{, aName), main[}\DecValTok{3}\NormalTok{]),}
+         \AttributeTok{x =} \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.null}\NormalTok{(xlab[}\DecValTok{3}\NormalTok{]), aName, xlab[}\DecValTok{3}\NormalTok{]),}
+         \AttributeTok{y =} \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.null}\NormalTok{(ylab[}\DecValTok{3}\NormalTok{]), yName, ylab[}\DecValTok{3}\NormalTok{]),}
+         \AttributeTok{fill =} \StringTok{"Factor"}\NormalTok{) }\SpecialCharTok{+}
+    \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+    \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ col)}
+
+  \FunctionTok{print}\NormalTok{(p3)}
+  \CommentTok{\#R chart}
+\NormalTok{  main4 }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(main) }\SpecialCharTok{||} \FunctionTok{is.na}\NormalTok{(main[}\DecValTok{4}\NormalTok{]))}
+\NormalTok{    main4 }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"Interaction"}\NormalTok{, abName)}
+  \ControlFlowTok{else}\NormalTok{ main4 }\OtherTok{\textless{}{-}}\NormalTok{ main[}\DecValTok{4}\NormalTok{]}
+
+\NormalTok{  xlab4 }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(xlab) }\SpecialCharTok{||} \FunctionTok{is.na}\NormalTok{(xlab[}\DecValTok{4}\NormalTok{]))}
+\NormalTok{    xlab4 }\OtherTok{\textless{}{-}} \FunctionTok{colnames}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X)[}\DecValTok{4}\NormalTok{]}
+  \ControlFlowTok{else}\NormalTok{ xlab4 }\OtherTok{\textless{}{-}}\NormalTok{ xlab[}\DecValTok{4}\NormalTok{]}
+
+\NormalTok{  ylab4 }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{missing}\NormalTok{(ylab) }\SpecialCharTok{||} \FunctionTok{is.na}\NormalTok{(ylab[}\DecValTok{4}\NormalTok{]))}
+\NormalTok{    ylab4 }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(}\FunctionTok{body}\NormalTok{(}\FunctionTok{match.fun}\NormalTok{(fun)))[}\DecValTok{2}\NormalTok{], }\StringTok{"of"}\NormalTok{, }\FunctionTok{colnames}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X)[}\DecValTok{5}\NormalTok{])}
+  \ControlFlowTok{else}\NormalTok{ ylab4 }\OtherTok{\textless{}{-}}\NormalTok{ ylab[}\DecValTok{4}\NormalTok{]}
+\NormalTok{  agg }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X[, yName], }\FunctionTok{list}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X[, aName], gdo}\SpecialCharTok{$}\NormalTok{X[, bName]), }\AttributeTok{FUN =}\NormalTok{ mean)}
+\NormalTok{  tab }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(agg[, }\DecValTok{2}\NormalTok{])}
+\NormalTok{  sgSize }\OtherTok{\textless{}{-}}\NormalTok{ tab[}\DecValTok{1}\NormalTok{]}
+\NormalTok{  old.par }\OtherTok{\textless{}{-}} \FunctionTok{par}\NormalTok{()}\SpecialCharTok{$}\NormalTok{mar}
+  \FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\FloatTok{5.1}\NormalTok{, }\FloatTok{4.1}\NormalTok{, }\FloatTok{4.1}\NormalTok{, }\FloatTok{10.1}\NormalTok{))}
+  \FunctionTok{.aip}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X[, }\DecValTok{4}\NormalTok{], gdo}\SpecialCharTok{$}\NormalTok{X[, }\DecValTok{3}\NormalTok{], }\AttributeTok{response =}\NormalTok{ gdo}\SpecialCharTok{$}\NormalTok{X[, }\DecValTok{5}\NormalTok{], }\AttributeTok{xlab =}\NormalTok{ xlab4, }\AttributeTok{ylab =}\NormalTok{ ylab4, }\AttributeTok{title =} \StringTok{"Interaction Operator: Part"}\NormalTok{, }\AttributeTok{legend =} \ConstantTok{TRUE}\NormalTok{,}\AttributeTok{col =}\NormalTok{ col, }\AttributeTok{type =} \StringTok{"b"}\NormalTok{, ...)}
+  \FunctionTok{par}\NormalTok{(}\AttributeTok{mar =}\NormalTok{ old.par)}
+  \CommentTok{\# Convertir datos a formato adecuado}
+\NormalTok{  D3 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\FloatTok{0.076}\NormalTok{, }\FloatTok{0.136}\NormalTok{, }\FloatTok{0.184}\NormalTok{, }\FloatTok{0.223}\NormalTok{, }\FloatTok{0.256}\NormalTok{, }\FloatTok{0.284}\NormalTok{, }\FloatTok{0.308}\NormalTok{, }\FloatTok{0.329}\NormalTok{, }\FloatTok{0.348}\NormalTok{)}
+\NormalTok{  D4 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{3.267}\NormalTok{, }\FloatTok{2.574}\NormalTok{, }\FloatTok{2.282}\NormalTok{, }\FloatTok{2.115}\NormalTok{, }\FloatTok{2.004}\NormalTok{, }\FloatTok{1.924}\NormalTok{, }\FloatTok{1.864}\NormalTok{, }\FloatTok{1.816}\NormalTok{, }\FloatTok{1.777}\NormalTok{, }\FloatTok{1.744}\NormalTok{, }\FloatTok{1.716}\NormalTok{, }\FloatTok{1.692}\NormalTok{, }\FloatTok{1.671}\NormalTok{, }\FloatTok{1.652}\NormalTok{)}
+  \CommentTok{\# Calcular Rm, UCL, LCL}
+\NormalTok{  helpRange }\OtherTok{\textless{}{-}}\ControlFlowTok{function}\NormalTok{(x) \{}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{diff}\NormalTok{(}\FunctionTok{range}\NormalTok{(x)))}
+\NormalTok{  \}}
+\NormalTok{  aggForLimits }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X[, yName], }\FunctionTok{list}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X[, aName], gdo}\SpecialCharTok{$}\NormalTok{X[, bName]), }\AttributeTok{FUN =}\NormalTok{ helpRange)}
+\NormalTok{  Rm }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(aggForLimits[, }\DecValTok{3}\NormalTok{])}
+\NormalTok{  UCL }\OtherTok{\textless{}{-}}\NormalTok{ D4[sgSize] }\SpecialCharTok{*}\NormalTok{ Rm}
+\NormalTok{  LCL }\OtherTok{\textless{}{-}}\NormalTok{ D3[sgSize] }\SpecialCharTok{*}\NormalTok{ Rm}
+\NormalTok{  agg }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X[, yName], }\FunctionTok{list}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X[, bName], gdo}\SpecialCharTok{$}\NormalTok{X[, aName]), }\AttributeTok{FUN =}\NormalTok{ helpRange)}
+\NormalTok{  tab }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(agg[, }\DecValTok{2}\NormalTok{])}
+\NormalTok{  sgSize }\OtherTok{\textless{}{-}}\NormalTok{ tab[}\DecValTok{1}\NormalTok{]}
+\NormalTok{  old.par }\OtherTok{\textless{}{-}} \FunctionTok{par}\NormalTok{()}\SpecialCharTok{$}\NormalTok{mar}
+  \FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\FloatTok{5.1}\NormalTok{, }\FloatTok{4.1}\NormalTok{, }\FloatTok{4.1}\NormalTok{, }\FloatTok{10.1}\NormalTok{))}
+
+\NormalTok{  D3 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\FloatTok{0.076}\NormalTok{, }\FloatTok{0.136}\NormalTok{, }\FloatTok{0.184}\NormalTok{, }\FloatTok{0.223}\NormalTok{, }\FloatTok{0.256}\NormalTok{, }\FloatTok{0.284}\NormalTok{, }\FloatTok{0.308}\NormalTok{, }\FloatTok{0.329}\NormalTok{, }\FloatTok{0.348}\NormalTok{)}
+\NormalTok{  D4 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{3.267}\NormalTok{, }\FloatTok{2.574}\NormalTok{, }\FloatTok{2.282}\NormalTok{, }\FloatTok{2.115}\NormalTok{, }\FloatTok{2.004}\NormalTok{, }\FloatTok{1.924}\NormalTok{, }\FloatTok{1.864}\NormalTok{, }\FloatTok{1.816}\NormalTok{, }\FloatTok{1.777}\NormalTok{, }\FloatTok{1.744}\NormalTok{, }\FloatTok{1.716}\NormalTok{, }\FloatTok{1.692}\NormalTok{, }\FloatTok{1.671}\NormalTok{, }\FloatTok{1.652}\NormalTok{)}
+  
+  \CommentTok{\# Calcular Rm, UCL, LCL}
+\NormalTok{  helpRange }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{diff}\NormalTok{(}\FunctionTok{range}\NormalTok{(x)))}
+\NormalTok{  \}}
+  
+  \CommentTok{\# Cálculo de los límites}
+\NormalTok{  aggForLimits }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X[, yName], }\FunctionTok{list}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X[, aName], gdo}\SpecialCharTok{$}\NormalTok{X[, bName]), }\AttributeTok{FUN =}\NormalTok{ helpRange)}
+\NormalTok{  Rm }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(aggForLimits[, }\DecValTok{3}\NormalTok{])}
+  
+  \CommentTok{\# Calcular UCL y LCL}
+\NormalTok{  sgSize }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X[, bName]))}
+\NormalTok{  UCL }\OtherTok{\textless{}{-}}\NormalTok{ D4[sgSize] }\SpecialCharTok{*}\NormalTok{ Rm}
+\NormalTok{  LCL }\OtherTok{\textless{}{-}}\NormalTok{ D3[sgSize] }\SpecialCharTok{*}\NormalTok{ Rm}
+  
+\NormalTok{  agg }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X[, yName], }\FunctionTok{list}\NormalTok{(gdo}\SpecialCharTok{$}\NormalTok{X[, bName], gdo}\SpecialCharTok{$}\NormalTok{X[, aName]), }\AttributeTok{FUN =}\NormalTok{ helpRange)}
+  
+\NormalTok{  agg}\SpecialCharTok{$}\NormalTok{Group}\FloatTok{.1} \OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(agg}\SpecialCharTok{$}\NormalTok{Group}\FloatTok{.1}\NormalTok{, }\AttributeTok{levels =} \FunctionTok{unique}\NormalTok{(agg}\SpecialCharTok{$}\NormalTok{Group}\FloatTok{.1}\NormalTok{))}
+  
+  \CommentTok{\# Crear el gráfico R Chart con ggplot2}
+\NormalTok{  p4 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(agg, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Group}\FloatTok{.1}\NormalTok{, }\AttributeTok{y =}\NormalTok{ x)) }\SpecialCharTok{+}
+    \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}  \CommentTok{\# Eliminamos aes(group = Group.2)}
+    \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{color =}\NormalTok{ Group}\FloatTok{.2}\NormalTok{), }\AttributeTok{size =} \DecValTok{4}\NormalTok{) }\SpecialCharTok{+}
+    \FunctionTok{ylim}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FunctionTok{max}\NormalTok{(}\FunctionTok{max}\NormalTok{(agg[, }\DecValTok{3}\NormalTok{]), UCL)) }\SpecialCharTok{+}
+    \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+    \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \FunctionTok{c}\NormalTok{(Rm, UCL, LCL), }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+    \FunctionTok{annotate}\NormalTok{(}\StringTok{"text"}\NormalTok{, }\AttributeTok{x =} \FunctionTok{length}\NormalTok{(agg[, }\DecValTok{3}\NormalTok{]) }\SpecialCharTok{+} \FunctionTok{length}\NormalTok{(agg[, }\DecValTok{3}\NormalTok{]) }\SpecialCharTok{*} \FloatTok{0.075}\NormalTok{, }\AttributeTok{y =}\NormalTok{ LCL, }\AttributeTok{label =} \FunctionTok{paste}\NormalTok{(}\StringTok{"LCL ="}\NormalTok{, }\FunctionTok{round}\NormalTok{(LCL, }\DecValTok{2}\NormalTok{)), }\AttributeTok{hjust =} \DecValTok{0}\NormalTok{, }\AttributeTok{vjust =} \DecValTok{0}\NormalTok{) }\SpecialCharTok{+}
+    \FunctionTok{annotate}\NormalTok{(}\StringTok{"text"}\NormalTok{, }\AttributeTok{x =} \FunctionTok{length}\NormalTok{(agg[, }\DecValTok{3}\NormalTok{]) }\SpecialCharTok{+} \FunctionTok{length}\NormalTok{(agg[, }\DecValTok{3}\NormalTok{]) }\SpecialCharTok{*} \FloatTok{0.075}\NormalTok{, }\AttributeTok{y =}\NormalTok{ UCL, }\AttributeTok{label =} \FunctionTok{paste}\NormalTok{(}\StringTok{"UCL ="}\NormalTok{, }\FunctionTok{round}\NormalTok{(UCL, }\DecValTok{2}\NormalTok{)), }\AttributeTok{hjust =} \DecValTok{0}\NormalTok{, }\AttributeTok{vjust =} \DecValTok{0}\NormalTok{) }\SpecialCharTok{+}
+    \FunctionTok{annotate}\NormalTok{(}\StringTok{"text"}\NormalTok{, }\AttributeTok{x =} \FunctionTok{length}\NormalTok{(agg[, }\DecValTok{3}\NormalTok{]) }\SpecialCharTok{+} \FunctionTok{length}\NormalTok{(agg[, }\DecValTok{3}\NormalTok{]) }\SpecialCharTok{*} \FloatTok{0.075}\NormalTok{, }\AttributeTok{y =}\NormalTok{ Rm, }\AttributeTok{label =} \FunctionTok{substitute}\NormalTok{(}\FunctionTok{bar}\NormalTok{(R) }\SpecialCharTok{==}\NormalTok{ Rm, }\FunctionTok{list}\NormalTok{(}\AttributeTok{Rm =} \FunctionTok{round}\NormalTok{(Rm, }\DecValTok{2}\NormalTok{))), }\AttributeTok{hjust =} \DecValTok{0}\NormalTok{, }\AttributeTok{vjust =} \DecValTok{0}\NormalTok{) }\SpecialCharTok{+}
+    \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \FunctionTok{cumsum}\NormalTok{(tab) }\SpecialCharTok{{-}} \FloatTok{0.5}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
+    \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ agg}\SpecialCharTok{$}\NormalTok{Group}\FloatTok{.2}\NormalTok{)}
+  
+  \FunctionTok{print}\NormalTok{(p4)}
+
+\NormalTok{  \}}
+
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  Resultados antes:
+\item
+  Resultados ahora:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Ejemplo de uso:}
+\CommentTok{\# crear un objeto de la clase \textquotesingle{}gageRR\textquotesingle{}}
+\NormalTok{mi\_gageRR }\OtherTok{\textless{}{-}}\NormalTok{ gageRR}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}
+  \AttributeTok{X =} \FunctionTok{data.frame}\NormalTok{(}
+    \AttributeTok{Operator =} \FunctionTok{factor}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"C"}\NormalTok{, }\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{)),}
+    \AttributeTok{Part =} \FunctionTok{factor}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"P1"}\NormalTok{, }\StringTok{"P1"}\NormalTok{, }\StringTok{"P2"}\NormalTok{, }\StringTok{"P2"}\NormalTok{, }\StringTok{"P3"}\NormalTok{)),}
+    \AttributeTok{Measurement =} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{12}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{13}\NormalTok{, }\DecValTok{9}\NormalTok{)}
+\NormalTok{  ),}
+  \AttributeTok{ANOVA =} \ConstantTok{NULL}\NormalTok{,  }\CommentTok{\# Esto puede ser NULL inicialmente y luego calcularlo}
+  \AttributeTok{RedANOVA =} \ConstantTok{NULL}\NormalTok{,  }\CommentTok{\# Igual que ANOVA, puede ser NULL inicialmente}
+  \AttributeTok{method =} \StringTok{"crossed"}\NormalTok{,}
+  \AttributeTok{Estimates =} \FunctionTok{list}\NormalTok{(),}
+  \AttributeTok{Varcomp =} \FunctionTok{list}\NormalTok{(),}
+  \AttributeTok{Sigma =} \FloatTok{0.5}\NormalTok{,}
+  \AttributeTok{GageName =} \StringTok{"Gage1"}\NormalTok{,}
+  \AttributeTok{GageTolerance =} \FloatTok{0.1}\NormalTok{,}
+  \AttributeTok{DateOfStudy =} \StringTok{"2024{-}05{-}15"}\NormalTok{,}
+  \AttributeTok{PersonResponsible =} \StringTok{"John Doe"}\NormalTok{,}
+  \AttributeTok{Comments =} \StringTok{"Sample gage R\&R study"}\NormalTok{,}
+  \AttributeTok{b =} \FunctionTok{factor}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"C"}\NormalTok{)),}
+  \AttributeTok{a =} \FunctionTok{factor}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"P1"}\NormalTok{, }\StringTok{"P1"}\NormalTok{, }\StringTok{"P2"}\NormalTok{, }\StringTok{"P2"}\NormalTok{, }\StringTok{"P3"}\NormalTok{)),}
+  \AttributeTok{y =} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{12}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{13}\NormalTok{, }\DecValTok{9}\NormalTok{),}
+  \AttributeTok{facNames =} \FunctionTok{c}\NormalTok{(}\StringTok{"Measurement"}\NormalTok{, }\StringTok{"Operator"}\NormalTok{, }\StringTok{"Part"}\NormalTok{),}
+  \AttributeTok{numO =} \DecValTok{3}\NormalTok{,}
+  \AttributeTok{numP =} \DecValTok{3}\NormalTok{,}
+  \AttributeTok{numM =} \DecValTok{2}
+\NormalTok{)}
+
+\CommentTok{\# Crear el objeto gageRRObj}
+\NormalTok{design\_example }\OtherTok{\textless{}{-}} \FunctionTok{gageRRDesign}\NormalTok{(}
+  \AttributeTok{Operators =} \DecValTok{3}\NormalTok{,}
+  \AttributeTok{Parts =} \DecValTok{10}\NormalTok{,}
+  \AttributeTok{Measurements =} \DecValTok{3}\NormalTok{,}
+  \AttributeTok{method =} \StringTok{"crossed"}\NormalTok{,}
+  \AttributeTok{sigma =} \DecValTok{6}\NormalTok{,}
+  \AttributeTok{randomize =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\CommentTok{\# Crear un diseño para el estudio de Gage}
+\NormalTok{design }\OtherTok{\textless{}{-}} \FunctionTok{gageRRDesign}\NormalTok{(}\AttributeTok{Operators =} \DecValTok{3}\NormalTok{, }\AttributeTok{Parts =} \DecValTok{10}\NormalTok{, }\AttributeTok{Measurements =} \DecValTok{3}\NormalTok{, }\AttributeTok{method =} \StringTok{"crossed"}\NormalTok{, }\AttributeTok{sigma =} \DecValTok{6}\NormalTok{, }\AttributeTok{randomize =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{design}\SpecialCharTok{$}\NormalTok{X}\SpecialCharTok{$}\NormalTok{Measurement }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(design}\SpecialCharTok{$}\NormalTok{X), }\AttributeTok{mean =} \DecValTok{10}\NormalTok{, }\AttributeTok{sd =} \DecValTok{2}\NormalTok{)}
+
+\CommentTok{\# Ejecutar la función gageRR\_}
+\NormalTok{result }\OtherTok{\textless{}{-}} \FunctionTok{gageRR\_}\NormalTok{(}
+  \AttributeTok{gdo =}\NormalTok{ design,}
+  \AttributeTok{method =} \StringTok{"crossed"}\NormalTok{,   }\CommentTok{\#  método "crossed"}
+  \AttributeTok{sigma =} \DecValTok{6}\NormalTok{,            }\CommentTok{\#  sigma}
+  \AttributeTok{alpha =} \FloatTok{0.25}\NormalTok{,         }\CommentTok{\# Nivel de significancia}
+  \AttributeTok{tolerance =} \ConstantTok{NULL}\NormalTok{,     }\CommentTok{\# Tolerancia}
+  \AttributeTok{dig =} \DecValTok{3}               \CommentTok{\# Número de dígitos a mostrar en los resultados}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## AnOVa Table -  crossed Design
+##               Df Sum Sq Mean Sq F value Pr(>F)  
+## Operator       2   0.64   0.321   0.113 0.8934  
+## Part           9  68.67   7.629   2.687 0.0108 *
+## Operator:Part 18  82.26   4.570   1.610 0.0866 .
+## Residuals     60 170.35   2.839                 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## ----------
+## 
+## Gage R&R
+##                  VarComp VarCompContrib Stdev StudyVar StudyVarContrib
+## totalRR            3.416         0.9095 1.848    11.09           0.954
+##  repeatability     2.839         0.7559 1.685    10.11           0.869
+##  reproducibility   0.577         0.1536 0.759     4.56           0.392
+##    Operator        0.000         0.0000 0.000     0.00           0.000
+##    Operator:Part   0.577         0.1536 0.759     4.56           0.392
+## Part to Part       0.340         0.0905 0.583     3.50           0.301
+## totalVar           3.756         1.0000 1.938    11.63           1.000
+## 
+## ---
+##  * Contrib equals Contribution in %
+##  **Number of Distinct Categories (truncated signal-to-noise-ratio) = 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(result)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "gageRR" "R6"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(result)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
+## i Please use tidy evaluation idioms with `aes()`.
+## i See also `vignette("ggplot2-in-packages")` for more information.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+\end{verbatim}
+
+\includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-160-1.pdf} \includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-160-2.pdf}
+
+\begin{verbatim}
+## Error in get(as.character(FUN), mode = "function", envir = envir): el objeto 'fun' de modo 'function' no fue encontrado
+\end{verbatim}
 
 \begin{itemize}
 \tightlist

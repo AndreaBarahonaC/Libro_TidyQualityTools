@@ -71,3 +71,4 @@ cgtoleranceview
 funcion-cg
 fase-3-analizar-1
 capacidad-del-proceso-1
+función-gagerrdesign-y-gagerr_-modificadas-para-trabajar-con-objetos-r6

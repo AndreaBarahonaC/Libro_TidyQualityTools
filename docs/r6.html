@@ -330,11 +330,11 @@
 <span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">Ran</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">random</span></span>
-<span><span class="co">## [1] 0.438664</span></span>
+<span><span class="co">## [1] 0.5360254</span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">random</span></span>
-<span><span class="co">## [1] 0.3946302</span></span>
+<span><span class="co">## [1] 0.568897</span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">random</span></span>
-<span><span class="co">## [1] 0.1741086</span></span></code></pre></div>
+<span><span class="co">## [1] 0.8808777</span></span></code></pre></div>
 <p>Los campos activos son usandos particularmente junto con el argumento de campos privamos, ya que esto hace posible implementar componentes similares a los campos pero con controles adicionales. Por ejemplo, podemos usar esto para crear un campo solo de lectura para <code>edad</code>, y para asegurarnos que <code>nombre</code> sea un vector de un solo caracter.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Persona</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://r6.r-lib.org/reference/R6Class.html">R6Class</a></span><span class="op">(</span><span class="st">"Person"</span>, </span>
@@ -673,11 +673,11 @@
 <span><span class="co">## [49] "J♥"  "Q♦"  "K♣"</span></span>
 <span><span class="va">mazo</span><span class="op">$</span><span class="fu">reshuffle</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">mazo</span><span class="op">$</span><span class="va">.cartas</span></span>
-<span><span class="co">##  [1] "A♣"  "5♣"  "9♦"  "10♥" "10♣" "2♦"  "K♦"  "8♥"  "10♠" "5♠"  "K♣"  "4♦" </span></span>
-<span><span class="co">## [13] "J♦"  "7♠"  "Q♠"  "3♠"  "2♣"  "8♦"  "9♥"  "4♥"  "J♣"  "5♥"  "A♦"  "4♣" </span></span>
-<span><span class="co">## [25] "8♣"  "5♦"  "8♠"  "K♥"  "3♥"  "6♦"  "A♥"  "6♠"  "7♥"  "7♣"  "4♠"  "Q♥" </span></span>
-<span><span class="co">## [37] "6♥"  "J♠"  "Q♣"  "K♠"  "A♠"  "2♥"  "9♠"  "2♠"  "J♥"  "7♦"  "Q♦"  "9♣" </span></span>
-<span><span class="co">## [49] "3♦"  "3♣"  "10♦" "6♣"</span></span></code></pre></div>
+<span><span class="co">##  [1] "2♦"  "5♦"  "7♦"  "K♠"  "7♣"  "9♠"  "K♥"  "K♦"  "3♣"  "5♣"  "6♣"  "10♠"</span></span>
+<span><span class="co">## [13] "4♠"  "2♣"  "8♥"  "J♣"  "5♥"  "3♥"  "4♥"  "3♠"  "9♣"  "4♦"  "6♦"  "J♠" </span></span>
+<span><span class="co">## [25] "9♦"  "2♥"  "3♦"  "10♥" "A♥"  "A♠"  "5♠"  "8♣"  "Q♦"  "Q♣"  "9♥"  "8♠" </span></span>
+<span><span class="co">## [37] "4♣"  "J♦"  "6♥"  "10♦" "J♥"  "7♠"  "10♣" "8♦"  "7♥"  "A♣"  "2♠"  "A♦" </span></span>
+<span><span class="co">## [49] "Q♥"  "6♠"  "Q♠"  "K♣"</span></span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>Create an R6 class that allows you to get and set the current time zone. You can access the current time zone with <code><a href="https://rdrr.io/r/base/timezones.html">Sys.timezone()</a></code> and set it with <code>Sys.setenv(TZ = "newtimezone")</code>. When setting the time zone, make sure the new time zone is in the list provided by <code><a href="https://rdrr.io/r/base/timezones.html">OlsonNames()</a></code>.</li>
 </ol>
@@ -809,11 +809,11 @@
 <span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">Rando</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">random</span></span>
-<span><span class="co">## [1] 0.7131833</span></span>
+<span><span class="co">## [1] 0.4682342</span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">random</span></span>
-<span><span class="co">## [1] 0.2469881</span></span>
+<span><span class="co">## [1] 0.9165726</span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">previous</span></span>
-<span><span class="co">## [1] 0.2469881</span></span></code></pre></div>
+<span><span class="co">## [1] 0.9165726</span></span></code></pre></div>
 
 </div>
 </div>
@@ -864,7 +864,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Integración del Paquete QualityTools con Tidyverse</strong>" was written by Miguel Flores, Andrea Barahona, Fabián Encarnación, Dario Quishpe. It was last built on 2024-05-14.</p>
+    <p>"<strong>Integración del Paquete QualityTools con Tidyverse</strong>" was written by Miguel Flores, Andrea Barahona, Fabián Encarnación, Dario Quishpe. It was last built on 2024-05-20.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

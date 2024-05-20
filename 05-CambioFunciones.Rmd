@@ -2790,7 +2790,7 @@ pcr_ <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
 
 1. Distribución Normal
 
-```{r, results='hide'}
+```{r}
 set.seed(1234)
 datos <- rnorm(20, mean = 20)
 pcr_(datos, "normal", lsl = 17, usl = 23)
@@ -2798,7 +2798,7 @@ pcr_(datos, "normal", lsl = 17, usl = 23)
 
 ### Función gageRRDesign y gageRR_ modificadas para trabajar con objetos R6
 
-```{r,results='markup'}
+```{r,results='markup', error=TRUE, include=FALSE}
 # Funciones auxiliares
 .aip <- function(x.factor, trace.factor, response, fun = mean, type = c("l", "p", "b"), legend = TRUE, trace.label = NULL,
                        fixed = FALSE, xlab = deparse(substitute(x.factor)), ylab ="Measurement" , ylim = NULL, lty = 1:length(unique(trace.factor)),
@@ -3451,7 +3451,7 @@ setMethod("plot", signature(x = "gageRR"), function(x, y, main=NULL, xlab=NULL, 
 
 * Resultados ahora:
 
-```{r}
+```{r, error=TRUE, include=FALSE}
 # Ejemplo de uso:
 # crear un objeto de la clase 'gageRR'
 mi_gageRR <- gageRR$new(
