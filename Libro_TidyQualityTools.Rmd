@@ -1,3 +1,137 @@
+--- 
+title: "Integración del Paquete QualityTools con Tidyverse"
+author:
+  - Miguel Flores
+  - Andrea Barahona
+  - Fabián Encarnación
+  - Dario Quishpe
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/Libro_TidyQualityTools
+description: ""
+---
+--- 
+title: "Integración del Paquete QualityTools con Tidyverse"
+author:
+  - Miguel Flores
+  - Andrea Barahona
+  - Fabián Encarnación
+  - Dario Quishpe
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/Libro_TidyQualityTools
+description: ""
+---
+
+# Preámbulo
+
+En este libro, se pretende combinar la información necesaria para entender los paquetes R6, Tidyquant y QualityTools, con la finalidad de tener toda la infomación necesaria en un solo documento.
+
+<!--chapter:end:index.Rmd-->
+
+
+# (POO) Programación Orientada a Objetos
+
+Placeholder
+
+
+## Introducción
+## Sistemas de programación orientada a objetos
+### Paradigmas
+### Especificaciones de los principales sistemas POO en R
+## Tipos de objetos
+### Objetos Base vs Objetos OO
+
+<!--chapter:end:01-POO.Rmd-->
+
+
+# R6
+
+Placeholder
+
+
+## Clases y métodos
+### Encadenamiento de métodos
+### Métodos importantes
+### Agregar métodos después de la creación
+### Herencia
+### Introspección
+## Controles de Acceso
+### Privacidad
+### Campos Activos
+## Semántica de referencia
+### Razonamientos
+### Finalización
+### Campos en R6
+## ¿Por qué R6?
+## Ejercicios prácticos
+
+<!--chapter:end:02-R6.Rmd-->
+
+
+# TidyQuant
+
+Placeholder
+
+
+## Compatibilidad de funciones
+### Funcionalidad zoo
+### Funcionalidad xts
+### Funcionalidad quantmod
+### Funcionalidad TTR
+### Funcionalidad PerformanceAnalytics 
+## Poder Cuantitativo en Acción
+### Ejemplo 1: utilizar quantmod periodReturn para convertir precios en rentabilidad
+#### Ejemplo 1A: Obtener y registrar las rentabilidades anuales
+#### Ejemplo 1B: Obtener devoluciones de registros diarios
+### Ejemplo 2: utilice xts to.period para cambiar la periodicidad de diaria a mensual
+### Ejemplo 3: utilice TTR runCor para visualizar correlaciones continuas de rendimientos
+### Ejemplo 4: utilizar TTR::MACD para visualizar la divergencia y convergencia de la media móvil
+### Ejemplo 5: utilizar xts::apply.quarterly para obtener el precio máximo y mínimo para cada trimestre
+### Ejemplo 6: utilizar zoo::rollapply para visualizar una regresión continua
+### Ejemplo 7: utilizar return.clean y return.excess para limpiar y calcular el exceso de rendimiento
+
+<!--chapter:end:03-Tidyquant.Rmd-->
+
+
+# QualityTools
+
+Placeholder
+
+
+## Fase 1: Definir
+## Fase 2: Medir
+### Capacidad de calibre - MSA Tipo I
+### Repetibilidad y reproducibidad del calibre - MSA Tipo II
+## Fase 3: Analizar
+### Capacidad del Proceso
+## Fase 4: Mejorar
+### Diseños factoriales $2^{k}$
+### Diseños factoriales fraccionarios $2^{k-p}$
+### Diseños replicados y puntos centrales
+### Respuestas múltiples
+### Pasar a un entorno de proceso con un mayor rendimiento esperado
+### Diseños de superficies de respuesta
+#### Montaje secuencial de diseños de superficie de respuesta
+#### Aleatorización
+#### Bloqueo
+### Deseabilidades
+### Utilización de deseabilidades junto con experimentos diseñados
+### Diseños de mezclas
+### Diseños Taguchi
+
+<!--chapter:end:04-QualityTools.Rmd-->
+
 # Cambio de Funciones
 
 ```{css, echo=FALSE}
@@ -3202,6 +3336,11 @@ gageRR_ = function(gdo, method = "crossed", sigma = 6, alpha = 0.25, DM = NULL, 
   invisible(gdo)
 }
 setMethod("plot", signature(x = "gageRR"), function(x, y, main=NULL, xlab=NULL, ylab=NULL, col, lwd, fun = mean, ...) {
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(tibble)
+library(gridExtra)
   gdo <- x
   yName <- x$facNames[1]
   aName <- x$facNames[2]
@@ -3407,6 +3546,7 @@ setMethod("plot", signature(x = "gageRR"), function(x, y, main=NULL, xlab=NULL, 
 * Resultados ahora:
 
 ```{r}
+
 # Ejemplo de uso:
 # crear un objeto de la clase 'gageRR'
 mi_gageRR <- gageRR$new(
@@ -3461,4 +3601,21 @@ result <- gageRR_(
 class(result)
 plot(result)
 ```
+
+
+<!--chapter:end:05-CambioFunciones.Rmd-->
+
+`r if (knitr:::is_html_output()) '
+# Referencias {-}
+
+
+'`
+
+* Wickham, H. (2019). Advanced r. chapman and hall/CRC.
+* Chang W (2022). R6: Encapsulated Classes with Reference Semantics. 
+* Dancho, M (2023). R Quantitative Analysis Package Integrations in tidyquant. 
+* Roth, T. (2016). Working with the qualityTools package.
+* Six Sigma Daily (2012). What is DMAIC?.
+
+<!--chapter:end:06-Bibliografía.Rmd-->
 
