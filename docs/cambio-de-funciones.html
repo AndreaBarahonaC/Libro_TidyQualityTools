@@ -486,10 +486,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## 
 ## AnOVa Table -  crossed Design
 ##               Df Sum Sq Mean Sq F value Pr(&gt;F)  
-## Operator       2  21.83  10.914   2.882 0.0638 .
-## Part           9  42.64   4.737   1.251 0.2824  
-## Operator:Part 18  86.22   4.790   1.265 0.2435  
-## Residuals     60 227.20   3.787                 
+## Operator       2  17.90   8.952   2.540 0.0873 .
+## Part           9  33.93   3.770   1.070 0.3980  
+## Operator:Part 18  93.00   5.167   1.466 0.1356  
+## Residuals     60 211.47   3.525                 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -497,13 +497,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## Gage R&amp;R
 ##                  VarComp VarCompContrib Stdev StudyVar StudyVarContrib
-## totalRR            4.325         1.0000 2.080    12.48           1.000
-##  repeatability     3.787         0.8755 1.946    11.68           0.936
-##  reproducibility   0.539         0.1245 0.734     4.40           0.353
-##    Operator        0.204         0.0472 0.452     2.71           0.217
-##    Operator:Part   0.334         0.0773 0.578     3.47           0.278
+## totalRR            4.198         1.0000 2.049    12.29           1.000
+##  repeatability     3.525         0.8395 1.877    11.26           0.916
+##  reproducibility   0.674         0.1605 0.821     4.92           0.401
+##    Operator        0.126         0.0301 0.355     2.13           0.173
+##    Operator:Part   0.547         0.1304 0.740     4.44           0.361
 ## Part to Part       0.000         0.0000 0.000     0.00           0.000
-## totalVar           4.325         1.0000 2.080    12.48           1.000
+## totalVar           4.198         1.0000 2.049    12.29           1.000
 ## 
 ## ---
 ##  * Contrib equals Contribution in %
@@ -543,6 +543,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## alternative hypothesis: true distribution is not equal to normal</code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (`geom_text()`).</code></pre>
 <p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>Además, las gráficas QQ-plot pueden obtenerse a partir de la siguiente función:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="cambio-de-funciones.html#cb32-1" tabindex="-1"></a><span class="fu">qqPlot</span>(datos,<span class="st">&quot;normal&quot;</span>)</span></code></pre></div>
+<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p>Así también, los gráficos de probabilidad se pueden calcular con la función ppPlot:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="cambio-de-funciones.html#cb33-1" tabindex="-1"></a><span class="co"># bounds.lty = 3 -&gt; linea entrecortada</span></span>
+<span id="cb33-2"><a href="cambio-de-funciones.html#cb33-2" tabindex="-1"></a><span class="co"># bounds.col -&gt; color de las bandas</span></span>
+<span id="cb33-3"><a href="cambio-de-funciones.html#cb33-3" tabindex="-1"></a><span class="fu">ppPlot</span>(datos, <span class="st">&quot;normal&quot;</span>, <span class="at">bounds.lty =</span> <span class="dv">3</span>, <span class="at">bounds.col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Distribución Weibull</li>
+</ol>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="cambio-de-funciones.html#cb34-1" tabindex="-1"></a><span class="co"># set.seed(1234)</span></span>
+<span id="cb34-2"><a href="cambio-de-funciones.html#cb34-2" tabindex="-1"></a><span class="co"># weib &lt;- rweibull(20, shape = 2, scale = 8)</span></span>
+<span id="cb34-3"><a href="cambio-de-funciones.html#cb34-3" tabindex="-1"></a><span class="co"># pcr_(weib, &quot;weibull&quot;, usl = 20)</span></span></code></pre></div>
 
 </div>
 </div>

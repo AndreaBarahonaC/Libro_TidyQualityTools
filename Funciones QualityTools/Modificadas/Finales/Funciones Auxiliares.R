@@ -834,6 +834,7 @@ FitDistr <- function (x, densfun, start, ...){
 }
 # Funcion qqPlot ---------------------
 qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim, border = "red", bounds.col = "black", bounds.lty = 1, start, grapic = TRUE, axis.y.right = FALSE, bw.theme = FALSE,...){
+  DB = FALSE
   parList = list()
   if (is.null(parList[["col"]])){
     parList$col = 1:2
@@ -900,11 +901,17 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
     dots <- list(...)
 
     if(TRUE){
+      if (DB)
+        print("TODO: Pass the estimated parameters correctly")
       fitList = .lfkp(parList, formals(qFun))
       fitList$x = xs
       fitList$densfun = distribution
       if(!missing(start))
         fitList$start = start
+      if(DB){
+        print(fitList)
+        print("Ende")
+      }
       if(!threeParameter){
         fittedDistr = do.call(FitDistr, fitList)
         parameter = fittedDistr$estimate
@@ -936,6 +943,10 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
       }
 
       xq <- do.call(qFun, c(list(c(0.25, 0.75)), parameter))
+      if (DB) {
+        print(paste("parameter: ", parameter))
+        print(xq)
+      }
     }
     else {
       params =.lfkp(parList, formals(qFun))
@@ -961,9 +972,11 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
 
     params$lwd = 1
 
-    ############ Desde Aquí comienza la gráfica ############
+    ############ PLOT ############
     p <- ggplot(data = data.frame(x=params$x, y=params$y), mapping=aes(x=x, y=y)) +
-      geom_point() + labs(x = xlab, y = ylab, title = main) + theme_minimal()
+      geom_point() + labs(x = xlab, y = ylab, title = main) +
+      theme_minimal() +
+      theme(plot.title = element_text(hjust = 0.5))
 
     params =.lfkp(parList, c(formals(abline), par()))
     params$a = 0
@@ -996,7 +1009,8 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
       p <- p + scale_y_continuous(position = "right")
     }
     if(bw.theme){
-      p <- p + theme_bw()
+      p <- p + theme_bw() +
+        theme(plot.title = element_text(hjust = 0.5))
     }
     if(main == ""){
       p <- p + labs(title = NULL)
@@ -1010,8 +1024,6 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
     }
   }
 }
-
-
 
 # Funcion ppPlot ---------------------
 ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab, ylab, xlim, ylim, border = "red", bounds.col = "black", bounds.lty = 1, start, grapic = TRUE, axis.y.right = FALSE, bw.theme = FALSE,...)
@@ -1159,7 +1171,7 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
           axis.text.y = element_text(size = 12),
           axis.title.x = element_text(size = 14, face = "bold"),
           axis.title.y = element_text(size = 14, face = "bold"),
-          plot.title = element_text(size = 16, face = "bold"))
+          plot.title = element_text(size = 16, face = "bold", hjust = 0.5))
   # Regression line
   params = .lfkp(parList, c(formals(abline), par()))
   if(!threeParameter){
