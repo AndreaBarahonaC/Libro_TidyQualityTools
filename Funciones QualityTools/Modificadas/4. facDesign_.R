@@ -1,6 +1,6 @@
 library(R6)
 library(MASS)
-
+############DISEÑOS FACTORIALES 2^k#############
 ####Necesito .helpAliasTable##################################################
 
 #Funcion .replace2s#
@@ -223,6 +223,14 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                  desirability = list(),
                                                  fits = NULL,
 
+                                                 nrow = function(){
+                                                   nrow(self$as.data.frame())
+                                                 },
+
+                                                 ncol = function(){
+                                                   ncol(self$as.data.frame())
+                                                 },
+
                                                  names = function(value){
                                                    if(missing(value)){
                                                      n <- c()
@@ -276,10 +284,6 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                    runIndex = order(self$runOrder[,1])
                                                    out = frameOut[runIndex, ]
                                                    return(out)
-                                                 },
-
-                                                 nrow = function(){
-                                                   return(nrow(self$as.data.frame()))
                                                  },
 
                                                  get = function(i,j){
@@ -379,7 +383,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                    temp = aliasTable(self, show = FALSE)
                                                    if (ncol(temp) > 0) {
                                                      cat("\n---------\n\n")
-                                                     identity(self)
+                                                     self$identity()
                                                      cat("\n")
                                                    }
                                                    invisible(self$as.data.frame())
@@ -591,9 +595,9 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                    isIn = (yName == names(self$fits))
                                                    if (any(isIn))
                                                      listPos = (1:length(names(self$fits)))[isIn]
-                                                   xfits[[listPos]] = value
+                                                   self$fits[[listPos]] = value
                                                    names(self$fits)[listPos] = yName
-                                                   return(self)
+                                                   invisible(self)
 
                                                  }
 
@@ -1202,7 +1206,7 @@ rend <- c(simProc(120,140,1),simProc(80,140,1),simProc(120,140,2),simProc(120,12
 dfac$.response(rend)
 dfac$.response()
 ######effectPlot###############################################################
-dfac$effectPlot(classic = TRUE)
+dfac$effectPlot(classic=TRUE)
 
 
 #####Necesito .letterPos .testFun###########################################
@@ -1814,13 +1818,16 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
     plot = TRUE
   if (missing(main))
     main = paste("Response Surface for", z.c)
-  aux<-list(A=fdo$names()[1],B=fdo$names()[2],C=fdo$names()[3])
+  aux <- list()
+  for (i in 1:length(fdo$names())) {
+    aux[[.NAMES[i]]] <-fdo$names()[i]
+  }
   if (missing(ylab))
     ylab = paste(y.c, ": ", aux[[y.c]])
   if (missing(xlab))
     xlab = paste(x.c, ": ", aux[[x.c]])
   if (missing(zlab))
-    zlab = paste(x.c, ": ", names(fdo$.response()))
+    zlab = paste(x.c, ": ", z.c)
   if (missing(ticktype))
     ticktype = "detailed"
   if (missing(border))
@@ -1888,7 +1895,7 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
   if (DB)
     print(lm.1)
   dcList = vector(mode = "list", length = length(fdo$names()))
-  names(dcList) = fdo$names()
+  names(dcList) = names(aux)
   dcList[1:length(fdo$names())] = 0
   if (!is.null(factors)) {
     for (i in names(factors)) dcList[[i]] = factors[[i]][1]
@@ -2059,7 +2066,10 @@ contourPlot = function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, form 
   x.c = deparse(substitute(x))
   y.c = deparse(substitute(y))
   z.c = deparse(substitute(z))
-  aux <- list(A=fdo$names()[1],B=fdo$names()[2],C=fdo$names()[3])
+  aux <- list()
+  for (i in 1:length(fdo$names())) {
+    aux[[.NAMES[i]]] <-fdo$names()[i]
+  }
   if (missing(main))
     main = paste("Filled Contour for", z.c)
   if (missing(ylab))
@@ -2123,7 +2133,7 @@ contourPlot = function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, form 
   if (DB)
     print(lm.1)
   dcList = vector(mode = "list", length = length(fdo$names()))
-  names(dcList) = fdo$names()
+  names(dcList) = names(aux)
   dcList[1:length(fdo$names())] = 0
   if (!is.null(factors)) {
     for (i in fdo$names()) dcList[[i]] = factors[[i]][1]
@@ -2178,3 +2188,369 @@ contourPlot = function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, form 
 }
 ###Uso contourPlot########################
 contourPlot(A,B,rend,data=dfac)
+
+
+#########DISEÑOS FACTORIALES FRACCIONARIOS 2^k-p#################
+###necesito confounds####
+confounds <- function(x, depth = 2) {
+  DB = FALSE
+  varName = deparse(substitute(x))
+  identityList = x$identity()
+  x = x$cube
+  if (length(identityList) < 1) {
+    print(paste(varName, " contains no defining relations!"))
+    invisible()
+  }
+  effect1 = numeric(0)
+  effect2 = numeric(0)
+  if (DB)
+    identityList
+  index = numeric(0)
+  for (i in 1:(dim(x)[2])) {
+    if (!(TRUE && all(unique(x[, i]) %in% c(-1, 1))))
+      index = c(index, i)
+  }
+  if (length(index) > 0)
+    x = x[, -index]
+  if (DB)
+    cat("Column(s) ", index, " are discarded for analysis\n")
+  n = dim(x)[2]
+  if (n <= 1)
+    stop("Factorial Design contains only one row!")
+  for (j in 1:length(identityList)) {
+    ident = identityList[[j]]
+    for (m in 1:n) {
+      combMat = combn(1:n, m)
+      for (i in 1:(dim(combMat)[2])) {
+        isect = intersect(ident, combMat[, i])
+        conf = setdiff(ident, isect)
+        conf = sort(c(conf, setdiff(combMat[, i], isect)))
+        effect1 = c(effect1, paste(sort(names(x)[as.numeric((combMat[, i]))]), sep = "",
+                                   collapse = ""))
+        effect2 = c(effect2, paste(sort(names(x)[conf]), sep = "", collapse = ""))
+        if (DB) {
+          cat("Effect(s) ", as.numeric((combMat[, i])), " aliased with Effect(s)", conf,
+              "\n")
+          cat("Effect(s)", names(x)[as.numeric((combMat[, i]))], " aliased with Effects ",
+              names(x)[conf], "\n")
+        }
+      }
+    }
+  }
+  if (DB) {
+    cat(effect1, "\n")
+    cat(effect2, "\n")
+  }
+  if (length(effect1) > 0)
+    dupIndex = numeric(0)
+  for (i in 1:length(effect1)) {
+    if (DB) {
+      cat("i: ", i, "\tlength(effect1): ", length(effect1), "\n")
+      cat("effect 1 : ", effect1, "\n")
+    }
+    if (i > length(effect1))
+      break
+    index = (1:length(effect1))[effect2 == effect1[i]]
+    if (DB)
+      cat("index: ", index, "\n")
+    dupIndex = numeric(0)
+    for (j in index) {
+      if (effect1[j] == effect2[i]) {
+        if (i != j)
+          dupIndex = c(dupIndex, j)
+      }
+    }
+    if (length(dupIndex > 0)) {
+      effect1 = effect1[-dupIndex]
+      effect2 = effect2[-dupIndex]
+    }
+  }
+  cat("\nAlias Structure:\n")
+  for (i in 1:length(effect1)) {
+    if ((length(strsplit(effect1[i], split = character(0))[[1]]) <= depth) && (length(strsplit(effect2[i],
+                                                                                               split = character(0))[[1]]) <= depth))
+      cat(effect1[i], "\tis confounded with\t", effect2[i], "\n")
+    if (identical(depth, "all"))
+      cat(effect1[i], "\tis confounded with\t", effect2[i], "\n")
+  }
+  invisible(effect1)
+}
+
+####Uso diseños factoriales fraccionarios####
+dfacfrac <- fracDesign(k=3,gen='C=AB',centerCube = 4)
+dfacfrac$summary()
+aliasTable(dfacfrac)
+confounds(dfacfrac)
+
+####Funcion fracChoose####
+fracChoose <- function() {
+  DB = FALSE
+  genList = list(6 * 9)
+  genList = list(c("C = AB"), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c("D = ABC"), c("D = AB", "E = AC"), c("D = AB",
+                                                                                                                                                      "E = AC", "F = BC"), c("D = AB", "E = AC", "F = BC", "G = ABC"), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c("E = ABCD"), c("E = ABC", "F = BCD"),
+                 c("E = ABC", "F = BCD", "G = ACD"), c("E = BCD", "F = ACD", "G = ABC", "H = ABD"), c("E = ABC", "F = BCD", "G = ACD", "H = ABD", "J = ABCD"), c("E = ABC",
+                                                                                                                                                                 "F = BCD", "G = ACD", "H = ABD", "J = ABCD", "K = AB"), c("E = ABC", "F = BCD", "G = ACD", "H = ABD", "J = ABCD", "K = AB", "L = AC"), c(NULL),
+                 c(NULL), c(NULL), c("F = ABCDE"), c("F = ABCD", "G = ABDE"), c("F = ABC", "G = ABD", "H = BCDE"), c("F = BCDE", "G = ACDE", "H = ABDE", "J = ABCE"),
+                 c("F = ABCD", "G = ABCE", "H = ABDE", "J = ACDE", "K = BCDE"), c("F = ABC", "G = BCD", "H = CDE", "J = ACD", "K = AEF", "L = ADEF"), c(NULL), c(NULL),
+                 c(NULL), c(NULL), c("G = ABCDEF"), c("G = ABCD", "H = ABEF"), c("G = ABCD", "H = ACEF", "J = CDEF"), c("G = BCDF", "H = ACDF", "J = ABDE", "K = ABCE"),
+                 c("G = CDE", "H = ABCD", "J = ABF", "K = BDEF", "L = ADEF"), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c("H = ABCDEFG"), c("H = ACDFG", "J = BCEFG"),
+                 c("H = ABCG", "J = BCDE", "K = ACDF"), c("H = ABCG", "J = BCDE", "K = ACDF", "L = ABCDEFG"))
+  resList = list(6 * 9)
+  resList = list(c(3), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c(4), c(3), c(3), c(3), c(NULL), c(NULL), c(NULL),
+                 c(NULL), c(NULL), c(NULL), c(5), c(4), c(4), c(4), c(3), c(3), c(3), c(NULL), c(NULL), c(NULL), c(6), c(4), c(4), c(4), c(4), c(4), c(NULL), c(NULL),
+                 c(NULL), c(NULL), c(7), c(5), c(4), c(4), c(4), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c(8), c(6), c(5), c(5))
+  facMat = matrix(rep(3:11, 6), ncol = 9, byrow = TRUE)
+  runMat = matrix(c(rep(2^2, 9), rep(2^3, 9), rep(2^4, 9), rep(2^5, 9), rep(2^6, 9), rep(2^7, 9)), ncol = 9, byrow = TRUE)
+  par(mfrow = c(6, 9))
+  par(mar = c(0, 0, 0, 0))
+  par(oma = c(4, 4, 4, 4))
+  colList = vector(mode = "list")
+  colList[3] = "red"
+  colList[4] = "yellow"
+  colList[5] = "green"
+  colList[6] = "green"
+  colList[7] = "green"
+  colList[8] = "green"
+  k = 3
+  N = 2^2
+  m = 0
+  for (i in seq(along = genList)) {
+    res = unlist(resList[[i]])
+    plot(0, 0, xaxs = "i", yaxs = "i", xlim = c(0, 1), ylim = c(0, 1), axes = FALSE, type = "n", xlab = "", ylab = "", bg = "red", fg = "green")
+    box()
+    if (!is.null(res))
+      rect(0, 0, 1, 1, col = colList[[res]])
+    yPos = 0.04
+    xPos = 0.6
+    item = rev(genList[[i]])
+    for (j in seq(along = item)) {
+      text(xPos, yPos + (j - 1) * 0.125, item[j], adj = c(0, 0), cex = 0.8)
+    }
+    p = log2((2^k)/N)
+    if (!is.null(res)) {
+      romNum = as.character(as.roman(res))
+      text(0.1, 0.9, do.call("expression", list(substitute(2[romNum]^(k - p), list(k = k, p = p, romNum = romNum)))), adj = c(0, 1), cex = 1.5)
+    }
+    k = k + 1
+    if ((i%%9) == 0) {
+      N = N * 2
+      k = 3
+    }
+  }
+  cat("\nChoose a fractional factorial design by clicking into the appropriate field")
+  cat("\nWaiting for your selection:")
+  cat("\n\n")
+  flush.console()
+  mtext("number of runs N", side = 2, line = 2.5, outer = TRUE)
+  mtext("number of variables k", side = 3, line = 2.5, outer = TRUE)
+  for (numFac in 1:9) {
+    mtext(numFac + 2, at = c(-0.05 + (1/9) * numFac), outer = TRUE, line = 0.5)
+  }
+  for (k in 1:6) {
+    mtext(2^(k + 1), at = (7 - k)/6 - (0.5 * (1/6)), side = 2, outer = TRUE, line = 0.5)
+  }
+  if (DB)
+    cat("TODO: standardize the locator part in respect to possible figure region")
+  xyList = NULL
+  xyList = try(locator(1), silent = TRUE)
+  x = 1
+  y = 1
+  if (!is.null(xyList)) {
+    x = ceiling(xyList$x + 8)
+    y = ceiling(6 - xyList$y)
+  }
+  mat = matrix(1:54, ncol = 9, byrow = TRUE)
+  fdo = NULL
+  if (!(x %in% 1:ncol(mat)) || !(y %in% 1:nrow(mat)))
+    return(fracDesign(k = 3, gen = NULL, replicates = 1))
+  else index = mat[y, x]
+  k = facMat[y, x]
+  generator = genList[[index]]
+  N = runMat[y, x]
+  if (!is.null(generator)) {
+    fdo = try(do.call("fracDesign", list(k = k, gen = generator)), silent = TRUE)
+  }
+  if (N >= 2^k & is.null(generator)) {
+    replicates = N/(2^k)
+    fdo = try(fracDesign(k = k, gen = NULL, replicates = replicates), silent = TRUE)
+  }
+  if (class(fdo)[1] == "facDesign")
+    return(fdo)
+  else return(genList[[mat[y, x]]])
+}
+
+####Uso fracChoose()####
+m1 <- fracChoose()
+m1$summary()
+
+
+#######DISEÑOS REPLICADOS Y PUNTOS CENTRALES###############
+dfac2 <- facDesign(k = 3, centerCube = 2, replicates = 1)
+dfac2$summary()
+
+#######RESPUESTAS MÚLTIPLES###############################
+set.seed(1234)
+y2 <- rnorm(12,mean=120)
+dfac$.response(data.frame(rend,y2))
+dfac$.response()
+#graficos
+wirePlot(A, B, rend, data = dfac, form = "rend~A+B+C+A*B")
+contourPlot(A, B, y2, data = dfac, form = "y2~A+B+C+A*B")
+
+#AJUSTAR EL FACTOR
+wirePlot(A, B, y2, data = dfac, factors = list(C=-1), form = "y2~A*B*C")
+wirePlot(A, B, y2, data = dfac, factors = list(C=1), form = "y2~A*B*C")
+
+#FITS
+dfac$set.fits(dfac$lm(rend~A+B))
+dfac$set.fits(dfac$lm(y2~A*B*C))
+dfac$fits
+
+#####Pasar a un entorno de proceso con un mayor rendimiento esperado######
+#####Necesito clase steepAscent.c##########
+steepAscent.c <- R6Class("facDesign", public = list(name = NULL,
+                                                    X = data.frame(),
+                                                    response = data.frame(),
+                                                    .response = function(value){
+                                                      if (missing(value)) {
+                                                        return(self$response)
+                                                      }
+                                                      else{
+                                                        if (is.vector(value)) {
+                                                          temp = data.frame(value)
+                                                          names(temp) = deparse(substitute(value))
+                                                          if (nrow(self$X) == nrow(temp)) {
+                                                            self$response = temp
+                                                            invisible(self)
+                                                          }
+                                                          else{
+                                                            stop("number of rows differ!")
+                                                          }
+                                                        }
+                                                        else if (is.data.frame(value)) {
+                                                          if (nrow(self$X) == nrow(value)) {
+                                                            self$response = value
+                                                            invisible(self)
+                                                          }
+                                                          else{
+                                                            stop("number of rows differ!")
+                                                          }
+                                                        }
+                                                        else{
+                                                          stop(paste(deparse(substitute(value)), " needs to be a vector or data.frame"))
+                                                        }
+                                                      }
+                                                    },
+                                                    get = function(i, j){
+                                                      bound = ncol(self$X)
+                                                      if (j <= bound)
+                                                        self$X[i, j]
+                                                      else self$response[i, j - bound]
+                                                    },
+                                                    as.data.frame = function(row.names = NULL, optional = FALSE, ...){
+                                                      return(cbind(self$X, self$response))
+                                                    },
+                                                    show = function(){
+                                                      print(self$as.data.frame())
+                                                    },
+                                                    plot = function(y, ...){
+                                                      Delta = (self$X)$Delta
+                                                      frame = cbind(Delta, self$.response())
+                                                      names(frame) = c("Delta", names(self$.response()))
+                                                      plot(frame, ...)
+
+                                                    }
+
+
+                                                   )
+                        )
+
+#####Necesito code2real####
+code2real = function(low, high, codedValue) {
+  return((diff(c(low, high))/2) * codedValue + mean(c(low, high)))
+}
+######Necesito funcion steepAscent############
+steepAscent <- function(factors, response, size = 0.2, steps = 5, data) {
+  DB = FALSE
+  if (missing(data))
+    return("missing an object of class 'facDesign'")
+  else fdo = data
+  if (missing(factors) | length(factors) < 1)
+    return("missing factors")
+  if (!is.character(factors))
+    return("factors needs to be a character")
+  #names(names(fdo))
+  model = data$fits[[response]]
+  if (DB)
+    print(model)
+  if (is.null(model)) {
+    form = c(response, "~")
+    for (i in seq(along = factors)) {
+      if (i == 1)
+        form = c(form, factors[i])
+      else form = c(form, "+", factors[i])
+    }
+    form = paste(form, collapse = "")
+    model = fdo$lm(form)
+  }
+  if (DB)
+    print(model)
+  b = numeric(length = length(factors))
+  x = numeric(length = length(factors))
+  names(x) = factors
+  for (i in seq(along = factors)) {
+    b[i] = coef(model)[factors[i]]
+    if (i == 1) {
+      x[i] = size * sign(b[i])
+    }
+    else {
+      if (DB) {
+        print(x[1])
+        print(b[1])
+        print(b[i])
+      }
+      x[i] = (x[1]/b[1]) * b[i]
+    }
+  }
+  if (DB)
+    print(x)
+  Run = 1:(steps + 1)
+  Delta = 0:steps
+  frameOut = data.frame(Run, Delta)
+  initial = ncol(frameOut)
+  for (i in seq(along = factors)) {
+    frameOut[, i + initial] = x[i] * 0:steps
+    names(frameOut)[i + initial] = paste(factors[i], ".coded", collapse = "", sep = "")
+    if (DB)
+      print(factors[i])
+  }
+  initial = ncol(frameOut)
+  aux <- list()
+  for (i in 1:length(fdo$names())) {
+    aux[[.NAMES[i]]] <-fdo$names()[i]
+  }
+  for (i in seq(along = factors)) {
+    frameOut[, i + initial] = code2real(fdo$lows()[[aux[i][[1]]]], fdo$highs()[[aux[i][[1]]]], x[i] * 0:steps)
+    names(frameOut)[i + initial] = paste(factors[i], ".real", collapse = "", sep = "")
+    if (DB)
+      print(factors[i])
+  }
+  soa = steepAscent.c$new()
+  soa$X = frameOut
+  soa$.response(rep(NA, times = nrow(frameOut)))
+  names(soa$response) = deparse(substitute(response))
+  cat("\n")
+  cat(paste("Steepest Ascent for", deparse(substitute(data)), "\n"))
+  cat("\n")
+  print(format(frameOut, digits = 3))
+  invisible(soa)
+}
+
+######USO steepAscent################################
+sao <- steepAscent(factors = c("A", "B"), response = "rend", data = dfac, steps = 20)
+sao$show()
+predicted <- simProc(sao$get(,5), sao$get(,6))
+sao$.response(predicted)
+sao$plot(type='b', col=2)
+
+
