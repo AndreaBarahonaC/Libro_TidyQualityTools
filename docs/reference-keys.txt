@@ -72,3 +72,5 @@ funcion-cg
 fase-3-analizar-1
 capacidad-del-proceso-1
 función-gagerrdesign-y-gagerr_-modificadas-para-trabajar-con-objetos-r6
+capacidad-de-calibre---msa-tipo-i-1
+repetibilidad-y-reproducibilidad-del-calibre---msa-tipo-ii
