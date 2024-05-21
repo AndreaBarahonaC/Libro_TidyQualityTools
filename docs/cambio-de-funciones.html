@@ -374,32 +374,42 @@
 <div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">20</span>, mean <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
-<span><span class="fu">pcr_</span><span class="op">(</span><span class="va">datos</span>, <span class="st">"normal"</span>, lsl <span class="op">=</span> <span class="fl">17</span>, usl <span class="op">=</span> <span class="fl">23</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/pcr.html">pcr</a></span><span class="op">(</span><span class="va">datos</span>, <span class="st">"normal"</span>, lsl <span class="op">=</span> <span class="fl">17</span>, usl <span class="op">=</span> <span class="fl">23</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ##  Anderson Darling Test for normal distribution
 ## 
 ## data:  datos 
 ## A = 0.5722, mean = 19.749, sd = 1.014, p-value = 0.1191
 ## alternative hypothesis: true distribution is not equal to normal</code></pre>
-<pre><code>## Warning: Removed 1 rows containing missing values (`geom_text()`).</code></pre>
 <div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-163-1.png" width="672"></div>
 <p>Además, las gráficas QQ-plot pueden obtenerse a partir de la siguiente función:</p>
-<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/qqPlot.html">qqPlot</a></span><span class="op">(</span><span class="va">datos</span>,<span class="st">"normal"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-164-1.png" width="672"></div>
 <p>Así también, los gráficos de probabilidad se pueden calcular con la función ppPlot:</p>
-<div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># bounds.lty = 3 -&gt; linea entrecortada</span></span>
 <span><span class="co"># bounds.col -&gt; color de las bandas</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/ppPlot.html">ppPlot</a></span><span class="op">(</span><span class="va">datos</span>, <span class="st">"normal"</span>, bounds.lty <span class="op">=</span> <span class="fl">3</span>, bounds.col <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-165-1.png" width="672"></div>
+<p>Además si solo queremos obtener la gráfica central, se hace uso de la función <code>.pcr</code>, de la siguiente manera:</p>
+<div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">.pcr</span><span class="op">(</span><span class="va">datos</span>, <span class="st">"normal"</span>, lsl <span class="op">=</span> <span class="fl">17</span>, usl <span class="op">=</span> <span class="fl">23</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-166-1.png" width="672"></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Distribución Weibull</li>
 </ol>
 <div class="sourceCode" id="cb188"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># set.seed(1234)</span></span>
-<span><span class="co"># weib &lt;- rweibull(20, shape = 2, scale = 8)</span></span>
-<span><span class="co"># pcr_(weib, "weibull", usl = 20)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">weib</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Weibull.html">rweibull</a></span><span class="op">(</span><span class="fl">20</span>, shape <span class="op">=</span> <span class="fl">2</span>, scale <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/qualityTools/man/pcr.html">pcr</a></span><span class="op">(</span><span class="va">weib</span>, <span class="st">"weibull"</span>, usl <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  Anderson Darling Test for weibull distribution
+## 
+## data:  weib 
+## A = 0.4183, shape = 2.290, scale = 8.382, p-value &lt;= 0.25
+## alternative hypothesis: true distribution is not equal to weibull</code></pre>
+<div class="inline-figure"><img src="Libro_TidyQualityTools_files/figure-html/unnamed-chunk-167-1.png" width="672"></div>
 
 </div>
 </div>
