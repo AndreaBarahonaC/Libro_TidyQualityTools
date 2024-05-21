@@ -1231,7 +1231,8 @@ gageRR <- R6Class("gageRR",
                           ylab2 <- yName
                         else ylab2 <- ylab[2]
                         
-                        p2 <- ggplot(gdo$X, aes_string(x = bName, y = yName)) +
+                        p2 <- suppressWarnings(
+                          ggplot(gdo$X, aes_string(x = bName, y = yName)) +
                           geom_boxplot() +
                           stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", linewidth = lwd) +
                           stat_summary(fun = median, geom = "point", color = "red") +
@@ -1240,6 +1241,7 @@ gageRR <- R6Class("gageRR",
                                y = ifelse(is.null(ylab2), yName, ylab2)) +
                           theme_bw() +
                           theme(plot.title = element_text(hjust = 0.5))
+                          )
                         
                         # 3. Measurement by operator --------------------------------------------------
                         main3 = NA

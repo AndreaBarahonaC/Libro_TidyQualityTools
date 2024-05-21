@@ -215,13 +215,13 @@ gageRR <- R6Class("gageRR",
                         contribFrame <- contribFrame[-match(c("totalVar", "a", "a_b"), row.names(temp)), ]
                       else contribFrame <- contribFrame[-match(c("totalVar"), row.names(temp)), ]
                       numBars <-ncol(contribFrame)
-                      
+
                       contrib_df <- as.data.frame(contribFrame)
                       contrib_df$component <- rownames(contribFrame)
                       contrib_df <- contrib_df %>% rownames_to_column(var = "Source") %>% filter(Source != "totalVar")
                       ymax <- max(max(contribFrame))
                       main1 <- NA
-                      
+
                       contribFrame_long <- as.data.frame(contribFrame)
                       contribFrame_long$Component <- rownames(contribFrame_long)
                       contribFrame_long <- tidyr::gather(contribFrame_long, key = "Metric", value = "Value", -Component)
@@ -240,7 +240,7 @@ gageRR <- R6Class("gageRR",
                               legend.box.spacing = unit(0.1, 'cm'),
                               plot.title = element_text(hjust = 0.5)
                         )
-                      
+
                       # ----------------------
                       if (gdo$method == "crossed") {
                         # 2. Measurement by part ------------------------------------------------------
@@ -256,8 +256,9 @@ gageRR <- R6Class("gageRR",
                         if (missing(ylab) || is.na(ylab[2]))
                           ylab2 <- yName
                         else ylab2 <- ylab[2]
-                        
-                        p2 <- ggplot(gdo$X, aes_string(x = bName, y = yName)) +
+
+                        p2 <- suppressWarnings(
+                          plot(gdo$X, aes_string(x = bName, y = yName)) +
                           geom_boxplot() +
                           stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", linewidth = lwd) +
                           stat_summary(fun = median, geom = "point", color = "red") +
@@ -266,7 +267,8 @@ gageRR <- R6Class("gageRR",
                                y = ifelse(is.null(ylab2), yName, ylab2)) +
                           theme_bw() +
                           theme(plot.title = element_text(hjust = 0.5))
-                        
+                          )
+
                         # 3. Measurement by operator --------------------------------------------------
                         main3 = NA
                         if (missing(main) || is.na(main[3]))
@@ -280,7 +282,7 @@ gageRR <- R6Class("gageRR",
                         if (missing(ylab) || is.na(ylab[3]))
                           ylab3 = yName
                         else ylab3 = ylab[3]
-                        
+
                         p3 <- ggplot(gdo$X, aes_string(x = aName, y = yName)) +
                           geom_boxplot(aes(fill = factor(gdo$X[, 3]))) +
                           stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", linewidth = lwd) +
@@ -292,7 +294,7 @@ gageRR <- R6Class("gageRR",
                           theme_bw() +
                           scale_fill_manual(values = col) +
                           theme(plot.title = element_text(hjust = 0.5), legend.position='none')
-                        
+
                         # 4. X_mean Chart -------------------------------------------------------------------------------
                         agg = aggregate(gdo$X[, yName], list(gdo$X[, aName], gdo$X[, bName]), FUN = mean)
                         tab = table(agg[, 2])
@@ -305,7 +307,7 @@ gageRR <- R6Class("gageRR",
                         UCL = xm + ((3 * sm)/(.c4(sgSize) * sqrt(sgSize)))
                         LCL = xm - ((3 * sm)/(.c4(sgSize) * sqrt(sgSize)))
                         values = c(UCL, xm, LCL)
-                        
+
                         p4 <- ggplot(data.frame(x = 1:length(aggMean[, 3]), y = aggMean[, 3]), aes(x, y)) +
                           geom_point(shape = 1) +
                           geom_line() +
@@ -325,7 +327,7 @@ gageRR <- R6Class("gageRR",
                                                                            paste("UCL =", round(UCL, 2))
                                                                  ) )) +
                           theme(axis.text.y.right = element_text(size = 8))
-                        
+
                         # 5. Interaction Operator  ------------------------------------------------------------------
                         main4 <- NA
                         if (missing(main) || is.na(main[4]))
@@ -340,7 +342,7 @@ gageRR <- R6Class("gageRR",
                           ylab4 <- paste(as.character(body(match.fun(fun)))[2], "of", colnames(gdo$X)[5])
                         else ylab4 <- ylab[4]
                         p5 <- .aip(gdo$X[, 4], gdo$X[, 3], response = gdo$X[, 5], xlab = xlab4, ylab = ylab4, title = "Interaction Operator: Part", legend = TRUE,col = col, type = "b", plot = FALSE)
-                        
+
                         # 6. R chart -------------------------------------------------
                         D3 <- c(0, 0, 0, 0, 0, 0.076, 0.136, 0.184, 0.223, 0.256, 0.284, 0.308, 0.329, 0.348)
                         D4 <- c(0, 3.267, 2.574, 2.282, 2.115, 2.004, 1.924, 1.864, 1.816, 1.777, 1.744, 1.716, 1.692, 1.671, 1.652)
@@ -356,7 +358,7 @@ gageRR <- R6Class("gageRR",
                         agg$Group.1 <- factor(agg$Group.1, levels = unique(agg$Group.1))
                         tab = table(agg[, 2])
                         sgSize = tab[1]
-                        
+
                         p6 <-  ggplot(data.frame(x = 1:length(agg[, 3]), y = agg[, 3]), aes(x, y)) +
                           geom_point(shape = 1) +
                           geom_line() +
@@ -376,12 +378,12 @@ gageRR <- R6Class("gageRR",
                                                                            paste("UCL =", round(UCL, 2))
                                                                  ) )) +
                           theme(axis.text.y.right = element_text(size = 8))
-                        
+
                         # UNION PLOTS -------------
                         p <- p1 + p3 + p5$plot + p2 + p4 + p6 + plot_layout(nrow = 3, byrow = FALSE)
-                        
+
                       }
-                      
+
                       if(gdo$method == "nested"){
                         # 2. Measurement by Part within operator --------------
                         main2 = NA
@@ -397,7 +399,7 @@ gageRR <- R6Class("gageRR",
                           ylab2 = yName
                         else ylab2 = ylab[2]
                         agg = aggregate(gdo$X[, yName], list(gdo$X[, bName], gdo$X[, aName]), FUN = function(x){return(x)})
-                        
+
                         plot(1:nrow(agg), main = main2, xlab = xlab2, ylab = ylab2, ylim = range(agg[, 3]), axes = FALSE)
                         axis(2)
                         box()
@@ -413,7 +415,7 @@ gageRR <- R6Class("gageRR",
                         aggm = aggregate(gdo$X[, yName], list(gdo$X[, bName], gdo$X[, aName]), FUN = mean)
                         lines(aggm[, 3])
                         points(aggm[, 3], pch = 13, cex = 2)
-                        
+
                         # 3. Box Blot Measurement by Operator -----------------
                         main3 = NA
                         if (missing(main) || is.na(main[3]))
@@ -427,7 +429,7 @@ gageRR <- R6Class("gageRR",
                         if (missing(ylab) || is.na(ylab[3]))
                           ylab3 = yName
                         else ylab3 = ylab[3]
-                        
+
                         p3 <- ggplot(gdo$X, aes_string(x = aName, y = yName)) +
                           geom_boxplot(aes(fill = factor(gdo$X[, 3]))) +
                           stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", linewidth = lwd) +
@@ -439,10 +441,10 @@ gageRR <- R6Class("gageRR",
                           theme_bw() +
                           scale_fill_manual(values = col) +
                           theme(plot.title = element_text(hjust = 0.5), legend.position='none')
-                        
-                        
-                        
-                        
+
+
+
+
                         # 4. X_mean Chart ----------------------
                         agg = aggregate(gdo$X[, yName], list(gdo$X[, aName], gdo$X[, bName]), FUN = mean)
                         tab = table(agg[, 2])
@@ -455,7 +457,7 @@ gageRR <- R6Class("gageRR",
                         UCL = xm + ((3 * sm)/(.c4(sgSize) * sqrt(sgSize)))
                         LCL = xm - ((3 * sm)/(.c4(sgSize) * sqrt(sgSize)))
                         values = c(UCL, xm, LCL)
-                        
+
                         p4 <- ggplot(data.frame(x = 1:length(aggMean[, 3]), y = aggMean[, 3]), aes(x, y)) +
                           geom_point(shape = 1) +
                           geom_line() +
@@ -488,7 +490,7 @@ gageRR <- R6Class("gageRR",
                         agg = aggregate(gdo$X[, yName], list(gdo$X[, bName], gdo$X[, aName]), FUN = helpRange)
                         tab = table(agg[, 2])
                         sgSize = tab[1]
-                        
+
                         p5 <-  ggplot(data.frame(x = 1:length(agg[, 3]), y = agg[, 3]), aes(x, y)) +
                           geom_point(shape = 1) +
                           geom_line() +
@@ -508,11 +510,11 @@ gageRR <- R6Class("gageRR",
                                                                            paste("UCL =", round(UCL, 2))
                                                                  ) )) +
                           theme(axis.text.y.right = element_text(size = 8))
-                        
+
                         # UNION PLOTS -----------------------
                         p <- p1 / (p2 + p3) / (p4 + p5) # p2 falta cambiar a ggplot2
                       }
-                      
+
                       show(p)
                       invisible(list(plot = p))
                     }

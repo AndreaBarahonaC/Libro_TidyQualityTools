@@ -8,7 +8,6 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
                   lineType = "solid", specCol = "red3", specWidth = 1, cex.text = 2,
                   cex.val = 1.5, cex.col = "darkgray", plot = TRUE, bounds.lty = 3,
                   bounds.col = "red", ...) {
-  DB = FALSE
   data.name = deparse(substitute(x))[1]
 
   parList = list(...)
@@ -199,15 +198,6 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
   }
   cpk = min(cpu, cpl)
   ppt = sum(ppl, ppu)
-  if (DB == TRUE) {
-    print(cp)
-    print(cpk)
-    print(cpu)
-    print(cpl)
-    print(ppu)
-    print(ppl)
-    print(ppt)
-  }
 
   if(plot==TRUE){
     # ----------------------------- IF PLOT == TRUE -----------------------------------------------------------
