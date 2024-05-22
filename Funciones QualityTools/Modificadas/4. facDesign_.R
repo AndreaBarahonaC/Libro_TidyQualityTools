@@ -4,6 +4,49 @@ library(ggplot2)
 library(patchwork)
 library(scales)
 
+###Funcion as.data.frame.facDesign####
+as.data.frane.facDesign <- function(self, row.names = NULL, optional = FALSE, ...) {
+  if (!is.null(self$cube)) {
+    frameOut = self$cube
+  }
+  else return(NULL)
+  if (!is.null(self$centerCube))
+    frameOut = rbind(frameOut, self$centerCube)
+  if (!is.null(self$star))
+    frameOut = rbind(frameOut, self$star)
+  if (!is.null(self$centerStar))
+    frameOut = rbind(frameOut, self$centerStar)
+  aux <- list()
+  for (i in 1:length(self$names())) {
+    aux[[self$names()[i]]] <-.NAMES[i]
+  }
+  if (!is.null(self$factors) && length(self$factors) == dim(frameOut)[2]) {
+    names(frameOut) = as.character(aux)
+  }
+  if (!is.null(self$blockGen) && nrow(self$blockGen) > 0) {
+    frameOut = cbind(self$blockGen, frameOut)
+  }
+  if (!is.null(self$block) && nrow(self$block) > 0) {
+    frameOut = cbind(self$block, frameOut)
+  }
+  if (!is.null(self$runOrder) && nrow(self$runOrder) > 0) {
+    frameOut = cbind(self$runOrder, frameOut)
+  }
+  if (!is.null(self$standardOrder) && nrow(self$standardOrder) > 0) {
+    frameOut = cbind(self$standardOrder, frameOut)
+  }
+  if (!is.null(self$response) && nrow(frameOut) == nrow(self$response))
+    frameOut = cbind(frameOut, self$response)
+  else {
+    temp = as.data.frame(matrix(NA, nrow = nrow(frameOut), ncol = ncol(self$response)))
+    names(temp) = names(self$response)
+    frameOut = cbind(frameOut, temp)
+  }
+  runIndex = order(self$runOrder[,1])
+  out = frameOut[runIndex, ]
+  return(out)
+}
+
 ############DISEÑOS FACTORIALES 2^k#############
 ####Necesito .helpAliasTable##################################################
 #Funcion .replace2s####
@@ -225,11 +268,11 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                  centerCube = data.frame(),
                                                  centerStar = data.frame(),
                                                  generator = NULL,
-                                                 response = NULL,
-                                                 block = NULL,
-                                                 blockGen = NULL,
-                                                 runOrder = NULL,
-                                                 standardOrder = NULL,
+                                                 response = data.frame(),
+                                                 block = data.frame(),
+                                                 blockGen = data.frame(),
+                                                 runOrder = data.frame(),
+                                                 standardOrder = data.frame(),
                                                  desireVal = NULL,
                                                  desirability = list(),
                                                  fits = NULL,
@@ -240,6 +283,25 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
 
                                                  ncol = function(){
                                                    ncol(self$as.data.frame())
+                                                 },
+
+                                                 show = function(){
+                                                   runIndex = order(self$runOrder[,1])
+                                                   print(format(self$as.data.frame(), digits = 4))
+                                                   invisible(self$as.data.frame())
+                                                 },
+
+                                                 .clear = function(){
+                                                   self$standardOrder = data.frame()
+                                                   self$runOrder = data.frame()
+                                                   self$cube = data.frame()
+                                                   self$centerStar = data.frame()
+                                                   self$centerCube = data.frame()
+                                                   self$star = data.frame()
+                                                   self$block = data.frame()
+                                                   self$blockGen = data.frame()
+                                                   self$response = data.frame()
+                                                   invisible(self)
                                                  },
 
                                                  names = function(value){
@@ -253,6 +315,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                    else {
                                                      for (i in 1:length(self$factors)){
                                                        self$factors[[i]]$name = as.character(value[i])
+
                                                      }
                                                      invisible(self)
                                                    }
@@ -262,16 +325,24 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                  as.data.frame = function(row.names = NULL, optional = FALSE, ...) {
                                                    if (!is.null(self$cube)) {
                                                      frameOut = self$cube
+                                                     names(frameOut) = self$names()
                                                    }
                                                    else return(NULL)
-                                                   if (!is.null(self$centerCube))
-                                                     frameOut = rbind(frameOut, self$centerCube)
+                                                   if (!is.null(self$centerCube)){
+                                                     faux <- self$centerCube
+                                                     names(faux) <- self$names()
+                                                     frameOut = rbind(frameOut, faux)
+                                                   }
                                                    if (!is.null(self$star))
                                                      frameOut = rbind(frameOut, self$star)
                                                    if (!is.null(self$centerStar))
                                                      frameOut = rbind(frameOut, self$centerStar)
+                                                   aux <- list()
+                                                   for (i in 1:length(self$names())) {
+                                                     aux[[self$names()[i]]] <-.NAMES[i]
+                                                   }
                                                    if (!is.null(self$factors) && length(self$factors) == dim(frameOut)[2]) {
-                                                     names(frameOut) = as.character(names(self$cube))
+                                                     names(frameOut) = as.character(aux)
                                                    }
                                                    if (!is.null(self$blockGen) && nrow(self$blockGen) > 0) {
                                                      frameOut = cbind(self$blockGen, frameOut)
@@ -666,7 +737,378 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                    names(self$fits)[listPos] = yName
                                                    invisible(self)
 
+                                                 },
+
+                                                 types = function(value){
+                                                   if (missing(value)) {
+                                                     v <- list()
+                                                     for (i in 1:length(self$factors)) {
+                                                       v[[self$names()[i]]] <- self$factors[[i]]$.type()
+                                                     }
+                                                     return(v)
+
+                                                   }
+                                                   else{
+                                                     for (i in 1:length(self$factors)) {
+                                                       if (!identical(value[i], "numeric") & !identical(value[i], "factor"))
+                                                         stop(paste(value[i], "\ttype of factor needs to be 'numeric' or 'factor'"))
+                                                       self$factors[[i]]$.type() = as.character(value[i])
+                                                     }
+                                                     invisible(self)
+                                                   }
+                                                 },
+
+                                                 unit = function(value){
+                                                   if (missing(value)) {
+                                                     v <- list()
+                                                     for (i in 1:length(self$factors)) {
+                                                       v[[self$names()[i]]] <- self$factors[[i]]$.unit()
+                                                     }
+                                                     return(v)
+                                                   }
+                                                   else{
+                                                     for (i in 1:length(self$factors)) if (length(value) > 1)
+                                                       self$factors[[i]]$.unit() = as.character(value[i])
+                                                     else self$factors[[i]]$.unit() = as.character(value[1])
+                                                     invisible(self)
+                                                   }
+
+                                                 },
+
+                                                 .star = function(value){
+                                                   if (missing(value)) {
+                                                     return(self$star)
+                                                   }
+                                                   else{
+                                                     DB = FALSE
+                                                     if (!is.data.frame(value))
+                                                       stop("data.frame must be provided!")
+                                                     if (.numFac(self) != ncol(value))
+                                                       stop("number of columns not matching!")
+                                                     if (nrow(value) == 0) {
+                                                       return("TODO: remove star und Rest anpassen")
+                                                     }
+                                                     oldResponse = self$.response()
+                                                     newDf = value
+                                                     oldDf = self$star
+                                                     numNewRow = nrow(newDf) - nrow(oldDf)
+                                                     oldOrd = self$standardOrder
+                                                     oldRunOrd = self$runOrder
+                                                     len = nrow(oldOrd)
+                                                     lenFirst = nrow(self$cube) + nrow(self$centerCube)
+                                                     self$standardOrder = data.frame(StandOrd = 1:(len + numNewRow))
+                                                     newRunOrd = data.frame()
+                                                     if (numNewRow > 0) {
+                                                       newNums = data.frame(newNums = seq(max(oldRunOrd) + 1, max(oldRunOrd) + numNewRow, by = 1))
+                                                       if (DB)
+                                                         print(newNums)
+                                                       names(newNums) = names(oldRunOrd)
+                                                       newRunOrd = data.frame(oldRunOrd[1:lenFirst, ])
+                                                       if (DB)
+                                                         print(newRunOrd)
+                                                       names(newRunOrd) = names(oldRunOrd)
+                                                       restFrame = data.frame(oldRunOrd[-c(1:lenFirst), ])
+                                                       names(restFrame) = names(oldRunOrd)
+                                                       newRunOrd = rbind(newRunOrd, newNums, restFrame)
+                                                       if (DB)
+                                                         print(newRunOrd)
+                                                     }
+                                                     else {
+                                                       newRunOrd = data.frame(oldRunOrd[1:(lenFirst + nrow(newDf) + nrow(self$centerStar)), ])
+                                                       names(newRunOrd) = names(oldRunOrd)
+                                                     }
+                                                     self$runOrder = newRunOrd
+                                                     naFrame = as.data.frame(matrix(rep(NA, times = ncol(oldResponse) * nrow(newDf)), ncol = ncol(oldResponse)))
+                                                     names(naFrame) = names(oldResponse)
+                                                     newResponse = data.frame(oldResponse[1:lenFirst, ])
+                                                     names(newResponse) = names(oldResponse)
+                                                     restFrame = data.frame(oldResponse[-c(1:(lenFirst + nrow(oldDf))), ])
+                                                     names(restFrame) = names(oldResponse)
+                                                     newResponse = rbind(newResponse, naFrame, restFrame)
+                                                     self$.response(newResponse)
+                                                     if (DB) {
+                                                       print(newResponse)
+                                                       print("hinter response")
+                                                     }
+                                                     oldBlockGen = self$blockGen
+                                                     if (ncol(oldBlockGen) > 0) {
+                                                       if (DB)
+                                                         print("TODO: BlockGen anpassen!")
+                                                       newBlockGen = data.frame(oldBlockGen[1:lenFirst, ])
+                                                       names(newBlockGen) = names(self$blockGen)
+                                                       naFrameGen = as.data.frame(matrix(rep(NA, times = ncol(self$blockGen) * nrow(newDf)), ncol = ncol(self$blockGen)))
+                                                       names(naFrameGen) = names(oldBlockGen)
+                                                       restBlockGen = data.frame(oldBlockGen[-c(1:(lenFirst + nrow(oldDf))), ])
+                                                       names(restBlockGen) = names(oldBlockGen)
+                                                       newBlockGen = rbind(newBlockGen, naFrameGen, restBlockGen)
+                                                       if (DB)
+                                                         print(newBlockGen)
+                                                       self$.blockGen(newBlockGen)
+                                                     }
+                                                     oldBlock = self$block
+                                                     newBlock = data.frame(oldBlock[1:lenFirst, ])
+                                                     names(newBlock) = names(oldBlock)
+                                                     naFrame = as.data.frame(matrix(rep(max(newBlock) + 1, times = ncol(oldBlock) * nrow(newDf)),
+                                                                                    ncol = ncol(oldBlock)))
+                                                     names(naFrame) = names(oldBlock)
+                                                     restBlock = data.frame(oldBlock[-c(1:(lenFirst + nrow(oldDf))), ])
+                                                     names(restBlock) = names(oldBlock)
+                                                     newBlock = rbind(newBlock, naFrame, restBlock)
+                                                     self$.block(newBlock)
+                                                     self$star <- newDf
+                                                     invisible(self)
+                                                   }
+                                                 },
+
+                                                 .blockGen = function(value){
+                                                   if (missing(value)) {
+                                                     return(self$blockGen)
+                                                   }
+                                                   else{
+                                                     if (!is.vector(value) && !is.data.frame(value))
+                                                       stop("vector or data.frame expected!")
+                                                     if (is.vector(value) && (is.numeric(value) || is.na(value))) {
+                                                       if (self$nrow() != length(value))
+                                                         stop(paste("Number of rows for Design does not equal length of vector ", self$nrow(),
+                                                                    " != ", length(value), " "))
+                                                       self$blockGen <- as.data.frame(value)
+                                                       names(self$blockGen) = deparse(substitute(value))
+
+                                                     }
+                                                     if (is.data.frame(value)) {
+                                                       self$blockGen <- value
+
+                                                     }
+                                                     invisible(self)
+
+                                                   }
+
+                                                 },
+
+                                                 .block = function(value){
+                                                   if (missing(value)) {
+                                                     return(self$block)
+                                                   }
+                                                   else{
+                                                     if (!is.vector(value) && !is.data.frame(value))
+                                                       stop("vector or data.frame expected!")
+                                                     if (is.vector(value) && (is.numeric(value) || is.na(value))) {
+                                                       if (self$nrow() != length(value))
+                                                         stop(paste("Number of rows for Design does not equal length of vector ", nrow(object),
+                                                                    " != ", length(value), " "))
+                                                       self$block <- as.data.frame(value)
+                                                       names(self$block) = deparse(substitute(value))
+
+                                                     }
+                                                     if (is.data.frame(value)) {
+                                                       self$block <- value
+
+                                                     }
+                                                     invisible(self)
+
+                                                   }
+                                                 },
+
+                                                 .centerCube = function(value){
+                                                   if (missing(value)) {
+                                                     return(self$centerCube)
+                                                   }
+                                                   else{
+                                                     DB = FALSE
+                                                     if (!is.data.frame(value))
+                                                       stop("data.frame must be provided!")
+                                                     if (.numFac(self) != ncol(value))
+                                                       stop("number of columns not matching!")
+                                                     if (nrow(value) == 0) {
+                                                       return("TODO: remove CenterCube und Rest anpassen")
+                                                     }
+                                                     newDf = value
+                                                     lenCube = nrow(self$cube)
+                                                     oldDf = self$centerCube
+                                                     oldRunOrd = self$runOrder
+                                                     oldResponse = self$.response()
+                                                     blockValues = unique(self$block[1:nrow(self$cube), ])
+                                                     numBlocks = length(blockValues)
+                                                     if (numBlocks > 1)
+                                                       for (i in 1:(numBlocks - 1)) {
+                                                         newDf = rbind(newDf, value)
+                                                       }
+                                                     if (DB)
+                                                       print(newDf)
+                                                     numNewRow = nrow(newDf) - nrow(oldDf)
+                                                     oldOrd = self$standardOrder
+                                                     len = nrow(oldOrd)
+                                                     self$standardOrder = data.frame(StandOrd = 1:(len + numNewRow))
+                                                     newRunOrd = data.frame()
+                                                     if (numNewRow > 0) {
+                                                       newNums = data.frame(newNums = seq(max(oldRunOrd) + 1, max(oldRunOrd) + numNewRow, by = 1))
+                                                       names(newNums) = names(oldRunOrd)
+                                                       if (DB) {
+                                                         print("----")
+                                                         print(newNums)
+                                                       }
+                                                       newRunOrd = data.frame(oldRunOrd[1:lenCube, ])
+                                                       names(newRunOrd) = names(oldRunOrd)
+                                                       restRunOrd = data.frame(oldRunOrd[-c(1:lenCube), ])
+                                                       names(restRunOrd) = names(oldRunOrd)
+                                                       newRunOrd = rbind(newRunOrd, newNums, restRunOrd)
+                                                       if (DB) {
+                                                         print("----")
+                                                         print(oldRunOrd[-c(1:lenCube), ])
+                                                         print("----")
+                                                         print(newRunOrd)
+                                                       }
+                                                       self$runOrder = newRunOrd
+                                                     }
+                                                     else {
+                                                       newRunOrd = data.frame(oldRunOrd[1:(lenCube + nrow(newDf)), ])
+                                                       names(newRunOrd) = names(oldRunOrd)
+                                                       restRunOrd = data.frame(oldRunOrd[-c(1:(lenCube + nrow(oldDf))), ])
+                                                       names(restRunOrd) = names(oldRunOrd)
+                                                       newRunOrd = rbind(newRunOrd, restRunOrd)
+                                                       if (DB) {
+                                                         print("----")
+                                                         print(newRunOrd)
+                                                       }
+                                                       self$runOrder = newRunOrd
+                                                     }
+                                                     naFrame = as.data.frame(matrix(rep(NA, times = ncol(oldResponse) * nrow(newDf)), ncol = ncol(oldResponse)))
+                                                     names(naFrame) = names(oldResponse)
+                                                     newResponse = data.frame(oldResponse[1:lenCube, ])
+                                                     names(newResponse) = names(oldResponse)
+                                                     restResponse = data.frame(oldResponse[-c(1:(lenCube + nrow(oldDf))), ])
+                                                     names(restResponse) = names(oldResponse)
+                                                     newResponse = rbind(newResponse, naFrame, restResponse)
+                                                     if (DB) {
+                                                       print("newResponse_____")
+                                                       print(newResponse)
+                                                     }
+                                                     self$.response(newResponse)
+                                                     oldBlockGen = self$blockGen
+                                                     if (ncol(oldBlockGen) > 0) {
+                                                       if (DB)
+                                                         print("TODO: BlockGen Spalte(n) anpassen")
+                                                       newBlockGen = data.frame(oldBlockGen[1:lenCube, ])
+                                                       names(newBlockGen) = names(self$blockGen)
+                                                       naFrameGen = as.data.frame(matrix(rep(NA, times = ncol(self$blockGen) * nrow(newDf)), ncol = ncol(self$blockGen)))
+                                                       names(naFrameGen) = names(oldBlockGen)
+                                                       restFrame = data.frame(oldBlockGen[-c(1:(lenCube + nrow(oldDf))), ])
+                                                       names(restFrame) = names(self$blockGen)
+                                                       newBlockGen = rbind(newBlockGen, naFrameGen, restFrame)
+                                                       self$.blockGen(newBlockGen)
+                                                       if (DB)
+                                                         print(newBlockGen)
+                                                     }
+                                                     oldBlock = self$block
+                                                     newBlock = data.frame(oldBlock[1:lenCube, ])
+                                                     names(newBlock) = names(self$block)
+                                                     naFrame = as.data.frame(matrix(rep(blockValues, times = nrow(newDf)/numBlocks), ncol = 1))
+                                                     restFrame = as.data.frame(oldBlock[-c(1:(lenCube + nrow(oldDf))), ])
+                                                     names(restFrame) = names(self$block)
+                                                     if (DB)
+                                                       print(naFrame)
+                                                     names(naFrame) = names(oldBlock)
+                                                     newBlock = rbind(newBlock, naFrame, restFrame)
+                                                     self$.block(newBlock)
+                                                     self$centerCube <- newDf
+                                                     invisible(self)
+                                                   }
+
+                                                 },
+
+                                                 .centerStar = function(value){
+                                                   if (missing(value)) {
+                                                     return(self$centerStar)
+                                                   }
+                                                   else{
+                                                     DB = FALSE
+                                                     if (!is.data.frame(value))
+                                                       stop("data.frame must be provided!")
+                                                     if (.numFac(self) != ncol(value))
+                                                       stop("number of columns not matching!")
+                                                     if (nrow(value) == 0) {
+                                                       return("TODO: remove CenterCube und Rest anpassen")
+                                                     }
+                                                     newDf = value
+                                                     oldDf = self$centerStar
+                                                     numNewRow = nrow(newDf) - nrow(oldDf)
+                                                     oldResponse = self$.response()
+                                                     lenRest = nrow(self$cube) + nrow(self$centerCube) + nrow(self$star)
+                                                     oldRunOrd = self$runOrder
+                                                     oldOrd = self$standardOrder
+                                                     len = nrow(oldOrd)
+                                                     self$standardOrder = data.frame(StandOrd = 1:(len + numNewRow))
+                                                     newRunOrd = data.frame(oldRunOrd[1:lenRest, ])
+                                                     names(newRunOrd) = names(oldRunOrd)
+                                                     if (numNewRow > 0) {
+                                                       newNums = data.frame(newNums = seq(max(oldRunOrd) + 1, max(oldRunOrd) + numNewRow, by = 1))
+                                                       names(newNums) = names(oldRunOrd)
+                                                       restFrame = data.frame(oldRunOrd[-c(1:lenRest), ])
+                                                       names(restFrame) = names(oldRunOrd)
+                                                       newRunOrd = rbind(newRunOrd, newNums, restFrame)
+                                                       if (DB)
+                                                         print(newRunOrd)
+                                                       self$runOrder = newRunOrd
+                                                     }
+                                                     else {
+                                                       newRunOrd = data.frame(oldRunOrd[1:(lenRest + nrow(newDf)), ])
+                                                       names(newRunOrd) = names(oldRunOrd)
+                                                       self$runOrder = newRunOrd
+                                                     }
+                                                     naFrame = as.data.frame(matrix(rep(NA, times = ncol(oldResponse) * nrow(newDf)), ncol = ncol(oldResponse)))
+                                                     names(naFrame) = names(oldResponse)
+                                                     newResponse = data.frame(oldResponse[1:lenRest, ])
+                                                     names(newResponse) = names(self$.response())
+                                                     newResponse = rbind(newResponse, naFrame)
+                                                     if (DB)
+                                                       print(" vor centerStar response")
+                                                     self$.response(newResponse)
+                                                     if (DB)
+                                                       print("hinter centerStar response")
+                                                     oldBlockGen = self$blockGen
+                                                     if (ncol(oldBlockGen) > 0) {
+                                                       print("TODO: BlockGen Spalte(n) anpassen")
+                                                       newBlockGen = data.frame(oldBlockGen[1:lenRest, ])
+                                                       names(newBlockGen) = names(self$blockGen)
+                                                       naFrameGen = as.data.frame(matrix(rep(NA, times = ncol(self$blockGen) * nrow(newDf)), ncol = ncol(self$block)))
+                                                       names(naFrameGen) = names(oldBlockGen)
+                                                       restBlockGen = data.frame(oldBlockGen[-c(1:(lenRest + nrow(oldDf))), ])
+                                                       names(restBlockGen) = names(oldBlockGen)
+                                                       newBlockGen = rbind(newBlockGen, naFrameGen, restBlockGen)
+                                                       if (DB)
+                                                         print(newBlockGen)
+                                                       self$.blockGen(newBlockGen)
+                                                     }
+                                                     oldBlock = self$block
+                                                     newBlock = data.frame(oldBlock[1:lenRest, ])
+                                                     names(newBlock) = names(self$block)
+                                                     naFrame = as.data.frame(matrix(rep(max(self$block[1:nrow(self$cube), ]) + 1, times = ncol(self$block) *
+                                                                                          nrow(newDf)), ncol = ncol(self$block)))
+                                                     names(naFrame) = names(oldBlock)
+                                                     restBlock = data.frame(oldBlock[-c(1:(lenRest + nrow(oldDf))), ])
+                                                     names(restBlock) = names(oldBlock)
+                                                     newBlock = rbind(newBlock, naFrame, restBlock)
+                                                     self$.block(newBlock)
+                                                     self$centerStar <- newDf
+                                                     invisible(self)
+
+                                                   }
+
+                                                 },
+
+                                                 .generators = function(value){
+                                                   if (missing(value)) {
+                                                     return(self$generator)
+
+                                                   }
+                                                   else{
+                                                     self$generator <- value
+                                                     invisible(self)
+                                                   }
                                                  }
+
+
+
 
                                                  )
                       )
@@ -714,9 +1156,48 @@ doeFactor <- R6Class('doeFactor', public = list(low = -1,
                                                        print("Note: The types of the factors were changed!")
                                                      invisible(self)
                                                    }
-                                                 }
+                                                 },
 
-                                                 )
+                                                .type = function(value){
+                                                  if (missing(value)) {
+                                                    return(self$type)
+                                                  }
+                                                  else{
+                                                    self$type <- value
+                                                    invisible(self)
+                                                  }
+                                                },
+
+                                                .unit = function(value){
+                                                  if (missing(value)){
+                                                    return(self$unit)
+                                                  }
+                                                  else{
+                                                    self$unit <- value
+                                                    invisible(self)
+                                                  }
+                                                },
+
+                                                names = function(value){
+                                                  if (missing(value)) {
+                                                    return(self$name)
+                                                  }
+                                                  else {
+                                                    self$name <- value
+                                                    invisible(self)
+                                                  }
+                                                },
+
+                                                show = function(){
+                                                  cat("Name: ", self$names(), "\n")
+                                                  cat("low Setting: ", self$.low(), "\n")
+                                                  cat("high setting: ", self$.high(), "\n")
+                                                  cat("Unit: ", self$.unit(), "\n")
+                                                  cat("type: ", self$.type(), "\n")
+                                                  cat("\n")
+                                                }
+
+                                                )
                       )
 
 
@@ -946,7 +1427,7 @@ blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm",
 {
   override = FALSE
   Block = data.frame(Block = rep(1, fdo$nrow()))
-  fdo$block = Block
+  fdo$.block(Block)
   fdo = randomize(fdo, so = TRUE)
   if (missing(random.seed)) {
     runif(1)
@@ -956,7 +1437,7 @@ blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm",
     gen = NULL
   if (blocks <= 1) {
     Block = data.frame(Block = rep(1, fdo$nrow()))
-    fdo$block = Block
+    fdo$.block(Block)
     fdo = randomize(fdo, random.seed = random.seed)
     return(fdo)
   }
@@ -966,9 +1447,9 @@ blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm",
       fdo = randomize(fdo, so = TRUE)
       numB1 = nrow(fdo$cube) + nrow(fdo$centerCube)
       numB2 = fdo$nrow() - numB1
-      fdo$block = data.frame(Block = c(rep(1, numB1),
-                                        rep(2, numB2)))
-      fdo$blockGen = data.frame(B1 = rep(NA, fdo$nrow()))
+      fdo$.block(data.frame(Block = c(rep(1, numB1),
+                                      rep(2, numB2))))
+      fdo$.blockGen(data.frame(B1 = rep(NA, fdo$nrow())))
     }
     if (blocks %in% c(2, 3, 5, 9, 17))
       blocks = blocks - 1
@@ -991,14 +1472,14 @@ blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm",
     .blockCol = .blockCol(.blockGenCol)
     Block = .blockCol
     BlockGenCol = .blockGenCol
-    fdo$block = Block
-    fdo$blockGen = BlockGenCol
+    fdo$.block(Block)
+    fdo$.blockGen(BlockGenCol)
   }
   numCC = nrow(fdo$centerCube)
   if (numCC > 0) {
     ccFrame = as.data.frame(matrix(0, nrow = numCC, ncol = ncol(fdo$cube)))
     names(ccFrame) = names(fdo)
-    fdo$centerCube = ccFrame
+    fdo$.centerCube(ccFrame)
   }
   fdo = randomize(fdo, random.seed = random.seed)
   return(fdo)
@@ -1274,7 +1755,7 @@ dfac$.response(rend)
 dfac$.response()
 ######effectPlot###############################################################
 dfac$effectPlot(classic=TRUE)
-dfac$effectPlot()
+
 
 
 #####Necesito .letterPos .testFun###########################################
@@ -1368,6 +1849,7 @@ interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, co
     do.call(axis, tempList)
     invisible()
   }
+
   for (r in 1:ncol(fdo$.response())) {
     if (r > 1)
       dev.new()
@@ -1434,7 +1916,6 @@ interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, co
 
 ####Uso interactionPlot#########################################################
 interactionPlot(dfac)
-
 ######lm##########################################################################
 m1 <- dfac$lm(rend ~ A*B*C)
 summary(m1)
@@ -1463,6 +1944,7 @@ summary(m1)
 }
 ##### funcion paretoPlot#################################
 paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.last = NA, alpha = 0.05, response = NULL, xlim, ylim, xlab, ylab, main, single = TRUE, ...) {  ###
+  DB <- FALSE
   if(single==FALSE)                                                           ###
     par(mfrow=.splitDev(length(fdo$.response()))[[2]])                           ###
   if(is.null(response)==FALSE)                                                ###
@@ -2617,3 +3099,340 @@ sao$.response(predicted)
 sao$plot(type='b', col=2)
 
 
+
+
+
+########DISEÑOS DE SUPERFICIE DE RESPUESTA#################
+set.seed(1234)
+fdo2 <- facDesign(k = 2, centerCube = 3)
+fdo2$names(c("Factor1","Factor2"))
+fdo2$lows(c(134,155))
+fdo2$highs(c(155,175))
+rend <- c(simProc(134,175),simProc(144.5,165.5),simProc(155,155),simProc(144.5,165.5),simProc(155,175),simProc(144.5,165.5),simProc(134,155))
+fdo2$.response(rend)
+###Necesito .nblock####
+.nblock <- function(fdo) {
+  if (class(fdo)[1] != "facDesign")
+    stop(paste(deparse(substitute(fdo)), "needs to be an object of class 'facDesign'"))
+  return(length(unique(fdo$block[[1]])))
+}
+###Necesito .starFrame####
+.starFrame = function(k, alpha) {
+  if (!is.numeric(k))
+    stop("k must be numeric")
+  if (!is.numeric(alpha))
+    stop("alpha must be numeric")
+  .starFrame = as.data.frame(matrix(0, nrow = k * 2, ncol = k))
+  for (j in 1:k) {
+    for (i in (2 * (j - 1) + 1):(2 * (j - 1) + 2)) {
+      .starFrame[i, j] = ((-1)^i) * alpha
+    }
+  }
+  return(.starFrame)
+}
+###Necesito .alphaOrth, .alphaRot, .rsmOrth####
+.alphaOrth <- function(k, p = 0, cc, cs) {
+  alpha = sqrt((2^(k - p) * (2 * k + cs))/(2 * (2^(k - p) + cc)))
+  return(alpha)
+}
+.alphaRot <- function(k, p = 0) {
+  alpha = (2^(k - p))^0.25
+  return(alpha)
+}
+.rsmOrth = vector(mode = "list", length = 7)
+.rsmOrth[[1]] = list(k = 2, p = 0, col = 1, row = 2, blocks = 2, cc = 3, cs = 3)
+.rsmOrth[[2]] = list(k = 2, p = 0, col = 1, row = 1, blocks = 1, cc = 0, cs = 0)
+.rsmOrth[[3]] = list(k = 3, p = 0, col = 2, row = 3, blocks = 3, cc = 2, cs = 2)
+.rsmOrth[[4]] = list(k = 3, p = 0, col = 2, row = 2, blocks = 2, cc = 2, cs = 2)
+.rsmOrth[[5]] = list(k = 3, p = 0, col = 2, row = 1, blocks = 1, cc = 0, cs = 0)
+.rsmOrth[[6]] = list(k = 4, p = 0, col = 3, row = 4, blocks = 5, cc = 2, cs = 2)
+.rsmOrth[[7]] = list(k = 4, p = 0, col = 3, row = 3, blocks = 3, cc = 2, cs = 2)
+.rsmOrth[[8]] = list(k = 4, p = 0, col = 3, row = 2, blocks = 2, cc = 2, cs = 2)
+.rsmOrth[[9]] = list(k = 4, p = 0, col = 3, row = 1, blocks = 1, cc = 0, cs = 0)
+.rsmOrth[[10]] = list(k = 5, p = 0, col = 4, row = 5, blocks = 9, cc = 2, cs = 4)
+.rsmOrth[[11]] = list(k = 5, p = 0, col = 4, row = 4, blocks = 5, cc = 2, cs = 4)
+.rsmOrth[[12]] = list(k = 5, p = 0, col = 4, row = 3, blocks = 3, cc = 2, cs = 4)
+.rsmOrth[[13]] = list(k = 5, p = 0, col = 4, row = 2, blocks = 2, cc = 2, cs = 4)
+.rsmOrth[[14]] = list(k = 5, p = 0, col = 4, row = 1, blocks = 1, cc = 0, cs = 0)
+.rsmOrth[[15]] = list(k = 5, p = 1, col = 5, row = 4, blocks = 5, cc = 6, cs = 1)
+.rsmOrth[[16]] = list(k = 5, p = 1, col = 5, row = 3, blocks = 3, cc = 6, cs = 1)
+.rsmOrth[[17]] = list(k = 5, p = 1, col = 5, row = 2, blocks = 2, cc = 6, cs = 1)
+.rsmOrth[[18]] = list(k = 5, p = 1, col = 5, row = 1, blocks = 1, cc = 0, cs = 0)
+.rsmOrth[[19]] = list(k = 6, p = 0, col = 6, row = 6, blocks = 17, cc = 1, cs = 6)
+.rsmOrth[[20]] = list(k = 6, p = 0, col = 6, row = 5, blocks = 9, cc = 1, cs = 6)
+.rsmOrth[[21]] = list(k = 6, p = 0, col = 6, row = 4, blocks = 5, cc = 1, cs = 6)
+.rsmOrth[[22]] = list(k = 6, p = 0, col = 6, row = 3, blocks = 3, cc = 1, cs = 6)
+.rsmOrth[[23]] = list(k = 6, p = 0, col = 6, row = 2, blocks = 2, cc = 1, cs = 6)
+.rsmOrth[[24]] = list(k = 6, p = 0, col = 6, row = 1, blocks = 1, cc = 0, cs = 0)
+.rsmOrth[[25]] = list(k = 6, p = 1, col = 7, row = 5, blocks = 9, cc = 4, cs = 2)
+.rsmOrth[[26]] = list(k = 6, p = 1, col = 7, row = 4, blocks = 5, cc = 4, cs = 2)
+.rsmOrth[[27]] = list(k = 6, p = 1, col = 7, row = 3, blocks = 3, cc = 4, cs = 2)
+.rsmOrth[[28]] = list(k = 6, p = 1, col = 7, row = 2, blocks = 2, cc = 4, cs = 2)
+.rsmOrth[[29]] = list(k = 6, p = 1, col = 7, row = 1, blocks = 1, cc = 0, cs = 0)
+.rsmOrth[[30]] = list(k = 7, p = 0, col = 8, row = 6, blocks = 17, cc = 1, cs = 11)
+#.rsmOrth[[31]] = list(k = 7, p = 0, col = 8, row = 6, blocks = 17, cc = 1, cs = 11) ###
+.rsmOrth[[31]] = list(k = 7, p = 0, col = 8, row = 5, blocks = 9, cc = 1, cs = 11)
+.rsmOrth[[32]] = list(k = 7, p = 0, col = 8, row = 4, blocks = 5, cc = 1, cs = 11)
+.rsmOrth[[33]] = list(k = 7, p = 0, col = 8, row = 3, blocks = 3, cc = 1, cs = 11)
+.rsmOrth[[34]] = list(k = 7, p = 0, col = 8, row = 2, blocks = 2, cc = 1, cs = 11)
+.rsmOrth[[35]] = list(k = 7, p = 0, col = 8, row = 1, blocks = 1, cc = 0, cs = 0)
+.rsmOrth[[36]] = list(k = 7, p = 1, col = 9, row = 5, blocks = 9, cc = 1, cs = 4)
+###Necesito starDesign####
+starDesign <- function(k, p = 0, alpha = c("both", "rotatable", "orthogonal"), cs, cc, data) {
+  DB = FALSE
+  fdo = NULL
+  csFrame = NULL
+  ccFrame = NULL
+  starFrame = NULL
+  blocks = 1
+  alpha = alpha[1]
+  if (DB)
+    print(alpha)
+  if (missing(cc))
+    cc = 1
+  if (missing(cs))
+    cs = 1
+  if (!missing(k)) {
+    nameVec = LETTERS[1:k]
+  }
+  if (!missing(data)) {
+    fdo = data$clone()
+    k = ncol(fdo$cube)
+    if (class(fdo)[1] != "facDesign") {
+      stop(paste(deparse(substitute(data)), "needs to be an object of class 'facDesign'"))
+    }
+    if (nrow(fdo$star) > 0)
+      stop(paste("star portion of", deparse(substitute(data)), "not empty"))
+    k = length(fdo$names())
+    nameVec = fdo$names()
+    cc = nrow(fdo$centerCube)
+    p = ncol(fdo$cube) - log(nrow(unique(fdo$cube)), 2)
+    blocks = .nblock(fdo) + 1
+  }
+  if (is.numeric(alpha))
+    a = alpha
+  if (alpha == "rotatable")
+    a = .alphaRot(k, p)
+  if (alpha == "orthogonal")
+    a = .alphaOrth(k, p, cc = cc, cs = cs)
+  if (alpha == "both") {
+    found = FALSE
+    for (i in seq(along = .rsmOrth)) {
+      if (DB) {
+        print(k)
+        print(blocks)
+        print(p)
+      }
+      if (.rsmOrth[[i]]$k == k)
+        if (.rsmOrth[[i]]$blocks == blocks)
+          if (.rsmOrth[[i]]$p == p) {
+            found = TRUE
+            cc = .rsmOrth[[i]]$cc
+            cs = .rsmOrth[[i]]$cs
+            p = .rsmOrth[[i]]$p
+            a = .alphaOrth(k, p, cc, cs)
+            break
+          }
+    }
+    if (!found) {
+      return("no starDesign with approximate rotatability and orthogonality available")
+    }
+  }
+  starFrame = .starFrame(k, alpha = a)
+  names(starFrame) = nameVec
+  if (DB)
+    print(starFrame)
+  if (!missing(data))
+    fdo$.star(starFrame)
+  if (DB)
+    print("starFrame added")
+  if (cs > 0) {
+    csFrame = as.data.frame(matrix(0, nrow = cs, ncol = k))
+    names(csFrame) = nameVec
+    if (!missing(data)) {
+      fdo$.centerStar(csFrame)
+      if (DB)
+        print("csFrame added")
+    }
+  }
+  if (cc > 0) {
+    ccFrame = as.data.frame(matrix(0, nrow = cc, ncol = k))
+    names(ccFrame) = nameVec
+    if (!missing(data)) {
+      fdo$.centerCube(ccFrame)
+      if (DB)
+        print("ccFrame added")
+    }
+  }
+  if (!missing(data))
+    return(fdo)
+  else return(list(star = starFrame, centerStar = csFrame, centerCube = ccFrame))
+}
+
+###Uso starDesign#####
+rsdo <- starDesign(data=fdo2)
+rsdo$show()
+rend2 <- c(rend,
+  simProc(130, 165),
+  simProc(155, 165),
+  simProc(144, 155),
+  simProc(144, 179),
+  simProc(144, 165),
+  simProc(144, 165),
+  simProc(144, 165)
+)
+
+rsdo$.response(rend2)
+rsdo$.response()
+
+lm.3 <- rsdo$lm(rend2 ~ A*B + I(A^2) + I(B^2))
+summary(lm.3)
+
+
+####Visualizacion####
+wirePlot(A, B, rend2, form = "rend2 ~ A*B + I(A^2) + I(B^2)", data = rsdo, theta = -70)
+contourPlot(A, B, rend2, form = "rend2 ~ A*B + I(A^2) + I(B^2)", data = rsdo)
+####filled.contour####
+A = seq(40, 210, length = 100)
+B = seq(90, 190, length = 100)
+C = seq(90, 190, length = 100)
+filled.contour(A, B,outer(A,B, simProc, noise = FALSE), xlab = "Factor 1", ylab = "Factor 2", color.palette = colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan","#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000")))
+
+####Necesito rsmDesign####
+rsmDesign <- function(k = 3, p = 0, alpha = "rotatable", blocks = 1, cc = 1, cs = 1, fp = 1,
+                     sp = 1, faceCentered = FALSE) {
+  DB = FALSE
+  if (blocks > 2^(k - 1) + 1)
+    stop("Blocking not possible")
+  if (alpha == "rotatable")
+    alpha = .alphaRot(k, p)
+  if (alpha == "orthogonal")
+    alpha = .alphaOrth(k, p, cc = cc, cs = cs)
+  if (alpha == "both") {
+    found = FALSE
+    for (i in seq(along = .rsmOrth)) {
+      if (DB) {
+        print(k)
+        print(blocks)
+      }
+      if (.rsmOrth[[i]]$k == k)
+        if (.rsmOrth[[i]]$blocks == blocks)
+          if (.rsmOrth[[i]]$p == p) {
+            cc = .rsmOrth[[i]]$cc
+            cs = .rsmOrth[[i]]$cs
+            p = .rsmOrth[[i]]$p
+            alpha = .alphaOrth(k, p, cc, cs)
+            found = TRUE
+            break
+          }
+    }
+    if (!found) {
+      return("no design available")
+    }
+  }
+  if (DB) {
+    print("Values")
+    print(k)
+    print(alpha)
+    print(cc)
+    print(cs)
+    print(blocks)
+  }
+  fdo = facDesign(k = k, p = p, replicates = fp)                              ###
+  if (cc > 0) {
+    temp = as.data.frame(matrix(0, nrow = cc, ncol = ncol(fdo$cube)))
+    names(temp) = names(fdo$cube)
+    fdo$centerCube(temp)
+    if (DB)
+      print("centerCube")
+  }
+  if (DB)
+    print("star not added")
+  temp = .starFrame(k, alpha)
+  starportion = data.frame()
+  for (i in 1:sp) {
+    starportion = rbind(temp, starportion)
+  }
+  names(starportion) = names(cube(fdo))
+  fdo$.star(starportion)
+  if (DB)
+    print("star added")
+  if (cs > 0) {
+    temp = as.data.frame(matrix(0, nrow = cs, ncol = ncol(fdo$cube)))
+    names(temp) = names(fdo$cube)
+    fdo$.centerStar(temp)
+  }
+  #    return(fdo)
+  fdo = blocking(fdo, blocks)
+  return(fdo)
+}
+####Uso rsmDesign####
+fdo <- rsmDesign(k=3, alpha=1.633, cc=0, cs=6)
+
+
+
+###test rsmDesign####
+DB = FALSE
+if (blocks > 2^(k - 1) + 1)
+  stop("Blocking not possible")
+if (alpha == "rotatable")
+  alpha = .alphaRot(k, p)
+if (alpha == "orthogonal")
+  alpha = .alphaOrth(k, p, cc = cc, cs = cs)
+if (alpha == "both") {
+  found = FALSE
+  for (i in seq(along = .rsmOrth)) {
+    if (DB) {
+      print(k)
+      print(blocks)
+    }
+    if (.rsmOrth[[i]]$k == k)
+      if (.rsmOrth[[i]]$blocks == blocks)
+        if (.rsmOrth[[i]]$p == p) {
+          cc = .rsmOrth[[i]]$cc
+          cs = .rsmOrth[[i]]$cs
+          p = .rsmOrth[[i]]$p
+          alpha = .alphaOrth(k, p, cc, cs)
+          found = TRUE
+          break
+        }
+  }
+  if (!found) {
+    return("no design available")
+  }
+}
+if (DB) {
+  print("Values")
+  print(k)
+  print(alpha)
+  print(cc)
+  print(cs)
+  print(blocks)
+}
+fdo = facDesign(k = k, p = p, replicates = fp)                              ###
+if (cc > 0) {
+  temp = as.data.frame(matrix(0, nrow = cc, ncol = ncol(fdo$cube)))
+  names(temp) = names(fdo$cube)
+  fdo$centerCube(temp)
+  if (DB)
+    print("centerCube")
+}
+if (DB)
+  print("star not added")
+temp = .starFrame(k, alpha)
+starportion = data.frame()
+for (i in 1:sp) {
+  starportion = rbind(temp, starportion)
+}
+names(starportion) = names(cube(fdo))
+fdo$.star(starportion)
+if (DB)
+  print("star added")
+if (cs > 0) {
+  temp = as.data.frame(matrix(0, nrow = cs, ncol = ncol(fdo$cube)))
+  names(temp) = names(fdo$cube)
+  fdo$.centerStar(temp)
+}
+#    return(fdo)
+fdo = blocking(fdo, blocks)
+return(fdo)
