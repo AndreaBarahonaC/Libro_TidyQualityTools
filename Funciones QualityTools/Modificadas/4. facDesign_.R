@@ -697,6 +697,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                      show(p)
                                                    }
                                                    else{show(p)}
+                                                   par(mfcol=c(1,1))
                                                  },
 
                                                  lm = function(formula){
@@ -1755,7 +1756,7 @@ dfac$.response(rend)
 dfac$.response()
 ######effectPlot###############################################################
 dfac$effectPlot(classic=TRUE)
-
+dfac$effectPlot()
 
 
 #####Necesito .letterPos .testFun###########################################
@@ -1943,8 +1944,7 @@ summary(m1)
   return(list(dev, mfrow))
 }
 ##### funcion paretoPlot#################################
-paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.last = NA, alpha = 0.05, response = NULL, xlim, ylim, xlab, ylab, main, single = TRUE, ...) {  ###
-  DB <- FALSE
+paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.last = NA, alpha = 0.05, response = NULL, ylim, xlab, ylab, main, single = TRUE, ...) {  ###
   if(single==FALSE)                                                           ###
     par(mfrow=.splitDev(length(fdo$.response()))[[2]])                           ###
   if(is.null(response)==FALSE)                                                ###
@@ -1953,8 +1953,10 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
     fdo$.response(temp)                                                         ###
   }                                                                           ###
   ylimMissing = FALSE
-  if (missing(ylim))
+  if (missing(ylim)){
     ylimMissing = TRUE
+    ylim = ""
+  }
   if (missing(xlab))
     xlab = ""
   location = "topright"
@@ -1965,132 +1967,188 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
   sig.neg = NULL
   sig.pos = NULL
   effect.list = vector("list")
-  for (j in 1:ncol(fdo$.response())) {
-    par(mar = c(5.1, 4.1, 4.1, 4.1))
-    if (j > 1 && single==TRUE) {
-      dev.new()
-      par(mar = c(5.1, 4.1, 4.1, 4.1))
-    }
-    if (!any(is.na(fdo$.response()[, j]))) {
-      if (missing(ylab))
-        ylabel = names(fdo$.response())[j]                                ###
-      else                                                                ###
-        ylabel = ylab                                                   ###
-      form = paste("fdo$.response()[,", j, "]~")
-      for (i in 1:ncol(fdo$cube)) {
-        form = paste(form, names(fdo$cube)[i], sep = "")
-        if (i < ncol(fdo$cube))
-          form = paste(form, "*", sep = "")
+  suppressMessages(
+    for (j in 1:ncol(fdo$.response())) {
+      if (j > 1 && single==TRUE) {
+        dev.new()
+        par(mar = c(5.1, 4.1, 4.1, 4.1))
       }
-      if (DB == TRUE)
-        print(form)
-      lm.1 = lm(as.formula(form), data = fdo$as.data.frame())
-      coefs = coef(lm.1)[-pmatch("(Intercept)", names(coef(lm.1)))]
-      df.resid = df.residual(lm.1)
-      num.c = nrow(fdo$centerCube)
-      if (df.resid == 0) {
-        effect = 2 * coefs
-        effect = effect[!is.na(effect)]
-        effect.list[[j]] = effect
-        if (missing(main))
-          main = "Lenth Plot of effects"
-        plt = TRUE
-        limits = TRUE
-        faclab = NULL
-        m = length(effect)
-        d = m/3
-        s0 = 1.5 * median(abs(effect))
-        rmedian = effect[abs(effect) < 2.5 * s0]
-        PSE = 1.5 * median(abs(rmedian))
-        ME = qt(1 - alpha/2, d) * PSE
-        Gamma = (1 + (1 - alpha)^(1/m))/2
-        SME = qt(Gamma, d) * PSE
-        n = length(effect)
-        if (ylimMissing)
-          if (abs)
-            ylim <- (range(c(0, abs(effect), 1.3 * ME))) * 1.1
-        else ylim <- (range(c(effect, -1.3 * ME, 1.3 * ME))) * 1.1
-        if (abs) {
-          xVals = barplot(abs(effect), las = 2, main = main, xlab = xlab, ylim = ylim, ylab = ylabel, ...)
-          abline(h = ME, col = "red")
-          abline(h = SME, col = "red")
-          try(axis(4, at = ME, labels = round(ME, 3), las = 2), silent = T)
-          text(x = xVals[1], y = ME, "ME", pos = 3)
-          try(axis(4, at = SME, labels = round(SME, 3), las = 2), silent = T)
-          text(x = xVals[2], y = SME, "SME", pos = 3)
+      if (!any(is.na(fdo$.response()[, j]))) {
+        if (missing(ylab))
+          ylabel = names(fdo$.response())[j]                                ###
+        else
+          ylabel = ylab                                                   ###
+        form = paste("fdo$.response()[,", j, "]~")
+        for (i in 1:ncol(fdo$cube)) {
+          form = paste(form, names(fdo$cube)[i], sep = "")
+          if (i < ncol(fdo$cube))
+            form = paste(form, "*", sep = "")
         }
-        else {
-          xVals = barplot(effect, las = 2, main = main, xlab = xlab, ylim = ylim, ylab = ylabel, ...)
-          abline(h = c(-ME, ME), col = "red")
-          abline(h = c(-SME, SME), col = "red")
-          try(axis(4, at = c(-ME, ME), labels = round(c(-ME, ME), 3), las = 2), silent = T)
-          text(x = xVals[1], y = c(-ME, ME), "ME", pos = c(1, 3))
-          try(axis(4, at = c(-SME, SME), labels = round(c(-SME, SME), 3), las = 2), silent = T)
-          text(x = xVals[2], y = c(-SME, SME), "SME", pos = c(1, 3))
-        }
-        if (length(xVals) >= 1)
-          for (i in 1:length(xVals)) {
-            text(xVals[i], effect[i] + max(ylim) * sign(effect[i]) * 0.05, format(round(effect[i], 3)))
-          }
-        if (DB)
-          print(paste("MSE:", ME, "SME:", SME))
-      }
-      else {
-        if (missing(main))
-          main = "Standardized main effects and interactions"
-        effect = ((summary(lm.1)$coefficients[-pmatch("(Intercept)", names(coef(lm.1))), 1])/(summary(lm.1)$coefficients[-pmatch("(Intercept)", names(coef(lm.1))),
-                                                                                                                         2]))
-        if (all(is.na(effect)))
-          stop("effects could not be calculated")
-        effect = effect[!is.na(effect)]
-        effect.list[[j]] = effect
-        if ((df.resid) > 0) {
-          sig.pos = -qt(alpha/2, df.resid)
-          sig.neg = +qt(alpha/2, df.resid)
-        }
-        if (ylimMissing)
+        lm.1 = lm(as.formula(form), data = fdo$as.data.frame())
+        coefs = coef(lm.1)[-pmatch("(Intercept)", names(coef(lm.1)))]
+        df.resid = df.residual(lm.1)
+        num.c = nrow(fdo$centerCube)
+        if (df.resid == 0) {
+          effect = 2 * coefs
+          effect = effect[!is.na(effect)]
+          effect.list[[j]] = effect
+          if (missing(main))
+            main = "Lenth Plot of effects"
+          plt = TRUE
+          limits = TRUE
+          faclab = NULL
+          m = length(effect)
+          d = m/3
+          s0 = 1.5 * median(abs(effect))
+          rmedian = effect[abs(effect) < 2.5 * s0]
+          PSE = 1.5 * median(abs(rmedian))
+          ME = qt(1 - alpha/2, d) * PSE
+          Gamma = (1 + (1 - alpha)^(1/m))/2
+          SME = qt(Gamma, d) * PSE
+          n = length(effect)
+          if (ylimMissing)
+            if (abs)
+              ylim <- (range(c(0, abs(effect), 1.3 * ME))) * 1.1
+          else ylim <- (range(c(effect, -1.3 * ME, 1.3 * ME))) * 1.1
           if (abs) {
-            tempVec = c(effect, sig.pos)
-            tempVec = tempVec[!is.na(tempVec)]
-            ylim = c(0, 1.3 * max(tempVec))
-          }
-        else {
-          tempVec1 = c(0, effect, sig.neg, sig.pos)
-          tempVec1 = tempVec1[!is.na(tempVec1)]
-          tempVec2 = c(abs(effect), sig.pos, sig.neg)
-          tempVec2 = tempVec2[!is.na(tempVec2)]
-          ylim = c(1.3 * min(tempVec1), 1.3 * max(tempVec2))
-        }
-        if (DB)
-          print(paste("ylim:", ylim))
-        effect = effect[order(abs(effect), na.last = TRUE, decreasing = decreasing)]
-        effect = round(effect, 3)
-        if (abs) {
-          xVals = barplot(abs(effect), las = 2, main = main, xlab = xlab, ylim = ylim, ylab = ylabel, ...)
-          if (length(xVals) >= 1)
-            for (i in 1:length(xVals)) {
-              text(xVals[i], abs(effect[i] + max(ylim) * sign(effect[i]) * 0.05), format(effect[i]))
-            }
-        }
-        else {
-          xVals = barplot(effect, las = 2, main = main, xlab = xlab, ylim = ylim, ylab = ylabel, ...)
-          if (length(xVals) >= 1)
-            for (i in 1:length(xVals)) {
-              text(xVals[i], effect[i] + max(ylim) * sign(effect[i]) * 0.05, format(effect[i]))
-            }
-        }
-        myDelta = diff(range(ylim)) * 0.02
-        try(abline(h = sig.pos, col = "red"), silent = TRUE)
-        try(axis(4, at = c(sig.pos, sig.neg), labels = round(c(sig.pos, sig.neg), 3), las = 2), silent = T)
-        try(abline(h = sig.neg, col = "red"), silent = TRUE)
-      }
-      legend(location, legend = fdo$names(), pch = paste(names(fdo$cube), sep = ""), bg = "white", inset = 0.02)
-      abline(h = 0)
-      box()
-    }
+            if (missing(ylabel))
+              ylabel = ""
+            p <- ggplot(data.frame(names = names(effect), effect_ = abs(as.vector(effect))),
+                        aes(x = names, y = effect_)) +
+              geom_bar(stat = "identity",  fill = "lightblue", color = "black") + theme_minimal()+
+              geom_text(aes(label = round(effect,2)), vjust = -1, colour = "black") + # etiquetas sobre las barras
+              labs(title = main, x = "", y = ylabel) + ylim(c(ylim)) +
+              theme(axis.text.x = element_text(angle = 90, hjust = 1),
+                    plot.title = element_text(hjust = 0.5))
 
-  }
-  invisible(effect.list)
+            if(ME >= ylim[1] & ME <= ylim[2]){
+              p <- p + geom_hline(yintercept = ME, linetype = "dashed", color = "red") +
+                scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(ME), labels = c(paste("ME = ", round(ME, 2)))))
+
+            }
+            if(SME >= ylim[1] & SME <= ylim[2]){
+              p <- p + geom_hline(yintercept = SME, linetype = "dashed", color = "red") +
+                scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(SME), labels = c(paste("SME = ", round(ME, 2)))))
+            }
+          }
+          else {
+            if (missing(ylabel))
+              ylabel = ""
+            p <- ggplot(data.frame(names = names(effect), effect_ = as.vector(effect)),
+                        aes(x = names, y = effect_)) +
+              geom_bar(stat = "identity",  fill = "lightblue", color = "black") + theme_minimal()+
+              geom_text(aes(label = round(effect,2)), vjust = -1, colour = "black") + # etiquetas sobre las barras
+              labs(title = main, x = "", y = ylabel) + ylim(c(ylim)) +
+              theme(axis.text.x = element_text(angle = 90, hjust = 1),
+                    plot.title = element_text(hjust = 0.5))
+            if(ME >= ylim[1] & ME <= ylim[2]){
+              p <- p + geom_hline(yintercept = ME, linetype = "dashed", color = "red") +
+                scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(ME), labels = c(paste("ME = ", round(ME, 2)))))
+
+            }
+            if(SME >= ylim[1] & SME <= ylim[2]){
+              p <- p + geom_hline(yintercept = SME, linetype = "dashed", color = "red") +
+                scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(SME), labels = c(paste("SME = ", round(ME, 2)))))
+            }
+          }
+        }
+        else {
+          if (missing(main))
+            main = "Standardized main effects and interactions"
+          effect = ((summary(lm.1)$coefficients[-pmatch("(Intercept)", names(coef(lm.1))), 1])/(summary(lm.1)$coefficients[-pmatch("(Intercept)", names(coef(lm.1))),
+                                                                                                                           2]))
+          if (all(is.na(effect)))
+            stop("effects could not be calculated")
+          effect = effect[!is.na(effect)]
+          effect.list[[j]] = effect
+          if ((df.resid) > 0) {
+            sig.pos = -qt(alpha/2, df.resid)
+            sig.neg = +qt(alpha/2, df.resid)
+          }
+          # Ylimits ----
+
+          if (ylimMissing)
+            if (abs) {
+              tempVec = c(effect, sig.pos)
+              tempVec = tempVec[!is.na(tempVec)]
+              ylim = c(0, 1.3 * max(tempVec))
+            }
+          else {
+            tempVec1 = c(0, effect, sig.neg, sig.pos)
+            tempVec1 = tempVec1[!is.na(tempVec1)]
+            tempVec2 = c(abs(effect), sig.pos, sig.neg)
+            tempVec2 = tempVec2[!is.na(tempVec2)]
+            ylim = c(1.3 * min(tempVec1), 1.3 * max(tempVec2))
+          }
+
+          effect = effect[order(abs(effect), na.last = TRUE, decreasing = decreasing)]
+          effect = round(effect, 3)
+
+          # Plot ---------
+          if (abs) {
+            if (missing(ylabel))
+              ylabel = ""
+            # plot with abs
+            p <- ggplot(data.frame(names = names(effect), effect_ = abs(as.vector(effect))),
+                        aes(x = reorder(names, effect_,decreasing = TRUE), y = effect_)) +
+              geom_bar(stat = "identity",  fill = "lightblue", color = "black") + theme_minimal()+
+              labs(title = main, x = "", y = ylabel) + ylim(c(ylim)) +
+              theme(axis.text.x = element_text(angle = 90, hjust = 1),
+                    plot.title = element_text(hjust = 0.5)) +
+              geom_text(aes(label = round(effect,2)), vjust = -1, colour = "black") + # etiquetas sobre las barras
+              geom_hline(yintercept = sig.pos, linetype = "dashed", color = "red") +
+              scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(sig.pos), labels = c(round(sig.pos, 2))))
+          }
+          else {
+            if (missing(ylabel))
+              ylabel = ""
+            # Plot without abs
+            p <- ggplot(data.frame(names = names(effect), effect_ = as.vector(effect)),
+                        aes(x = reorder(names, effect_,decreasing = TRUE), y = effect_)) +
+              geom_bar(stat = "identity",  fill = "lightblue", color = "black") + theme_minimal()+
+              labs(title = main, x = "", y = ylabel) + ylim(c(ylim)) +
+              theme(axis.text.x = element_text(angle = 90, hjust = 1),
+                    plot.title = element_text(hjust = 0.5)) +
+              geom_text(aes(label = round(effect)), vjust = -1, colour = "black") + # etiquetas sobre las barras
+              geom_hline(yintercept = sig.pos, linetype = "dashed", color = "red") +
+              geom_hline(yintercept = sig.neg, linetype = "dashed", color = "red") +
+              scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(sig.pos, sig.neg), labels = c(round(sig.pos, 2), round(sig.neg, 2))))
+          }
+          myDelta = diff(range(ylim)) * 0.02
+        }
+        # Legend ----
+        titles <- data.frame(Name_title = paste0(names(fdo$cube),": ",fdo$names()))
+        for(i in 1:dim(titles)[1]){
+          titles$Pos_title[i] <- 0.95 - (0.05 * i)
+        }
+        caja <- ggplot(data.frame(x = 0,y = 0), aes(x = x, y = y)) +
+          theme_bw() +
+          theme(
+            axis.text = element_blank(),
+            axis.ticks = element_blank(),
+            axis.title = element_blank(),
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            plot.title = element_text(hjust = 0.5, vjust = -0.5,margin = margin(b = -12), size = 10)
+          ) + xlim(c(0.24, 0.26)) + ylim(c(min(titles$Pos_title) - 0.01, max(titles$Pos_title) + 0.01))
+        for(i in 1:dim(titles)[1]){
+          caja <- caja + annotate("text", x = 0.25, y = titles$Pos_title[i], label = titles$Name_title[i], size = 3.5, hjust = 0.5)
+        }
+        # insert legend -----
+        if(location == "topright"){
+          p <- p + inset_element(caja, left = 0.75, right = 1, top = 1,  bottom = 0.80)
+        }
+        else{
+          p <- p + inset_element(caja, left = 0.25, right = 0.05, top = 1,  bottom = 0.80)
+        }
+
+      }
+
+    }
+  )
+  show(p)
+  invisible(list(effect.list, plot = p))
+  par(mfcol=c(1,1))
 }
 
 ########uso paretoPlot#################################
