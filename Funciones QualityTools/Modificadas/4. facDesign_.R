@@ -1,16 +1,18 @@
 library(R6)
 library(MASS)
+library(ggplot2)
+library(patchwork)
+library(scales)
+
 ############DISEÑOS FACTORIALES 2^k#############
 ####Necesito .helpAliasTable##################################################
-
-#Funcion .replace2s#
+#Funcion .replace2s####
 .replace2s = function(x) {
   if (!is.data.frame(x))
     stop(paste(deparse(substitute(x)), "needs to be a data.frame"))
   for (i in 1:ncol(x)) x[x[, i] == 2, i] = -1
   return(x)
 }
-
 .helpAliasTable = function(fdo, k, degree = 3) {
   if (degree > k) {
     degree = k
@@ -146,8 +148,8 @@ aliasTable <- function (fdo, degree, show = TRUE)
 
 ####Necesito .m.interaction.plot###########################
 .m.interaction.plot <- function(x.factor, trace.factor, response, fun = mean, type = c("l", "p", "b"), legend = TRUE, trace.label = deparse(substitute(trace.factor)),
-                                fixed = FALSE, xlab = deparse(substitute(x.factor)), ylab = ylabel, ylim = range(cells, na.rm = TRUE), lty = nc:1, col = 1, pch = c(1L:9, 0, letters), xpd = NULL,
-                                leg.bg = par("bg"), leg.bty = "n", xtick = FALSE, xaxt = par("xaxt"), axes = TRUE, ...) {
+                                fixed = FALSE, xlab = deparse(substitute(x.factor)), ylab = ylabel, ytitle = TRUE, ylim = range(cells, na.rm = TRUE), lty = nc:1, col = 1, pch = c(1L:9, 0, letters), xpd = NULL,
+                                leg.bg = par("bg"), leg.bty = "n", xtick = FALSE, xaxt = par("xaxt"), axes.x = TRUE, axes.y = TRUE, main, ...) {
   ylabel <- paste(deparse(substitute(fun)), "of ", deparse(substitute(response)))
   type <- match.arg(type)
   cells <- tapply(response, list(x.factor, trace.factor), fun)
@@ -163,6 +165,9 @@ aliasTable <- function (fdo, degree, show = TRUE)
     if (!any(is.na(xnm)))
       xvals <- xnm
   }
+  if (missing(main)) {
+    main = paste("Effect Plot")
+  }
   xlabs <- rownames(cells)
   ylabs <- colnames(cells)
   nch <- max(sapply(ylabs, nchar, type = "width"))
@@ -173,37 +178,43 @@ aliasTable <- function (fdo, degree, show = TRUE)
   xlim <- range(xvals)
   xleg <- xlim[2L] + 0.05 * diff(xlim)
   xlim <- xlim + c(-0.2/nr, if (legend) 0.2 + 0.02 * nch else 0.2/nr) * diff(xlim)
-  matplot(xvals, cells, ..., type = type, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, axes = axes, xaxt = "n", col = col, lty = lty, pch = pch)
-  if (axes && xaxt != "n") {
-    axisInt <- function(x, main, sub, lwd, bg, log, asp, ...) axis(1, x, ...)
-    mgp. <- par("mgp")
-    if (!xtick)
-      mgp.[2L] <- 0
-    axisInt(1, at = xvals, labels = xlabs, tick = xtick, mgp = mgp., xaxt = xaxt, ...)
+
+  df <- data.frame(x = xvals, y = c(cells))
+
+  # PLOT
+  p <- ggplot(df, aes(x = x, y = y)) +
+    geom_line(na.rm = TRUE) +
+    ylim(ylim) + labs(x = xlab, y = ylab, title = main) + theme_bw() +
+
+    theme(axis.ticks = element_blank(),
+          axis.text = element_blank(),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.background = element_blank(),
+          plot.title = element_text(hjust = 0.5))
+
+  if (axes.x){
+    p <- p +
+      theme(axis.ticks.x = element_line(),
+            axis.text.x = element_text()) +
+      scale_x_continuous(breaks=c(-1, 1))
   }
-  if (legend) {
-    yrng <- diff(ylim)
-    yleg <- ylim[2L] - 0.1 * yrng
-    if (!is.null(xpd) || {
-      xpd. <- par("xpd")
-      !is.na(xpd.) && !xpd. && (xpd <- TRUE)
-    }) {
-      op <- par(xpd = xpd)
-      on.exit(par(op))
-    }
-    text(xleg, ylim[2L] - 0.05 * yrng, paste("  ", trace.label), adj = 0)
-    if (!fixed) {
-      ord <- sort.list(cells[nr, ], decreasing = TRUE)
-      ylabs <- ylabs[ord]
-      lty <- lty[1 + (ord - 1)%%length(lty)]
-      col <- col[1 + (ord - 1)%%length(col)]
-      pch <- pch[ord]
-    }
-    legend(xleg, yleg, legend = ylabs, col = col, pch = if (type %in% c("p", "b"))
-      pch, lty = if (type %in% c("l", "b"))
-        lty, bty = leg.bty, bg = leg.bg)
+  if (axes.y){
+    p <- p +
+      theme(axis.ticks.y = element_line(),
+            axis.text.y = element_text())
   }
-  invisible(xvals)
+  if (ytitle == FALSE){
+    p <-  p + theme(axis.title.y = element_blank())
+  }
+  if(main == ""){
+    p <- p + labs(title = NULL)
+  }
+  if (deparse(substitute(mean)) == "mean"){
+    p <- p + geom_hline(yintercept = median(df$y, na.rm = TRUE), linetype = "dashed", col = "#324B7A")
+  }
+
+  invisible(list(xVals = df$x, yVals = df$y, plot = p))
 }
 
 ##Necesito clase facDesign.c######################################################
@@ -421,16 +432,12 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
 
                                                  effectPlot = function(factors, fun = mean, response = NULL, single = FALSE, points = FALSE, classic = FALSE, axes = TRUE, ###
                                                                        lty, xlab, ylab, main, ylim, ...) {
-                                                   oldMar = par("mar")
-                                                   oldOma = par("oma")
-                                                   oldMfrow = par("mfrow")
-                                                   oldMfcol = par("mfcol")
-                                                   on.exit(par(mar = oldMar, oma = oldOma, mfrow = oldMfrow, mfcol = oldMfcol))
-                                                   if(is.null(response)==FALSE)                                                ###
+
+                                                   if(is.null(response)==FALSE)
                                                    {                                                                           ###
                                                      temp=self$.response()[response]                                            ###
                                                      self$.response(temp)                                                      ###
-                                                   }                                                                           ###
+                                                   }
                                                    ylabmiss = FALSE
                                                    xlabmiss = FALSE
                                                    mainmiss = FALSE
@@ -494,10 +501,16 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                    if (!single)
                                                      par(mfrow = c(numRow, numCol))
                                                    nextResponse = FALSE
-                                                   for (j in 1:ncol(Y)) {
+                                                   if (missing(main)) {
+                                                     main = paste("Effect Plot for", names(Y)[1])
+                                                   }
+
+                                                   list_plot <- list()
+                                                   #############################################################################
+                                                   for (j in 1:ncol(Y)){
                                                      counter = 0
                                                      cells = numeric(0)
-                                                     for (i in 1:length(factors)) {
+                                                     for (i in 1:length(factors)){
                                                        cells = c(cells, as.vector(tapply(Y[, j], list(X[, factors[i]], rep(0, nrow(X))), fun)))
                                                        if (points)
                                                          cells = range(Y)
@@ -506,59 +519,113 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                        dev.new()
                                                        par(mfrow = c(numRow, numCol))
                                                      }
-                                                     for (i in 1:length(factors)) {
-                                                       if ((counter != 0 & counter%%(numCol * numRow) == 0) & !single) {
-                                                         dev.new()
-                                                         par(mfrow = c(numRow, numCol))
-                                                       }
-                                                       if (missing(main)) {
-                                                         main = paste("Effect Plot for", names(Y)[j])
-                                                         mainmiss = TRUE
-                                                       }
-                                                       if (mainmiss)
-                                                         main = paste("Effect Plot for", names(Y)[j])
-                                                       if (missing(xlab)) {
+
+                                                     # hacemos la primera afuera para ajustar los ejes
+                                                     # 1. ------------------------------------
+                                                     i <- 1
+                                                     if ((counter != 0 & counter%%(numCol * numRow) == 0) & !single) {
+                                                       dev.new()
+                                                       par(mfrow = c(numRow, numCol))
+                                                     }
+                                                     if (missing(main)) {
+                                                       main = paste("Effect Plot for", names(Y)[j])
+                                                       mainmiss = TRUE
+                                                     }
+                                                     if (missing(xlab)) {
+                                                       xlab = factors[i]
+                                                       xlabmiss = TRUE
+                                                     }
+                                                     if (xlabmiss) {
+                                                       if (identical(" ", self$names()[[i]]))
                                                          xlab = factors[i]
-                                                         xlabmiss = TRUE
-                                                       }
-                                                       if (xlabmiss) {
-                                                         if (identical(" ", self$names()[[i]]))
+                                                       else xlab = paste(factors[i], ": ", self$names()[[i]], sep = "")
+                                                     }
+                                                     if (missing(ylab)) {
+                                                       ylab = paste(deparse(substitute(fun)), "of ", names(Y)[j])
+                                                       ylabmiss = TRUE
+                                                     }
+                                                     if (ylabmiss)
+                                                       ylab = paste(deparse(substitute(fun)), "of ", names(Y)[j])
+                                                     if (ylimmiss)
+                                                       ylim = range(cells, na.rm = TRUE)
+                                                     if (classic) {
+                                                       p <- .m.interaction.plot(x.factor = X[, factors[i]], trace.factor = rep(0, nrow(X)), response = Y[, j], lty = lty, ylim = ylim, xlab = xlab, fun = fun,
+                                                                                ylab = ylab, main = " ", ...)
+                                                       list_plot[[paste0("p",j,i)]] <- p$plot
+                                                     }
+                                                     else {
+                                                       p <- .m.interaction.plot(x.factor = X[, factors[i]], trace.factor = rep(0, nrow(X)), response = Y[, j], lty = lty, ylim = ylim, xlab = xlab, fun = fun,
+                                                                                ylab = ylab, main = main, ...)
+                                                       list_plot[[paste0("p",j,i)]] <- p$plot
+                                                     }
+                                                     counter = counter + 1
+                                                     # 2. ------------------------------------
+                                                     if(length(factors) >= 2){
+                                                       for (i in 2:length(factors)) {
+                                                         if ((counter != 0 & counter%%(numCol * numRow) == 0) & !single) {
+                                                           dev.new()
+                                                           par(mfrow = c(numRow, numCol))
+                                                         }
+                                                         if (missing(main)) {
+                                                           main = paste("Effect Plot for", names(Y)[j])
+                                                           mainmiss = TRUE
+                                                         }
+                                                         if (missing(xlab)) {
                                                            xlab = factors[i]
-                                                         else xlab = paste(factors[i], ": ", self$names()[[i]], sep = "")
+                                                           xlabmiss = TRUE
+                                                         }
+                                                         if (xlabmiss) {
+                                                           if (identical(" ", self$names()[[i]]))
+                                                             xlab = factors[i]
+                                                           else xlab = paste(factors[i], ": ", self$names()[[i]], sep = "")
+                                                         }
+                                                         if (missing(ylab)) {
+                                                           ylab = paste(deparse(substitute(fun)), "of ", names(Y)[j])
+                                                           ylabmiss = TRUE
+                                                         }
+                                                         if (ylabmiss)
+                                                           ylab = paste(deparse(substitute(fun)), "of ", names(Y)[j])
+                                                         if (ylimmiss)
+                                                           ylim = range(cells, na.rm = TRUE)
+                                                         if (classic) {
+                                                           aux <- .m.interaction.plot(x.factor = X[, factors[i]], trace.factor = rep(0, nrow(X)), response = Y[, j], lty = lty, ylim = ylim, xlab = xlab, fun = fun,
+                                                                                      ylab = ylab, axes.y = FALSE, ytitle = FALSE , main = " ", ...)
+                                                           list_plot[[paste0("p",j,i)]] <- aux$plot
+                                                         }
+                                                         else {
+                                                           aux <- .m.interaction.plot(x.factor = X[, factors[i]], trace.factor = rep(0, nrow(X)), response = Y[, j], lty = lty, ylim = ylim, xlab = xlab, fun = fun,
+                                                                                      ylab = ylab, main = main, ytitle = TRUE, ...)
+                                                           list_plot[[paste0("p",j,i)]] <- aux$plot
+                                                         }
+                                                         counter = counter + 1
                                                        }
-                                                       if (missing(ylab)) {
-                                                         ylab = paste(deparse(substitute(fun)), "of ", names(Y)[j])
-                                                         ylabmiss = TRUE
-                                                       }
-                                                       if (ylabmiss)
-                                                         ylab = paste(deparse(substitute(fun)), "of ", names(Y)[j])
-                                                       if (ylimmiss)
-                                                         ylim = range(cells, na.rm = TRUE)
-                                                       if (classic & i == 1) {
-                                                         par(mar = c(5, 0, 0, 0) + 0.1)
-                                                         par(oma = c(-0.1, 4, 4, 1) + 0.1)
-                                                       }
-                                                       if (classic) {
-                                                         .m.interaction.plot(x.factor = X[, factors[i]], trace.factor = rep(0, nrow(X)), response = Y[, j], lty = lty, ylim = ylim, xlab = xlab, fun = fun,
-                                                                             ylab = ylab, legend = FALSE, axes = FALSE, main = " ", ...)
-                                                         grid(NA, 2)
-                                                         axis(1, at = X[, factors[i]])
-                                                         if (i == 1)
-                                                           axis(2)
-                                                         box()
-                                                         title(main, outer = TRUE)
-                                                       }
-                                                       else {
-                                                         .m.interaction.plot(x.factor = X[, factors[i]], trace.factor = rep(0, nrow(X)), response = Y[, j], lty = lty, ylim = ylim, xlab = xlab, fun = fun,
-                                                                             ylab = ylab, legend = FALSE, axes = axes, main = main, ...)
-                                                         grid(NA, 2)
-                                                       }
-                                                       if (points)
-                                                         points(X[, factors[i]], Y[, j], ...)
-                                                       counter = counter + 1
                                                      }
                                                      nextResponse = TRUE
                                                    }
+                                                   # Obtener los nombres de todas las graficas que se crearon
+                                                   grap <- c()
+                                                   for(j in 1:ncol(Y)){
+                                                     for(i in 1:length(factors)){
+                                                       x <- paste0("p",j,i)
+                                                       if(!x %in% grap){
+                                                         grap <- c(grap, x)
+                                                       }
+                                                     }
+                                                   }
+
+                                                   p <- list_plot$p11
+                                                   for(i in 2:length(grap)){
+                                                     aux <- grap[i]
+                                                     p <- p + list_plot[[aux]]
+                                                   }
+
+                                                   if(classic){
+                                                     p <- p + plot_layout(ncol = numCol, nrow = numRow) +
+                                                       plot_annotation(title = main,
+                                                                       theme = theme(plot.title = element_text(hjust = 0.5, size = 15, face = "bold")))
+                                                     show(p)
+                                                   }
+                                                   else{show(p)}
                                                  },
 
                                                  lm = function(formula){
@@ -1207,10 +1274,10 @@ dfac$.response(rend)
 dfac$.response()
 ######effectPlot###############################################################
 dfac$effectPlot(classic=TRUE)
+dfac$effectPlot()
 
 
 #####Necesito .letterPos .testFun###########################################
-
 .letterPos <- function(LETTER) {
   if (!(nchar(LETTER) == 1))
     stop("factor names should be single characters only")
@@ -1259,6 +1326,7 @@ dfac$effectPlot(classic=TRUE)
   }
   return(list(xvals, xlabs))
 }
+
 
 ###### Necesito InteractionPlot#########################################################
 interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, col = 1:2, ...) { ###
@@ -1372,7 +1440,7 @@ m1 <- dfac$lm(rend ~ A*B*C)
 summary(m1)
 
 
-#####Necesito .splotDev##########################################
+#####Necesito .splitDev ##########################################
 .splitDev = function(x) {
   if (x > 6)
     dev = TRUE
@@ -1395,7 +1463,6 @@ summary(m1)
 }
 ##### funcion paretoPlot#################################
 paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.last = NA, alpha = 0.05, response = NULL, xlim, ylim, xlab, ylab, main, single = TRUE, ...) {  ###
-  DB = FALSE
   if(single==FALSE)                                                           ###
     par(mfrow=.splitDev(length(fdo$.response()))[[2]])                           ###
   if(is.null(response)==FALSE)                                                ###
@@ -1539,11 +1606,7 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
       abline(h = 0)
       box()
     }
-    if (DB) {
-      print(df.resid)
-      print(num.c)
-      print(effect)
-    }
+
   }
   invisible(effect.list)
 }
