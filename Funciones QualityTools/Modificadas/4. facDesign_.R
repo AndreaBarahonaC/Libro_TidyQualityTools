@@ -2888,15 +2888,15 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
       )
     show(p)
   }
-  invisible(list(x = xVec, y = yVec, z = mat))
+  invisible(list(x = xVec, y = yVec, z = mat, plot = p))
 }
 
 ###uso wirePlot###############################
 wirePlot(A,B,rend,data=dfac)
 
-####funcion contourPlot###################
-contourPlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, border, sub, zlab, form = "fit", phi, theta, ticktype, col = 1, steps,
-                        factors, fun, plot) {
+###Funcion contourPlot#####################
+contourPlot = function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, border, sub, zlab, form = "fit", phi, theta, ticktype, col = 1, steps,
+                       factors, fun, plot) {
   form = form
   fact = NULL
   if (missing(steps))
@@ -2918,11 +2918,11 @@ contourPlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab
   }
 
   if (is.null(data)) {
-    cat("\n defaulting to persp function\n")
+    cat("\n defaulting to filled.contour function\n")
     return("persp")
   }
   if (class(data)[1] != "facDesign") {
-    cat("\n defaulting to persp function using formula\n")
+    cat("\n defaulting to filled.contour function using formula\n")
     return("persp")
   }
 
@@ -2930,38 +2930,24 @@ contourPlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab
   y.c = deparse(substitute(y))
   z.c = deparse(substitute(z))
 
-  if (missing(plot))
-    plot = TRUE
-  if (missing(main))
-    main = paste("Response Surface for", z.c)
-
   aux <- list()
   for (i in 1:length(fdo$names())) {
     aux[[.NAMES[i]]] <-fdo$names()[i]
   }
+  if (missing(plot))
+    plot = TRUE
+  if (missing(main))
+    main = paste("Filled Contour for", z.c)
   if (missing(ylab))
     ylab = paste(y.c, ": ", aux[[y.c]])
   if (missing(xlab))
     xlab = paste(x.c, ": ", aux[[x.c]])
-  if (missing(zlab))
-    zlab = paste(x.c, ": ", z.c)
-
-  if (missing(ticktype))
-    ticktype = "detailed"
-  if (missing(border))
-    border = NULL
-  if (missing(phi))
-    phi = 30
-  if (missing(theta))
-    theta = -30
   if (missing(factors))
     factors = NULL
   if (missing(xlim))
     xlim = c(min(fdo$get(, x.c)), max(fdo$get(, x.c)))
   if (missing(ylim))
     ylim = c(min(fdo$get(, y.c)), max(fdo$get(, y.c)))
-
-
   allVars = c(fdo$names(), names(fdo$.response()))
   isct = intersect(c(aux[[x.c]], aux[[y.c]], z.c), c(fdo$names(), names(fdo$.response())))
 
@@ -2969,7 +2955,6 @@ contourPlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab
     d = setdiff(isct, allVars)
     stop(paste(d, "could not be found\n"))
   }
-
   if (missing(fun))
     fun = NULL
   if (!is.function(fun) & !is.null(fun))
@@ -2979,19 +2964,12 @@ contourPlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab
     obj = fdo$desires()[[z.c]]
     fun = .desireFun(obj$low, obj$high, obj$target, obj$scale, obj$importance)
   }
-
   if (form %in% c("fit")) {
     lm.1 = fdo$fits[[z.c]]
     if (is.null(fit))
       form = "full"
   }
-
   if (form %in% c("quadratic", "full", "interaction", "linear")) {
-    if (identical(form, "full")) {
-      form = paste(z.c, "~", x.c, "+", y.c, "+", x.c, ":", y.c)
-      if (nrow(fdo$star) > 0)
-        form = paste(form, "+ I(", x.c, "^2) + I(", y.c, "^2)")
-    }
     if (identical(form, "interaction")) {
       form = paste(z.c, "~", x.c, "+", y.c, "+", x.c, ":", y.c)
     }
@@ -3001,21 +2979,24 @@ contourPlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab
     if (identical(form, "quadratic")) {
       form = paste(z.c, "~I(", x.c, "^2) + I(", y.c, "^2)")
     }
+    if (identical(form, "full")) {
+      form = paste(z.c, "~", x.c, "+", y.c, "+", x.c, ":", y.c)
+      if (nrow(fdo$star) > 0)
+        form = paste(form, "+ I(", x.c, "^2) + I(", y.c, "^2)")
+    }
   }
 
   if (is.null(form))
     stop(paste("invalid formula", form))
   if (is.null(lm.1))
     lm.1 = fdo$lm(form)
-  if (missing(sub))
-    sub = deparse(formula(lm.1))
 
   dcList = vector(mode = "list", length = length(fdo$names()))
   names(dcList) = names(aux)
   dcList[1:length(fdo$names())] = 0
 
   if (!is.null(factors)) {
-    for (i in names(factors)) dcList[[i]] = factors[[i]][1]
+    for (i in fdo$names()) dcList[[i]] = factors[[i]][1]
   }
 
   help.predict = function(x, y, x.c, y.c, lm.1, ...) {
@@ -3027,41 +3008,36 @@ contourPlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab
 
   xVec = seq(min(xlim), max(xlim), length = steps)
   yVec = seq(min(ylim), max(ylim), length = steps)
-
   mat = outer(xVec, yVec, help.predict, x.c, y.c, lm.1)
 
+  if (is.function(col)) {
+    nrMat <- nrow(mat)
+    ncMat <- ncol(mat)
+    nbcol <- 1000
+    color <- col(nbcol)
+    matFacet <- mat[-1, -1] + mat[-1, -ncMat] + mat[-nrMat, -1] + mat[-nrMat, -ncMat]
+    facetcol <- cut(matFacet, nbcol)
+  }
+  else {
+    color = col
+    facetcol = 1
+  }
   if (is.function(fun))
     mat = try(apply(mat, c(1, 2), fun))
   if (identical(fun, "overall")) {
     main = "composed desirability"
     mat = matrix(1, nrow = nrow(mat), ncol = ncol(mat))
-    for (i in names(fdo$.response())) {
+    for (i in names(response(fdo))) {
       obj = fdo$desires()[[i]]
       fun = .desireFun(obj$low, obj$high, obj$target, obj$scale, obj$importance)
-      temp = outer(xVec, yVec, help.predict, x.c, y.c, fits(fdo)[[i]])
+      temp = outer(xVec, yVec, help.predict, x.c, y.c, fdo$fits[[i]])
       temp = try(apply(temp, c(1, 2), fun))
       mat = mat * temp
     }
-    mat = mat^(1/length(names(fdo$response())))
-  }
-
-  if (is.function(col)) {
-    nrMat <- nrow(mat)
-    ncMat <- ncol(mat)
-    jet.colors <- colorRampPalette(c("blue", "green"))
-    nbcol <- 100
-    color <- col(nbcol)
-    matFacet <- mat[-1, -1] + mat[-1, -ncMat] + mat[-nrMat, -1] + mat[-nrMat, -ncMat]
-    facetcol <- cut(matFacet, nbcol)
-  }else {
-    color = col
-    facetcol = 1
+    mat = mat^(1/length(names(fdo$.response())))
   }
 
   if (plot) {
-    if (missing(zlim))
-      zlim = range(mat)
-
     p <- plot_ly(x = xVec, y = yVec, z = mat, colors = color, type = "contour", contours = list(coloring = 'heatmap')) %>%
       layout(
         title = main,
@@ -3070,7 +3046,8 @@ contourPlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab
       )
     show(p)
   }
-  invisible(list(x = xVec, y = yVec, z = mat))
+
+  invisible(list(x = xVec, y = yVec, z = mat, plot = p))
 }
 ###Uso contourPlot########################
 contourPlot(A,B,rend,data=dfac)
