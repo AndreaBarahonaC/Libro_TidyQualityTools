@@ -4155,3 +4155,22 @@ pcr(weib, "weibull", usl = 20)
 
 
 
+
+
+## FASE 4: Mejorar
+
+### Diseños factoriales $2^k$
+
+### Diseños factoriales fraccionarios $2^{k-p}$
+
+### Diseños replicados y puntos centrales
+
+### Respuestas múltiples
+
+### Pasar a un entorno de proceso con un mayor rendimiento esperado
+
+### Diseño de superficies de respuesta
+
+### Deseabilidades
+
+### Utilización de deseabilidades junto con experimentos diseñados
