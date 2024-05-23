@@ -2412,7 +2412,7 @@ normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, respon
     lm.1 = lm(as.formula(form), data = fdo$as.data.frame())
     lm.1s = summary(lm.1)
     effect = coef(lm.1s)[row.names(coef(lm.1s)) != "(Intercept)", "t value"]
-
+    print(effect)
     if (all(is.na(effect)))
       effect = 2 * coef(lm.1)[-pmatch("(Intercept)", names(coef(lm.1)))]
     #            stop("effects could not be calculated")
