@@ -3,6 +3,8 @@ library(MASS)
 library(ggplot2)
 library(patchwork)
 library(scales)
+library(plotly)
+
 
 ###Funcion as.data.frame.facDesign####
 as.data.frame.facDesign <- function(self, row.names = NULL, optional = FALSE, ...) {
@@ -2701,8 +2703,7 @@ desirability.c <- R6Class("desirability", public = list(response = NULL,
 
 ####funcion wirePlot###################
 wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, border, sub, zlab, form = "fit", phi, theta, ticktype, col = 1, steps,
-                    factors, fun, plot) {
-  DB = FALSE
+                     factors, fun, plot) {
   form = form
   fact = NULL
   if (missing(steps))
@@ -2728,13 +2729,16 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
     cat("\n defaulting to persp function using formula\n")
     return("persp")
   }
+
   x.c = deparse(substitute(x))
   y.c = deparse(substitute(y))
   z.c = deparse(substitute(z))
+
   if (missing(plot))
     plot = TRUE
   if (missing(main))
     main = paste("Response Surface for", z.c)
+
   aux <- list()
   for (i in 1:length(fdo$names())) {
     aux[[.NAMES[i]]] <-fdo$names()[i]
@@ -2745,6 +2749,7 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
     xlab = paste(x.c, ": ", aux[[x.c]])
   if (missing(zlab))
     zlab = paste(x.c, ": ", z.c)
+
   if (missing(ticktype))
     ticktype = "detailed"
   if (missing(border))
@@ -2759,16 +2764,16 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
     xlim = c(min(fdo$get(, x.c)), max(fdo$get(, x.c)))
   if (missing(ylim))
     ylim = c(min(fdo$get(, y.c)), max(fdo$get(, y.c)))
+
+
   allVars = c(fdo$names(), names(fdo$.response()))
   isct = intersect(c(aux[[x.c]], aux[[y.c]], z.c), c(fdo$names(), names(fdo$.response())))
-  if (DB) {
-    print(allVars)
-    print(isct)
-  }
+
   if (length(isct) < length(c(x.c, y.c, z.c))) {
     d = setdiff(isct, allVars)
     stop(paste(d, "could not be found\n"))
   }
+
   if (missing(fun))
     fun = NULL
   if (!is.function(fun) & !is.null(fun))
@@ -2778,62 +2783,57 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
     obj = fdo$desires()[[z.c]]
     fun = .desireFun(obj$low, obj$high, obj$target, obj$scale, obj$importance)
   }
+
   if (form %in% c("fit")) {
     lm.1 = fdo$fits[[z.c]]
-    if (DB)
-      print(lm.1)
     if (is.null(fit))
       form = "full"
   }
+
   if (form %in% c("quadratic", "full", "interaction", "linear")) {
+    if (identical(form, "full")) {
+      form = paste(z.c, "~", x.c, "+", y.c, "+", x.c, ":", y.c)
+      if (nrow(fdo$star) > 0)
+        form = paste(form, "+ I(", x.c, "^2) + I(", y.c, "^2)")
+    }
+    if (identical(form, "interaction")) {
+      form = paste(z.c, "~", x.c, "+", y.c, "+", x.c, ":", y.c)
+    }
+    if (identical(form, "linear")) {
+      form = paste(z.c, "~", x.c, "+", y.c)
+    }
+    if (identical(form, "quadratic")) {
+      form = paste(z.c, "~I(", x.c, "^2) + I(", y.c, "^2)")
+    }
   }
-  if (identical(form, "interaction")) {
-    form = paste(z.c, "~", x.c, "+", y.c, "+", x.c, ":", y.c)
-  }
-  if (identical(form, "linear")) {
-    form = paste(z.c, "~", x.c, "+", y.c)
-  }
-  if (identical(form, "quadratic")) {
-    form = paste(z.c, "~I(", x.c, "^2) + I(", y.c, "^2)")
-  }
-  if (identical(form, "full")) {
-    form = paste(z.c, "~", x.c, "+", y.c, "+", x.c, ":", y.c)
-    if (nrow(fdo$star) > 0)
-      form = paste(form, "+ I(", x.c, "^2) + I(", y.c, "^2)")
-    if (DB)
-      print(form)
-  }
+
   if (is.null(form))
     stop(paste("invalid formula", form))
   if (is.null(lm.1))
     lm.1 = fdo$lm(form)
   if (missing(sub))
     sub = deparse(formula(lm.1))
-  if (DB)
-    print(lm.1)
+
   dcList = vector(mode = "list", length = length(fdo$names()))
   names(dcList) = names(aux)
   dcList[1:length(fdo$names())] = 0
+
   if (!is.null(factors)) {
     for (i in names(factors)) dcList[[i]] = factors[[i]][1]
   }
-  if (DB)
-    print(dcList)
+
   help.predict = function(x, y, x.c, y.c, lm.1, ...) {
     dcList[[x.c]] = x
     dcList[[y.c]] = y
     temp = do.call(data.frame, dcList)
     invisible(predict(lm.1, temp))
   }
-  if (DB) {
-    print(x.c)
-    print(y.c)
-    print(help.predict(1, 2, "A", "B", lm.1 = lm.1))
-    print(help.predict(1, 2, x.c, y.c, lm.1 = lm.1))
-  }
+
   xVec = seq(min(xlim), max(xlim), length = steps)
   yVec = seq(min(ylim), max(ylim), length = steps)
+
   mat = outer(xVec, yVec, help.predict, x.c, y.c, lm.1)
+
   if (is.function(fun))
     mat = try(apply(mat, c(1, 2), fun))
   if (identical(fun, "overall")) {
@@ -2848,6 +2848,7 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
     }
     mat = mat^(1/length(names(fdo$response())))
   }
+
   if (is.function(col)) {
     nrMat <- nrow(mat)
     ncMat <- ncol(mat)
@@ -2856,28 +2857,36 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
     color <- col(nbcol)
     matFacet <- mat[-1, -1] + mat[-1, -ncMat] + mat[-nrMat, -1] + mat[-nrMat, -ncMat]
     facetcol <- cut(matFacet, nbcol)
-  }
-  else {
+  }else {
     color = col
     facetcol = 1
   }
+
   if (plot) {
     if (missing(zlim))
       zlim = range(mat)
-    persp(xVec, yVec, mat, main = main, sub = sub, xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim, zlim = zlim, zlab = zlab, col = color[facetcol],
-          border = border, ticktype = ticktype, phi = phi, theta = theta)
-    if (is.function(col)) {
-      zlim = range(mat)
-      leglevel = pretty(zlim, 6)
-      legcol = col(length(leglevel))
-      legpretty = as.character(abs(leglevel))
-      temp = character(length(leglevel))
-      temp[leglevel > 0] = "+"
-      temp[leglevel < 0] = "-"
-      temp[leglevel == 0] = " "
-      legpretty = paste(temp, legpretty, sep = "")
-      legend("topright", inset = 0.02, legend = paste(">", legpretty), col = legcol, bg = "white", pt.cex = 1.5, cex = 0.75, pch = 15)
-    }
+
+    p <- plot_ly(x = xVec, y = yVec, z = mat, colors = color) %>%
+      add_surface() %>%
+      layout(
+        title = main,
+        annotations = list(
+          list(
+            text = sub,# Subtitulo
+            x = 0.5,   # Posición x en la mitad de la gráfica
+            y = -0.1,  # Posición y debajo de la gráfica
+            showarrow = FALSE,
+            font = list(size = 12)
+          )
+        ),
+        scene = list(
+          xaxis = list(range = xlim, title = xlab, zeroline = FALSE),
+          yaxis = list(range = ylim, title = ylab, zeroline = FALSE),
+          zaxis = list(range = zlim, title = zlab, zeroline = FALSE),
+          camera = list(eye = list(x=2, y=2, z=0.1))
+        )
+      )
+    show(p)
   }
   invisible(list(x = xVec, y = yVec, z = mat))
 }
