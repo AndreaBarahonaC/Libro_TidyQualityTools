@@ -2165,8 +2165,186 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
 paretoPlot(dfac)
 
 
-
-####necesito .lfkp####################
+#### necesito FitDistr ##############
+FitDistr <- function (x, densfun, start, ...){
+  myfn <- function(parm, ...) -sum(log(dens(parm, ...)))
+  mylogfn <- function(parm, ...) -sum(dens(parm, ..., log = TRUE))
+  mydt <- function(x, m, s, df, log) dt((x - m)/s, df, log = TRUE) -
+    log(s)
+  Call <- match.call(expand.dots = TRUE)
+  if (missing(start))
+    start <- NULL
+  dots <- names(list(...))
+  dots <- dots[!is.element(dots, c("upper", "lower"))]
+  if (missing(x) || length(x) == 0L || mode(x) != "numeric")
+    stop("'x' must be a non-empty numeric vector")
+  if (any(!is.finite(x)))
+    stop("'x' contains missing or infinite values")
+  if (missing(densfun) || !(is.function(densfun) || is.character(densfun)))
+    stop("'densfun' must be supplied as a function or name")
+  control <- list()
+  n <- length(x)
+  if (is.character(densfun)) {
+    distname <- tolower(densfun)
+    densfun <- switch(distname, beta = dbeta, cauchy = dcauchy,
+                      `chi-squared` = dchisq, exponential = dexp, f = df,
+                      gamma = dgamma, geometric = dgeom, `log-normal` = dlnorm,
+                      lognormal = dlnorm, logistic = dlogis, `negative binomial` = dnbinom,
+                      normal = dnorm, poisson = dpois, t = mydt, weibull = dweibull,
+                      NULL)
+    if (is.null(densfun))
+      stop("unsupported distribution")
+    if (distname %in% c("lognormal", "log-normal")) {
+      if (!is.null(start))
+        stop(gettextf("supplying pars for the %s distribution is not supported",
+                      "log-Normal"), domain = NA)
+      if (any(x <= 0))
+        stop("need positive values to fit a log-Normal")
+      lx <- log(x)
+      sd0 <- sqrt((n - 1)/n) * sd(lx)
+      mx <- mean(lx)
+      estimate <- c(mx, sd0)
+      sds <- c(sd0/sqrt(n), sd0/sqrt(2 * n))
+      names(estimate) <- names(sds) <- c("meanlog", "sdlog")
+      vc <- matrix(c(sds[1]^2, 0, 0, sds[2]^2), ncol = 2,
+                   dimnames = list(names(sds), names(sds)))
+      names(estimate) <- names(sds) <- c("meanlog", "sdlog")
+      return(structure(list(estimate = estimate, sd = sds,
+                            vcov = vc, n = n, loglik = sum(dlnorm(x, mx, sd0, log = TRUE))), class = "FitDistr"))
+    }
+    if (distname == "normal") {
+      if (!is.null(start))
+        stop(gettextf("supplying pars for the %s distribution is not supported",
+                      "Normal"), domain = NA)
+      sd0 <- sqrt((n - 1)/n) * sd(x)
+      mx <- mean(x)
+      estimate <- c(mx, sd0)
+      sds <- c(sd0/sqrt(n), sd0/sqrt(2 * n))
+      names(estimate) <- names(sds) <- c("mean", "sd")
+      vc <- matrix(c(sds[1]^2, 0, 0, sds[2]^2), ncol = 2,
+                   dimnames = list(names(sds), names(sds)))
+      return(structure(list(estimate = estimate, sd = sds,
+                            vcov = vc, n = n, loglik = sum(dnorm(x, mx,
+                                                                 sd0, log = TRUE))), class = "FitDistr"))
+    }
+    if (distname == "poisson") {
+      if (!is.null(start))
+        stop(gettextf("supplying pars for the %s distribution is not supported",
+                      "Poisson"), domain = NA)
+      estimate <- mean(x)
+      sds <- sqrt(estimate/n)
+      names(estimate) <- names(sds) <- "lambda"
+      vc <- matrix(sds^2, ncol = 1, nrow = 1, dimnames = list("lambda",
+                                                              "lambda"))
+      return(structure(list(estimate = estimate, sd = sds,
+                            vcov = vc, n = n, loglik = sum(dpois(x, estimate,
+                                                                 log = TRUE))), class = "FitDistr"))
+    }
+    if (distname == "exponential") {
+      if (any(x < 0))
+        stop("Exponential values must be >= 0")
+      if (!is.null(start))
+        stop(gettextf("supplying pars for the %s distribution is not supported",
+                      "exponential"), domain = NA)
+      estimate <- 1/mean(x)
+      sds <- estimate/sqrt(n)
+      vc <- matrix(sds^2, ncol = 1, nrow = 1, dimnames = list("rate",
+                                                              "rate"))
+      names(estimate) <- names(sds) <- "rate"
+      return(structure(list(estimate = estimate, sd = sds,
+                            vcov = vc, n = n, loglik = sum(dexp(x, estimate,
+                                                                log = TRUE))), class = "FitDistr"))
+    }
+    if (distname == "geometric") {
+      if (!is.null(start))
+        stop(gettextf("supplying pars for the %s distribution is not supported",
+                      "geometric"), domain = NA)
+      estimate <- 1/(1 + mean(x))
+      sds <- estimate * sqrt((1 - estimate)/n)
+      vc <- matrix(sds^2, ncol = 1, nrow = 1, dimnames = list("prob",
+                                                              "prob"))
+      names(estimate) <- names(sds) <- "prob"
+      return(structure(list(estimate = estimate, sd = sds,
+                            vcov = vc, n = n, loglik = sum(dgeom(x, estimate,
+                                                                 log = TRUE))), class = "FitDistr"))
+    }
+    if (distname == "weibull" && is.null(start)) {
+      if (any(x <= 0))
+        stop("Weibull values must be > 0")
+      lx <- log(x)
+      m <- mean(lx)
+      v <- var(lx)
+      shape <- 1.2/sqrt(v)
+      scale <- exp(m + 0.572/shape)
+      start <- list(shape = shape, scale = scale)
+      start <- start[!is.element(names(start), dots)]
+    }
+    if (distname == "gamma" && is.null(start)) {
+      if (any(x < 0))
+        stop("gamma values must be >= 0")
+      m <- mean(x)
+      v <- var(x)
+      start <- list(shape = m^2/v, rate = m/v)
+      start <- start[!is.element(names(start), dots)]
+      control <- list(parscale = c(1, start$rate))
+    }
+    if (distname == "negative binomial" && is.null(start)) {
+      m <- mean(x)
+      v <- var(x)
+      size <- if (v > m)
+        m^2/(v - m)
+      else 100
+      start <- list(size = size, mu = m)
+      start <- start[!is.element(names(start), dots)]
+    }
+    if (is.element(distname, c("cauchy", "logistic")) &&
+        is.null(start)) {
+      start <- list(location = median(x), scale = IQR(x)/2)
+      start <- start[!is.element(names(start), dots)]
+    }
+    if (distname == "t" && is.null(start)) {
+      start <- list(m = median(x), s = IQR(x)/2, df = 10)
+      start <- start[!is.element(names(start), dots)]
+    }
+  }
+  if (is.null(start) || !is.list(start))
+    stop("")
+  nm <- names(start)
+  f <- formals(densfun)
+  args <- names(f)
+  m <- match(nm, args)
+  if (any(is.na(m)))
+    stop("'start' specifies names which are not arguments to 'densfun'")
+  formals(densfun) <- c(f[c(1, m)], f[-c(1, m)])
+  dens <- function(parm, x, ...) densfun(x, parm, ...)
+  if ((l <- length(nm)) > 1L)
+    body(dens) <- parse(text = paste("densfun(x,", paste("parm[",1L:l, "]", collapse = ", "), ", ...)"))
+  Call[[1L]] <- quote(stats::optim)
+  Call$densfun <- Call$start <- NULL
+  Call$x <- x
+  Call$par <- start
+  Call$fn <- if ("log" %in% args)
+    mylogfn
+  else myfn
+  Call$hessian <- TRUE
+  if (length(control))
+    Call$control <- control
+  if (is.null(Call$method)) {
+    if (any(c("lower", "upper") %in% names(Call)))
+      Call$method <- "L-BFGS-B"
+    else if (length(start) > 1L)
+      Call$method <- "BFGS"
+    else Call$method <- "Nelder-Mead"
+  }
+  res <- eval.parent(Call)
+  if (res$convergence > 0L)
+    stop("optimization failed")
+  vc <- solve(res$hessian)
+  sds <- sqrt(diag(vc))
+  structure(list(estimate = res$par, sd = sds, vcov = vc,
+                 loglik = -res$value, n = n), class = "FitDistr")
+}
+#### necesito .lfkp####################
 .lfkp = function(wholeList, filterList) {
   if (!is.list(wholeList))
     stop(paste(deparse(substitute(wholeList)), "is not a list!"))
@@ -2180,32 +2358,29 @@ paretoPlot(dfac)
   filteredList = wholeList[unlist(logVec)]
   return(filteredList)
 }
-#####funcion normalPlot#####################
+##### funcion normalPlot#####################
 normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, response = NULL, sig.col = c("red1", "red2", "red3"), sig.pch = c(1,2,3), main, ylim, xlim, xlab, ylab, pch,  ###
-                      col, border = "red", ...) {
-  DB = FALSE
-  old.par <- par(no.readonly = TRUE)
-  on.exit(par(old.par))
-  fdoName = deparse(substitute(fdo))                                          ###
-  if(is.null(response)==FALSE)                                                ###
-  {                                                                           ###
-    temp=fdo$.response()[response]                                               ###
-    fdo$.response(temp)                                                         ###
-  }                                                                           ###
+                       col, border = "red", ...){
+  fdoName = deparse(substitute(fdo))
+  if(is.null(response)==FALSE)
+  {
+    temp=fdo$.response()[response]
+    fdo$.response(temp)
+  }
+  parList = list()
   parList = list(...)
-  params = list()
   if (length(sig.col) < 3)
     sig.col = as.vector(matrix(sig.col, nrow = 1, ncol = 3))
-  XLIM=FALSE;YLIM=FALSE                                                       ###
+  XLIM=FALSE;YLIM=FALSE
   if (!(class(fdo)[1] == "facDesign"))
     stop(paste(deparse(substitute(fdo)), "is not an object of class facDesign"))
-  mainmiss = FALSE                                                            ###
-  if (missing(main))                                                          ###
-    mainmiss = TRUE                                                         ###
-  if (missing(ylim))                                                          ###
-    YLIM=TRUE                                                               ###
-  if (missing(xlim))                                                          ###
-    XLIM=TRUE                                                               ###
+  mainmiss = FALSE
+  if (missing(main))
+    mainmiss = TRUE
+  if (missing(ylim))
+    YLIM=TRUE
+  if (missing(xlim))
+    XLIM=TRUE
   if (missing(xlab))
     xlab = "Coefficients"
   if (missing(ylab))
@@ -2214,46 +2389,44 @@ normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, respon
     pch = 19
   if (missing(col))
     col = "black"
-  for (j in 1:ncol(fdo$.response())) {
-    parList = list(...)                                                     ###
-    params = list()                                                         ###
-    leg.col = vector()                                                      ###
-    p.col = vector()                                                        ###
-    p.pch = vector()                                                        ###
-    leg.txt = vector()                                                      ###
-    main = paste("Normal plot for", names(fdo$.response())[j], "in", fdoName) ###
+
+  list_plot = list()
+  for(j in 1:ncol(fdo$.response())){
+    parList = list(...)
+    params = list()
+    leg.col = vector()
+    p.col = vector()
+    p.pch = vector()
+    leg.txt = vector()
+    main = paste("Normal plot for", names(fdo$.response())[j], "in", fdoName)
     if (j > 1)
       dev.new()
     form = paste("fdo$.response()[,", j, "]~")
+
     for (i in 1:ncol(fdo$cube)) {
       form = paste(form, names(fdo$cube)[i], sep = "")
       if (i < ncol(fdo$cube))
         form = paste(form, "*", sep = "")
     }
-    if (DB == TRUE)
-      print(paste("form:", form))
+
     lm.1 = lm(as.formula(form), data = fdo$as.data.frame())
     lm.1s = summary(lm.1)
     effect = coef(lm.1s)[row.names(coef(lm.1s)) != "(Intercept)", "t value"]
     print(effect)
     if (all(is.na(effect)))
-      effect = 2 * coef(lm.1)[-pmatch("(Intercept)", names(coef(lm.1)))]      ###
-    #            stop("effects could not be calculated")                            ###
+      effect = 2 * coef(lm.1)[-pmatch("(Intercept)", names(coef(lm.1)))]
+    #            stop("effects could not be calculated")
     sig = summary(lm.1)$coefficients[, "Pr(>|t|)"][-pmatch("(Intercept)", names(coef(lm.1)))]
     df.resid = df.residual(lm.1)
     nc = nrow(fdo$centerCube)
-    if (DB) {
-      print(paste("effect:", effect))
-      print(paste("df.resid:", df.resid))
-      print(paste("nc:", nc))
-      print(paste("sig:", sig))
-      print(summary(lm.1))
-    }
+
     tQ = ppoints(effect)
     index = order(effect)
     sQ = effect[index]
     sig = sig[index]
+
     if (df.resid > 0) {
+      # obtenemos el caracter de la cajita del p_value
       for (k in seq(along = sig)) {
         setted = FALSE
         if (abs(sig)[k] < 0.01) {
@@ -2295,45 +2468,65 @@ normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, respon
       }
       leg.txt = unique(leg.txt)
       leg.col = unique(leg.col)
-    }
-    else                                                                    ###
-    {p.col=col
-    p.pch=pch}                                                              ###
+    }else{p.col=col
+    p.pch=pch}
+
     mid = round(length(tQ)/2)
     last = length(tQ)
     params$p = ppoints(effect)
-    estimates = MASS::fitdistr(effect, "normal")
+    estimates = FitDistr(effect, "normal")   #estimates = MASS::fitdistr(effect, "normal")
     params$mean = estimates$estimate[["mean"]]
     params$sd = estimates$estimate[["sd"]]
-    y = do.call(qnorm, params)
-    if (XLIM)                                                               ###
-      xlim = range(sQ)
-    if (YLIM)                                                               ###
-      ylim = range(y)
-    params = .lfkp(parList, c(formals(plot.default), par()))
-    params$x = sQ
-    params$y = y
-    params$xlab = xlab
-    params$ylab = ylab
-    params$main = main
-    params$xlim = xlim
-    params$ylim = ylim
-    params$pch = p.pch
-    params$col = p.col
 
-    do.call(plot, params)
+    y = do.call(qnorm, params)
+
+    if (XLIM)
+      xlim = range(sQ)
+    if (YLIM)
+      ylim = range(y)
+
+    # PLOT -----------------------
+    df <- data.frame(sQ = names(sQ), value = as.numeric(sQ), y = y)
+
+    p <- ggplot(df, aes(x = value, y = y, label = sQ)) +
+      geom_point(col = p.col, pch = p.pch) +
+      theme_classic() + lims(x = xlim, y = ylim) +
+      labs(x = xlab, y = ylab, title = main) +
+      geom_text(check_overlap = TRUE, vjust = 1) + theme_minimal() +
+      theme(plot.title = element_text(hjust = 0.5))
+
     xp = c(qnorm(0.1), qnorm(0.99))
     yp = c(qnorm(0.1, mean = estimates$estimate[["mean"]], sd = estimates$estimate[["sd"]]), qnorm(0.99, mean = estimates$estimate[["mean"]], sd = estimates$estimate[["sd"]]))
     slope = (yp[2] - yp[1])/(xp[2] - xp[1])
     int = yp[1] - slope * xp[1]
-    abline(a = int, b = slope, col = border)
-    text(sQ[1:mid], y[1:mid], names(sQ)[1:mid], pos = 4)
-    text(sQ[(mid + 1):last], y[(mid + 1):last], names(sQ)[(mid + 1):last], pos = 2)
-    if (df.resid > 0)
-      legend("topleft", legend = leg.txt, col = leg.col, pch = p.pch, inset = 0.02)
-  }
-}
 
+    # line
+    p <- p + geom_abline(intercept = int, slope = slope, col = border)
+
+    # legend
+    if (df.resid > 0){
+      caja <- ggplot(data = data.frame(x = 0, y = 0), aes(x, y)) +
+        theme_bw() +
+        theme(
+          axis.text = element_blank(),
+          axis.ticks = element_blank(),
+          axis.title = element_blank(),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank()
+        ) +
+        xlim(c(0.25,0.30)) + ylim(c(0.24, 0.31))
+
+      caja <- caja +
+        annotate('text', x = 0.275, y = 0.28,
+                 label = leg.txt, size = 3, hjust = 0.5, colour = leg.col)
+
+      p <- p + inset_element(caja, left = 0.01, right = 0.2, top = 1, bottom = 0.85)
+    }
+    show(p)
+    list_plot[[paste0("p",j)]] <- p
+  }
+  invisible(list(effect = effect, plots = list_plot))
+}
 ##########uso normalPlot#################
 normalPlot(dfac)
 
