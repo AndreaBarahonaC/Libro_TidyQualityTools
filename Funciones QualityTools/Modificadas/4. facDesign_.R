@@ -5,16 +5,20 @@ library(patchwork)
 library(scales)
 
 ###Funcion as.data.frame.facDesign####
-as.data.frane.facDesign <- function(self, row.names = NULL, optional = FALSE, ...) {
-  if (!is.null(self$cube)) {
+as.data.frame.facDesign <- function(self, row.names = NULL, optional = FALSE, ...) {
+  if (nrow(self$cube)>0) {
     frameOut = self$cube
+    names(frameOut) = self$names()
   }
   else return(NULL)
-  if (!is.null(self$centerCube))
-    frameOut = rbind(frameOut, self$centerCube)
-  if (!is.null(self$star))
+  if (nrow(self$centerCube)>0){
+    faux <- self$centerCube
+    names(faux) <- self$names()
+    frameOut = rbind(frameOut, faux)
+  }
+  if (nrow(self$star)>0)
     frameOut = rbind(frameOut, self$star)
-  if (!is.null(self$centerStar))
+  if (nrow(self$centerStar)>0)
     frameOut = rbind(frameOut, self$centerStar)
   aux <- list()
   for (i in 1:length(self$names())) {
@@ -323,20 +327,26 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                  },
 
                                                  as.data.frame = function(row.names = NULL, optional = FALSE, ...) {
-                                                   if (!is.null(self$cube)) {
+                                                   if (nrow(self$cube)>0) {
                                                      frameOut = self$cube
                                                      names(frameOut) = self$names()
                                                    }
                                                    else return(NULL)
-                                                   if (!is.null(self$centerCube)){
+                                                   if (nrow(self$centerCube)>0){
                                                      faux <- self$centerCube
                                                      names(faux) <- self$names()
                                                      frameOut = rbind(frameOut, faux)
                                                    }
-                                                   if (!is.null(self$star))
-                                                     frameOut = rbind(frameOut, self$star)
-                                                   if (!is.null(self$centerStar))
-                                                     frameOut = rbind(frameOut, self$centerStar)
+                                                   if (nrow(self$star)>0){
+                                                     faux <- self$star
+                                                     names(faux) <- self$names()
+                                                     frameOut = rbind(frameOut, faux)
+                                                   }
+                                                   if (nrow(self$centerStar)>0){
+                                                     faux <- self$centerStar
+                                                     names(faux) <- self$names()
+                                                     frameOut = rbind(frameOut, faux)
+                                                   }
                                                    aux <- list()
                                                    for (i in 1:length(self$names())) {
                                                      aux[[self$names()[i]]] <-.NAMES[i]
@@ -706,7 +716,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                  },
 
                                                  desires = function(value){
-                                                   if (missing(values)) {
+                                                   if (missing(value)) {
                                                      return(self$desirability)
                                                    }
                                                    else{
@@ -2327,14 +2337,125 @@ normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, respon
 ##########uso normalPlot#################
 normalPlot(dfac)
 
-###Necesito clase desirability#################
-desirability <- R6Class("facDesign", public = list(response = NULL,
-                                                   low = NULL,
-                                                   high = NULL,
-                                                   target = NULL,
-                                                   scale = NULL,
-                                                   importance = NULL
-                                                  )
+
+#####Necesito .desireFun#########
+.desireFun <- function(low, high, target = "max", scale = c(1, 1), importance = 1) {
+  DB = FALSE
+  if (importance > 10 | importance < 0.1)
+    stop("importance needs to be in [0.1, 10]")
+  if (low >= high)
+    stop("the lower bound must be greater than the high bound!")
+  if (any(scale <= 0))
+    stop("the scale parameter must be greater than zero!")
+  if (is.numeric(target)) {
+    out = function(y) {
+      if (DB)
+        print("target")
+      flush.console()
+      d = rep(0, length(y))
+      d[y >= low & y <= target] = ((y[y >= low & y <= target] - low)/(target - low))^scale[1]
+      d[y >= target & y <= high] = ((y[y >= target & y <= high] - high)/(target - high))^scale[2]
+      return(d^importance)
+    }
+    return(out)
+  }
+  if (identical(tolower(target), "min")) {
+    out = function(y) {
+      if (DB)
+        print("min")
+      d = rep(0, length(y))
+      d[y > high] = 0
+      d[y < low] = 1
+      d[y >= low & y <= high] = ((y[y >= low & y <= high] - high)/(low - high))^scale[1]
+      return(d^importance)
+    }
+    return(out)
+  }
+  if (identical(tolower(target), "max")) {
+    out = function(y) {
+      if (DB)
+        print("max")
+      d = rep(0, length(y))
+      d[y < low] = 0
+      d[y > high] = 1
+      d[y >= low & y <= high] = ((y[y >= low & y <= high] - low)/(high - low))^scale[1]
+      return(d^importance)
+    }
+    return(out)
+  }
+}
+###Necesito clase desirability.c#################
+desirability.c <- R6Class("desirability", public = list(response = NULL,
+                                                      low = NULL,
+                                                      high = NULL,
+                                                      target = NULL,
+                                                      scale = NULL,
+                                                      importance = NULL,
+                                                      initialize = function(response=NULL, low=NULL, high=NULL, target=NULL, scale=NULL, importance=NULL) {
+                                                        self$response <- response
+                                                        self$low <- low
+                                                        self$high <- high
+                                                        self$target <- target
+                                                        self$scale <- scale
+                                                        self$importance <- importance
+                                                      },
+                                                      show = function(){
+                                                        if (!is.numeric(self$target))
+                                                          cat("Target is to", paste(self$target, "imize", sep = ""), self$response, "\n")
+                                                        else cat("Target is ", self$target, " for", self$response, "\n")
+                                                        cat("lower Bound: ", self$low, "\n")
+                                                        cat("higher Bound: ", self$high, "\n")
+                                                        if (is.numeric(self$target))
+                                                          cat("Scale factor is: low =", self$scale[1], "and high =", self$scale[2], "\n")
+                                                        else if (identical("min", self$target) | identical("max", self$target))
+                                                          cat("Scale factor is: ", self$scale, "\n")
+                                                        cat("importance: ", self$importance, "\n")
+                                                        cat("\n")
+                                                      },
+                                                      plot = function(y, scale, main, xlab, ylab, type, col, numPoints = 500, ...){
+                                                        xm1 = NULL
+                                                        xm2 = NULL
+                                                        ym = NULL
+                                                        y = NULL
+                                                        if (missing(main))
+                                                          main = paste("Desirability function for", self$response)
+                                                        if (missing(xlab))
+                                                          xlab = self$response
+                                                        if (missing(ylab))
+                                                          ylab = "Desirability"
+                                                        if (missing(type))
+                                                          type = "l"
+                                                        if (missing(scale))
+                                                          scale = self$scale
+                                                        if (missing(col))
+                                                          col = 1:length(scale)
+                                                        dFun = .desireFun(self$low, self$high, self$target, self$scale, self$importance)
+                                                        xVals = seq(self$low - 0.04 * diff(range(self$low, self$high)), self$high + 0.04 * diff(range(self$low, self$high)), length = numPoints)
+                                                        yVals = dFun(xVals)
+                                                        plot(xVals, yVals, main = main, xlab = xlab, ylab = ylab, type = type, col = col, ...)
+                                                        if (is.numeric(self$target)) {
+                                                          xm1 = mean(c(par("usr")[1], self$target))
+                                                          xm2 = mean(c(par("usr")[2], self$target))
+                                                          ym1 = yVals[max((1:numPoints)[xVals <= xm1])]
+                                                          ym2 = yVals[max((1:numPoints)[xVals <= xm2])]
+                                                          text(xm1 + 0.025 * diff(range(par("usr")[1:2])), ym1, paste("scale =", scale[1]), adj = c(0, 0))
+                                                          text(xm2 - 0.025 * diff(range(par("usr")[1:2])), ym2, paste("scale =", scale[2]), adj = c(1, 1))
+                                                        }
+                                                        else {
+                                                          xm1 = mean(par("usr")[c(1, 2)])
+                                                          ym1 = yVals[max((1:numPoints)[xVals <= xm1])]
+                                                          if (identical(self$target, "max"))
+                                                            text(xm1 + 0.025 * diff(range(par("usr")[1:2])), ym1 - 0.025 * diff(range(par("usr")[3:4])), paste("scale =", scale[1]), adj = c(0, 0))
+                                                          else text(xm1 + 0.025 * diff(range(par("usr")[1:2])), ym1 + 0.025 * diff(range(par("usr")[3:4])), paste("scale =", scale[1]), adj = c(0, 1))
+                                                        }
+                                                        out = list(x = xVals, y = yVals)
+                                                        names(out) = c(self$response, "desirability")
+                                                        invisible(out)
+                                                      }
+
+
+
+                                                      )
                        )
 
 ###Necesito .desireFun###############
@@ -3411,7 +3532,7 @@ rsmDesign <- function(k = 3, p = 0, alpha = "rotatable", blocks = 1, cc = 1, cs 
   for (i in 1:sp) {
     starportion = rbind(temp, starportion)
   }
-  names(starportion) = names(cube(fdo))
+  names(starportion) = names(fdo$cube)
   fdo$.star(starportion)
   if (DB)
     print("star added")
@@ -3426,71 +3547,276 @@ rsmDesign <- function(k = 3, p = 0, alpha = "rotatable", blocks = 1, cc = 1, cs 
 }
 ####Uso rsmDesign####
 fdo <- rsmDesign(k=3, alpha=1.633, cc=0, cs=6)
-
-
-
-###test rsmDesign####
-DB = FALSE
-if (blocks > 2^(k - 1) + 1)
-  stop("Blocking not possible")
-if (alpha == "rotatable")
-  alpha = .alphaRot(k, p)
-if (alpha == "orthogonal")
-  alpha = .alphaOrth(k, p, cc = cc, cs = cs)
-if (alpha == "both") {
-  found = FALSE
-  for (i in seq(along = .rsmOrth)) {
-    if (DB) {
-      print(k)
-      print(blocks)
-    }
-    if (.rsmOrth[[i]]$k == k)
-      if (.rsmOrth[[i]]$blocks == blocks)
-        if (.rsmOrth[[i]]$p == p) {
-          cc = .rsmOrth[[i]]$cc
-          cs = .rsmOrth[[i]]$cs
-          p = .rsmOrth[[i]]$p
-          alpha = .alphaOrth(k, p, cc, cs)
-          found = TRUE
-          break
-        }
+####poner en orden estandar####
+fdo <- randomize(fdo,so = TRUE)
+fdo$summary()
+###necesito rsmChoose()####
+rsmChoose <- function() {
+  DB = FALSE
+  old.par <- par(no.readonly = TRUE)
+  on.exit(par(old.par))
+  colFun = colorRampPalette(c("yellow", "red"), space = "rgb")
+  colPalette = colFun(169)
+  numRows = 6
+  numCol = 9
+  blockVals = c(1, 2, 3, 5, 9, 17)
+  factorVals = c(2, 3, 4, 5, 5, 6, 6, 7, 7)
+  rsmList = .rsmOrth
+  plot.new()
+  par(mfrow = c(6, 9))
+  par(mar = c(0, 0, 0, 0))
+  par(oma = c(4, 4, 4, 4))
+  for (i in 1:6) for (j in 1:9) {
+    par(mfg = c(i, j))
+    plot(0, 0, xaxs = "i", yaxs = "i", xlim = c(0, 1), ylim = c(0, 1), axes = FALSE, type = "n",
+         xlab = "", ylab = "", bg = "red", fg = "green")
+    box()
   }
-  if (!found) {
-    return("no design available")
+  for (i in seq(along = rsmList)) {
+    temp = rsmList[[i]]
+    par(mfg = c(temp$row, temp$col))
+    par(mfg = c(temp$row, temp$col))
+    plot(0, 0, xaxs = "i", yaxs = "i", xlim = c(0, 1), ylim = c(0, 1), axes = FALSE, type = "n",
+         xlab = "", ylab = "", bg = "red", fg = "green")
+    rect(0, 0, 1, 1, col = colPalette[2^((temp$k) - (temp$p))])
+    text(0.1, 0.9, paste("N =", 2^((temp$k) - (temp$p)) + temp$cc * (temp$blocks - 1) + temp$cs +
+                           (temp$k + temp$p) * 2), adj = c(0, 1), cex = 1.25)
+    text(0.1, 0.75, paste("k =", temp$k), adj = c(0, 1), cex = 1.25)
+    text(0.1, 0.6, paste("p =", temp$p), adj = c(0, 1), cex = 1.25)
+    text(0.1, 0.45, ".centerPoints", adj = c(0, 1), cex = 1.25)
+    text(0.1, 0.3, paste("Cube:", temp$cc), adj = c(0, 1), cex = 1.25)
+    text(0.1, 0.15, paste("Axial:", temp$cs), adj = c(0, 1), cex = 1.25)
+    box()
   }
-}
-if (DB) {
-  print("Values")
-  print(k)
-  print(alpha)
-  print(cc)
-  print(cs)
-  print(blocks)
-}
-fdo = facDesign(k = k, p = p, replicates = fp)                              ###
-if (cc > 0) {
-  temp = as.data.frame(matrix(0, nrow = cc, ncol = ncol(fdo$cube)))
-  names(temp) = names(fdo$cube)
-  fdo$centerCube(temp)
+  x = 1/18 + (0:8) * 2/18
+  mtext(factorVals, at = x, side = 3, line = 0.5, outer = TRUE)
+  mtext("number of factors k", at = 0.5, side = 3, line = 2.5, outer = TRUE)
+  x = 1/12 + (5:0) * 2/12
+  mtext(blockVals, at = x, side = 2, line = 0.5, outer = TRUE, las = 2)
+  mtext("number of blocks", at = 0.5, side = 2, line = 2.5, outer = TRUE)
+  cat("\nChoose a response surface design by clicking into the appropriate field")
+  cat("\nWaiting for your selection:")
+  cat("\n\n")
+  flush.console()
   if (DB)
-    print("centerCube")
+    cat("TODO: standardize the locator part in respect to possible figure region")
+  x = numeric(0)
+  y = numeric(0)
+  xyList = locator(1)                                                         ###
+  print(xyList)
+  x = ceiling(xyList$x + 8)
+  y = ceiling(5 - xyList$y)
+  if (DB) {
+    print(paste("x:", x))
+    print(paste("y:", y))
+  }
+  if (length(x) < 1)
+    return(rsmDesign(k = 2, p = 0, blocks = 2, alpha = "both"))
+  if (length(y) < 1)
+    return(rsmDesign(k = 2, p = 0, blocks = 2, alpha = "both"))
+  #    if (!(x %in% factorVals) || !(y %in% blockVals))                           ###
+  #        return(rsmDesign(k = 2, p = 0, blocks = 2, alpha = "both"))            ###
+  blocks = blockVals[y]
+  k = factorVals[x]
+  if (x==5 || x==7 || x==9 )                                                  ###
+    p = 1                                                                      ###
+  else                                                                        ###
+    p = 0                                                                      ###
+  if (DB) {
+    print(paste("blocks:", blocks))
+    print(paste("k:", k))
+    #      print(rsmList)                                                         ###
+  }
+  for (i in seq(along = rsmList)) {
+    if (rsmList[[i]]$k == k)
+      if (rsmList[[i]]$blocks == blocks)
+        if (rsmList[[i]]$p == p)                                        ###
+          return(rsmDesign(k = k, p = rsmList[[i]]$p, blocks = blocks, ###
+                           alpha = "both", cc = rsmList[[i]]$cc,                 ###
+                           cs = rsmList[[i]]$cs))                                ###
+  }
+  return(cat("\nno selection recognized\n"))
 }
-if (DB)
-  print("star not added")
-temp = .starFrame(k, alpha)
-starportion = data.frame()
-for (i in 1:sp) {
-  starportion = rbind(temp, starportion)
+
+###uso rsmChoose()####
+rsdo <- rsmChoose()
+
+
+###MONTAJE SECUENCIAL#######################
+fdo3 <- facDesign(k = 6)
+fdo3$summary()
+rsdo <- starDesign(alpha = "orthogonal", data = fdo3)
+rsdo$summary()
+###ALEATORIZACIÓN##########################
+randomize(fdo, random.seed = 123)
+fdo$summary()
+randomize(fdo, so = TRUE)
+fdo$summary()
+###BLOQUEO###################################
+blocking(fdo,blocks = 1)
+fdo$summary()
+###DESEABILIDADES############################
+###Funcion desirability#############
+desirability = function(response, low, high, target = "max", scale = c(1, 1), importance = 1, constraints) {
+  if (low >= high)
+    stop("the lower bound must be greater than the high bound!")
+  if (any(scale <= 0))
+    stop("the scale parameter must be greater than zero!")
+  if (!is.numeric(target) & !identical(tolower(target), "min") & !identical(tolower(target), "max"))
+    stop("target needs to be \"min\", \"max\" or a numeric value")
+  return(desirability.c$new(response = deparse(substitute(response)), low = low, high = high, target = target, scale = scale, importance = importance))
 }
-names(starportion) = names(cube(fdo))
-fdo$.star(starportion)
-if (DB)
-  print("star added")
-if (cs > 0) {
-  temp = as.data.frame(matrix(0, nrow = cs, ncol = ncol(fdo$cube)))
-  names(temp) = names(fdo$cube)
-  fdo$.centerStar(temp)
+
+##EJEMPLO:####
+y1 <- c(102, 120, 117, 198, 103, 132, 132, 139, 102, 154, 96, 163, 116,
+       153, 133, 133, 140, 142, 145, 142)
+y2 <- c(900, 860, 800, 2294, 490, 1289, 1270, 1090, 770, 1690, 700, 1540,
+       2184, 1784, 1300, 1300, 1145, 1090, 1260, 1344)
+y3 <- c(470, 410, 570, 240, 640, 270, 410, 380, 590, 260, 520, 380, 520,
+       290, 380, 380, 430, 430, 390, 390)
+y4 <- c(67.5, 65, 77.5, 74.5, 62.5, 67, 78, 70, 76, 70, 63, 75, 65, 71,
+       70, 68.5, 68, 68, 69, 70)
+
+d1 <- desirability(y1, 120, 170, scale = c(1, 1), target = "max")
+d3 <- desirability(y3, 400, 600, target = 500)
+d1$show()
+d1$plot(col = 2)
+d3$plot(col = 2)
+
+
+d<-desirability$new()
+desirability
+
+####Utilizacion de deseabilidades junto con experimentos desiñados#####
+ddo <- rsmDesign(k = 3, alpha = 1.633, cc = 0, cs = 6)
+ddo <- randomize(ddo,so=TRUE)
+ddo$summary()
+ddo$names(c("silica", "silan", "sulfur"))
+ddo$highs(c(1.7, 60, 2.8))
+ddo$lows(c(0.7, 40, 1.8))
+ddo$summary()
+#asignar response
+ddo$.response(data.frame(y1, y2, y3, y4)[c(5, 2, 3, 8, 1, 6, 7, 4, 9:20), ])
+d2 <- desirability(y2, 1000, 1300, target = "max")
+d4 <- desirability(y4, 60, 75, target = 67.5)
+#asignar desires
+ddo$desires(d1)
+ddo$desires(d2)
+ddo$desires(d3)
+ddo$desires(d4)
+ddo$desires()
+#asignar fits
+ddo$set.fits(ddo$lm(y1 ~ A + B + C + A:B + A:C + B:C + I(A^2) + I(B^2) + I(C^2)))
+ddo$set.fits(ddo$lm(y2 ~ A + B + C + A:B + A:C + B:C + I(A^2) + I(B^2) + I(C^2)))
+ddo$set.fits(ddo$lm(y3 ~ A + B + C + A:B + A:C + B:C + I(A^2) + I(B^2) + I(C^2)))
+ddo$set.fits(ddo$lm(y4 ~ A + B + C + A:B + A:C + B:C + I(A^2) + I(B^2) + I(C^2)))
+ddo$fits
+###Necesito .validizeConstraints####
+.validizeConstraints = function(fdo, constraints) {
+  X = fdo$as.data.frame()
+  csOut = vector(mode = "list")
+  for (i in fdo$names()) {
+    csOut[[i]] = c(min(X[, i]), max(X[, i]))
+  }
+  if (missing(constraints))
+    return(csOut)
+  cs2 = constraints[fdo$names()]
+  cs2 = cs2[!unlist(lapply(cs2, is.null))]
+  cs2 = cs2[(unlist(lapply(cs2, length)) == 2)]
+  csOut[names(cs2)] = cs2[names(cs2)]
+  return(csOut)
 }
-#    return(fdo)
-fdo = blocking(fdo, blocks)
-return(fdo)
+###Necesito clase desOpt#################
+
+###funcion optimum####
+optimum <- function(fdo, constraints, steps = 25, type = "grid", start, ...) {
+  DB = FALSE
+  if (missing(fdo))
+    stop("missing fdo!")
+  X = fdo$as.data.frame()
+  numFac = length(fdo$names())
+  if (!(type %in% c("grid", "optim", "gosolnp"))) {
+    warning(paste("type =", deparse(substitute(type)), "not found --> using type = \"grid\""))
+    type = "grid"
+  }
+  constraints = .validizeConstraints(fdo, constraints)
+  if (missing(start))
+    start = as.numeric(lapply(constraints, mean))
+  lower = numeric(length(constraints))
+  upper = numeric(length(constraints))
+  for (i in seq(along = constraints)) {
+    lower[i] = min(constraints[[i]])
+    upper[i] = max(constraints[[i]])
+  }
+  if (DB) {
+    print(constraints)
+    print(start)
+  }
+  desOpt = new("desOpt")
+  desOpt@fdo = fdo
+  facCoded = NA
+  desirabilities = NA
+  overall = NA
+  setList = list()
+  dList = list()
+  importances = list()
+  yCharSet = intersect(names(desires(fdo)), names(fits(fdo)))
+  for (y in yCharSet) {
+    obj = desires(fdo)[[y]]
+    dFun = .desireFun(obj@low, obj@high, obj@target, obj@scale, obj@importance)
+    lm.y = fits(fdo)[[y]]
+    importances[[y]] = desires(fdo)[[y]]@importance
+    dList[[y]] = .dHelp(lm.y, dFun)
+  }
+  geomFac = 1/sum(unlist(importances))
+  dAll = function(X) {
+    newdata = data.frame(t(X))
+    names(newdata) = LETTERS[1:ncol(newdata)]
+    return(prod(unlist(lapply(dList, do.call, list(newdata = newdata))))^geomFac)
+  }
+  dAllRsolnp = function(X) {
+    newdata = data.frame(t(X))
+    names(newdata) = LETTERS[1:ncol(newdata)]
+    return(-prod(unlist(lapply(dList, do.call, list(newdata = newdata))))^geomFac)
+  }
+  if (type == "optim") {
+    #        print(lower)
+    #       print(upper)
+    temp = optim(par = start, dAll, method = "L-BFGS-B", lower = lower, upper = upper, control = list(fnscale = -1, maxit = 1000))
+    facCoded = as.list(temp$par)
+    names(facCoded) = names(names(fdo))
+    desOpt@facCoded = facCoded
+    overall = temp$value
+    desirabilities = .desHelp(fdo, desOpt@facCoded)
+  }
+  if (type == "gosolnp") {
+    #if (!require(Rsolnp, quietly = TRUE))
+    #    stop("Package Rsolnp needs to be installed!")
+    temp = Rsolnp::gosolnp(fun = dAllRsolnp, LB = lower, UB = upper)
+    facCoded = as.list(temp$pars)
+    names(facCoded) = names(names(fdo))
+    desOpt@facCoded = facCoded
+    overall = -rev(temp$values)[1]
+    desirabilities = .desHelp(fdo, desOpt@facCoded)
+  }
+  if (type == "grid") {
+    dVals = overall(fdo = fdo, constraints = constraints, steps = steps)
+    index = order(dVals[, "overall"], decreasing = TRUE)[1]
+    desOpt@all = dVals
+    desOpt@facCoded = as.list(dVals[index, names(names(fdo))])
+    desirabilities = as.list(dVals[index, names(response(fdo))])
+    names(desirabilities) = names(response(fdo)) #fix for the case of having just one response
+    overall = dVals[index, "overall"]
+  }
+  for (i in names(desOpt@facCoded)) {
+    desOpt@facReal[[i]] = code2real(lows(fdo)[[i]], highs(fdo)[[i]], desOpt@facCoded[[i]])
+  }
+  desOpt@desirabilities = desirabilities
+  desOpt@overall = overall
+  newData = do.call(data.frame, desOpt@facCoded)
+  for (i in names(desOpt@desirabilities)) {
+    desOpt@responses[[i]] = predict(fits(fdo)[[i]], newData)
+  }
+  return(desOpt)
+}
+###uso optimum####
