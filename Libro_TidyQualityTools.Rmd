@@ -1,3 +1,137 @@
+--- 
+title: "Integración del Paquete QualityTools con Tidyverse"
+author:
+  - Miguel Flores
+  - Andrea Barahona
+  - Fabián Encarnación
+  - Dario Quishpe
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/Libro_TidyQualityTools
+description: ""
+---
+--- 
+title: "Integración del Paquete QualityTools con Tidyverse"
+author:
+  - Miguel Flores
+  - Andrea Barahona
+  - Fabián Encarnación
+  - Dario Quishpe
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/Libro_TidyQualityTools
+description: ""
+---
+
+# Preámbulo
+
+En este libro, se pretende combinar la información necesaria para entender los paquetes R6, Tidyquant y QualityTools, con la finalidad de tener toda la infomación necesaria en un solo documento.
+
+<!--chapter:end:index.Rmd-->
+
+
+# (POO) Programación Orientada a Objetos
+
+Placeholder
+
+
+## Introducción
+## Sistemas de programación orientada a objetos
+### Paradigmas
+### Especificaciones de los principales sistemas POO en R
+## Tipos de objetos
+### Objetos Base vs Objetos OO
+
+<!--chapter:end:01-POO.Rmd-->
+
+
+# R6
+
+Placeholder
+
+
+## Clases y métodos
+### Encadenamiento de métodos
+### Métodos importantes
+### Agregar métodos después de la creación
+### Herencia
+### Introspección
+## Controles de Acceso
+### Privacidad
+### Campos Activos
+## Semántica de referencia
+### Razonamientos
+### Finalización
+### Campos en R6
+## ¿Por qué R6?
+## Ejercicios prácticos
+
+<!--chapter:end:02-R6.Rmd-->
+
+
+# TidyQuant
+
+Placeholder
+
+
+## Compatibilidad de funciones
+### Funcionalidad zoo
+### Funcionalidad xts
+### Funcionalidad quantmod
+### Funcionalidad TTR
+### Funcionalidad PerformanceAnalytics 
+## Poder Cuantitativo en Acción
+### Ejemplo 1: utilizar quantmod periodReturn para convertir precios en rentabilidad
+#### Ejemplo 1A: Obtener y registrar las rentabilidades anuales
+#### Ejemplo 1B: Obtener devoluciones de registros diarios
+### Ejemplo 2: utilice xts to.period para cambiar la periodicidad de diaria a mensual
+### Ejemplo 3: utilice TTR runCor para visualizar correlaciones continuas de rendimientos
+### Ejemplo 4: utilizar TTR::MACD para visualizar la divergencia y convergencia de la media móvil
+### Ejemplo 5: utilizar xts::apply.quarterly para obtener el precio máximo y mínimo para cada trimestre
+### Ejemplo 6: utilizar zoo::rollapply para visualizar una regresión continua
+### Ejemplo 7: utilizar return.clean y return.excess para limpiar y calcular el exceso de rendimiento
+
+<!--chapter:end:03-Tidyquant.Rmd-->
+
+
+# QualityTools
+
+Placeholder
+
+
+## Fase 1: Definir
+## Fase 2: Medir
+### Capacidad de calibre - MSA Tipo I
+### Repetibilidad y reproducibidad del calibre - MSA Tipo II
+## Fase 3: Analizar
+### Capacidad del Proceso
+## Fase 4: Mejorar
+### Diseños factoriales $2^{k}$
+### Diseños factoriales fraccionarios $2^{k-p}$
+### Diseños replicados y puntos centrales
+### Respuestas múltiples
+### Pasar a un entorno de proceso con un mayor rendimiento esperado
+### Diseños de superficies de respuesta
+#### Montaje secuencial de diseños de superficie de respuesta
+#### Aleatorización
+#### Bloqueo
+### Deseabilidades
+### Utilización de deseabilidades junto con experimentos diseñados
+### Diseños de mezclas
+### Diseños Taguchi
+
+<!--chapter:end:04-QualityTools.Rmd-->
+
 # Cambio de Funciones
 
 ```{css, echo=FALSE}
@@ -4306,12 +4440,12 @@ aliasTable <- function (fdo, degree, show = TRUE)
 
 
 ### necesito .m.interaction.plot###########################
-.m.interaction.plot <- function(x.factor, trace.factor, response, fun = base::mean, type = c("l", "p", "b"), legend = TRUE, trace.label = deparse(substitute(trace.factor)),
+.m.interaction.plot <- function(x.factor, trace.factor, response, fun = mean, type = c("l", "p", "b"), legend = TRUE, trace.label = deparse(substitute(trace.factor)),
                                 fixed = FALSE, xlab = deparse(substitute(x.factor)), ylab = ylabel, ytitle = TRUE, ylim = range(cells, na.rm = TRUE), lty = nc:1, col = 1, pch = c(1L:9, 0, letters), xpd = NULL,
                                 leg.bg = par("bg"), leg.bty = "n", xtick = FALSE, xaxt = par("xaxt"), axes.x = TRUE, axes.y = TRUE, main, ...) {
   ylabel <- paste(deparse(substitute(fun)), "of ", deparse(substitute(response)))
   type <- match.arg(type)
-  cells <- base::tapply(response, list(x.factor, trace.factor), base::mean)
+  cells <- tapply(response, list(x.factor, trace.factor), fun)
   nr <- nrow(cells)
   nc <- ncol(cells)
   xvals <- 1L:nr
@@ -4623,7 +4757,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
 
                                                  },
 
-                                                 effectPlot = function(factors, fun = base::mean, response = NULL, single = FALSE,
+                                                 effectPlot = function(factors, fun = mean, response = NULL, single = FALSE,
                                                                        points = FALSE, classic = FALSE, axes = TRUE, 
                                                                        lty, xlab, ylab, main, ylim, ...) {
 
@@ -4742,15 +4876,12 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                        p <- .m.interaction.plot(x.factor = X[, factors[i]], 
                                                                                 trace.factor = rep(0, nrow(X)), 
                                                                                 response = Y[, j], lty = lty, ylim = ylim,
-                                                                                xlab = xlab, fun = base::mean,
+                                                                                xlab = xlab, fun = fun,
                                                                                 ylab = ylab, main = " ", ...)
                                                        list_plot[[paste0("p",j,i)]] <- p$plot
                                                      }
                                                      else {
-                                                       p <- .m.interaction.plot(x.factor = X[, factors[i]], 
-                                                                                trace.factor = rep(0, nrow(X)), 
-                                                                                response = Y[, j], lty = lty, ylim = ylim, 
-                                                                                xlab = xlab, fun = base::mean,
+                                                       p <- .m.interaction.plot(x.factor = X[, factors[i]], trace.factor = rep(0, nrow(X)), response = Y[, j], lty = lty, ylim = ylim, xlab = xlab, fun = fun,
                                                                                 ylab = ylab, main = main, ...)
                                                        list_plot[[paste0("p",j,i)]] <- p$plot
                                                      }
@@ -4784,19 +4915,12 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                          if (ylimmiss)
                                                            ylim = range(cells, na.rm = TRUE)
                                                          if (classic) {
-                                                           aux <- .m.interaction.plot(x.factor = X[, factors[i]], 
-                                                                                      trace.factor = rep(0, nrow(X)),
-                                                                                      response = Y[, j], lty = lty, ylim = ylim,
-                                                                                      xlab = xlab, fun = fun,
-                                                                                      ylab = ylab, axes.y = FALSE, ytitle = FALSE,
-                                                                                      main = " ", ...)
+                                                           aux <- .m.interaction.plot(x.factor = X[, factors[i]], trace.factor = rep(0, nrow(X)), response = Y[, j], lty = lty, ylim = ylim, xlab = xlab, fun = fun,
+                                                                                      ylab = ylab, axes.y = FALSE, ytitle = FALSE , main = " ", ...)
                                                            list_plot[[paste0("p",j,i)]] <- aux$plot
                                                          }
                                                          else {
-                                                           aux <- .m.interaction.plot(x.factor = X[, factors[i]], 
-                                                                                      trace.factor = rep(0, nrow(X)), 
-                                                                                      response = Y[, j], lty = lty, ylim = ylim,
-                                                                                      xlab = xlab, fun = fun,
+                                                           aux <- .m.interaction.plot(x.factor = X[, factors[i]], trace.factor = rep(0, nrow(X)), response = Y[, j], lty = lty, ylim = ylim, xlab = xlab, fun = fun,
                                                                                       ylab = ylab, main = main, ytitle = TRUE, ...)
                                                            list_plot[[paste0("p",j,i)]] <- aux$plot
                                                          }
@@ -4825,9 +4949,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                    if(classic){
                                                      p <- p + plot_layout(ncol = numCol, nrow = numRow) +
                                                        plot_annotation(title = main,
-                                                                       theme = theme(plot.title = element_text(hjust = 0.5, 
-                                                                                                               size = 15, 
-                                                                                                               face = "bold")))
+                                                                       theme = theme(plot.title = element_text(hjust = 0.5, size = 15, face = "bold")))
                                                      show(p)
                                                    }
                                                    else{show(p)}
@@ -4836,6 +4958,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
 
                                                  lm = function(formula){
                                                    invisible(lm(formula, data = self$as.data.frame()))
+
                                                  },
 
                                                  desires = function(value){
@@ -5908,7 +6031,7 @@ dfac$effectPlot()
     stop("factor names should be single characters only")
   return((1:26)[LETTERS[1:26] == LETTER])
 }
-.testFun <- function(x.factor, trace.factor, response, fun = base::mean, type = c("l", "p", "b"), legend = TRUE, trace.label = deparse(substitute(trace.factor)),
+.testFun <- function(x.factor, trace.factor, response, fun = mean, type = c("l", "p", "b"), legend = TRUE, trace.label = deparse(substitute(trace.factor)),
                     fixed = FALSE, xlab = deparse(substitute(x.factor)), ylab = ylabel, ylim = range(cellNew, na.rm = TRUE), lty = nc:1, col = 1, pch = c(1L:9, 0, letters),
                     xpd = NULL, leg.bg = par("bg"), leg.bty = "o", xtick = FALSE, xaxt = par("xaxt"), axes = TRUE, title = "", ...) {
   ylabel <- paste(deparse(substitute(fun)), "of ", deparse(substitute(response)))
@@ -5954,7 +6077,7 @@ dfac$effectPlot()
 
 
 ### necesito InteractionPlot#########################################################
-interactionPlot <- function(fdo, y = NULL, response = NULL, fun = base::mean, main, col = 1:2, ...) { ###
+interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, col = 1:2, ...) { ###
   DB = FALSE
   mainmiss = FALSE
   if (missing(main))
@@ -7178,3 +7301,20 @@ contourPlot(A,B,rend,data=dfac)
 ### Deseabilidades
 
 ### Utilización de deseabilidades junto con experimentos diseñados
+
+<!--chapter:end:05-CambioFunciones.Rmd-->
+
+`r if (knitr:::is_html_output()) '
+# Referencias {-}
+
+
+'`
+
+* Wickham, H. (2019). Advanced r. chapman and hall/CRC.
+* Chang W (2022). R6: Encapsulated Classes with Reference Semantics. 
+* Dancho, M (2023). R Quantitative Analysis Package Integrations in tidyquant. 
+* Roth, T. (2016). Working with the qualityTools package.
+* Six Sigma Daily (2012). What is DMAIC?.
+
+<!--chapter:end:06-Bibliografía.Rmd-->
+

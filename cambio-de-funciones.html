@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 1 Cambio de Funciones | 05-CambioFunciones.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 1 Cambio de Funciones | 05-CambioFunciones.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 1 Cambio de Funciones | 05-CambioFunciones.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">UDC</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path=""><a href="#cambio-de-funciones"><i class="fa fa-check"></i><b>1</b> Cambio de Funciones</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path=""><a href="#fase-1-definir"><i class="fa fa-check"></i><b>1.1</b> Fase 1: Definir</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path=""><a href="#función-pareto"><i class="fa fa-check"></i><b>1.1.1</b> 1. Función Pareto</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path=""><a href="#fase-2-medir"><i class="fa fa-check"></i><b>1.2</b> Fase 2: Medir</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path=""><a href="#capacidad-de-calibre---msa-tipo-i"><i class="fa fa-check"></i><b>1.2.1</b> Capacidad de Calibre - MSA Tipo I</a></li>
+<li class="chapter" data-level="1.2.2" data-path=""><a href="#repetibilidad-y-reproducibilidad-del-calibre---msa-tipo-ii"><i class="fa fa-check"></i><b>1.2.2</b> Repetibilidad y reproducibilidad del calibre - MSA Tipo II</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path=""><a href="#fase-3-analizar"><i class="fa fa-check"></i><b>1.3</b> Fase 3: Analizar</a></li>
+<li class="chapter" data-level="1.4" data-path=""><a href="#fase-4-mejorar"><i class="fa fa-check"></i><b>1.4</b> FASE 4: Mejorar</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path=""><a href="#diseños-factoriales-2k"><i class="fa fa-check"></i><b>1.4.1</b> Diseños factoriales <span class="math inline">\(2^k\)</span></a></li>
+<li class="chapter" data-level="1.4.2" data-path=""><a href="#diseños-factoriales-fraccionarios-2k-p"><i class="fa fa-check"></i><b>1.4.2</b> Diseños factoriales fraccionarios <span class="math inline">\(2^{k-p}\)</span></a></li>
+<li class="chapter" data-level="1.4.3" data-path=""><a href="#diseños-replicados-y-puntos-centrales"><i class="fa fa-check"></i><b>1.4.3</b> Diseños replicados y puntos centrales</a></li>
+<li class="chapter" data-level="1.4.4" data-path=""><a href="#respuestas-múltiples"><i class="fa fa-check"></i><b>1.4.4</b> Respuestas múltiples</a></li>
+<li class="chapter" data-level="1.4.5" data-path=""><a href="#pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado"><i class="fa fa-check"></i><b>1.4.5</b> Pasar a un entorno de proceso con un mayor rendimiento esperado</a></li>
+<li class="chapter" data-level="1.4.6" data-path=""><a href="#diseño-de-superficies-de-respuesta"><i class="fa fa-check"></i><b>1.4.6</b> Diseño de superficies de respuesta</a></li>
+<li class="chapter" data-level="1.4.7" data-path=""><a href="#deseabilidades"><i class="fa fa-check"></i><b>1.4.7</b> Deseabilidades</a></li>
+<li class="chapter" data-level="1.4.8" data-path=""><a href="#utilización-de-deseabilidades-junto-con-experimentos-diseñados"><i class="fa fa-check"></i><b>1.4.8</b> Utilización de deseabilidades junto con experimentos diseñados</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<!--bookdown:title:end-->
+<!--bookdown:title:start-->
+<div id="cambio-de-funciones" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Capítulo 1</span> Cambio de Funciones<a href="#cambio-de-funciones" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<style type="text/css">
+.scroll-100 {
+  max-height: 100px;
+  overflow-y: auto;
+  background-color: inherit;
+}
+</style>
+<div id="fase-1-definir" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Fase 1: Definir<a href="#fase-1-definir" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="función-pareto" class="section level3 hasAnchor" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> 1. Función Pareto<a href="#función-pareto" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Resultados antes:</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>defectos <span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;E&quot;</span>,<span class="dv">62</span>),<span class="fu">rep</span>(<span class="st">&quot;B&quot;</span>,<span class="dv">15</span>),<span class="fu">rep</span>(<span class="st">&quot;F&quot;</span>,<span class="dv">3</span>),<span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>,<span class="dv">10</span>),<span class="fu">rep</span>(<span class="st">&quot;C&quot;</span>,<span class="dv">20</span>),<span class="fu">rep</span>(<span class="st">&quot;D&quot;</span>,<span class="dv">10</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>qualityTools<span class="sc">::</span><span class="fu">paretoChart</span>(defectos)</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre><code>##                                                     
+## Frequency          62    20    15    10    10      3
+## Cum. Frequency     62    82    97   107   117    120
+## Percentage      51.7% 16.7% 12.5%  8.3%  8.3%   2.5%
+## Cum. Percentage 51.7% 68.3% 80.8% 89.2% 97.5% 100.0%</code></pre>
+<pre><code>##                                                                       
+## Frequency       62.00000 20.00000 15.00000  10.000000  10.000000   3.0
+## Cum. Frequency  62.00000 82.00000 97.00000 107.000000 117.000000 120.0
+## Percentage      51.66667 16.66667 12.50000   8.333333   8.333333   2.5
+## Cum. Percentage 51.66667 68.33333 80.83333  89.166667  97.500000 100.0</code></pre>
+<ul>
+<li>Resultados ahora:</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">ParetoChart_</span>(defectos)</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Podemos utilizar parámetros para mostrar la tabla o la gráfica:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Mostrar solo la gráfica</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">ParetoChart_</span>(defectos, <span class="at">showTable =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Mostrar solo la tabla</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">ParetoChart_</span>(defectos, <span class="at">showPlot =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>##                    E     C     B      A      D     F
+## Frequency      62.00 20.00 15.00  10.00  10.00   3.0
+## Cum.Frequency  62.00 82.00 97.00 107.00 117.00 120.0
+## Percentage     51.67 16.67 12.50   8.33   8.33   2.5
+## Cum.Percentage 51.67 68.33 80.83  89.17  97.50 100.0</code></pre>
+<p>Podemos cambiar los colores de los puntos y las barras:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ParetoChart_</span>(defectos, <span class="at">col=</span><span class="st">&#39;blue&#39;</span>, <span class="at">border=</span><span class="st">&#39;green&#39;</span>)</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+</div>
+<div id="fase-2-medir" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Fase 2: Medir<a href="#fase-2-medir" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="capacidad-de-calibre---msa-tipo-i" class="section level3 hasAnchor" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Capacidad de Calibre - MSA Tipo I<a href="#capacidad-de-calibre---msa-tipo-i" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Para poder implementar esta función <code>cg</code>, primero debemos modificar 3 funciones que se utilizan en esta función macro.</p>
+<p>Además utilizaremos los siguientes datos de pruebas:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">9.991</span>, <span class="fl">10.013</span>, <span class="fl">10.001</span>, <span class="fl">10.007</span>, <span class="fl">10.010</span>, <span class="fl">10.013</span>, <span class="fl">10.008</span>, <span class="fl">10.017</span>, <span class="fl">10.005</span>, <span class="fl">10.005</span>, <span class="fl">10.002</span>, <span class="fl">10.017</span>, <span class="fl">10.005</span>, <span class="fl">10.002</span>, <span class="fl">9.996</span>, <span class="fl">10.011</span>, <span class="fl">10.009</span>, <span class="fl">10.006</span>, <span class="fl">10.008</span>, <span class="fl">10.003</span>, <span class="fl">10.002</span>, <span class="fl">10.006</span>, <span class="fl">10.010</span>, <span class="fl">9.992</span>, <span class="fl">10.013</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>target <span class="ot">=</span> <span class="fl">10.003</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>tolerance <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">9.903</span>, <span class="fl">10.103</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>ref.interval <span class="ot">=</span> <span class="fu">pnorm</span>(<span class="dv">3</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="dv">3</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>facCg <span class="ot">=</span> <span class="fl">0.2</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>facCgk <span class="ot">=</span> <span class="fl">0.1</span> </span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>n <span class="ot">=</span> <span class="fl">0.2</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>type <span class="ot">=</span> <span class="st">&quot;b&quot;</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>col <span class="ot">=</span> <span class="st">&quot;black&quot;</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>pch <span class="ot">=</span> <span class="dv">19</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#xlim = NULL</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#ylim = NULL</span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>conf.level <span class="ot">=</span> <span class="fl">0.95</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>cex.val <span class="ot">=</span> <span class="fl">1.5</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>sd <span class="ot">=</span> <span class="fu">sd</span>(x)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>mean <span class="ot">=</span> <span class="fu">mean</span>(x)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>ref.ar <span class="ot">=</span> <span class="fu">qnorm</span>(ref.interval, mean, sd) <span class="sc">-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> ref.interval,mean, sd)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>quant1 <span class="ot">=</span> <span class="fu">qnorm</span>((<span class="dv">1</span> <span class="sc">-</span> ref.interval)<span class="sc">/</span><span class="dv">2</span>, mean, sd)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>quant2 <span class="ot">=</span> <span class="fu">qnorm</span>(ref.interval <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> ref.interval)<span class="sc">/</span><span class="dv">2</span>, mean,sd)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>xlim <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">length</span>(x))</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>ylim <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">min</span>(x, target <span class="sc">-</span> n<span class="sc">/</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">abs</span>(<span class="fu">diff</span>(tolerance))), quant1, quant2),</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>         <span class="fu">max</span>(x, target <span class="sc">+</span> n<span class="sc">/</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">abs</span>(<span class="fu">diff</span>(tolerance))), quant1, quant2))</span></code></pre></div>
+<div id="cgrunchart" class="section level4 hasAnchor" number="1.2.1.1">
+<h4><span class="header-section-number">1.2.1.1</span> CgRunChart<a href="#cgrunchart" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Resultados antes:</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>qualityTools<span class="sc">::</span><span class="fu">cgRunChart</span>(<span class="at">x =</span> x, <span class="at">target =</span> target, <span class="at">tolerance =</span> tolerance, </span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>           <span class="at">ref.interval =</span> ref.interval, <span class="at">facCg =</span> facCg, <span class="at">facCgk =</span> facCgk, </span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>           <span class="at">n =</span> n, <span class="at">type =</span> type, <span class="at">col =</span> col, <span class="at">pch =</span> pch, <span class="at">xlim =</span> xlim, </span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>           <span class="at">ylim =</span> ylim, <span class="at">main =</span> <span class="st">&quot;Run Chart&quot;</span>, <span class="at">conf.level =</span> conf.level, <span class="at">cgOut =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<ul>
+<li>Resultados Ahora:</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">cg_RunChart</span>(<span class="at">x =</span> x, <span class="at">target =</span> target, <span class="at">tolerance =</span> tolerance, </span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>                    <span class="at">ref.interval =</span> ref.interval, <span class="at">facCg =</span> facCg, <span class="at">facCgk =</span> facCgk, </span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>                    <span class="at">n =</span> n, <span class="at">type =</span> type, <span class="at">col =</span> col, <span class="at">pch =</span> pch, <span class="at">xlim =</span> xlim, </span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>                    <span class="at">ylim =</span> ylim, <span class="at">main =</span> <span class="st">&quot;Run Chart&quot;</span>, <span class="at">conf.level =</span> conf.level, <span class="at">cgOut =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+<div id="cghist" class="section level4 hasAnchor" number="1.2.1.2">
+<h4><span class="header-section-number">1.2.1.2</span> cgHist<a href="#cghist" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Resultados Anteriores:</li>
+</ul>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>qualityTools<span class="sc">::</span><span class="fu">cgHist</span>(<span class="at">x =</span> x, <span class="at">target =</span> target, <span class="at">tolerance =</span> tolerance, <span class="at">ref.interval =</span> ref.interval, </span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>       <span class="at">facCg =</span> facCg, <span class="at">facCgk =</span> facCgk, <span class="at">n =</span> n, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>, </span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>       <span class="at">xlim =</span> xlim, <span class="at">ylim =</span> ylim, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;Histogram of&quot;</span>, </span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>                                              <span class="fu">deparse</span>(<span class="fu">substitute</span>(x)), <span class="st">&quot;- target&quot;</span>), conf.level</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>       <span class="ot">=</span> conf.level, <span class="at">cgOut =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<ul>
+<li>Resultados Ahora:</li>
+</ul>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">cg_HistChart</span>(<span class="at">x =</span> x, <span class="at">target =</span> target, <span class="at">tolerance =</span> tolerance, <span class="at">ref.interval =</span> ref.interval, </span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>            <span class="at">facCg =</span> facCg, <span class="at">facCgk =</span> facCgk, <span class="at">n =</span> n, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>, </span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>            <span class="at">xlim =</span> xlim, <span class="at">ylim =</span> ylim, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;Histogram of&quot;</span>, </span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>                                                   <span class="fu">deparse</span>(<span class="fu">substitute</span>(x)), <span class="st">&quot;- target&quot;</span>),</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>            <span class="at">conf.level =</span> conf.level, <span class="at">cgOut =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="cgtoleranceview" class="section level4 hasAnchor" number="1.2.1.3">
+<h4><span class="header-section-number">1.2.1.3</span> cgToleranceView<a href="#cgtoleranceview" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Resultados Antes:</li>
+</ul>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>qualityTools<span class="sc">::</span><span class="fu">cgToleranceView</span>(<span class="at">x =</span> x, <span class="at">target =</span> target, <span class="at">tolerance =</span> tolerance, </span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>                <span class="at">ref.interval =</span> ref.interval, <span class="at">facCg =</span> facCg, <span class="at">facCgk =</span> facCgk, </span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>                <span class="at">n =</span> n, <span class="at">type =</span> type, <span class="at">col =</span> col, <span class="at">pch =</span> pch, <span class="at">xlim =</span> xlim, </span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>                <span class="at">ylim =</span> ylim, <span class="at">main =</span> <span class="st">&quot;Tolerance View&quot;</span>, <span class="at">conf.level =</span> conf.level, <span class="at">cgOut =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<ul>
+<li>Resultados Ahora:</li>
+</ul>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">cg_ToleranceChart</span>(<span class="at">x =</span> x, <span class="at">target =</span> target, <span class="at">tolerance =</span> tolerance, </span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>                 <span class="at">ref.interval =</span> ref.interval, <span class="at">facCg =</span> facCg, <span class="at">facCgk =</span> facCgk, </span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>                 <span class="at">n =</span> n, <span class="at">type =</span> type, <span class="at">col =</span> col, <span class="at">pch =</span> pch, <span class="at">xlim =</span> xlim, </span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>                 <span class="at">ylim =</span> ylim, <span class="at">main =</span> <span class="st">&quot;Tolerance View&quot;</span>, <span class="at">conf.level =</span> conf.level, <span class="at">cgOut =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+</div>
+<div id="funcion-cg" class="section level4 hasAnchor" number="1.2.1.4">
+<h4><span class="header-section-number">1.2.1.4</span> Funcion cg<a href="#funcion-cg" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Ahora la función <code>cg</code> se modificará de la siguiente forma:</p>
+<ul>
+<li>Resultados Antes:</li>
+</ul>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span> ( <span class="fl">9.991</span>, <span class="fl">10.013</span>, <span class="fl">10.001</span>, <span class="fl">10.007</span>, <span class="fl">10.010</span>, <span class="fl">10.013</span>, <span class="fl">10.008</span>, <span class="fl">10.017</span>, <span class="fl">10.005</span>, <span class="fl">10.005</span>, <span class="fl">10.002</span>,</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>         <span class="fl">10.017</span>, <span class="fl">10.005</span>, <span class="fl">10.002</span>, <span class="fl">9.996</span>, <span class="fl">10.011</span>, <span class="fl">10.009</span> , <span class="fl">10.006</span>, <span class="fl">10.008</span>, <span class="fl">10.003</span>, <span class="fl">10.002</span>, <span class="fl">10.006</span>, </span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>         <span class="fl">10.010</span>, <span class="fl">9.992</span>, <span class="fl">10.013</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>qualityTools<span class="sc">::</span><span class="fu">cg</span>(x, <span class="at">target =</span> <span class="fl">10.003</span>, <span class="at">tolerance =</span> <span class="fu">c</span>(<span class="fl">9.903</span>, <span class="fl">10.103</span>))</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<ul>
+<li>Resultados Ahora:</li>
+</ul>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">cg_</span>(x, <span class="at">target =</span> <span class="fl">10.003</span>, <span class="at">tolerance =</span> <span class="fu">c</span>(<span class="fl">9.903</span>, <span class="fl">10.103</span>))</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+</div>
+</div>
+<div id="repetibilidad-y-reproducibilidad-del-calibre---msa-tipo-ii" class="section level3 hasAnchor" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Repetibilidad y reproducibilidad del calibre - MSA Tipo II<a href="#repetibilidad-y-reproducibilidad-del-calibre---msa-tipo-ii" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Dado que en la industriia se realiza un análisis Gage R&amp;R para evaluar la repetibilidad y reproducibilidad de un sistema de medición, fue necesario en esta sección la creación de la clase <code>gageRR</code>, con una amplia gama de métodos entre ellos <code>plot</code>, además de la creación de dos funciones <code>gageRRDesign</code> y <code>gageRR_</code>, los resultados se muestran a continuación con la aplicación de un pequeño ejemplo:</p>
+<ul>
+<li>Crear un objeto de la clase ‘gageRR’</li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>mi_gageRR <span class="ot">&lt;-</span> gageRR<span class="sc">$</span><span class="fu">new</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  <span class="at">X =</span> <span class="fu">data.frame</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>    <span class="at">Operator =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)),</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>    <span class="at">Part =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;P1&quot;</span>, <span class="st">&quot;P1&quot;</span>, <span class="st">&quot;P2&quot;</span>, <span class="st">&quot;P2&quot;</span>, <span class="st">&quot;P3&quot;</span>)),</span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>    <span class="at">Measurement =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">9</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  ),</span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>  <span class="at">ANOVA =</span> <span class="cn">NULL</span>,  <span class="co"># Esto puede ser NULL inicialmente y luego calcularlo</span></span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>  <span class="at">RedANOVA =</span> <span class="cn">NULL</span>,  <span class="co"># Igual que ANOVA, puede ser NULL inicialmente</span></span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;crossed&quot;</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a>  <span class="at">Estimates =</span> <span class="fu">list</span>(),</span>
+<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a>  <span class="at">Varcomp =</span> <span class="fu">list</span>(),</span>
+<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a>  <span class="at">Sigma =</span> <span class="fl">0.5</span>,</span>
+<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a>  <span class="at">GageName =</span> <span class="st">&quot;Gage1&quot;</span>,</span>
+<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a>  <span class="at">GageTolerance =</span> <span class="fl">0.1</span>,</span>
+<span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a>  <span class="at">DateOfStudy =</span> <span class="st">&quot;2024-05-15&quot;</span>,</span>
+<span id="cb20-16"><a href="#cb20-16" tabindex="-1"></a>  <span class="at">PersonResponsible =</span> <span class="st">&quot;John Doe&quot;</span>,</span>
+<span id="cb20-17"><a href="#cb20-17" tabindex="-1"></a>  <span class="at">Comments =</span> <span class="st">&quot;Sample gage R&amp;R study&quot;</span>,</span>
+<span id="cb20-18"><a href="#cb20-18" tabindex="-1"></a>  <span class="at">b =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>)),</span>
+<span id="cb20-19"><a href="#cb20-19" tabindex="-1"></a>  <span class="at">a =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;P1&quot;</span>, <span class="st">&quot;P1&quot;</span>, <span class="st">&quot;P2&quot;</span>, <span class="st">&quot;P2&quot;</span>, <span class="st">&quot;P3&quot;</span>)),</span>
+<span id="cb20-20"><a href="#cb20-20" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">9</span>),</span>
+<span id="cb20-21"><a href="#cb20-21" tabindex="-1"></a>  <span class="at">facNames =</span> <span class="fu">c</span>(<span class="st">&quot;Measurement&quot;</span>, <span class="st">&quot;Operator&quot;</span>, <span class="st">&quot;Part&quot;</span>),</span>
+<span id="cb20-22"><a href="#cb20-22" tabindex="-1"></a>  <span class="at">numO =</span> <span class="dv">3</span>,</span>
+<span id="cb20-23"><a href="#cb20-23" tabindex="-1"></a>  <span class="at">numP =</span> <span class="dv">3</span>,</span>
+<span id="cb20-24"><a href="#cb20-24" tabindex="-1"></a>  <span class="at">numM =</span> <span class="dv">2</span></span>
+<span id="cb20-25"><a href="#cb20-25" tabindex="-1"></a>)</span></code></pre></div>
+<ul>
+<li>Crear el objeto gageRRObj</li>
+</ul>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>design_example <span class="ot">&lt;-</span> <span class="fu">gageRRDesign</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>  <span class="at">Operators =</span> <span class="dv">3</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>  <span class="at">Parts =</span> <span class="dv">10</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>  <span class="at">Measurements =</span> <span class="dv">3</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;crossed&quot;</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>  <span class="at">sigma =</span> <span class="dv">6</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>  <span class="at">randomize =</span> <span class="cn">TRUE</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>)</span></code></pre></div>
+<ul>
+<li>Crear un diseño para el estudio Gage</li>
+</ul>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">gageRRDesign</span>(<span class="at">Operators =</span> <span class="dv">3</span>, <span class="at">Parts =</span> <span class="dv">10</span>, <span class="at">Measurements =</span> <span class="dv">3</span>, <span class="at">method =</span> <span class="st">&quot;crossed&quot;</span>, <span class="at">sigma =</span> <span class="dv">6</span>, <span class="at">randomize =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>design<span class="sc">$</span>X<span class="sc">$</span>Measurement <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(design<span class="sc">$</span>X), <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<ul>
+<li>Ejecutar la función <code>gageRR_</code></li>
+</ul>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">gageRR_</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>  <span class="at">gdo =</span> design,</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;crossed&quot;</span>,   <span class="co">#  método &quot;crossed&quot;</span></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>  <span class="at">sigma =</span> <span class="dv">6</span>,            <span class="co">#  sigma</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>  <span class="at">alpha =</span> <span class="fl">0.25</span>,         <span class="co"># Nivel de significancia</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>  <span class="at">tolerance =</span> <span class="cn">NULL</span>,     <span class="co"># Tolerancia</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>  <span class="at">dig =</span> <span class="dv">3</span>               <span class="co"># Número de dígitos a mostrar en los resultados</span></span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## 
+## AnOVa Table -  crossed Design
+##               Df Sum Sq Mean Sq F value Pr(&gt;F)
+## Operator       2   1.34   0.671   0.167  0.847
+## Part           9  27.15   3.017   0.749  0.663
+## Operator:Part 18 107.12   5.951   1.478  0.131
+## Residuals     60 241.61   4.027               
+## 
+## ----------
+## 
+## Gage R&amp;R
+##                  VarComp VarCompContrib Stdev StudyVar StudyVarContrib
+## totalRR            4.668          1.000 2.161    12.96           1.000
+##  repeatability     4.027          0.863 2.007    12.04           0.929
+##  reproducibility   0.641          0.137 0.801     4.81           0.371
+##    Operator        0.000          0.000 0.000     0.00           0.000
+##    Operator:Part   0.641          0.137 0.801     4.81           0.371
+## Part to Part       0.000          0.000 0.000     0.00           0.000
+## totalVar           4.668          1.000 2.161    12.96           1.000
+## 
+## ---
+##  * Contrib equals Contribution in %
+##  **Number of Distinct Categories (truncated signal-to-noise-ratio) = 1</code></pre>
+<ul>
+<li>Plot del Objeto <code>gageRR</code></li>
+</ul>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co"># verificar que objeto es</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">class</span>(result)</span></code></pre></div>
+<pre><code>## [1] &quot;gageRR&quot; &quot;R6&quot;</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">plot</span>()</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+</div>
+</div>
+<div id="fase-3-analizar" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Fase 3: Analizar<a href="#fase-3-analizar" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="capacidad-del-proceso" class="section level4 hasAnchor" number="1.3.0.1">
+<h4><span class="header-section-number">1.3.0.1</span> Capacidad del proceso:<a href="#capacidad-del-proceso" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ol style="list-style-type: decimal">
+<li>Distribución Normal</li>
+</ol>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">20</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a><span class="fu">pcr</span>(datos, <span class="st">&quot;normal&quot;</span>, <span class="at">lsl =</span> <span class="dv">17</span>, <span class="at">usl =</span> <span class="dv">23</span>)</span></code></pre></div>
+<pre><code>## 
+##  Anderson Darling Test for normal distribution
+## 
+## data:  datos 
+## A = 0.5722, mean = 19.749, sd = 1.014, p-value = 0.1191
+## alternative hypothesis: true distribution is not equal to normal</code></pre>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>Además, las gráficas QQ-plot pueden obtenerse a partir de la siguiente función:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">qqPlot</span>(datos,<span class="st">&quot;normal&quot;</span>)</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p>Así también, los gráficos de probabilidad se pueden calcular con la función ppPlot:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="co"># bounds.lty = 3 -&gt; linea entrecortada</span></span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="co"># bounds.col -&gt; color de las bandas</span></span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="fu">ppPlot</span>(datos, <span class="st">&quot;normal&quot;</span>, <span class="at">bounds.lty =</span> <span class="dv">3</span>, <span class="at">bounds.col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p>Además si solo queremos obtener la gráfica central, se hace uso de la función <code>.pcr</code>, de la siguiente manera:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">.pcr</span>(datos, <span class="st">&quot;normal&quot;</span>, <span class="at">lsl =</span> <span class="dv">17</span>, <span class="at">usl =</span> <span class="dv">23</span>)</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Distribución Weibull</li>
+</ol>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>weib <span class="ot">&lt;-</span> <span class="fu">rweibull</span>(<span class="dv">20</span>, <span class="at">shape =</span> <span class="dv">2</span>, <span class="at">scale =</span> <span class="dv">8</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a><span class="fu">pcr</span>(weib, <span class="st">&quot;weibull&quot;</span>, <span class="at">usl =</span> <span class="dv">20</span>)</span></code></pre></div>
+<pre><code>## 
+##  Anderson Darling Test for weibull distribution
+## 
+## data:  weib 
+## A = 0.4183, shape = 2.290, scale = 8.382, p-value &lt;= 0.25
+## alternative hypothesis: true distribution is not equal to weibull</code></pre>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+</div>
+</div>
+<div id="fase-4-mejorar" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> FASE 4: Mejorar<a href="#fase-4-mejorar" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="diseños-factoriales-2k" class="section level3 hasAnchor" number="1.4.1">
+<h3><span class="header-section-number">1.4.1</span> Diseños factoriales <span class="math inline">\(2^k\)</span><a href="#diseños-factoriales-2k" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="do">###### USO DE facDesign ######</span></span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>dfac <span class="ot">&lt;-</span> <span class="fu">facDesign</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="at">centerCube =</span> <span class="dv">4</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a><span class="co">#dfac$names()</span></span>
+<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a>dfac<span class="sc">$</span><span class="fu">names</span>(<span class="fu">c</span>(<span class="st">&#39;Factor 1&#39;</span>, <span class="st">&#39;Factor 2&#39;</span>, <span class="st">&#39;Factor 3&#39;</span>))</span>
+<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a><span class="co">#dfac$names()</span></span>
+<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a>dfac<span class="sc">$</span><span class="fu">lows</span>(<span class="fu">c</span>(<span class="dv">80</span>,<span class="dv">120</span>,<span class="dv">1</span>))</span>
+<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a><span class="co">#dfac$lows()</span></span>
+<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a>dfac<span class="sc">$</span><span class="fu">highs</span>(<span class="fu">c</span>(<span class="dv">120</span>,<span class="dv">140</span>,<span class="dv">2</span>))</span>
+<span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a><span class="co">#dfac$highs()</span></span>
+<span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a>dfac<span class="sc">$</span><span class="fu">summary</span>()</span></code></pre></div>
+<pre><code>## Information about the factors:
+## 
+##      Factor 1 Factor 2 Factor 3
+## low        80      120        1
+## high      120      140        2
+## name Factor 1 Factor 2 Factor 3
+## unit                           
+## type  numeric  numeric  numeric
+## -----------
+##    StandOrder RunOrder Block  A  B  C  y
+## 4           4        1     1  1  1 -1 NA
+## 10         10        2     1  0  0  0 NA
+## 11         11        3     1  0  0  0 NA
+## 12         12        4     1  0  0  0 NA
+## 7           7        5     1 -1  1  1 NA
+## 2           2        6     1  1 -1 -1 NA
+## 8           8        7     1  1  1  1 NA
+## 3           3        8     1 -1  1 -1 NA
+## 5           5        9     1 -1 -1  1 NA
+## 1           1       10     1 -1 -1 -1 NA
+## 9           9       11     1  0  0  0 NA
+## 6           6       12     1  1 -1  1 NA</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="do">################# USO simProc ################# </span></span>
+<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" tabindex="-1"></a><span class="co"># Primeros valores</span></span>
+<span id="cb37-4"><a href="#cb37-4" tabindex="-1"></a>rend <span class="ot">&lt;-</span> <span class="fu">simProc</span>(<span class="at">x1=</span><span class="dv">120</span>,<span class="at">x2=</span><span class="dv">140</span>,<span class="at">x3=</span><span class="dv">2</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" tabindex="-1"></a><span class="co"># valores completos</span></span>
+<span id="cb37-7"><a href="#cb37-7" tabindex="-1"></a>rend <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">simProc</span>(<span class="dv">120</span>,<span class="dv">140</span>,<span class="dv">1</span>),<span class="fu">simProc</span>(<span class="dv">80</span>,<span class="dv">140</span>,<span class="dv">1</span>),<span class="fu">simProc</span>(<span class="dv">120</span>,<span class="dv">140</span>,<span class="dv">2</span>),<span class="fu">simProc</span>(<span class="dv">120</span>,<span class="dv">120</span>,<span class="dv">1</span>),<span class="fu">simProc</span>(<span class="dv">90</span>,<span class="dv">130</span>,<span class="fl">1.5</span>),<span class="fu">simProc</span>(<span class="dv">90</span>,<span class="dv">130</span>,<span class="fl">1.5</span>),<span class="fu">simProc</span>(<span class="dv">80</span>,<span class="dv">120</span>,<span class="dv">2</span>),<span class="fu">simProc</span>(<span class="dv">90</span>,<span class="dv">130</span>,<span class="fl">1.5</span>),<span class="fu">simProc</span>(<span class="dv">90</span>,<span class="dv">130</span>,<span class="fl">1.5</span>),<span class="fu">simProc</span>(<span class="dv">120</span>,<span class="dv">120</span>,<span class="dv">2</span>),<span class="fu">simProc</span>(<span class="dv">80</span>,<span class="dv">140</span>,<span class="dv">2</span>),<span class="fu">simProc</span>(<span class="dv">80</span>,<span class="dv">120</span>,<span class="dv">1</span>))</span>
+<span id="cb37-8"><a href="#cb37-8" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" tabindex="-1"></a><span class="co"># Asignar rendimiento al diseño factorial</span></span>
+<span id="cb37-10"><a href="#cb37-10" tabindex="-1"></a>dfac<span class="sc">$</span><span class="fu">.response</span>(rend)</span>
+<span id="cb37-11"><a href="#cb37-11" tabindex="-1"></a>dfac<span class="sc">$</span><span class="fu">.response</span>()</span></code></pre></div>
+<pre><code>##          rend
+## 1  0.47566425
+## 2  0.18216016
+## 3  0.48550108
+## 4  0.08209139
+## 5  0.21776448
+## 6  0.21865571
+## 7  0.09358049
+## 8  0.21394141
+## 9  0.21627297
+## 10 0.09928769
+## 11 0.18262206
+## 12 0.10677419</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="do">### effectPlot #### </span></span>
+<span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a>dfac<span class="sc">$</span><span class="fu">effectPlot</span>(<span class="at">classic=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a>dfac<span class="sc">$</span><span class="fu">effectPlot</span>()</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-39-2.png" width="672" /></p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="do">### Uso interactionPlot ####</span></span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a><span class="fu">interactionPlot</span>(dfac)</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="do">### lm </span><span class="al">###</span></span>
+<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> dfac<span class="sc">$</span><span class="fu">lm</span>(rend <span class="sc">~</span> A<span class="sc">*</span>B<span class="sc">*</span>C)</span>
+<span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = formula, data = self$as.data.frame())
+## 
+## Residuals:
+##         4        10        11        12         7         2         8         3 
+## -0.009284 -0.032366  0.270975 -0.132435 -0.009284 -0.009284 -0.009284 -0.009284 
+##         5         1         9         6 
+## -0.009284 -0.009284 -0.031904 -0.009284 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)  0.21453    0.04419   4.855  0.00831 **
+## A            0.01843    0.05412   0.340  0.75063   
+## B            0.04500    0.05412   0.831  0.45249   
+## C           -0.04664    0.05412  -0.862  0.43735   
+## A:B          0.01596    0.05412   0.295  0.78275   
+## A:C         -0.07685    0.05412  -1.420  0.22864   
+## B:C         -0.04792    0.05412  -0.885  0.42592   
+## A:B:C       -0.01963    0.05412  -0.363  0.73516   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1531 on 4 degrees of freedom
+## Multiple R-squared:  0.5332, Adjusted R-squared:  -0.2837 
+## F-statistic: 0.6527 on 7 and 4 DF,  p-value: 0.7085</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="do">### Uso paretoPlot#################################</span></span>
+<span id="cb44-2"><a href="#cb44-2" tabindex="-1"></a><span class="fu">paretoPlot</span>(dfac)</span></code></pre></div>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="do">#### Uso normalPlot#################</span></span>
+<span id="cb45-2"><a href="#cb45-2" tabindex="-1"></a><span class="fu">normalPlot</span>(dfac)</span></code></pre></div>
+<pre><code>##          A          B          C        A:B        A:C        B:C      A:B:C 
+##  0.3404766  0.8314196 -0.8619011  0.2948855 -1.4199764 -0.8854780 -0.3627240</code></pre>
+<p><img src="05-CambioFunciones_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a><span class="do">#### Uso wirePlot ###############################</span></span>
+<span id="cb47-2"><a href="#cb47-2" tabindex="-1"></a><span class="fu">wirePlot</span>(A,B,rend,<span class="at">data=</span>dfac)</span></code></pre></div>
+</div>
+<div id="diseños-factoriales-fraccionarios-2k-p" class="section level3 hasAnchor" number="1.4.2">
+<h3><span class="header-section-number">1.4.2</span> Diseños factoriales fraccionarios <span class="math inline">\(2^{k-p}\)</span><a href="#diseños-factoriales-fraccionarios-2k-p" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="diseños-replicados-y-puntos-centrales" class="section level3 hasAnchor" number="1.4.3">
+<h3><span class="header-section-number">1.4.3</span> Diseños replicados y puntos centrales<a href="#diseños-replicados-y-puntos-centrales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="respuestas-múltiples" class="section level3 hasAnchor" number="1.4.4">
+<h3><span class="header-section-number">1.4.4</span> Respuestas múltiples<a href="#respuestas-múltiples" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado" class="section level3 hasAnchor" number="1.4.5">
+<h3><span class="header-section-number">1.4.5</span> Pasar a un entorno de proceso con un mayor rendimiento esperado<a href="#pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="diseño-de-superficies-de-respuesta" class="section level3 hasAnchor" number="1.4.6">
+<h3><span class="header-section-number">1.4.6</span> Diseño de superficies de respuesta<a href="#diseño-de-superficies-de-respuesta" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="deseabilidades" class="section level3 hasAnchor" number="1.4.7">
+<h3><span class="header-section-number">1.4.7</span> Deseabilidades<a href="#deseabilidades" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="utilización-de-deseabilidades-junto-con-experimentos-diseñados" class="section level3 hasAnchor" number="1.4.8">
+<h3><span class="header-section-number">1.4.8</span> Utilización de deseabilidades junto con experimentos diseñados<a href="#utilización-de-deseabilidades-junto-con-experimentos-diseñados" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/Libro_TidyQualityTools/edit/master/%s",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": false,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
