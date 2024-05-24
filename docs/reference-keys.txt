@@ -72,3 +72,12 @@ funcion-cg
 repetibilidad-y-reproducibilidad-del-calibre---msa-tipo-ii
 fase-3-analizar-1
 capacidad-del-proceso-1
+fase-4-mejorar-1
+diseños-factoriales-2k-1
+diseños-factoriales-fraccionarios-2k-p-1
+diseños-replicados-y-puntos-centrales-1
+respuestas-múltiples-1
+pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado-1
+diseño-de-superficies-de-respuesta
+deseabilidades-1
+utilización-de-deseabilidades-junto-con-experimentos-diseñados-1

@@ -1,12 +1,11 @@
 library(R6)
-library(MASS)
 library(ggplot2)
 library(patchwork)
 library(scales)
 library(plotly)
 library(gridExtra)
 
-###Funcion as.data.frame.facDesign####
+### Funcion as.data.frame.facDesign####
 as.data.frame.facDesign <- function(self, row.names = NULL, optional = FALSE, ...) {
   if (nrow(self$cube)>0) {
     frameOut = self$cube
@@ -54,8 +53,8 @@ as.data.frame.facDesign <- function(self, row.names = NULL, optional = FALSE, ..
 }
 
 ############DISEÑOS FACTORIALES 2^k#############
-####Necesito .helpAliasTable##################################################
-#Funcion .replace2s####
+### necesito .helpAliasTable##################################################
+### Funcion .replace2s####
 .replace2s = function(x) {
   if (!is.data.frame(x))
     stop(paste(deparse(substitute(x)), "needs to be a data.frame"))
@@ -98,7 +97,7 @@ as.data.frame.facDesign <- function(self, row.names = NULL, optional = FALSE, ..
   return(X1)
 }
 
-####Necesito aliasTable#######################################################
+### necesito aliasTable#######################################################
 aliasTable <- function (fdo, degree, show = TRUE)
 {
   if (class(fdo)[1] == "facDesign") {
@@ -134,7 +133,7 @@ aliasTable <- function (fdo, degree, show = TRUE)
   invisible(alias.matrix)
 }
 
-###Necesito .fdoOrth y .NAMES#######################################
+### necesito .fdoOrth y .NAMES#######################################
 .fdoOrth = vector(mode = "list", length = 3)
 ###
 .fdoOrth[[1]] = list(k = 3, gen = "C=AB", p = 1)
@@ -195,7 +194,7 @@ aliasTable <- function (fdo, degree, show = TRUE)
 
 
 
-####Necesito .m.interaction.plot###########################
+### necesito .m.interaction.plot###########################
 .m.interaction.plot <- function(x.factor, trace.factor, response, fun = mean, type = c("l", "p", "b"), legend = TRUE, trace.label = deparse(substitute(trace.factor)),
                                 fixed = FALSE, xlab = deparse(substitute(x.factor)), ylab = ylabel, ytitle = TRUE, ylim = range(cells, na.rm = TRUE), lty = nc:1, col = 1, pch = c(1L:9, 0, letters), xpd = NULL,
                                 leg.bg = par("bg"), leg.bty = "n", xtick = FALSE, xaxt = par("xaxt"), axes.x = TRUE, axes.y = TRUE, main, ...) {
@@ -266,7 +265,7 @@ aliasTable <- function (fdo, degree, show = TRUE)
   invisible(list(xVals = df$x, yVals = df$y, plot = p))
 }
 
-##Necesito clase facDesign.c######################################################
+### necesito clase facDesign.c######################################################
 facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                  factors = NULL,
                                                  cube = data.frame(),
@@ -1126,7 +1125,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                  )
                       )
 
-##Necesito clase doeFactor####################
+### necesito clase doeFactor####################
 doeFactor <- R6Class('doeFactor', public = list(low = -1,
                                                  high = 1,
                                                  name = "",
@@ -1216,7 +1215,7 @@ doeFactor <- R6Class('doeFactor', public = list(low = -1,
 
 
 
-##Necesito funcion randomize####
+### necesito funcion randomize####
 randomize <- function (fdo, random.seed, so = FALSE)
 {
   if (missing(random.seed))
@@ -1240,7 +1239,7 @@ randomize <- function (fdo, random.seed, so = FALSE)
 }
 
 
-##Necesito .rsm#################
+### necesito .rsm#################
 .rsm = vector(mode = "list", length = 7)
 .rsm[[1]] = list(k = 3, blocks = 2, gen = c("ABC"))
 .rsm[[2]] = list(k = 3, blocks = 4, gen = c("AB", "AC"))
@@ -1264,13 +1263,13 @@ randomize <- function (fdo, random.seed, so = FALSE)
 .rsm[[20]] = list(k = 7, blocks = 64, gen = c("AB", "BC", "CD", "DE", "EF", "FG"))
 
 
-##Necesito .numFac#############
+### necesito .numFac#############
 .numFac = function(fdo) {
   return(length(fdo$names()))
 }
 
 
-##Necesito .confoundings####
+### necesito .confoundings####
 .confoundings = function(blockGenVec, lSet, DB = FALSE) {
   biVec = character(0)
   for (i in 2:length(blockGenVec)) {
@@ -1299,7 +1298,7 @@ randomize <- function (fdo, random.seed, so = FALSE)
 }
 
 
-## Necesito .lociv####
+### necesito .lociv####
 .lociv = function(charVec) {
   lenVec = numeric(length = length(charVec))
   for (i in seq(along = charVec)) {
@@ -1308,7 +1307,7 @@ randomize <- function (fdo, random.seed, so = FALSE)
   return(lenVec)
 }
 
-##Necesito . blockInteractions######
+### necesito .blockInteractions######
 .blockInteractions = function(fdo, blocks = 2, useTable = "rsm") {
   DB = FALSE
   if (!(blocks %in% c(0, 1, 2, 4, 8, 16, 32, 64)))
@@ -1393,7 +1392,7 @@ randomize <- function (fdo, random.seed, so = FALSE)
 
 
 
-##Necesito .blockGenCol##########
+### necesito .blockGenCol##########
 .blockGenCol = function(gen, fdo) {
   DB = FALSE
   blockVec = NULL
@@ -1420,7 +1419,7 @@ randomize <- function (fdo, random.seed, so = FALSE)
 }
 
 
-####Necesito .blockCol##############
+### necesito .blockCol##############
 .blockCol = function(.blockGenCol) {
   DB = FALSE
   .blockCol = numeric(nrow(.blockGenCol))
@@ -1434,7 +1433,7 @@ randomize <- function (fdo, random.seed, so = FALSE)
 }
 
 
-##Necesito funcion blocking######
+### necesito funcion blocking######
 blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm",
                       gen)
 {
@@ -1499,7 +1498,7 @@ blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm",
 }
 
 
-###Necesito funcion "fracDesign"###################
+### necesito funcion "fracDesign"###################
 
 fracDesign <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
   centerCube = 0, random.seed = 1234)
@@ -1714,7 +1713,7 @@ fracDesign <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
   return(blocking(DesignOut, blocks = blocks))  #################Poner random.seed para variar con semilla
 }
 
-############## funcion facDesign########################
+### Funcion facDesign########################
 facDesign <- function (k = 3, p = 0, replicates = 1, blocks = 1, centerCube = 0, random.seed = 1234)
 {
   frameOut = fracDesign(k = k, p = p, gen = NULL, replicates = replicates,
@@ -1736,14 +1735,14 @@ dfac$summary()
 
 ###############################################################################
 
-####Necesito funcion .norm2d#####################################################
+### necesito funcion .norm2d#####################################################
 .norm2d <- function(x1, x2, mu1 = 160, mu2 = 165, rho = 0.7, sigma1 = 45, sigma2 = 22.5) {
   z = 1/(2 * pi * sigma1 * sigma2 * sqrt(1 - rho^2)) * exp(-1/(2 * (1 - rho^2)) * (((x1 - mu1)/sigma1)^2 - 2 * rho * (x1 - mu1)/sigma1 * (x2 - mu2)/sigma2 +
                                                                                      ((x2 - mu2)/sigma2)^2))
   return(z)
 }
 
-####funcion simProc#####################################
+### Funcion simProc#####################################
 simProc <- function(x1, x2, x3, noise = TRUE) {
   max_z = 0.0002200907
   min_z = 8.358082e-10
@@ -1757,7 +1756,7 @@ simProc <- function(x1, x2, x3, noise = TRUE) {
 
 
 
-#####USO simProc######################################
+### USO simProc######################################
 #Primeros valores
 rend <- simProc(x1=120,x2=140,x3=2)
 #valores completos
@@ -1766,12 +1765,14 @@ rend <- c(simProc(120,140,1),simProc(80,140,1),simProc(120,140,2),simProc(120,12
 #Asignar rendimiento al diseño factorial
 dfac$.response(rend)
 dfac$.response()
-######effectPlot###############################################################
+
+
+### effectPlot###############################################################
 dfac$effectPlot(classic=TRUE)
 dfac$effectPlot()
 
 
-#####Necesito .letterPos .testFun###########################################
+### necesito .letterPos .testFun###########################################
 .letterPos <- function(LETTER) {
   if (!(nchar(LETTER) == 1))
     stop("factor names should be single characters only")
@@ -1822,7 +1823,7 @@ dfac$effectPlot()
 }
 
 
-###### Necesito InteractionPlot#########################################################
+### necesito InteractionPlot#########################################################
 interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, col = 1:2, ...) { ###
   DB = FALSE
   mainmiss = FALSE
@@ -1927,14 +1928,14 @@ interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, co
 
 
 
-####Uso interactionPlot#########################################################
+### Uso interactionPlot#########################################################
 interactionPlot(dfac)
-######lm##########################################################################
+### lm #########################################################################
 m1 <- dfac$lm(rend ~ A*B*C)
 summary(m1)
 
 
-#####Necesito .splitDev ##########################################
+### necesito .splitDev ##########################################
 .splitDev = function(x) {
   if (x > 6)
     dev = TRUE
@@ -1955,7 +1956,7 @@ summary(m1)
     mfrow = c(3, 3)
   return(list(dev, mfrow))
 }
-##### funcion paretoPlot#################################
+### Funcion paretoPlot#################################
 paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.last = NA, alpha = 0.05, response = NULL, ylim, xlab, ylab, main, single = TRUE, ...) {  ###
   if(single==FALSE)                                                           ###
     par(mfrow=.splitDev(length(fdo$.response()))[[2]])                           ###
@@ -2163,7 +2164,7 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
   par(mfcol=c(1,1))
 }
 
-########uso paretoPlot#################################
+### Uso paretoPlot#################################
 paretoPlot(dfac)
 
 
@@ -2360,7 +2361,7 @@ FitDistr <- function (x, densfun, start, ...){
   filteredList = wholeList[unlist(logVec)]
   return(filteredList)
 }
-##### funcion normalPlot#####################
+#### Funcion normalPlot#####################
 normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, response = NULL, sig.col = c("red1", "red2", "red3"), sig.pch = c(1,2,3), main, ylim, xlim, xlab, ylab, pch,  ###
                        col, border = "red", ...){
   fdoName = deparse(substitute(fdo))
@@ -2529,57 +2530,11 @@ normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, respon
   }
   invisible(list(effect = effect, plots = list_plot))
 }
-##########uso normalPlot#################
+#### Uso normalPlot#################
 normalPlot(dfac)
 
 
-#####Necesito .desireFun#########
-.desireFun <- function(low, high, target = "max", scale = c(1, 1), importance = 1) {
-  DB = FALSE
-  if (importance > 10 | importance < 0.1)
-    stop("importance needs to be in [0.1, 10]")
-  if (low >= high)
-    stop("the lower bound must be greater than the high bound!")
-  if (any(scale <= 0))
-    stop("the scale parameter must be greater than zero!")
-  if (is.numeric(target)) {
-    out = function(y) {
-      if (DB)
-        print("target")
-      flush.console()
-      d = rep(0, length(y))
-      d[y >= low & y <= target] = ((y[y >= low & y <= target] - low)/(target - low))^scale[1]
-      d[y >= target & y <= high] = ((y[y >= target & y <= high] - high)/(target - high))^scale[2]
-      return(d^importance)
-    }
-    return(out)
-  }
-  if (identical(tolower(target), "min")) {
-    out = function(y) {
-      if (DB)
-        print("min")
-      d = rep(0, length(y))
-      d[y > high] = 0
-      d[y < low] = 1
-      d[y >= low & y <= high] = ((y[y >= low & y <= high] - high)/(low - high))^scale[1]
-      return(d^importance)
-    }
-    return(out)
-  }
-  if (identical(tolower(target), "max")) {
-    out = function(y) {
-      if (DB)
-        print("max")
-      d = rep(0, length(y))
-      d[y < low] = 0
-      d[y > high] = 1
-      d[y >= low & y <= high] = ((y[y >= low & y <= high] - low)/(high - low))^scale[1]
-      return(d^importance)
-    }
-    return(out)
-  }
-}
-###Necesito clase desirability.c#################
+#### necesito clase desirability.c#################
 desirability.c <- R6Class("desirability", public = list(response = NULL,
                                                       low = NULL,
                                                       high = NULL,
@@ -2653,7 +2608,7 @@ desirability.c <- R6Class("desirability", public = list(response = NULL,
                                                       )
                        )
 
-###Necesito .desireFun###############
+#### necesito .desireFun###############
 .desireFun = function(low, high, target = "max", scale = c(1, 1), importance = 1) {
   DB = FALSE
   if (importance > 10 | importance < 0.1)
@@ -2701,7 +2656,7 @@ desirability.c <- R6Class("desirability", public = list(response = NULL,
 }
 
 
-####funcion wirePlot###################
+#### Funcion wirePlot###################
 wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, border, sub, zlab, form = "fit", phi, theta, ticktype, col = 1, steps,
                      factors, fun, plot) {
   form = form
@@ -2891,10 +2846,10 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
   invisible(list(x = xVec, y = yVec, z = mat, plot = p))
 }
 
-###uso wirePlot###############################
+#### Uso wirePlot###############################
 wirePlot(A,B,rend,data=dfac)
 
-###Funcion contourPlot#####################
+### Funcion contourPlot#####################
 contourPlot = function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, border, sub, zlab, form = "fit", phi, theta, ticktype, col = 1, steps,
                        factors, fun, plot) {
   form = form
@@ -3049,8 +3004,10 @@ contourPlot = function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, borde
 
   invisible(list(x = xVec, y = yVec, z = mat, plot = p))
 }
-###Uso contourPlot########################
+### Uso contourPlot########################
 contourPlot(A,B,rend,data=dfac)
+
+
 
 
 #########DISEÑOS FACTORIALES FRACCIONARIOS 2^k-p#################

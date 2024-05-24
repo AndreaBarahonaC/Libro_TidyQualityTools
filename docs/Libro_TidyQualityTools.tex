@@ -127,7 +127,7 @@
 
 \title{Integración del Paquete QualityTools con Tidyverse}
 \author{Miguel Flores \and Andrea Barahona \and Fabián Encarnación \and Dario Quishpe}
-\date{2024-05-21}
+\date{2024-05-24}
 
 \begin{document}
 \maketitle
@@ -838,11 +838,11 @@ Por ejemplo, creemos un campo activo llamado \texttt{random} que nos devuelva un
 \NormalTok{))}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Ran}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.3939605}
+\DocumentationTok{\#\# [1] 0.3262786}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.5389096}
+\DocumentationTok{\#\# [1] 0.1937408}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.006853661}
+\DocumentationTok{\#\# [1] 0.9338939}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1263,11 +1263,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \DocumentationTok{\#\# [49] "J♥"  "Q♦"  "K♣"}
 \NormalTok{mazo}\SpecialCharTok{$}\FunctionTok{reshuffle}\NormalTok{()}
 \NormalTok{mazo}\SpecialCharTok{$}\NormalTok{.cartas}
-\DocumentationTok{\#\#  [1] "7♣"  "5♠"  "6♥"  "J♥"  "K♠"  "K♦"  "Q♣"  "4♣"  "7♠"  "9♠"  "J♠"  "8♠" }
-\DocumentationTok{\#\# [13] "6♣"  "2♣"  "J♣"  "7♥"  "5♦"  "9♣"  "5♥"  "Q♠"  "K♣"  "10♠" "A♣"  "2♦" }
-\DocumentationTok{\#\# [25] "10♣" "3♦"  "10♥" "5♣"  "6♦"  "10♦" "3♠"  "K♥"  "2♥"  "7♦"  "Q♥"  "8♣" }
-\DocumentationTok{\#\# [37] "A♠"  "A♦"  "8♥"  "3♥"  "3♣"  "9♥"  "J♦"  "Q♦"  "2♠"  "4♥"  "8♦"  "A♥" }
-\DocumentationTok{\#\# [49] "9♦"  "4♦"  "6♠"  "4♠"}
+\DocumentationTok{\#\#  [1] "Q♦"  "8♦"  "A♣"  "5♠"  "4♥"  "8♠"  "5♦"  "10♦" "3♣"  "A♦"  "Q♣"  "A♥" }
+\DocumentationTok{\#\# [13] "2♠"  "Q♠"  "2♥"  "10♥" "2♦"  "K♥"  "3♦"  "3♥"  "J♥"  "10♠" "6♠"  "7♦" }
+\DocumentationTok{\#\# [25] "9♦"  "8♥"  "5♥"  "J♠"  "J♣"  "6♦"  "7♠"  "6♥"  "A♠"  "7♣"  "4♠"  "J♦" }
+\DocumentationTok{\#\# [37] "K♣"  "3♠"  "10♣" "2♣"  "7♥"  "9♠"  "K♦"  "K♠"  "9♥"  "6♣"  "4♣"  "8♣" }
+\DocumentationTok{\#\# [49] "5♣"  "9♣"  "Q♥"  "4♦"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1439,11 +1439,11 @@ Este texto explica por qué el autor prefiere utilizar R6 en lugar de Reference 
 \NormalTok{)}
 \NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ Rando}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{()}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.3236183}
+\DocumentationTok{\#\# [1] 0.6379487}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{random}
-\DocumentationTok{\#\# [1] 0.6588364}
+\DocumentationTok{\#\# [1] 0.6004095}
 \NormalTok{x}\SpecialCharTok{$}\NormalTok{previous}
-\DocumentationTok{\#\# [1] 0.6588364}
+\DocumentationTok{\#\# [1] 0.6004095}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2302,13 +2302,13 @@ Se puede ver estadísticas de la relación a partir de la función \texttt{lm}:
 ## lm(formula = MA ~ V, data = rend_accion)
 ## 
 ## Residuals:
-##       Min        1Q    Median        3Q       Max 
-## -0.026957 -0.003966  0.000215  0.003966  0.028946 
+##        Min         1Q     Median         3Q        Max 
+## -0.0269575 -0.0039658  0.0002149  0.0039649  0.0289458 
 ## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(>|t|)    
 ## (Intercept) 0.0001130  0.0003097   0.365    0.715    
-## V           0.8133658  0.0226394  35.927   <2e-16 ***
+## V           0.8133666  0.0226393  35.927   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -3962,15 +3962,6 @@ Dado que en la industriia se realiza un análisis Gage R\&R para evaluar la repe
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
-## i Please use tidy evaluation idioms with `aes()`.
-## i See also `vignette("ggplot2-in-packages")` for more information.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-## generated.
-\end{verbatim}
-
 \includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-160-1.pdf}
 
 \hypertarget{fase-3-analizar-1}{%
@@ -4063,6 +4054,199 @@ Además si solo queremos obtener la gráfica central, se hace uso de la función
 \end{verbatim}
 
 \includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-167-1.pdf}
+
+\hypertarget{fase-4-mejorar-1}{%
+\section{FASE 4: Mejorar}\label{fase-4-mejorar-1}}
+
+\hypertarget{diseuxf1os-factoriales-2k-1}{%
+\subsection{\texorpdfstring{Diseños factoriales \(2^k\)}{Diseños factoriales 2\^{}k}}\label{diseuxf1os-factoriales-2k-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\#\#\# USO DE facDesign \#\#\#\#\#\#}
+
+\NormalTok{dfac }\OtherTok{\textless{}{-}} \FunctionTok{facDesign}\NormalTok{(}\AttributeTok{k =} \DecValTok{3}\NormalTok{, }\AttributeTok{centerCube =} \DecValTok{4}\NormalTok{)}
+\CommentTok{\#dfac$names()}
+\NormalTok{dfac}\SpecialCharTok{$}\FunctionTok{names}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Factor 1\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Factor 2\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Factor 3\textquotesingle{}}\NormalTok{))}
+\CommentTok{\#dfac$names()}
+\NormalTok{dfac}\SpecialCharTok{$}\FunctionTok{lows}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{80}\NormalTok{,}\DecValTok{120}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\CommentTok{\#dfac$lows()}
+\NormalTok{dfac}\SpecialCharTok{$}\FunctionTok{highs}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{120}\NormalTok{,}\DecValTok{140}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\CommentTok{\#dfac$highs()}
+\NormalTok{dfac}\SpecialCharTok{$}\FunctionTok{summary}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Information about the factors:
+## 
+##      Factor 1 Factor 2 Factor 3
+## low        80      120        1
+## high      120      140        2
+## name Factor 1 Factor 2 Factor 3
+## unit                           
+## type  numeric  numeric  numeric
+## -----------
+##    StandOrder RunOrder Block  A  B  C  y
+## 4           4        1     1  1  1 -1 NA
+## 10         10        2     1  0  0  0 NA
+## 11         11        3     1  0  0  0 NA
+## 12         12        4     1  0  0  0 NA
+## 7           7        5     1 -1  1  1 NA
+## 2           2        6     1  1 -1 -1 NA
+## 8           8        7     1  1  1  1 NA
+## 3           3        8     1 -1  1 -1 NA
+## 5           5        9     1 -1 -1  1 NA
+## 1           1       10     1 -1 -1 -1 NA
+## 9           9       11     1  0  0  0 NA
+## 6           6       12     1  1 -1  1 NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\# USO simProc \#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\# }
+
+\CommentTok{\# Primeros valores}
+\NormalTok{rend }\OtherTok{\textless{}{-}} \FunctionTok{simProc}\NormalTok{(}\AttributeTok{x1=}\DecValTok{120}\NormalTok{,}\AttributeTok{x2=}\DecValTok{140}\NormalTok{,}\AttributeTok{x3=}\DecValTok{2}\NormalTok{)}
+
+\CommentTok{\# valores completos}
+\NormalTok{rend }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{simProc}\NormalTok{(}\DecValTok{120}\NormalTok{,}\DecValTok{140}\NormalTok{,}\DecValTok{1}\NormalTok{),}\FunctionTok{simProc}\NormalTok{(}\DecValTok{80}\NormalTok{,}\DecValTok{140}\NormalTok{,}\DecValTok{1}\NormalTok{),}\FunctionTok{simProc}\NormalTok{(}\DecValTok{120}\NormalTok{,}\DecValTok{140}\NormalTok{,}\DecValTok{2}\NormalTok{),}\FunctionTok{simProc}\NormalTok{(}\DecValTok{120}\NormalTok{,}\DecValTok{120}\NormalTok{,}\DecValTok{1}\NormalTok{),}\FunctionTok{simProc}\NormalTok{(}\DecValTok{90}\NormalTok{,}\DecValTok{130}\NormalTok{,}\FloatTok{1.5}\NormalTok{),}\FunctionTok{simProc}\NormalTok{(}\DecValTok{90}\NormalTok{,}\DecValTok{130}\NormalTok{,}\FloatTok{1.5}\NormalTok{),}\FunctionTok{simProc}\NormalTok{(}\DecValTok{80}\NormalTok{,}\DecValTok{120}\NormalTok{,}\DecValTok{2}\NormalTok{),}\FunctionTok{simProc}\NormalTok{(}\DecValTok{90}\NormalTok{,}\DecValTok{130}\NormalTok{,}\FloatTok{1.5}\NormalTok{),}\FunctionTok{simProc}\NormalTok{(}\DecValTok{90}\NormalTok{,}\DecValTok{130}\NormalTok{,}\FloatTok{1.5}\NormalTok{),}\FunctionTok{simProc}\NormalTok{(}\DecValTok{120}\NormalTok{,}\DecValTok{120}\NormalTok{,}\DecValTok{2}\NormalTok{),}\FunctionTok{simProc}\NormalTok{(}\DecValTok{80}\NormalTok{,}\DecValTok{140}\NormalTok{,}\DecValTok{2}\NormalTok{),}\FunctionTok{simProc}\NormalTok{(}\DecValTok{80}\NormalTok{,}\DecValTok{120}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+
+\CommentTok{\# Asignar rendimiento al diseño factorial}
+\NormalTok{dfac}\SpecialCharTok{$}\FunctionTok{.response}\NormalTok{(rend)}
+\NormalTok{dfac}\SpecialCharTok{$}\FunctionTok{.response}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          rend
+## 1  0.47566425
+## 2  0.18216016
+## 3  0.48550108
+## 4  0.08209139
+## 5  0.21776448
+## 6  0.21865571
+## 7  0.09358049
+## 8  0.21394141
+## 9  0.21627297
+## 10 0.09928769
+## 11 0.18262206
+## 12 0.10677419
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\# effectPlot \#\#\#\# }
+\NormalTok{dfac}\SpecialCharTok{$}\FunctionTok{effectPlot}\NormalTok{(}\AttributeTok{classic=}\ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-172-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dfac}\SpecialCharTok{$}\FunctionTok{effectPlot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-172-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\# Uso interactionPlot \#\#\#\#}
+\FunctionTok{interactionPlot}\NormalTok{(dfac)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-174-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\# lm }\AlertTok{\#\#\#}
+\NormalTok{m1 }\OtherTok{\textless{}{-}}\NormalTok{ dfac}\SpecialCharTok{$}\FunctionTok{lm}\NormalTok{(rend }\SpecialCharTok{\textasciitilde{}}\NormalTok{ A}\SpecialCharTok{*}\NormalTok{B}\SpecialCharTok{*}\NormalTok{C)}
+\FunctionTok{summary}\NormalTok{(m1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = formula, data = self$as.data.frame())
+## 
+## Residuals:
+##         4        10        11        12         7         2         8         3 
+## -0.009284 -0.032366  0.270975 -0.132435 -0.009284 -0.009284 -0.009284 -0.009284 
+##         5         1         9         6 
+## -0.009284 -0.009284 -0.031904 -0.009284 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)   
+## (Intercept)  0.21453    0.04419   4.855  0.00831 **
+## A            0.01843    0.05412   0.340  0.75063   
+## B            0.04500    0.05412   0.831  0.45249   
+## C           -0.04664    0.05412  -0.862  0.43735   
+## A:B          0.01596    0.05412   0.295  0.78275   
+## A:C         -0.07685    0.05412  -1.420  0.22864   
+## B:C         -0.04792    0.05412  -0.885  0.42592   
+## A:B:C       -0.01963    0.05412  -0.363  0.73516   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.1531 on 4 degrees of freedom
+## Multiple R-squared:  0.5332, Adjusted R-squared:  -0.2837 
+## F-statistic: 0.6527 on 7 and 4 DF,  p-value: 0.7085
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\# Uso paretoPlot\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+\FunctionTok{paretoPlot}\NormalTok{(dfac)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-177-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# Uso normalPlot\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+\FunctionTok{normalPlot}\NormalTok{(dfac)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          A          B          C        A:B        A:C        B:C      A:B:C 
+##  0.3404766  0.8314196 -0.8619011  0.2948855 -1.4199764 -0.8854780 -0.3627240
+\end{verbatim}
+
+\includegraphics{Libro_TidyQualityTools_files/figure-latex/unnamed-chunk-179-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# Uso wirePlot \#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+\FunctionTok{wirePlot}\NormalTok{(A,B,rend,}\AttributeTok{data=}\NormalTok{dfac)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{diseuxf1os-factoriales-fraccionarios-2k-p-1}{%
+\subsection{\texorpdfstring{Diseños factoriales fraccionarios \(2^{k-p}\)}{Diseños factoriales fraccionarios 2\^{}\{k-p\}}}\label{diseuxf1os-factoriales-fraccionarios-2k-p-1}}
+
+\hypertarget{diseuxf1os-replicados-y-puntos-centrales-1}{%
+\subsection{Diseños replicados y puntos centrales}\label{diseuxf1os-replicados-y-puntos-centrales-1}}
+
+\hypertarget{respuestas-muxfaltiples-1}{%
+\subsection{Respuestas múltiples}\label{respuestas-muxfaltiples-1}}
+
+\hypertarget{pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado-1}{%
+\subsection{Pasar a un entorno de proceso con un mayor rendimiento esperado}\label{pasar-a-un-entorno-de-proceso-con-un-mayor-rendimiento-esperado-1}}
+
+\hypertarget{diseuxf1o-de-superficies-de-respuesta}{%
+\subsection{Diseño de superficies de respuesta}\label{diseuxf1o-de-superficies-de-respuesta}}
+
+\hypertarget{deseabilidades-1}{%
+\subsection{Deseabilidades}\label{deseabilidades-1}}
+
+\hypertarget{utilizaciuxf3n-de-deseabilidades-junto-con-experimentos-diseuxf1ados-1}{%
+\subsection{Utilización de deseabilidades junto con experimentos diseñados}\label{utilizaciuxf3n-de-deseabilidades-junto-con-experimentos-diseuxf1ados-1}}
 
 \begin{itemize}
 \tightlist
