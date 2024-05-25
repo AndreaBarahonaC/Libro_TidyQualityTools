@@ -1930,6 +1930,8 @@ interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, co
 
 ### Uso interactionPlot#########################################################
 interactionPlot(dfac)
+
+
 ### lm #########################################################################
 m1 <- dfac$lm(rend ~ A*B*C)
 summary(m1)
@@ -3643,6 +3645,7 @@ rsmDesign <- function(k = 3, p = 0, alpha = "rotatable", blocks = 1, cc = 1, cs 
 }
 ####Uso rsmDesign####
 fdo <- rsmDesign(k=3, alpha=1.633, cc=0, cs=6)
+
 ####poner en orden estandar####
 fdo <- randomize(fdo,so = TRUE)
 fdo$summary()
@@ -3738,6 +3741,7 @@ rsmChoose <- function() {
 rsdo <- rsmChoose()
 
 
+
 ###MONTAJE SECUENCIAL#######################
 fdo3 <- facDesign(k = 6)
 fdo3$summary()
@@ -3782,6 +3786,7 @@ d3$plot(col = 2)
 
 d<-desirability$new()
 desirability
+
 
 ####Utilizacion de deseabilidades junto con experimentos desiñados#####
 ddo <- rsmDesign(k = 3, alpha = 1.633, cc = 0, cs = 6)
