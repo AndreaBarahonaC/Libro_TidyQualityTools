@@ -777,8 +777,11 @@ normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, respon
   invisible(list(effect = effect, plots = list_plot))
 }
 ### funcion wirePlot###################
-wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, border, sub, zlab, form = "fit", phi, theta, ticktype, col = 1, steps,
-                     factors, fun, plot) {
+wirePlot <- function(x, y, z, data = NULL,
+                      xlim, ylim, zlim, main,
+                      xlab, ylab, sub, sub.a = TRUE, zlab,
+                      form = "fit", col = "Rainbow", steps,
+                      fun, plot = TRUE) {
   form = form
   fact = NULL
   if (missing(steps))
@@ -786,16 +789,8 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
   fdo = data
   fit = NULL
   lm.1 = NULL
-  if (!is.function(col)) {
-    if (identical(col, 1))
-      col = colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"))
-    if (identical(col, 2))
-      col = colorRampPalette(c("blue", "white", "red"), space = "Lab")
-    if (identical(col, 3))
-      col = colorRampPalette(c("blue", "white", "orange"))
-    if (identical(col, 4))
-      col = colorRampPalette(c("gold", "white", "firebrick"))
-  }
+
+  # Col puede ser: "Rainbow", "Jet", "Earth", "Electric"
   if (is.null(data)) {
     cat("\n defaulting to persp function\n")
     return("persp")
@@ -809,8 +804,6 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
   y.c = deparse(substitute(y))
   z.c = deparse(substitute(z))
 
-  if (missing(plot))
-    plot = TRUE
   if (missing(main))
     main = paste("Response Surface for", z.c)
 
@@ -825,21 +818,10 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
   if (missing(zlab))
     zlab = paste(x.c, ": ", z.c)
 
-  if (missing(ticktype))
-    ticktype = "detailed"
-  if (missing(border))
-    border = NULL
-  if (missing(phi))
-    phi = 30
-  if (missing(theta))
-    theta = -30
-  if (missing(factors))
-    factors = NULL
   if (missing(xlim))
     xlim = c(min(fdo$get(, x.c)), max(fdo$get(, x.c)))
   if (missing(ylim))
     ylim = c(min(fdo$get(, y.c)), max(fdo$get(, y.c)))
-
 
   allVars = c(fdo$names(), names(fdo$.response()))
   isct = intersect(c(aux[[x.c]], aux[[y.c]], z.c), c(fdo$names(), names(fdo$.response())))
@@ -893,10 +875,6 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
   names(dcList) = names(aux)
   dcList[1:length(fdo$names())] = 0
 
-  if (!is.null(factors)) {
-    for (i in names(factors)) dcList[[i]] = factors[[i]][1]
-  }
-
   help.predict = function(x, y, x.c, y.c, lm.1, ...) {
     dcList[[x.c]] = x
     dcList[[y.c]] = y
@@ -924,49 +902,40 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
     mat = mat^(1/length(names(fdo$response())))
   }
 
-  if (is.function(col)) {
-    nrMat <- nrow(mat)
-    ncMat <- ncol(mat)
-    jet.colors <- colorRampPalette(c("blue", "green"))
-    nbcol <- 100
-    color <- col(nbcol)
-    matFacet <- mat[-1, -1] + mat[-1, -ncMat] + mat[-nrMat, -1] + mat[-nrMat, -ncMat]
-    facetcol <- cut(matFacet, nbcol)
-  }else {
-    color = col
-    facetcol = 1
-  }
-
   if (missing(zlim))
     zlim = range(mat)
 
-  p <- plot_ly(x = xVec, y = yVec, z = mat, colors = color) %>%
+  p <- plot_ly(x = xVec, y = yVec, z = mat, colorscale=col) %>%
     add_surface() %>%
     layout(
       title = main,
-      annotations = list(
-        list(
-          text = sub,# Subtitulo
-          x = 0.5,   # Posición x en la mitad de la gráfica
-          y = -0.1,  # Posición y debajo de la gráfica
-          printarrow = FALSE,
-          font = list(size = 12)
-        )
-      ),
       scene = list(
         xaxis = list(range = xlim, title = xlab, zeroline = FALSE),
         yaxis = list(range = ylim, title = ylab, zeroline = FALSE),
         zaxis = list(range = zlim, title = zlab, zeroline = FALSE),
         camera = list(eye = list(x=2, y=2, z=0.1))
-      )
+      ),
+      margin = list(l = 10, r = 15, t = 30, b = 20)
     )
-
+  if(sub.a){
+    p <- p %>%
+      layout(
+        annotations = list(
+          list(
+            text = sub,# Subtitulo
+            x = 0.5,   # Posición x en la mitad de la gráfica
+            y = -0.1,  # Posición y debajo de la gráfica
+            showarrow = FALSE,
+            font = list(size = 12)
+          )
+        )
+      )
+  }
   if (plot) {
     show(p)
   }
   invisible(list(x = xVec, y = yVec, z = mat, plot = p))
 }
-
 ### funcion contourPlot#####################
 contourPlot = function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, border, sub, zlab, form = "fit", phi, theta, ticktype, col = 1, steps,
                        factors, fun, plot = TRUE) {
