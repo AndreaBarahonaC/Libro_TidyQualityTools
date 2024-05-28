@@ -764,7 +764,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                      for (i in 1:length(self$factors)) {
                                                        if (!identical(value[i], "numeric") & !identical(value[i], "factor"))
                                                          stop(paste(value[i], "\ttype of factor needs to be 'numeric' or 'factor'"))
-                                                       self$factors[[i]]$.type() = as.character(value[i])
+                                                       self$factors[[i]]$.type(as.character(value[i]))
                                                      }
                                                      invisible(self)
                                                    }
@@ -780,8 +780,8 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                    }
                                                    else{
                                                      for (i in 1:length(self$factors)) if (length(value) > 1)
-                                                       self$factors[[i]]$.unit() = as.character(value[i])
-                                                     else self$factors[[i]]$.unit() = as.character(value[1])
+                                                       self$factors[[i]]$.unit(as.character(value[i]))
+                                                     else self$factors[[i]]$.unit(as.character(value[1]))
                                                      invisible(self)
                                                    }
 
@@ -1959,7 +1959,9 @@ summary(m1)
   return(list(dev, mfrow))
 }
 ### Funcion paretoPlot#################################
-paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.last = NA, alpha = 0.05, response = NULL, ylim, xlab, ylab, main, single = TRUE, ...) {  ###
+paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE,
+                       decreasing = TRUE, na.last = NA, alpha = 0.05,
+                       response = NULL, ylim, xlab, ylab, main, single = TRUE, p.col, ...) {  ###
   if(single==FALSE)                                                           ###
     par(mfrow=.splitDev(length(fdo$.response()))[[2]])                           ###
   if(is.null(response)==FALSE)                                                ###
@@ -1970,7 +1972,6 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
   ylimMissing = FALSE
   if (missing(ylim)){
     ylimMissing = TRUE
-    ylim = ""
   }
   if (missing(xlab))
     xlab = ""
@@ -2003,13 +2004,13 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
         coefs = coef(lm.1)[-pmatch("(Intercept)", names(coef(lm.1)))]
         df.resid = df.residual(lm.1)
         num.c = nrow(fdo$centerCube)
+
         if (df.resid == 0) {
           effect = 2 * coefs
           effect = effect[!is.na(effect)]
           effect.list[[j]] = effect
           if (missing(main))
             main = "Lenth Plot of effects"
-          plt = TRUE
           limits = TRUE
           faclab = NULL
           m = length(effect)
@@ -2021,52 +2022,89 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
           Gamma = (1 + (1 - alpha)^(1/m))/2
           SME = qt(Gamma, d) * PSE
           n = length(effect)
+
+          if(missing(p.col)){
+            p.col = rep("lightblue", length(effect))
+          }
+          else{p.col = brewer.pal(length(effect), paste0("Set", p.col))}
+
           if (ylimMissing)
             if (abs)
-              ylim <- (range(c(0, abs(effect), 1.3 * ME))) * 1.1
-          else ylim <- (range(c(effect, -1.3 * ME, 1.3 * ME))) * 1.1
+              ylim = (range(c(0, abs(effect), 1.3 * ME))) * 1.1
+          else ylim = (range(c(effect, -1.3 * ME, 1.3 * ME))) * 1.1
           if (abs) {
             if (missing(ylabel))
               ylabel = ""
+
             p <- ggplot(data.frame(names = names(effect), effect_ = abs(as.vector(effect))),
-                        aes(x = names, y = effect_)) +
-              geom_bar(stat = "identity",  fill = "lightblue", color = "black") + theme_minimal()+
+                        aes(x = names, y = effect_, fill = names)) +
+              geom_bar(stat = "identity", color = "black") +
+              scale_fill_manual(values=c(p.col)) +
+              theme_minimal()+
               geom_text(aes(label = round(effect,2)), vjust = -1, colour = "black") + # etiquetas sobre las barras
-              labs(title = main, x = "", y = ylabel) + ylim(c(ylim)) +
+              labs(title = main, x = xlab, y = ylabel) + ylim(c(ylim)) +
               theme(axis.text.x = element_text(angle = 90, hjust = 1),
-                    plot.title = element_text(hjust = 0.5))
+                    plot.title = element_text(hjust = 0.5),
+                    legend.position = "none")
 
-            if(ME >= ylim[1] & ME <= ylim[2]){
-              p <- p + geom_hline(yintercept = ME, linetype = "dashed", color = "red") +
-                scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(ME), labels = c(paste("ME = ", round(ME, 2)))))
+            if(ME >= ylim[1] & ME <= ylim[2] & SME >= ylim[1] & SME <= ylim[2]){
+              p <- p +
+                geom_hline(yintercept = ME, linetype = "dashed", color = "red") +
+                geom_hline(yintercept = SME, linetype = "dashed", color = "red") +
+                scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(abs(ME), abs(SME)),
+                                                                                       labels = c(paste("ME = ", round(abs(ME), 2)), paste("SME = ", round(abs(SME), 2)))
+                ))
 
             }
-            if(SME >= ylim[1] & SME <= ylim[2]){
-              p <- p + geom_hline(yintercept = SME, linetype = "dashed", color = "red") +
-                scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(SME), labels = c(paste("SME = ", round(ME, 2)))))
+            else{
+              if(SME >= ylim[1] & SME <= ylim[2]){
+                p <- p + geom_hline(yintercept = SME, linetype = "dashed", color = "red") +
+                  scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(abs(SME)), labels = c(paste("SME = ", round(abs(SME), 2)))))
+              }
+              if(ME >= ylim[1] & ME <= ylim[2]){
+                p <- p + geom_hline(yintercept = ME, linetype = "dashed", color = "red") +
+                  scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(abs(ME)), labels = c(paste("ME = ", round(abs(ME), 2)))))
+              }
             }
+
           }
           else {
             if (missing(ylabel))
               ylabel = ""
-            p <- ggplot(data.frame(names = names(effect), effect_ = as.vector(effect)),
-                        aes(x = names, y = effect_)) +
-              geom_bar(stat = "identity",  fill = "lightblue", color = "black") + theme_minimal()+
+            p <- ggplot(data.frame(names = names(effect), effect_ = abs(as.vector(effect))),
+                        aes(x = names, y = effect_, fill = names)) +
+              geom_bar(stat = "identity", color = "black") +
+              scale_fill_manual(values=c(p.col)) +
+              theme_minimal()+
               geom_text(aes(label = round(effect,2)), vjust = -1, colour = "black") + # etiquetas sobre las barras
-              labs(title = main, x = "", y = ylabel) + ylim(c(ylim)) +
+              labs(title = main, x = xlab, y = ylabel) + ylim(c(ylim)) +
               theme(axis.text.x = element_text(angle = 90, hjust = 1),
                     plot.title = element_text(hjust = 0.5))
-            if(ME >= ylim[1] & ME <= ylim[2]){
-              p <- p + geom_hline(yintercept = ME, linetype = "dashed", color = "red") +
-                scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(ME), labels = c(paste("ME = ", round(ME, 2)))))
+
+            if(ME >= ylim[1] & ME <= ylim[2] & SME >= ylim[1] & SME <= ylim[2]){
+              p <- p +
+                geom_hline(yintercept = ME, linetype = "dashed", color = "red") +
+                geom_hline(yintercept = SME, linetype = "dashed", color = "red")
+              scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(ME, SME), labels = c(paste("ME = ", round(abs(ME), 2)), paste("SME = ", round(abs(SME), 2)) )))
 
             }
-            if(SME >= ylim[1] & SME <= ylim[2]){
-              p <- p + geom_hline(yintercept = SME, linetype = "dashed", color = "red") +
-                scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(SME), labels = c(paste("SME = ", round(ME, 2)))))
+            else{
+              if(ME >= ylim[1] & ME <= ylim[2]){
+                p <- p + geom_hline(yintercept = ME, linetype = "dashed", color = "red") +
+                  scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(ME), labels = c(paste("ME = ", round(ME, 2)))))
+
+              }
+              if(SME >= ylim[1] & SME <= ylim[2]){
+                p <- p + geom_hline(yintercept = SME, linetype = "dashed", color = "red") +
+                  scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(SME), labels = c(paste("SME = ", round(SME, 2)))))
+              }
             }
+
+
+
           }
         }
+
         else {
           if (missing(main))
             main = "Standardized main effects and interactions"
@@ -2099,15 +2137,22 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
           effect = effect[order(abs(effect), na.last = TRUE, decreasing = decreasing)]
           effect = round(effect, 3)
 
+          if(missing(p.col)){
+            p.col = rep("lightblue", length(effect))
+          }
+          else{
+            p.col = brewer.pal(length(effect), paste0("Set", p.col))}
           # Plot ---------
           if (abs) {
             if (missing(ylabel))
               ylabel = ""
             # plot with abs
             p <- ggplot(data.frame(names = names(effect), effect_ = abs(as.vector(effect))),
-                        aes(x = reorder(names, effect_,decreasing = TRUE), y = effect_)) +
-              geom_bar(stat = "identity",  fill = "lightblue", color = "black") + theme_minimal()+
-              labs(title = main, x = "", y = ylabel) + ylim(c(ylim)) +
+                        aes(x = names, y = effect_, fill = names)) +
+              geom_bar(stat = "identity", color = "black") +
+              scale_fill_manual(values=c(p.col)) +
+              theme_minimal()+
+              labs(title = main, x = xlab, y = ylabel) + ylim(c(ylim)) +
               theme(axis.text.x = element_text(angle = 90, hjust = 1),
                     plot.title = element_text(hjust = 0.5)) +
               geom_text(aes(label = round(effect,2)), vjust = -1, colour = "black") + # etiquetas sobre las barras
@@ -2118,10 +2163,12 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
             if (missing(ylabel))
               ylabel = ""
             # Plot without abs
-            p <- ggplot(data.frame(names = names(effect), effect_ = as.vector(effect)),
-                        aes(x = reorder(names, effect_,decreasing = TRUE), y = effect_)) +
-              geom_bar(stat = "identity",  fill = "lightblue", color = "black") + theme_minimal()+
-              labs(title = main, x = "", y = ylabel) + ylim(c(ylim)) +
+            p <- ggplot(data.frame(names = names(effect), effect_ = abs(as.vector(effect))),
+                        aes(x = names, y = effect_, fill = names)) +
+              geom_bar(stat = "identity", color = "black") +
+              scale_fill_manual(values=c(p.col)) +
+              theme_minimal()+
+              labs(title = main, x = xlab, y = ylabel) + ylim(c(ylim)) +
               theme(axis.text.x = element_text(angle = 90, hjust = 1),
                     plot.title = element_text(hjust = 0.5)) +
               geom_text(aes(label = round(effect)), vjust = -1, colour = "black") + # etiquetas sobre las barras
@@ -2145,7 +2192,7 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
             plot.title = element_text(hjust = 0.5, vjust = -0.5,margin = margin(b = -12), size = 10)
-          ) + xlim(c(0.24, 0.26)) + ylim(c(min(titles$Pos_title) - 0.01, max(titles$Pos_title) + 0.01))
+          ) + xlim(c(0.24, 0.26)) + ylim(c(min(titles$Pos_title) - 0.05, max(titles$Pos_title) + 0.05))
         for(i in 1:dim(titles)[1]){
           caja <- caja + annotate("text", x = 0.25, y = titles$Pos_title[i], label = titles$Name_title[i], size = 3.5, hjust = 0.5)
         }
@@ -2158,14 +2205,13 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
         }
 
       }
-
     }
   )
+
   print(p)
   invisible(list(effect.list, plot = p))
   par(mfcol=c(1,1))
 }
-
 ### Uso paretoPlot#################################
 paretoPlot(dfac)
 
@@ -2659,8 +2705,11 @@ desirability.c <- R6Class("desirability", public = list(response = NULL,
 
 
 #### Funcion wirePlot###################
-wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, border, sub, zlab, form = "fit", phi, theta, ticktype, col = 1, steps,
-                     factors, fun, plot) {
+wirePlot <- function(x, y, z, data = NULL,
+                     xlim, ylim, zlim, main,
+                     xlab, ylab, sub, sub.a = TRUE, zlab,
+                     form = "fit", col = "Rainbow", steps,
+                     fun, plot = TRUE) {
   form = form
   fact = NULL
   if (missing(steps))
@@ -2668,16 +2717,8 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
   fdo = data
   fit = NULL
   lm.1 = NULL
-  if (!is.function(col)) {
-    if (identical(col, 1))
-      col = colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"))
-    if (identical(col, 2))
-      col = colorRampPalette(c("blue", "white", "red"), space = "Lab")
-    if (identical(col, 3))
-      col = colorRampPalette(c("blue", "white", "orange"))
-    if (identical(col, 4))
-      col = colorRampPalette(c("gold", "white", "firebrick"))
-  }
+
+  # Col puede ser: "Rainbow", "Jet", "Earth", "Electric"
   if (is.null(data)) {
     cat("\n defaulting to persp function\n")
     return("persp")
@@ -2691,8 +2732,6 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
   y.c = deparse(substitute(y))
   z.c = deparse(substitute(z))
 
-  if (missing(plot))
-    plot = TRUE
   if (missing(main))
     main = paste("Response Surface for", z.c)
 
@@ -2707,21 +2746,10 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
   if (missing(zlab))
     zlab = paste(x.c, ": ", z.c)
 
-  if (missing(ticktype))
-    ticktype = "detailed"
-  if (missing(border))
-    border = NULL
-  if (missing(phi))
-    phi = 30
-  if (missing(theta))
-    theta = -30
-  if (missing(factors))
-    factors = NULL
   if (missing(xlim))
     xlim = c(min(fdo$get(, x.c)), max(fdo$get(, x.c)))
   if (missing(ylim))
     ylim = c(min(fdo$get(, y.c)), max(fdo$get(, y.c)))
-
 
   allVars = c(fdo$names(), names(fdo$.response()))
   isct = intersect(c(aux[[x.c]], aux[[y.c]], z.c), c(fdo$names(), names(fdo$.response())))
@@ -2775,10 +2803,6 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
   names(dcList) = names(aux)
   dcList[1:length(fdo$names())] = 0
 
-  if (!is.null(factors)) {
-    for (i in names(factors)) dcList[[i]] = factors[[i]][1]
-  }
-
   help.predict = function(x, y, x.c, y.c, lm.1, ...) {
     dcList[[x.c]] = x
     dcList[[y.c]] = y
@@ -2806,49 +2830,40 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
     mat = mat^(1/length(names(fdo$response())))
   }
 
-  if (is.function(col)) {
-    nrMat <- nrow(mat)
-    ncMat <- ncol(mat)
-    jet.colors <- colorRampPalette(c("blue", "green"))
-    nbcol <- 100
-    color <- col(nbcol)
-    matFacet <- mat[-1, -1] + mat[-1, -ncMat] + mat[-nrMat, -1] + mat[-nrMat, -ncMat]
-    facetcol <- cut(matFacet, nbcol)
-  }else {
-    color = col
-    facetcol = 1
-  }
-
   if (missing(zlim))
     zlim = range(mat)
 
-  p <- plot_ly(x = xVec, y = yVec, z = mat, colors = color) %>%
+  p <- plot_ly(x = xVec, y = yVec, z = mat, colorscale=col) %>%
     add_surface() %>%
     layout(
       title = main,
-      annotations = list(
-        list(
-          text = sub,# Subtitulo
-          x = 0.5,   # Posición x en la mitad de la gráfica
-          y = -0.1,  # Posición y debajo de la gráfica
-          printarrow = FALSE,
-          font = list(size = 12)
-        )
-      ),
       scene = list(
         xaxis = list(range = xlim, title = xlab, zeroline = FALSE),
         yaxis = list(range = ylim, title = ylab, zeroline = FALSE),
         zaxis = list(range = zlim, title = zlab, zeroline = FALSE),
         camera = list(eye = list(x=2, y=2, z=0.1))
-      )
+      ),
+      margin = list(l = 10, r = 15, t = 30, b = 20)
     )
-
+  if(sub.a){
+    p <- p %>%
+      layout(
+        annotations = list(
+          list(
+            text = sub,# Subtitulo
+            x = 0.5,   # Posición x en la mitad de la gráfica
+            y = -0.1,  # Posición y debajo de la gráfica
+            showarrow = FALSE,
+            font = list(size = 12)
+          )
+        )
+      )
+  }
   if (plot) {
     show(p)
   }
   invisible(list(x = xVec, y = yVec, z = mat, plot = p))
 }
-
 #### Uso wirePlot###############################
 wirePlot(A,B,rend,data=dfac)
 

@@ -1,7 +1,7 @@
 Package: tidyqualitytools
 Type: Package
 Title: Statistical Methods for Quality Science
-Version: 0.1.0
+Version: 1.0.0
 Author: Andrea Barahona, Fabian Encarnacion, Dario Quishpe, Miguel Flores
 Maintainer: Andrea Barahona <andrea.barahona@epn.edu.ec>
 Description: Add description
@@ -10,9 +10,13 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     R6,
-    tidyverse,
     patchwork,
     scales,
     plotly,
-    gridExtra
+    gridExtra,
+    RColorBrewer,
+    ggplot2,
+    dplyr,
+    tidyr,
+    tibble
 RoxygenNote: 7.3.1

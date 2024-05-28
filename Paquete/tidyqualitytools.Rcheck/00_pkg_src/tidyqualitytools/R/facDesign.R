@@ -1,12 +1,5 @@
-### paquetes ####
-library(R6)
-library(ggplot2)
-library(patchwork)
-library(scales)
-library(plotly)
-library(gridExtra)
 
-### funcion "fracDesign"###################
+### funcion fracDesign###################
 
 fracDesign <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
                         centerCube = 0, random.seed = 1234)
@@ -361,7 +354,9 @@ interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, co
 
 
 ### funcion paretoPlot#################################
-paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.last = NA, alpha = 0.05, response = NULL, ylim, xlab, ylab, main, single = TRUE, ...) {  ###
+paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE,
+                        decreasing = TRUE, na.last = NA, alpha = 0.05,
+                        response = NULL, ylim, xlab, ylab, main, single = TRUE, p.col, ...) {  ###
   if(single==FALSE)                                                           ###
     par(mfrow=.splitDev(length(fdo$.response()))[[2]])                           ###
   if(is.null(response)==FALSE)                                                ###
@@ -372,7 +367,6 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
   ylimMissing = FALSE
   if (missing(ylim)){
     ylimMissing = TRUE
-    ylim = ""
   }
   if (missing(xlab))
     xlab = ""
@@ -405,13 +399,13 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
         coefs = coef(lm.1)[-pmatch("(Intercept)", names(coef(lm.1)))]
         df.resid = df.residual(lm.1)
         num.c = nrow(fdo$centerCube)
+
         if (df.resid == 0) {
           effect = 2 * coefs
           effect = effect[!is.na(effect)]
           effect.list[[j]] = effect
           if (missing(main))
             main = "Lenth Plot of effects"
-          plt = TRUE
           limits = TRUE
           faclab = NULL
           m = length(effect)
@@ -423,52 +417,89 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
           Gamma = (1 + (1 - alpha)^(1/m))/2
           SME = qt(Gamma, d) * PSE
           n = length(effect)
+
+          if(missing(p.col)){
+            p.col = rep("lightblue", length(effect))
+          }
+          else{p.col = brewer.pal(length(effect), paste0("Set", p.col))}
+
           if (ylimMissing)
             if (abs)
-              ylim <- (range(c(0, abs(effect), 1.3 * ME))) * 1.1
-          else ylim <- (range(c(effect, -1.3 * ME, 1.3 * ME))) * 1.1
+              ylim = (range(c(0, abs(effect), 1.3 * ME))) * 1.1
+          else ylim = (range(c(effect, -1.3 * ME, 1.3 * ME))) * 1.1
           if (abs) {
             if (missing(ylabel))
               ylabel = ""
+
             p <- ggplot(data.frame(names = names(effect), effect_ = abs(as.vector(effect))),
-                        aes(x = names, y = effect_)) +
-              geom_bar(stat = "identity",  fill = "lightblue", color = "black") + theme_minimal()+
+                        aes(x = names, y = effect_, fill = names)) +
+              geom_bar(stat = "identity", color = "black") +
+              scale_fill_manual(values=c(p.col)) +
+              theme_minimal()+
               geom_text(aes(label = round(effect,2)), vjust = -1, colour = "black") + # etiquetas sobre las barras
-              labs(title = main, x = "", y = ylabel) + ylim(c(ylim)) +
+              labs(title = main, x = xlab, y = ylabel) + ylim(c(ylim)) +
               theme(axis.text.x = element_text(angle = 90, hjust = 1),
-                    plot.title = element_text(hjust = 0.5))
+                    plot.title = element_text(hjust = 0.5),
+                    legend.position = "none")
 
-            if(ME >= ylim[1] & ME <= ylim[2]){
-              p <- p + geom_hline(yintercept = ME, linetype = "dashed", color = "red") +
-                scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(ME), labels = c(paste("ME = ", round(ME, 2)))))
+            if(ME >= ylim[1] & ME <= ylim[2] & SME >= ylim[1] & SME <= ylim[2]){
+              p <- p +
+                geom_hline(yintercept = ME, linetype = "dashed", color = "red") +
+                geom_hline(yintercept = SME, linetype = "dashed", color = "red") +
+                scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(abs(ME), abs(SME)),
+                                                                                       labels = c(paste("ME = ", round(abs(ME), 2)), paste("SME = ", round(abs(SME), 2)))
+                ))
 
             }
-            if(SME >= ylim[1] & SME <= ylim[2]){
-              p <- p + geom_hline(yintercept = SME, linetype = "dashed", color = "red") +
-                scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(SME), labels = c(paste("SME = ", round(ME, 2)))))
+            else{
+              if(SME >= ylim[1] & SME <= ylim[2]){
+                p <- p + geom_hline(yintercept = SME, linetype = "dashed", color = "red") +
+                  scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(abs(SME)), labels = c(paste("SME = ", round(abs(SME), 2)))))
+              }
+              if(ME >= ylim[1] & ME <= ylim[2]){
+                p <- p + geom_hline(yintercept = ME, linetype = "dashed", color = "red") +
+                  scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(abs(ME)), labels = c(paste("ME = ", round(abs(ME), 2)))))
+              }
             }
+
           }
           else {
             if (missing(ylabel))
               ylabel = ""
-            p <- ggplot(data.frame(names = names(effect), effect_ = as.vector(effect)),
-                        aes(x = names, y = effect_)) +
-              geom_bar(stat = "identity",  fill = "lightblue", color = "black") + theme_minimal()+
+            p <- ggplot(data.frame(names = names(effect), effect_ = abs(as.vector(effect))),
+                        aes(x = names, y = effect_, fill = names)) +
+              geom_bar(stat = "identity", color = "black") +
+              scale_fill_manual(values=c(p.col)) +
+              theme_minimal()+
               geom_text(aes(label = round(effect,2)), vjust = -1, colour = "black") + # etiquetas sobre las barras
-              labs(title = main, x = "", y = ylabel) + ylim(c(ylim)) +
+              labs(title = main, x = xlab, y = ylabel) + ylim(c(ylim)) +
               theme(axis.text.x = element_text(angle = 90, hjust = 1),
                     plot.title = element_text(hjust = 0.5))
-            if(ME >= ylim[1] & ME <= ylim[2]){
-              p <- p + geom_hline(yintercept = ME, linetype = "dashed", color = "red") +
-                scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(ME), labels = c(paste("ME = ", round(ME, 2)))))
+
+            if(ME >= ylim[1] & ME <= ylim[2] & SME >= ylim[1] & SME <= ylim[2]){
+              p <- p +
+                geom_hline(yintercept = ME, linetype = "dashed", color = "red") +
+                geom_hline(yintercept = SME, linetype = "dashed", color = "red")
+              scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(ME, SME), labels = c(paste("ME = ", round(abs(ME), 2)), paste("SME = ", round(abs(SME), 2)) )))
 
             }
-            if(SME >= ylim[1] & SME <= ylim[2]){
-              p <- p + geom_hline(yintercept = SME, linetype = "dashed", color = "red") +
-                scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(SME), labels = c(paste("SME = ", round(ME, 2)))))
+            else{
+              if(ME >= ylim[1] & ME <= ylim[2]){
+                p <- p + geom_hline(yintercept = ME, linetype = "dashed", color = "red") +
+                  scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(ME), labels = c(paste("ME = ", round(ME, 2)))))
+
+              }
+              if(SME >= ylim[1] & SME <= ylim[2]){
+                p <- p + geom_hline(yintercept = SME, linetype = "dashed", color = "red") +
+                  scale_y_continuous(limits = ylim, expand = c(0, 0),sec.axis = sec_axis(~ ., breaks = c(SME), labels = c(paste("SME = ", round(SME, 2)))))
+              }
             }
+
+
+
           }
         }
+
         else {
           if (missing(main))
             main = "Standardized main effects and interactions"
@@ -501,15 +532,22 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
           effect = effect[order(abs(effect), na.last = TRUE, decreasing = decreasing)]
           effect = round(effect, 3)
 
+          if(missing(p.col)){
+            p.col = rep("lightblue", length(effect))
+          }
+          else{
+            p.col = brewer.pal(length(effect), paste0("Set", p.col))}
           # Plot ---------
           if (abs) {
             if (missing(ylabel))
               ylabel = ""
             # plot with abs
             p <- ggplot(data.frame(names = names(effect), effect_ = abs(as.vector(effect))),
-                        aes(x = reorder(names, effect_,decreasing = TRUE), y = effect_)) +
-              geom_bar(stat = "identity",  fill = "lightblue", color = "black") + theme_minimal()+
-              labs(title = main, x = "", y = ylabel) + ylim(c(ylim)) +
+                        aes(x = names, y = effect_, fill = names)) +
+              geom_bar(stat = "identity", color = "black") +
+              scale_fill_manual(values=c(p.col)) +
+              theme_minimal()+
+              labs(title = main, x = xlab, y = ylabel) + ylim(c(ylim)) +
               theme(axis.text.x = element_text(angle = 90, hjust = 1),
                     plot.title = element_text(hjust = 0.5)) +
               geom_text(aes(label = round(effect,2)), vjust = -1, colour = "black") + # etiquetas sobre las barras
@@ -520,10 +558,12 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
             if (missing(ylabel))
               ylabel = ""
             # Plot without abs
-            p <- ggplot(data.frame(names = names(effect), effect_ = as.vector(effect)),
-                        aes(x = reorder(names, effect_,decreasing = TRUE), y = effect_)) +
-              geom_bar(stat = "identity",  fill = "lightblue", color = "black") + theme_minimal()+
-              labs(title = main, x = "", y = ylabel) + ylim(c(ylim)) +
+            p <- ggplot(data.frame(names = names(effect), effect_ = abs(as.vector(effect))),
+                        aes(x = names, y = effect_, fill = names)) +
+              geom_bar(stat = "identity", color = "black") +
+              scale_fill_manual(values=c(p.col)) +
+              theme_minimal()+
+              labs(title = main, x = xlab, y = ylabel) + ylim(c(ylim)) +
               theme(axis.text.x = element_text(angle = 90, hjust = 1),
                     plot.title = element_text(hjust = 0.5)) +
               geom_text(aes(label = round(effect)), vjust = -1, colour = "black") + # etiquetas sobre las barras
@@ -547,7 +587,7 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
             plot.title = element_text(hjust = 0.5, vjust = -0.5,margin = margin(b = -12), size = 10)
-          ) + xlim(c(0.24, 0.26)) + ylim(c(min(titles$Pos_title) - 0.01, max(titles$Pos_title) + 0.01))
+          ) + xlim(c(0.24, 0.26)) + ylim(c(min(titles$Pos_title) - 0.05, max(titles$Pos_title) + 0.05))
         for(i in 1:dim(titles)[1]){
           caja <- caja + annotate("text", x = 0.25, y = titles$Pos_title[i], label = titles$Name_title[i], size = 3.5, hjust = 0.5)
         }
@@ -560,14 +600,13 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
         }
 
       }
-
     }
   )
+
   print(p)
   invisible(list(effect.list, plot = p))
   par(mfcol=c(1,1))
 }
-
 ### funcion normalPlot#####################
 normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, response = NULL, sig.col = c("red1", "red2", "red3"), sig.pch = c(1,2,3), main, ylim, xlim, xlab, ylab, pch,  ###
                        col, border = "red", ...){

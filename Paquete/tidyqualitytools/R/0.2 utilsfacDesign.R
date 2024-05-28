@@ -1,3 +1,4 @@
+
 ### .replace2s####
 .replace2s = function(x) {
   if (!is.data.frame(x))
@@ -176,7 +177,7 @@ aliasTable <- function (fdo, degree, print = TRUE)
   df <- data.frame(x = xvals, y = c(cells))
 
   # PLOT
-  p <- ggplot(df, aes(x = x, y = y)) +
+  p <- ggplot2::ggplot(df, aes(x = x, y = y)) +
     geom_line(na.rm = TRUE) +
     ylim(ylim) + labs(x = xlab, y = ylab, title = main) + theme_bw() +
 
@@ -710,7 +711,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                       for (i in 1:length(self$factors)) {
                                                         if (!identical(value[i], "numeric") & !identical(value[i], "factor"))
                                                           stop(paste(value[i], "\ttype of factor needs to be 'numeric' or 'factor'"))
-                                                        self$factors[[i]]$.type() = as.character(value[i])
+                                                        self$factors[[i]]$.type(as.character(value[i]))
                                                       }
                                                       invisible(self)
                                                     }
@@ -726,8 +727,8 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                     }
                                                     else{
                                                       for (i in 1:length(self$factors)) if (length(value) > 1)
-                                                        self$factors[[i]]$.unit() = as.character(value[i])
-                                                      else self$factors[[i]]$.unit() = as.character(value[1])
+                                                        self$factors[[i]]$.unit(as.character(value[i]))
+                                                      else self$factors[[i]]$.unit(as.character(value[1]))
                                                       invisible(self)
                                                     }
 
