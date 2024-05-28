@@ -4306,12 +4306,12 @@ aliasTable <- function (fdo, degree, show = TRUE)
 
 
 ### necesito .m.interaction.plot###########################
-.m.interaction.plot <- function(x.factor, trace.factor, response, fun = base::mean, type = c("l", "p", "b"), legend = TRUE, trace.label = deparse(substitute(trace.factor)),
+.m.interaction.plot <- function(x.factor, trace.factor, response, fun = mean, type = c("l", "p", "b"), legend = TRUE, trace.label = deparse(substitute(trace.factor)),
                                 fixed = FALSE, xlab = deparse(substitute(x.factor)), ylab = ylabel, ytitle = TRUE, ylim = range(cells, na.rm = TRUE), lty = nc:1, col = 1, pch = c(1L:9, 0, letters), xpd = NULL,
                                 leg.bg = par("bg"), leg.bty = "n", xtick = FALSE, xaxt = par("xaxt"), axes.x = TRUE, axes.y = TRUE, main, ...) {
   ylabel <- paste(deparse(substitute(fun)), "of ", deparse(substitute(response)))
   type <- match.arg(type)
-  cells <- base::tapply(response, list(x.factor, trace.factor), base::mean)
+  cells <- base::tapply(response, list(x.factor, trace.factor), fun)
   nr <- nrow(cells)
   nc <- ncol(cells)
   xvals <- 1L:nr
@@ -4731,11 +4731,11 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                        else xlab = paste(factors[i], ": ", self$names()[[i]], sep = "")
                                                      }
                                                      if (missing(ylab)) {
-                                                       ylab = paste(deparse(substitute(fun)), "of ", names(Y)[j])
+                                                       ylab = paste("mean of ", names(Y)[j])
                                                        ylabmiss = TRUE
                                                      }
                                                      if (ylabmiss)
-                                                       ylab = paste(deparse(substitute(fun)), "of ", names(Y)[j])
+                                                       ylab = paste("mean of ", names(Y)[j])
                                                      if (ylimmiss)
                                                        ylim = range(cells, na.rm = TRUE)
                                                      if (classic) {
@@ -4776,7 +4776,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                            else xlab = paste(factors[i], ": ", self$names()[[i]], sep = "")
                                                          }
                                                          if (missing(ylab)) {
-                                                           ylab = paste(deparse(substitute(fun)), "of ", names(Y)[j])
+                                                           ylab = paste("mean of ", names(Y)[j])
                                                            ylabmiss = TRUE
                                                          }
                                                          if (ylabmiss)
