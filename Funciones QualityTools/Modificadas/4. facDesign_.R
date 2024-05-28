@@ -98,7 +98,7 @@ as.data.frame.facDesign <- function(self, row.names = NULL, optional = FALSE, ..
 }
 
 ### necesito aliasTable#######################################################
-aliasTable <- function (fdo, degree, show = TRUE)
+aliasTable <- function (fdo, degree, print = TRUE)
 {
   if (class(fdo)[1] == "facDesign") {
     X = unique(fdo$cube)
@@ -128,7 +128,7 @@ aliasTable <- function (fdo, degree, show = TRUE)
   X1 = as.matrix(X1)
   X2 = as.matrix(X2)
   alias.matrix = solve(t(X1) %*% X1) %*% t(X1) %*% X2
-  if (show)
+  if (print)
     print(round(alias.matrix, 2))
   invisible(alias.matrix)
 }
@@ -290,7 +290,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                    ncol(self$as.data.frame())
                                                  },
 
-                                                 show = function(){
+                                                 print = function(){
                                                    runIndex = order(self$runOrder[,1])
                                                    print(format(self$as.data.frame(), digits = 4))
                                                    invisible(self$as.data.frame())
@@ -443,7 +443,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                    identityList = vector(mode = "list", length = 0)
                                                    resolution = numeric(0)
                                                    temp = NULL
-                                                   A = aliasTable(self, show = FALSE)
+                                                   A = aliasTable(self, print = FALSE)
                                                    if (any(dim(A) == 0))
                                                      return(identityList)
                                                    temp = as.matrix(A["Identity", ])
@@ -473,7 +473,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                    self$.nfp()
                                                    cat("-----------\n")
                                                    print(self$as.data.frame())
-                                                   temp = aliasTable(self, show = FALSE)
+                                                   temp = aliasTable(self, print = FALSE)
                                                    if (ncol(temp) > 0) {
                                                      cat("\n---------\n\n")
                                                      self$identity()
@@ -705,9 +705,9 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                      p <- p + plot_layout(ncol = numCol, nrow = numRow) +
                                                        plot_annotation(title = main,
                                                                        theme = theme(plot.title = element_text(hjust = 0.5, size = 15, face = "bold")))
-                                                     show(p)
+                                                     print(p)
                                                    }
-                                                   else{show(p)}
+                                                   else{print(p)}
                                                    par(mfcol=c(1,1))
                                                  },
 
@@ -1200,7 +1200,7 @@ doeFactor <- R6Class('doeFactor', public = list(low = -1,
                                                   }
                                                 },
 
-                                                show = function(){
+                                                print = function(){
                                                   cat("Name: ", self$names(), "\n")
                                                   cat("low Setting: ", self$.low(), "\n")
                                                   cat("high setting: ", self$.high(), "\n")
@@ -2161,7 +2161,7 @@ paretoPlot <- function(fdo, threeWay = FALSE, abs = TRUE, decreasing = TRUE, na.
 
     }
   )
-  show(p)
+  print(p)
   invisible(list(effect.list, plot = p))
   par(mfcol=c(1,1))
 }
@@ -2527,7 +2527,7 @@ normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, respon
 
       p <- p + inset_element(caja, left = 0.01, right = 0.2, top = 1, bottom = 0.85)
     }
-    show(p)
+    print(p)
     list_plot[[paste0("p",j)]] <- p
   }
   invisible(list(effect = effect, plots = list_plot))
@@ -2551,7 +2551,7 @@ desirability.c <- R6Class("desirability", public = list(response = NULL,
                                                         self$scale <- scale
                                                         self$importance <- importance
                                                       },
-                                                      show = function(){
+                                                      print = function(){
                                                         if (!is.numeric(self$target))
                                                           cat("Target is to", paste(self$target, "imize", sep = ""), self$response, "\n")
                                                         else cat("Target is ", self$target, " for", self$response, "\n")
@@ -2832,7 +2832,7 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
             text = sub,# Subtitulo
             x = 0.5,   # Posición x en la mitad de la gráfica
             y = -0.1,  # Posición y debajo de la gráfica
-            showarrow = FALSE,
+            printarrow = FALSE,
             font = list(size = 12)
           )
         ),
@@ -2843,7 +2843,7 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
           camera = list(eye = list(x=2, y=2, z=0.1))
         )
       )
-    show(p)
+    print(p)
   }
   invisible(list(x = xVec, y = yVec, z = mat, plot = p))
 }
@@ -3001,7 +3001,7 @@ contourPlot = function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, borde
         xaxis = list(range = xlim, title = xlab, zeroline = FALSE),
         yaxis = list(range = ylim, title = ylab, zeroline = FALSE)
       )
-    show(p)
+    print(p)
   }
 
   invisible(list(x = xVec, y = yVec, z = mat, plot = p))
@@ -3272,7 +3272,7 @@ steepAscent.c <- R6Class("facDesign", public = list(name = NULL,
                                                     as.data.frame = function(row.names = NULL, optional = FALSE, ...){
                                                       return(cbind(self$X, self$response))
                                                     },
-                                                    show = function(){
+                                                    print = function(){
                                                       print(self$as.data.frame())
                                                     },
                                                     plot = function(y, ...){
@@ -3370,7 +3370,7 @@ steepAscent <- function(factors, response, size = 0.2, steps = 5, data) {
 
 ######USO steepAscent################################
 sao <- steepAscent(factors = c("A", "B"), response = "rend", data = dfac, steps = 20)
-sao$show()
+sao$print()
 predicted <- simProc(sao$get(,5), sao$get(,6))
 sao$.response(predicted)
 sao$plot(type='b', col=2)
@@ -3548,7 +3548,7 @@ starDesign <- function(k, p = 0, alpha = c("both", "rotatable", "orthogonal"), c
 
 ###Uso starDesign#####
 rsdo <- starDesign(data=fdo2)
-rsdo$show()
+rsdo$print()
 rend2 <- c(rend,
   simProc(130, 165),
   simProc(155, 165),
@@ -3779,7 +3779,7 @@ y4 <- c(67.5, 65, 77.5, 74.5, 62.5, 67, 78, 70, 76, 70, 63, 75, 65, 71,
 
 d1 <- desirability(y1, 120, 170, scale = c(1, 1), target = "max")
 d3 <- desirability(y3, 400, 600, target = 500)
-d1$show()
+d1$print()
 d1$plot(col = 2)
 d3$plot(col = 2)
 
