@@ -1,0 +1,266 @@
+* using log directory 'C:/Users/Dell/OneDrive - Escuela Politécnica Nacional/Pasantías UDC/Libro_TidyQualityTools/Paquete/tidyqualitytools.Rcheck'
+* using R version 4.3.1 (2023-06-16 ucrt)
+* using platform: x86_64-w64-mingw32 (64-bit)
+* R was compiled by
+    gcc.exe (GCC) 12.2.0
+    GNU Fortran (GCC) 12.2.0
+* running under: Windows 11 x64 (build 22631)
+* using session charset: UTF-8
+* using options '--no-manual --as-cran'
+* checking for file 'tidyqualitytools/DESCRIPTION' ... OK
+* checking extension type ... Package
+* this is package 'tidyqualitytools' version '0.1.0'
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking serialization versions ... OK
+* checking whether package 'tidyqualitytools' can be installed ... [18s] WARNING
+Found the following significant warnings:
+  Warning: package 'R6' was built under R version 4.3.3
+  Warning: package 'ggplot2' was built under R version 4.3.2
+  Warning: package 'patchwork' was built under R version 4.3.2
+  Warning: package 'plotly' was built under R version 4.3.2
+  Warning: package 'gridExtra' was built under R version 4.3.2
+  Error: compilation failed -  bad assignment: 'self$factors[[i]]$.type() = as.character(value[i])' at NULL 
+  Error: compilation failed -  bad assignment: 'self$factors[[i]]$.unit() = as.character(value[i])' at NULL 
+See 'C:/Users/Dell/OneDrive - Escuela Politécnica Nacional/Pasantías UDC/Libro_TidyQualityTools/Paquete/tidyqualitytools.Rcheck/00install.out' for details.
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking for future file timestamps ... OK
+* checking DESCRIPTION meta-information ... NOTE
+Malformed Description field: should contain one or more complete sentences.
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking dependencies in R code ... NOTE
+Namespaces in Imports field not imported from:
+  'R6' 'gridExtra' 'patchwork' 'plotly' 'scales' 'tidyverse'
+  All declared Imports should be used.
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... NOTE
+.blockInteractions: no visible global function definition for 'combn'
+.confoundings: no visible global function definition for 'combn'
+.desireFun : out: no visible global function definition for
+  'flush.console'
+.helpAliasTable: no visible global function definition for 'combn'
+.m.interaction.plot: no visible global function definition for 'par'
+.m.interaction.plot: no visible global function definition for 'ggplot'
+.m.interaction.plot: no visible global function definition for 'aes'
+.m.interaction.plot: no visible binding for global variable 'x'
+.m.interaction.plot: no visible binding for global variable 'y'
+.m.interaction.plot: no visible global function definition for
+  'geom_line'
+.m.interaction.plot: no visible global function definition for 'labs'
+.m.interaction.plot: no visible global function definition for
+  'theme_bw'
+.m.interaction.plot: no visible global function definition for 'theme'
+.m.interaction.plot: no visible global function definition for
+  'element_blank'
+.m.interaction.plot: no visible global function definition for
+  'element_text'
+.m.interaction.plot: no visible global function definition for
+  'element_line'
+.m.interaction.plot: no visible global function definition for
+  'scale_x_continuous'
+.m.interaction.plot: no visible global function definition for
+  'geom_hline'
+.m.interaction.plot: no visible global function definition for 'median'
+.testFun: no visible global function definition for 'par'
+.testFun: no visible global function definition for 'matplot'
+.testFun : axisInt: no visible global function definition for 'axis'
+FitDistr : mydt: no visible global function definition for 'dt'
+FitDistr: no visible binding for global variable 'dbeta'
+FitDistr: no visible binding for global variable 'dcauchy'
+FitDistr: no visible binding for global variable 'dchisq'
+FitDistr: no visible binding for global variable 'dexp'
+FitDistr: no visible binding for global variable 'df'
+FitDistr: no visible binding for global variable 'dgamma'
+FitDistr: no visible binding for global variable 'dgeom'
+FitDistr: no visible binding for global variable 'dlnorm'
+FitDistr: no visible binding for global variable 'dlogis'
+FitDistr: no visible binding for global variable 'dnbinom'
+FitDistr: no visible binding for global variable 'dnorm'
+FitDistr: no visible binding for global variable 'dpois'
+FitDistr: no visible binding for global variable 'dweibull'
+FitDistr: no visible global function definition for 'sd'
+FitDistr: no visible global function definition for 'dlnorm'
+FitDistr: no visible global function definition for 'dnorm'
+FitDistr: no visible global function definition for 'dpois'
+FitDistr: no visible global function definition for 'dexp'
+FitDistr: no visible global function definition for 'dgeom'
+FitDistr: no visible global function definition for 'var'
+FitDistr: no visible global function definition for 'median'
+FitDistr: no visible global function definition for 'IQR'
+blocking: no visible global function definition for 'runif'
+confounds: no visible global function definition for 'combn'
+contourPlot: no visible global function definition for
+  'colorRampPalette'
+contourPlot : help.predict: no visible global function definition for
+  'predict'
+contourPlot: no visible global function definition for 'response'
+contourPlot: no visible global function definition for '%>%'
+contourPlot: no visible global function definition for 'plot_ly'
+contourPlot: no visible global function definition for 'layout'
+contourPlot: no visible global function definition for 'show'
+fracChoose: no visible global function definition for 'par'
+fracChoose: no visible global function definition for 'box'
+fracChoose: no visible global function definition for 'rect'
+fracChoose: no visible global function definition for 'text'
+fracChoose: no visible global function definition for 'as.roman'
+fracChoose: no visible global function definition for 'flush.console'
+fracChoose: no visible global function definition for 'mtext'
+fracChoose: no visible global function definition for 'locator'
+interactionPlot: no visible global function definition for 'par'
+interactionPlot: no visible global function definition for 'combn'
+interactionPlot: no visible binding for global variable 'axis'
+interactionPlot: no visible global function definition for 'box'
+interactionPlot: no visible global function definition for 'dev.new'
+interactionPlot: no visible global function definition for 'text'
+interactionPlot: no visible global function definition for 'title'
+normalPlot: no visible global function definition for 'dev.new'
+normalPlot: no visible global function definition for 'lm'
+normalPlot: no visible global function definition for 'as.formula'
+normalPlot: no visible global function definition for 'coef'
+normalPlot: no visible global function definition for 'df.residual'
+normalPlot: no visible global function definition for 'ppoints'
+normalPlot: no visible binding for global variable 'qnorm'
+normalPlot: no visible global function definition for 'ggplot'
+normalPlot: no visible global function definition for 'aes'
+normalPlot: no visible binding for global variable 'value'
+normalPlot: no visible global function definition for 'geom_point'
+normalPlot: no visible global function definition for 'theme_classic'
+normalPlot: no visible global function definition for 'lims'
+normalPlot: no visible global function definition for 'labs'
+normalPlot: no visible global function definition for 'geom_text'
+normalPlot: no visible global function definition for 'theme_minimal'
+normalPlot: no visible global function definition for 'theme'
+normalPlot: no visible global function definition for 'element_text'
+normalPlot: no visible global function definition for 'qnorm'
+normalPlot: no visible global function definition for 'geom_abline'
+normalPlot: no visible binding for global variable 'x'
+normalPlot: no visible global function definition for 'theme_bw'
+normalPlot: no visible global function definition for 'element_blank'
+normalPlot: no visible global function definition for 'annotate'
+normalPlot: no visible global function definition for 'inset_element'
+paretoPlot: no visible global function definition for 'par'
+paretoPlot: no visible global function definition for 'dev.new'
+paretoPlot: no visible global function definition for 'lm'
+paretoPlot: no visible global function definition for 'as.formula'
+paretoPlot: no visible global function definition for 'coef'
+paretoPlot: no visible global function definition for 'df.residual'
+paretoPlot: no visible global function definition for 'median'
+paretoPlot: no visible global function definition for 'qt'
+paretoPlot: no visible global function definition for 'ggplot'
+paretoPlot: no visible global function definition for 'aes'
+paretoPlot: no visible binding for global variable 'effect_'
+paretoPlot: no visible global function definition for 'geom_bar'
+paretoPlot: no visible global function definition for 'theme_minimal'
+paretoPlot: no visible global function definition for 'geom_text'
+paretoPlot: no visible global function definition for 'labs'
+paretoPlot: no visible global function definition for 'theme'
+paretoPlot: no visible global function definition for 'element_text'
+paretoPlot: no visible global function definition for 'geom_hline'
+paretoPlot: no visible global function definition for
+  'scale_y_continuous'
+paretoPlot: no visible global function definition for 'sec_axis'
+paretoPlot: no visible global function definition for 'reorder'
+paretoPlot: no visible binding for global variable 'x'
+paretoPlot: no visible binding for global variable 'y'
+paretoPlot: no visible global function definition for 'theme_bw'
+paretoPlot: no visible global function definition for 'element_blank'
+paretoPlot: no visible global function definition for 'margin'
+paretoPlot: no visible global function definition for 'xlim'
+paretoPlot: no visible global function definition for 'annotate'
+paretoPlot: no visible global function definition for 'inset_element'
+rsmChoose: no visible global function definition for 'par'
+rsmChoose: no visible global function definition for 'colorRampPalette'
+rsmChoose: no visible global function definition for 'plot.new'
+rsmChoose: no visible global function definition for 'box'
+rsmChoose: no visible global function definition for 'rect'
+rsmChoose: no visible global function definition for 'text'
+rsmChoose: no visible global function definition for 'mtext'
+rsmChoose: no visible global function definition for 'flush.console'
+rsmChoose: no visible global function definition for 'locator'
+simProc: no visible global function definition for 'rnorm'
+steepAscent: no visible global function definition for 'coef'
+wirePlot: no visible global function definition for 'colorRampPalette'
+wirePlot: no visible global function definition for 'formula'
+wirePlot : help.predict: no visible global function definition for
+  'predict'
+wirePlot: no visible global function definition for 'fits'
+wirePlot: no visible global function definition for '%>%'
+wirePlot: no visible global function definition for 'plot_ly'
+wirePlot: no visible global function definition for 'add_surface'
+wirePlot: no visible global function definition for 'layout'
+wirePlot: no visible global function definition for 'show'
+Undefined global functions or variables:
+  %>% IQR add_surface aes annotate as.formula as.roman axis box coef
+  colorRampPalette combn dbeta dcauchy dchisq dev.new dexp df
+  df.residual dgamma dgeom dlnorm dlogis dnbinom dnorm dpois dt
+  dweibull effect_ element_blank element_line element_text fits
+  flush.console formula geom_abline geom_bar geom_hline geom_line
+  geom_point geom_text ggplot inset_element labs layout lims lm locator
+  margin matplot median mtext par plot.new plot_ly ppoints predict
+  qnorm qt rect reorder response rnorm runif scale_x_continuous
+  scale_y_continuous sd sec_axis show text theme theme_bw theme_classic
+  theme_minimal title value var x xlim y
+Consider adding
+  importFrom("grDevices", "colorRampPalette", "dev.new")
+  importFrom("graphics", "axis", "box", "layout", "locator", "matplot",
+             "mtext", "par", "plot.new", "rect", "text", "title")
+  importFrom("methods", "show")
+  importFrom("stats", "IQR", "as.formula", "coef", "dbeta", "dcauchy",
+             "dchisq", "dexp", "df", "df.residual", "dgamma", "dgeom",
+             "dlnorm", "dlogis", "dnbinom", "dnorm", "dpois", "dt",
+             "dweibull", "formula", "lm", "median", "ppoints", "predict",
+             "qnorm", "qt", "reorder", "rnorm", "runif", "sd", "var")
+  importFrom("utils", "as.roman", "combn", "flush.console")
+to your NAMESPACE file (and ensure that your DESCRIPTION Imports field
+contains 'methods').
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd line widths ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... WARNING
+Undocumented code objects:
+  'FitDistr' 'aliasTable' 'blocking' 'code2real' 'confounds'
+  'contourPlot' 'desirability' 'desirability.c' 'doeFactor'
+  'facDesign.c' 'fracChoose' 'fracDesign' 'interactionPlot'
+  'normalPlot' 'paretoPlot' 'randomize' 'rsmChoose' 'rsmDesign'
+  'simProc' 'starDesign' 'steepAscent' 'steepAscent.c' 'wirePlot'
+All user-level objects in a package should have documentation entries.
+See chapter 'Writing R documentation files' in the 'Writing R
+Extensions' manual.
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... WARNING
+Undocumented arguments in documentation object 'facDesign'
+  'random.seed'
+
+Functions with \usage entries need to have the appropriate \alias
+entries, and all their arguments documented.
+The \usage entries must correspond to syntactically valid R code.
+See chapter 'Writing R documentation files' in the 'Writing R
+Extensions' manual.
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking examples ... NONE
+* checking for non-standard things in the check directory ... OK
+* checking for detritus in the temp directory ... OK
+* DONE
+Status: 3 WARNINGs, 3 NOTEs
