@@ -1,4 +1,3 @@
-
 ### funcion fracDesign###################
 
 fracDesign <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
@@ -217,16 +216,16 @@ fracDesign <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
 ### funcion facDesign########################
 facDesign <- function (k = 3, p = 0, replicates = 1, blocks = 1, centerCube = 0, random.seed = 1234)
 {
-#' @title facDesign
-#' @description Generates a 2^k full factorial design.
-#' @param k numeric value giving the number of factors. By default k is set to ‘3’.
-#' @param p numeric integer between ‘0’ and ‘7’. p is giving the number of additional factors in the response surface design by aliasing effects.
-#' For further information see fracDesign and fracChoose.
-#' By default p is set to ‘0’.
-#' @param replicates numeric value giving the number of replicates per factor combination. By default replicates is set to ‘1’.
-#' @param blocks numeric value giving the number of blocks. By default blocks is set to ‘1’. Blocking is only performed for k greater 2.
-#' @param centerCube numeric value giving the number of centerpoints within the 2^k design. By default centerCube is set to ‘0’.
-#' @return The function facDesign returns an object of class facDesign.
+  #' @title facDesign
+  #' @description Generates a 2^k full factorial design.
+  #' @param k numeric value giving the number of factors. By default k is set to ‘3’.
+  #' @param p numeric integer between ‘0’ and ‘7’. p is giving the number of additional factors in the response surface design by aliasing effects.
+  #' For further information see fracDesign and fracChoose.
+  #' By default p is set to ‘0’.
+  #' @param replicates numeric value giving the number of replicates per factor combination. By default replicates is set to ‘1’.
+  #' @param blocks numeric value giving the number of blocks. By default blocks is set to ‘1’. Blocking is only performed for k greater 2.
+  #' @param centerCube numeric value giving the number of centerpoints within the 2^k design. By default centerCube is set to ‘0’.
+  #' @return The function facDesign returns an object of class facDesign.
 
   frameOut = fracDesign(k = k, p = p, gen = NULL, replicates = replicates,
                         blocks = blocks, centerCube = centerCube, random.seed = random.seed)
@@ -905,13 +904,13 @@ wirePlot <- function(x, y, z, data = NULL,
   if (missing(zlim))
     zlim = range(mat)
 
-  p <- plot_ly(x = xVec, y = yVec, z = mat, colorscale=col) %>%
+  p <- plot_ly(x = -yVec, y = xVec, z = mat, colorscale=col) %>%
     add_surface() %>%
     layout(
       title = main,
       scene = list(
-        xaxis = list(range = xlim, title = xlab, zeroline = FALSE),
-        yaxis = list(range = ylim, title = ylab, zeroline = FALSE),
+        xaxis = list(range = ylim, title = ylab, zeroline = FALSE),
+        yaxis = list(range = xlim, title = xlab, zeroline = FALSE),
         zaxis = list(range = zlim, title = zlab, zeroline = FALSE),
         camera = list(eye = list(x=2, y=2, z=0.1))
       ),
@@ -938,7 +937,7 @@ wirePlot <- function(x, y, z, data = NULL,
 }
 ### funcion contourPlot#####################
 contourPlot = function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, border, sub, zlab, form = "fit", phi, theta, ticktype, col = 1, steps,
-                       factors, fun, plot = TRUE) {
+                       factors, fun, plot = TRUE, show.scale = TRUE) {
   form = form
   fact = NULL
   if (missing(steps))
@@ -1079,11 +1078,12 @@ contourPlot = function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, borde
     mat = mat^(1/length(names(fdo$.response())))
   }
 
-  p <- plot_ly(x = xVec, y = yVec, z = mat, colors = color, type = "contour", contours = list(coloring = 'heatmap')) %>%
+  p <- plot_ly(x = -yVec, y = xVec, z = mat, colors = color,
+               type = "contour", contours = list(coloring = 'heatmap'), showscale = show.scale) %>%
     layout(
       title = main,
-      xaxis = list(range = xlim, title = xlab, zeroline = FALSE),
-      yaxis = list(range = ylim, title = ylab, zeroline = FALSE)
+      xaxis = list(range = ylim, title = ylab, zeroline = FALSE),
+      yaxis = list(range = xlim, title = xlab, zeroline = FALSE)
     )
 
   if (plot) {

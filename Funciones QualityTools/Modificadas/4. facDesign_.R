@@ -2868,8 +2868,8 @@ wirePlot <- function(x, y, z, data = NULL,
 wirePlot(A,B,rend,data=dfac)
 
 ### Funcion contourPlot#####################
-contourPlot = function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, border, sub, zlab, form = "fit", phi, theta, ticktype, col = 1, steps,
-                       factors, fun, plot = TRUE) {
+contourPlot <- function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, border, sub, zlab, form = "fit", phi, theta, ticktype, col = 1, steps,
+                       factors, fun, plot = TRUE, show.scale = TRUE) {
   form = form
   fact = NULL
   if (missing(steps))
@@ -3010,7 +3010,8 @@ contourPlot = function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, borde
     mat = mat^(1/length(names(fdo$.response())))
   }
 
-  p <- plot_ly(x = xVec, y = yVec, z = mat, colors = color, type = "contour", contours = list(coloring = 'heatmap')) %>%
+  p <- plot_ly(x = xVec, y = yVec, z = mat, colors = color,
+               type = "contour", contours = list(coloring = 'heatmap'), showscale = show.scale) %>%
     layout(
       title = main,
       xaxis = list(range = xlim, title = xlab, zeroline = FALSE),

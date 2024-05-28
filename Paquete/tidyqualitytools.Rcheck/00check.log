@@ -30,7 +30,7 @@ Found the following files with non-portable file names:
 These are not fully portable file names.
 See section 'Package structure' in the 'Writing R Extensions' manual.
 * checking serialization versions ... OK
-* checking whether package 'tidyqualitytools' can be installed ... [17s] OK
+* checking whether package 'tidyqualitytools' can be installed ... [12s] OK
 * checking installed package size ... OK
 * checking package directory ... OK
 * checking for future file timestamps ... OK
@@ -59,7 +59,7 @@ Namespaces in Imports field not imported from:
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
-* checking R code for possible problems ... [14s] NOTE
+* checking R code for possible problems ... [15s] NOTE
 .aip: no visible global function definition for 'par'
 .aip: no visible global function definition for 'ggplot'
 .aip: no visible global function definition for 'aes'
