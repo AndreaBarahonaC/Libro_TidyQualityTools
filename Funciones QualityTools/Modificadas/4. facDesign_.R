@@ -2819,31 +2819,32 @@ wirePlot <- function(x, y, z, data = NULL, xlim, ylim, zlim, main, xlab, ylab, b
     facetcol = 1
   }
 
-  if (plot) {
-    if (missing(zlim))
-      zlim = range(mat)
+  if (missing(zlim))
+    zlim = range(mat)
 
-    p <- plot_ly(x = xVec, y = yVec, z = mat, colors = color) %>%
-      add_surface() %>%
-      layout(
-        title = main,
-        annotations = list(
-          list(
-            text = sub,# Subtitulo
-            x = 0.5,   # Posición x en la mitad de la gráfica
-            y = -0.1,  # Posición y debajo de la gráfica
-            printarrow = FALSE,
-            font = list(size = 12)
-          )
-        ),
-        scene = list(
-          xaxis = list(range = xlim, title = xlab, zeroline = FALSE),
-          yaxis = list(range = ylim, title = ylab, zeroline = FALSE),
-          zaxis = list(range = zlim, title = zlab, zeroline = FALSE),
-          camera = list(eye = list(x=2, y=2, z=0.1))
+  p <- plot_ly(x = xVec, y = yVec, z = mat, colors = color) %>%
+    add_surface() %>%
+    layout(
+      title = main,
+      annotations = list(
+        list(
+          text = sub,# Subtitulo
+          x = 0.5,   # Posición x en la mitad de la gráfica
+          y = -0.1,  # Posición y debajo de la gráfica
+          printarrow = FALSE,
+          font = list(size = 12)
         )
+      ),
+      scene = list(
+        xaxis = list(range = xlim, title = xlab, zeroline = FALSE),
+        yaxis = list(range = ylim, title = ylab, zeroline = FALSE),
+        zaxis = list(range = zlim, title = zlab, zeroline = FALSE),
+        camera = list(eye = list(x=2, y=2, z=0.1))
       )
-    print(p)
+    )
+
+  if (plot) {
+    show(p)
   }
   invisible(list(x = xVec, y = yVec, z = mat, plot = p))
 }
@@ -2853,7 +2854,7 @@ wirePlot(A,B,rend,data=dfac)
 
 ### Funcion contourPlot#####################
 contourPlot = function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, border, sub, zlab, form = "fit", phi, theta, ticktype, col = 1, steps,
-                       factors, fun, plot) {
+                       factors, fun, plot = TRUE) {
   form = form
   fact = NULL
   if (missing(steps))
@@ -2994,14 +2995,15 @@ contourPlot = function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, borde
     mat = mat^(1/length(names(fdo$.response())))
   }
 
+  p <- plot_ly(x = xVec, y = yVec, z = mat, colors = color, type = "contour", contours = list(coloring = 'heatmap')) %>%
+    layout(
+      title = main,
+      xaxis = list(range = xlim, title = xlab, zeroline = FALSE),
+      yaxis = list(range = ylim, title = ylab, zeroline = FALSE)
+    )
+
   if (plot) {
-    p <- plot_ly(x = xVec, y = yVec, z = mat, colors = color, type = "contour", contours = list(coloring = 'heatmap')) %>%
-      layout(
-        title = main,
-        xaxis = list(range = xlim, title = xlab, zeroline = FALSE),
-        yaxis = list(range = ylim, title = ylab, zeroline = FALSE)
-      )
-    print(p)
+    show(p)
   }
 
   invisible(list(x = xVec, y = yVec, z = mat, plot = p))
