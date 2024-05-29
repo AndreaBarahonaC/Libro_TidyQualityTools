@@ -2709,7 +2709,7 @@ wirePlot <- function(x, y, z, data = NULL,
                      xlim, ylim, zlim, main,
                      xlab, ylab, sub, sub.a = TRUE, zlab,
                      form = "fit", col = "Rainbow", steps,
-                     fun, plot = TRUE) {
+                     fun, plot = TRUE, show.scale = TRUE, n.scene = "scene") {
   form = form
   fact = NULL
   if (missing(steps))
@@ -2833,13 +2833,13 @@ wirePlot <- function(x, y, z, data = NULL,
   if (missing(zlim))
     zlim = range(mat)
 
-  p <- plot_ly(x = xVec, y = yVec, z = mat, colorscale=col) %>%
-    add_surface() %>%
+  p <- plot_ly(x = -yVec, y = xVec, z = mat, colorscale=col, scene = n.scene) %>%
+    add_surface(showscale = show.scale) %>%
     layout(
       title = main,
       scene = list(
-        xaxis = list(range = xlim, title = xlab, zeroline = FALSE),
-        yaxis = list(range = ylim, title = ylab, zeroline = FALSE),
+        xaxis = list(range = ylim, title = ylab, zeroline = FALSE),
+        yaxis = list(range = xlim, title = xlab, zeroline = FALSE),
         zaxis = list(range = zlim, title = zlab, zeroline = FALSE),
         camera = list(eye = list(x=2, y=2, z=0.1))
       ),

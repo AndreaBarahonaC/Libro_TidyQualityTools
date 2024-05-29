@@ -777,10 +777,10 @@ normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, respon
 }
 ### funcion wirePlot###################
 wirePlot <- function(x, y, z, data = NULL,
-                      xlim, ylim, zlim, main,
-                      xlab, ylab, sub, sub.a = TRUE, zlab,
-                      form = "fit", col = "Rainbow", steps,
-                      fun, plot = TRUE) {
+                     xlim, ylim, zlim, main,
+                     xlab, ylab, sub, sub.a = TRUE, zlab,
+                     form = "fit", col = "Rainbow", steps,
+                     fun, plot = TRUE, show.scale = TRUE, n.scene = "scene") {
   form = form
   fact = NULL
   if (missing(steps))
@@ -904,8 +904,8 @@ wirePlot <- function(x, y, z, data = NULL,
   if (missing(zlim))
     zlim = range(mat)
 
-  p <- plot_ly(x = -yVec, y = xVec, z = mat, colorscale=col) %>%
-    add_surface() %>%
+  p <- plot_ly(x = -yVec, y = xVec, z = mat, colorscale=col, scene = n.scene) %>%
+    add_surface(showscale = show.scale) %>%
     layout(
       title = main,
       scene = list(
