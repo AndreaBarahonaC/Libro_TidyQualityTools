@@ -3,11 +3,11 @@
 # Funciones Auxilicares
 
 pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
-                  lambda = c(-5, 5), main, xlim, ylim, grouping = NULL, std.dev = NULL,
-                  conf.level = 0.9973002, start, lineWidth = 1, lineCol = "red",
-                  lineType = "solid", specCol = "red3", specWidth = 1, cex.text = 2,
-                  cex.val = 1.5, cex.col = "darkgray", plot = TRUE, bounds.lty = 3,
-                  bounds.col = "red", ...) {
+                 lambda = c(-5, 5), main, xlim, ylim, grouping = NULL, std.dev = NULL,
+                 conf.level = 0.9973002, start, lineWidth = 1, lineCol = "red",
+                 lineType = "solid", specCol = "red3", specWidth = 1, cex.text = 2,
+                 cex.val = 1.5, cex.col = "darkgray", plot = TRUE, ADtest = TRUE, bounds.lty = 3,
+                 bounds.col = "red", ...){
   data.name = deparse(substitute(x))[1]
 
   parList = list(...)
@@ -98,10 +98,6 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
     stop("conf.level must be a value between 0 and 1")
   confHigh = conf.level + (1 - conf.level)/2
   confLow = 1 - conf.level - (1 - conf.level)/2
-  if (DB) {
-    print(paste("confHigh:", confHigh))
-    print(paste("confLow:", confLow))
-  }
   distWhichNeedParameters = c("weibull", "logistic", "gamma",
                               "exponential", "f", "geometric", "chi-squared", "negative binomial",
                               "poisson")
@@ -120,8 +116,6 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
       stop(paste(deparse(substitute(y)), "distribution could not be found!"))
   }
   if (TRUE) {
-    if (DB)
-      print("TODO: Pass the estimated parameters correctly")
     fitList = vector(mode = "list", length = 0)
     fitList$x = x[, 1]
     fitList$densfun = dis
@@ -144,8 +138,7 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
       paramsList = .gamma3(x[, 1])
       estimates = paramsList
     }
-    if (DB)
-      print(paste("parameter: ", paramsList))
+
   }
   paramsList = c(paramsList, .lfkp(parList, formals(qFun)))
   if (distribution == "normal") {
@@ -199,7 +192,8 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
   cpk = min(cpu, cpl)
   ppt = sum(ppl, ppu)
 
-  if(plot==TRUE){
+  # PLOT ------------------
+  {
     # ----------------------------- IF PLOT == TRUE -----------------------------------------------------------
     if (missing(xlim)) {
       xlim <- range(x[, 1], usl, lsl)
@@ -562,23 +556,28 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
       title = main,
       theme = theme(plot.title = element_text(hjust = 0.5))
     )
+  }
+
+  if(ADtest){
     if(not3distr){
       print.adtest(adTestStats)
-      show(main_plot)
-      invisible(list(lambda = lambda, cp = cp, cpk = cpk,
-                     cpl = cpl, cpu = cpu, ppt = ppt, ppl = ppl, ppu = ppu,
-                     A = A, usl = usl, lsl = lsl, target = target, plot = main_plot))
-    }else{
-      show(main_plot)
-      invisible(list(lambda = lambda, cp = cp, cpk = cpk,
-                     cpl = cpl, cpu = cpu, ppt = ppt, ppl = ppl, ppu = ppu,
-                     usl = usl, lsl = lsl, target = target, plot = main_plot))
     }
   }
-  ## ---------------- end if plot == true --------------------------------------------------------------------------
-  invisible(list(lambda = lambda, cp = cp, cpk = cpk, cpl = cpl,
-                 cpu = cpu, ppt = ppt, ppl = ppl, ppu = ppu, usl = usl,
-                 lsl = lsl, target = target, plot = main_plot))
+
+  if(plot==TRUE){
+    show(main_plot)
+    invisible(list(lambda = lambda, cp = cp, cpk = cpk,
+                   cpl = cpl, cpu = cpu, ppt = ppt, ppl = ppl, ppu = ppu,
+                   A = A, usl = usl, lsl = lsl, target = target,
+                   adTest = adTestStats, plot = main_plot))
+  }
+  else{
+    invisible(list(lambda = lambda, cp = cp, cpk = cpk,
+                   cpl = cpl, cpu = cpu, ppt = ppt, ppl = ppl, ppu = ppu,
+                   A = A, usl = usl, lsl = lsl, target = target,
+                   adTest = adTestStats, plot = main_plot))
+  }
+
 }
 
 .pcr = function(x, distribution = "normal", lsl, usl, target, boxcox = FALSE, lambda = c(-5,5), main, xlim, ylim, grouping = NULL, std.dev = NULL, conf.level = 0.9973002, start, lineWidth = 1,
