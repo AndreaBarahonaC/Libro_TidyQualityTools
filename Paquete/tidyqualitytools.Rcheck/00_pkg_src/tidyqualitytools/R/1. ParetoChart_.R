@@ -1,7 +1,8 @@
 
 
+
 ############# Nueva Función Pareto (se quita argumento `las`)################
-ParetoChart_ <- function (x, weight, showTable = TRUE, showPlot = TRUE, main, col, border, xlab, ylab = "Frequency", percentVec, ...)
+paretoChart <- function (x, weight, showTable = TRUE, showPlot = TRUE, main, col, border, xlab, ylab = "Frequency", percentVec, ...)
 {
   varName = deparse(substitute(x))[1]
   corp.col = "#C4B9FF"
@@ -66,8 +67,8 @@ ParetoChart_ <- function (x, weight, showTable = TRUE, showPlot = TRUE, main, co
 
     p <- ggplot(data, aes(x = reorder(names(xtable), -xtable), y = Frequency)) +
       geom_col(aes(fill = "Frequency"), width = 0.7) +
-      geom_point(aes(y = Cum.Frequency, color = "Cumulative Percentage"), size = 3) +
-      geom_line(aes(y = Cum.Frequency, group = 1, color = "Cumulative Percentage"), line = 0.5) +
+      geom_point(aes(y = Cum.Frequency, color = "Cumulative Percentage")) +
+      geom_line(aes(y = Cum.Frequency, group = 1, color = "Cumulative Percentage")) +
       scale_y_continuous(name = ylab,
                          sec.axis = sec_axis(~ . / sum(xtable),
                                              name = "Cumulative Percentage",
@@ -75,8 +76,10 @@ ParetoChart_ <- function (x, weight, showTable = TRUE, showPlot = TRUE, main, co
       scale_x_discrete(name = xlab) +
       scale_color_manual(values = c(border, border)) +
       scale_fill_manual(values = col) +
+      theme_minimal() +
       theme(legend.position = "none") +
       labs(title = main)+theme(plot.title = element_text(hjust = 0.5,face = "bold"))
+
   }
   else {
     warning("data should have at least two categories!")
@@ -84,6 +87,7 @@ ParetoChart_ <- function (x, weight, showTable = TRUE, showPlot = TRUE, main, co
   if(showPlot == TRUE){
     if(showTable == TRUE){
       show(p/tableGrob(tabla))
+
     }
     else {
       show(p)
@@ -92,4 +96,6 @@ ParetoChart_ <- function (x, weight, showTable = TRUE, showPlot = TRUE, main, co
   else{
     show(tabla)
   }
+
+  invisible(list(plot = p, table = tabla))
 }

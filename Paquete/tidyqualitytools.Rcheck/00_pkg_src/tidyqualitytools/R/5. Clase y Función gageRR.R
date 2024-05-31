@@ -1,8 +1,7 @@
 
+
 # Funciones auxiliares --------------
-.aip <- function(x.factor, trace.factor, response, fun = mean, type = c("l", "p", "b"), legend = TRUE, trace.label = NULL,
-                 fixed = FALSE, xlab = deparse(substitute(x.factor)), ylab ="Measurement" , ylim = NULL, lty = 1:length(unique(trace.factor)),
-                 col = 1, pch = c(1L:9, 0, letters), xpd = NULL, leg.bg = par("bg"), leg.bty = "o", xtick = FALSE, xaxt = par("xaxt"), axes = TRUE, title = "", plot = TRUE, ...) {
+.aip <- function(x.factor, trace.factor, response, fun = mean, type = c("l", "p", "b"), legend = TRUE, trace.label = NULL,fixed = FALSE, xlab = deparse(substitute(x.factor)), ylab ="Measurement" , ylim = NULL, lty = 1:length(unique(trace.factor)),col = 1, pch = c(1L:9, 0, letters), xpd = NULL, leg.bg = par("bg"), leg.bty = "o", xtick = FALSE, xaxt = par("xaxt"), axes = TRUE, title = "", plot = TRUE, ...) {
   ylabel <- paste(ylab )
   type <- match.arg(type)
 
@@ -15,18 +14,19 @@
   cellNew <- as.data.frame(as.table(cellNew))
   colnames(cellNew) <- c("x.factor", "trace.factor", "response")
 
-  # Convertir x.factor a numérico sólo para la visualización, pero mantenerlo como factor en los datos
+  # Convertir x.factor a numC)rico sC3lo para la visualizaciC3n, pero mantenerlo como factor en los datos
   cellNew$x.numeric <- as.numeric(cellNew$x.factor)
 
-  # Crear el gráfico
+  # Crear el grC!fico
   p <- ggplot(cellNew, aes(x = x.numeric, y = response, group = trace.factor, color = trace.factor, shape = trace.factor, linetype = trace.factor)) +
     geom_line() +
     geom_point(size = 2) +
-    # geom_text(aes(label = round(response, 2)), vjust = -0.5) +  # Comentar o eliminar esta línea para ocultar números
+    # geom_text(aes(label = round(response, 2)), vjust = -0.5) +  # Comentar o eliminar esta lC-nea para ocultar nC:meros
     scale_x_continuous(breaks = unique(cellNew$x.numeric), labels = levels(cellNew$x.factor)) +  # Etiquetas de x.factor
     labs(x = xlab, y = ylabel, title = title, color = trace.label, shape = trace.label, linetype = trace.label) +
     theme_bw() +
-    theme(plot.title = element_text(hjust = 0.5))
+    theme(legend.title = element_blank(),
+          plot.title = element_text(hjust = 0.5))
 
   if (!is.null(ylim)) {
     p <- p + ylim(ylim)
@@ -65,7 +65,31 @@
   return(out)
 }
 
-# Definición de la clase gageRR ------------------
+# Definicion de la clase gageRR ------------------
+#' @title gageRR Class
+#' @description gageRR Class
+#' @field X Object of class "data.frame" of all object information.
+#' @field ANOVA Object of class "aov".
+#' @field RedANOVA Object of class "aov".
+#' @field method Object of class "character" describing the method for comparing variances. “crossed” which is the typical design for performing a Measurement Systems Analysis using Gage Repeatability and Reproducibility or “nested” which is used for destructive testing (i.e. the same part cannot be measured twice).
+#' Operators measure each a different sample of parts under the premise that the parts of each batch are alike.
+#' By default method is set to “crossed”.
+#' @field Estimates Object of class "list" of the estimations.
+#' @field Varcomp Object of class "list" containing the variance of the measurements.
+#' @field Sigma Object of class "numeric". For sigma=6 this relates to 99.73 percent representing the full spread of a normal distribution function (i.e. pnorm(3) - pnorm(-3)).
+#' Another popular setting sigma=5.15 relates to 99 percent (i.e. pnorm(2.575) - pnorm(-2.575)). By default sigma is set to ‘6’.
+#' @field GageName Object of class "character". Name of the gageDesign.
+#' @field GageTolerance Object of class "character". Tolerance of the gageDesign.
+#' @field DateofStudy Object of class "character". Date of study of the gageDesign.
+#' @field PersonResponsible Object of class "character". Person responsible of the gageDesign.
+#' @field Comments Object of class "character". Comments of the gageDesign.
+#' @field b Object of class "factor" that determines the part made by each operator.
+#' @field a Object of class "factor" that determines which operator made each measurement.
+#' @field y Object of class "numeric". Measurement vector.
+#' @field facNames Object of class "character". Names of the factors.
+#' @field numO Object of class "numeric". Number of operators.
+#' @field numP Object of class "numeric". Number of Part.
+#' @field numM Object of class "numeric". Number of measurement.
 gageRR <- R6Class("gageRR",
                   public = list(
                     X = NULL,
@@ -87,6 +111,8 @@ gageRR <- R6Class("gageRR",
                     numO = NULL,
                     numP = NULL,
                     numM = NULL,
+
+                    #' @description Create a gageRR Class
                     initialize = function(X, ANOVA = NULL, RedANOVA = NULL, method = NULL, Estimates = NULL, Varcomp = NULL,
                                           Sigma = NULL, GageName = NULL, GageTolerance = NULL, DateOfStudy = NULL,
                                           PersonResponsible = NULL, Comments = NULL, b = NULL, a = NULL, y = NULL,
@@ -111,12 +137,19 @@ gageRR <- R6Class("gageRR",
                       self$numP <- numP
                       self$numM <- numM
                     },
-                    show = function() {
+                    #' @description Print X as "data.frame"
+                    print = function() {
                       print(as.data.frame(self$X))
                     },
+
+                    #' @description Obtain an element of X at position (x,y)
+                    #' @param i Position at x
+                    #' @param j Position at y
                     subset = function(i, j) {
                       return(self$X[i, j])
                     },
+
+                    #' @description Return a summary of the number of levels of each factor
                     summary = function() {
                       if (all(is.na(self$X$Measurement))) {
                         cat("Gage R&R Summary\n")
@@ -139,37 +172,66 @@ gageRR <- R6Class("gageRR",
                       }
                       return(invisible(self))
                     },
-                    response = function() {
+
+                    #' @description Return the measurements
+                    get.response = function() {
                       return(self$X$Measurement)
                     },
-                    replace_response = function(value) {
+
+                    #' @description Assign the measurements
+                    #' @param value Measurement vector
+                    response = function(value) {
+                      self$y = value
                       self$X$Measurement = value
-                      return(self)
                     },
+
+                    #' @description Return the names of X.
                     names = function() {
-                      return(names(as.data.frame(self)))
+                      return(names(as.data.frame(self$X)))
                     },
-                    as_data_frame = function() {
-                      return(as.data.frame(self))
+
+                    #' @description Return X as "data.frame"
+                    as.data.frame = function() {
+                      return(as.data.frame(self$X))
                     },
-                    get_tolerance = function() {
+
+                    #' @description Return the tolerance of the gageDesign
+                    get.tolerance = function() {
                       return(unlist(self$GageTolerance))
                     },
-                    set_tolerance = function(value) {
+
+                    #' @description Assign the tolerance of the gageDesign
+                    #' @param value Tolerance value
+                    set.tolerance = function(value) {
                       if (!is.numeric(value))
                         stop("GageTolerance needs to be numeric")
                       self$GageTolerance = value
                       return(self)
                     },
-                    get_sigma = function() {
+
+                    #' @description Return sigma of the gageDesign
+                    get.sigma = function() {
                       return(unlist(self$Sigma))
                     },
-                    set_sigma = function(value) {
+
+                    #' @description Assign sigma of the gageDesign
+                    set.sigma = function(value) {
                       if (!is.numeric(value))
                         stop("Sigma needs to be numeric")
                       self$Sigma = value
                       return(self)
                     },
+
+                    #' @description Performs R&R design analysis graphically. Returns 6 plots:
+                    #' Components of Variation, Measurement by Part, Measurement by Operator, bar(x) chart, Interaction Operator:Part and R chart.
+                    #' @param x Object of Class gageRR
+                    #' @param y Measurements
+                    #' @param main Plot title
+                    #' @param xlab x-axis label
+                    #' @param ylab y-axis label
+                    #' @param col color of plot elements
+                    #' @param lwd line width
+                    #' @param fun function of the statistic
                     plot = function(x, y, main=NULL, xlab=NULL, ylab=NULL, col, lwd, fun = mean, ...){
                       x = self
                       gdo <- x
@@ -228,11 +290,14 @@ gageRR <- R6Class("gageRR",
                         scale_fill_manual(values = col[1:nlevels(factor(contribFrame_long$Metric))]) +
                         theme(legend.position = "top",
                               legend.background = element_rect(fill = "white", colour = "black"),
-                              legend.key.size = unit(0.5, "cm"), # reduce the size of the legend key
-                              legend.text = element_text(size = 8), # reduce the size of the legend text
+
+                              legend.key.size = unit(0.3, "cm"), # reduce the size of the legend key
+                              legend.text = element_text(size = 6), # reduce the size of the legend text
                               legend.box.spacing = unit(0.1, 'cm'),
+                              legend.title = element_blank(),
                               plot.title = element_text(hjust = 0.5)
                         )
+
 
                       # ----------------------
                       if (gdo$method == "crossed") {
@@ -252,15 +317,16 @@ gageRR <- R6Class("gageRR",
 
                         p2 <- suppressWarnings(
                           ggplot(gdo$X, aes_string(x = bName, y = yName)) +
-                          geom_boxplot() +
-                          stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", linewidth = lwd) +
-                          stat_summary(fun = median, geom = "point", color = "red") +
-                          labs(title = ifelse(is.null(main2), paste(yName, "by", bName), main2),
-                               x = ifelse(is.null(xlab2), bName, xlab2),
-                               y = ifelse(is.null(ylab2), yName, ylab2)) +
-                          theme_bw() +
-                          theme(plot.title = element_text(hjust = 0.5))
-                          )
+                            geom_boxplot() +
+                            stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", linewidth = lwd) +
+                            stat_summary(fun = median, geom = "point", color = "red") +
+                            labs(title = ifelse(is.null(main2), paste(yName, "by", bName), main2),
+                                 x = ifelse(is.null(xlab2), bName, xlab2),
+                                 y = ifelse(is.null(ylab2), yName, ylab2)) +
+                            theme_bw() +
+                            theme(plot.title = element_text(hjust = 0.5))
+                        )
+
 
                         # 3. Measurement by operator --------------------------------------------------
                         main3 = NA
@@ -304,14 +370,14 @@ gageRR <- R6Class("gageRR",
                         p4 <- ggplot(data.frame(x = 1:length(aggMean[, 3]), y = aggMean[, 3]), aes(x, y)) +
                           geom_point(shape = 1) +
                           geom_line() +
-                          geom_hline(yintercept = xm, color = 3) +                          # línea xm
-                          geom_hline(yintercept = UCL, color = "red") +                     # línea UCL
-                          geom_hline(yintercept = LCL, color = "red") +                     # línea LCL
-                          labs(x = aName, y = expression(bar(x))) +                         # títulos ejes
-                          ggtitle(expression(paste(bar(x), " Chart"))) +                    # título
-                          geom_vline(xintercept = cumsum(tab) - 0.5, linetype = "dashed") + # divide categorías A,B C
+                          geom_hline(yintercept = xm, color = 3) +                          # lC-nea xm
+                          geom_hline(yintercept = UCL, color = "red") +                     # lC-nea UCL
+                          geom_hline(yintercept = LCL, color = "red") +                     # lC-nea LCL
+                          labs(x = aName, y = expression(bar(x))) +                         # tC-tulos ejes
+                          ggtitle(expression(paste(bar(x), " Chart"))) +                    # tC-tulo
+                          geom_vline(xintercept = cumsum(tab) - 0.5, linetype = "dashed") + # divide categorC-as A,B C
                           scale_x_continuous(breaks = cumsum(tab), labels = names(tab)) +   # y pone los nombres de las secciones
-                          theme_minimal() +
+                          theme_bw() +
                           theme(plot.title = element_text(hjust = 0.5)) +
                           scale_y_continuous(expand = c(0, 0),
                                              sec.axis = sec_axis(~ ., breaks = c(UCL, xm, LCL),
@@ -355,12 +421,12 @@ gageRR <- R6Class("gageRR",
                         p6 <-  ggplot(data.frame(x = 1:length(agg[, 3]), y = agg[, 3]), aes(x, y)) +
                           geom_point(shape = 1) +
                           geom_line() +
-                          geom_hline(yintercept = Rm, color = 3) +                          # línea xm
-                          geom_hline(yintercept = UCL, color = "red") +                     # línea UCL
-                          geom_hline(yintercept = LCL, color = "red") +                     # línea LCL
-                          labs(x = aName, y = "R") +                                        # títulos ejes
-                          ggtitle("R Chart") +                                              # título
-                          geom_vline(xintercept = cumsum(tab) - 0.5, linetype = "dashed") + # divide categorías A,B C
+                          geom_hline(yintercept = Rm, color = 3) +                          # lC-nea xm
+                          geom_hline(yintercept = UCL, color = "red") +                     # lC-nea UCL
+                          geom_hline(yintercept = LCL, color = "red") +                     # lC-nea LCL
+                          labs(x = aName, y = "R") +                                        # tC-tulos ejes
+                          ggtitle("R Chart") +                                              # tC-tulo
+                          geom_vline(xintercept = cumsum(tab) - 0.5, linetype = "dashed") + # divide categorC-as A,B C
                           scale_x_continuous(breaks = cumsum(tab), labels = names(tab)) +   # y pone los nombres de las secciones
                           theme_bw() +
                           theme(plot.title = element_text(hjust = 0.5)) +
@@ -454,12 +520,12 @@ gageRR <- R6Class("gageRR",
                         p4 <- ggplot(data.frame(x = 1:length(aggMean[, 3]), y = aggMean[, 3]), aes(x, y)) +
                           geom_point(shape = 1) +
                           geom_line() +
-                          geom_hline(yintercept = xm, color = 3) +                          # línea xm
-                          geom_hline(yintercept = UCL, color = "red") +                     # línea UCL
-                          geom_hline(yintercept = LCL, color = "red") +                     # línea LCL
-                          labs(x = aName, y = expression(bar(x))) +                         # títulos ejes
-                          ggtitle(expression(paste(bar(x), " Chart"))) +                    # título
-                          geom_vline(xintercept = cumsum(tab) - 0.5, linetype = "dashed") + # divide categorías A,B C
+                          geom_hline(yintercept = xm, color = 3) +                          # lC-nea xm
+                          geom_hline(yintercept = UCL, color = "red") +                     # lC-nea UCL
+                          geom_hline(yintercept = LCL, color = "red") +                     # lC-nea LCL
+                          labs(x = aName, y = expression(bar(x))) +                         # tC-tulos ejes
+                          ggtitle(expression(paste(bar(x), " Chart"))) +                    # tC-tulo
+                          geom_vline(xintercept = cumsum(tab) - 0.5, linetype = "dashed") + # divide categorC-as A,B C
                           scale_x_continuous(breaks = cumsum(tab), labels = names(tab)) +   # y pone los nombres de las secciones
                           theme_minimal() +
                           theme(plot.title = element_text(hjust = 0.5)) +
@@ -487,12 +553,12 @@ gageRR <- R6Class("gageRR",
                         p5 <-  ggplot(data.frame(x = 1:length(agg[, 3]), y = agg[, 3]), aes(x, y)) +
                           geom_point(shape = 1) +
                           geom_line() +
-                          geom_hline(yintercept = Rm, color = 3) +                          # línea xm
-                          geom_hline(yintercept = UCL, color = "red") +                     # línea UCL
-                          geom_hline(yintercept = LCL, color = "red") +                     # línea LCL
-                          labs(x = aName, y = "R") +                                        # títulos ejes
-                          ggtitle("R Chart") +                                              # título
-                          geom_vline(xintercept = cumsum(tab) - 0.5, linetype = "dashed") + # divide categorías A,B C
+                          geom_hline(yintercept = Rm, color = 3) +                          # lC-nea xm
+                          geom_hline(yintercept = UCL, color = "red") +                     # lC-nea UCL
+                          geom_hline(yintercept = LCL, color = "red") +                     # lC-nea LCL
+                          labs(x = aName, y = "R") +                                        # tC-tulos ejes
+                          ggtitle("R Chart") +                                              # tC-tulo
+                          geom_vline(xintercept = cumsum(tab) - 0.5, linetype = "dashed") + # divide categorC-as A,B C
                           scale_x_continuous(breaks = cumsum(tab), labels = names(tab)) +   # y pone los nombres de las secciones
                           theme_minimal() +
                           theme(plot.title = element_text(hjust = 0.5)) +
@@ -514,9 +580,9 @@ gageRR <- R6Class("gageRR",
                   )
 )
 
-# función gageRRdesign modificada -------------
+# funcion gageRRdesign modificada -------------
 gageRRDesign = function(Operators = 3, Parts = 10, Measurements = 3, method = "crossed", sigma = 6, randomize = TRUE) {
-  # Validación de argumentos
+  # ValidaciC3n de argumentos
   if (!is.numeric(sigma))
     stop("sigma needs to be numeric")
   if (method != "nested" && method != "crossed")
@@ -595,9 +661,9 @@ gageRRDesign = function(Operators = 3, Parts = 10, Measurements = 3, method = "c
     a = factor(o),
     y = as.numeric(Measurement),
     facNames = c(yName, aName, bName, abName),
-    numO = length(unique(opvec)),  # Número de operadores
-    numP = length(unique(partvec)),  # Número de partes
-    numM = Measurements  # Número de mediciones
+    numO = length(unique(opvec)),  # NC:mero de operadores
+    numP = length(unique(partvec)),  # NC:mero de partes
+    numM = Measurements  # NC:mero de mediciones
   )
 
   return(gageRRObj)
@@ -616,7 +682,7 @@ gageRR_ = function(gdo, method = "crossed", sigma = 6, alpha = 0.25, DM = NULL, 
 
   bTobName <- paste(bName, "to", bName, sep = " ")
 
-  if (is.null(tolerance)) tolerance <- gdo$get_tolerance()
+  if (is.null(tolerance)) tolerance <- gdo$get.tolerance()
 
   y <- gdo$X[[yName]]
   a <- gdo$X[[aName]]
@@ -803,3 +869,4 @@ gageRR_ = function(gdo, method = "crossed", sigma = 6, alpha = 0.25, DM = NULL, 
   cat("\n")
   invisible(gdo)
 }
+

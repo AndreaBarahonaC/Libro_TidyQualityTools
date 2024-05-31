@@ -30,7 +30,7 @@ Found the following files with non-portable file names:
 These are not fully portable file names.
 See section 'Package structure' in the 'Writing R Extensions' manual.
 * checking serialization versions ... OK
-* checking whether package 'tidyqualitytools' can be installed ... [15s] OK
+* checking whether package 'tidyqualitytools' can be installed ... [10s] OK
 * checking installed package size ... OK
 * checking package directory ... OK
 * checking for future file timestamps ... OK
@@ -59,7 +59,7 @@ Namespaces in Imports field not imported from:
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
-* checking R code for possible problems ... [17s] NOTE
+* checking R code for possible problems ... [14s] NOTE
 .aip: no visible global function definition for 'par'
 .aip: no visible global function definition for 'ggplot'
 .aip: no visible global function definition for 'aes'
@@ -70,6 +70,7 @@ Namespaces in Imports field not imported from:
 .aip: no visible global function definition for 'labs'
 .aip: no visible global function definition for 'theme_bw'
 .aip: no visible global function definition for 'theme'
+.aip: no visible global function definition for 'element_blank'
 .aip: no visible global function definition for 'element_text'
 .aip: no visible global function definition for 'element_rect'
 .blockInteractions: no visible global function definition for 'combn'
@@ -109,6 +110,7 @@ Namespaces in Imports field not imported from:
 .lognormal3: no visible global function definition for 'optim'
 .m.interaction.plot: no visible global function definition for 'par'
 .m.interaction.plot: no visible global function definition for 'aes'
+.m.interaction.plot: no visible binding for global variable 'x'
 .m.interaction.plot: no visible binding for global variable 'y'
 .m.interaction.plot: no visible global function definition for
   'geom_line'
@@ -178,28 +180,6 @@ FitDistr: no visible global function definition for 'dgeom'
 FitDistr: no visible global function definition for 'var'
 FitDistr: no visible global function definition for 'median'
 FitDistr: no visible global function definition for 'IQR'
-ParetoChart_: no visible global function definition for 'ggplot'
-ParetoChart_: no visible global function definition for 'aes'
-ParetoChart_: no visible global function definition for 'reorder'
-ParetoChart_: no visible binding for global variable 'Frequency'
-ParetoChart_: no visible global function definition for 'geom_col'
-ParetoChart_: no visible global function definition for 'geom_point'
-ParetoChart_: no visible binding for global variable 'Cum.Frequency'
-ParetoChart_: no visible global function definition for 'geom_line'
-ParetoChart_: no visible global function definition for
-  'scale_y_continuous'
-ParetoChart_: no visible global function definition for 'sec_axis'
-ParetoChart_: no visible global function definition for
-  'scale_x_discrete'
-ParetoChart_: no visible global function definition for
-  'scale_color_manual'
-ParetoChart_: no visible global function definition for
-  'scale_fill_manual'
-ParetoChart_: no visible global function definition for 'theme'
-ParetoChart_: no visible global function definition for 'labs'
-ParetoChart_: no visible global function definition for 'element_text'
-ParetoChart_: no visible global function definition for 'show'
-ParetoChart_: no visible global function definition for 'tableGrob'
 blocking: no visible global function definition for 'runif'
 cg_: no visible global function definition for 'par'
 cg_: no visible global function definition for 'pnorm'
@@ -357,10 +337,34 @@ normalPlot: no visible global function definition for 'theme'
 normalPlot: no visible global function definition for 'element_text'
 normalPlot: no visible global function definition for 'qnorm'
 normalPlot: no visible global function definition for 'geom_abline'
+normalPlot: no visible binding for global variable 'x'
 normalPlot: no visible global function definition for 'theme_bw'
 normalPlot: no visible global function definition for 'element_blank'
 normalPlot: no visible global function definition for 'annotate'
 normalPlot: no visible global function definition for 'inset_element'
+paretoChart: no visible global function definition for 'ggplot'
+paretoChart: no visible global function definition for 'aes'
+paretoChart: no visible global function definition for 'reorder'
+paretoChart: no visible binding for global variable 'Frequency'
+paretoChart: no visible global function definition for 'geom_col'
+paretoChart: no visible global function definition for 'geom_point'
+paretoChart: no visible binding for global variable 'Cum.Frequency'
+paretoChart: no visible global function definition for 'geom_line'
+paretoChart: no visible global function definition for
+  'scale_y_continuous'
+paretoChart: no visible global function definition for 'sec_axis'
+paretoChart: no visible global function definition for
+  'scale_x_discrete'
+paretoChart: no visible global function definition for
+  'scale_color_manual'
+paretoChart: no visible global function definition for
+  'scale_fill_manual'
+paretoChart: no visible global function definition for 'theme_minimal'
+paretoChart: no visible global function definition for 'theme'
+paretoChart: no visible global function definition for 'labs'
+paretoChart: no visible global function definition for 'element_text'
+paretoChart: no visible global function definition for 'show'
+paretoChart: no visible global function definition for 'tableGrob'
 paretoPlot: no visible global function definition for 'par'
 paretoPlot: no visible global function definition for 'dev.new'
 paretoPlot: no visible global function definition for 'lm'
@@ -385,6 +389,7 @@ paretoPlot: no visible global function definition for 'geom_hline'
 paretoPlot: no visible global function definition for
   'scale_y_continuous'
 paretoPlot: no visible global function definition for 'sec_axis'
+paretoPlot: no visible binding for global variable 'x'
 paretoPlot: no visible binding for global variable 'y'
 paretoPlot: no visible global function definition for 'theme_bw'
 paretoPlot: no visible global function definition for 'element_blank'
@@ -497,7 +502,7 @@ Undefined global functions or variables:
   scale_color_manual scale_fill_manual scale_x_continuous
   scale_x_discrete scale_y_continuous sd sec_axis show t.test tableGrob
   text theme theme_bw theme_classic theme_minimal title unit value var
-  x.numeric xlim y
+  x x.numeric xlim y
 Consider adding
   importFrom("grDevices", "colorRampPalette", "dev.new")
   importFrom("graphics", "abline", "axis", "box", "hist", "layout",
@@ -526,14 +531,14 @@ Use inherits() (or maybe is()) instead.
 * checking Rd cross-references ... OK
 * checking for missing documentation entries ... WARNING
 Undocumented code objects:
-  'Distr' 'DistrCollection' 'FitDistr' 'ParetoChart_' 'aliasTable'
-  'blocking' 'cg_' 'cg_HistChart' 'cg_RunChart' 'cg_ToleranceChart'
-  'code2real' 'confounds' 'contourPlot' 'desirability' 'desirability.c'
-  'distribution' 'doeFactor' 'facDesign.c' 'fracChoose' 'fracDesign'
-  'gageRR' 'gageRRDesign' 'gageRR_' 'interactionPlot' 'normalPlot'
-  'paretoPlot' 'pcr' 'ppPlot' 'print.adtest' 'qqPlot' 'randomize'
-  'rsmChoose' 'rsmDesign' 'simProc' 'starDesign' 'steepAscent'
-  'steepAscent.c' 'wirePlot' 'x'
+  'Distr' 'DistrCollection' 'FitDistr' 'aliasTable' 'blocking' 'cg_'
+  'cg_HistChart' 'cg_RunChart' 'cg_ToleranceChart' 'code2real'
+  'confounds' 'contourPlot' 'desirability' 'desirability.c'
+  'distribution' 'doeFactor' 'fracChoose' 'fracDesign' 'gageRRDesign'
+  'gageRR_' 'interactionPlot' 'normalPlot' 'paretoChart' 'paretoPlot'
+  'pcr' 'ppPlot' 'print.adtest' 'qqPlot' 'randomize' 'rsmChoose'
+  'rsmDesign' 'simProc' 'starDesign' 'steepAscent' 'steepAscent.c'
+  'wirePlot'
 All user-level objects in a package should have documentation entries.
 See chapter 'Writing R documentation files' in the 'Writing R
 Extensions' manual.

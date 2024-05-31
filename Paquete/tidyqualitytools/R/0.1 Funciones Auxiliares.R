@@ -1,4 +1,5 @@
 
+
 ############################## funciones .r ##############################
 # .cg --------------
 .cg=function(x, target, tolerance=c(-1,1), ref.interval, facCg, facCgk)
@@ -1217,6 +1218,5 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
     invisible(list(x = x, y = y, int = params$a, slope = params$b, plot = p))
   }
 }
-
 
 

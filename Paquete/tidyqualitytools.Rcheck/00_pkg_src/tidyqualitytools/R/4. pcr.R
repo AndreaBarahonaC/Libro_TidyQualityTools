@@ -3,11 +3,11 @@
 # Funciones Auxilicares
 
 pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
-                  lambda = c(-5, 5), main, xlim, ylim, grouping = NULL, std.dev = NULL,
-                  conf.level = 0.9973002, start, lineWidth = 1, lineCol = "red",
-                  lineType = "solid", specCol = "red3", specWidth = 1, cex.text = 2,
-                  cex.val = 1.5, cex.col = "darkgray", plot = TRUE, bounds.lty = 3,
-                  bounds.col = "red", ...) {
+                 lambda = c(-5, 5), main, xlim, ylim, grouping = NULL, std.dev = NULL,
+                 conf.level = 0.9973002, start, lineWidth = 1, lineCol = "red",
+                 lineType = "solid", specCol = "red3", specWidth = 1, cex.text = 2,
+                 cex.val = 1.5, cex.col = "darkgray", plot = TRUE, ADtest = TRUE, bounds.lty = 3,
+                 bounds.col = "red", ...){
   data.name = deparse(substitute(x))[1]
 
   parList = list(...)
@@ -192,7 +192,8 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
   cpk = min(cpu, cpl)
   ppt = sum(ppl, ppu)
 
-  if(plot==TRUE){
+  # PLOT ------------------
+  {
     # ----------------------------- IF PLOT == TRUE -----------------------------------------------------------
     if (missing(xlim)) {
       xlim <- range(x[, 1], usl, lsl)
@@ -555,23 +556,28 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
       title = main,
       theme = theme(plot.title = element_text(hjust = 0.5))
     )
+  }
+
+  if(ADtest){
     if(not3distr){
       print.adtest(adTestStats)
-      show(main_plot)
-      invisible(list(lambda = lambda, cp = cp, cpk = cpk,
-                     cpl = cpl, cpu = cpu, ppt = ppt, ppl = ppl, ppu = ppu,
-                     A = A, usl = usl, lsl = lsl, target = target, plot = main_plot))
-    }else{
-      show(main_plot)
-      invisible(list(lambda = lambda, cp = cp, cpk = cpk,
-                     cpl = cpl, cpu = cpu, ppt = ppt, ppl = ppl, ppu = ppu,
-                     usl = usl, lsl = lsl, target = target, plot = main_plot))
     }
   }
-  ## ---------------- end if plot == true --------------------------------------------------------------------------
-  invisible(list(lambda = lambda, cp = cp, cpk = cpk, cpl = cpl,
-                 cpu = cpu, ppt = ppt, ppl = ppl, ppu = ppu, usl = usl,
-                 lsl = lsl, target = target, plot = main_plot))
+
+  if(plot==TRUE){
+    show(main_plot)
+    invisible(list(lambda = lambda, cp = cp, cpk = cpk,
+                   cpl = cpl, cpu = cpu, ppt = ppt, ppl = ppl, ppu = ppu,
+                   A = A, usl = usl, lsl = lsl, target = target,
+                   adTest = adTestStats, plot = main_plot))
+  }
+  else{
+    invisible(list(lambda = lambda, cp = cp, cpk = cpk,
+                   cpl = cpl, cpu = cpu, ppt = ppt, ppl = ppl, ppu = ppu,
+                   A = A, usl = usl, lsl = lsl, target = target,
+                   adTest = adTestStats, plot = main_plot))
+  }
+
 }
 
 .pcr = function(x, distribution = "normal", lsl, usl, target, boxcox = FALSE, lambda = c(-5,5), main, xlim, ylim, grouping = NULL, std.dev = NULL, conf.level = 0.9973002, start, lineWidth = 1,

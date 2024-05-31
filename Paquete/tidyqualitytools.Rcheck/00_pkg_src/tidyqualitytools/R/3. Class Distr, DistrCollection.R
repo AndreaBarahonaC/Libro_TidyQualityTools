@@ -1,5 +1,4 @@
 
-
 # Class Distr ----
 Distr <- R6Class("Distr",
                  public = list(
