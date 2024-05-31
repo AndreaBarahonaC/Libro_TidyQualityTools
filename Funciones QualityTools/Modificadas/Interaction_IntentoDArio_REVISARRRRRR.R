@@ -4,7 +4,25 @@ library(ggplot2)
 library(gridExtra)
 
 #ORIGINAL
+###############USO DE facDesign#######################################################
 dfac <- facDesign(k = 3, centerCube = 4)
+#dfac$names()
+dfac$names(c('Factor 1', 'Factor 2', 'Factor 3'))
+#dfac$names()
+dfac$lows(c(80,120,1))
+#dfac$lows()
+dfac$highs(c(120,140,2))
+rend <- simProc(x1=120,x2=140,x3=2)
+#valores completos
+rend <- c(simProc(120,140,1),simProc(80,140,1),simProc(120,140,2),simProc(120,120,1),simProc(90,130,1.5),simProc(90,130,1.5),simProc(80,120,2),simProc(90,130,1.5),simProc(90,130,1.5),simProc(120,120,2),simProc(80,140,2),simProc(80,120,1))
+
+#Asignar rendimiento al diseño factorial
+dfac$.response(rend)
+dfac$.response()
+
+
+#dfac$highs()
+dfac$summary()
   interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, col = 1:2, ...) { ###
     DB = FALSE
     mainmiss = FALSE
@@ -107,8 +125,10 @@ dfac <- facDesign(k = 3, centerCube = 4)
     invisible()
   }
 
-#INTENTO 1
+#FUNCION CAMBIADA :3 LISTA
 interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, col = 1:2, ...) {
+  library(ggplot2)
+  library(patchwork)
   if (missing(main)) mainmiss = TRUE else mainmiss = FALSE
   if (missing(fdo) || class(fdo)[1] != "facDesign")
     stop("fdo needs to be an object of class facDesign")
@@ -132,14 +152,14 @@ interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, co
     y = fdo$.response()[1:nrow(x), r]
 
     for (i in 1:ncol(combMat)) {
-      facName1<- combMat[1, i]
+      facName1 <- combMat[1, i]
       facName2 <- combMat[2, i]
 
       df = data.frame(fac1 = x[[facName1]], fac2 = x[[facName2]], response = y)
 
-      p = ggplot(df, aes_string(x = "fac1", y = "response", color = "as.factor(fac2)")) +
-        geom_line(stat = "summary", fun = fun) +
-        labs(x = facName1, y = "Response", color = facName2) +
+      p = ggplot(df, aes_string(x = "fac2", y = "response", color = "as.factor(fac1)")) +
+        geom_line(stat = "summary", fun = fun,size=1.5) +
+        labs(x = " ", y = " ", color = facName1) +
         theme_minimal()
 
       plot_list[[paste(facName1, facName2)]] = p
@@ -155,9 +175,18 @@ interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, co
     for (j in 1:numFac) {
       for (i in 1:numFac) {
         if (i == j) {
+          facName <- names(x)[i]
           p_diag <- ggplot() +
-            geom_text(aes(0.5, 0.5, label = names(x)[i]), size = 8) +
-            theme_void()
+            labs(x = facName, y = "") +
+            theme_void() +
+            theme(
+              plot.title = element_text(size = 5, face = "bold", hjust = 0.5),
+              axis.title.x = element_text(size = 20, face = "bold", margin = margin(0, 0, 10, 0)),
+              axis.text.x = element_blank(),
+              axis.ticks.x = element_blank(),
+              axis.text.y = element_blank(),
+              axis.ticks.y = element_blank()
+            )
           plot_matrix[[plot_idx]] <- p_diag
         } else if (i < j) {
           plot_matrix[[plot_idx]] <- plot_list[[paste(names(x)[i], names(x)[j])]]
@@ -170,94 +199,15 @@ interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, co
 
     plot_matrix <- matrix(plot_matrix, ncol = numFac, byrow = TRUE)
     final_plot <- wrap_plots(plot_matrix, ncol = numFac)
-    final_plot <- final_plot + plot_annotation(title = main[r])
+    final_plot <- final_plot + plot_annotation(
+      title = main[r],
+      theme = theme(plot.title = element_text(hjust = 0.5, margin = margin(b = 20)))
+    )
     print(final_plot)
   }
 
   invisible()
 }
 
-
-
-#INTENTO 2
-
-interactionPlotGG <- function(fdo, y = NULL, response = NULL, fun = mean, main = NULL, col = c("red", "blue"), ...) {
-  if (missing(fdo) || class(fdo)[1] != "facDesign") {
-    stop("fdo needs to be an object of class facDesign")
-  }
-
-  if (!is.null(response)) {
-    temp <- fdo$.response()[response]
-    fdo$.response(temp)
-  }
-
-  x <- fdo$cube
-  runIndex <- order(fdo$runOrder[, 1])
-  x <- x[runIndex[1:nrow(x)], ]
-  y <- fdo$.response()[1:nrow(x), ]
-
-  # Convertir todas las variables en factores
-  x <- as.data.frame(lapply(x, factor))
-
-  numFac <- ncol(x)
-  combMat <- combn(names(x), 2)
-
-  plot_list <- matrix(list(), nrow = numFac, ncol = numFac)
-
-  # Crear gráficos de interacción y ubicarlos en la matriz
-  for (i in 1:ncol(combMat)) {
-    facName1 <- combMat[1, i]
-    facName2 <- combMat[2, i]
-
-    data <- cbind(y, x)
-
-    # Remover valores no finitos
-    data <- data[complete.cases(data), ]
-
-    p <- ggplot(data, aes_string(x = facName2, y = "y", group = facName1, color = facName1)) +
-      stat_summary(fun = fun, geom = "line") +
-      labs(title = NULL, x = NULL, y = NULL) +
-      theme_minimal() +
-      scale_color_manual(values = col) +
-      theme(legend.position = "none")
-
-    # Ubicar en la posición correcta
-    pos1 <- which(names(x) == facName1)
-    pos2 <- which(names(x) == facName2)
-    plot_list[[pos1, pos2]] <- p
-  }
-
-  # Llenar la diagonal con los nombres de los factores
-  for (i in 1:numFac) {
-    plot_list[[i, i]] <- ggplot() +
-      geom_text(aes(0.5, 0.5, label = names(x)[i]), size = 10) +
-      theme_void()
-  }
-
-  # Crear gráficos vacíos en la parte inferior de la diagonal
-  for (i in 1:numFac) {
-    for (j in 1:numFac) {
-      if (i > j) {
-        plot_list[[i, j]] <- ggplot() + theme_void()
-      } else if (i < j) {
-        plot_list[[i, j]] <- plot_list[[i, j]] + theme(legend.position = "right")
-      }
-    }
-  }
-
-  plot_grid <- wrap_plots(plot_list, ncol = numFac)
-
-  if (is.null(main)) {
-    main <- paste("Interaction plot for", names(fdo$.response())[1], "in", deparse(substitute(fdo)))
-  }
-
-  plot_grid <- plot_grid + plot_annotation(title = main)
-
-  print(plot_grid)
-}
-
-
-interactionPlotGG(dfac)
-
 interactionPlot(dfac)
-class(dfac)
+
