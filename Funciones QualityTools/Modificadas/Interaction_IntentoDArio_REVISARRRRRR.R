@@ -5,7 +5,7 @@ library(gridExtra)
 
 #ORIGINAL
 ###############USO DE facDesign#######################################################
-dfac <- facDesign(k = 3, centerCube = 4)
+dfac <- facDesign(k = 3,centerCube = 4)
 #dfac$names()
 dfac$names(c('Factor 1', 'Factor 2', 'Factor 3'))
 #dfac$names()
@@ -20,9 +20,9 @@ rend <- c(simProc(120,140,1),simProc(80,140,1),simProc(120,140,2),simProc(120,12
 dfac$.response(rend)
 dfac$.response()
 
-
+#dfac$centerCube
 #dfac$highs()
-dfac$summary()
+#dfac$summary()
   interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, col = 1:2, ...) { ###
     DB = FALSE
     mainmiss = FALSE
@@ -41,7 +41,7 @@ dfac$summary()
     diagNames = character(0)
     x = fdo$cube
     runIndex = order(fdo$runOrder[,1])
-    x = x[runIndex[1:nrow(x)], ]
+    #x = x[runIndex[1:nrow(x)], ]
     y = fdo$.response()[1:nrow(x), ]
     numFac = ncol(x)
     combMat = combn(names(x), 2)
@@ -126,9 +126,8 @@ dfac$summary()
   }
 
 #FUNCION CAMBIADA :3 LISTA
+
 interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, col = 1:2, ...) {
-  library(ggplot2)
-  library(patchwork)
   if (missing(main)) mainmiss = TRUE else mainmiss = FALSE
   if (missing(fdo) || class(fdo)[1] != "facDesign")
     stop("fdo needs to be an object of class facDesign")
@@ -141,7 +140,6 @@ interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, co
 
   x <- fdo$cube
   runIndex <- order(fdo$runOrder[, 1])
-  x <- x[runIndex[1:nrow(x)], ]
   y <- fdo$.response()[1:nrow(x), ]
   numFac <- ncol(x)
   combMat <- combn(names(x), 2)
