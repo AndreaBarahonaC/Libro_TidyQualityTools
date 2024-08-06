@@ -1940,7 +1940,7 @@ summary(m1)
 }
 ### Funcion paretoPlot#################################
 paretoPlot <- function(fdo, abs = TRUE, decreasing = TRUE, alpha = 0.05,
-                       response = NULL, ylim, xlab, ylab, main, p.col, ...) {
+                       response = NULL, ylim, xlab, ylab, main, p.col, legend_left = TRUE) {
   # library(RColorBrewer)
   # Esta librería tiene los colores:
   # Set1, Set2, Set3, Pastel2, Pastel1,
@@ -1958,7 +1958,7 @@ paretoPlot <- function(fdo, abs = TRUE, decreasing = TRUE, alpha = 0.05,
   if (missing(xlab))
     xlab = ""
   location = "topright"
-  if (decreasing == F | abs == F) {
+  if (decreasing == F | abs == F | legend_left == T) {
     location = "topleft"
   }
   xVals = numeric(0)
@@ -2100,7 +2100,7 @@ paretoPlot <- function(fdo, abs = TRUE, decreasing = TRUE, alpha = 0.05,
           if (abs) {
             tempVec = c(effect, sig.pos)
             tempVec = tempVec[!is.na(tempVec)]
-            ylim = c(0, 1.3 * max(tempVec))
+            ylim = c(0, 0.3 + max(tempVec))
           }
         else {
           tempVec1 = c(0, effect, sig.neg, sig.pos)
