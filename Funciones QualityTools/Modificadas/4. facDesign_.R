@@ -2013,7 +2013,7 @@ paretoPlot <- function(fdo, abs = TRUE, decreasing = TRUE, alpha = 0.05,
           if (missing(ylabel))
             ylabel = ""
 
-          p <- ggplot(data.frame(names = names(effect), effect_ = abs(as.vector(effect))),
+          p <- ggplot(data.frame(names = factor(names(effect), levels = names(effect)), effect_ = abs(as.vector(effect))),
                       aes(x = names, y = effect_, fill = names)) +
             geom_bar(stat = "identity", color = "black") +
             scale_fill_manual(values=c(p.col)) +
@@ -2123,11 +2123,11 @@ paretoPlot <- function(fdo, abs = TRUE, decreasing = TRUE, alpha = 0.05,
             ylabel = ""
 
           # plot with abs
-          df <- data.frame(titles = factor(names(effect), levels = names(effect)),
+          df <- data.frame(Names = factor(names(effect), levels = names(effect)),
                            effect_ = abs(as.vector(effect)))
 
           p <- ggplot(data = df,
-                      aes(x = titles, y = effect_, fill = titles)) +
+                      aes(x = Names, y = effect_, fill = Names)) +
             geom_bar(stat = "identity", color = "black") +
             scale_fill_manual(values=c(p.col)) +
             theme_minimal()+
@@ -2136,7 +2136,7 @@ paretoPlot <- function(fdo, abs = TRUE, decreasing = TRUE, alpha = 0.05,
                   plot.title = element_text(hjust = 0.5)) +
             geom_text(aes(label = round(effect,2)), vjust = -1, colour = "black") + # etiquetas sobre las barras
             geom_hline(yintercept = sig.pos, linetype = "dashed", color = "red") +
-            annotate("text", x = max(as.numeric(df$titles)), y = sig.pos, label = paste(round(sig.pos, 2)), vjust = -0.5, color = "red")
+            annotate("text", x = max(as.numeric(df$Names)), y = sig.pos, label = paste(round(sig.pos, 2)), vjust = -0.5, color = "red")
         }
         else {
           effect = effect[order((effect), na.last = TRUE, decreasing = decreasing)]
@@ -2145,12 +2145,12 @@ paretoPlot <- function(fdo, abs = TRUE, decreasing = TRUE, alpha = 0.05,
           if (missing(ylabel))
             ylabel = ""
 
-          df <- data.frame(titles = factor(names(effect), levels = names(effect)),
+          df <- data.frame(Names = factor(names(effect), levels = names(effect)),
                            effect_ = as.vector(effect))
 
           # Plot without abs
           p <- ggplot(df,
-                      aes(x = titles, y = effect_, fill = titles)) +
+                      aes(x = Names, y = effect_, fill = Names)) +
             geom_bar(stat = "identity", color = "black") +
             scale_fill_manual(values=c(p.col)) +
             theme_minimal()+
@@ -2159,8 +2159,8 @@ paretoPlot <- function(fdo, abs = TRUE, decreasing = TRUE, alpha = 0.05,
             geom_text(aes(label = effect), vjust = ifelse(df$effect_ > 0, -0.5, 1.5) , colour = "black") + # etiquetas sobre las barras
             geom_hline(yintercept = sig.pos, linetype = "dashed", color = "red") +
             geom_hline(yintercept = sig.neg, linetype = "dashed", color = "red") +
-            annotate("text", x = max(as.numeric(df$titles)), y = sig.pos, label = paste(round(sig.pos, 2)), vjust = -0.5, color = "red") +
-            annotate("text", x = max(as.numeric(df$titles)), y = sig.neg, label = paste(round(sig.neg, 2)), vjust = 1.5, color = "red")
+            annotate("text", x = max(as.numeric(df$Names)), y = sig.pos, label = paste(round(sig.pos, 2)), vjust = -0.5, color = "red") +
+            annotate("text", x = max(as.numeric(df$Names)), y = sig.neg, label = paste(round(sig.neg, 2)), vjust = 1.5, color = "red")
         }
         myDelta = diff(range(ylim)) * 0.02
       }
