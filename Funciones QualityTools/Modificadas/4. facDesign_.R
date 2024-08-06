@@ -3813,7 +3813,11 @@ ddo$fits
 .validizeConstraints = function(fdo, constraints) {
   X = fdo$as.data.frame()
   csOut = vector(mode = "list")
-  for (i in fdo$names()) {
+  aux <- list()
+  for (i in 1:length(fdo$names())) {
+    aux[[fdo$names()[i]]] <-.NAMES[i]
+  }
+  for (i in aux) {
     csOut[[i]] = c(min(X[, i]), max(X[, i]))
   }
   if (missing(constraints))
@@ -3824,6 +3828,97 @@ ddo$fits
   csOut[names(cs2)] = cs2[names(cs2)]
   return(csOut)
 }
+###Necesito funcion overall####
+overall <- function(fdo, steps = 20, constraints, ...) {
+  DB = FALSE
+  importances = list()
+  cs = list()
+  if (!missing(constraints))
+    cs = constraints
+  l = vector(mode = "list", length = 0)
+  fitList = fits(fdo)
+  if (length(fitList) < 1)
+    stop(paste("no fits found in fits(", deparse(substitute(fdo)), ")"), sep = "")
+  desList = desires(fdo)
+  if (length(desList) < 1)
+    stop(paste("no desirabilities found in desires(", deparse(substitute(fdo)), ")"), sep = "")
+  X = cube(fdo)
+  newdata = NULL
+  for (i in names(names(fdo))) {
+    seqList = vector(mode = "list", length = 0)
+    seqList[["length"]] = steps
+    seqList[["from"]] = min(X[, i])
+    seqList[["to"]] = max(X[, i])
+    minC = NULL
+    maxC = NULL
+    if (!is.null(cs[[i]])) {
+      if (length(cs[[i]]) < 2)
+        stop("length of ", names(cs[i]), "=", cs[i], " < 2 in constraints")
+      minC = min(cs[[i]])
+      if (!is.null(minC) & !is.na(minC))
+        seqList[["from"]] = minC
+      maxC = max(cs[[i]])
+      if (!is.null(maxC) & !is.na(maxC))
+        seqList[["to"]] = maxC
+      if (maxC == minC)
+        stop(paste("equal values in constraints ", names(cs[i]), "=", cs[i]))
+    }
+    l[[i]] = do.call(seq, seqList)
+  }
+  if (DB)
+    print(l)
+  newdata = expand.grid(l)
+  names(newdata) = names(X)
+  out = newdata
+  yCharSet = intersect(names(desires(fdo)), names(fits(fdo)))
+  dFrame = data.frame(matrix(NA, nrow = nrow(newdata), ncol = length(yCharSet) + 1))
+  names(dFrame) = c(yCharSet, "overall")
+  dFrame[, "overall"] = 1
+  for (y in yCharSet) {
+    obj = desList[[y]]
+    dFun = .desireFun(obj@low, obj@high, obj@target, obj@scale, obj@importance)
+    lm.y = fitList[[y]]
+    importances[[y]] = desires(fdo)[[y]]@importance
+    yHat = predict(lm.y, newdata = newdata, ...)
+    yDes = dFun(yHat)
+    dFrame[, y] = yDes
+    if (DB) {
+      print(y)
+      print(dFun)
+      print(lm.y)
+      print(dFrame)
+    }
+  }
+  geomFac = 1/sum(unlist(importances))
+  overall = apply(dFrame, 1, prod)^geomFac
+  dFrame[, "overall"] = overall
+  dFrame = cbind(out, dFrame)
+  invisible(dFrame)
+}
+###Necesito .desHelp####
+.desHelp = function(fdo, factors, ...) {
+  if (length(factors) != length(fdo$names()))
+    stop("not enough factors specified in factors")
+  if (any(is.na(factors)))
+    stop("factors contain NA")
+  yCharSet = intersect(names(fdo$desires()), names(fdo$fits))
+  desList = fdo$desires()
+  fitList = fdo$fits
+  yDes = vector(mode = "list")
+  aux <- list()
+  for (i in 1:length(fdo$names())) {
+    aux[[fdo$names()[i]]] <-.NAMES[i]
+  }
+  names(factors)<-unlist(aux)
+  for (y in yCharSet) {
+    obj = desList[[y]]
+    dFun = .desireFun(obj$low, obj$high, obj$target, obj$scale, obj$importance)
+    lm.y = fitList[[y]]
+    yHat = predict(lm.y, newdata = data.frame(factors))
+    yDes[[y]] = dFun(yHat)
+  }
+  return(yDes)
+}
 ###Necesito clase desOpt#################
 desOpt <- R6Class("desOpt", public = list(facCoded = list(),
                                           facReal = list(),
@@ -3832,9 +3927,36 @@ desOpt <- R6Class("desOpt", public = list(facCoded = list(),
                                           overall = NULL,
                                           all = data.frame(),
                                           fdo = NULL,
-
+                                          as.data.frame = function(x, row.names = NULL, optional = FALSE, ...) {
+                                            return(x$all)
+                                          },
+                                          print = function(){
+                                            cat(paste("\ncomposite (overall) desirability:", format(self$overall, digits = 3)))
+                                            cat("\n")
+                                            cat("\n")
+                                            temp1 = do.call(data.frame, self$facCoded)
+                                            temp2 = do.call(data.frame, self$facReal)
+                                            facFrame = rbind(temp1, temp2)
+                                            row.names(facFrame) = c("coded", "real")
+                                            show(format(facFrame, digits = 3))
+                                            temp1 = do.call(data.frame, self$responses)
+                                            temp2 = do.call(data.frame, self$desirabilities)
+                                            respDesFrame = rbind(temp1, temp2)
+                                            row.names(respDesFrame) = c("Responses", "Desirabilities")
+                                            cat("\n")
+                                            show(format(respDesFrame, digits = 3))
+                                          }
                                          )
                       )
+###Necesito .dHelp#####################
+.dHelp = function(model, dFun) {
+  lm1 = model
+  d1 = dFun
+  out = function(newdata) {
+    return(d1(predict(lm1, newdata = newdata)))
+  }
+  return(out)
+}
 ###funcion optimum####
 optimum <- function(fdo, constraints, steps = 25, type = "grid", start, ...) {
   DB = FALSE
@@ -3859,20 +3981,20 @@ optimum <- function(fdo, constraints, steps = 25, type = "grid", start, ...) {
     print(constraints)
     print(start)
   }
-  desOpt = new("desOpt")
-  desOpt@fdo = fdo
+  desOpt = desOpt$new()
+  desOpt$fdo = fdo
   facCoded = NA
   desirabilities = NA
   overall = NA
   setList = list()
   dList = list()
   importances = list()
-  yCharSet = intersect(names(desires(fdo)), names(fits(fdo)))
+  yCharSet = intersect(names(fdo$desires()), names(fdo$fits))
   for (y in yCharSet) {
-    obj = desires(fdo)[[y]]
-    dFun = .desireFun(obj@low, obj@high, obj@target, obj@scale, obj@importance)
-    lm.y = fits(fdo)[[y]]
-    importances[[y]] = desires(fdo)[[y]]@importance
+    obj = fdo$desires()[[y]]
+    dFun = .desireFun(obj$low, obj$high, obj$target, obj$scale, obj$importance)
+    lm.y = fdo$fits[[y]]
+    importances[[y]] = fdo$desires()[[y]]$importance
     dList[[y]] = .dHelp(lm.y, dFun)
   }
   geomFac = 1/sum(unlist(importances))
@@ -3891,41 +4013,47 @@ optimum <- function(fdo, constraints, steps = 25, type = "grid", start, ...) {
     #       print(upper)
     temp = optim(par = start, dAll, method = "L-BFGS-B", lower = lower, upper = upper, control = list(fnscale = -1, maxit = 1000))
     facCoded = as.list(temp$par)
-    names(facCoded) = names(names(fdo))
-    desOpt@facCoded = facCoded
+    names(facCoded) = fdo$names()
+    desOpt$facCoded = facCoded
     overall = temp$value
-    desirabilities = .desHelp(fdo, desOpt@facCoded)
+    desirabilities = .desHelp(fdo, desOpt$facCoded)
   }
   if (type == "gosolnp") {
     #if (!require(Rsolnp, quietly = TRUE))
     #    stop("Package Rsolnp needs to be installed!")
     temp = Rsolnp::gosolnp(fun = dAllRsolnp, LB = lower, UB = upper)
     facCoded = as.list(temp$pars)
-    names(facCoded) = names(names(fdo))
-    desOpt@facCoded = facCoded
+    names(facCoded) = fdo$names()
+    desOpt$facCoded = facCoded
     overall = -rev(temp$values)[1]
-    desirabilities = .desHelp(fdo, desOpt@facCoded)
+    desirabilities = .desHelp(fdo, desOpt$facCoded)
   }
   if (type == "grid") {
     dVals = overall(fdo = fdo, constraints = constraints, steps = steps)
     index = order(dVals[, "overall"], decreasing = TRUE)[1]
-    desOpt@all = dVals
-    desOpt@facCoded = as.list(dVals[index, names(names(fdo))])
-    desirabilities = as.list(dVals[index, names(response(fdo))])
-    names(desirabilities) = names(response(fdo)) #fix for the case of having just one response
+    desOpt$all = dVals
+    desOpt$facCoded = as.list(dVals[index, fdo$names()])
+    desirabilities = as.list(dVals[index, names(fdo$.response())])
+    names(desirabilities) = names(fdo$.response()) #fix for the case of having just one response
     overall = dVals[index, "overall"]
   }
-  for (i in names(desOpt@facCoded)) {
-    desOpt@facReal[[i]] = code2real(lows(fdo)[[i]], highs(fdo)[[i]], desOpt@facCoded[[i]])
+  for (i in names(desOpt$facCoded)) {
+    desOpt$facReal[[i]] = code2real(fdo$lows()[[i]], fdo$highs()[[i]], desOpt$facCoded[[i]])
   }
-  desOpt@desirabilities = desirabilities
-  desOpt@overall = overall
-  newData = do.call(data.frame, desOpt@facCoded)
-  for (i in names(desOpt@desirabilities)) {
-    desOpt@responses[[i]] = predict(fits(fdo)[[i]], newData)
+  desOpt$desirabilities = desirabilities
+  desOpt$overall = overall
+  newData = do.call(data.frame, desOpt$facCoded)
+  aux <- list()
+  for (i in 1:length(fdo$names())) {
+    aux[[fdo$names()[i]]] <-.NAMES[i]
+  }
+  names(newData)<-unlist(aux)
+  for (i in names(desOpt$desirabilities)) {
+    desOpt$responses[[i]] = predict(fdo$fits[[i]], newData)
   }
   return(desOpt)
 }
 ###uso optimum####
+optimum(ddo,type='optim')
 
 
