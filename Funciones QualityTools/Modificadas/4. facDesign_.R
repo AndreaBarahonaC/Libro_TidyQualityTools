@@ -2865,7 +2865,7 @@ wirePlot <- function(x, y, z, data = NULL,
 wirePlot(A,B,rend,data=dfac)
 
 ### Funcion contourPlot#####################
-contourPlot <- function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, border, sub, zlab, form = "fit", phi, theta, ticktype, col = 1, steps,
+contourPlot <- function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, zlab, form = "fit", col = 1, steps,
                         factors, fun, plot = TRUE, show.scale = TRUE) {
   form = form
   fact = NULL
@@ -3645,7 +3645,7 @@ summary(lm.3)
 
 
 ####Visualizacion####
-wirePlot(A, B, rend2, form = "rend2 ~ A*B + I(A^2) + I(B^2)", data = rsdo, theta = -70)
+wirePlot(A, B, rend2, form = "rend2 ~ A*B + I(A^2) + I(B^2)", data = rsdo)
 contourPlot(A, B, rend2, form = "rend2 ~ A*B + I(A^2) + I(B^2)", data = rsdo)
 ####filled.contour####
 A = seq(40, 210, length = 100)
@@ -3862,8 +3862,8 @@ d1$print()
 d1$plot()
 d3$plot()
 
-d<-desirability$new()
-desirability
+# d<-desirability$new()
+# desirability
 
 
 ####Utilizacion de deseabilidades junto con experimentos desiñados#####
