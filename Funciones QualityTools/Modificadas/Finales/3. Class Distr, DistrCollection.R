@@ -158,7 +158,7 @@ DistrCollection <- R6::R6Class("DistrCollection",
                                  get = function(i) {
                                    self$distr[[i]]
                                  },
-                                 show = function() {
+                                 print = function() {
                                    cat("\n")
                                    for (i in seq_along(self$distr)) {
                                      temp <- self$distr[[i]]
