@@ -2568,77 +2568,89 @@ normalPlot(dfac)
 
 #### necesito clase desirability.c#################
 desirability.c <- R6Class("desirability", public = list(response = NULL,
-                                                      low = NULL,
-                                                      high = NULL,
-                                                      target = NULL,
-                                                      scale = NULL,
-                                                      importance = NULL,
-                                                      initialize = function(response=NULL, low=NULL, high=NULL, target=NULL, scale=NULL, importance=NULL) {
-                                                        self$response <- response
-                                                        self$low <- low
-                                                        self$high <- high
-                                                        self$target <- target
-                                                        self$scale <- scale
-                                                        self$importance <- importance
-                                                      },
-                                                      print = function(){
-                                                        if (!is.numeric(self$target))
-                                                          cat("Target is to", paste(self$target, "imize", sep = ""), self$response, "\n")
-                                                        else cat("Target is ", self$target, " for", self$response, "\n")
-                                                        cat("lower Bound: ", self$low, "\n")
-                                                        cat("higher Bound: ", self$high, "\n")
-                                                        if (is.numeric(self$target))
-                                                          cat("Scale factor is: low =", self$scale[1], "and high =", self$scale[2], "\n")
-                                                        else if (identical("min", self$target) | identical("max", self$target))
-                                                          cat("Scale factor is: ", self$scale, "\n")
-                                                        cat("importance: ", self$importance, "\n")
-                                                        cat("\n")
-                                                      },
-                                                      plot = function(y, scale, main, xlab, ylab, type, col, numPoints = 500, ...){
-                                                        xm1 = NULL
-                                                        xm2 = NULL
-                                                        ym = NULL
-                                                        y = NULL
-                                                        if (missing(main))
-                                                          main = paste("Desirability function for", self$response)
-                                                        if (missing(xlab))
-                                                          xlab = self$response
-                                                        if (missing(ylab))
-                                                          ylab = "Desirability"
-                                                        if (missing(type))
-                                                          type = "l"
-                                                        if (missing(scale))
-                                                          scale = self$scale
-                                                        if (missing(col))
-                                                          col = 1:length(scale)
-                                                        dFun = .desireFun(self$low, self$high, self$target, self$scale, self$importance)
-                                                        xVals = seq(self$low - 0.04 * diff(range(self$low, self$high)), self$high + 0.04 * diff(range(self$low, self$high)), length = numPoints)
-                                                        yVals = dFun(xVals)
-                                                        plot(xVals, yVals, main = main, xlab = xlab, ylab = ylab, type = type, col = col, ...)
-                                                        if (is.numeric(self$target)) {
-                                                          xm1 = mean(c(par("usr")[1], self$target))
-                                                          xm2 = mean(c(par("usr")[2], self$target))
-                                                          ym1 = yVals[max((1:numPoints)[xVals <= xm1])]
-                                                          ym2 = yVals[max((1:numPoints)[xVals <= xm2])]
-                                                          text(xm1 + 0.025 * diff(range(par("usr")[1:2])), ym1, paste("scale =", scale[1]), adj = c(0, 0))
-                                                          text(xm2 - 0.025 * diff(range(par("usr")[1:2])), ym2, paste("scale =", scale[2]), adj = c(1, 1))
+                                                        low = NULL,
+                                                        high = NULL,
+                                                        target = NULL,
+                                                        scale = NULL,
+                                                        importance = NULL,
+                                                        initialize = function(response=NULL, low=NULL, high=NULL, target=NULL, scale=NULL, importance=NULL) {
+                                                          self$response <- response
+                                                          self$low <- low
+                                                          self$high <- high
+                                                          self$target <- target
+                                                          self$scale <- scale
+                                                          self$importance <- importance
+                                                        },
+                                                        print = function(){
+                                                          if (!is.numeric(self$target))
+                                                            cat("Target is to", paste(self$target, "imize", sep = ""), self$response, "\n")
+                                                          else cat("Target is ", self$target, " for", self$response, "\n")
+                                                          cat("lower Bound: ", self$low, "\n")
+                                                          cat("higher Bound: ", self$high, "\n")
+                                                          if (is.numeric(self$target))
+                                                            cat("Scale factor is: low =", self$scale[1], "and high =", self$scale[2], "\n")
+                                                          else if (identical("min", self$target) | identical("max", self$target))
+                                                            cat("Scale factor is: ", self$scale, "\n")
+                                                          cat("importance: ", self$importance, "\n")
+                                                          cat("\n")
+                                                        },
+                                                        plot = function(y, scale, main, xlab, ylab, line.width, col, numPoints = 500, ...){
+                                                          xm1 = NULL
+                                                          xm2 = NULL
+                                                          ym = NULL
+                                                          y = NULL
+                                                          if (missing(main))
+                                                            main = paste("Desirability function for", self$response)
+                                                          if (missing(xlab))
+                                                            xlab = self$response
+                                                          if (missing(ylab))
+                                                            ylab = "Desirability"
+                                                          if (missing(line.width))
+                                                            line.width = 0.75
+                                                          if (missing(scale))
+                                                            scale = self$scale
+                                                          if (missing(col))
+                                                            col = "red"
+                                                          dFun = .desireFun(self$low, self$high, self$target, self$scale, self$importance)
+                                                          xVals = seq(self$low - 0.04 * diff(range(self$low, self$high)), self$high + 0.04 * diff(range(self$low, self$high)), length = numPoints)
+                                                          yVals = dFun(xVals)
+
+                                                          df <- data.frame(X = xVals, Y = yVals)
+
+                                                          p <- ggplot(df, aes(x = X, y = Y)) +
+                                                            geom_line(color = col, size = line.width) +
+                                                            labs(title = main, x = xlab, y = ylab) +
+                                                            theme_minimal() +
+                                                            theme(plot.title = element_text(hjust = 0.5))
+                                                          # annotate("text", x = (mean(range(df$X)) * 1.05), y = mean(range(df$Y)), label = "scale = 1", size = 5) # Añadir la etiqueta en el centro
+
+                                                          if (is.numeric(self$target)) {
+                                                            xm1 <- mean(c(min(xVals), self$target))
+                                                            xm2 <- mean(c(max(xVals), self$target))
+                                                            ym1 <- df$Y[which.min(abs(df$X - xm1))]
+                                                            ym2 <- df$Y[which.min(abs(df$X - xm2))]
+                                                            p <- p +
+                                                              annotate("text", x = xm1*1.05, y = ym1, label = paste("scale =", scale[1])) +
+                                                              annotate("text", x = xm2*0.95, y = ym2, label = paste("scale =", scale[2]))
+                                                          } else {
+                                                            xm1 <- mean(range(xVals))
+                                                            ym1 <- df$Y[which.min(abs(df$X - xm1))]
+                                                            if (identical(self$target, "max")) {
+                                                              p <- p +
+                                                                annotate("text", x = xm1*1.05, y = ym1, label = paste("scale =", scale[1]))
+                                                            } else {
+                                                              p <- p +
+                                                                annotate("text", x = xm1*1.05, y = ym1, label = paste("scale =", scale[1]))
+                                                            }
+                                                          }
+                                                          print(p)
+                                                          out = list(x = xVals, y = yVals)
+                                                          names(out) = c(self$response, "desirability")
+                                                          invisible(out)
                                                         }
-                                                        else {
-                                                          xm1 = mean(par("usr")[c(1, 2)])
-                                                          ym1 = yVals[max((1:numPoints)[xVals <= xm1])]
-                                                          if (identical(self$target, "max"))
-                                                            text(xm1 + 0.025 * diff(range(par("usr")[1:2])), ym1 - 0.025 * diff(range(par("usr")[3:4])), paste("scale =", scale[1]), adj = c(0, 0))
-                                                          else text(xm1 + 0.025 * diff(range(par("usr")[1:2])), ym1 + 0.025 * diff(range(par("usr")[3:4])), paste("scale =", scale[1]), adj = c(0, 1))
-                                                        }
-                                                        out = list(x = xVals, y = yVals)
-                                                        names(out) = c(self$response, "desirability")
-                                                        invisible(out)
-                                                      }
+)
+)
 
-
-
-                                                      )
-                       )
 
 #### necesito .desireFun###############
 .desireFun = function(low, high, target = "max", scale = c(1, 1), importance = 1) {
@@ -2693,7 +2705,8 @@ wirePlot <- function(x, y, z, data = NULL,
                      xlim, ylim, zlim, main,
                      xlab, ylab, sub, sub.a = TRUE, zlab,
                      form = "fit", col = "Rainbow", steps,
-                     fun, plot = TRUE, show.scale = TRUE, n.scene = "scene") {
+                     factors, fun, plot = TRUE, show.scale = TRUE,
+                     n.scene = "scene") {
   form = form
   fact = NULL
   if (missing(steps))
@@ -2853,7 +2866,7 @@ wirePlot(A,B,rend,data=dfac)
 
 ### Funcion contourPlot#####################
 contourPlot <- function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, border, sub, zlab, form = "fit", phi, theta, ticktype, col = 1, steps,
-                       factors, fun, plot = TRUE, show.scale = TRUE) {
+                        factors, fun, plot = TRUE, show.scale = TRUE) {
   form = form
   fact = NULL
   if (missing(steps))
@@ -2874,16 +2887,53 @@ contourPlot <- function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, bord
       col = colorRampPalette(c("blue4", "lightblue1", "lightgreen", "green4"))
   }
 
-  if (is.null(data)) {
-    cat("\n defaulting to filled.contour function\n")
-    return("persp")
-  }
-  if (class(data)[1] != "facDesign") {
-    cat("\n defaulting to filled.contour function using formula\n")
-    return("persp")
-  }
+  if (is.null(data) | class(data)[1] != "facDesign") {
+    if(length(x) == length(y)){
+      if(dim(z)[1] == length(x) & dim(z)[2] == length(x)){
+        if(missing(main))
+          main = "Filled Contour"
+        if(missing(xlab))
+          xlab = ""
+        if(missing(ylab))
+          ylab = ""
 
-  x.c = deparse(substitute(x))
+        if (is.function(col)) {
+          mat <- z
+          nrMat <- nrow(mat)
+          ncMat <- ncol(mat)
+          nbcol <- 1000
+          color <- col(nbcol)
+          matFacet <- mat[-1, -1] + mat[-1, -ncMat] + mat[-nrMat, -1] + mat[-nrMat, -ncMat]
+          facetcol <- cut(matFacet, nbcol)
+        }
+        else {
+          color = col
+          facetcol = 1
+        }
+
+        p <- plot_ly(x = x, y = y, type = "contour", z = z, autocontour = TRUE, colors = color,
+                     contours = list(coloring = 'heatmap'), line = list(smoothing = 0),
+                     showscale = show.scale) %>%
+          layout(
+            title = main,
+            xaxis = list(title = xlab, zeroline = FALSE),
+            yaxis = list(title = ylab, zeroline = FALSE)
+          )
+
+        if (plot) {
+          show(p)
+        }
+
+        invisible(list(x = x, y = y, z = z, plot = p))
+      }
+
+    }
+    else{
+      cat("\n defaulting to filled.contour function\n")
+      return("persp")
+    }
+  }
+  else{x.c = deparse(substitute(x))
   y.c = deparse(substitute(y))
   z.c = deparse(substitute(z))
 
@@ -2995,7 +3045,8 @@ contourPlot <- function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, bord
   }
 
   p <- plot_ly(x = xVec, y = yVec, z = mat, colors = color,
-               type = "contour", contours = list(coloring = 'heatmap'), showscale = show.scale) %>%
+               type = "contour", autocontour = TRUE, line = list(smoothing = 0), contours = list(coloring = 'heatmap'),
+               showscale = show.scale) %>%
     layout(
       title = main,
       xaxis = list(range = xlim, title = xlab, zeroline = FALSE),
@@ -3007,7 +3058,10 @@ contourPlot <- function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, bord
   }
 
   invisible(list(x = xVec, y = yVec, z = mat, plot = p))
+  }
+
 }
+
 ### Uso contourPlot########################
 contourPlot(A,B,rend,data=dfac)
 
@@ -3277,17 +3331,39 @@ steepAscent.c <- R6Class("facDesign", public = list(name = NULL,
                                                     print = function(){
                                                       print(self$as.data.frame())
                                                     },
-                                                    plot = function(y, ...){
+                                                    plot = function(y, main, xlab, ylab, l.col, p.col,
+                                                                    line.type, point.shape,...){
                                                       Delta = (self$X)$Delta
                                                       frame = cbind(Delta, self$.response())
                                                       names(frame) = c("Delta", names(self$.response()))
-                                                      plot(frame, ...)
+                                                      if (missing(main))
+                                                        main = ""
+                                                      if (missing(xlab))
+                                                        xlab = "Delta"
+                                                      if (missing(ylab))
+                                                        ylab = "predicted"
+                                                      if (missing(l.col))
+                                                        l.col = "red"
+                                                      if (missing(p.col))
+                                                        p.col = "red"
+                                                      if (missing(line.type))
+                                                        line.type = "dashed"
+                                                      if (missing(line.type))
+                                                        line.type = "dashed"
+                                                      if (missing(point.shape))
+                                                        point.shape = 16
 
+                                                      p <- ggplot(frame, aes(x = Delta, y = predicted)) +
+                                                        geom_line(color = l.col, linetype = line.type) +
+                                                        geom_point(color = p.col, shape = point.shape) +
+                                                        labs(title = main, x = xlab, y = ylab) +
+                                                        theme_minimal()
+                                                      print(p)
                                                     }
 
 
-                                                   )
-                        )
+)
+)
 
 #####Necesito code2real####
 code2real = function(low, high, codedValue) {
@@ -3375,7 +3451,7 @@ sao <- steepAscent(factors = c("A", "B"), response = "rend", data = dfac, steps 
 sao$print()
 predicted <- simProc(sao$get(,5), sao$get(,6))
 sao$.response(predicted)
-sao$plot(type='b', col=2)
+sao$plot()
 
 
 
@@ -3575,7 +3651,8 @@ contourPlot(A, B, rend2, form = "rend2 ~ A*B + I(A^2) + I(B^2)", data = rsdo)
 A = seq(40, 210, length = 100)
 B = seq(90, 190, length = 100)
 C = seq(90, 190, length = 100)
-filled.contour(A, B,outer(A,B, simProc, noise = FALSE), xlab = "Factor 1", ylab = "Factor 2", color.palette = colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan","#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000")))
+# filled.contour(A, B,outer(A,B, simProc, noise = FALSE), xlab = "Factor 1", ylab = "Factor 2", color.palette = colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan","#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000")))
+contourPlot(x = A, y = B, z = outer(A,B, simProc, noise = FALSE), xlab = "Factor 1", ylab = "Factor 2")
 
 ####Necesito rsmDesign####
 rsmDesign <- function(k = 3, p = 0, alpha = "rotatable", blocks = 1, cc = 1, cs = 1, fp = 1,
@@ -3782,9 +3859,8 @@ y4 <- c(67.5, 65, 77.5, 74.5, 62.5, 67, 78, 70, 76, 70, 63, 75, 65, 71,
 d1 <- desirability(y1, 120, 170, scale = c(1, 1), target = "max")
 d3 <- desirability(y3, 400, 600, target = 500)
 d1$print()
-d1$plot(col = 2)
-d3$plot(col = 2)
-
+d1$plot()
+d3$plot()
 
 d<-desirability$new()
 desirability
