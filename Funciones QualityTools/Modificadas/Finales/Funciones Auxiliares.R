@@ -566,8 +566,7 @@ print.adtest <- function(x, digits = 4, quote = TRUE, prefix = "", ...) {
   invisible(list(xlim = x, ylim = y))
 }
 # .sdSg, lfkp, lfrm  ---------------------
-.sdSg = function(x, grouping = NULL, method = c("NOWEIGHT", "MVLUE", "RMSDF"), na.rm = TRUE, DB = TRUE) {
-  DB = FALSE
+.sdSg = function(x, grouping = NULL, method = c("NOWEIGHT", "MVLUE", "RMSDF"), na.rm = TRUE) {
   if (!is.data.frame(x) && !is.vector(x) && is.numeric(x))
     stop("x needs to be either a data.frame or a vector and numeric")
   if (is.null(grouping)) {
@@ -584,15 +583,6 @@ print.adtest <- function(x, digits = 4, quote = TRUE, prefix = "", ...) {
     if (is.vector(x))
       temp = x[group[i, 1] == grouping[, 1]]
     sdVec[i] = sd(temp, na.rm = T)/.c4(length(temp[!is.na(temp)]))
-    if (DB) {
-      print(group[i, 1])
-      print(temp)
-      print(length(temp[!is.na(temp)]))
-    }
-  }
-  if (DB) {
-    print(paste("std.dev: ", mean(sdVec)))
-    print(sdVec)
   }
   return((mean(sdVec)))
 }
@@ -833,8 +823,8 @@ FitDistr <- function (x, densfun, start, ...){
                  loglik = -res$value, n = n), class = "FitDistr")
 }
 # Funcion qqPlot ---------------------
-qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim, border = "red", bounds.col = "black", bounds.lty = 1, start, grapic = TRUE, axis.y.right = FALSE, bw.theme = FALSE,...){
-  DB = FALSE
+qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim, border = "red",
+                   bounds.col = "black", bounds.lty = 1, start, grapic = TRUE, axis.y.right = FALSE, bw.theme = FALSE,...){
   parList = list()
   if (is.null(parList[["col"]])){
     parList$col = 1:2
@@ -901,17 +891,11 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
     dots <- list(...)
 
     if(TRUE){
-      if (DB)
-        print("TODO: Pass the estimated parameters correctly")
       fitList = .lfkp(parList, formals(qFun))
       fitList$x = xs
       fitList$densfun = distribution
       if(!missing(start))
         fitList$start = start
-      if(DB){
-        print(fitList)
-        print("Ende")
-      }
       if(!threeParameter){
         fittedDistr = do.call(FitDistr, fitList)
         parameter = fittedDistr$estimate
@@ -943,10 +927,6 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
       }
 
       xq <- do.call(qFun, c(list(c(0.25, 0.75)), parameter))
-      if (DB) {
-        print(paste("parameter: ", parameter))
-        print(xq)
-      }
     }
     else {
       params =.lfkp(parList, formals(qFun))
