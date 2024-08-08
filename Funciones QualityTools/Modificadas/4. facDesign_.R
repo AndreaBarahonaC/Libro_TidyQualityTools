@@ -4375,7 +4375,7 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                     if (missing(value)) {
                                                       v <- list()
                                                       for (i in 1:length(self$factors)) {
-                                                        v[[unlist(mdo$names()[i])]] <- self$factors[[i]]$.unit()
+                                                        v[[unlist(self$names()[i])]] <- self$factors[[i]]$.unit()
                                                       }
                                                       return(v)
                                                     }
@@ -5064,7 +5064,7 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                             if (missing(value)) {
                                                               v <- list()
                                                               for (i in 1:length(self$factors)) {
-                                                                v[[unlist(mdo$names()[i])]] <- self$factors[[i]]$.unit()
+                                                                v[[unlist(self$names()[i])]] <- self$factors[[i]]$.unit()
                                                               }
                                                               return(v)
                                                             }
