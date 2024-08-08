@@ -4,7 +4,7 @@ library(gridExtra)
 
 
 cg_RunChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
-                         n = 0.2, type = "b", col = "black", pch = 19,
+                         n = 0.2, col = "black", pch = 19,
                          xlim = NULL, ylim = NULL, main = "Run Chart",
                          conf.level = 0.95, cgOut = TRUE)
 {
@@ -304,7 +304,7 @@ cg_HistChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
 }
 
 cg_ToleranceChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
-                               n = 0.2, type, col, pch, xlim, ylim, main, conf.level = 0.95,
+                               n = 0.2, col, pch, xlim, ylim, main, conf.level = 0.95,
                                cgOut = TRUE)
 {
   if (missing(x))
@@ -337,8 +337,6 @@ cg_ToleranceChart <- function (x, target, tolerance, ref.interval, facCg, facCgk
                  sd)
   if (length(tolerance) != 2)
     stop("tolerance has wrong length")
-  if (missing(type))
-    type = "b"
   if (missing(col))
     col = 1
   if (missing(pch))
@@ -401,9 +399,8 @@ cg_ToleranceChart <- function (x, target, tolerance, ref.interval, facCg, facCgk
 }
 
 
-cg_ <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
-                   type, col, pch, xlim, ylim, conf.level = 0.95, cex.val = 1.5)
-{
+cg <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
+                col, pch, xlim, ylim, conf.level = 0.95){
     old.par <- par(no.readonly = TRUE)
     if (missing(x))
       stop("x must be given as a vector")
@@ -436,8 +433,6 @@ cg_ <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
                    sd)
     if (length(tolerance) != 2)
       stop("tolerance has wrong length")
-    if (missing(type))
-      type = "b"
     if (missing(col))
       col = 1
     if (missing(pch))
@@ -692,9 +687,9 @@ cg_ <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
   }
 
 
-x <- c ( 9.991, 10.013, 10.001, 10.007, 10.010, 10.013, 10.008, 10.017, 10.005, 10.005, 10.002,
-         10.017, 10.005, 10.002, 9.996, 10.011, 10.009 , 10.006, 10.008, 10.003, 10.002, 10.006,
-         10.010, 9.992, 10.013)
+x <- c(9.991, 10.013, 10.001, 10.007, 10.010, 10.013, 10.008, 10.017, 10.005, 10.005, 10.002,
+      10.017, 10.005, 10.002, 9.996, 10.011, 10.009 , 10.006, 10.008, 10.003, 10.002, 10.006,
+      10.010, 9.992, 10.013)
 
-cg_(x, target = 10.003, tolerance = c(9.903, 10.103))
+cg(x, target = 10.003, tolerance = c(9.903, 10.103))
 
