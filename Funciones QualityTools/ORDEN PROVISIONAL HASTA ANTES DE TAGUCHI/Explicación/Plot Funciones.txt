@@ -1,0 +1,14 @@
+PLOT - FUNCIONES
+
+- ParetoChart
+- qqPlot
+- ppPlot
+- paretoPlot
+- normalPlot
+- InteractionPlot
+- wirePlot
+- contourPlot
+- fracChoose
+- rsmChoose
+- contourPlot3
+- wirePlot3

@@ -1,0 +1,60 @@
+DISEÑOS FACTORIALES
+
+# CLASES
+
+- FacDesign.c
+- doeFactor
+- desirability.c
+- steepAscent.c
+- desOpt
+
+
+# FUNCIONES
+
+## FUNCIONES QUE CREAN LAS CLASES
+
+- Función fracDesign
+- Función facDesign
+- Función steepAscent
+- Función starDesign
+- Función rsmDesign
+- Función desirability
+
+## OTRAS
+
+- randomize
+- as.data.frame.facDesign
+- aliasTable
+- blocking
+- simProc
+- confounds
+- code2real
+- overall
+- optimum
+
+# FUNCIONES AUXILIARES (.r)
+
+- .replace2s
+- .helpAliasTable
+- .fd0orth
+- .NAMES
+- .m.interaction.plot
+- .rsm
+- .numFac
+- .confoundings
+- .lociv
+- .blockInteractions
+- .blockGenCol
+- .blockCol
+- .norm2d
+- .letterPos
+- .testFun
+- .splitDev
+- .desireFun
+- .nblock
+- .starFrame
+- .alpha0rth, .alphaRot
+- .rsmOrth
+- .validizeConstraints
+- .desHelp
+- .dHelp

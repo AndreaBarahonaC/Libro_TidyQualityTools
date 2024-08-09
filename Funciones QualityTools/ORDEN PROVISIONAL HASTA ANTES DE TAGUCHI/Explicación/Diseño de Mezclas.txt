@@ -1,0 +1,16 @@
+DISEÑOS DE MEZCLAS
+
+# CLASES
+
+- mixDesign.c
+
+# FUNCIONES
+
+- mixDesign
+
+# AUXILIARES
+
+- .npp
+- .permut
+- .simplexCentroid
+- .mfc

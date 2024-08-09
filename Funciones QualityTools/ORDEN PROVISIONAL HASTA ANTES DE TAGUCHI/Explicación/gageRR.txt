@@ -1,0 +1,16 @@
+gageRR
+
+# CLASE
+
+- gageRR.c
+
+# FUNCIONES
+
+- gageRRDesign
+- gageRR
+
+# AUXILIARES
+
+- .aip
+- .c4
+- .mapping

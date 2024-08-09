@@ -1,0 +1,40 @@
+DISTR Y DISTRCOLLECTION
+
+# CLASES
+
+- Distr
+- DistrCollection
+
+# FUNCIONES
+
+- distribution
+- FitDistr
+- cg_RunChart
+- cg_HistChart
+- cg_ToleranceChart
+- cg
+- print.adtest
+- pcr
+
+# AUXILIARES
+
+- .cg
+- internals.r: 
+  - .confintbeta
+  - .confintcauchy
+  - .confintexp
+  - .confintgamma
+  - .confintlnorm
+  - .confintlogis
+  - .confintnorm
+  - .confintweibull
+  - .gamma3
+  - .lognormal3
+  - .weibull3
+- .charToDistFunc
+- .myADtest
+- .xyLimits
+- .sdSg 
+- .lfkp 
+- .lfrm
+- .pcr
