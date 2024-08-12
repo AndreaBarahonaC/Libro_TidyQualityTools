@@ -5822,19 +5822,329 @@ taguchiChoose <- function(factors1 = 0, factors2 = 0, level1 = 0, level2 = 0, ia
 taguchiChoose()
 oaChoose()
 ###DISEÑOS PLACKETT-BURMAN####
-pbDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
-                                                     factors = list(),
-                                                     design = data.frame(),
-                                                     designType = NULL,
-                                                     replic = data.frame(),
-                                                     response = data.frame(),
-                                                     Type = data.frame(),
-                                                     block = data.frame(),
-                                                     runOrder = data.frame(),
-                                                     standardOrder = data.frame(),
-                                                     desireVal = list(),
-                                                     desirability = list(),
-                                                     fits = data.frame()
+###NEcesito pbFactor####
+pbFactor <- R6Class("pbFactor", public = list(values = NA,
+                                              name = "",
+                                              unit = "",
+                                              type = "numeric",
+                                              .values = function(value){
+                                                if (missing(value)) {
+                                                  return(self$values)
+                                                }
+                                                else{
+                                                  self$values <- value
+                                                  invisible(self)
+                                                }
+                                              },
+                                              .unit = function(value){
+                                                if(missing(value)){
+                                                  return(self$unit)
+                                                }
+                                                else{
+                                                  self$unit <- value
+                                                  invisible(self)
+                                                }
+                                              },
+                                              names = function(value){
+                                                if(missing(value)){
+                                                  return(self$name)
+                                                }
+                                                else{
+                                                  self$name <- value
+                                                  invisible(self)
+                                                }
+                                              },
+                                              attributes = function(){
+                                                v <- c(self$values,self$name, self$unit, self$type)
+                                              }
 
-                                                    )
+
+
+
+)
+)
+
+###Necesito clase pbDesign####
+pbDesign.c <- R6Class("pbDesign", public = list(name = NULL,
+                                                factors = list(),
+                                                design = data.frame(),
+                                                designType = NULL,
+                                                replic = data.frame(),
+                                                response = data.frame(),
+                                                Type = data.frame(),
+                                                block = data.frame(),
+                                                runOrder = data.frame(),
+                                                standardOrder = data.frame(),
+                                                desireVal = list(),
+                                                desirability = list(),
+                                                fits = data.frame(),
+                                                values = function(value){
+                                                  if(missing(value)){
+                                                    listOut = vector(mode = "list")
+                                                    for (i in names(self$design)) {
+                                                      listOut[[i]] = self$factors[[i]]$.values()
+                                                    }
+                                                    return(listOut)
+                                                  }
+                                                  else{
+                                                    for (i in names(value)) {
+                                                      if (i %in% names(self$design))
+                                                        if (length(value[[i]]) == length(unique(self$design[, i])))
+                                                          self$factors[[i]]$.values(value[[i]])
+                                                      else stop("Number of values greater or less than number of factor settings!")
+                                                    }
+                                                    invisible(self)
+                                                  }
+
+                                                },
+                                                units = function(value){
+                                                        if (missing(value)) {
+                                                          v <- list()
+                                                          for (i in 1:length(self$factors)) {
+                                                            v[[unlist(self$names()[i])]] <- self$factors[[i]]$.unit()
+                                                          }
+                                                          return(v)
+                                                        }
+                                                        else{
+                                                          for (i in 1:length(self$factors)) if (length(value) > 1)
+                                                            self$factors[[i]]$.unit(as.character(value[i]))
+                                                          else self$factors[[i]]$.unit(as.character(value[1]))
+                                                          invisible(self)
+                                                        }
+                                                },
+                                                .factors = function(value){
+                                                  if (missing(value)) {
+                                                    return(self$factors)
+                                                  }
+                                                  else{
+                                                    if (length(value) != ncol(self$design))
+                                                      stop("\nNumber of factors doesn't match with number of columns for factorial Design\n")
+                                                    self$factors <- value
+                                                    invisible(self)
+                                                  }
+                                                },
+                                                names = function(value){
+                                                  if(missing(value)){
+                                                    aux <- list()
+                                                    for (i in 1:length(self$factors)) {
+                                                      aux[[.NAMES[i]]] <-self$factors[[i]]$name
+                                                    }
+                                                    return(aux)
+                                                  }
+                                                  else {
+                                                    for (i in 1:length(self$factors)){
+                                                      self$factors[[i]]$name = as.character(value[i])
+
+                                                    }
+                                                    invisible(self)
+                                                  }
+                                                },
+                                                as.data.frame = function(row.names = NULL, optional = FALSE, ...){
+                                                  frameOut = cbind(self$standardOrder, self$runOrder, self$replic, self$design, self$response)
+                                                  return(frameOut)
+                                                },
+                                                print = function(){
+                                                  print(format(self$as.data.frame(), digits = 4))
+                                                },
+                                                .response = function(value){
+                                                  if(missing(value)){
+                                                    return(self$response)
+                                                  }
+                                                  else{
+                                                    if (!is.numeric(value) & !is.data.frame(value))
+                                                      stop("vector or data.frame must be given")
+                                                    if (is.numeric(value)) {
+                                                      if (length(value) != nrow(self$design))
+                                                        stop("differing lengths")
+                                                      temp = data.frame(value)
+                                                      names(temp) = deparse(substitute(value))[1]
+                                                      value = temp
+                                                    }
+                                                    if (is.data.frame(value)) {
+                                                      if (nrow(value) != nrow(self$design))
+                                                        stop("differing number of rows")
+                                                    }
+                                                    self$response = value
+                                                    invisible(self)
+                                                  }
+                                                },
+                                                .nfp = function(){
+                                                  x = self$.factors()
+                                                  DB = FALSE
+                                                  if (is.list(x) && length(x[[1]]) > 0) {
+                                                    numAttr = length(x[[1]]$attributes())
+                                                    .numFac = length(x)
+                                                    #len = 0
+                                                    # for (i in names(x)) if (length(x[[i]]$values) > len)
+                                                    #   len = length(x[[i]]$values)
+                                                    #numAttr = numAttr + len
+                                                    numrows = numAttr #- 1
+                                                    frameOut = data.frame(matrix(NA, ncol = .numFac, nrow = numrows))
+                                                    names(frameOut) = names(x)
+                                                    rownames(frameOut) = c(paste("value", 1:len), "name", "unit", "type")
+                                                    for (i in names(x)) {
+                                                      vin = 1:length(x[[i]]$values)
+                                                      frameOut[vin, i] = x[[i]]$values
+                                                      frameOut[numrows - 2, i] = x[[i]]$name
+                                                      frameOut[numrows - 1, i] = x[[i]]$unit
+                                                      frameOut[numrows, i] = x[[i]]$type
+                                                    }
+                                                    print(frameOut)
+                                                  }
+
+                                                },
+                                                summary = function(){
+                                                  cat(paste("Plackett-Burman", toupper(self$designType), "Design"))
+                                                  cat("\n")
+                                                  cat("Information about the factors:\n\n")
+                                                  self$.nfp
+                                                  cat("\n")
+                                                  cat("-----------\n")
+                                                  cat("\n")
+                                                  print(self$as.data.frame())
+                                                  cat("\n")
+                                                  cat("-----------\n")
+                                                  cat("\n")
+                                                }
+
+
+                                              )
                      )
+
+
+
+###Necesito .pbDesign####
+.pbDesign <- function(n){
+  k=n-1
+  if(k==27)
+  {
+    X=matrix(c(+1, -1, +1, +1, +1, +1, -1, -1, -1,
+               +1, +1, -1, +1, +1, +1, -1, -1, -1,
+               -1, +1, +1, +1, +1, +1, -1, -1, -1,
+               -1, -1, -1, +1, -1, +1, +1, +1, +1,
+               -1, -1, -1, +1, +1, -1, +1, +1, +1,
+               -1, -1, -1, -1, +1, +1, +1, +1, +1,
+               +1, +1, +1, -1, -1, -1, +1, -1, +1,
+               +1, +1, +1, -1, -1, -1, +1, +1, -1,
+               +1, +1, +1, -1, -1, -1, -1, +1, +1),nrow=9,ncol=9,byrow=TRUE)
+    Y=matrix(c(-1, +1, -1, -1, -1, +1, -1, -1, +1,
+               -1, -1, +1, +1, -1, -1, +1, -1, -1,
+               +1, -1, -1, -1, +1, -1, -1, +1, -1,
+               -1, -1, +1, -1, +1, -1, -1, -1, -1,
+               +1, -1, -1, -1, -1, +1, +1, -1, -1,
+               -1, +1, -1, +1, -1, -1, -1, +1, -1,
+               -1, -1, +1, -1, -1, +1, -1, +1, -1,
+               +1, -1, -1, +1, -1, -1, -1, -1, +1,
+               -1, +1, -1, -1, +1, -1, +1, -1, -1),nrow=9,ncol=9,byrow=TRUE)
+    Z=matrix(c(+1, +1, -1, +1, -1, +1, +1, -1, +1,
+               -1, +1, +1, +1, +1, -1, +1, +1, -1,
+               +1, -1, +1, -1, +1, +1, -1, +1, +1,
+               +1, -1, +1, +1, +1, -1, +1, -1, +1,
+               +1, +1, -1, -1, +1, +1, +1, +1, -1,
+               -1, +1, +1, +1, -1, +1, -1, +1, +1,
+               +1, -1, +1, +1, -1, +1, +1, +1, -1,
+               +1, +1, -1, +1, +1, -1, -1, +1, +1,
+               -1, +1, +1, -1, +1, +1, +1, -1, +1),nrow=9,ncol=9,byrow=TRUE)
+    design=data.frame(rbind(cbind(X,Y,Z),cbind(X,Y,Z),cbind(X,Y,Z),rep(-1,27)))
+  }
+  else
+  {
+    if(k<3)
+      stop("k needs to be grater than three!")
+    if(k==3)
+      firstRow=c(+1, -1, +1)[1:k]
+    if(k>3 && k<=7)
+      firstRow=c(+1, +1, +1, -1, +1, -1, -1)[1:k]
+    if(k>=8 && k<=11)
+      firstRow=c(+1, +1, -1, +1, +1, +1, -1, -1, -1, +1, -1)[1:k]
+    if(k>=12 && k<=15)
+      firstRow=c(+1, +1, +1, +1, -1, +1, -1, +1, +1, -1, -1, +1, -1, -1, -1)[1:k]
+    if(k>=16 && k<=19)
+      firstRow=c(+1, +1, -1, -1, +1, +1, +1, +1, -1, +1, -1, +1, -1, -1, -1, -1, +1, +1, -1)[1:k]
+    if(k>=20 && k<=23)
+      firstRow=c(+1, +1, +1, +1, +1, -1, +1, -1, +1, +1, -1, -1, +1, -1, -1, +1, -1, +1, -1, -1, -1, -1)[1:k]
+    if(k>=24 && k<=26)
+      firstRow=c(-1, -1, -1, -1, +1, -1, +1, -1, +1, +1, +1, -1, +1, +1, -1, -1, -1, +1, +1, +1, +1, +1, -1, -1, +1, +1, -1, +1, -1, -1, +1)[1:k]
+    if(k==27)
+      print("insert exception here!")
+    if(k>=29 && k<=31)
+      firstRow=c(-1, -1, -1, -1, +1, -1, +1, -1, +1, +1, +1, -1, +1, +1, -1, -1, -1, +1, +1, +1, +1, +1, -1, -1, +1, +1, -1, +1, -1, -1, +1)[1:k]
+    if(k>=32 && k<=35)
+      firstRow=c(-1, +1, -1, +1, +1, +1, -1, -1, -1, +1, +1, +1, +1, +1, -1, +1, +1, +1, -1, -1, +1, -1, -1, -1, -1, +1, -1, +1, -1, +1, +1, -1, -1, +1, -1)[1:k]
+    if(k>=36 && k<=39)
+      firstRow=c(+1, +1, -1, -1, +1, +1, +1, +1, -1, +1, -1, +1, -1, -1, -1, -1, +1, +1, -1, -1, +1, +1, -1, -1, +1, +1, +1, +1, -1, +1, -1, +1, -1, -1, -1, -1, +1, +1, -1)[1:k]
+    if(k>=40 && k<=43)
+      firstRow=c(+1, +1, -1, -1, +1, -1, +1, -1, -1, +1, +1, +1, -1, +1, +1, +1, +1, +1, -1, -1, -1, +1, -1, +1, +1, +1, -1, -1, -1, -1, -1, +1, -1, -1, -1, +1, +1, -1, +1, -1, +1, +1, -1)[1:k]
+    if(k>=44 && k<=47)
+      firstRow=c(+1, +1, +1, +1, +1, -1, +1, +1, +1, +1, -1, -1, +1, -1, +1, -1, +1, +1, +1, -1, -1, +1, -1, -1, +1, +1, -1, +1, +1, -1, -1, -1, +1, -1, +1, -1, +1, +1, -1, -1, -1, -1, +1, -1, -1, -1, -1)[1:k]
+    if(k>=48 && k<=59)
+      firstRow=c(+1, +1, -1, +1, +1, +1, -1, +1, -1, +1, -1, -1, +1, -1, -1, +1, +1, +1, -1, +1, +1, +1, +1, -1, -1, +1, +1, +1, +1, +1, -1, -1, -1, -1, -1, +1, +1, -1, -1, -1, -1, +1, -1, -1, -1, +1, +1, -1, +1, +1, -1, +1, -1, +1, -1, -1, -1, +1, -1)[1:k]
+
+    design=matrix(NA,nrow=k+1,ncol=k)
+    design[1,]=firstRow
+    nextRow=firstRow
+
+    for(i in 2:k)
+    {
+      nextRow=nextRow[c(k,1:k-1)]
+      design[i,]=nextRow
+    }
+    lastRow=rep(-1,k)
+    design[k+1,]=lastRow
+    design=data.frame(design)
+  }
+  return(design)
+}
+###Necesito pbDesign####
+pbDesign <- function(n, k , randomize = TRUE, replicates = 1) {
+  if(missing(n)&&missing(k))
+    stop("Either n or k must be set!")
+  if(missing(n)==FALSE && missing(k)==FALSE && k!=n-1 )
+    stop("Wrong combination of n and k")
+  if(missing(n))
+    n=k+1
+  if(missing(k))
+    k=n-1
+  DB = FALSE
+  odo = NA
+  if (DB)
+    print(n)
+  design = .pbDesign(n)
+  repVec = rep(1, nrow(design))
+  if (replicates > 1) {
+    X = .pbDesign(n)
+    for (i in 1:(replicates - 1)) {
+      design = rbind(design, X)
+      repVec = c(repVec, rep(i + 1, times = nrow(X)))
+    }
+  }
+  Replicate = data.frame(Replicate = as.numeric(repVec))
+  if (DB)
+    print(Replicate)
+  odo = pbDesign.c$new()
+  odo$design = design
+  names(odo$design) = .NAMES[1:ncol(design)]
+  odo$replic = Replicate
+  StandOrder = 1:nrow(odo$design)
+  RunOrder = StandOrder
+  if (randomize) {
+    RunOrder = sample(1:nrow(odo$design), nrow(odo$design), replace = FALSE, prob = NULL)
+  }
+  odo$design = odo$design[order(RunOrder), ]
+  odo$replic = data.frame(Replicate = odo$replic[order(RunOrder), 1])
+  row.names(odo$design) = odo$design$RunOrder
+  odo$runOrder = data.frame(RunOrder = data.frame(RunOrder = RunOrder)[order(RunOrder), ])
+  odo$standardOrder = data.frame(StandOrder = data.frame(StandOrder = StandOrder)[order(RunOrder), ])
+  odo$response = data.frame(y = rep(NA, nrow(odo$design)))
+  tfList = vector("list", ncol(design))
+  for (i in seq(along = tfList)) tfList[[i]] = pbFactor$new()
+  names(tfList) = names(odo$design)
+  odo$.factors(tfList)
+  valList = list(length = length(odo$names()))
+  for (i in names(odo$names())) valList[[i]] = sort(unique(odo$design[, i]))
+  odo$values(valList)
+  return(odo)
+}
+#Uso pbDesign####
+pbdo<-pbDesign(n=5)
+pbdo$summary()
