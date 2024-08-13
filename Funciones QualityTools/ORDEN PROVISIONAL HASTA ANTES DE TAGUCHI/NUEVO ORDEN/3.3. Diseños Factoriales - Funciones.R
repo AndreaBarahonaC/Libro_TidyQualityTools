@@ -468,6 +468,19 @@ facDesign <- function (k = 3, p = 0, replicates = 1, blocks = 1, centerCube = 0,
 
 # simProc ----
 simProc <- function(x1, x2, x3, noise = TRUE) {
+  #' @title facDesign
+  #' @description Generates a 2^k full factorial design.
+  #' @param k Numeric value giving the number of factors. By default k is set to ‘3’.
+  #' @param p Numeric integer between ‘0’ and ‘7’. p is giving the number of additional factors in the response surface design by aliasing effects.
+  #' For further information see fracDesign and fracChoose.
+  #' By default p is set to ‘0’.
+  #' @param replicates Numeric value giving the number of \code{replicates} per factor combination. By default replicates is set to ‘1’.
+  #' @param blocks Numeric value giving the number of blocks. By default blocks is set to ‘1’. Blocking is only performed for k greater 2.
+  #' @param centerCube Numeric value giving the number of centerpoints within the 2^k design. By default \code{centerCube} is set to ‘0’.
+  #' @param random.seed Numeric value for setting the random seed for reproducibility.
+  #' @return The function \code{facDesign} returns an object of class \code{\link{facDesign.c}}.
+  #' @seealso \code{\link{fracDesign}}, \code{\link{fracChoose}}, \code{\link{rsmDesign}}, \code{\link{pbDesign}}, \code{\link{taguchiDesign}}
+  #' @examples
   max_z = 0.0002200907
   min_z = 8.358082e-10
   yield = .norm2d(x1 = x1, x2 = x2)
