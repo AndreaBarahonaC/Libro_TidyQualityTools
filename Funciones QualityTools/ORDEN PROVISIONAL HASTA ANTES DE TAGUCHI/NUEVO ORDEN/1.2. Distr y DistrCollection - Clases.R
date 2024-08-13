@@ -3,6 +3,22 @@
 #########################################################################
 
 # Class Distr ----
+#' @title Distr-class: Class "Distr"
+#' @description R6 Class for Distribution Objects
+#' @field x Numeric vector of data values.
+#' @field name Character string representing the name of the distribution.
+#' @field parameters List of parameters for the distribution.
+#' @field sd Numeric value representing the standard deviation of the distribution.
+#' @field n Numeric value representing the sample size.
+#' @field loglik Numeric value representing the log-likelihood.
+#' @seealso @seealso \code{\link{distribution}}, \code{\link{FitDistr}}, \code{\link{DistrCollection}}
+
+#' @example
+#' set.seed(123)
+#' data <- rnorm(100, mean = 5, sd = 2)
+#' parameters <- list(mean = 5, sd = 2)
+#' distr <- Distr$new(x = data, name = "normal", parameters = parameters, sd = 2, n = 100, loglik = -120)
+#' distr$plot()
 Distr <- R6Class("Distr",
                  public = list(
                    x = NULL,
@@ -12,6 +28,13 @@ Distr <- R6Class("Distr",
                    n = NULL,
                    loglik = NULL,
 
+                   #' @description Initialize the fiels of the `Distribution` object
+                   #' @param x Numeric vector of data values.
+                   #' @param name Character string representing the name of the distribution.
+                   #' @param parameters List of parameters for the distribution.
+                   #' @param sd Numeric value representing the standard deviation of the distribution.
+                   #' @param n Numeric value representing the sample size.
+                   #' @param loglik Numeric value representing the log-likelihood.
                    initialize = function(x, name, parameters, sd, n, loglik) {
                      self$x <- x
                      self$name <- name
@@ -21,7 +44,19 @@ Distr <- R6Class("Distr",
                      self$loglik <- loglik
                    },
 
-                   plot = function(main = NULL, xlab = NULL, xlim = NULL, ylim = NULL, ylab = NULL, line.col = "red", box=TRUE,line.width = 1, ...)
+                   #' @description Plot the distribution with histogram and fitted density curve.
+                   #' @param main Character string for the main title of the plot. Defaults to the name of the distribution.
+                   #' @param xlab Character string for the x-axis label. Defaults to "x".
+                   #' @param xlim Numeric vector specifying the x-axis limits.
+                   #' @param ylim Numeric vector specifying the y-axis limits.
+                   #' @param ylab Character string for the y-axis label. Defaults to "Density".
+                   #' @param line.col Character string for the color of the plot line. Default is "red".
+                   #' @param fill.col Character string for the color of the fill histogram plot line. Default is "lightblue".
+                   #' @param border.col Character string for the color of the border of the fill histogram plot line. Default is "black".
+                   #' @param box Logical value indicating whether to draw a box with the parameters in the plot. Default is TRUE.
+                   #' @param line.width Numeric value specifying the width of the plot line. Default is 1.
+                   plot = function(main = NULL, xlab = NULL, xlim = NULL, ylim = NULL, ylab = NULL, line.col = "red",
+                                   fill.col = "lightblue", border.col = "black", box=TRUE, line.width = 1)
                    {
                      object <- self
                      xVals <- object$x
@@ -81,7 +116,7 @@ Distr <- R6Class("Distr",
 
                      # Histograma
                      p1 <- ggplot(df, aes(x = mid, y = density)) +
-                       geom_bar(stat = "identity", width = width, fill = "lightblue", color = "black", alpha = 0.5) +
+                       geom_bar(stat = "identity", width = width, fill = fill.col, color = border.col, alpha = 0.5) +
                        labs(y = ylab, x = xlab, title = main) + xlim(xlim) + ylim(ylim) +
                        theme_minimal() + theme(plot.title = element_text(hjust = 0.5,face = "bold"))+
                        guides(color = guide_legend(title.position = "top", title.hjust = 0.5))+
@@ -145,19 +180,52 @@ Distr <- R6Class("Distr",
 )
 
 
+
+
 # Class DistrCollection ----
+#' @title DistrCollection-class: Class "DistrCollection"
+#' @description R6 Class for Managing a Collection of Distribution Objects
+#' @field distr List of `Distr` objects.
+#' @seealso \code{\link{Distr}}, \code{\link{distribution}}, \code{\link{FitDistr}}
+
+#' @example
+#' set.seed(123)
+#' data1 <- rnorm(100, mean = 5, sd = 2)
+#' parameters1 <- list(mean = 5, sd = 2)
+#' distr1 <- Distr$new(x = data1, name = "normal", parameters = parameters1, sd = 2, n = 100, loglik = -120)
+#'
+#' data2 <- rpois(100, lambda = 3)
+#' parameters2 <- list(lambda = 3)
+#' distr2 <- Distr$new(x = data2, name = "poisson", parameters = parameters2, sd = sqrt(3), n = 100, loglik = -150)
+#'
+#' collection <- DistrCollection$new()
+#' collection$add(distr1)
+#' collection$add(distr2)
+#' collection$summary()
+#' collection$plot()
 DistrCollection <- R6::R6Class("DistrCollection",
                                public = list(
                                  distr = NULL,
+
+                                 #' @description Initialize the fields of the `DistrCollection` object.
                                  initialize = function() {
                                    self$distr <- list()
                                  },
+
+                                 #' @description Add a `Distr` object to the collection.
+                                 #' @param distr A `Distr` object to add to the collection.
                                  add = function(distr) {
                                    self$distr <- append(self$distr, list(distr))
                                  },
+
+                                 #' @description Get a `Distr` object from the collection by its index.
+                                 #' @param i Integer index of the `Distr` object to retrieve.
+                                 #' @return A `Distr` object.
                                  get = function(i) {
                                    self$distr[[i]]
                                  },
+
+                                 #' @description Print the summary of all distributions in the collection.
                                  print = function() {
                                    cat("\n")
                                    for (i in seq_along(self$distr)) {
@@ -168,6 +236,9 @@ DistrCollection <- R6::R6Class("DistrCollection",
                                      cat("\n")
                                    }
                                  },
+
+                                 #' @description Summarize the goodness of fit for all distributions in the collection.
+                                 #' @return A data frame with distribution names, Anderson-Darling test statistics, and p-values.
                                  summary = function() {
                                    numDist <- length(self$distr)
                                    gofMatrix <- data.frame(matrix(nrow = numDist, ncol = 3))
@@ -196,7 +267,20 @@ DistrCollection <- R6::R6Class("DistrCollection",
                                    gofMatrixPrint[, 3] <- signif(as.numeric(gofMatrixPrint[, 3]), 4)
                                    print(gofMatrixPrint)
                                  },
-                                 plot = function(xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL, line.col = "red", line.width = 1, box = TRUE , ...) {
+
+                                 #' @description Plot all distributions in the collection.
+                                 #' @param xlab Character string for the x-axis label.
+                                 #' @param ylab Character string for the y-axis label.
+                                 #' @param xlim Numeric vector specifying the x-axis limits.
+                                 #' @param ylim Numeric vector specifying the y-axis limits.
+                                 #' @param line.col Character string for the color of the plot line. Default is "red".
+                                 #' @param fill.col Character string for the color of the histogram fill. Default is "lightblue".
+                                 #' @param border.col Character string for the color of the histogram border. Default is "black".
+                                 #' @param line.width Numeric value specifying the width of the plot line. Default is 1.
+                                 #' @param box Logical value indicating whether to draw a box with the parameters in the plot. Default is TRUE.
+                                 plot = function(xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL,
+                                                 line.col = "red", fill.col = "lightblue", border.col = "black",
+                                                 line.width = 1, box = TRUE) {
                                    distrList <- self$distr
                                    numDist <- length(self$distr)
                                    numColWin <- ceiling(numDist/2)
@@ -212,9 +296,9 @@ DistrCollection <- R6::R6Class("DistrCollection",
                                    if (missing(line.width)) {
                                      line.width <- 1
                                    }
-                                   p <- distrList[[1]]$plot(xlab = xlab, ylab = ylab, line.col = line.col, line.width = line.width, box = box)
+                                   p <- distrList[[1]]$plot(xlab = xlab, ylab = ylab, line.col = line.col, fill.col = fill.col, border.col = border.col,line.width = line.width, box = box)
                                    for (i in 2:length(distrList)) {
-                                     p <- p+distrList[[i]]$plot(xlab = xlab, ylab = ylab, line.col = line.col, line.width = line.width, box = box)
+                                     p <- p+distrList[[i]]$plot(xlab = xlab, ylab = ylab, line.col = line.col, fill.col = fill.col, border.col = border.col, line.width = line.width, box = box)
                                    }
                                    p
                                  }
