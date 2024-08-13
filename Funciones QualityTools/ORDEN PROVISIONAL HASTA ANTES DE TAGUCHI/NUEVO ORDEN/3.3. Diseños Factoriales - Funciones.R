@@ -4,54 +4,72 @@
 
 
 # as.data.frame.facDesign ----
-as.data.frame.facDesign <- function(self, row.names = NULL, optional = FALSE, ...) {
-  if (nrow(self$cube)>0) {
-    frameOut = self$cube
-    names(frameOut) = self$names()
+as.data.frame.facDesign <- function(dfac, ...) {
+  #' @title as.data.frame.facDesign: Coerce to a data.frame
+  #' @description Converts an object of class \code{\link{facDesign.c}} into a data frame.
+  #' @param dfac An object of class \code{\link{facDesign.c}} that you want to convert to a data frame.
+  #' @return The function \code{as.data.frame.facDesign} returns a data frame.
+
+  if (nrow(dfac$cube)>0) {
+    frameOut = dfac$cube
+    names(frameOut) = dfac$names()
   }
   else return(NULL)
-  if (nrow(self$centerCube)>0){
-    faux <- self$centerCube
-    names(faux) <- self$names()
+  if (nrow(dfac$centerCube)>0){
+    faux <- dfac$centerCube
+    names(faux) <- dfac$names()
     frameOut = rbind(frameOut, faux)
   }
-  if (nrow(self$star)>0)
-    frameOut = rbind(frameOut, self$star)
-  if (nrow(self$centerStar)>0)
-    frameOut = rbind(frameOut, self$centerStar)
+  if (nrow(dfac$star)>0)
+    frameOut = rbind(frameOut, dfac$star)
+  if (nrow(dfac$centerStar)>0)
+    frameOut = rbind(frameOut, dfac$centerStar)
   aux <- list()
-  for (i in 1:length(self$names())) {
-    aux[[self$names()[i]]] <-.NAMES[i]
+  for (i in 1:length(dfac$names())) {
+    aux[[dfac$names()[i]]] <-.NAMES[i]
   }
-  if (!is.null(self$factors) && length(self$factors) == dim(frameOut)[2]) {
+  if (!is.null(dfac$factors) && length(dfac$factors) == dim(frameOut)[2]) {
     names(frameOut) = as.character(aux)
   }
-  if (!is.null(self$blockGen) && nrow(self$blockGen) > 0) {
-    frameOut = cbind(self$blockGen, frameOut)
+  if (!is.null(dfac$blockGen) && nrow(dfac$blockGen) > 0) {
+    frameOut = cbind(dfac$blockGen, frameOut)
   }
-  if (!is.null(self$block) && nrow(self$block) > 0) {
-    frameOut = cbind(self$block, frameOut)
+  if (!is.null(dfac$block) && nrow(dfac$block) > 0) {
+    frameOut = cbind(dfac$block, frameOut)
   }
-  if (!is.null(self$runOrder) && nrow(self$runOrder) > 0) {
-    frameOut = cbind(self$runOrder, frameOut)
+  if (!is.null(dfac$runOrder) && nrow(dfac$runOrder) > 0) {
+    frameOut = cbind(dfac$runOrder, frameOut)
   }
-  if (!is.null(self$standardOrder) && nrow(self$standardOrder) > 0) {
-    frameOut = cbind(self$standardOrder, frameOut)
+  if (!is.null(dfac$standardOrder) && nrow(dfac$standardOrder) > 0) {
+    frameOut = cbind(dfac$standardOrder, frameOut)
   }
-  if (!is.null(self$response) && nrow(frameOut) == nrow(self$response))
-    frameOut = cbind(frameOut, self$response)
+  if (!is.null(dfac$response) && nrow(frameOut) == nrow(dfac$response))
+    frameOut = cbind(frameOut, dfac$response)
   else {
-    temp = as.data.frame(matrix(NA, nrow = nrow(frameOut), ncol = ncol(self$response)))
-    names(temp) = names(self$response)
+    temp = as.data.frame(matrix(NA, nrow = nrow(frameOut), ncol = ncol(dfac$response)))
+    names(temp) = names(dfac$response)
     frameOut = cbind(frameOut, temp)
   }
-  runIndex = order(self$runOrder[,1])
+  runIndex = order(dfac$runOrder[,1])
   out = frameOut[runIndex, ]
   return(out)
 }
 # aliasTable ----
 aliasTable <- function (fdo, degree, print = TRUE)
 {
+  #' @title aliasTable: Display an alias table
+  #' @description This function generates an alias table for a factorial design object.
+  #' @param fdo An object of class \code{\link{facDesign.c}}.
+  #' @param degree Numeric value specifying the degree of interaction i.e. degree=3 means up to threeway interactions.
+  #' @param print If \code{TRUE}, the alias table will be printed. By default \code{print} is set to \code{TRUE}.
+  #' @return The function \code{aliasTable} returns a matrix indicating the aliased effects.
+  #' @seealso \code{\link{fracDesign}}, \code{\link{fracChoose}}
+  #' @examples
+  #' # Create a fractional factorial design
+  #' dfrac <- fracDesign(k = 3, gen = "C = AB")
+  #' # Display the alias table for the fractional factorial design
+  #' aliasTable(dfrac)
+
   if (class(fdo)[1] == "facDesign") {
     X = unique(fdo$cube)
     N = nrow(X)
@@ -84,10 +102,16 @@ aliasTable <- function (fdo, degree, print = TRUE)
     print(round(alias.matrix, 2))
   invisible(alias.matrix)
 }
-
 # randomize ----
 randomize <- function (fdo, random.seed, so = FALSE)
 {
+  #' @title randomize: Randomization
+  #' @description Function to do randomize the run order of factorial designs.
+  #' @param fdo An object of class \code{\link{facDesign.c}}.
+  #' @param random.seed Seed for randomness.
+  #' @param so Logical value specifying whether the standard order should be used or not. By default \code{so} is set to \code{FALSE}.
+  #' @return An object of class \code{\link{facDesign.c}} with the run order randomized.
+
   if (missing(random.seed))
     set.seed(93275938)
   else set.seed(random.seed)
@@ -110,6 +134,27 @@ randomize <- function (fdo, random.seed, so = FALSE)
 # blocking ----
 blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm",
                       gen){
+  #' @title blocking: Blocking
+  #' @description Blocks a given factorial or response surface design.
+  #' @param fdo An object representing a factorial design, typically of class \code{facDesign}.
+  #' @param blocks Numeric value specifying the number of blocks to be created in the design.
+  #' @param BoR Logical. If \code{TRUE}, the blocking will be based on a Block-Resolution approach. If \code{FALSE}, a general blocking approach is used.
+  #' @param random.seed Numeric value for setting the random seed to ensure reproducibility of the blocking.
+  #' @param useTable Character string specifying the type of table to use for blocking. Default is \code{"rsm"}. Other options may be available depending on the design.
+  #' @param gen Optional. A character string specifying the generator for the design, used in conjunction with blocking.
+  #' @return An object of class \code{facDesign} with the design blocked according to the specified parameters.
+  #' @seealso \code{\link{facDesign}}, \code{\link{rsmDesign}}, \code{\link{aliasTable}}
+  #' @examples
+  #' # Example 1: Create a 2^3 full factorial design
+  #' fdo <- facDesign(k = 3)
+  #' # Apply blocking to the design with 2 blocks
+  #' blocking(fdo, 2)
+  #'
+  #' # Example 2: Create a response surface design for 3 factors
+  #' fdo <- rsmDesign(k = 3)
+  #' # Apply blocking to the design with 3 blocks (1 block for star part and 2 blocks for the cube part)
+  #' blocking(fdo, 3)
+
   override = FALSE
   Block = data.frame(Block = rep(1, fdo$nrow()))
   fdo$.block(Block)
@@ -357,28 +402,39 @@ facDesign <- function (k = 3, p = 0, replicates = 1, blocks = 1, centerCube = 0,
   #' @param blocks Numeric value giving the number of blocks. By default blocks is set to ‘1’. Blocking is only performed for k greater 2.
   #' @param centerCube Numeric value giving the number of centerpoints within the 2^k design. By default centerCube is set to ‘0’.
   #' @param random.seed Numeric value for setting the random seed for reproducibility.
-  #' @return The function facDesign returns an object of class \code{\link{facDesign.c}}.
-  #' @seealso
+  #' @return The function \code{facDesign} returns an object of class \code{\link{facDesign.c}}.
+  #' @seealso \code{\link{fracDesign}}, \code{\link{fracChoose}}, \code{\link{rsmDesign}}, \code{\link{pbDesign}}, \code{\link{taguchiDesign}}
+  #' @examples
+  #' # Example 1
+  #' vp.full <- facDesign(k = 3)
+  #' vp.full$.response(rnorm(2^3))
+  #' vp.full$summary()
   #'
+  #' # Example 2
+  #' vp.rep <- facDesign(k = 2, replicates = 3, centerCube = 4)
+  #' vp.rep$names(c("Name 1", "Name 2"))
+  #' vp.rep$unit(c("min", "F"))
+  #' vp.rep$lows(c(20, 40, 60))
+  #' vp.rep$highs(c(40, 60, 80))
+  #' vp.rep$summary()
+  #'
+  #' # Example 3
+  #' dfac <- facDesign(k = 3, centerCube = 4)
+  #' dfac$names(c('Factor 1', 'Factor 2', 'Factor 3'))
+  #' dfac$names()
+  #' dfac$lows(c(80, 120, 1))
+  #' dfac$lows()
+  #' dfac$highs(c(120, 140, 2))
+  #' dfac$highs()
+  #' dfac$summary()
   frameOut = fracDesign(k = k, p = p, gen = NULL, replicates = replicates,
                         blocks = blocks, centerCube = centerCube, random.seed = random.seed)
   return(frameOut)
 }
 
-#
-# # USO DE facDesign
-# dfac <- facDesign(k = 3, centerCube = 4)
-# #dfac$names()
-# dfac$names(c('Factor 1', 'Factor 2', 'Factor 3'))
-# #dfac$names()
-# dfac$lows(c(80,120,1))
-# #dfac$lows()
-# dfac$highs(c(120,140,2))
-# #dfac$highs()
-# dfac$summary()
-# # effectPlot
-# dfac$effectPlot(classic=TRUE)
-# dfac$effectPlot()
+
+
+
 
 
 # simProc ----
