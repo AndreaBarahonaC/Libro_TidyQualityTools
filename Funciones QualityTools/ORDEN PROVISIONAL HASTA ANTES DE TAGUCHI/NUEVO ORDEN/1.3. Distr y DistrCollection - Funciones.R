@@ -134,7 +134,6 @@ distribution <- function(x = NULL, distrib = "weibull", ...) {
   #' @description Calculates the most likely parameters for a given distribution.
   #' @param x Vector of distributed values from which the parameter should be determined.
   #' @param distrib Character string specifying the distribution of x. The function `distribution` will accept the following character strings for `distribution`:
-  #'
   #' \itemize{
   #'   \item{"normal"}
   #'   \item{"chi-squared"}
@@ -154,7 +153,7 @@ distribution <- function(x = NULL, distrib = "weibull", ...) {
   #' By default, `distribution` is set to "weibull".
   #' @param ... Additional arguments to be passed to the fitting function.
   #' @return `distribution()` returns an object of class `DistrCollection`.
-  #' @seealso \code{\link{Distr}}, \code{\link{DistrCollection}} # Replace with actual related functions
+  #' @seealso \code{\link{Distr}}, \code{\link{DistrCollection}}
 
   distr_coll <- DistrCollection$new()
   if (is.character(distrib))
