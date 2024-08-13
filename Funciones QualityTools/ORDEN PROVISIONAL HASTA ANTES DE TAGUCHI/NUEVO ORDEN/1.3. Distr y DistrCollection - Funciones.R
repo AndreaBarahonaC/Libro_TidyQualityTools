@@ -207,7 +207,7 @@ FitDistr <- function (x, densfun, start, ...){
   #' \item{loglik}{the log-likelihood of the fitted model.}
   #' \item{n}{length vector.}
   #'
-  #' @seealso \code{\link{distribution}}, \code{\link{summary.fitDistr}}
+  #' @seealso \code{\link{distribution}}, \code{\link{Distr}}, \code{\link{DistrCollection}}.
   #' @examples
   #' set.seed(123)
   #' x <- rgamma(100, shape = 5, rate = 0.1)
@@ -470,7 +470,7 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
   #' \item{int}{Intercept of the fitted line.}
   #' \item{slope}{Slope of the fitted line.}
   #' \item{plot}{The generated QQ plot.}
-  #' @seealso \code{\link{ppPlot}}, \code{\link{FitDistr}}
+  #' @seealso \code{\link{ppPlot}}, \code{\link{FitDistr}}.
   #' @examples
   #' # Example 1: Creating a QQ plot with confidence bounds with dashed lines
   #' set.seed(1234)
@@ -728,7 +728,7 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
   #' \item{int}{Intercept.}
   #' \item{slope}{Slope.}
   #' \item{plot}{The generated PP plot.}
-  #' @seealso \code{\link{qqPlot}}, \code{\link{FitDistr}}
+  #' @seealso \code{\link{qqPlot}}, \code{\link{FitDistr}}.
   #' @examples
   #' # Example 1: Creating a PP plot with confidence bounds and dashed lines
   #' set.seed(1234)

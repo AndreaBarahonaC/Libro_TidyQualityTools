@@ -3,8 +3,25 @@
 ##################################################################
 
 # gageRRDesign ----
-gageRRDesign = function(Operators = 3, Parts = 10, Measurements = 3, method = "crossed", sigma = 6, randomize = TRUE) {
-  # ValidaciC3n de argumentos
+gageRRDesign = function(Operators = 3, Parts = 10, Measurements = 3,
+                        method = "crossed", sigma = 6, randomize = TRUE){
+  #' @title gageRRDesign: Gage R&R - Gage Repeatability and Reproducibility
+  #' @description Function to Creates a Gage R&R design.
+  #' @param Operators Numeric value giving a number or a character vector defining the Operators.
+  #' By default `Operators` is set to ‘3’.
+  #' @param Parts A number or character vector defining the Parts.
+  #' By default `parts` is set to ‘10’.
+  #' @param Measurements A number defining the measurements per part. By default `Measurments` is set to ‘3’.
+  #' @param method Character string specifying the Gage R&R method. “crossed” which is the typical design for performing a Measurement Systems Analysis using Gage Repeatability and Reproducibility or “nested” which is used for destructive testing (i.e. the same part cannot be measured twice). Operators measure each a different sample of parts under the premise that the parts of each batch are alike.
+  #' By default `method` is set to “crossed”.
+  #' @param sigma For sigma=6 this relates to 99.73 percent representing the full spread of a normal distribution function (i.e. pnorm(3) - pnorm(-3)).
+  #' Another popular setting sigma=5.15 relates to 99 percent (i.e. `pnorm(2.575) - pnorm(-2.575)`). By default `sigma` is set to ‘6’.
+  #' @param randomize Logical value. ‘TRUE’ (default) randomizes the gageRR design.
+  #' @return The function `gageRRDesign` returns an object of class `gageRR`.
+  #' @seealso \code{\link{gageRR.c}}, \code{\link{gageRR}}.
+  #' @examples
+  #' design <- gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, method = "crossed", sigma = 6, randomize = TRUE)
+
   if (!is.numeric(sigma))
     stop("sigma needs to be numeric")
   if (method != "nested" && method != "crossed")
@@ -92,8 +109,32 @@ gageRRDesign = function(Operators = 3, Parts = 10, Measurements = 3, method = "c
 }
 
 # gageRR ----
-gageRR = function(gdo, method = "crossed", sigma = 6, alpha = 0.25, DM = NULL, HM = NULL, tolerance = NULL, dig = 3, ...) {
-  method <- method
+gageRR = function(gdo, method = "crossed", sigma = 6, alpha = 0.25,
+                  tolerance = NULL, dig = 3) {
+  #' @title gageRR: Gage R&R - Gage Repeatability and Reproducibility
+  #' @description Performs a Gage R&R analysis for an object of class `gageRR`.
+  #' @param gdo Needs to be an object of class `gageRR`.
+  #' @param method Character string specifying the Gage R&R method. “crossed” which is the typical design for performing a Measurement Systems Analysis using Gage Repeatability and Reproducibility or “nested” which is used for destructive testing (i.e. the same part cannot be measured twice). Operators measure each a different sample of parts under the premise that the parts of each batch are alike.
+  #' By default `method` is set to “crossed”.
+  #' @param sigma Numeric value giving the number of sigmas.
+  #' For sigma=6 this relates to 99.73 percent representing the full spread of a normal distribution function (i.e. pnorm(3) - pnorm(-3)).
+  #' Another popular setting sigma=5.15 relates to 99 percent (i.e. `pnorm(2.575) - pnorm(-2.575)`). By default `sigma` is set to ‘6’.
+  #' @param alpha Alpha value for discarding the interaction Operator:Part and fitting a non-interaction model. By default `alpha` is set to ‘0.25’.
+  #' @param tolerance Mumeric value giving the tolerance for the measured parts. This is required to calculate the Process to Tolerance Ratio.
+  #' By default `tolerance` is set to ‘NULL’.
+  #' @param dig numeric value giving the number of significant digits for `format`.
+  #' By default `dig` is set to ‘3’.
+  #' @return The function `gageRR` returns an object of class `gageRR` and shows typical Gage Repeatability and Reproducibility Output including Process to Tolerance Ratios and the number of distinctive categories (i.e. ndc) the measurement system is able to discriminate with the tested setting.
+  #' @seealso \code{\link{gageRR.c}}, \code{\link{gageRRDesign}}, \code{\link{gageLin}}, \code{\link{cg}}.
+  #' @examples
+  #' # Create de gageRR Design
+  #' design <- gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, method = "crossed", sigma = 6, randomize = TRUE)
+  #' design$X$Measurement <- rnorm(nrow(design$X), mean = 10, sd = 2)
+  #'
+  #' # Results of de Design
+  #' result <- gageRR(gdo = design, method = "crossed", sigma = 6, alpha = 0.25)
+  #' class(result)
+  #' result$plot()
 
   yName <- "Measurement"
   aName <- "Operator"
@@ -292,57 +333,3 @@ gageRR = function(gdo, method = "crossed", sigma = 6, alpha = 0.25, DM = NULL, H
   cat("\n")
   invisible(gdo)
 }
-
-# Ejemplo de uso: ----
-# crear un objeto de la clase 'gageRR'
-mi_gageRR <- gageRR.c$new(
-  X = data.frame(
-    Operator = factor(c("A", "B", "C", "A", "B")),
-    Part = factor(c("P1", "P1", "P2", "P2", "P3")),
-    Measurement = c(10, 12, 11, 13, 9)
-  ),
-  ANOVA = NULL,  # Esto puede ser NULL inicialmente y luego calcularlo
-  RedANOVA = NULL,  # Igual que ANOVA, puede ser NULL inicialmente
-  method = "crossed",
-  Estimates = list(),
-  Varcomp = list(),
-  Sigma = 0.5,
-  GageName = "Gage1",
-  GageTolerance = 0.1,
-  DateOfStudy = "2024-05-15",
-  PersonResponsible = "John Doe",
-  Comments = "Sample gage R&R study",
-  b = factor(c("A", "A", "B", "B", "C")),
-  a = factor(c("P1", "P1", "P2", "P2", "P3")),
-  y = c(10, 12, 11, 13, 9),
-  facNames = c("Measurement", "Operator", "Part"),
-  numO = 3,
-  numP = 3,
-  numM = 2
-)
-
-# Crear el objeto gageRRObj
-design_example <- gageRRDesign(
-  Operators = 3,
-  Parts = 10,
-  Measurements = 3,
-  method = "crossed",
-  sigma = 6,
-  randomize = TRUE
-)
-
-# Crear un diseño para el estudio de Gage
-design <- gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, method = "crossed", sigma = 6, randomize = TRUE)
-design$X$Measurement <- rnorm(nrow(design$X), mean = 10, sd = 2)
-
-# Ejecutar la función gageRR_
-result <- gageRR(
-  gdo = design,
-  method = "crossed",   #  método "crossed"
-  sigma = 6,            #  sigma
-  alpha = 0.25,         # Nivel de significancia
-  tolerance = NULL,     # Tolerancia
-  dig = 3               # Número de dígitos a mostrar en los resultados
-)
-class(result)
-result$plot()
