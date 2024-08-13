@@ -30,7 +30,8 @@ taguchiDesign <- function(design, randomize = TRUE, replicates = 1) {
   #'   \item {"L16_4_2_d" for five four-level factors and two two-level factors.}
   #'   \item {"L18_6_3" for one six-level factor and six three-level factors.}
   #' }
-  #' @param randomize A logical value (`TRUE`/`FALSE`) that specifies whether to randomize the RunOrder of the design. By default, `randomize` is set to `TRUE`.
+  #' @param randomize A logical value (`TRUE`/`FALSE`) that specifies whether to randomize the RunOrder of the design.
+  #' By default, `randomize` is set to `TRUE`.
   #' @param replicates An integer specifying the number of replicates for each run in the design.
   #' @return A `taguchiDesign` returns an object of class `taguchiDesign`.
   #' @details An overview of possible taguchi designs is possible with `taguchiChoose`.

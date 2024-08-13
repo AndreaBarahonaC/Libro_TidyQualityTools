@@ -19,7 +19,7 @@ taguchiFactor <- R6Class("taguchiFactor", public = list(values = NA,
                                                         },
 
                                                         #' @description Get and set the `values` for the factors in an object of class `taguchiFactor`.
-                                                        #' @param value New highs, If missing value get the `values`.
+                                                        #' @param value New values, If missing value get the `values`.
                                                         .values = function(value){
                                                           if (missing(value)) {
                                                             return(self$values)
