@@ -1,10 +1,41 @@
 ###########################################################################
 ######################### FUNCIONES PARA GRÁFICAS #########################
 ###########################################################################
+library(ggplot2)
 
-# ParetoChart ----------
-paretoChart <- function (x, weight, showTable = TRUE, showPlot = TRUE,
-                         main, col, border, xlab, ylab = "Frequency", percentVec, ...){
+# ParetoChart ----
+paretoChart <- function (x, weight, main, col, border, xlab, ylab = "Frequency", 
+                         percentVec, showTable = TRUE, showPlot = TRUE){
+  #' @title paretoChart: Pareto Chart
+  #' @description Function to create a Pareto chart, displaying the relative frequency of categories.
+  #' @param x A vector of qualitative values.
+  #' @param weight A numeric vector of weights corresponding to each category in `x`. 
+  #' @param main A character string for the main title of the plot.
+  #' @param col A numerical value or character string defining the fill-color of the bars.
+  #' @param border A numerical value or character string defining the border-color of the bars.
+  #' @param xlab A character string for the x-axis label.
+  #' @param ylab A character string for the y-axis label. By default, `ylab` is set to `"Frequency"`.
+  #' @param percentVec A numerical vector giving the position and values of tick marks for percentage axis.
+  #' @param showTable Logical value indicating whether to display a table of frequencies. By default, `showTable` is set to `TRUE`.
+  #' @param showPlot Logical value indicating whether to display the Pareto chart. By default, `showPlot` is set to `TRUE`.
+  #' @return `paretoChart` returns a Pareto chart along with a frequency table if `showTable` is `TRUE`. 
+  #' Additionally, the function returns an invisible list containing:
+  #' \item{plot}{The generated Pareto chart.}
+  #' \item{table}{A data.frame with the frequencies and percentages of the categories.}
+  #' @examples
+  #' # Example 1: Creating a Pareto chart for defect types
+  #' defects1 <- c(rep("E", 62), rep("B", 15), rep("F", 3), rep("A", 10), 
+  #'               rep("C", 20), rep("D", 10))
+  #' paretoChart(defects1)
+  #' 
+  #' # Example 2: Creating a Pareto chart with weighted frequencies
+  #' defects2 <- c("E", "B", "F", "A", "C", "D")
+  #' frequencies <- c(62, 15, 3, 10, 20, 10)
+  #' weights <- c(1.5, 2, 0.5, 1, 1.2, 1.8)
+  #' names(weights) <- defects2  # Assign names to the weights vector
+  #' 
+  #' paretoChart(defects2, weight = frequencies * weights)
+  
   varName = deparse(substitute(x))[1]
   corp.col = "#C4B9FF"
   corp.border = "#9E0138"
@@ -59,7 +90,6 @@ paretoChart <- function (x, weight, showTable = TRUE, showPlot = TRUE,
     percentage = xtable/sum(xtable) * 100
     cumPerc = cumFreq/sumFreq * 100
 
-
     data <- data.frame(Frequency = xtable,
                        Cum.Frequency = cumFreq,
                        Percentage = round(percentage, digits = 2),
@@ -88,7 +118,6 @@ paretoChart <- function (x, weight, showTable = TRUE, showPlot = TRUE,
   if(showPlot == TRUE){
     if(showTable == TRUE){
       show(p/tableGrob(tabla))
-
     }
     else {
       show(p)
@@ -101,9 +130,85 @@ paretoChart <- function (x, weight, showTable = TRUE, showPlot = TRUE,
   invisible(list(plot = p, table = tabla))
 }
 
-# qqPlot ---------------------
+# qqPlot -----
 qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim, border = "red",
-                   bounds.col = "black", bounds.lty = 1, start, grapic = TRUE, axis.y.right = FALSE, bw.theme = FALSE,...){
+                   bounds.col = "black", bounds.lty = 1, start, showPlot = TRUE, 
+                   axis.y.right = FALSE, bw.theme = FALSE)
+{
+  #' @title qqPlot: Quantile-Quantile Plots for various distributions
+  #' @description Function `qqPlot` creates a QQ plot of the values in x including a line which passes through the first and third quartiles.
+  #' @param x The sample for qqPlot.
+  #' @param y Character string specifying the distribution of `x`. The function `qqPlot` supports the following character strings for `y`:
+  #' \itemize{
+  #'   \item{"beta"}
+  #'   \item{"cauchy"}
+  #'   \item{"chi-squared"}
+  #'   \item{"exponential"}
+  #'   \item{"f"}
+  #'   \item{"gamma"}
+  #'   \item{"geometric"}
+  #'   \item{"log-normal"}
+  #'   \item{"lognormal"}
+  #'   \item{"logistic"}
+  #'   \item{"negative binomial"}
+  #'   \item{"normal"}
+  #'   \item{"Poisson"}
+  #'   \item{"t"}
+  #'   \item{"weibull"}
+  #' }
+  #' By default `distribution` is set to "normal".
+  #' @param confbounds Logical value indicating whether to display confidence bounds. By default, `confbounds` is set to `TRUE`.
+  #' @param alpha Numeric value specifying the significance level for the confidence bounds, set to `0.05` by default.
+  #' @param main A character string for the main title of the plot.
+  #' @param xlab A character string for the x-axis label.
+  #' @param ylab A character string for the y-axis label.
+  #' @param xlim A numeric vector of length 2 to specify the limits of the x-axis.
+  #' @param ylim A numeric vector of length 2 to specify the limits of the y-axis.
+  #' @param border A numerical value or single character string giving the color of the interpolation line. By default, `border` is set to `"red"`.  #' @param bounds.col a character string specifying the color of the confidence bounds. By default, `bounds.col` is set to `"black"`.
+  #' @param bounds.col A numerical value or single character string giving the color of the confidence bounds lines. By default, `bounds.col` is set to `"black"`.
+  #' @param bounds.lty A numeric or character: line type for the confidence bounds lines. This can be specified with either an integer (0-6) or a name:
+  #' \itemize{
+  #'   \item{0: blank}
+  #'   \item{1: solid}
+  #'   \item{2: dashed}
+  #'   \item{3: dotted}
+  #'   \item{4: dotdash}
+  #'   \item{5: longdash}
+  #'   \item{6: twodash}
+  #' }
+  #' Default is `1` (solid line).
+  #' @param start A named list giving the parameters to be fitted with initial values. Must be supplied for some distributions (see Details).
+  #' @param showPlot Logical value indicating whether to display the plot. By default, `showPlot` is set to `TRUE`.
+  #' @param axis.y.right Logical value indicating whether to display the y-axis on the right side. By default, `axis.y.right` is set to `FALSE`.
+  #' @param bw.theme Logical value indicating whether to use a black-and-white theme from the `ggplot2` package for the plot. By default, `bw.theme` is set to `FALSE`.
+  #' @details Distribution fitting is performed using the `FitDistr` function from this package.
+  #' For the computation of the confidence bounds, the variance of the quantiles is estimated using the delta method,
+  #' which involves the estimation of the observed Fisher Information matrix as well as the gradient of the CDF of the fitted distribution.
+  #' Where possible, those values are replaced by their normal approximation.
+  #' @return The function `qqPlot` returns an invisible list containing:
+  #' \item{x}{Sample quantiles.}
+  #' \item{y}{Theoretical quantiles.}
+  #' \item{int}{Intercept of the fitted line.}
+  #' \item{slope}{Slope of the fitted line.}
+  #' \item{plot}{The generated QQ plot.}
+  #' @seealso \code{\link{ppPlot}}, \code{\link{FitDistr}}
+  #' @examples
+  #' # Example 1: Creating a QQ plot with confidence bounds with dashed lines
+  #' set.seed(1234)
+  #' x <- rnorm(20, mean = 20)
+  #' qqPlot(x, "normal", bounds.lty = 3, bounds.col = "red")
+  #' 
+  #' # Example 2: QQ plots for different distributions
+  #' 
+  #' x <- rweibull(20, 8, 2) # Generate random data from Weibull distribution
+  #' 
+  #' # Quantile-Quantile Plot for different distributions
+  #' qqPlot(x, "log-normal")
+  #' qqPlot(x, "normal")
+  #' qqPlot(x, "cauchy")
+  #' qqPlot(x, "weibull")
+  #' qqPlot(x, "logistic")
+  
   parList = list()
   if (is.null(parList[["col"]])){
     parList$col = 1:2
@@ -119,9 +224,9 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
   }
   if(inherits(x, "DistrCollection")){
     distList <- x$distr
-    grap <- qqPlot(distList[[1]]$x, grapic = FALSE, ylab = "", xlab = "", main = paste(distList[[1]]$name,"distribution"))
+    grap <- qqPlot(distList[[1]]$x, showPlot = FALSE, ylab = "", xlab = "", main = paste(distList[[1]]$name,"distribution"))
     for (i in 2:length(distList)){
-      aux <- qqPlot(distList[[i]]$x, grapic = FALSE, ylab = "", xlab = "", main = paste(distList[[i]]$name,"distribution"))
+      aux <- qqPlot(distList[[i]]$x, showPlot = FALSE, ylab = "", xlab = "", main = paste(distList[[i]]$name,"distribution"))
       grap$plot <-  grap$plot + aux$plot
     }
     show(grap$plot + plot_annotation(title = "QQ Plot for a Collection Distribution"))
@@ -142,7 +247,7 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
       ylab = paste("Quantiles from", deparse(substitute(y)), "distribution")
     if (is.numeric(y)) {
       cat("\ncalling (original) qqplot from namespace stats!\n")
-      return(stats::qqplot(x, y, ...))
+      return(stats::qqplot(x, y))
     }
     qFun = NULL
     theoretical.quantiles = NULL
@@ -160,14 +265,9 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
       if (is.null(qFun))
         stop(paste(deparse(substitute(y)), "distribution could not be found!"))
     }
-    # Puntos teoricos
     theoretical.probs = ppoints(xs)
-    # Quantiles
     xq = NULL
     yq = quantile(xs, prob = c(0.25, 0.75))
-
-
-    dots <- list(...)
 
     if(TRUE){
       fitList = .lfkp(parList, formals(qFun))
@@ -185,7 +285,7 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
         varmatrix = fittedDistr$vcov
 
       }else{
-        parameter = do.call(paste(".",distribution, "3", sep = ""), list(xs) )    ####
+        parameter = do.call(paste(".",distribution, "3", sep = ""), list(xs) )    
         threshold = parameter$threshold
       }
 
@@ -247,19 +347,17 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
       if(confbounds == TRUE){
         if(distribution %in% confIntCapable){
           params =.lfkp(parList, c(formals(lines), par()))
-          params$x = confInt[[3]]
-          params$y = confInt[[1]]
           params$col = bounds.col
           params$lty = bounds.lty
-          # La curva de abajo
-          p <- p + geom_line(data = data.frame(x=params$x, y=params$y), aes(x = x, y = y),
+          # under bound
+          p <- p + geom_line(data = subset(data.frame(x=confInt[[3]], y=confInt[[1]]), x >= xlim[1] & x <= xlim[2]),
+                             aes(x = x, y = y),
                              col = params$col, lty = params$lty, lwd = params$lwd)
-          params$x = confInt[[3]]
-          params$y = confInt[[2]]
           params$col = bounds.col
           params$lty = bounds.lty
-          # curva de arriba
-          p <- p + geom_line(data = data.frame(x=params$x, y=params$y), aes(x = x, y = y),
+          # upper bound
+          p <- p + geom_line(data = subset(data.frame(x=confInt[[3]], y=confInt[[2]]), x >= xlim[1] & x <= xlim[2]), 
+                             aes(x = x, y = y),
                              col = params$col, lty = params$lty, lwd = params$lwd)
         }
       }
@@ -274,7 +372,7 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
     if(main == ""){
       p <- p + labs(title = NULL)
     }
-    if(grapic){
+    if(showPlot){
       show(p)
       invisible(list(x = theoretical.quantiles, y = xs, int = params$a, slope = params$b, plot = p))
     }
@@ -283,15 +381,89 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
     }
   }
 }
-
 # ppPlot ---------------------
-ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab, ylab, xlim, ylim, border = "red", bounds.col = "black", bounds.lty = 1, start, grapic = TRUE, axis.y.right = FALSE, bw.theme = FALSE,...)
+ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab, ylab, xlim, ylim, 
+                    border = "red", bounds.col = "black", bounds.lty = 1, 
+                    start, showPlot = TRUE, axis.y.right = FALSE, bw.theme = FALSE)
 {
+  #' @title ppPlot: Probability Plots for various distributions
+  #' @description Function `ppPlot` creates a Probability plot of the values in x including a line.
+  #' @param x Numeric vector containing the sample data for the `ppPlot`.
+  #' @param distribution Character string specifying the distribution of x. The function `ppPlot` will support the following character strings for `distribution`:
+  #' \itemize{
+  #'   \item{"beta"}
+  #'   \item{"cauchy"}
+  #'   \item{"chi-squared"}
+  #'   \item{"exponential"}
+  #'   \item{"f"}
+  #'   \item{"gamma"}
+  #'   \item{"geometric"}
+  #'   \item{"log-normal"}
+  #'   \item{"lognormal"}
+  #'   \item{"logistic"}
+  #'   \item{"negative binomial"}
+  #'   \item{"normal"} 
+  #'   \item{"Poisson"}
+  #'   \item{"t"}
+  #'   \item{"weibull"}
+  #' }
+  #' By default `distribution` is set to "normal".
+  #' @param confbounds Logical value: whether to display confidence bounds. Default is `TRUE`.
+  #' @param alpha Numeric value: significance level for confidence bounds, default is `0.05`.
+  #' @param probs Vector containing the percentages for the y axis. All the values need to be between ‘0’ and ‘1’.
+  #' If `probs` is missing it will be calculated internally.
+  #' @param main Character string: title of the plot.
+  #' @param xlab Character string: label for the x-axis.
+  #' @param ylab Character string: label for the y-axis.
+  #' @param xlim Numeric vector of length 2: limits for the x-axis.
+  #' @param ylim Numeric vector of length 2: limits for the y-axis.
+  #' @param border Character or numeric: color for the border of the line through the quantiles. Default is `"red"`.
+  #' @param bounds.col Character or numeric: color for the confidence bounds lines. Default is `"black"`.
+  #' @param bounds.lty Numeric or character: line type for the confidence bounds lines. This can be specified with either an integer (0-6) or a name:
+  #' \itemize{
+  #'   \item{0: blank}
+  #'   \item{1: solid}
+  #'   \item{2: dashed}
+  #'   \item{3: dotted}
+  #'   \item{4: dotdash}
+  #'   \item{5: longdash}
+  #'   \item{6: twodash}
+  #' }
+  #' Default is `1` (solid line).
+  #' @param start A named list giving the parameters to be fitted with initial values. Must be supplied for some distributions (see Details).
+  #' @param showPlot Logical value indicating whether to display the plot. By default, `showPlot` is set to `TRUE`.
+  #' @param axis.y.right Logical value indicating whether to display the y-axis on the right side. By default, `axis.y.right` is set to `FALSE`.
+  #' @param bw.theme Logical value indicating whether to use a black-and-white theme from the `ggplot2` package for the plot. By default, `bw.theme` is set to `FALSE`.
+  #' @details Distribution fitting is performed using the `FitDistr` function from this package.
+  #' For the computation of the confidence bounds, the variance of the quantiles is estimated using the delta method,
+  #' which involves the estimation of the observed Fisher Information matrix as well as the gradient of the CDF of the fitted distribution.
+  #' Where possible, those values are replaced by their normal approximation.
+  #' @return The function `ppPlot` returns an invisible list containing:
+  #' \item{x}{x coordinates.}
+  #' \item{y}{y coordinates.}
+  #' \item{int}{Intercept.}
+  #' \item{slope}{Slope.}
+  #' \item{plot}{The generated PP plot.}
+  #' @seealso \code{\link{qqPlot}}, \code{\link{FitDistr}}
+  #' @examples
+  #' # Example 1: Creating a PP plot with confidence bounds and dashed lines
+  #' set.seed(1234)
+  #' x <- rnorm(20, mean = 20)
+  #' ppPlot(x, "normal", bounds.lty = 3, bounds.col = "red")
+  #' 
+  #' # Example 2: PP plots for different distributions
+  #' x <- rweibull(20, 8, 2) # Generate random data from Weibull distribution
+  #' ppPlot(x, "log-normal")
+  #' ppPlot(x, "normal")
+  #' ppPlot(x, "cauchy")
+  #' ppPlot(x, "weibull")
+  #' ppPlot(x, "logistic")
+  
   conf.level = 0.95
   conf.lines = TRUE
   if (!(is.numeric(x) | inherits(x, "DistrCollection")))
     stop(paste(deparse(substitute(x)), " needs to be numeric or an object of class distrCollection"))
-  parList = list(...)
+  parList = list()
   if (is.null(parList[["col"]]))
     parList$col = c("black", "red", "gray")
   if (is.null(parList[["pch"]]))
@@ -331,9 +503,9 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
     ylab = "Probability"
   if(inherits(x, "DistrCollection")){
     distList <- x$distr
-    grap <- ppPlot(distList[[1]]$x, grapic = FALSE, ylab = "", xlab = "", main = paste(distList[[1]]$name,"distribution"))
+    grap <- ppPlot(distList[[1]]$x, showPlot = FALSE, ylab = "", xlab = "", main = paste(distList[[1]]$name,"distribution"))
     for (i in 2:length(distList)){
-      aux <- ppPlot(distList[[i]]$x, grapic = FALSE, ylab = "", xlab = "", main = paste(distList[[i]]$name,"distribution"))
+      aux <- ppPlot(distList[[i]]$x, showPlot = FALSE, ylab = "", xlab = "", main = paste(distList[[i]]$name,"distribution"))
       grap$plot <-  grap$plot + aux$plot
     }
     show(grap$plot + plot_annotation(title = "QQ Plot for a Collection Distribution"))
@@ -342,11 +514,9 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
   distWhichNeedParameters = c("weibull", "gamma", "logistic","exponential","f",
                               "geometric", "chi-squared", "negative binomial",
                               "poisson")
-  # new
   threeParameterDistr = c("weibull3", "lognormal3", "gamma3")
   threeParameter = distribution %in% threeParameterDistr
   if(threeParameter) distribution = substr(distribution, 1, nchar(distribution)-1)
-  # end new
   if (is.character(distribution)) {
     qFun = .charToDistFunc(distribution, type = "q")
     pFun = .charToDistFunc(distribution, type = "p")
@@ -354,7 +524,6 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
     if (is.null(qFun))
       stop(paste(deparse(substitute(y)), "distribution could not be found!"))
   }
-  dots <- list(...)
   if (TRUE) {
     fitList = .lfkp(parList, formals(qFun))
     fitList$x = x1
@@ -364,36 +533,30 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
     if(!threeParameter){
       fittedDistr = do.call(FitDistr, fitList)
       parameter = fittedDistr$estimate
-      #save the distribution parameter#
       thethas = fittedDistr$estimate
-      # save the cariance-covariance matrix
       varmatrix = fittedDistr$vcov
-    }else{
-      parameter = do.call(paste(".",distribution, "3", sep = ""), list(x1) )    ####
+    }
+    else{
+      parameter = do.call(paste(".",distribution, "3", sep = ""), list(x1) )   
       print(parameter[3])
       threshold = parameter$threshold
     }
     parameter = .lfkp(as.list(parameter), formals(qFun))
     params = .lfkp(parList, formals(qFun))
     parameter = .lfrm(as.list(parameter), params)
-    print(parameter)
     parameter = c(parameter, params)
-    # new
     if(!threeParameter){
-      # array containing names of the distributions, for which conf intervals can be computed
       confIntCapable = c("exponential", "log-normal", "logistic", "normal", "weibull", "gamma", "beta", "cauchy")
       getConfIntFun = .charToDistFunc(distribution, type = ".confint")
-      # if possible, compute the conf intervals
       if(confbounds == TRUE){
         if(distribution %in% confIntCapable){
           confInt = getConfIntFun(x1, thethas, varmatrix, alpha)
         }
-      }# end of my code
+      }
     }
     y = do.call(qFun, c(list(ppoints(x1)), as.list(parameter)))
     yc = do.call(qFun, c(list(ppoints(x1)), as.list(parameter)))
     cv = do.call(dFun, c(list(yc), as.list(parameter)))
-    print(cv)
     axisAtY = do.call(qFun, c(list(probs), as.list(parameter)))
     yq = do.call(qFun, c(list(c(0.25, 0.75)), as.list(parameter)))
     xq = quantile(x1, probs = c(0.25, 0.75))
@@ -422,7 +585,7 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
   # PLOT
   p <- ggplot(data.frame(x = x1, y = y), aes(x = x, y = y)) +
     geom_point(size = 1, color = "black") +
-    labs(x = xlab, y = ylab, title = main) +
+    labs(x = xlab, y = ylab, title = main) + 
     scale_x_continuous(limits = xlim, expand = c(0, 0)) +
     scale_y_continuous(labels = scales::percent_format(scale = 1/max(x1), suffix = "", accuracy = 0.01))+
     theme_minimal() +
@@ -435,7 +598,8 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
   params = .lfkp(parList, c(formals(abline), par()))
   if(!threeParameter){
     params$a = 0
-  }else{
+  }
+  else{
     params$a = -threshold
   }
   params$b = 1
@@ -445,19 +609,18 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
     if(confbounds == TRUE){
       if(distribution %in% confIntCapable){
         params =.lfkp(parList, c(formals(lines), par()))
-        params$x = confInt[[3]]
-        params$y = confInt[[1]]
         params$col = bounds.col
         params$lty = bounds.lty
-        # La curva de abajo
-        p <- p + geom_line(data = data.frame(x=params$x, y=params$y), aes(x = x, y = y),
+        # lower bound
+        p <- p + geom_line(data = subset(data.frame(x=confInt[[3]], y=confInt[[1]]), x >= xlim[1] & x <= xlim[2]),
+                           aes(x = x, y = y),
                            col = params$col, lty = params$lty, lwd = params$lwd)
-        params$x = confInt[[3]]
-        params$y = confInt[[2]]
+        
         params$col = bounds.col
         params$lty = bounds.lty
-        # curva de arriba
-        p <- p + geom_line(data = data.frame(x=params$x, y=params$y), aes(x = x, y = y),
+        # upper bound
+        p <- p + geom_line(data = subset(data.frame(x=confInt[[3]], y=confInt[[2]]), x >= xlim[1] & x <= xlim[2]), 
+                           aes(x = x, y = y),
                            col = params$col, lty = params$lty, lwd = params$lwd)
       }
     }
@@ -471,7 +634,7 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
   if(main == ""){
     p <- p + labs(title = NULL)
   }
-  if(grapic){
+  if(showPlot){
     show(p)
     invisible(list(x = x, y = y, int = params$a, slope = params$b, plot = p))
   }
@@ -479,19 +642,171 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
     invisible(list(x = x, y = y, int = params$a, slope = params$b, plot = p))
   }
 }
-
-set.seed(1234)
-x <- rnorm(20, mean = 20)
-distribution <- "normal"
-ppPlot(x, distribution, bounds.lty = 3, bounds.col = "red")
+# InteractionPlot ----
+interactionPlot <- function(fdo, response = NULL, fun = mean, main, col = 1:2) {
+  #' @title interactionPlot
+  #' @description Creates an interaction plot for the factors in a factorial design to visualize the interaction effects between them.
+  #' @param fdo An object of class `facDesign`, representing a factorial design.
+  #' @param response Response variable. If the response data frame of fdo consists of more then one responses, this variable can be used to choose just one column of the response data frame. 
+  #' `response` Needs to be an object of class character with length of ‘1’. It needs to be the same character as the name of the response in the response data frame that should be plotted.
+  #' @param fun Function to use for the calculation of the interactions (e.g., `mean`, `median`). Default is `mean`.
+  #' @param main Character string: title of the plot.
+  #' @param col Vector of colors for the plot. Single colors can be given as character strings or numeric values. Default is `1:2`.
+  #' @details `interactionPlot()` displays interactions for an object of class `facDesign` (i.e. 2^k full or 2^k-p fractional factorial design).
+  #' Parts of the original interactionPlot were integrated.
+  #' @return None.
+  #' @seealso \code{\link{factors}}, \code{\link{fracDesign}}, \code{\link{facDesign}}
+  #' @examples
+  #' # Example 1
+  #' # Create the facDesign object
+  #' dfac <- facDesign(k = 3, centerCube = 4)
+  #' dfac$names(c('Factor 1', 'Factor 2', 'Factor 3'))
+  #' 
+  #' # Assign performance to the factorial design
+  #' rend <- c(simProc(120,140,1), simProc(80,140,1), simProc(120,140,2),
+  #'           simProc(120,120,1), simProc(90,130,1.5), simProc(90,130,1.5),
+  #'           simProc(80,120,2), simProc(90,130,1.5), simProc(90,130,1.5),
+  #'           simProc(120,120,2), simProc(80,140,2), simProc(80,120,1))
+  #' dfac$.response(rend)
+  #' 
+  #' # Create an interaction plot
+  #' interactionPlot(dfac, fun = mean, col = c("purple", "red"))
+  #' 
+  #' # Example 2
+  #' vp <- fracDesign(k=3, replicates = 2)
+  #' y <- 4*vp$get(j=1) -7*vp$get(j=2) + 2*vp$get(j=2)*vp$get(j=1) +
+  #'      0.2*vp$get(j=3) + rnorm(16)
+  #' vp$.response(y)
+  #' 
+  #' interactionPlot(vp)
+  
+  
+  if (missing(main)) mainmiss = TRUE else mainmiss = FALSE
+  if (missing(fdo) || class(fdo)[1] != "facDesign")
+    stop("fdo needs to be an object of class facDesign")
+  
+  fdoName = deparse(substitute(fdo))
+  if (!is.null(response)) {
+    temp = fdo$.response()[response]
+    fdo$.response(temp)
+  }
+  
+  x <- fdo$cube
+  runIndex <- order(fdo$runOrder[, 1])
+  y <- fdo$.response()[1:nrow(x), ]
+  numFac <- ncol(x)
+  combMat <- combn(names(x), 2)
+  
+  plot_list <- list()
+  
+  for (r in 1:ncol(fdo$.response())) {
+    y = fdo$.response()[1:nrow(x), r]
+    
+    for (i in 1:ncol(combMat)) {
+      facName1 <- combMat[1, i]
+      facName2 <- combMat[2, i]
+      
+      df = data.frame(fac1 = x[[facName1]], fac2 = x[[facName2]], response = y)
+      
+      p = ggplot(df, aes_string(x = "fac2", y = "response", color = "as.factor(fac1)")) +
+        geom_line(stat = "summary", fun = fun,size=1.5) +
+        labs(x = " ", y = " ", color = facName1) +
+        scale_color_manual(values = c(col[1], col[2])) +
+        theme_minimal()
+      
+      plot_list[[paste(facName1, facName2)]] = p
+    }
+    
+    if (mainmiss) {
+      main = paste("Interaction plot for", names(fdo$.response())[r], "in", fdoName)
+    }
+    
+    plot_matrix <- vector("list", numFac * numFac)
+    plot_idx <- 1
+    
+    for (j in 1:numFac) {
+      for (i in 1:numFac) {
+        if (i == j) {
+          facName <- names(x)[i]
+          p_diag <- ggplot() +
+            labs(x = facName, y = "") +
+            theme_void() +
+            theme(
+              plot.title = element_text(size = 5, face = "bold", hjust = 0.5),
+              axis.title.x = element_text(size = 20, face = "bold", margin = margin(0, 0, 10, 0)),
+              axis.text.x = element_blank(),
+              axis.ticks.x = element_blank(),
+              axis.text.y = element_blank(),
+              axis.ticks.y = element_blank()
+            )
+          plot_matrix[[plot_idx]] <- p_diag
+        } else if (i < j) {
+          plot_matrix[[plot_idx]] <- plot_list[[paste(names(x)[i], names(x)[j])]]
+        } else {
+          plot_matrix[[plot_idx]] <- ggplot() + theme_void()  # Empty plot
+        }
+        plot_idx <- plot_idx + 1
+      }
+    }
+    
+    plot_matrix <- matrix(plot_matrix, ncol = numFac, byrow = TRUE)
+    final_plot <- wrap_plots(plot_matrix, ncol = numFac)
+    final_plot <- final_plot + plot_annotation(
+      title = main[r],
+      theme = theme(plot.title = element_text(hjust = 0.5, margin = margin(b = 20)))
+    )
+    print(final_plot)
+  }
+  
+  invisible()
+}
 
 # paretoPlot ----
 paretoPlot <- function(fdo, abs = TRUE, decreasing = TRUE, alpha = 0.05,
                        response = NULL, ylim, xlab, ylab, main, p.col, legend_left = TRUE) {
-  # library(RColorBrewer)
-  # Esta librería tiene los colores:
-  # Set1, Set2, Set3, Pastel2, Pastel1,
-  # Paired, Dark2, Accent
+  #' @title paretoPlot
+  #' @description Display standardized effects and interactions of a 'facDesign' object in a pareto plot.
+  #' @param fdo An object of class facDesign.
+  #' @param abs Logical. If TRUE, absolute effects and interactions are displayed. Default is `TRUE`.
+  #' @param decreasing Logical. If TRUE, effects and interactions are sorted decreasing. Default is `TRUE`.
+  #' @param alpha The significance level used to calculate the critical value
+  #' @param response Response variable. If the response data frame of fdo consists of more then one responses, this variable can be used to choose just one column of the response data frame. `response` needs to be an object of class character with length of ‘1’. 
+  #' It needs to be the same character as the name of the response in the response data frame that should be plotted. By default `response` is set to ‘NULL’.
+  #' @param ylim Numeric vector of length 2: limits for the y-axis. If missing, the limits are set automatically.
+  #' @param xlab Character string: label for the x-axis.
+  #' @param ylab Character string: label for the y-axis.
+  #' @param main Character string: title of the plot.
+  #' @param p.col Character string specifying the color palette to use for the plot. Must be one of the following values from the `RColorBrewer` package:
+  #' \itemize{
+  #'   \item{"Set1"}
+  #'   \item{"Set2"}
+  #'   \item{"Set3"}
+  #'   \item{"Pastel2"}
+  #'   \item{"Pastel1"}
+  #'   \item{"Paired"}
+  #'   \item{"Dark2"}
+  #'   \item{"Accent"}
+  #' }
+  #' @param legend_left Logical value indicating whether to place the legend on the left side of the plot. Default is `TRUE`.
+  #' @details `paretoPlot` displays a pareto plot of effects and interactions for an object of class facDesign (i.e. 2^k full or 2^k-p fractional factorial design). For a given significance level alpha, a critical value is calculated and added to the plot. Standardization is achieved by dividing estimates with their standard error. For unreplicated fractional factorial designs a Lenth Plot is generated.
+  #' @return The function `paretoPlot` returns an invisible list containing:
+  #' \item{effects}{a list of effects for each response in the 'facDesign' object}
+  #' \item{plot}{The generated PP plot.}
+  #' @seealso \code{\link{factors}}, \code{\link{fracDesign}}, \code{\link{facDesign}}
+  #' @examples
+  #' # Create the facDesign object
+  #' dfac <- facDesign(k = 3, centerCube = 4)
+  #' dfac$names(c('Factor 1', 'Factor 2', 'Factor 3'))
+  #'
+  #' # Assign performance to the factorial design
+  #' rend <- c(simProc(120,140,1), simProc(80,140,1), simProc(120,140,2),
+  #'           simProc(120,120,1), simProc(90,130,1.5), simProc(90,130,1.5),
+  #'           simProc(80,120,2), simProc(90,130,1.5), simProc(90,130,1.5),
+  #'           simProc(120,120,2), simProc(80,140,2), simProc(80,120,1))
+  #' dfac$.response(rend)
+  #'
+  #' paretoPlot(dfac)
+  #' paretoPlot(dfac, decreasing = TRUE, abs = FALSE, p.col = "Pastel1")
 
   if(is.null(response)==FALSE)
   {
@@ -741,14 +1056,55 @@ paretoPlot <- function(fdo, abs = TRUE, decreasing = TRUE, alpha = 0.05,
   }
 
   print(p)
-  invisible(list(effect.list, plot = p))
+  invisible(list(effects = effect.list, plot = p))
 }
-# Uso paretoPlot
-paretoPlot(dfac, decreasing = T, abs = F, p.col = "Pastel1")
-
 # normalPlot ----
-normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, response = NULL, sig.col = c("red1", "red2", "red3"), sig.pch = c(1,2,3), main, ylim, xlim, xlab, ylab, pch,  ###
-                       col, border = "red", ...){
+normalPlot <- function(fdo, response = NULL, sig.col = c("red1", "red2", "red3"), 
+                       sig.pch = c(1,2,3), main, ylim, xlim, xlab, ylab, pch,  
+                       col, border = "red"){
+  #' @title normalPlot: Normal plot
+  #' @description Creates a normal probability plot for the effects in a `facDesign` object.
+  #' @param fdo An object of class `facDesign`.
+  #' @param response Response variable. If the response data frame of fdo consists of more then one responses, this variable can be used to choose just one column of the `response` data frame. response needs to be an object of class character with length of ‘1’. It needs to be the same character as the name of the response in the response data frame that should be plotted.
+  #' By default `response` is set to ‘NULL’.
+  #' @param sig.col Vector - colors for marking significant interactions. By default `sig.col` is set to ‘c("red1", "red2", "red3")’.
+  #' @param sig.pch Vector - point characters for marking significant interactions. By default `sig.pch` is set to ‘c(1, 2, 3)’.
+  #' @param main Character string specifying the main title of the plot.
+  #' @param ylim Graphical parameter. The y limits of the plot.
+  #' @param xlim Graphical parameter. The x limits (x1, x2) of the plot. Note that x1 > x2 is allowed and leads to a ‘reversed axis’.
+  #' @param xlab Character string specifying the label for the x-axis.
+  #' @param ylab Character string specifying the label for the y-axis.
+  #' @param pch Graphical parameter. Vector containing numerical values or single characters giving plotting points for the different factors.
+  #' Accepts values from 0 to 25, each corresponding to a specific shape in `ggplot2` (e.g., 0: square, 1: circle, 2: triangle point up, 3: plus, 4: cross).
+  #' @param col Graphical parameter. Single numerical value or character string giving the color for the points (e.g., 1: black, 2: red, 3: green).
+  #' @param border Graphical parameter. Single numerical value or character string giving the color of the border line.
+  #' @details If the given facDesign object `fdo` contains replicates this function will deliver a normal plot 
+  #' i.e.: effects divided by the standard deviation (t-value) will be plotted against an appropriate probability 
+  #' scaling (see: `ppoints`).
+  #' If the given facDesign object `fdo` contains no replications the standard error can not be calculated.
+  #' In that case the function will deliver an effect plot.
+  #' i.e.: the effects will be plotted against an appropriate probability scaling. (see: `ppoints`).
+  #' @return The function `normalPlot` returns an invisible list containing:
+  #' \item{effects}{a list of effects for each response in the 'facDesign' object.}
+  #' \item{plot}{The generated normal plot.}
+  #' @seealso \code{\link{facDesign}}, \code{\link{paretoPlot}}, \code{\link{interactionPlot}}
+  #' @examples
+  #' # Example 1: Create a normal probability plot for a full factorial design
+  #' dfac <- facDesign(k = 3, centerCube = 4)
+  #' dfac$names(c('Factor 1', 'Factor 2', 'Factor 3'))
+  #' 
+  #' # Assign performance to the factorial design
+  #' rend <- c(simProc(120,140,1), simProc(80,140,1), simProc(120,140,2),
+  #'           simProc(120,120,1), simProc(90,130,1.5), simProc(90,130,1.5),
+  #'           simProc(80,120,2), simProc(90,130,1.5), simProc(90,130,1.5),
+  #'           simProc(120,120,2), simProc(80,140,2), simProc(80,120,1))
+  #' dfac$.response(rend)
+  #' 
+  #' normalPlot(dfac)
+  #' 
+  #' # Example 2: Create a normal probability plot with custom colors and symbols
+  #' normalPlot(dfac, sig.col = c("blue", "green", "purple"), sig.pch = c(4, 5, 6))
+  
   fdoName = deparse(substitute(fdo))
   if(is.null(response)==FALSE)
   {
@@ -756,7 +1112,6 @@ normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, respon
     fdo$.response(temp)
   }
   parList = list()
-  parList = list(...)
   if (length(sig.col) < 3)
     sig.col = as.vector(matrix(sig.col, nrow = 1, ncol = 3))
   XLIM=FALSE;YLIM=FALSE
@@ -777,10 +1132,10 @@ normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, respon
     pch = 19
   if (missing(col))
     col = "black"
-
+  
   list_plot = list()
   for(j in 1:ncol(fdo$.response())){
-    parList = list(...)
+    parList = list()
     params = list()
     leg.col = vector()
     p.col = vector()
@@ -790,29 +1145,28 @@ normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, respon
     if (j > 1)
       dev.new()
     form = paste("fdo$.response()[,", j, "]~")
-
+    
     for (i in 1:ncol(fdo$cube)) {
       form = paste(form, names(fdo$cube)[i], sep = "")
       if (i < ncol(fdo$cube))
         form = paste(form, "*", sep = "")
     }
-
+    
     lm.1 = lm(as.formula(form), data = fdo$as.data.frame())
     lm.1s = summary(lm.1)
     effect = coef(lm.1s)[row.names(coef(lm.1s)) != "(Intercept)", "t value"]
-    print(effect)
     if (all(is.na(effect)))
       effect = 2 * coef(lm.1)[-pmatch("(Intercept)", names(coef(lm.1)))]
     #            stop("effects could not be calculated")
     sig = summary(lm.1)$coefficients[, "Pr(>|t|)"][-pmatch("(Intercept)", names(coef(lm.1)))]
     df.resid = df.residual(lm.1)
     nc = nrow(fdo$centerCube)
-
+    
     tQ = ppoints(effect)
     index = order(effect)
     sQ = effect[index]
     sig = sig[index]
-
+    
     if (df.resid > 0) {
       # obtenemos el caracter de la cajita del p_value
       for (k in seq(along = sig)) {
@@ -858,39 +1212,39 @@ normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, respon
       leg.col = unique(leg.col)
     }else{p.col=col
     p.pch=pch}
-
+    
     mid = round(length(tQ)/2)
     last = length(tQ)
     params$p = ppoints(effect)
     estimates = FitDistr(effect, "normal")   #estimates = MASS::fitdistr(effect, "normal")
     params$mean = estimates$estimate[["mean"]]
     params$sd = estimates$estimate[["sd"]]
-
+    
     y = do.call(qnorm, params)
-
+    
     if (XLIM)
       xlim = range(sQ)
     if (YLIM)
       ylim = range(y)
-
+    
     # PLOT -----------------------
     df <- data.frame(sQ = names(sQ), value = as.numeric(sQ), y = y)
-
+    
     p <- ggplot(df, aes(x = value, y = y, label = sQ)) +
       geom_point(col = p.col, pch = p.pch) +
       theme_classic() + lims(x = xlim, y = ylim) +
       labs(x = xlab, y = ylab, title = main) +
       geom_text(check_overlap = TRUE, vjust = 1) + theme_minimal() +
       theme(plot.title = element_text(hjust = 0.5))
-
+    
     xp = c(qnorm(0.1), qnorm(0.99))
     yp = c(qnorm(0.1, mean = estimates$estimate[["mean"]], sd = estimates$estimate[["sd"]]), qnorm(0.99, mean = estimates$estimate[["mean"]], sd = estimates$estimate[["sd"]]))
     slope = (yp[2] - yp[1])/(xp[2] - xp[1])
     int = yp[1] - slope * xp[1]
-
+    
     # line
     p <- p + geom_abline(intercept = int, slope = slope, col = border)
-
+    
     # legend
     if (df.resid > 0){
       caja <- ggplot(data = data.frame(x = 0, y = 0), aes(x, y)) +
@@ -903,111 +1257,68 @@ normalPlot <- function(fdo, threeWay = FALSE, na.last = NA, alpha = 0.05, respon
           panel.grid.minor = element_blank()
         ) +
         xlim(c(0.25,0.30)) + ylim(c(0.24, 0.31))
-
+      
       caja <- caja +
         annotate('text', x = 0.275, y = 0.28,
                  label = leg.txt, size = 3, hjust = 0.5, colour = leg.col)
-
+      
       p <- p + inset_element(caja, left = 0.01, right = 0.2, top = 1, bottom = 0.85)
     }
     print(p)
     list_plot[[paste0("p",j)]] <- p
   }
-  invisible(list(effect = effect, plots = list_plot))
+  invisible(list(effects = effect, plots = list_plot))
 }
-# Uso normalPlot
-normalPlot(dfac)
 
-
-# InteractionPlot ----
-interactionPlot <- function(fdo, y = NULL, response = NULL, fun = mean, main, col = 1:2, ...) {
-  if (missing(main)) mainmiss = TRUE else mainmiss = FALSE
-  if (missing(fdo) || class(fdo)[1] != "facDesign")
-    stop("fdo needs to be an object of class facDesign")
-
-  fdoName = deparse(substitute(fdo))
-  if (!is.null(response)) {
-    temp = fdo$.response()[response]
-    fdo$.response(temp)
-  }
-
-  x <- fdo$cube
-  runIndex <- order(fdo$runOrder[, 1])
-  y <- fdo$.response()[1:nrow(x), ]
-  numFac <- ncol(x)
-  combMat <- combn(names(x), 2)
-
-  plot_list <- list()
-
-  for (r in 1:ncol(fdo$.response())) {
-    y = fdo$.response()[1:nrow(x), r]
-
-    for (i in 1:ncol(combMat)) {
-      facName1 <- combMat[1, i]
-      facName2 <- combMat[2, i]
-
-      df = data.frame(fac1 = x[[facName1]], fac2 = x[[facName2]], response = y)
-
-      p = ggplot(df, aes_string(x = "fac2", y = "response", color = "as.factor(fac1)")) +
-        geom_line(stat = "summary", fun = fun,size=1.5) +
-        labs(x = " ", y = " ", color = facName1) +
-        theme_minimal()
-
-      plot_list[[paste(facName1, facName2)]] = p
-    }
-
-    if (mainmiss) {
-      main = paste("Interaction plot for", names(fdo$.response())[r], "in", fdoName)
-    }
-
-    plot_matrix <- vector("list", numFac * numFac)
-    plot_idx <- 1
-
-    for (j in 1:numFac) {
-      for (i in 1:numFac) {
-        if (i == j) {
-          facName <- names(x)[i]
-          p_diag <- ggplot() +
-            labs(x = facName, y = "") +
-            theme_void() +
-            theme(
-              plot.title = element_text(size = 5, face = "bold", hjust = 0.5),
-              axis.title.x = element_text(size = 20, face = "bold", margin = margin(0, 0, 10, 0)),
-              axis.text.x = element_blank(),
-              axis.ticks.x = element_blank(),
-              axis.text.y = element_blank(),
-              axis.ticks.y = element_blank()
-            )
-          plot_matrix[[plot_idx]] <- p_diag
-        } else if (i < j) {
-          plot_matrix[[plot_idx]] <- plot_list[[paste(names(x)[i], names(x)[j])]]
-        } else {
-          plot_matrix[[plot_idx]] <- ggplot() + theme_void()  # Empty plot
-        }
-        plot_idx <- plot_idx + 1
-      }
-    }
-
-    plot_matrix <- matrix(plot_matrix, ncol = numFac, byrow = TRUE)
-    final_plot <- wrap_plots(plot_matrix, ncol = numFac)
-    final_plot <- final_plot + plot_annotation(
-      title = main[r],
-      theme = theme(plot.title = element_text(hjust = 0.5, margin = margin(b = 20)))
-    )
-    print(final_plot)
-  }
-
-  invisible()
-}
-# Uso interactionPlot
-interactionPlot(dfac)
 # wirePlot ----
 wirePlot <- function(x, y, z, data = NULL,
-                     xlim, ylim, zlim, main,
-                     xlab, ylab, sub, sub.a = TRUE, zlab,
-                     form = "fit", col = "Rainbow", steps,
-                     factors, fun, plot = TRUE, show.scale = TRUE,
+                     xlim, ylim, zlim, main, xlab, ylab, 
+                     sub, sub.a = TRUE, zlab, form = "fit", 
+                     col = "Rainbow", steps, factors, fun, 
+                     plot = TRUE, show.scale = TRUE,
                      n.scene = "scene") {
+  #' @title wirePlot: 3D Plot
+  #' @description Creates a wireframe diagramm for an object of class `facDesign`.
+  #' @param x Name providing the Factor A for the plot.
+  #' @param y Name providing the Factor B for the plot.
+  #' @param z Name giving the Response variable.
+  #' @param data Needs to be an object of class `facDesign` and contains the names of x,y,z.
+  #' @param xlim Numeric vector of length 2: limits for the x-axis. If missing, limits are set automatically.
+  #' @param ylim Numeric vector of length 2: limits for the y-axis. If missing, limits are set automatically.
+  #' @param zlim Numeric vector of length 2: limits for the z-axis. If missing, limits are set automatically.
+  #' @param main Character string: title of the plot.
+  #' @param xlab Character string: label for the x-axis.
+  #' @param ylab character string: label for the y-axis.
+  #' @param zlab character string: label for the z-axis.
+  #' @param sub character string: subtitle for the plot. Default is `NULL`.
+  #' @param sub.a logical value indicating whether to display the subtitle. Default is `TRUE`.
+  #' @param form character string specifying the form of the surface to be plotted. Options include `"fit"` for a fitted surface, `"raw"` for raw data, and `"residuals"` for residuals. Default is `"fit"`.
+  #' @param col character string specifying the color palette to use for the plot. Default is `"Rainbow"`. 
+  #' @param steps numeric value specifying the number of steps for the grid in the plot. Higher values result in a smoother surface.
+  #' @param factors optional character vector specifying the names of the factors to be used in the plot.
+  #' @param fun optional function to be applied to the data before plotting.
+  #' @param plot logical value indicating whether to display the plot. Default is `TRUE`.
+  #' @param show.scale logical value indicating whether to display the color scale on the plot. Default is `TRUE`.
+  #' @param n.scene character string specifying the scene name for the plot. Default is `"scene"`.
+  #' @details The `wirePlot` function is used to create a 3D wireframe plot that visualizes the relationship between two factors and a response variable. The plot can be customized in various ways, including changing axis labels, adding subtitles, and choosing the color palette.
+  #' @return The function `wirePlot` returns an invisible list containing:
+  #' \item{plot}{The generated wireframe plot.}
+  #' \item{grid}{The grid data used for plotting.}
+  #' @seealso [contourPlot()], [ParetoChart()]
+  #' @examples
+  #' # Example 1: Basic wireframe plot
+  #' x <- seq(-10, 10, length = 30)
+  #' y <- seq(-10, 10, length = 30)
+  #' z <- outer(x, y, function(a, b) sin(sqrt(a^2 + b^2)))
+  #' wirePlot(x, y, z, main = "3D Wireframe Plot", xlab = "X-Axis", ylab = "Y-Axis", zlab = "Z-Axis")
+  #' 
+  #' # Example 2: Wireframe plot with a custom color palette and grid steps
+  #' wirePlot(x, y, z, col = "terrain.colors", steps = 50, main = "Wireframe Plot with Custom Colors")
+  #'
+  #' # Example 3: Using data frame for plotting
+  #' df <- data.frame(x = rnorm(100), y = rnorm(100), z = rnorm(100))
+  #' wirePlot(x = df$x, y = df$y, z = df$z, main = "Wireframe Plot from Data Frame")
+  
   form = form
   fact = NULL
   if (missing(steps))
@@ -1101,7 +1412,7 @@ wirePlot <- function(x, y, z, data = NULL,
   names(dcList) = names(aux)
   dcList[1:length(fdo$names())] = 0
 
-  help.predict = function(x, y, x.c, y.c, lm.1, ...) {
+  help.predict = function(x, y, x.c, y.c, lm.1) {
     dcList[[x.c]] = x
     dcList[[y.c]] = y
     temp = do.call(data.frame, dcList)
@@ -1307,7 +1618,7 @@ contourPlot <- function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, zlab
     for (i in fdo$names()) dcList[[i]] = factors[[i]][1]
   }
 
-  help.predict = function(x, y, x.c, y.c, lm.1, ...) {
+  help.predict = function(x, y, x.c, y.c, lm.1) {
     dcList[[x.c]] = x
     dcList[[y.c]] = y
     temp = do.call(data.frame, dcList)
@@ -1627,7 +1938,7 @@ contourPlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, 
   }
   if (DB)
     print(dcList)
-  help.predict = function(a, b, x.c, y.c, lm.1, ...) {
+  help.predict = function(a, b, x.c, y.c, lm.1) {
     dcList[[x.c]] = 2 * b/sqrt(3)
     dcList[[y.c]] = 1 - (2 * b/sqrt(3)) - (a - b/sqrt(3))
     dcList[[z.c]] = a - b/sqrt(3)
@@ -1756,7 +2067,7 @@ wirePlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, for
   }
   if (DB)
     print(dcList)
-  help.predict = function(a, b, x.c, y.c, lm.1, ...) {
+  help.predict = function(a, b, x.c, y.c, lm.1) {
     dcList[[x.c]] = 2 * b/sqrt(3)
     dcList[[y.c]] = 1 - (2 * b/sqrt(3)) - (a - b/sqrt(3))
     dcList[[z.c]] = a - b/sqrt(3)

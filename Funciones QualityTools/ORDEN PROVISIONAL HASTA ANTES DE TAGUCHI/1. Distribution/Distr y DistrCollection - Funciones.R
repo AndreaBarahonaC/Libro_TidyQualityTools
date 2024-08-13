@@ -36,7 +36,7 @@ FitDistr <- function (x, densfun, start, ...){
   mylogfn <- function(parm, ...) -sum(dens(parm, ..., log = TRUE))
   mydt <- function(x, m, s, df, log) dt((x - m)/s, df, log = TRUE) -
     log(s)
-  Call <- match.call(expand.dots = TRUE)
+  Call <- match.call()
   if (missing(start))
     start <- NULL
   dots <- names(list(...))
@@ -202,7 +202,7 @@ FitDistr <- function (x, densfun, start, ...){
       Call$method <- "BFGS"
     else Call$method <- "Nelder-Mead"
   }
-  res <- eval.parent(Call)
+  res <- suppressWarnings(eval.parent(Call))
   if (res$convergence > 0L)
     stop("optimization failed")
   vc <- solve(res$hessian)
