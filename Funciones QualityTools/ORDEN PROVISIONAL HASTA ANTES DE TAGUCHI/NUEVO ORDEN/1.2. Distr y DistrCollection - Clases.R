@@ -12,7 +12,6 @@
 #' @field n Numeric value representing the sample size.
 #' @field loglik Numeric value representing the log-likelihood.
 #' @seealso @seealso \code{\link{distribution}}, \code{\link{FitDistr}}, \code{\link{DistrCollection}}
-
 #' @example
 #' set.seed(123)
 #' data <- rnorm(100, mean = 5, sd = 2)

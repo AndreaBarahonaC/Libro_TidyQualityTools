@@ -3,8 +3,50 @@
 ##########################################################################
 
 ###Funcion mixDesign####
-mixDesign <- function(p, n = 3, type = "lattice", center = TRUE, axial = FALSE, delta, replicates = 1, lower, total = 1, randomize, seed) {
-  DB = FALSE
+mixDesign <- function(p, n = 3, type = "lattice",
+                      center = TRUE, axial = FALSE, delta,
+                      replicates = 1, lower, total = 1,
+                      randomize, seed) {
+  #' @title mixDesign: Mixture Designs
+  #' @description Function to generate simplex lattice and simplex centroid mixture designs with optional center points and axial points.
+  #' @param p Numerical value giving the amount of factors.
+  #' @param n Numerical value specifying the degree (ignored if type = “centroid”).
+  #' @param type Character string giving the type of design. `type` can be “lattice” or “centroid” (referencing to the first source under the section references].
+  #' By default `type` is set to “lattice”.
+  #' @param center Logical value specifying whether (optional) center points will be added.
+  #' By default `center` is set to ‘TRUE’.
+  #' @param axial Logical value specifying whether (optional) axial points will be added.
+  #' By default `axial` is set to ‘FALSE’.
+  #' @param delta Numerical value giving the delta (see references) for axial runs. No default setting.
+  #' @param replicates Vector with the number of replicates for the different design points i.e. c(center = 1, axial = 1, pureBlend = 1, BinaryBlend = 1, p-3 blend, p-2 blend, p-1 blend).
+  #' By default `replicates` is set to ‘1’.
+  #' @param lower Numeric vector of lower-bound constraints on the component proportions (i.e. must be given in percent).
+  #' @param total Numeric vector with
+  #' \itemize{
+  #' \item {[1] the percentage of the mixture made up by the q - components (e.g. q = 3 and x1 + x2 + x3 = 0.8 –> total = 0.8 with 0.2 for the other factors being held constant)}
+  #' \item {[2] overall total in corresponding units (e.g. 200ml for the overall mixture)}
+  #' }
+  #' @param randomize Logical value. If ‘TRUE’ the RunOrder of the mixture design will be randomized (default).
+  #' @param seed Nmerical value giving the input for set.seed.
+  #' @return The function `mixDesig()` returns an object of class `mixDesign``.
+  #' @note
+  #' In this version the creation of (augmented) lattice, centroid mixture designs is fully supported. Getters and Setter methods for the mixDesign object exist just as for objects of class `facDesign` (i.e. factorial designs).
+  #'
+  #' The creation of constrained component proportions is partially supported but don't rely on it. Visualization (i.e. ternary plots) for some of these designs can be done with the help of the `wirePlot3` and `contourPlot3` function.
+  #'
+  #' @seealso \code{\link{mixDesign.c}}, \code{\link{facDesign.c}}, \code{\link{facDesign}}, \code{\link{fracDesign}}, \code{\link{rsmDesign}}, \code{\link{wirePlot3}}, \code{\link{contourPlot3}}.
+  #' @examples
+  #' # Example usage of mixDesign
+  #' mdo <- mixDesign(3, 2, center = FALSE, axial = FALSE, randomize = FALSE, replicates = c(1, 1, 2, 3))
+  #'
+  #'  mdo$names(c("polyethylene", "polystyrene", "polypropylene"))
+  #'  elongation <- c(11.0, 12.4, 15.0, 14.8, 16.1, 17.7, 16.4, 16.6, 8.8, 10.0, 10.0, 9.7, 11.8, 16.8, 16.0)
+  #'  mdo$.response(elongation)
+  #'
+  #'  mdo$units()
+  #'  mdo$summary()
+
+
   frameOut = NA
   out = mixDesign.c$new()
   if (missing(p))
@@ -57,8 +99,7 @@ mixDesign <- function(p, n = 3, type = "lattice", center = TRUE, axial = FALSE, 
     for (i in 1:length(repTemp)) repTemp[[i]] = replicates
     replicates = repTemp
   }
-  if (DB)
-    print(replicates)
+
   N = factorial(p + n - 1)/(factorial(n) * factorial(p - 1))
   if (identical(type, "lattice")) {
     j = 1
@@ -72,8 +113,7 @@ mixDesign <- function(p, n = 3, type = "lattice", center = TRUE, axial = FALSE, 
       if (i == 1)
         frameOut = data.frame(matrix(x, ncol = p, nrow = 1))
       else frameOut = rbind(frameOut, x)
-      if (DB)
-        print(x)
+
       logVec = rep(FALSE, p)
       logVec[1:(p - 1)] = x[1:p - 1] > 0
       if (any(logVec)) {
@@ -115,17 +155,13 @@ mixDesign <- function(p, n = 3, type = "lattice", center = TRUE, axial = FALSE, 
     }
   }
   frameOut = frameOutCopy
-  if (DB) {
-    print(Type)
-    print(frameOutCopy)
-  }
+
   keepIndex = (1:nrow(frameOut))[!apply(Type, 1, "==", "center")]
   Type = data.frame(Type = Type[keepIndex, ])
   frameOut = frameOut[keepIndex, ]
   if (center) {
     center = data.frame(matrix(1/p, nrow = 1, ncol = p))
-    if (DB)
-      print(center)
+
     times = replicates$center
     if (is.null(times))
       times = 0
@@ -142,8 +178,7 @@ mixDesign <- function(p, n = 3, type = "lattice", center = TRUE, axial = FALSE, 
     names(center) = names(frameOut)
     frameOut = rbind(frameOut, center)
     Type = rbind(Type, data.frame(Type = rep("center", times + 1)))
-    if (DB)
-      print(frameOut)
+
   }
   if (axial) {
     temp = rep(NA, p)
@@ -164,10 +199,7 @@ mixDesign <- function(p, n = 3, type = "lattice", center = TRUE, axial = FALSE, 
     names(axial) = names(frameOut)
     frameOut = rbind(frameOut, axial)
     Type = rbind(Type, data.frame(Type = rep("axial", (times + 1) * p)))
-    if (DB) {
-      print(frameOut)
-      print(Type)
-    }
+
   }
   StandOrder = 1:nrow(frameOut)
   RunOrder = StandOrder
@@ -209,20 +241,54 @@ mixDesign <- function(p, n = 3, type = "lattice", center = TRUE, axial = FALSE, 
   }
   return(out)
 }
-# Uso mixDesign
-# mdo <- mixDesign(3, 2, center = FALSE, axial = FALSE, randomize = FALSE, replicates = c(1, 1, 2, 3))
-#
-# mdo$names(c("polyethylene", "polystyrene", "polypropylene"))
-# elongation <- c(11.0, 12.4, 15.0, 14.8, 16.1, 17.7, 16.4, 16.6, 8.8, 10.0, 10.0, 9.7, 11.8, 16.8, 16.0)
-# mdo$.response(elongation)
-#
-# mdo$units()
-# mdo$summary()
+
 
 # contourPlot3 ----
 contourPlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, border, form = "linear", col = 1, col.text, cex.axis, axes = TRUE,
                         steps, factors) {
-  DB = FALSE
+  #' @title contourPlot3: Ternary plot
+  #' @description This function creates a ternary plot (contour plot) for mixture designs (i.e. object of class mixDesign)
+  #' @param x Factor 1 of the `mixDesign` object.
+  #' @param y Factor 2 of the `mixDesign` object.
+  #' @param z Factor 3 of the `mixDesign` object.
+  #' @param response the response of the `mixDesign` object.
+  #' @param data The `mixDesign` object from which x,y,z and the response are taken.
+  #' @param main Character string specifying the main title of the plot.
+  #' @param xlab Character string specifying the label for the x-axis.
+  #' @param ylab Character string specifying the label for the y-axis.
+  #' @param zlab Character string specifying the label for the z-axis.
+  #' @param border Numeric or character (for example “red”) value specifying the color of the surroundimg the ternary plot.
+  #' By default `border` is set to “white”
+  #' @param form A character string or a formula with the syntax “y ~ A + B + C”.
+  #' If form is a character string, it has to be one of the following:
+  #' \itemize{
+  #' \item{“linear”}
+  #' \item{“quadratic”}
+  #' \item{“fullCubic”}
+  #' \item{“specialCubic”}
+  #' }
+  #' How the form influences the output is described in the reference listed below.
+  #' By default, `form` is set to “linear”.
+  #' @param col A predefined value (1, 2, 3, or 4) or a self-defined `colorRampPalette` specifying the colors to be used in the plot.
+  #' @param col.text A numeric value or a character string specifying the color of the axis labels.
+  #' The default value `col.text` is '1'.
+  #' @param cex.axis A numeric value specifying the size of the axis labels.
+  #' The default value `cex.axis` is '1'.
+  #' @param axes A logical value specifying whether the axes should be plotted.
+  #' By default, `axes` is set to `TRUE`.
+  #' @param steps A numeric value specifying the resolution of the plot, i.e., the number of rows for the square matrix, which also represents the number of grid points per factor.
+  #' By default, `steps` is set to 25.
+  #' @param factors A list of factors for categorizing with specific settings, applicable if there are more than 3 factors (not yet implemented).
+  #' @return The function `contourPlot3` returns an invisible matrix containing the response values as NA's and numerics.
+  #' @seealso \code{\link{mixDesign.c}}, \code{\link{mixDesign}}, \code{\link{wirePlot3}}.
+  #' @examples
+  #' mdo <- mixDesign(3, 2, center = FALSE, axial = FALSE, randomize = FALSE, replicates = c(1, 1, 2, 3))
+  #'
+  #' elongation <- c(11.0, 12.4, 15.0, 14.8, 16.1, 17.7, 16.4, 16.6, 8.8, 10.0, 10.0, 9.7, 11.8, 16.8, 16.0)
+  #' mdo$.response(elongation)
+  #'
+  #' contourPlot3(A, B, C, elongation, data = mdo, form = "quadratic")
+
   out = list()
   mdo = data
   x.c = deparse(substitute(x))
@@ -263,8 +329,7 @@ contourPlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, 
   nameVec = names(mdo$names())
   linStrings = "-1"
   for (i in seq(along = nameVec)) linStrings = paste(linStrings, "+", nameVec[i])
-  if (DB)
-    print(linStrings)
+
   combList = combn(nameVec, 2, simplify = FALSE)
   quadStrings = character(length = length(combList))
   for (i in seq(along = combList)){
@@ -276,28 +341,24 @@ contourPlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, 
     }
   }
   quadStrings = paste(quadStrings, collapse = "")
-  if (DB)
-    print(quadStrings)
+
   if (identical(form, "linear")) {
     form = paste(r.c, "~", linStrings)
-    if (DB)
-      print(form)
+
   }
   if (identical(form, "quadratic")) {
     form = paste(r.c, "~", linStrings, "+", quadStrings)
 
   }
   lm.1 = lm(formula = form, data = mdo$as.data.frame())
-  if (DB)
-    print(lm.1)
+
   dcList = vector(mode = "list", length = length(mdo$names()))
   names(dcList) = names(mdo$names())
   dcList[1:length(mdo$names())] = 0
   if (!is.null(factors)) {
     for (i in names(factors)) dcList[[i]] = factors[[i]][1]
   }
-  if (DB)
-    print(dcList)
+
   help.predict = function(a, b, x.c, y.c, lm.1) {
     dcList[[x.c]] = 2 * b/sqrt(3)
     dcList[[y.c]] = 1 - (2 * b/sqrt(3)) - (a - b/sqrt(3))
@@ -349,12 +410,48 @@ contourPlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, 
   mtext(zlab, 1, at = 1.025, cex = 1.5)
   invisible(mat)
 }
-# Uso contourPlot3
-# contourPlot3(A, B, C, elongation, data = mdo, form = "quadratic")
 
 # wirePlot3 ----
 wirePlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, form = "linear", phi, theta, col = 1, steps, factors) {
-  DB = FALSE
+  #' @title contourPlot3: Ternary 3D plot
+  #' @description This function creates a ternary plot for mixture designs (i.e. object of class mixDesign)
+  #' @param x Factor 1 of the `mixDesign` object.
+  #' @param y Factor 2 of the `mixDesign` object.
+  #' @param z Factor 3 of the `mixDesign` object.
+  #' @param response the response of the `mixDesign` object.
+  #' @param data The `mixDesign` object from which x,y,z and the response are taken.
+  #' @param main Character string specifying the main title of the plot.
+  #' @param xlab Character string specifying the label for the x-axis.
+  #' @param ylab Character string specifying the label for the y-axis.
+  #' @param zlab Character string specifying the label for the z-axis.
+  #' @param form A character string or a formula with the syntax “y ~ A + B + C”.
+  #' If form is a character string, it has to be one of the following:
+  #' \itemize{
+  #' \item{“linear”}
+  #' \item{“quadratic”}
+  #' \item{“fullCubic”}
+  #' \item{“specialCubic”}
+  #' }
+  #' How the form influences the output is described in the reference listed below.
+  #' By default, `form` is set to “linear”.
+  #' @param phi numerical value specifying the angle (in degree) through which the plot is rotated about an imagined horizontal line.
+  #' By default `phi` is set as ‘30’.
+  #' @param theta numerical value specifying the angle (in degree) through which the plot is rotated about an imagined vertical line.
+  #' By default `theta` is set as ‘30’.
+  #' @param col A predefined value (1, 2, 3, or 4) or a self-defined `colorRampPalette` specifying the colors to be used in the plot.
+  #' @param steps A numeric value specifying the resolution of the plot, i.e., the number of rows for the square matrix, which also represents the number of grid points per factor.
+  #' By default, `steps` is set to 25.
+  #' @param factors A list of factors for categorizing with specific settings, applicable if there are more than 3 factors (not yet implemented).
+  #' @return The function `wirePlot3` returns an invisible matrix containing the response values as NA's and numerics.
+  #' @seealso \code{\link{mixDesign.c}}, \code{\link{mixDesign}}, \code{\link{contourPlot3}}.
+  #' @examples
+  #' mdo <- mixDesign(3, 2, center = FALSE, axial = FALSE, randomize = FALSE, replicates = c(1, 1, 2, 3))
+  #'
+  #' elongation <- c(11.0, 12.4, 15.0, 14.8, 16.1, 17.7, 16.4, 16.6, 8.8, 10.0, 10.0, 9.7, 11.8, 16.8, 16.0)
+  #' mdo$.response(elongation)
+  #'
+  #' wirePlot3(A, B, C, elongation, data = mdo, form = "quadratic", theta = -170)
+
   out = list()
   mdo = data
   x.c = deparse(substitute(x))
@@ -396,37 +493,31 @@ wirePlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, for
   nameVec = names(mdo$names())
   linStrings = "-1"
   for (i in seq(along = nameVec)) linStrings = paste(linStrings, "+", nameVec[i])
-  if (DB)
-    print(linStrings)
+
   combList = combn(nameVec, 2, simplify = FALSE)
   quadStrings = character(length = length(combList))
   for (i in seq(along = combList)) if (i == 1)
     quadStrings[i] = paste(combList[[i]][1], ":", combList[[i]][2])
   else quadStrings[i] = paste("+", combList[[i]][1], ":", combList[[i]][2])
   quadStrings = paste(quadStrings, collapse = "")
-  if (DB)
-    print(quadStrings)
+
   if (identical(form, "linear")) {
     form = paste(r.c, "~", linStrings)
-    if (DB)
-      print(form)
+
   }
   if (identical(form, "quadratic")) {
     form = paste(r.c, "~", linStrings, "+", quadStrings)
-    if (DB)
-      print(form)
+
   }
   lm.1 = lm(formula = form, data = mdo$as.data.frame())
-  if (DB)
-    print(lm.1)
+
   dcList = vector(mode = "list", length = length(mdo$names()))
   names(dcList) = names(mdo$names())
   dcList[1:length(mdo$names())] = 0
   if (!is.null(factors)) {
     for (i in names(factors)) dcList[[i]] = factors[[i]][1]
   }
-  if (DB)
-    print(dcList)
+
   help.predict = function(a, b, x.c, y.c, lm.1) {
     dcList[[x.c]] = 2 * b/sqrt(3)
     dcList[[y.c]] = 1 - (2 * b/sqrt(3)) - (a - b/sqrt(3))
@@ -515,5 +606,3 @@ wirePlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, for
   }
   invisible(mat)
 }
-# Uso wirePlot3
-#wirePlot3(A, B, C, elongation, data = mdo, form = "quadratic", theta = -170)
