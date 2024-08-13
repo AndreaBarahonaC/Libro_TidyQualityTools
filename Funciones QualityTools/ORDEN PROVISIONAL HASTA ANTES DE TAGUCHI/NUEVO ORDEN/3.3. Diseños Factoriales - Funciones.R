@@ -2,7 +2,6 @@
 ############################# DISEÑOS FACTORIALES - FUNCIONES ###################################
 #################################################################################################
 
-
 # as.data.frame.facDesign ----
 as.data.frame.facDesign <- function(dfac, ...) {
   #' @title as.data.frame.facDesign: Coerce to a data.frame
@@ -132,17 +131,16 @@ randomize <- function (fdo, random.seed, so = FALSE)
   return(fdo)
 }
 # blocking ----
-blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm", gen){
+blocking <- function (fdo, blocks, random.seed, useTable = "rsm", gen){
   #' @title blocking: Blocking
   #' @description Blocks a given factorial or response surface design.
   #' @param fdo An object of class \code{\link{facDesign.c}}.
   #' @param blocks Numeric value giving the number of blocks.
-  #' @param BoR Logical value indicating whether the replicates should be blocked or not.By default \code{BoR} is set to \code{FALSE}.
   #' @param random.seed Numeric value to generate repeatable results for randomization within blocks.
   #' @param useTable Character indicating which table to use. The following options will be accepted:
   #' \itemize{
-  #'    \item \code{rms}: table from reference
-  #'    \item \code{calc}: table calculated by package
+  #'    \item \code{"rms"}: table from reference
+  #'    \item \code{"calc"}: table calculated by package
   #' }
   #' @param gen Giving the generator that will be used.
   #' @return The function \code{blocking} returns an object of class \code{\link{facDesign.c}} with blocking structure.
@@ -219,23 +217,38 @@ blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm", g
   fdo = randomize(fdo, random.seed = random.seed)
   return(fdo)
 }
-
-# Example 1
-#' #Create a 2^3 full factorial design
-#' fdo <- facDesign(k = 3)
-#' # Apply blocking to the design with 2 blocks
-#' blocking(fdo, 2)
-#'
-#' # Example 2
-#' #Create a response surface design for 3 factors
-#' fdo <- rsmDesign(k = 3)
-#' # Apply blocking to the design with 3 blocks (1 block for star part and 2 blocks for the cube part)
-#' blocking(fdo, 3)
 # Función fracDesign ----
 fracDesign <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
                         centerCube = 0, random.seed = 1234)
 {
-
+  #' @title fracDesign
+  #' @description Generates a 2^k-p fractional factorial design.
+  #' @param k Numeric value giving the number of factors. By default \code{k} is set to ‘3’.
+  #' @param p Numeric integer between ‘0’ and ‘7’. p is giving the number of additional factors in the response surface design by aliasing effects.
+  #' A 2^k-p factorial design will be generated and the generators of the standard designs available in fracChoose() will be used.
+  #' By default p is set to ‘0’. Any other value will cause the function to omit the argument gen given by the user and replace it by the one out of the table of standard designs (see: \code{\link{fracChoose}}).
+  #' Replicates and blocks can be set anyway!
+  #' @param gen One or more defining relations for a fractional factorial design, for example:  \code{"C=AB"}. By default gen is set to \code{NULL}.
+  #' @param replicates Numeric value giving the number of replicates per factor combination. By default \code{replicates} is set to ‘1’.
+  #' @param blocks Numeric value giving the number of blocks. By default blocks is set to ‘1’.
+  #' @param centerCube Numeric value giving the number of center points within the 2^k design. By default \code{centerCube} is set to ‘0’.
+  #' @param random.seed Seed for randomization of the design
+  #' @return The function \code{fracDesign} returns an object of class \code{\link{facDesign.c}}.
+  #' @seealso \code{\link{facDesign}}, \code{\link{fracChoose}}, \code{\link{rsmDesign}}, \code{\link{pbDesign}}, \code{\link{taguchiDesign}}
+  #' @examples
+  #' #Example 1
+  #' #Returns a 2^4-1 fractional factorial design. Factor D will be aliased with
+  #' vp.frac = fracDesign(k = 4, gen = "D=ABC")
+  #' #the three-way-interaction ABC (i.e. I = ABCD)
+  #' vp.frac$.response(rnorm(2^(4-1)))
+  #' # summary of the fractional factorial design
+  #' vp.frac$summary()
+  #'
+  #' #Example 2
+  #' #Returns a full factorial design with 3 replications per factor combination and 4 center points
+  #' vp.rep = fracDesign(k = 3, replicates = 3, centerCube = 4)
+  #' #Summary of the replicated fractional factorial design
+  #' vp.rep$summary()
   STDfdo = FALSE
   if (p < 0 || p > 7)
     stop("p needs to be an integer between 0 and 7!")
@@ -414,9 +427,9 @@ facDesign <- function (k = 3, p = 0, replicates = 1, blocks = 1, centerCube = 0,
   #' @param p Numeric integer between ‘0’ and ‘7’. p is giving the number of additional factors in the response surface design by aliasing effects.
   #' For further information see fracDesign and fracChoose.
   #' By default p is set to ‘0’.
-  #' @param replicates Numeric value giving the number of replicates per factor combination. By default replicates is set to ‘1’.
+  #' @param replicates Numeric value giving the number of \code{replicates} per factor combination. By default replicates is set to ‘1’.
   #' @param blocks Numeric value giving the number of blocks. By default blocks is set to ‘1’. Blocking is only performed for k greater 2.
-  #' @param centerCube Numeric value giving the number of centerpoints within the 2^k design. By default centerCube is set to ‘0’.
+  #' @param centerCube Numeric value giving the number of centerpoints within the 2^k design. By default \code{centerCube} is set to ‘0’.
   #' @param random.seed Numeric value for setting the random seed for reproducibility.
   #' @return The function \code{facDesign} returns an object of class \code{\link{facDesign.c}}.
   #' @seealso \code{\link{fracDesign}}, \code{\link{fracChoose}}, \code{\link{rsmDesign}}, \code{\link{pbDesign}}, \code{\link{taguchiDesign}}
