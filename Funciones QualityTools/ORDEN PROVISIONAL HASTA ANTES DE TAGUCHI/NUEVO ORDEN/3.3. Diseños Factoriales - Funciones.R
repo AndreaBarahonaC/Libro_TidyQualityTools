@@ -132,25 +132,30 @@ randomize <- function (fdo, random.seed, so = FALSE)
   return(fdo)
 }
 # blocking ----
-blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm",
-                      gen){
+blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm", gen){
   #' @title blocking: Blocking
   #' @description Blocks a given factorial or response surface design.
-  #' @param fdo An object representing a factorial design, typically of class \code{facDesign}.
-  #' @param blocks Numeric value specifying the number of blocks to be created in the design.
-  #' @param BoR Logical. If \code{TRUE}, the blocking will be based on a Block-Resolution approach. If \code{FALSE}, a general blocking approach is used.
-  #' @param random.seed Numeric value for setting the random seed to ensure reproducibility of the blocking.
-  #' @param useTable Character string specifying the type of table to use for blocking. Default is \code{"rsm"}. Other options may be available depending on the design.
-  #' @param gen Optional. A character string specifying the generator for the design, used in conjunction with blocking.
-  #' @return An object of class \code{facDesign} with the design blocked according to the specified parameters.
-  #' @seealso \code{\link{facDesign}}, \code{\link{rsmDesign}}, \code{\link{aliasTable}}
+  #' @param fdo An object of class \code{\link{facDesign.c}}.
+  #' @param blocks Numeric value giving the number of blocks.
+  #' @param BoR Logical value indicating whether the replicates should be blocked or not.By default \code{BoR} is set to \code{FALSE}.
+  #' @param random.seed Numeric value to generate repeatable results for randomization within blocks.
+  #' @param useTable Character indicating which table to use. The following options will be accepted:
+  #' \itemize{
+  #'    \item \code{rms}: table from reference
+  #'    \item \code{calc}: table calculated by package
+  #' }
+  #' @param gen Giving the generator that will be used.
+  #' @return The function \code{blocking} returns an object of class \code{\link{facDesign.c}} with blocking structure.
+  #' @seealso \code{\link{facDesign}}.
   #' @examples
-  #' # Example 1: Create a 2^3 full factorial design
+  #' # Example 1
+  #' #Create a 2^3 full factorial design
   #' fdo <- facDesign(k = 3)
   #' # Apply blocking to the design with 2 blocks
   #' blocking(fdo, 2)
   #'
-  #' # Example 2: Create a response surface design for 3 factors
+  #' # Example 2
+  #' #Create a response surface design for 3 factors
   #' fdo <- rsmDesign(k = 3)
   #' # Apply blocking to the design with 3 blocks (1 block for star part and 2 blocks for the cube part)
   #' blocking(fdo, 3)
@@ -215,6 +220,17 @@ blocking <- function (fdo, blocks, BoR = FALSE, random.seed, useTable = "rsm",
   return(fdo)
 }
 
+# Example 1
+#' #Create a 2^3 full factorial design
+#' fdo <- facDesign(k = 3)
+#' # Apply blocking to the design with 2 blocks
+#' blocking(fdo, 2)
+#'
+#' # Example 2
+#' #Create a response surface design for 3 factors
+#' fdo <- rsmDesign(k = 3)
+#' # Apply blocking to the design with 3 blocks (1 block for star part and 2 blocks for the cube part)
+#' blocking(fdo, 3)
 # Función fracDesign ----
 fracDesign <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
                         centerCube = 0, random.seed = 1234)
@@ -1865,7 +1881,7 @@ rsmDesign <- function(k = 3, p = 0, alpha = "rotatable", blocks = 1, cc = 1, cs 
   if (cc > 0) {
     temp = as.data.frame(matrix(0, nrow = cc, ncol = ncol(fdo$cube)))
     names(temp) = names(fdo$cube)
-    fdo$centerCube(temp)
+    fdo$.centerCube(temp)
   }
 
   temp = .starFrame(k, alpha)
