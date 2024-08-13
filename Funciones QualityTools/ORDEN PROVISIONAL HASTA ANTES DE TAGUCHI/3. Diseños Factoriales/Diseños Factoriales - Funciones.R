@@ -181,6 +181,19 @@ fracDesign <- function (k = 3, p = 0, gen = NULL, replicates = 1, blocks = 1,
 # Función facDesign ----
 facDesign <- function (k = 3, p = 0, replicates = 1, blocks = 1, centerCube = 0, random.seed = 1234)
 {
+  #' @title facDesign
+  #' @description Generates a 2^k full factorial design.
+  #' @param k Numeric value giving the number of factors. By default k is set to ‘3’.
+  #' @param p Numeric integer between ‘0’ and ‘7’. p is giving the number of additional factors in the response surface design by aliasing effects.
+  #' For further information see fracDesign and fracChoose.
+  #' By default p is set to ‘0’.
+  #' @param replicates Numeric value giving the number of replicates per factor combination. By default replicates is set to ‘1’.
+  #' @param blocks Numeric value giving the number of blocks. By default blocks is set to ‘1’. Blocking is only performed for k greater 2.
+  #' @param centerCube Numeric value giving the number of centerpoints within the 2^k design. By default centerCube is set to ‘0’.
+  #' @param random.seed Numeric value for setting the random seed for reproducibility.
+  #' @return The function facDesign returns an object of class \code{\link{facDesign.c}}.
+  #' @seealso
+  #'
   frameOut = fracDesign(k = k, p = p, gen = NULL, replicates = replicates,
                         blocks = blocks, centerCube = centerCube, random.seed = random.seed)
   return(frameOut)
@@ -884,3 +897,4 @@ optimum(ddo,type='optim')
 
 
 
+library(tidyqualitytools)
