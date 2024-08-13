@@ -3,13 +3,23 @@
 ############################################################################
 
 # Clase taguchiFactor ----
+#' @title taguchiFactor
+#' @description An R6 class representing a factor in a Taguchi design.
+#' @field values A vector containing the levels or values associated with the factor. Default is `NA`.
+#' @field name A character string specifying the name of the factor. Default is an empty string `""`.
+#' @field unit A character string specifying the unit of measurement for the factor. Default is an empty string `""`.
+#' @field type A character string specifying the type of the factor, which can be either `"numeric"` or `"categorical"`. Default is `"numeric"`.
 taguchiFactor <- R6Class("taguchiFactor", public = list(values = NA,
                                                         name = "",
                                                         unit = "",
                                                         type = "numeric",
+
                                                         attributes = function(){
-                                                          v <- c(self$values,self$name, self$unit, self$type)
+                                                          v <- c(self$values, self$name, self$unit, self$type)
                                                         },
+
+                                                        #' @description Get and set the `values` for the factors in an object of class `taguchiFactor`.
+                                                        #' @param value New highs, If missing value get the `values`.
                                                         .values = function(value){
                                                           if (missing(value)) {
                                                             return(self$values)
@@ -19,6 +29,9 @@ taguchiFactor <- R6Class("taguchiFactor", public = list(values = NA,
                                                             invisible(self)
                                                           }
                                                         },
+
+                                                        #' @description Get and set the `units` for the factors in an object of class `taguchiFactor`.
+                                                        #' @param value New unit, If missing value get the `units`.
                                                         .unit = function(value){
                                                           if(missing(value)){
                                                             return(self$unit)
@@ -28,6 +41,9 @@ taguchiFactor <- R6Class("taguchiFactor", public = list(values = NA,
                                                             invisible(self)
                                                           }
                                                         },
+
+                                                        #' @description Get and set the `names` in an object of class `taguchiFactor`.
+                                                        #' @param value New names, If missing value get the `names`.
                                                         names = function(value){
                                                           if(missing(value)){
                                                             return(self$name)
@@ -40,6 +56,21 @@ taguchiFactor <- R6Class("taguchiFactor", public = list(values = NA,
 )
 )
 # Clase taguchiDesign.c ----
+#' @title taguchiDesign
+#' @description An R6 class representing a Taguchi experimental design.
+#' @field name A character string specifying the name of the design. Default is `NULL`.
+#' @field factors A list of factors included in the Taguchi design. Each factor is typically an instance of the `taguchiFactor` class.
+#' @field design A `data.frame` representing the design matrix of the experiment. This includes the levels of each factor for every run of the experiment. Default is an empty `data.frame`.
+#' @field designType A character string specifying the type of Taguchi design used. Default is `NULL`.
+#' @field replic A `data.frame` containing the replication information for the design. Default is an empty `data.frame`.
+#' @field response A `data.frame` storing the response values collected from the experiment. Default is an empty `data.frame`.
+#' @field Type A `data.frame` specifying the type of responses or factors involved in the design. Default is an empty `data.frame`.
+#' @field block A `data.frame` indicating any blocking factors used in the design. Default is an empty `data.frame`.
+#' @field runOrder A `data.frame` detailing the order in which the experimental runs were conducted. Default is an empty `data.frame`.
+#' @field standardOrder A `data.frame` detailing the standard order of the experimental runs. Default is an empty `data.frame`.
+#' @field desireVal A list storing desired values for responses in the experiment. Default is an empty list.
+#' @field desirability A list storing desirability functions used to evaluate the outcomes of the experiment. Default is an empty list.
+#' @field fits A `data.frame` containing model fits or other statistical summaries from the analysis of the experimental data. Default is an empty `data.frame`.
 taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                           factors = list(),
                                                           design = data.frame(),
@@ -53,6 +84,9 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                           desireVal = list(),
                                                           desirability = list(),
                                                           fits = data.frame(),
+
+                                                          #' @description Get and set the `values` for an object of class `taguchiDesign`.
+                                                          #' @param value New value, If missing value get the `values`.
                                                           values = function(value){
                                                             if(missing(value)){
                                                               listOut = vector(mode = "list")
@@ -72,6 +106,9 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                             }
 
                                                           },
+
+                                                          #' @description Get and set the `units` for an object of class `taguchiDesign`.
+                                                          #' @param value New units, If missing value get the `units`.
                                                           units = function(value){
                                                             if (missing(value)) {
                                                               v <- list()
@@ -87,6 +124,9 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                               invisible(self)
                                                             }
                                                           },
+
+                                                          #' @description Get and set the `factors` in an object of class `taguchiDesign`.
+                                                          #' @param value New factors, If missing value get the `factors`.
                                                           .factors = function(value){
                                                             if (missing(value)) {
                                                               return(self$factors)
@@ -98,6 +138,9 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                               invisible(self)
                                                             }
                                                           },
+
+                                                          #' @description Get and set the `names` in an object of class `taguchiDesign`.
+                                                          #' @param value New names, If missing value get the `names`.
                                                           names = function(value){
                                                             if(missing(value)){
                                                               aux <- list()
@@ -114,13 +157,14 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                               invisible(self)
                                                             }
                                                           },
-                                                          as.data.frame = function(row.names = NULL, optional = FALSE, ...){
-                                                            frameOut = cbind(self$standardOrder, self$runOrder, self$replic, self$design, self$response)
-                                                            return(frameOut)
-                                                          },
+
+                                                          #' @description Methods for function `print` in Package `base`.
                                                           print = function(){
                                                             print(format(as.data.frame(self), digits = 4))
                                                           },
+
+                                                          #' @description Get and set the the `response` in an object of class `taguchiDesign`.
+                                                          #' @param value New response, If missing value get the `response`.
                                                           .response = function(value){
                                                             if(missing(value)){
                                                               return(self$response)
@@ -143,6 +187,7 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                               invisible(self)
                                                             }
                                                           },
+
                                                           .nfp = function(){
                                                             x = self$.factors()
                                                             DB = FALSE
@@ -168,6 +213,8 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                             }
 
                                                           },
+
+                                                          #' @description Methods for function `summary` in Package `base`.
                                                           summary = function(){
                                                             cat(paste("Taguchi", toupper(self$designType), "Design"))
                                                             cat("\n")
@@ -181,6 +228,7 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                             cat("-----------\n")
                                                             cat("\n")
                                                           },
+
                                                           effectPlot = function(factors, fun = mean, response = NULL, single = FALSE, points = FALSE, classic = FALSE,  ###
                                                                                 axes = TRUE, lty, xlab, ylab, main, ylim, ...){
                                                             oldMar = par("mar")
@@ -322,6 +370,8 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                             }
 
                                                           },
+
+                                                          #' @description Calculates the alias table for a fractional factorial design and prints an easy to read summary of the defining relations such as 'I = ABCD' for a standard 2^(4-1) factorial design.
                                                           identity = function(){
                                                             identity = character(0)
                                                             identityList = vector(mode = "list", length = 0)

@@ -51,7 +51,7 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                     }
                                                   },
 
-                                                  #' @description Methods for function `names` in Package `base`.
+                                                  #' @description Get and set the `names` in an object of class `mixDesign`.
                                                   #' @param value New names, If missing value get the `names`.
                                                   names = function(value){
                                                     if(missing(value)){
@@ -175,7 +175,7 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                   },
 
                                                   #' @description Get and set the `units` for the factors in an object of class `mixDesign`.
-                                                  #' @param value New highs, If missing value get the `units`.
+                                                  #' @param value New units, If missing value get the `units`.
                                                   units = function(value){
                                                     if (missing(value)) {
                                                       v <- list()
@@ -193,7 +193,7 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                   },
 
                                                   #' @description Get and set the `lows` for the factors in an object of class `mixDesign`.
-                                                  #' @param value New highs, If missing value get the `lows`.
+                                                  #' @param value New lows, If missing value get the `lows`.
                                                   lows = function(value){
                                                     if (missing(value)) {
                                                       listOut = vector(mode = "list")
