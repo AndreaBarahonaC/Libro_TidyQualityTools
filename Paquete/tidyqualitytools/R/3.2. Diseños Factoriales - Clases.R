@@ -3,6 +3,23 @@
 ##########################################################################
 
 # Clase facDesign.c ----
+#' @title facDesign Class
+#' @description facDesign Class
+#' @field name name of de facDesign
+#' @field factors description
+#' @field cube description
+#' @field star description
+#' @field centerCube description
+#' @field centerStar description
+#' @field generator description
+#' @field response description
+#' @field block description
+#' @field blockGen description
+#' @field runOrder description
+#' @field standardOrder description
+#' @field desireVal description
+#' @field desirability description
+#' @field fits description
 facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                   factors = NULL,
                                                   cube = data.frame(),
@@ -18,7 +35,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                   desireVal = NULL,
                                                   desirability = list(),
                                                   fits = NULL,
-
+                                                  #' @description Get the number of row Design
                                                   nrow = function(){
                                                     nrow(self$as.data.frame())
                                                   },
@@ -45,7 +62,8 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                     self$response = data.frame()
                                                     invisible(self)
                                                   },
-
+                                                  #' @description Set the factors names
+                                                  #' @param value factors names
                                                   names = function(value){
                                                     if(missing(value)){
                                                       n <- c()

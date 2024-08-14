@@ -468,19 +468,20 @@ facDesign <- function (k = 3, p = 0, replicates = 1, blocks = 1, centerCube = 0,
 
 # simProc ----
 simProc <- function(x1, x2, x3, noise = TRUE) {
-  #' @title facDesign
-  #' @description Generates a 2^k full factorial design.
-  #' @param k Numeric value giving the number of factors. By default k is set to ‘3’.
-  #' @param p Numeric integer between ‘0’ and ‘7’. p is giving the number of additional factors in the response surface design by aliasing effects.
-  #' For further information see fracDesign and fracChoose.
-  #' By default p is set to ‘0’.
-  #' @param replicates Numeric value giving the number of \code{replicates} per factor combination. By default replicates is set to ‘1’.
-  #' @param blocks Numeric value giving the number of blocks. By default blocks is set to ‘1’. Blocking is only performed for k greater 2.
-  #' @param centerCube Numeric value giving the number of centerpoints within the 2^k design. By default \code{centerCube} is set to ‘0’.
-  #' @param random.seed Numeric value for setting the random seed for reproducibility.
-  #' @return The function \code{facDesign} returns an object of class \code{\link{facDesign.c}}.
-  #' @seealso \code{\link{fracDesign}}, \code{\link{fracChoose}}, \code{\link{rsmDesign}}, \code{\link{pbDesign}}, \code{\link{taguchiDesign}}
+  #' @title simProc: Simulated Process
+  #' @description This is a function to simulate a black box process for teaching the use of designed experiments.
+  #' The optimal factor settings can be found using a sequential assembly strategy i.e. apply a 2^k factorial design first,
+  #' calculate the path of the steepest ascent, again apply a 2^k factorial design and augment a star portion
+  #' to find the optimal factor settings. Of course, other strategies are possible.
+  #' @param x1 numeric vector containing the values for factor 1.
+  #' @param x2 numeric vector containing the values for factor 2.
+  #' @param x3 numeric vector containing the values for factor 3.
+  #' @param noise logical value deciding whether noise should be added or not. Default setting is \code{FALSE}.
+  #' @return \code{simProc} returns a numeric value within the range [0,1].
   #' @examples
+  #' simProc(120, 140, 1)
+  #' simProc(120, 220, 1)
+  #' simProc(160, 140, 1)
   max_z = 0.0002200907
   min_z = 8.358082e-10
   yield = .norm2d(x1 = x1, x2 = x2)
@@ -491,15 +492,7 @@ simProc <- function(x1, x2, x3, noise = TRUE) {
   return(yield)
 }
 
-# # USO simProc
-# #Primeros valores
-# rend <- simProc(x1=120,x2=140,x3=2)
-# #valores completos
-# rend <- c(simProc(120,140,1),simProc(80,140,1),simProc(120,140,2),simProc(120,120,1),simProc(90,130,1.5),simProc(90,130,1.5),simProc(80,120,2),simProc(90,130,1.5),simProc(90,130,1.5),simProc(120,120,2),simProc(80,140,2),simProc(80,120,1))
-#
-# #Asignar rendimiento al diseño factorial
-# dfac$.response(rend)
-# dfac$.response()
+
 
 
 # InteractionPlot ----
@@ -1164,7 +1157,7 @@ wirePlot <- function(x, y, z, data = NULL,
   #' @return The function `wirePlot` returns an invisible list containing:
   #' \item{plot}{The generated wireframe plot.}
   #' \item{grid}{The grid data used for plotting.}
-  #' @seealso [contourPlot()], [ParetoChart()]
+  #' @seealso \code{\link{contourPlot}}, \code{\link{ParetoChart}}.
   #' @examples
   #' # Example 1: Basic wireframe plot
   #' x <- seq(-10, 10, length = 30)
@@ -1333,13 +1326,65 @@ wirePlot <- function(x, y, z, data = NULL,
   }
   invisible(list(x = xVec, y = yVec, z = mat, plot = p))
 }
-# Uso wirePlot
-# wirePlot(A,B,rend,data=dfac)
+
 
 # contourPlot ----
 contourPlot <- function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, zlab, form = "fit", col = 1, steps,
                         factors, fun, plot = TRUE, show.scale = TRUE) {
-  form = form
+  #' @title contourPlot: Contour Plot
+  #' @description Creates a contour diagram for an object of class \code{\link{facDesign.c}}.
+  #' @param x Name providing the Factor A for the plot.
+  #' @param y Name providing the Factor B for the plot.
+  #' @param z Name giving the Response variable.
+  #' @param data Needs to be an object of class \code{\link{facDesign}} and contains the names of x, y, z.
+  #' @param xlim Vector giving the range of the x-axis.
+  #' @param ylim Vector giving the range of the y-axis.
+  #' @param main Character string: title of the plot.
+  #' @param xlab Character string: label for the x-axis.
+  #' @param ylab Character string: label for the y-axis.
+  #' @param zlab Character string: label for the z-axis.
+  #' @param form A character string or a formula with the syntax “y~ x+y + x*y”. If form is a character it has to be one out of the following:
+  #' \itemize{
+  #'    \item "quadratic"
+  #'    \item "full"
+  #'    \item "interaction"
+  #'    \item "linear"
+  #'    \item "fit"
+  #' }
+  #' “fit” takes the formula from the fit in the \code{facDesign.c} object \code{fdo}. Quadratic or higher orders should be given as I(Variable^2).
+  #' By default \code{form} is set as “fit”.
+  #' @param col A predefined (1, 2, 3 or 4) or self defined colorRampPalette or color to be used (i.e. “red”).
+  #' @param steps Number of grid points per factor. By default \code{steps} = 25.
+  #' @param factors List of 4th 5th factor with value i.e. factors = list(D = 1.2, E = -1), if nothing is specified values will be the mean of the low and the high value of the factors.
+  #' @param fun Function to be applied to z “desirability”.
+  #' @param plot Logical value indicating whether to display the plot. Default is \code{TRUE}.
+  #' @param show.scale Logical value indicating whether to display the color scale on the plot. Default is \code{TRUE}.
+  #' @return The function \code{contourPlot} returns an invisible list containing:
+  #' \itemize{
+  #'  \item x - locations of grid lines for x at which the values in z are measured.
+  #'  \item y - locations of grid lines for y at which the values in z are measured.
+  #'  \item z - a matrix containing the values of z to be plotted.
+  #'  \item plot - The generated plot.
+  #' }
+  #' @seealso \code{\link{wirePlot}}, \code{\link{ParetoChart}}
+  #' @examples
+  #' # Create a response surface design and assign random data to response y
+  #' fdo = rsmDesign(k = 3, blocks = 2)
+  #' fdo$.response(data.frame(y = rnorm(nrow(fdo))))
+  #'
+  #' # Example 1: Display linear fit
+  #' contourPlot(A, B, y, data = fdo, form = "linear")
+  #'
+  #' # Example 2: Display full fit (i.e. main effects, interactions, and quadratic effects)
+  #' contourPlot(A, B, y, data = fdo, form = "full")
+  #'
+  #' # Example 3: Display a fit specified before
+  #' fdo$fits(lm(y ~ B + I(A^2), data = fdo))
+  #' contourPlot(A, B, y, data = fdo, form = "fit")
+  #'
+  #' # Example 4: Display a fit given directly
+  #' contourPlot(A, B, y, data = fdo, form = "y ~ A*B + I(A^2)")
+
   fact = NULL
   if (missing(steps))
     steps = 25
@@ -1533,13 +1578,16 @@ contourPlot <- function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, zlab
   }
 
 }
-#  Uso contourPlot
-# contourPlot(A,B,rend,data=dfac)
 
 
-############### CHOOSE
+
+
 # confounds ----
 confounds <- function(x, depth = 2) {
+  #' @title confounds: Confounded Effects
+  #' @description Function to display confounded effects of a fractional factorial design in a human readable way.
+  #' @param x An object of class \code{\link{facDesign.c}}.
+  #' @param depth numeric value - up to depth-way confounded interactions are printed
 
   varName = deparse(substitute(x))
   identityList = x$identity()
@@ -1608,6 +1656,11 @@ confounds <- function(x, depth = 2) {
 }
 # fracChoose ----
 fracChoose <- function() {
+  #' @title fracChoose: Choosing a fractional or full factorial design from a table.
+  #' @description Designs displayed are the classic minimum abberation designs. Choosing a design is done by clicking with the mouse into the appropriate field.
+  #' @return \code{fracChoose} returns an object of class \code{\link{facDesign.c}}.
+  #' @seealso \code{\link{fracDesign}}, \code{\link{facDesign}}, \code{\link{rsmChoose}}, \code{\link{rsmDesign}}
+
   genList = list(6 * 9)
   genList = list(c("C = AB"), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c("D = ABC"), c("D = AB", "E = AC"), c("D = AB",
                                                                                                                                                       "E = AC", "F = BC"), c("D = AB", "E = AC", "F = BC", "G = ABC"), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c(NULL), c("E = ABCD"), c("E = ABC", "F = BCD"),
@@ -1700,16 +1753,46 @@ fracChoose <- function() {
     return(fdo)
   else return(genList[[mat[y, x]]])
 }
-# # Uso fracChoose()
-# m1 <- fracChoose()
-# m1$summary()
+
 
 # code2real ----
 code2real = function(low, high, codedValue) {
+  #' @title code2real: Coding
+  #' @description Function to calculate the real value of a coded value.
+  #' @param low Numeric value giving the lower boundary.
+  #' @param high Numeric value giving the higher boundary.
+  #' @param codedValue Numeric value giving the coded value that will be calculated.
+  #' @examples
+  #' code2real(160, 200, 0)
   return((diff(c(low, high))/2) * codedValue + mean(c(low, high)))
 }
 # Función steepAscent ----
 steepAscent <- function(factors, response, size = 0.2, steps = 5, data) {
+  #' @title steepAscent: Steepest Ascent
+  #' @description \code{steepAscent} is a method to calculate the steepest ascent for a \code{\link{facDesign.c}} object.
+  #' @param factors List containing vector of factor names (coded) to be included in calculation, first factor is the reference factor.
+  #' @param response A character of response given in data.
+  #' @param size Numeric integer value giving the step size in coded units for the first factor given in factors.
+  #' By default size is set to ‘0.2’.
+  #' @param steps Numeric integer value giving the number of steps.
+  #' By default step is set to ‘5’.
+  #' @param data An object of class \code{\link{facDesign.c}}.
+  #' @return \code{steepAscent} returns an object of class \code{\link{steepAscent.c}}.
+  #' @seealso \code{\link{optimum}}, \code{\link{desirability}}
+  #' @examples
+  #' # Example 1
+  #' fdo = facDesign(k = 2, centerCube = 5)
+  #' fdo$lows(c(170, 150))
+  #' fdo$highs(c(230, 250))
+  #' fdo$names(c("temperature", "time"))
+  #' fdo$units(c("C", "minutes"))
+  #' yield = c(32.79, 24.07, 48.94, 52.49, 38.89, 48.29, 29.68, 46.5, 44.15)
+  #' fdo$.response(yield)
+  #' fdo$summary()
+  #'
+  #' sao = steepAscent(factors = c("B", "A"), response = "yield", size = 1,
+  #'                   data = fdo)
+
   if (missing(data))
     return("missing an object of class 'facDesign'")
   else fdo = data
@@ -1769,12 +1852,7 @@ steepAscent <- function(factors, response, size = 0.2, steps = 5, data) {
   print(format(frameOut, digits = 3))
   invisible(soa)
 }
-# # USO steepAscent
-# sao <- steepAscent(factors = c("A", "B"), response = "rend", data = dfac, steps = 20)
-# sao$print()
-# predicted <- simProc(sao$get(j = 5), sao$get(j = 6))
-# sao$.response(predicted)
-# sao$plot()
+
 
 
 
@@ -1782,6 +1860,32 @@ steepAscent <- function(factors, response, size = 0.2, steps = 5, data) {
 
 # Función starDesign ----
 starDesign <- function(k, p = 0, alpha = c("both", "rotatable", "orthogonal"), cs, cc, data) {
+  #' @title starDesign: Axial Design
+  #' @description \code{starDesign} is a function to create the star portion of a response surface design. The starDesign function can be used to create a star portion of a response surface design for a sequential assembly strategy.
+  #' One can either specify k and p and alpha and cs and cc OR simply simply pass an object of class \code{\link{facDesign.c}} to the data. In the latter an object of class \code{\link{facDesign.c}} otherwise a list containing the axial runs and centerpoints is returned.
+  #' @param k Integer value giving number of factors.
+  #' @param p Integer value giving the number of factors via aliasing.
+  #' By default set to ‘0’.
+  #' @param alpha If no numeric value is given defaults to “both” i.e. “orthogonality” and “rotatibility” which can be set as character strings too.
+  #' @param cs Integer value giving the number of centerpoints in the star portion of the design.
+  #' @param cc Integer value giving the number of centerpoints in the cube portion of the design.
+  #' @param data Optional. An object of class \code{\link{facDesign.c}}.
+  #' @return \code{starDesign} returns a \code{facDesign.c} object if an object of class \code{facDesign.c} is given or a list containing entries for axial runs and center points in the cube and the star portion of a design.
+  #' @seealso \code{\link{facDesign}}, \code{\link{fracDesign}}, \code{\link{rsmDesign}}, \code{\link{mixDesign}}
+  #' @examples
+  #' # Example 1: sequential assembly
+  #' # Factorial design with one center point in the cube portion
+  #' fdo = facDesign(k = 3, centerCube = 1)
+  #' # Set the response via generic response method
+  #' fdo$.response() = 1:9
+  #' # Sequential assembly of a response surface design (rsd)
+  #' rsd = starDesign(data = fdo)
+  #'
+  #' # Example 2: Returning a list of star point designs
+  #' starDesign(k = 3, cc = 2, cs = 2, alpha = "orthogonal")
+  #' starDesign(k = 3, cc = 2, cs = 2, alpha = "rotatable")
+  #' starDesign(k = 3, cc = 2, cs = 2, alpha = "both")
+
   fdo = NULL
   csFrame = NULL
   ccFrame = NULL
@@ -1856,29 +1960,42 @@ starDesign <- function(k, p = 0, alpha = c("both", "rotatable", "orthogonal"), c
   else return(list(star = starFrame, centerStar = csFrame, centerCube = ccFrame))
 }
 
-# Uso starDesign
-# rsdo <- starDesign(data=fdo2)
-# rsdo$print()
-# rend2 <- c(rend,
-#            simProc(130, 165),
-#            simProc(155, 165),
-#            simProc(144, 155),
-#            simProc(144, 179),
-#            simProc(144, 165),
-#            simProc(144, 165),
-#            simProc(144, 165)
-# )
-#
-# rsdo$.response(rend2)
-# rsdo$.response()
-#
-# lm.3 <- rsdo$lm(rend2 ~ A*B + I(A^2) + I(B^2))
-# summary(lm.3)
+
 
 
 # Función rsmDesign ----
 rsmDesign <- function(k = 3, p = 0, alpha = "rotatable", blocks = 1, cc = 1, cs = 1, fp = 1,
                       sp = 1, faceCentered = FALSE) {
+  #' @title rsmDesign: Generate a response surface design.
+  #' @description Generates a response surface design containing a cube, centerCube, star, and centerStar portion.
+  #' @param k Integer value giving the number of factors. By default, \code{k} is set to `3`.
+  #' @param p Integer value giving the number of additional factors in the response surface design by aliasing effects. Default is `0`.
+  #' @param alpha Character string indicating the type of star points to generate. Should be \code{"rotatable"}(default), \code{"orthogonal"}, or \code{"both"}. If \code{"both"}, values for \code{cc} and \code{cs} will be discarded.
+  #' @param blocks Integer value specifying the number of blocks in the response surface design. Default is `1`.
+  #' @param cc Integer value giving the number of centerpoints (per block) in the cube portion (i.e., the factorial \(2^k\) design) of the response surface design. Default is `1`.
+  #' @param cs Integer value specifying the number of centerpoints in the star portion. Default is `1`.
+  #' @param fp Integer value giving the number of replications per factorial point (i.e., corner points). Default is `1`.
+  #' @param sp Integer value specifying the number of replications per star point. Default is `1`.
+  #' @param faceCentered Logical value indicating whether to use a faceCentered response surface design (i.e., \code{alpha} = `1`). Default is \code{FALSE}.
+  #' @details Generated designs consist of a cube, centerCube, star, and centerStar portion. The replication structure can be set with the parameters `cc` (centerCube), `cs` (centerStar), `fp` (factorialPoints), and `sp` (starPoints).
+  #' @return The function returns an object of class \code{\link{facDesign.c}}.
+  #' @seealso \code{\link{facDesign}}, \code{\link{fracDesign}}, \code{\link{fracChoose}}, \code{\link{pbDesign}}, \code{\link{rsmChoose}}
+  #' @examples
+  #' # Example 1: Central composite design for 2 factors with 2 blocks, alpha = 1.41,
+  #' # 5 centerpoints in the cube portion and 3 centerpoints in the star portion:
+  #' rsmDesign(k = 2, blocks = 2, alpha = sqrt(2), cc = 5, cs = 3)
+  #'
+  #' # Example 2: Central composite design with both, orthogonality and near rotatability
+  #' rsmDesign(k = 2, blocks = 2, alpha = "both")
+  #'
+  #' # Example 3: Central composite design with:
+  #' # 2 centerpoints in the factorial portion of the design (i.e., 2)
+  #' # 1 centerpoint in the star portion of the design (i.e., 1)
+  #' # 2 replications per factorial point (i.e., 2^3*2 = 16)
+  #' # 3 replications per star point (i.e., 3*2*3 = 18)
+  #' # Makes a total of 37 factor combinations
+  #' rsdo = rsmDesign(k = 3, blocks = 1, alpha = 2, cc = 2, cs = 1, fp = 2, sp = 3)
+
   if (blocks > 2^(k - 1) + 1)
     stop("Blocking not possible")
   if (alpha == "rotatable")
@@ -1926,11 +2043,15 @@ rsmDesign <- function(k = 3, p = 0, alpha = "rotatable", blocks = 1, cc = 1, cs 
   fdo = blocking(fdo, blocks)
   return(fdo)
 }
-# # Uso rsmDesign
-# fdo <- rsmDesign(k=3, alpha=1.633, cc=0, cs=6)
+
 
 # rsmChoose() ----
 rsmChoose <- function() {
+  #' @title rsmChoose: Choosing a response surface design from a table
+  #' @description Designs displayed are central composite designs with orthogonal blocking and near rotatability. The function allows users to choose a design by clicking with the mouse into the appropriate field.
+  #' @return Returns an object of class \code{\link{facDesign.c}}.
+  #' @seealso \code{\link{fracChoose}}, \code{\link{rsmDesign}}
+
   old.par <- par(no.readonly = TRUE)
   on.exit(par(old.par))
   colFun = colorRampPalette(c("yellow", "red"), space = "rgb")
@@ -2007,13 +2128,55 @@ rsmChoose <- function() {
   return(cat("\nno selection recognized\n"))
 }
 
-# # Uso rsmChoose()
-# rsdo <- rsmChoose()
+
 
 
 
 # Funcion desirability ----
-desirability = function(response, low, high, target = "max", scale = c(1, 1), importance = 1, constraints) {
+desirability = function(response, low, high, target = "max", scale = c(1, 1), importance = 1) {
+  #' @title desirability: Desirability Function.
+  #' @description Creates desirability functions for use in the optimization of multiple responses.
+  #' @param response Name of the response.
+  #' @param low Lowest acceptable value for the response.
+  #' @param high Highest acceptable value for the response.
+  #' @param target Desired target value of the response. `target` can be `"max"`, `"min"`, or any specific numeric value.
+  #' @param scale Numeric value giving the scaling factors for one and two-sided transformations. Default is `c(1, 1)`.
+  #' @param importance A value ranging from 0.1 to 10, used to calculate a weighted importance, i.e., with importances 1, 2, and 4, D = [(d1)^1, (d2)^2, (d3)^4]^(1/7). Default is `1`.
+  #' @details For a product to be developed, different values of responses are desired, leading to multiple response optimization. Minimization, maximization, as well as a specific target value, are defined using desirability functions. A desirability function transforms the values of a response into [0,1], where 0 stands for a non-acceptable value of the response and 1 for values where higher/lower (depending on the direction of the optimization) values of the response have little merit. This function builds upon the desirability functions specified by Harrington (1965) and the modifications by Derringer and Suich (1980) and Derringer (1994). Castillo, Montgomery, and McCarville (1996) further extended these functions, but these extensions are not implemented in this version.
+  #' @return This function returns a \code{\link{desirability.c}} object.
+  #' @seealso \code{\link{overall}}, \code{\link{optimum}}
+  #' @examples
+  #' #Example 1: Maximization of a response
+  #' #Define a desirability for response y where higher values of y are better as long as the response is smaller than high
+  #' d = desirability(y, low = 6, high = 18, target = "max")
+  #' # Show and plot the desirability function
+  #' d
+  #' plot(d)
+  #'
+  #' #Example 2: Minimization of a response including a scaling factor
+  #' #Define a desirability for response y where lower values of y are better as long as the response is higher than low
+  #' d = desirability(y, low = 6, high = 18, scale = c(2), target = "min")
+  #' #Show and plot the desirability function
+  #' d
+  #' plot(d)
+  #'
+  #' #Example 3: Specific target of a response is best including a scaling factor
+  #' #Define a desirability for response y where desired value is at 8 and values lower than 6 as well as values higher than 18 are not acceptable
+  #' d = desirability(y, low = 6, high = 18, scale = c(0.5, 2), target = 12)
+  #' #Show and plot the desirability function
+  #' d
+  #' plot(d)
+  #'
+  #' #Example 4:
+  #' y1 <- c(102, 120, 117, 198, 103, 132, 132, 139, 102, 154, 96, 163, 116, 153, 133, 133, 140, 142, 145, 142)
+  #' y2 <- c(470, 410, 570, 240, 640, 270, 410, 380, 590, 260, 520, 380, 520, 290, 380, 380, 430, 430, 390, 390)
+  #' d1 <- desirability(y1, 120, 170, scale = c(1, 1), target = "max")
+  #' d3 <- desirability(y2, 400, 600, target = 500)
+  #' d1
+  #' plot(d1)
+  #' d3
+  #' plot(d3)
+
   if (low >= high)
     stop("the lower bound must be greater than the high bound!")
   if (any(scale <= 0))
@@ -2023,25 +2186,28 @@ desirability = function(response, low, high, target = "max", scale = c(1, 1), im
   return(desirability.c$new(response = deparse(substitute(response)), low = low, high = high, target = target, scale = scale, importance = importance))
 }
 
-# # Uso
-# y1 <- c(102, 120, 117, 198, 103, 132, 132, 139, 102, 154, 96, 163, 116,
-#         153, 133, 133, 140, 142, 145, 142)
-# y2 <- c(900, 860, 800, 2294, 490, 1289, 1270, 1090, 770, 1690, 700, 1540,
-#         2184, 1784, 1300, 1300, 1145, 1090, 1260, 1344)
-# y3 <- c(470, 410, 570, 240, 640, 270, 410, 380, 590, 260, 520, 380, 520,
-#         290, 380, 380, 430, 430, 390, 390)
-# y4 <- c(67.5, 65, 77.5, 74.5, 62.5, 67, 78, 70, 76, 70, 63, 75, 65, 71,
-#         70, 68.5, 68, 68, 69, 70)
-#
-# d1 <- desirability(y1, 120, 170, scale = c(1, 1), target = "max")
-# d3 <- desirability(y3, 400, 600, target = 500)
-# d1$print()
-# d1$plot()
-# d3$plot()
 
 
 # overall ----
 overall <- function(fdo, steps = 20, constraints, ...) {
+  #' @title overall: Overall Desirability.
+  #' @description This function calculates the desirability for each response as well as the overall desirability. The resulting `data.frame` can be used to plot the overall desirability as well as the desirabilities for each response. This function is designed to visualize the desirability approach for multiple response optimization.
+  #' @param fdo An object of class \code{\link{facDesign.c}} containing \code{fits} and \code{desires}.
+  #' @param steps A numeric value indicating the number of points per factor to be evaluated, which also specifies the grid size. Default is `20`.
+  #' @param constraints A list of constraints for the factors in coded values, such as `list(A > 0.5, B < 0.2)`.
+  #' @param ... Further arguments passed to other methods.
+  #' @return A `data.frame` with a column for each factor, the desirability for each response, and a column for the overall desirability.
+  #' @seealso \code{\link{facDesign}}, \code{\link{rsmDesign}}, \code{\link{desirability}}.
+  #' @examples
+  #' #Example 1: Arbitrary example with random data
+  #' rsdo = rsmDesign(k = 2, blocks = 2, alpha = "both")
+  #' rsdo$.response(data.frame(y = rnorm(nrow(rsdo)), y2 = rnorm(nrow(rsdo))))
+  #' rsdo$fits(lm(y ~ A*B + I(A^2) + I(B^2), data = rsdo))
+  #' rsdo$fits(lm(y2 ~ A*B + I(A^2) + I(B^2), data = rsdo))
+  #' rsdo$desires(desirability(y, -1, 2, scale = c(1, 1), target = "max"))
+  #' rsdo$desires(desirability(y2, -1, 0, scale = c(1, 1), target = "min"))
+  #' dVals = overall(rsdo, steps = 10, constraints = list(A = c(-0.5,1), B = c(0, 1)))
+
   importances = list()
   cs = list()
   if (!missing(constraints))
@@ -2106,7 +2272,42 @@ overall <- function(fdo, steps = 20, constraints, ...) {
 }
 
 # optimum ----
-optimum <- function(fdo, constraints, steps = 25, type = "grid", start, ...) {
+optimum <- function(fdo, constraints, steps = 25, type = "grid", start) {
+  #' @title optimum: Optimal factor settings
+  #' @description This function calculates the optimal factor settings based on defined desirabilities and constraints. It supports two approaches: (I) evaluating all possible factor settings via a grid search and (II) using optimization methods such as `optim` or `gosolnp` from the Rsolnp package. Using 'optim' initial values for the factors to be optimized over can be set via start.
+  #' The optimality of the solution depends critically on the starting parameters which is why it is recommended to use ‘type="gosolnp"’ although calculation takes a while.
+  #' @param fdo An object of class \code{\link{facDesign.c}} with \code{fits} and \code{desires} set.
+  #' @param constraints A list specifying the constraints for the factors, e.g., `list(A = c(-2,1), B = c(0, 0.8))`.
+  #' @param steps Number of grid points per factor if `type = "grid"`. Default is `25`.
+  #' @param type The type of search to perform. Supported values are `"grid"`, `"optim"`, and `"gosolnp"`. See Details for more information.
+  #' @param start A numeric vector providing the initial values for the factors when using `type = "optim"`.
+  #' @details The function allows you to optimize the factor settings either by evaluating a grid of possible settings (`type = "grid"`) or by using optimization algorithms (`type = "optim"` or `"gosolnp"`). The choice of optimization method may significantly affect the result, especially for desirability functions that lack continuous first derivatives. When using `type = "optim"`, it is advisable to provide `start` values to avoid local optima. The `"gosolnp"` method is recommended for its robustness, although it may be computationally intensive.
+  #' @return Return an objecto of class \code{\link{desOpt}}.
+  #' @seealso \code{\link{overall}}, \code{\link{desirability}},
+  #' @examples
+  #' #Example 1: Simultaneous Optimization of Several Response Variables
+  #' #Define the response surface design as given in the paper and sort via Standard Order
+  #' fdo = rsmDesign(k = 3, alpha = 1.633, cc = 0, cs = 6)
+  #' fdo = randomize(fdo, so = TRUE)
+  #' #Attaching the 4 responses
+  #' y1 = c(102,120,117,198,103,132,132,139,102,154,96,163,116,153,133,133,140,142,145,142)
+  #' y2 = c(900,860,800,2294,490,1289,1270,1090,770,1690,700,1540,2184,1784,1300,1300,1145,1090,1260,1344)
+  #' y3 = c(470,410,570,240,640,270,410,380,590,260,520,380,520,290,380,380,430,430,390,390)
+  #' y4 = c(67.5,65,77.5,74.5,62.5,67,78,70,76,70,63,75,65,71,70,68.5,68,68,69,70)
+  #' fdo$.response(data.frame(y1, y2, y3, y4)[c(5,2,3,8,1,6,7,4,9:20),])
+  #' #Setting names and real values of the factors
+  #' fdo$names(c("silica", "silan", "sulfur"))
+  #' fdo$highs(c(1.7, 60, 2.8))
+  #' fdo$lows(c(0.7, 40, 1.8))
+  #' #Setting the desires
+  #' fdo$desires(desirability(y1, 120, 170, scale = c(1,1), target = "max"))
+  #' fdo$desires(desirability(y2, 1000, 1300, target = "max"))
+  #' fdo$desires(desirability(y3, 400, 600, target = 500))
+  #' fdo$desires(desirability(y4, 60, 75, target = 67.5))
+  #' #Calculate the best factor settings using type = "optim"
+  #' optimum(fdo, type = "optim")
+  #' #Calculate the best factor settings using type = "grid"
+  #' optimum(fdo, type = "grid")
 
   if (missing(fdo))
     stop("missing fdo!")
@@ -2205,10 +2406,7 @@ optimum <- function(fdo, constraints, steps = 25, type = "grid", start, ...) {
   }
   return(desOpt)
 }
-# Uso optimum
-# optimum(ddo,type='optim')
-#
-#
+
 
 
 
