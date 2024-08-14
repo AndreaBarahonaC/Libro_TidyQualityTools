@@ -3,6 +3,24 @@
 ######################################################################
 
 # mixDesign.c ----
+#' @title mixDesign-class: Class "mixDesign"
+#' @description mixDesign class for simplex lattice and simplex centroid mixture designs with optional center points and augmented points.
+#' @field name Character string representing the name of the design.
+#' @field factors List of factors involved in the mixture design, including their levels and settings.
+#' @field total Numeric value representing the total number of runs in the design.
+#' @field lower Numeric vector representing the lower bounds of the factors in the design.
+#' @field design Data frame containing the design matrix for the mixture design.
+#' @field designType Character string specifying the type of design (e.g., "simplex-lattice", "simplex-centroid").
+#' @field pseudo Data frame containing pseudo-experimental runs if applicable.
+#' @field response Data frame containing the responses or outcomes measured in the design.
+#' @field Type Data frame specifying the type of design used (e.g., "factorial", "response surface").
+#' @field block Data frame specifying block structures if the design is blocked.
+#' @field runOrder Data frame specifying the order in which runs are performed.
+#' @field standardOrder Data frame specifying the standard order of the runs.
+#' @field desireVal List of desired values or targets for the response variables.
+#' @field desirability List of desirability scores or metrics based on the desired values.
+#' @field fits Data frame containing the fitted model parameters and diagnostics.
+#' @seealso \code{\link{mixDesign}}, \code{\link{contourPlot3}}, \code{\link{wirePlot3}}
 mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                   factors =list(),
                                                   total = NULL,
@@ -19,6 +37,8 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                   desirability = list(),
                                                   fits = data.frame(),
 
+                                                  #' @description Get and set the `factors` in an object of class `mixDesign`.
+                                                  #' @param value New factors, If missing value get the `factors`.
                                                   .factors = function(value){
                                                     if (missing(value)) {
                                                       return(self$factors)
@@ -31,6 +51,8 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                     }
                                                   },
 
+                                                  #' @description Get and set the `names` in an object of class `mixDesign`.
+                                                  #' @param value New names, If missing value get the `names`.
                                                   names = function(value){
                                                     if(missing(value)){
                                                       aux <- list()
@@ -49,16 +71,20 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
 
                                                   },
 
-                                                  as.data.frame = function(row.names = NULL, optional = FALSE){
+                                                  #' @description Methods for function `as.data.frame` in Package `base`.
+                                                  as.data.frame = function(){
                                                     frameOut = cbind(self$standardOrder, self$runOrder, self$Type, self$pseudo, self$response)
                                                     return(frameOut)
                                                   },
 
+                                                  #' @description Methods for function `print` in Package `base`.
                                                   print = function(){
                                                     print(format(self$as.data.frame(), digits = 4))
                                                     invisible(self$as.data.frame())
                                                   },
 
+                                                  #' @description Get and set the the `response` in an object of class `mixDesign`.
+                                                  #' @param value New response, If missing value get the `response`.
                                                   .response = function(value){
                                                     if (missing(value)) {
                                                       return(self$response)
@@ -107,6 +133,7 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                     print(frameOut)
                                                   },
 
+                                                  #' @description Methods for function `summary` in Package `base`.
                                                   summary = function(){
                                                     cat(paste("Simplex", toupper(self$designType), "Design"))
                                                     cat("\n")
@@ -147,6 +174,8 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                     invisible(self$as.data.frame())
                                                   },
 
+                                                  #' @description Get and set the `units` for the factors in an object of class `mixDesign`.
+                                                  #' @param value New units, If missing value get the `units`.
                                                   units = function(value){
                                                     if (missing(value)) {
                                                       v <- list()
@@ -163,6 +192,8 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                     }
                                                   },
 
+                                                  #' @description Get and set the `lows` for the factors in an object of class `mixDesign`.
+                                                  #' @param value New lows, If missing value get the `lows`.
                                                   lows = function(value){
                                                     if (missing(value)) {
                                                       listOut = vector(mode = "list")
@@ -179,6 +210,8 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                     }
                                                   },
 
+                                                  #' @description Get and set the `highs` for the factors in an object of class `mixDesign`.
+                                                  #' @param value New highs, If missing value get the `highs`.
                                                   highs = function(value){
                                                     if (missing(value)) {
                                                       listOut = vector(mode = "list")
@@ -194,11 +227,5 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                       invisible(self)
                                                     }
                                                   }
-
-
-
-
-
-
 )
 )

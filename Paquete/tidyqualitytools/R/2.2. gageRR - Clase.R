@@ -3,6 +3,28 @@
 ##############################################################
 
 # gageRR.c ----
+
+#' @title gageRR-class: Class "gageRR"
+#' @description R6 Class for Gage R&R (Repeatability and Reproducibility) Analysis
+#' @field X Data frame containing the measurement data.
+#' @field ANOVA List containing the results of the Analysis of Variance (ANOVA) for the gage study.
+#' @field RedANOVA List containing the results of the reduced ANOVA.
+#' @field method Character string specifying the method used for the analysis (e.g., "crossed", "nested").
+#' @field Estimates List of estimates including variance components, repeatability, and reproducibility.
+#' @field Varcomp List of variance components.
+#' @field Sigma Numeric value representing the standard deviation of the measurement system.
+#' @field GageName Character string representing the name of the gage.
+#' @field GageTolerance Numeric value indicating the tolerance of the gage.
+#' @field DateOfStudy Character string representing the date of the gage R&R study.
+#' @field PersonResponsible Character string indicating the person responsible for the study.
+#' @field Comments Character string for additional comments or notes about the study.
+#' @field b Factor levels for operator.
+#' @field a Factor levels for part.
+#' @field y Numeric vector or matrix containing the measurement responses.
+#' @field facNames Character vector specifying the names of the factors (e.g., "Operator", "Part").
+#' @field numO Integer representing the number of operators.
+#' @field numP Integer representing the number of parts.
+#' @field numM Integer representing the number of measurements per part-operator combination.
 gageRR.c <- R6Class("gageRR",
                     public = list(
                       X = NULL,
@@ -24,6 +46,27 @@ gageRR.c <- R6Class("gageRR",
                       numO = NULL,
                       numP = NULL,
                       numM = NULL,
+
+                      #' @description Initialize the fiels of the `gageRR` object
+                      #' @param X Data frame containing the measurement data.
+                      #' @param ANOVA List containing the results of the Analysis of Variance (ANOVA) for the gage study.
+                      #' @param RedANOVA List containing the results of the reduced ANOVA.
+                      #' @param method Character string specifying the method used for the analysis (e.g., "crossed", "nested").
+                      #' @param Estimates List of estimates including variance components, repeatability, and reproducibility.
+                      #' @param Varcomp List of variance components.
+                      #' @param Sigma Numeric value representing the standard deviation of the measurement system.
+                      #' @param GageName Character string representing the name of the gage.
+                      #' @param GageTolerance Numeric value indicating the tolerance of the gage.
+                      #' @param DateOfStudy Character string representing the date of the gage R&R study.
+                      #' @param PersonResponsible Character string indicating the person responsible for the study.
+                      #' @param Comments Character string for additional comments or notes about the study.
+                      #' @param b Factor levels for operator.
+                      #' @param a Factor levels for part.
+                      #' @param y Numeric vector or matrix containing the measurement responses.
+                      #' @param facNames Character vector specifying the names of the factors (e.g., "Operator", "Part").
+                      #' @param numO Integer representing the number of operators.
+                      #' @param numP Integer representing the number of parts.
+                      #' @param numM Integer representing the number of measurements per part-operator combination.
                       initialize = function(X, ANOVA = NULL, RedANOVA = NULL, method = NULL, Estimates = NULL, Varcomp = NULL,
                                             Sigma = NULL, GageName = NULL, GageTolerance = NULL, DateOfStudy = NULL,
                                             PersonResponsible = NULL, Comments = NULL, b = NULL, a = NULL, y = NULL,
@@ -48,12 +91,20 @@ gageRR.c <- R6Class("gageRR",
                         self$numP <- numP
                         self$numM <- numM
                       },
+
+                      #' @description Return the data frame containing the measurement data (`X`)
                       print = function() {
                         print(as.data.frame(self$X))
                       },
+
+                      #' @description Return a subset of the data frame that containing the measurement data (`X`)
+                      #' @param i The i-position of the row of `X`.
+                      #' @param j The j-position of the column of `X`.
                       subset = function(i, j) {
                         return(self$X[i, j])
                       },
+
+                      #' @description Summarize the information of the fields of the `gageRR` object.
                       summary = function() {
                         if (all(is.na(self$X$Measurement))) {
                           cat("Gage R&R Summary\n")
@@ -76,39 +127,63 @@ gageRR.c <- R6Class("gageRR",
                         }
                         return(invisible(self))
                       },
+
+                      #' @description Get or get the response for a `gageRRDesign` object.
                       get.response = function() {
                         return(self$X$Measurement)
                       },
+
+                      #' @description Set or get the response for a `gageRRDesign` object.
+                      #' @param value New response vector.
                       response = function(value) {
                         self$X$Measurement = value
                       },
+
+                      #' @description Methods for function `names` in Package `base`.
                       names = function() {
                         return(names(as.data.frame(self$X)))
                       },
+
+                      #' @description Methods for function `as.data.frame` in Package `base`.
                       as.data.frame = function() {
                         return(as.data.frame(self$X))
                       },
+
+                      #' @description Get the `tolerance` for an object of class `gageRR`.
                       get.tolerance = function() {
                         return(unlist(self$GageTolerance))
                       },
+
+                      #' @description Set the `tolerance` for an object of class `gageRR`.
+                      #' @param value A data.frame or vector for the new value of tolerance.
                       set.tolerance = function(value) {
                         if (!is.numeric(value))
                           stop("GageTolerance needs to be numeric")
                         self$GageTolerance = value
                         return(self)
                       },
+
+                      #' @description Get the `sigma` for an object of class `gageRR`.
                       get.sigma = function() {
                         return(unlist(self$Sigma))
                       },
+
+                      #' @description Set the `sigma` for an object of class `gageRR`.
+                      #' @param value description
                       set.sigma = function(value) {
                         if (!is.numeric(value))
                           stop("Sigma needs to be numeric")
                         self$Sigma = value
                         return(self)
                       },
-                      plot = function(x, y, main=NULL, xlab=NULL, ylab=NULL, col, lwd, fun = mean, ...){
-                        x = self
-                        gdo <- x
+
+                      #' @description
+                      #' @param main Character string specifying the title of the plot.
+                      #' @param xlab A character string for the x-axis label.
+                      #' @param ylab A character string for the y-axis label.
+                      #' @param fun Function to use for the calculation of the interactions (e.g., `mean`, `median`). Default is `mean`.
+                      plot = function(main=NULL, xlab=NULL, ylab=NULL, col, lwd, fun = mean){
+                        gdo <- self
                         yName <- x$facNames[1]
                         aName <- x$facNames[2]
                         bName <- x$facNames[3]
