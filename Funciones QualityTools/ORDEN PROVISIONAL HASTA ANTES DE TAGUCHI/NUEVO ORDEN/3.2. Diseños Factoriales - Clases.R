@@ -3,6 +3,25 @@
 ##########################################################################
 
 # Clase facDesign.c ----
+#' @title facDesign-class: Class "facDesign"
+#' @description The \code{facDesign.c} class is used to represent factorial designs, including their factors, responses, blocks, and design matrices. This class supports various experimental designs and allows for the storage and manipulation of data related to the design and analysis of factorial experiments.
+#' @field name Character string representing the name of the factorial design.
+#' @field factors List of factors involved in the factorial design, including their levels and settings.
+#' @field cube Data frame containing the design matrix for the cube portion of the factorial design.
+#' @field star Data frame containing the design matrix for the star portion of the factorial design.
+#' @field centerCube Data frame containing the center points within the cube portion of the factorial design.
+#' @field centerStar Data frame containing the center points within the star portion of the factorial design.
+#' @field generator List of generators used to create the fractional factorial design.
+#' @field response Data frame containing the responses or outcomes measured in the design.
+#' @field block Data frame specifying the block structures if the design is blocked.
+#' @field blockGen Data frame specifying the block generators for the design.
+#' @field runOrder Data frame specifying the order in which runs are performed.
+#' @field standardOrder Data frame specifying the standard order of the runs.
+#' @field desireVal List of desired values or targets for the response variables.
+#' @field desirability List of desirability scores or metrics based on the desired values.
+#' @field fits Data frame containing the fitted model parameters and diagnostics for the responses in the design.
+#' @seealso \code{\link{mixDesign.c}}, \code{\link{taguchiDesign.c}}.
+
 facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                   factors = NULL,
                                                   cube = data.frame(),
@@ -19,20 +38,23 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                   desirability = list(),
                                                   fits = NULL,
 
+                                                  #' @description Get the number of rows Design.
                                                   nrow = function(){
                                                     nrow(self$as.data.frame())
                                                   },
-
+                                                  #' @description Get the number of columns Design.
                                                   ncol = function(){
                                                     ncol(self$as.data.frame())
                                                   },
 
+                                                  #' @description Prints a formatted representation of the factorial design object, including design matrices and responses.
                                                   print = function(){
                                                     runIndex = order(self$runOrder[,1])
                                                     print(format(self$as.data.frame(), digits = 4))
                                                     invisible(self$as.data.frame())
                                                   },
 
+                                                  #' @description Clears the factorial design object.
                                                   .clear = function(){
                                                     self$standardOrder = data.frame()
                                                     self$runOrder = data.frame()
@@ -46,6 +68,8 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                     invisible(self)
                                                   },
 
+                                                  #' @description Get or set the names of the factors in the factorial design.
+                                                  #' @param value Character vector with new names for the factors. If missing, retrieves the current names.
                                                   names = function(value){
                                                     if(missing(value)){
                                                       n <- c()
@@ -64,7 +88,8 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
 
                                                   },
 
-                                                  as.data.frame = function(row.names = NULL, optional = FALSE, ...) {
+                                                  #' @description Converts the factorial design object to a data frame.
+                                                  as.data.frame = function() {
                                                     if (nrow(self$cube)>0) {
                                                       frameOut = self$cube
                                                       names(frameOut) = self$names()
@@ -116,10 +141,15 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                     return(out)
                                                   },
 
+                                                  #' @description Retrieves elements from the factorial design object.
+                                                  #' @param i Row index.
+                                                  #' @param j Column index.
                                                   get = function(i,j){
                                                     return(self$as.data.frame()[i, j])
                                                   },
 
+                                                  #' @description Get or set the lower bounds of the factors in the factorial design.
+                                                  #' @param value Numeric vector with new lower bounds. If missing, retrieves the current lower bounds.
                                                   lows = function(value){
                                                     if (missing(value)) {
                                                       listOut = vector(mode = "list")
@@ -136,6 +166,8 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                     }
                                                   },
 
+                                                  #' @description Get or set the upper bounds of the factors in the factorial design.
+                                                  #' @param value Numeric vector with new upper bounds. If missing, retrieves the current upper bounds.
                                                   highs = function(value){
                                                     if (missing(value)) {
                                                       listOut = vector(mode = "list")
@@ -152,6 +184,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                     }
                                                   },
 
+                                                  #' @description Prints a summary of the factors' attributes including their low, high, name, unit, and type.
                                                   .nfp = function(){
                                                     x = self$factors
                                                     atr <- c('low','high','name','unit','type')
@@ -175,6 +208,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                     print(frameOut)
                                                   },
 
+                                                  #' @description Returns the factorial design object itself, used to verify or return the object.
                                                   identity = function(){
                                                     identity = character(0)
                                                     identityList = vector(mode = "list", length = 0)
@@ -204,6 +238,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                     invisible(identityList)
                                                   },
 
+                                                  #' @description Summarizes the factorial design object.
                                                   summary = function(){
                                                     doeFactors = self$factors
                                                     cat("Information about the factors:\n\n")
@@ -219,6 +254,8 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                     invisible(self$as.data.frame())
                                                   },
 
+                                                  #' @description Get or set the response data in the factorial design object.
+                                                  #' @param value Data frame or numeric vector with new responses. If missing, retrieves the current responses.
                                                   .response = function(value){
                                                     if(missing(value)){
                                                       iIntern <- order(self$runOrder[,1])
@@ -249,6 +286,20 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
 
                                                   },
 
+                                                  #' @description Plots the effects of factors on the response variables.
+                                                  #' @param factors Factors to be plotted.
+                                                  #' @param fun Function applied to the response variables (e.g., mean).
+                                                  #' @param response Optional; specifies which response variables to plot.
+                                                  #' @param single Logical; if TRUE, plots effects for single factor; otherwise, for combinations of factors.
+                                                  #' @param points Logical; if TRUE, plots data points.
+                                                  #' @param classic Logical; if TRUE, uses classic plotting style.
+                                                  #' @param axes Logical; if TRUE, includes axes in the plot.
+                                                  #' @param lty Line type for plotting.
+                                                  #' @param xlab Label for the x-axis.
+                                                  #' @param ylab Label for the y-axis.
+                                                  #' @param main Main title for the plot.
+                                                  #' @param ylim Limits for the y-axis.
+                                                  #' @param ... Additional plotting parameters.
                                                   effectPlot = function(factors, fun = mean, response = NULL, single = FALSE, points = FALSE, classic = FALSE, axes = TRUE, ###
                                                                         lty, xlab, ylab, main, ylim, ...) {
 
@@ -448,11 +499,15 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                     par(mfcol=c(1,1))
                                                   },
 
+                                                  #' @description Fits a linear model to the response data in the factorial design object.
+                                                  #' @param formula Formula specifying the model to be fitted.
                                                   lm = function(formula){
                                                     invisible(lm(formula, data = self$as.data.frame()))
 
                                                   },
 
+                                                  #' @description Get or set the desirability values for the response variables.
+                                                  #' @param value List of new desirability values. If missing, retrieves the current desirability values.
                                                   desires = function(value){
                                                     if (missing(value)) {
                                                       return(self$desirability)
@@ -472,6 +527,8 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
 
                                                   },
 
+                                                  #' @description Set the fits for the response variables in the factorial design object.
+                                                  #' @param value New fits.
                                                   set.fits = function(value){
                                                     if (!identical(class(value), "lm"))
                                                       stop(paste(deparse(substitute(value)), "needs to an object of class lm"))
@@ -488,6 +545,8 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
 
                                                   },
 
+                                                  #' @description Get or set the types of designs used in the factorial design object.
+                                                  #' @param value New design types. If missing, retrieves the current types.
                                                   types = function(value){
                                                     if (missing(value)) {
                                                       v <- list()
@@ -507,6 +566,8 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                     }
                                                   },
 
+                                                  #' @description Get or set the units for the factors in the factorial design object.
+                                                  #' @param value New units. If missing, retrieves the current units.
                                                   unit = function(value){
                                                     if (missing(value)) {
                                                       v <- list()
@@ -524,6 +585,8 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
 
                                                   },
 
+                                                  #' @description Get or set the star points in the factorial design object.
+                                                  #' @param value New star points. If missing, retrieves the current star points.
                                                   .star = function(value){
                                                     if (missing(value)) {
                                                       return(self$star)
@@ -600,6 +663,8 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                     }
                                                   },
 
+                                                  #' @description Get or set the block generators in the factorial design object.
+                                                  #' @param value New block generators. If missing, retrieves the current block generators.
                                                   .blockGen = function(value){
                                                     if (missing(value)) {
                                                       return(self$blockGen)
@@ -625,6 +690,8 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
 
                                                   },
 
+                                                  #' @description Get or set the blocks in the factorial design object.
+                                                  #' @param value New blocks. If missing, retrieves the current blocks.
                                                   .block = function(value){
                                                     if (missing(value)) {
                                                       return(self$block)
@@ -649,6 +716,8 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                     }
                                                   },
 
+                                                  #' @description Get or set the center points in the cube portion of the factorial design.
+                                                  #' @param value New center points for the cube. If missing, retrieves the current center points.
                                                   .centerCube = function(value){
                                                     if (missing(value)) {
                                                       return(self$centerCube)
@@ -738,6 +807,8 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
 
                                                   },
 
+                                                  #' @description Get or set the center points in the star portion of the factorial design.
+                                                  #' @param value New center points for the star. If missing, retrieves the current center points.
                                                   .centerStar = function(value){
                                                     if (missing(value)) {
                                                       return(self$centerStar)
@@ -814,6 +885,8 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
 
                                                   },
 
+                                                  #' @description Get or set the generators for the factorial design.
+                                                  #' @param value New generators. If missing, retrieves the current generators.
                                                   .generators = function(value){
                                                     if (missing(value)) {
                                                       return(self$generator)
@@ -832,6 +905,14 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
 )
 
 # Clase doeFactor ----
+#' @title doeFactor-class: Class "doeFactor"
+#' @description An R6 class representing a factor in a design of experiments (DOE).
+#' @field low Numeric value specifying the lower bound of the factor. Default is `-1`.
+#' @field high Numeric value specifying the upper bound of the factor. Default is `1`.
+#' @field name Character string specifying the name of the factor. Default is an empty string `""`.
+#' @field unit Character string specifying the unit of measurement for the factor. Default is an empty string `""`.
+#' @field type Character string specifying the type of the factor. Can be either `"numeric"` or `"categorical"`. Default is `"numeric"`.
+#' @seealso \code{\link{taguchiFactor}}
 doeFactor <- R6Class('doeFactor', public = list(low = -1,
                                                 high = 1,
                                                 name = "",
@@ -842,6 +923,8 @@ doeFactor <- R6Class('doeFactor', public = list(low = -1,
                                                   v <- c(self$low, self$high, self$name, self$unit, self$type)
                                                 },
 
+                                                #' @description Get and set the lower bound for the factor.
+                                                #' @param value Numeric value to set as the lower bound. If missing, the current lower bound is returned.
                                                 .low = function(value){
                                                   if (missing(value)) {
                                                     return(unlist(self$low))
@@ -859,6 +942,8 @@ doeFactor <- R6Class('doeFactor', public = list(low = -1,
                                                   }
                                                 },
 
+                                                #' @description Get and set the upper bound for the factor.
+                                                #' @param value Numeric value to set as the upper bound. If missing, the current upper bound is returned.
                                                 .high = function(value){
                                                   if (missing(value)) {
                                                     return(unlist(self$high))
@@ -876,6 +961,8 @@ doeFactor <- R6Class('doeFactor', public = list(low = -1,
                                                   }
                                                 },
 
+                                                #' @description Get and set the type of the factor.
+                                                #' @param value Character string specifying the type of the factor. Can be `"numeric"` or `"categorical"`. If missing, the current type is returned.
                                                 .type = function(value){
                                                   if (missing(value)) {
                                                     return(self$type)
@@ -886,6 +973,8 @@ doeFactor <- R6Class('doeFactor', public = list(low = -1,
                                                   }
                                                 },
 
+                                                #' @description Get and set the unit of measurement for the factor.
+                                                #' @param value Character string specifying the unit of measurement. If missing, the current unit is returned.
                                                 .unit = function(value){
                                                   if (missing(value)){
                                                     return(self$unit)
@@ -896,6 +985,8 @@ doeFactor <- R6Class('doeFactor', public = list(low = -1,
                                                   }
                                                 },
 
+                                                #' @description Get and set the name of the factor.
+                                                #' @param value Character string specifying the name of the factor. If missing, the current name is returned.
                                                 names = function(value){
                                                   if (missing(value)) {
                                                     return(self$name)
@@ -906,6 +997,7 @@ doeFactor <- R6Class('doeFactor', public = list(low = -1,
                                                   }
                                                 },
 
+                                                #' @description Print the characteristics of the factors.
                                                 print = function(){
                                                   cat("Name: ", self$names(), "\n")
                                                   cat("low Setting: ", self$.low(), "\n")
@@ -922,12 +1014,29 @@ doeFactor <- R6Class('doeFactor', public = list(low = -1,
 
 
 # Clase desirability.c ----
+#' @title desirability-class: Class "desirability"
+#' @description A class representing the desirability metrics for responses in a design.
+#' @field response A numeric vector specifying the responses for which desirability is calculated.
+#' @field low A numeric vector representing the lower bounds of the desirable range for each response.
+#' @field high A numeric vector representing the upper bounds of the desirable range for each response.
+#' @field target A numeric vector or character string indicating the target values or goals for each response.
+#' @field scale A numeric vector specifying the scaling factors used in the desirability calculation.
+#' @field importance A numeric vector indicating the importance of each response in the desirability calculation.
+#' @seealso \code{\link{desirability}}, \code{\link{overall}}, \code{\link{optimum}}
 desirability.c <- R6Class("desirability", public = list(response = NULL,
                                                         low = NULL,
                                                         high = NULL,
                                                         target = NULL,
                                                         scale = NULL,
                                                         importance = NULL,
+
+                                                        #' @description Initializes a new \code{desirability.c} object with specified parameters.
+                                                        #' @param response A numeric or character vector specifying the responses for which desirability is calculated.
+                                                        #' @param low A numeric vector representing the lower bounds of the desirable range for each response.
+                                                        #' @param high A numeric vector representing the upper bounds of the desirable range for each response.
+                                                        #' @param target A numeric vector or character string indicating the target values or goals for each response.
+                                                        #' @param scale A numeric vector specifying the scaling factors used in the desirability calculation.
+                                                        #' @param importance A numeric vector indicating the importance of each response in the desirability calculation.
                                                         initialize = function(response=NULL, low=NULL, high=NULL, target=NULL, scale=NULL, importance=NULL) {
                                                           self$response <- response
                                                           self$low <- low
@@ -936,6 +1045,8 @@ desirability.c <- R6Class("desirability", public = list(response = NULL,
                                                           self$scale <- scale
                                                           self$importance <- importance
                                                         },
+
+                                                        #' @description Prints the details of a \code{desirability.c} object.
                                                         print = function(){
                                                           if (!is.numeric(self$target))
                                                             cat("Target is to", paste(self$target, "imize", sep = ""), self$response, "\n")
@@ -949,7 +1060,17 @@ desirability.c <- R6Class("desirability", public = list(response = NULL,
                                                           cat("importance: ", self$importance, "\n")
                                                           cat("\n")
                                                         },
-                                                        plot = function(y, scale, main, xlab, ylab, line.width, col, numPoints = 500, ...){
+
+                                                        #' @description Plots the desirability functions based on the specified parameters.
+                                                        #' @param y A numeric vector or data frame representing the responses to plot.
+                                                        #' @param scale A numeric vector specifying the scaling factors used in the plot.
+                                                        #' @param main A character string specifying the main title of the plot.
+                                                        #' @param xlab A character string specifying the label for the x-axis.
+                                                        #' @param ylab A character string specifying the label for the y-axis.
+                                                        #' @param line.width A numeric value specifying the width of the plot lines.
+                                                        #' @param col A vector of colors for the plot lines.
+                                                        #' @param numPoints An integer specifying the number of points to plot (default is 500).
+                                                        plot = function(y, scale, main, xlab, ylab, line.width, col, numPoints = 500){
                                                           xm1 = NULL
                                                           xm2 = NULL
                                                           ym = NULL
@@ -1007,9 +1128,18 @@ desirability.c <- R6Class("desirability", public = list(response = NULL,
 )
 
 # Clase steepAscent.c ----
+#' @title steepAscent-class: Class "steepAscent"
+#' @description The `steepAscent.c` class represents a steepest ascent algorithm in a factorial design context. This class is used for optimizing designs based on iterative improvements.
+#' @field name A character string representing the name of the steep ascent design.
+#' @field X A data frame containing the design matrix for the steepest ascent procedure. This matrix represents the factors and their levels at each iteration.
+#' @field response A data frame containing the response values associated with the design matrix.
+#' @seealso \code{\link{steepAscent}}, \code{\link{desirability.c}}, \code{\link{optimum}}
 steepAscent.c <- R6Class("facDesign", public = list(name = NULL,
                                                     X = data.frame(),
                                                     response = data.frame(),
+
+                                                    #' @description Get and set the `response` values in an object of class `steepAscent.c`.
+                                                    #' @param value A data frame or numeric vector to set as the new `response`. If missing, returns the current `response`.
                                                     .response = function(value){
                                                       if (missing(value)) {
                                                         return(self$response)
@@ -1040,20 +1170,38 @@ steepAscent.c <- R6Class("facDesign", public = list(name = NULL,
                                                         }
                                                       }
                                                     },
+
+                                                    #' @description Access specific elements in the design matrix or response data of the object.
+                                                    #' @param i An integer specifying the row index to retrieve.
+                                                    #' @param j An integer specifying the column index to retrieve.
                                                     get = function(i, j){
                                                       bound = ncol(self$X)
                                                       if (j <= bound)
                                                         self$X[i, j]
                                                       else self$response[i, j - bound]
                                                     },
-                                                    as.data.frame = function(row.names = NULL, optional = FALSE, ...){
+
+                                                    #' @description Convert the object to a data frame.
+                                                    as.data.frame = function(){
                                                       return(cbind(self$X, self$response))
                                                     },
+
+                                                    #' @description Print the details of the object.
                                                     print = function(){
                                                       print(self$as.data.frame())
                                                     },
+
+                                                    #' @description Plot the results of the steepest ascent procedure for an object of class `steepAscent.c`.
+                                                    #' @param y The response variable to be plotted.
+                                                    #' @param main The main title of the plot.
+                                                    #' @param xlab The label for the x-axis.
+                                                    #' @param ylab The label for the y-axis.
+                                                    #' @param l.col Color for the line in the plot.
+                                                    #' @param p.col Color for the points in the plot.
+                                                    #' @param line.type Type of the line used in the plot.
+                                                    #' @param point.shape Shape of the points used in the plot.
                                                     plot = function(y, main, xlab, ylab, l.col, p.col,
-                                                                    line.type, point.shape,...){
+                                                                    line.type, point.shape){
                                                       Delta = (self$X)$Delta
                                                       frame = cbind(Delta, self$.response())
                                                       names(frame) = c("Delta", names(self$.response()))
@@ -1087,6 +1235,16 @@ steepAscent.c <- R6Class("facDesign", public = list(name = NULL,
 )
 
 # Clase desOpt ----
+#' @title desOpt-class: Class "desOpt"
+#' @description The `desOpt` class represents an object that stores optimization results for factorial design experiments. It includes coded and real factors, responses, desirabilities, overall desirability, and the design object.
+#' @field facCoded A list containing the coded values for the factors in the design.
+#' @field facReal A list containing the real (actual) values for the factors in the design.
+#' @field responses A list of response variables obtained from the design.
+#' @field desirabilities A list of desirability scores for each response variable.
+#' @field overall Numeric value representing the overall desirability score.
+#' @field all A data frame containing all the relevant data from the design and optimization process.
+#' @field fdo The factorial design object used in the optimization process.
+#' @seealso \code{\link{optimum}}, \code{\link{facDesign}}, \code{\link{desirability}}
 desOpt <- R6Class("desOpt", public = list(facCoded = list(),
                                           facReal = list(),
                                           responses = list(),
@@ -1094,9 +1252,13 @@ desOpt <- R6Class("desOpt", public = list(facCoded = list(),
                                           overall = NULL,
                                           all = data.frame(),
                                           fdo = NULL,
-                                          as.data.frame = function(x, row.names = NULL, optional = FALSE, ...) {
+
+                                          #' @description Convert the object to a data frame.
+                                          as.data.frame = function() {
                                             return(x$all)
                                           },
+
+                                          #' @description Print a summary of the object.
                                           print = function(){
                                             cat(paste("\ncomposite (overall) desirability:", format(self$overall, digits = 3)))
                                             cat("\n")
