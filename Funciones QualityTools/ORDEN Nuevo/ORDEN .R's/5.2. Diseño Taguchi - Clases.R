@@ -158,9 +158,15 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                             }
                                                           },
 
+                                                          #' @description Converts the taguchi design object to a data frame.
+                                                          as.data.frame = function(row.names = NULL, optional = FALSE, ...){
+                                                            frameOut = cbind(self$standardOrder, self$runOrder, self$replic, self$design, self$response)
+                                                            return(frameOut)
+                                                          },
+
                                                           #' @description Methods for function `print` in Package `base`.
                                                           print = function(){
-                                                            print(format(as.data.frame(self), digits = 4))
+                                                            print(format(self$as.data.frame(), digits = 4))
                                                           },
 
                                                           #' @description Get and set the the `response` in an object of class `taguchiDesign`.
@@ -403,5 +409,6 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
 
 )
 )
+
 
 

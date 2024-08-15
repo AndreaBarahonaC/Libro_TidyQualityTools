@@ -3,7 +3,7 @@
 #################################################################################################
 
 # as.data.frame.facDesign ----
-as.data.frame.facDesign <- function(dfac, ...) {
+as.data.frame.facDesign <- function(dfac) {
   #' @title as.data.frame.facDesign: Coerce to a data.frame
   #' @description Converts an object of class \code{\link{facDesign.c}} into a data frame.
   #' @param dfac An object of class \code{\link{facDesign.c}} that you want to convert to a data frame.
