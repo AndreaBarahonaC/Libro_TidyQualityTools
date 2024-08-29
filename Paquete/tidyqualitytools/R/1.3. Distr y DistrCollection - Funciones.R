@@ -8,16 +8,16 @@ paretoChart <- function (x, weight, main, col, border, xlab, ylab = "Frequency",
   #' @title paretoChart: Pareto Chart
   #' @description Function to create a Pareto chart, displaying the relative frequency of categories.
   #' @param x A vector of qualitative values.
-  #' @param weight A numeric vector of weights corresponding to each category in `x`.
+  #' @param weight A numeric vector of weights corresponding to each category in \code{x}.
   #' @param main A character string for the main title of the plot.
   #' @param col A numerical value or character string defining the fill-color of the bars.
   #' @param border A numerical value or character string defining the border-color of the bars.
   #' @param xlab A character string for the x-axis label.
-  #' @param ylab A character string for the y-axis label. By default, `ylab` is set to `"Frequency"`.
+  #' @param ylab A character string for the y-axis label. By default, \code{ylab} is set to \code{"Frequency"}.
   #' @param percentVec A numerical vector giving the position and values of tick marks for percentage axis.
-  #' @param showTable Logical value indicating whether to display a table of frequencies. By default, `showTable` is set to `TRUE`.
-  #' @param showPlot Logical value indicating whether to display the Pareto chart. By default, `showPlot` is set to `TRUE`.
-  #' @return `paretoChart` returns a Pareto chart along with a frequency table if `showTable` is `TRUE`.
+  #' @param showTable Logical value indicating whether to display a table of frequencies. By default, \code{showTable} is set to \code{TRUE}.
+  #' @param showPlot Logical value indicating whether to display the Pareto chart. By default, \code{showPlot} is set to \code{TRUE}.
+  #' @return \code{paretoChart} returns a Pareto chart along with a frequency table if \code{showTable} is \code{TRUE}.
   #' Additionally, the function returns an invisible list containing:
   #' \item{plot}{The generated Pareto chart.}
   #' \item{table}{A data.frame with the frequencies and percentages of the categories.}
@@ -133,26 +133,26 @@ distribution <- function(x = NULL, distrib = "weibull", ...) {
   #' @title distribution: Distribution
   #' @description Calculates the most likely parameters for a given distribution.
   #' @param x Vector of distributed values from which the parameter should be determined.
-  #' @param distrib Character string specifying the distribution of x. The function `distribution` will accept the following character strings for `distribution`:
+  #' @param distrib Character string specifying the distribution of x. The function \code{distribution} will accept the following character strings for \code{distribution}:
   #' \itemize{
-  #'   \item{"normal"}
-  #'   \item{"chi-squared"}
-  #'   \item{"exponential"}
-  #'   \item{"logistic"}
-  #'   \item{"gamma"}
-  #'   \item{"weibull"}
-  #'   \item{"cauchy"}
-  #'   \item{"beta"}
-  #'   \item{"f"}
-  #'   \item{"t"}
-  #'   \item{"geometric"}
-  #'   \item{"poisson"}
-  #'   \item{"negative binomial"}
-  #'   \item{"log-normal"}
+  #'   \item{\code{"normal"}}
+  #'   \item{\code{"chi-squared"}}
+  #'   \item{\code{"exponential"}}
+  #'   \item{\code{"logistic"}}
+  #'   \item{\code{"gamma"}}
+  #'   \item{\code{"weibull"}}
+  #'   \item{\code{"cauchy"}}
+  #'   \item{\code{"beta"}}
+  #'   \item{\code{"f"}}
+  #'   \item{\code{"t"}}
+  #'   \item{\code{"geometric"}}
+  #'   \item{\code{"poisson"}}
+  #'   \item{\code{"negative binomial"}}
+  #'   \item{\code{"log-normal"}}
   #' }
-  #' By default, `distribution` is set to "weibull".
+  #' By default, \code{distribution} is set to \code{"weibull"}.
   #' @param ... Additional arguments to be passed to the fitting function.
-  #' @return `distribution()` returns an object of class `DistrCollection`.
+  #' @return \code{distribution()} returns an object of class \code{DistrCollection}.
   #' @seealso \code{\link{Distr}}, \code{\link{DistrCollection}}
 
   distr_coll <- DistrCollection$new()
@@ -187,20 +187,20 @@ FitDistr <- function (x, densfun, start, ...){
   #' @description Maximum-likelihood fitting of univariate distributions, allowing parameters to be held fixed if desired.
   #' @param x A numeric vector of length at least one containing only finite values.
   #' Either a character string or a function returning a density evaluated at its first argument.
-  #' @param densfun character string specifying the density function to be used for fitting the distribution. Distributions `"beta"`, `"cauchy"`, `"chi-squared"`, `"exponential"`, `"gamma"`, `"geometric"`, `"log-normal"`, `"lognormal"`, `"logistic"`, `"negative binomial"`, `"normal"`, `"Poisson"`, `"t"` and "weibull" are recognised, case being ignored.
+  #' @param densfun character string specifying the density function to be used for fitting the distribution. Distributions \code{"beta"}, \code{"cauchy"}, \code{"chi-squared"}, \code{"exponential"}, \code{"gamma"}, \code{"geometric"}, \code{"log-normal"}, \code{"lognormal"}, \code{"logistic"}, \code{"negative binomial"}, \code{"normal"}, \code{"Poisson"}, \code{"t"} and \code{"weibull"} are recognised, case being ignored.
   #' @param start A named list giving the parameters to be optimized with initial values. This can be omitted for some of the named distributions and must be for others (see Details).
-  #' @param ... Additional parameters, either for `densfun` or for `optim`. In particular, it can be used to specify bounds via `lower` or `upper` or both. If arguments of `densfun` (or the density function corresponding to a character-string specification) are included they will be held fixed.
-  #' @details For the Normal, log-Normal, geometric, exponential and Poisson distributions the closed-form MLEs (and exact standard errors) are used, and `start` should not be supplied.
+  #' @param ... Additional parameters, either for \code{densfun} or for \code{optim}. In particular, it can be used to specify bounds via \code{lower} or \code{upper} or both. If arguments of \code{densfun} (or the density function corresponding to a character-string specification) are included they will be held fixed.
+  #' @details For the Normal, log-Normal, geometric, exponential and Poisson distributions the closed-form MLEs (and exact standard errors) are used, and \code{start} should not be supplied.
   #'
-  #' For all other distributions, direct optimization of the log-likelihood is performed using `optim`. The estimated standard errors are taken from the observed information matrix, calculated by a numerical approximation. For one-dimensional problems the Nelder-Mead method is used and for multi-dimensional problems the BFGS method, unless arguments named `lower` or `upper` are supplied (when `L-BFGS-B` is used) or `method` is supplied explicitly.
+  #' For all other distributions, direct optimization of the log-likelihood is performed using \code{optim}. The estimated standard errors are taken from the observed information matrix, calculated by a numerical approximation. For one-dimensional problems the Nelder-Mead method is used and for multi-dimensional problems the BFGS method, unless arguments named \code{lower} or \code{upper} are supplied (when \code{L-BFGS-B} is used) or \code{method} is supplied explicitly.
   #'
-  #' For the `"t"` named distribution the density is taken to be the location-scale family with location `m` and scale `s`.
+  #' For the \code{"t"} named distribution the density is taken to be the location-scale family with location \code{m} and scale \code{s}.
   #'
-  #' For the following named distributions, reasonable starting values will be computed if `start` is omitted or only partially specified: `"cauchy"`, `"gamma"`, `"logistic"`, `"negative binomial"` (parametrized by mu and size), `"t"` and `"weibull"`. Note that these starting values may not be good enough if the fit is poor: in particular they are not resistant to outliers unless the fitted distribution is long-tailed.
+  #' For the following named distributions, reasonable starting values will be computed if \code{start} is omitted or only partially specified: \code{"cauchy"}, \code{"gamma"}, \code{"logistic"}, \code{"negative binomial"} (parametrized by mu and size), \code{"t"} and \code{"weibull"}. Note that these starting values may not be good enough if the fit is poor: in particular they are not resistant to outliers unless the fitted distribution is long-tailed.
   #'
-  #' There are `print`, `coef`, `vcov` and `logLik` methods for class `"FitDistr"`.
+  #' There are \code{print}, \code{coef}, \code{vcov} and \code{logLik} methods for class \code{"FitDistr"}.
   #'
-  #' @return The function `FitDistr` returns an object of class `fitdistr`, which is a list containing:
+  #' @return The function \code{FitDistr} returns an object of class \code{fitdistr}, which is a list containing:
   #' \item{estimate}{a named vector of parameter estimates.}
   #' \item{sd}{a named vector of the estimated standard errors for the parameters.}
   #' \item{vcov}{the estimated variance-covariance matrix of the parameter estimates.}
@@ -415,36 +415,37 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
                    bounds.col = "black", bounds.lty = 1, start, showPlot = TRUE,
                    axis.y.right = FALSE, bw.theme = FALSE){
   #' @title qqPlot: Quantile-Quantile Plots for various distributions
-  #' @description Function `qqPlot` creates a QQ plot of the values in x including a line which passes through the first and third quartiles.
+  #' @description Function \code{qqPlot} creates a QQ plot of the values in x including a line which passes through the first and third quartiles.
   #' @param x The sample for qqPlot.
-  #' @param y Character string specifying the distribution of `x`. The function `qqPlot` supports the following character strings for `y`:
+  #' @param y Character string specifying the distribution of \code{x}. The function \code{qqPlot} supports the following character strings for \code{y}:
   #' \itemize{
-  #'   \item{"beta"}
-  #'   \item{"cauchy"}
-  #'   \item{"chi-squared"}
-  #'   \item{"exponential"}
-  #'   \item{"f"}
-  #'   \item{"gamma"}
-  #'   \item{"geometric"}
-  #'   \item{"log-normal"}
-  #'   \item{"lognormal"}
-  #'   \item{"logistic"}
-  #'   \item{"negative binomial"}
-  #'   \item{"normal"}
-  #'   \item{"Poisson"}
-  #'   \item{"t"}
-  #'   \item{"weibull"}
+  #'   \item{\code{"beta"}}
+  #'   \item{\code{"cauchy"}}
+  #'   \item{\code{"chi-squared"}}
+  #'   \item{\code{"exponential"}}
+  #'   \item{\code{"f"}}
+  #'   \item{\code{"gamma"}}
+  #'   \item{\code{"geometric"}}
+  #'   \item{\code{"log-normal"}}
+  #'   \item{\code{"lognormal"}}
+  #'   \item{\code{"logistic"}}
+  #'   \item{\code{"negative binomial"}}
+  #'   \item{\code{"normal"}}
+  #'   \item{\code{"Poisson"}}
+  #'   \item{\code{"t"}}
+  #'   \item{\code{"weibull"}}
   #' }
-  #' By default `distribution` is set to "normal".
-  #' @param confbounds Logical value indicating whether to display confidence bounds. By default, `confbounds` is set to `TRUE`.
+  #' By default \code{distribution} is set to \code{"normal"}.
+  #' @param confbounds Logical value indicating whether to display confidence bounds. By default, \code{confbounds} is set to \code{TRUE}.
   #' @param alpha Numeric value specifying the significance level for the confidence bounds, set to `0.05` by default.
   #' @param main A character string for the main title of the plot.
   #' @param xlab A character string for the x-axis label.
   #' @param ylab A character string for the y-axis label.
   #' @param xlim A numeric vector of length 2 to specify the limits of the x-axis.
   #' @param ylim A numeric vector of length 2 to specify the limits of the y-axis.
-  #' @param border A numerical value or single character string giving the color of the interpolation line. By default, `border` is set to `"red"`.  #' @param bounds.col a character string specifying the color of the confidence bounds. By default, `bounds.col` is set to `"black"`.
-  #' @param bounds.col A numerical value or single character string giving the color of the confidence bounds lines. By default, `bounds.col` is set to `"black"`.
+  #' @param border A numerical value or single character string giving the color of the interpolation line. By default, \code{border} is set to \code{"red"}.
+  #' @param bounds.col a character string specifying the color of the confidence bounds. By default, \code{bounds.col} is set to \code{"black"}.
+  #' @param bounds.col A numerical value or single character string giving the color of the confidence bounds lines. By default, \code{bounds.col} is set to \code{"black"}.
   #' @param bounds.lty A numeric or character: line type for the confidence bounds lines. This can be specified with either an integer (0-6) or a name:
   #' \itemize{
   #'   \item{0: blank}
@@ -457,14 +458,14 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
   #' }
   #' Default is `1` (solid line).
   #' @param start A named list giving the parameters to be fitted with initial values. Must be supplied for some distributions (see Details).
-  #' @param showPlot Logical value indicating whether to display the plot. By default, `showPlot` is set to `TRUE`.
-  #' @param axis.y.right Logical value indicating whether to display the y-axis on the right side. By default, `axis.y.right` is set to `FALSE`.
-  #' @param bw.theme Logical value indicating whether to use a black-and-white theme from the `ggplot2` package for the plot. By default, `bw.theme` is set to `FALSE`.
-  #' @details Distribution fitting is performed using the `FitDistr` function from this package.
+  #' @param showPlot Logical value indicating whether to display the plot. By default, \code{showPlot} is set to \code{TRUE}.
+  #' @param axis.y.right Logical value indicating whether to display the y-axis on the right side. By default, \code{axis.y.right} is set to \code{FALSE}.
+  #' @param bw.theme Logical value indicating whether to use a black-and-white theme from the \code{ggplot2} package for the plot. By default, \code{bw.theme} is set to \code{FALSE}.
+  #' @details Distribution fitting is performed using the \code{FitDistr} function from this package.
   #' For the computation of the confidence bounds, the variance of the quantiles is estimated using the delta method,
   #' which involves the estimation of the observed Fisher Information matrix as well as the gradient of the CDF of the fitted distribution.
   #' Where possible, those values are replaced by their normal approximation.
-  #' @return The function `qqPlot` returns an invisible list containing:
+  #' @return The function \code{qqPlot} returns an invisible list containing:
   #' \item{x}{Sample quantiles.}
   #' \item{y}{Theoretical quantiles.}
   #' \item{int}{Intercept of the fitted line.}
@@ -671,28 +672,28 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
                     border = "red", bounds.col = "black", bounds.lty = 1,
                     start, showPlot = TRUE, axis.y.right = FALSE, bw.theme = FALSE){
   #' @title ppPlot: Probability Plots for various distributions
-  #' @description Function `ppPlot` creates a Probability plot of the values in x including a line.
-  #' @param x Numeric vector containing the sample data for the `ppPlot`.
-  #' @param distribution Character string specifying the distribution of x. The function `ppPlot` will support the following character strings for `distribution`:
+  #' @description Function \code{ppPlot} creates a Probability plot of the values in x including a line.
+  #' @param x Numeric vector containing the sample data for the \code{ppPlot}.
+  #' @param distribution Character string specifying the distribution of x. The function \code{ppPlot} will support the following character strings for \code{distribution}:
   #' \itemize{
-  #'   \item{"beta"}
-  #'   \item{"cauchy"}
-  #'   \item{"chi-squared"}
-  #'   \item{"exponential"}
-  #'   \item{"f"}
-  #'   \item{"gamma"}
-  #'   \item{"geometric"}
-  #'   \item{"log-normal"}
-  #'   \item{"lognormal"}
-  #'   \item{"logistic"}
-  #'   \item{"negative binomial"}
-  #'   \item{"normal"}
-  #'   \item{"Poisson"}
-  #'   \item{"t"}
-  #'   \item{"weibull"}
+  #'   \item{\code{"beta"}}
+  #'   \item{\code{"cauchy"}}
+  #'   \item{\code{"chi-squared"}}
+  #'   \item{\code{"exponential"}}
+  #'   \item{\code{"f"}}
+  #'   \item{\code{"gamma"}}
+  #'   \item{\code{"geometric"}}
+  #'   \item{\code{"log-normal"}}
+  #'   \item{\code{"lognormal"}}
+  #'   \item{\code{"logistic"}}
+  #'   \item{\code{"negative binomial"}}
+  #'   \item{\code{"normal"}}
+  #'   \item{\code{"Poisson"}}
+  #'   \item{\code{"t"}}
+  #'   \item{\code{"weibull"}}
   #' }
-  #' By default `distribution` is set to "normal".
-  #' @param confbounds Logical value: whether to display confidence bounds. Default is `TRUE`.
+  #' By default \code{distribution} is set to \code{"normal"}.
+  #' @param confbounds Logical value: whether to display confidence bounds. Default is \code{TRUE}.
   #' @param alpha Numeric value: significance level for confidence bounds, default is `0.05`.
   #' @param probs Vector containing the percentages for the y axis. All the values need to be between ‘0’ and ‘1’.
   #' If `probs` is missing it will be calculated internally.
@@ -701,8 +702,8 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
   #' @param ylab Character string: label for the y-axis.
   #' @param xlim Numeric vector of length 2: limits for the x-axis.
   #' @param ylim Numeric vector of length 2: limits for the y-axis.
-  #' @param border Character or numeric: color for the border of the line through the quantiles. Default is `"red"`.
-  #' @param bounds.col Character or numeric: color for the confidence bounds lines. Default is `"black"`.
+  #' @param border Character or numeric: color for the border of the line through the quantiles. Default is \code{"red"}.
+  #' @param bounds.col Character or numeric: color for the confidence bounds lines. Default is \code{"black"}.
   #' @param bounds.lty Numeric or character: line type for the confidence bounds lines. This can be specified with either an integer (0-6) or a name:
   #' \itemize{
   #'   \item{0: blank}
@@ -715,14 +716,14 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
   #' }
   #' Default is `1` (solid line).
   #' @param start A named list giving the parameters to be fitted with initial values. Must be supplied for some distributions (see Details).
-  #' @param showPlot Logical value indicating whether to display the plot. By default, `showPlot` is set to `TRUE`.
-  #' @param axis.y.right Logical value indicating whether to display the y-axis on the right side. By default, `axis.y.right` is set to `FALSE`.
-  #' @param bw.theme Logical value indicating whether to use a black-and-white theme from the `ggplot2` package for the plot. By default, `bw.theme` is set to `FALSE`.
-  #' @details Distribution fitting is performed using the `FitDistr` function from this package.
+  #' @param showPlot Logical value indicating whether to display the plot. By default, \code{showPlot} is set to \code{TRUE}.
+  #' @param axis.y.right Logical value indicating whether to display the y-axis on the right side. By default, \code{axis.y.right} is set to \code{FALSE}.
+  #' @param bw.theme Logical value indicating whether to use a black-and-white theme from the \code{ggplot2} package for the plot. By default, \code{bw.theme} is set to \code{FALSE}.
+  #' @details Distribution fitting is performed using the \code{FitDistr} function from this package.
   #' For the computation of the confidence bounds, the variance of the quantiles is estimated using the delta method,
   #' which involves the estimation of the observed Fisher Information matrix as well as the gradient of the CDF of the fitted distribution.
   #' Where possible, those values are replaced by their normal approximation.
-  #' @return The function `ppPlot` returns an invisible list containing:
+  #' @return The function \code{ppPlot} returns an invisible list containing:
   #' \item{x}{x coordinates.}
   #' \item{y}{y coordinates.}
   #' \item{int}{Intercept.}
@@ -936,26 +937,26 @@ cg_RunChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
   #' @param x A vector containing the measured values.
   #' @param target A numeric value giving the expected target value for the x-values.
   #' @param tolerance Vector of length 2 giving the lower and upper specification limits.
-  #' @param ref.interval Numeric value giving the confidence intervall on which the calculation is based. By default it is based on 6 sigma methodology.
-  #' Regarding the normal distribution this relates to `pnorm(3) - pnorm(-3)` which is exactly 99.73002 percent If the calculation is based on an other sigma value `ref.interval` needs to be adjusted.
-  #' To give an example: If the sigma-level is given by 5.15 the `ref.interval` relates to `pnorm(5.15/2)-pnorm(-5.15/2)` which is exactly 0.989976 percent.
-  #' @param facCg Numeric value as a factor for the calculation of the gage potential index. The default Value for facCg is ‘0.2’.
-  #' @param facCgk Numeric value as a factor for the calulation of the gage capability index. The default value for facCgk is ‘0.1’.
-  #' @param n Numeric value between ‘0’ and ‘1’ giving the percentage of the tolerance field (values between the upper and lower specification limits given by tolerance) where the values of x should be positioned. Limit lines will be drawn. Default value is ‘0.2’.
-  #' @param col Character or numeric value specifying the color of the curve in the run chart. Default is `"black"`.
-  #' @param pch Numeric or character specifying the plotting symbol. Default is `19` (filled circle).
-  #' @param xlim Numeric vector of length 2 specifying the limits for the x-axis. Default is `NULL` which means the limits are set automatically.
-  #' @param ylim Numeric vector of length 2 specifying the limits for the y-axis. Default is `NULL` which means the limits are set automatically.
-  #' @param main Character string specifying the title of the plot. Default is `"Run Chart"`.
-  #' @param conf.level Confidence level for internal t.test checking the significance of the bias between target and mean of x. The default value is ‘0.95’. The result of the t.test is shown in the histogram on the left side.
-  #' @param cgOut Logical value deciding wether the Cg and Cgk values should be plotted in a legend. Default is `TRUE`.
+  #' @param ref.interval Numeric value giving the confidence interval on which the calculation is based. By default it is based on 6 sigma methodology.
+  #' Regarding the normal distribution this relates to \code{pnorm(3) - pnorm(-3)} which is exactly 99.73002 percent. If the calculation is based on another sigma value \code{ref.interval} needs to be adjusted.
+  #' To give an example: If the sigma-level is given by 5.15 the \code{ref.interval} relates to \code{pnorm(5.15/2)-pnorm(-5.15/2)} which is exactly 0.989976 percent.
+  #' @param facCg Numeric value as a factor for the calculation of the gage potential index. The default Value for \code{facCg} is \code{0.2}.
+  #' @param facCgk Numeric value as a factor for the calculation of the gage capability index. The default value for \code{facCgk} is \code{0.1}.
+  #' @param n Numeric value between \code{0} and \code{1} giving the percentage of the tolerance field (values between the upper and lower specification limits given by \code{tolerance}) where the values of \code{x} should be positioned. Limit lines will be drawn. Default value is \code{0.2}.
+  #' @param col Character or numeric value specifying the color of the curve in the run chart. Default is \code{"black"}.
+  #' @param pch Numeric or character specifying the plotting symbol. Default is \code{19} (filled circle).
+  #' @param xlim Numeric vector of length 2 specifying the limits for the x-axis. Default is \code{NULL} which means the limits are set automatically.
+  #' @param ylim Numeric vector of length 2 specifying the limits for the y-axis. Default is \code{NULL} which means the limits are set automatically.
+  #' @param main Character string specifying the title of the plot. Default is \code{"Run Chart"}.
+  #' @param conf.level Confidence level for internal \code{t.test} checking the significance of the bias between \code{target} and mean of \code{x}. The default value is \code{0.95}. The result of the \code{t.test} is shown in the histogram on the left side.
+  #' @param cgOut Logical value deciding whether the \code{Cg} and \code{Cgk} values should be plotted in a legend. Default is \code{TRUE}.
   #' @details The calculation of the potential and actual gage capability are based on the following formulae:
   #' \itemize{
-  #' \item{Cg = (facCg * tolerance[2]-tolerance[1])/ref.interval}
-  #' \item{Cgk = (facCgk * abs(target-mean(x))/(ref.interval/2)}
+  #' \item{\code{Cg = (facCg * tolerance[2]-tolerance[1])/ref.interval}}
+  #' \item{\code{Cgk = (facCgk * abs(target-mean(x))/(ref.interval/2)}}
   #' }
-  #' If the usage of the historical process variation is preferred the values for the tolerance `tolerance` must be adjusted manually. That means in case of the 6 sigma methodolgy for example, that tolerance = 6 * sigma[process].
-  #' @return The function `cg_RunChart` returns a list of numeric values. The first element contains the calculated centralized gage potential index Cg and the second contains the non-centralized gage capability index Cgk.
+  #' If the usage of the historical process variation is preferred the values for the tolerance \code{tolerance} must be adjusted manually. That means in case of the 6 sigma methodology for example, that \code{tolerance = 6 * sigma[process]}.
+  #' @return The function \code{cg_RunChart} returns a list of numeric values. The first element contains the calculated centralized gage potential index \code{Cg} and the second contains the non-centralized gage capability index \code{Cgk}.
   #' @seealso \code{\link{cg_HistChart}}, \code{\link{cg_ToleranceChart}},  \code{\link{cg}}
   #' @examples
   #'
@@ -1114,26 +1115,26 @@ cg_HistChart <- function (x, target, tolerance, ref.interval, facCg, facCgk,
   #' @param x A vector containing the measured values.
   #' @param target A numeric value giving the expected target value for the x-values.
   #' @param tolerance Vector of length 2 giving the lower and upper specification limits.
-  #' @param ref.interval Numeric value giving the confidence intervall on which the calculation is based. By default it is based on 6 sigma methodology.
-  #' Regarding the normal distribution this relates to `pnorm(3) - pnorm(-3)` which is exactly 99.73002 percent If the calculation is based on an other sigma value `ref.interval` needs to be adjusted.
-  #' To give an example: If the sigma-level is given by 5.15 the `ref.interval` relates to `pnorm(5.15/2)-pnorm(-5.15/2)` which is exactly 0.989976 percent.
-  #' @param facCg Numeric value as a factor for the calculation of the gage potential index. The default Value for facCg is ‘0.2’.
-  #' @param facCgk Numeric value as a factor for the calulation of the gage capability index. The default value for facCgk is ‘0.1’.
-  #' @param n Numeric value between ‘0’ and ‘1’ giving the percentage of the tolerance field (values between the upper and lower specification limits given by tolerance) where the values of x should be positioned. Limit lines will be drawn. Default value is ‘0.2’.
-  #' @param col Character or numeric value specifying the color of the histogram. Default is `"black"`.
-  #' @param xlim Numeric vector of length 2 specifying the limits for the x-axis. Default is `NULL` which means the limits are set automatically.
-  #' @param ylim Numeric vector of length 2 specifying the limits for the y-axis. Default is `NULL` which means the limits are set automatically.
-  #' @param main Character string specifying the title of the plot. Default is `"Histogram of x - target"`.
-  #' @param conf.level Confidence level for internal t.test checking the significance of the bias between target and mean of x. The default value is ‘0.95’.
-  #' @param cgOut Logical value deciding wether the Cg and Cgk values should be plotted in a legend. Default is `TRUE`.
+  #' @param ref.interval Numeric value giving the confidence interval on which the calculation is based. By default it is based on 6 sigma methodology.
+  #' Regarding the normal distribution this relates to \code{pnorm(3) - pnorm(-3)} which is exactly 99.73002 percent. If the calculation is based on another sigma value \code{ref.interval} needs to be adjusted.
+  #' To give an example: If the sigma-level is given by 5.15 the \code{ref.interval} relates to \code{pnorm(5.15/2)-pnorm(-5.15/2)} which is exactly 0.989976 percent.
+  #' @param facCg Numeric value as a factor for the calculation of the gage potential index. The default Value for \code{facCg} is \code{0.2}.
+  #' @param facCgk Numeric value as a factor for the calculation of the gage capability index. The default value for \code{facCgk} is \code{0.1}.
+  #' @param n Numeric value between \code{0} and \code{1} giving the percentage of the tolerance field (values between the upper and lower specification limits given by \code{tolerance}) where the values of \code{x} should be positioned. Limit lines will be drawn. Default value is \code{0.2}.
+  #' @param col Character or numeric value specifying the color of the histogram. Default is \code{"black"}.
+  #' @param xlim Numeric vector of length 2 specifying the limits for the x-axis. Default is \code{NULL} which means the limits are set automatically.
+  #' @param ylim Numeric vector of length 2 specifying the limits for the y-axis. Default is \code{NULL} which means the limits are set automatically.
+  #' @param main Character string specifying the title of the plot. Default is \code{"Histogram of x - target"}.
+  #' @param conf.level Confidence level for internal \code{t.test} checking the significance of the bias between \code{target} and mean of \code{x}. The default value is \code{0.95}.
+  #' @param cgOut Logical value deciding whether the \code{Cg} and \code{Cgk} values should be plotted in a legend. Default is \code{TRUE}.
   #' @details The calculation of the potential and actual gage capability are based on the following formulae:
   #' \itemize{
-  #' \item{Cg = (facCg * tolerance[2]-tolerance[1])/ref.interval}
-  #' \item{Cgk = (facCgk * abs(target-mean(x))/(ref.interval/2)}
+  #' \item{\code{Cg = (facCg * tolerance[2]-tolerance[1])/ref.interval}}
+  #' \item{\code{Cgk = (facCgk * abs(target-mean(x))/(ref.interval/2)}}
   #' }
-  #' If the usage of the historical process variation is preferred the values for the tolerance `tolerance` must be adjusted manually. That means in case of the 6 sigma methodolgy for example, that tolerance = 6 * sigma[process].
-  #' @return The function `cg_HistChart` returns a list of numeric values. The first element contains the calculated centralized gage potential index Cg and the second contains the non-centralized gage capability index Cgk.
-  #' @seealso \code{\link{cg_RunChart}}, \code{\link{cg_ToleranceChart}},  \code{\link{cg}}
+  #' If the usage of the historical process variation is preferred the values for the tolerance \code{tolerance} must be adjusted manually. That means in case of the 6 sigma methodology for example, that \code{tolerance = 6 * sigma[process]}.
+  #' @return The function \code{cg_HistChart} returns a list of numeric values. The first element contains the calculated centralized gage potential index \code{Cg} and the second contains the non-centralized gage capability index \code{Cgk}.
+  #' @seealso \code{\link{cg_RunChart}}, \code{\link{cg_ToleranceChart}}, \code{\link{cg}}
   #' @examples
   #'
   #' x <- c(9.991, 10.013, 10.001, 10.007, 10.010, 10.013, 10.008,9.992,
@@ -1301,26 +1302,26 @@ cg_ToleranceChart <- function (x, target, tolerance, ref.interval, facCg, facCgk
   #' @param x A vector containing the measured values.
   #' @param target A numeric value giving the expected target value for the x-values.
   #' @param tolerance Vector of length 2 giving the lower and upper specification limits.
-  #' @param ref.interval Numeric value giving the confidence intervall on which the calculation is based. By default it is based on 6 sigma methodology.
-  #' Regarding the normal distribution this relates to `pnorm(3) - pnorm(-3)` which is exactly 99.73002 percent If the calculation is based on an other sigma value `ref.interval` needs to be adjusted.
-  #' To give an example: If the sigma-level is given by 5.15 the `ref.interval` relates to `pnorm(5.15/2)-pnorm(-5.15/2)` which is exactly 0.989976 percent.
-  #' @param facCg Numeric value as a factor for the calculation of the gage potential index. The default Value for facCg is ‘0.2’.
-  #' @param facCgk Numeric value as a factor for the calulation of the gage capability index. The default value for facCgk is ‘0.1’.
-  #' @param n Numeric value between ‘0’ and ‘1’ giving the percentage of the tolerance field (values between the upper and lower specification limits given by tolerance) where the values of x should be positioned. Limit lines will be drawn. Default value is ‘0.2’.
-  #' @param col Character or numeric value specifying the color of the line and points in the tolerance view. Default is `"black"`.
-  #' @param pch Numeric or character specifying the plotting symbol. Default is `19` (filled circle).
-  #' @param xlim Numeric vector of length 2 specifying the limits for the x-axis. Default is `NULL` which means the limits are set automatically.
-  #' @param ylim Numeric vector of length 2 specifying the limits for the y-axis. Default is `NULL` which means the limits are set automatically.
-  #' @param main Character string specifying the title of the plot. Default is `"Tolerance View"`.
-  #' @param conf.level Confidence level for internal t.test checking the significance of the bias between target and mean of x. The default value is ‘0.95’.
-  #' @param cgOut Logical value deciding wether the Cg and Cgk values should be plotted in a legend. Default is `TRUE`.
+  #' @param ref.interval Numeric value giving the confidence interval on which the calculation is based. By default it is based on 6 sigma methodology.
+  #' Regarding the normal distribution this relates to \code{pnorm(3) - pnorm(-3)} which is exactly 99.73002 percent. If the calculation is based on another sigma value \code{ref.interval} needs to be adjusted.
+  #' To give an example: If the sigma-level is given by 5.15 the \code{ref.interval} relates to \code{pnorm(5.15/2)-pnorm(-5.15/2)} which is exactly 0.989976 percent.
+  #' @param facCg Numeric value as a factor for the calculation of the gage potential index. The default value for \code{facCg} is \code{0.2}.
+  #' @param facCgk Numeric value as a factor for the calculation of the gage capability index. The default value for \code{facCgk} is \code{0.1}.
+  #' @param n Numeric value between \code{0} and \code{1} giving the percentage of the tolerance field (values between the upper and lower specification limits given by \code{tolerance}) where the values of \code{x} should be positioned. Limit lines will be drawn. Default value is \code{0.2}.
+  #' @param col Character or numeric value specifying the color of the line and points in the tolerance view. Default is \code{"black"}.
+  #' @param pch Numeric or character specifying the plotting symbol. Default is \code{19} (filled circle).
+  #' @param xlim Numeric vector of length 2 specifying the limits for the x-axis. Default is \code{NULL} which means the limits are set automatically.
+  #' @param ylim Numeric vector of length 2 specifying the limits for the y-axis. Default is \code{NULL} which means the limits are set automatically.
+  #' @param main Character string specifying the title of the plot. Default is \code{"Tolerance View"}.
+  #' @param conf.level Confidence level for internal \code{t.test} checking the significance of the bias between \code{target} and mean of \code{x}. The default value is \code{0.95}.
+  #' @param cgOut Logical value deciding whether the \code{Cg} and \code{Cgk} values should be plotted in a legend. Default is \code{TRUE}.
   #' @details The calculation of the potential and actual gage capability are based on the following formulae:
   #' \itemize{
-  #' \item{Cg = (facCg * tolerance[2]-tolerance[1])/ref.interval}
-  #' \item{Cgk = (facCgk * abs(target-mean(x))/(ref.interval/2)}
+  #' \item{\code{Cg = (facCg * tolerance[2]-tolerance[1])/ref.interval}}
+  #' \item{\code{Cgk = (facCgk * abs(target-mean(x))/(ref.interval/2)}}
   #' }
-  #' If the usage of the historical process variation is preferred the values for the tolerance `tolerance` must be adjusted manually. That means in case of the 6 sigma methodolgy for example, that tolerance = 6 * sigma[process].
-  #' @return The function `cg_ToleranceChart` returns a list of numeric values. The first element contains the calculated centralized gage potential index Cg and the second contains the non-centralized gage capability index Cgk.
+  #' If the usage of the historical process variation is preferred the values for the tolerance \code{tolerance} must be adjusted manually. That means in case of the 6 sigma methodology for example, that \code{tolerance = 6 * sigma[process]}.
+  #' @return The function \code{cg_ToleranceChart} returns a list of numeric values. The first element contains the calculated centralized gage potential index \code{Cg} and the second contains the non-centralized gage capability index \code{Cgk}.
   #' @seealso \code{\link{cg_RunChart}}, \code{\link{cg_HistChart}},  \code{\link{cg}}
   #' @examples
   #'
@@ -1424,30 +1425,30 @@ cg_ToleranceChart <- function (x, target, tolerance, ref.interval, facCg, facCgk
 cg <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
                 col, pch, xlim, ylim, conf.level = 0.95){
   #' @title cg: Function to calculate and visualize the gage capability.
-  #' @description Function visualize the given values of measurement in a run chart and in a histogram. Furthermore the “centralized Gage potential index” Cg and the “non-centralized Gage Capability index” Cgk are calculated and displayed.
+  #' @description Function visualize the given values of measurement in a run chart and in a histogram. Furthermore the \code{centralized Gage potential index} \code{Cg} and the \code{non-centralized Gage Capability index} \code{Cgk} are calculated and displayed.
   #' @param x A vector containing the measured values.
   #' @param target A numeric value giving the expected target value for the x-values.
   #' @param tolerance Vector of length 2 giving the lower and upper specification limits.
-  #' @param ref.interval Numeric value giving the confidence intervall on which the calculation is based. By default it is based on 6 sigma methodology.
-  #' Regarding the normal distribution this relates to `pnorm(3) - pnorm(-3)` which is exactly 99.73002 percent If the calculation is based on an other sigma value `ref.interval` needs to be adjusted.
-  #' To give an example: If the sigma-level is given by 5.15 the `ref.interval` relates to `pnorm(5.15/2)-pnorm(-5.15/2)` which is exactly 0.989976 percent.
-  #' @param facCg Numeric value as a factor for the calculation of the gage potential index. The default Value for facCg is ‘0.2’.
-  #' @param facCgk Numeric value as a factor for the calulation of the gage capability index. The default value for facCgk is ‘0.1’.
-  #' @param n Numeric value between ‘0’ and ‘1’ giving the percentage of the tolerance field (values between the upper and lower specification limits given by tolerance) where the values of x should be positioned. Limit lines will be drawn. Default value is ‘0.2’.
-  #' @param col Character or numeric value specifying the color of the curve in the run chart. Default is `"black"`.
-  #' @param pch Numeric or character specifying the plotting symbol. Default is `19` (filled circle).
-  #' @param xlim Numeric vector of length 2 specifying the limits for the x-axis. Default is `NULL` which means the limits are set automatically.
-  #' @param ylim Numeric vector of length 2 specifying the limits for the y-axis. Default is `NULL` which means the limits are set automatically.
+  #' @param ref.interval Numeric value giving the confidence interval on which the calculation is based. By default it is based on 6 sigma methodology.
+  #' Regarding the normal distribution this relates to \code{pnorm(3) - pnorm(-3)} which is exactly 99.73002 percent. If the calculation is based on another sigma value \code{ref.interval} needs to be adjusted.
+  #' To give an example: If the sigma-level is given by 5.15 the \code{ref.interval} relates to \code{pnorm(5.15/2)-pnorm(-5.15/2)} which is exactly 0.989976 percent.
+  #' @param facCg Numeric value as a factor for the calculation of the gage potential index. The default value for \code{facCg} is \code{0.2}.
+  #' @param facCgk Numeric value as a factor for the calculation of the gage capability index. The default value for \code{facCgk} is \code{0.1}.
+  #' @param n Numeric value between \code{0} and \code{1} giving the percentage of the tolerance field (values between the upper and lower specification limits given by \code{tolerance}) where the values of \code{x} should be positioned. Limit lines will be drawn. Default value is \code{0.2}.
+  #' @param col Character or numeric value specifying the color of the curve in the run chart. Default is \code{"black"}.
+  #' @param pch Numeric or character specifying the plotting symbol. Default is \code{19} (filled circle).
+  #' @param xlim Numeric vector of length 2 specifying the limits for the x-axis. Default is \code{NULL} which means the limits are set automatically.
+  #' @param ylim Numeric vector of length 2 specifying the limits for the y-axis. Default is \code{NULL} which means the limits are set automatically.
   #' @param main Character string specifying the title of the plot.
-  #' @param conf.level confidence level for internal t.test checking the significance of the bias between target and mean of x. The default value is ‘0.95’. The result of the t.test is shown in the histogram on the left side.
-  #' @param cgOut Logical value deciding wether the Cg and Cgk values should be plotted in a legend. Default is `TRUE`.
+  #' @param conf.level Confidence level for internal \code{t.test} checking the significance of the bias between \code{target} and mean of \code{x}. The default value is \code{0.95}. The result of the \code{t.test} is shown in the histogram on the left side.
+  #' @param cgOut Logical value deciding whether the \code{Cg} and \code{Cgk} values should be plotted in a legend. Default is \code{TRUE}.
   #' @details The calculation of the potential and actual gage capability are based on the following formulae:
   #' \itemize{
-  #' \item{Cg = (facCg * tolerance[2]-tolerance[1])/ref.interval}
-  #' \item{Cgk = (facCgk * abs(target-mean(x))/(ref.interval/2)}
+  #' \item{\code{Cg = (facCg * tolerance[2]-tolerance[1])/ref.interval}}
+  #' \item{\code{Cgk = (facCgk * abs(target-mean(x))/(ref.interval/2)}}
   #' }
-  #' If the usage of the historical process variation is preferred the values for the tolerance `tolerance` must be adjusted manually. That means in case of the 6 sigma methodolgy for example, that tolerance = 6 * sigma[process].
-  #' @return The function `cg` returns a list of numeric values. The first element contains the calculated centralized gage potential index Cg and the second contains the non-centralized gage capability index Cgk.
+  #' If the usage of the historical process variation is preferred the values for the tolerance \code{tolerance} must be adjusted manually. That means in case of the 6 sigma methodology for example, that \code{tolerance = 6 * sigma[process]}.
+  #' @return The function \code{cg} returns a list of numeric values. The first element contains the calculated centralized gage potential index \code{Cg} and the second contains the non-centralized gage capability index \code{Cgk}.
   #' @seealso \code{\link{cg_RunChart}}, \code{\link{cg_HistChart}}, \code{\link{cg_ToleranceChart}}.
   #' @examples
   #'
@@ -1745,13 +1746,15 @@ cg <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
 # print.adtest ----
 print.adtest <- function(x, digits = 4, quote = TRUE, prefix = "", ...) {
   #' @title print.adtest: Test Statistics
-  #' @description Generic R6 function for objects of class `adtest`.
-  #' @param x Needs to be an object of class `adtest`.
+  #' @description Generic R6 function for objects of class \code{adtest}.
+  #' @usage print.adtest(x, digits = 4, quote = TRUE, prefix = "", ...)
+  #' @param x Needs to be an object of class \code{adtest}.
   #' @param digits Minimal number of significant digits.
   #' @param quote Logical, indicating whether or not strings should be printed with surrounding quotes.
-  #' By default `quote` is set to ‘TRUE’.
-  #' @param prefix Single character or character string that will be printet in front of x.
+  #' By default \code{quote} is set to \code{TRUE}.
+  #' @param prefix Single character or character string that will be printed in front of \code{x}.
   #' @param ... Further arguments passed to or from other methods.
+
 
   cat("\n")
   cat(strwrap(x$method, prefix = "\t"), sep = "\n")
@@ -1802,55 +1805,55 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
                  col.fill = "lightblue", col.border = "black",
                  col.curve = "red", plot = TRUE, ADtest = TRUE){
   #' @title pcr: Process Capability Indices
-  #' @description Calculates the process capability cp, cpk, cpkL (onesided) and cpkU (onesided) for a given dataset and distribution.
-  #' A histogramm with a density curve is displayed along with the specification limits and a Quantile-Quantile Plot for the specified distribution.
+  #' @description Calculates the process capability \code{cp}, \code{cpk}, \code{cpkL} (onesided) and \code{cpkU} (onesided) for a given dataset and distribution.
+  #' A histogram with a density curve is displayed along with the specification limits and a Quantile-Quantile Plot for the specified distribution.
   #' Lower-, upper and total fraction of nonconforming entities are calculated. Box-Cox Transformations are supported as well as the calculation of Anderson Darling Test Statistics.
   #' @param x Numeric vector containing the values for which the process capability should be calculated.
-  #' @param distribution Character string specifying the distribution of x. The function `cp` will accept the following caracter strings for `distribution`:
+  #' @param distribution Character string specifying the distribution of \code{x}. The function \code{cp} will accept the following character strings for \code{distribution}:
   #'   \itemize{
-  #'     \item "normal"
-  #'     \item "log-normal"
-  #'     \item "exponential"
-  #'     \item "logistic"
-  #'     \item "gamma"
-  #'     \item "weibull"
-  #'     \item "cauchy"
-  #'     \item "gamma3"
-  #'     \item "weibull3"
-  #'     \item "lognormal3"
-  #'     \item "beta"
-  #'     \item "f"
-  #'     \item "t"
-  #'     \item "geometric"
-  #'     \item "poisson"
-  #'     \item "negative-binomial"
+  #'     \item \code{"normal"}
+  #'     \item \code{"log-normal"}
+  #'     \item \code{"exponential"}
+  #'     \item \code{"logistic"}
+  #'     \item \code{"gamma"}
+  #'     \item \code{"weibull"}
+  #'     \item \code{"cauchy"}
+  #'     \item \code{"gamma3"}
+  #'     \item \code{"weibull3"}
+  #'     \item \code{"lognormal3"}
+  #'     \item \code{"beta"}
+  #'     \item \code{"f"}
+  #'     \item \code{"t"}
+  #'     \item \code{"geometric"}
+  #'     \item \code{"poisson"}
+  #'     \item \code{"negative-binomial"}
   #'   }
-  #' By default `distribution` is set to “normal”.
+  #' By default \code{distribution} is set to \code{“normal”}.
   #' @param lsl A numeric value specifying the lower specification limit.
   #' @param usl A numeric value specifying the upper specification limit.
   #' @param target (Optional) numeric value giving the target value.
-  #' @param boxcox Logical value specifying whether a Box-Cox transformation should be performed or not. By default `boxcox` is set to ‘FALSE’.
+  #' @param boxcox Logical value specifying whether a Box-Cox transformation should be performed or not. By default \code{boxcox} is set to \code{FALSE}.
   #' @param lambda (Optional) lambda for the transformation, default is to have the function estimate lambda.
   #' @param main A character string specifying the main title of the plot.
   #' @param xlim A numeric vector of length 2 specifying the x-axis limits for the plot.
   #' @param ylim A numeric vector of length 2 specifying the y-axis limits for the plot.
-  #' @param grouping (Optional) If grouping is given the standard deviation is calculated as mean standard deviation of the specified subgroups corrected by the factor c4 and expected fraction of nonconforming is calculated using this standard deviation.
-  #' @param std.dev An optional numeric value specifying the historical standard deviation (only provided for normal distribution). If NULL, the standard deviation is calculated from the data.
-  #' @param conf.level Numeric value between ‘0’ and ‘1’ giving the confidence interval.
-  #' By default `conf.level` is 0.9973 (99.73%) which is the reference interval bounded by the 99.865% and 0.135% quantile.
-  #' @param bounds.lty graphical parameter. For further details see `ppPlot` or `qqPlot`.
+  #' @param grouping (Optional) If grouping is given the standard deviation is calculated as mean standard deviation of the specified subgroups corrected by the factor \code{c4} and expected fraction of nonconforming is calculated using this standard deviation.
+  #' @param std.dev An optional numeric value specifying the historical standard deviation (only provided for normal distribution). If \code{NULL}, the standard deviation is calculated from the data.
+  #' @param conf.level Numeric value between \code{0} and \code{1} giving the confidence interval.
+  #' By default \code{conf.level} is \code{0.9973} (99.73\%) which is the reference interval bounded by the 99.865\% and 0.135\% quantile.
+  #' @param bounds.lty graphical parameter. For further details see \code{ppPlot} or \code{qqPlot}.
   #' @param bounds.col A character string specifying the color of the capability bounds. Default is "red".
   #' @param col.fill A character string specifying the fill color for the histogram plot. Default is "lightblue".
   #' @param col.border A character string specifying the border color for the histogram plot. Default is "black".
   #' @param col.curve A character string specifying the color of the fitted distribution curve. Default is "red".
-  #' @param plot A logical value indicating whether to generate a plot. Default is TRUE.
-  #' @param ADtest A logical value indicating whether to print the Anderson-Darling. Default is TRUE.
+  #' @param plot A logical value indicating whether to generate a plot. Default is \code{TRUE}.
+  #' @param ADtest A logical value indicating whether to print the Anderson-Darling. Default is \code{TRUE}.
   #' @details
-  #' Distribution fitting is delegated to the function `FitDistr` from this package, as well as the calculation of lambda for the Box-Cox Transformation. p-values for the Anderson-Darling Test are reported for the most important distributions.
+  #' Distribution fitting is delegated to the function \code{FitDistr} from this package, as well as the calculation of lambda for the Box-Cox Transformation. p-values for the Anderson-Darling Test are reported for the most important distributions.
   #'
   #' The process capability indices are calculated as follows:
   #' \itemize{
-  #'   \item \strong{cpk}: minimum of cpK and cpL.
+  #'   \item \strong{cpk}: minimum of \code{cpK} and \code{cpL}.
   #'   \item \strong{pt}: total fraction nonconforming.
   #'   \item \strong{pu}: upper fraction nonconforming.
   #'   \item \strong{pl}: lower fraction nonconforming.
@@ -1860,12 +1863,13 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
   #'   \item \strong{cpk}: minimum process capability index.
   #' }
   #'
-  #' For a Box-Cox transformation, a data vector with positive values is needed to estimate an optimal value of lambda for the Box-Cox power transformation of the values. The Box-Cox power transformation is used to bring the distribution of the data vector closer to normality. Estimation of the optimal lambda is delegated to the function `boxcox` from the `MASS` package. The Box-Cox transformation has the form \eqn{y(\lambda) = \frac{y^\lambda - 1}{\lambda}} for \eqn{\lambda \neq 0}, and \eqn{y(\lambda) = \log(y)} for \eqn{\lambda = 0}. The function `boxcox` computes the profile log-likelihoods for a range of values of the parameter lambda. The function `boxcox.lambda` returns the value of lambda with the maximum profile log-likelihood.
+  #' For a Box-Cox transformation, a data vector with positive values is needed to estimate an optimal value of lambda for the Box-Cox power transformation of the values. The Box-Cox power transformation is used to bring the distribution of the data vector closer to normality. Estimation of the optimal lambda is delegated to the function \code{boxcox} from the \code{MASS} package. The Box-Cox transformation has the form \eqn{y(\lambda) = \frac{y^\lambda - 1}{\lambda}} for \eqn{\lambda \neq 0}, and \eqn{y(\lambda) = \log(y)} for \eqn{\lambda = 0}. The function \code{boxcox} computes the profile log-likelihoods for a range of values of the parameter lambda. The function \code{boxcox.lambda} returns the value of lambda with the maximum profile log-likelihood.
   #'
-  #' In case no specification limits are given, `lsl` and `usl` are calculated to support a process capability index of 1.
+  #' In case no specification limits are given, \code{lsl} and \code{usl} are calculated to support a process capability index of 1.
   #' @return The function returns a list with the following components:
   #'
-  #' The function `pcr` returns a list with `lambda`, `cp`, `cpl`, `cpu`, `ppt`, `ppl`, `ppu`, `A`, `usl`, `lsl`, `target`, `asTest`, `plot`.
+  #' The function \code{pcr} returns a list with \code{lambda}, \code{cp}, \code{cpl}, \code{cpu}, \code{ppt}, \code{ppl}, \code{ppu}, \code{A}, \code{usl}, \code{lsl}, \code{target}, \code{asTest}, \code{plot}.
+
   #' @examples
   #' set.seed(1234)
   #' data <- rnorm(20, mean = 20)

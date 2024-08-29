@@ -6,6 +6,22 @@
 \description{
 R6 Class for Managing a Collection of Distribution Objects
 }
+\examples{
+set.seed(123)
+data1 <- rnorm(100, mean = 5, sd = 2)
+parameters1 <- list(mean = 5, sd = 2)
+distr1 <- Distr$new(x = data1, name = "normal", parameters = parameters1, sd = 2, n = 100, loglik = -120)
+
+data2 <- rpois(100, lambda = 3)
+parameters2 <- list(lambda = 3)
+distr2 <- Distr$new(x = data2, name = "poisson", parameters = parameters2, sd = sqrt(3), n = 100, loglik = -150)
+
+collection <- DistrCollection$new()
+collection$add(distr1)
+collection$add(distr2)
+collection$summary()
+collection$plot()
+}
 \seealso{
 \code{\link{Distr}}, \code{\link{distribution}}, \code{\link{FitDistr}}
 }

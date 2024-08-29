@@ -8,16 +8,16 @@ gageRRDesign = function(Operators = 3, Parts = 10, Measurements = 3,
   #' @title gageRRDesign: Gage R&R - Gage Repeatability and Reproducibility
   #' @description Function to Creates a Gage R&R design.
   #' @param Operators Numeric value giving a number or a character vector defining the Operators.
-  #' By default `Operators` is set to ‘3’.
+  #' By default \code{Operators} is set to ‘3’.
   #' @param Parts A number or character vector defining the Parts.
-  #' By default `parts` is set to ‘10’.
-  #' @param Measurements A number defining the measurements per part. By default `Measurments` is set to ‘3’.
-  #' @param method Character string specifying the Gage R&R method. “crossed” which is the typical design for performing a Measurement Systems Analysis using Gage Repeatability and Reproducibility or “nested” which is used for destructive testing (i.e. the same part cannot be measured twice). Operators measure each a different sample of parts under the premise that the parts of each batch are alike.
-  #' By default `method` is set to “crossed”.
-  #' @param sigma For sigma=6 this relates to 99.73 percent representing the full spread of a normal distribution function (i.e. pnorm(3) - pnorm(-3)).
-  #' Another popular setting sigma=5.15 relates to 99 percent (i.e. `pnorm(2.575) - pnorm(-2.575)`). By default `sigma` is set to ‘6’.
-  #' @param randomize Logical value. ‘TRUE’ (default) randomizes the gageRR design.
-  #' @return The function `gageRRDesign` returns an object of class `gageRR`.
+  #' By default \code{parts} is set to ‘10’.
+  #' @param Measurements A number defining the measurements per part. By default \code{Measurements} is set to ‘3’.
+  #' @param method Character string specifying the Gage R&R method. \code{“crossed”} which is the typical design for performing a Measurement Systems Analysis using Gage Repeatability and Reproducibility or \code{“nested”} which is used for destructive testing (i.e. the same part cannot be measured twice). Operators measure each a different sample of parts under the premise that the parts of each batch are alike.
+  #' By default \code{method} is set to \code{“crossed”}.
+  #' @param sigma For \code{sigma=6} this relates to 99.73 percent representing the full spread of a normal distribution function (i.e. \code{pnorm(3) - pnorm(-3)}).
+  #' Another popular setting \code{sigma=5.15} relates to 99 percent (i.e. \code{pnorm(2.575) - pnorm(-2.575)}). By default \code{sigma} is set to ‘6’.
+  #' @param randomize Logical value. \code{TRUE} (default) randomizes the gageRR design.
+  #' @return The function \code{gageRRDesign} returns an object of class \code{gageRR}.
   #' @seealso \code{\link{gageRR.c}}, \code{\link{gageRR}}.
   #' @examples
   #' design <- gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, method = "crossed", sigma = 6, randomize = TRUE)
@@ -109,22 +109,22 @@ gageRRDesign = function(Operators = 3, Parts = 10, Measurements = 3,
 }
 
 # gageRR ----
-gageRR = function(gdo, method = "crossed", sigma = 6, alpha = 0.25,
+gageRR <- function(gdo, method = "crossed", sigma = 6, alpha = 0.25,
                   tolerance = NULL, dig = 3) {
   #' @title gageRR: Gage R&R - Gage Repeatability and Reproducibility
-  #' @description Performs a Gage R&R analysis for an object of class `gageRR`.
-  #' @param gdo Needs to be an object of class `gageRR`.
-  #' @param method Character string specifying the Gage R&R method. “crossed” which is the typical design for performing a Measurement Systems Analysis using Gage Repeatability and Reproducibility or “nested” which is used for destructive testing (i.e. the same part cannot be measured twice). Operators measure each a different sample of parts under the premise that the parts of each batch are alike.
-  #' By default `method` is set to “crossed”.
+  #' @description Performs a Gage R&R analysis for an object of class \code{\link{gageRR.c}}.
+  #' @param gdo Needs to be an object of class \code{gageRR.c}.
+  #' @param method Character string specifying the Gage R&R method. \code{“crossed”} which is the typical design for performing a Measurement Systems Analysis using Gage Repeatability and Reproducibility or \code{“nested”} which is used for destructive testing (i.e. the same part cannot be measured twice). Operators measure each a different sample of parts under the premise that the parts of each batch are alike.
+  #' By default \code{method} is set to \code{“crossed”}.
   #' @param sigma Numeric value giving the number of sigmas.
-  #' For sigma=6 this relates to 99.73 percent representing the full spread of a normal distribution function (i.e. pnorm(3) - pnorm(-3)).
-  #' Another popular setting sigma=5.15 relates to 99 percent (i.e. `pnorm(2.575) - pnorm(-2.575)`). By default `sigma` is set to ‘6’.
-  #' @param alpha Alpha value for discarding the interaction Operator:Part and fitting a non-interaction model. By default `alpha` is set to ‘0.25’.
+  #' For \code{sigma=6} this relates to 99.73 percent representing the full spread of a normal distribution function (i.e. \code{pnorm(3) - pnorm(-3)}).
+  #' Another popular setting \code{sigma=5.15} relates to 99 percent (i.e. \code{pnorm(2.575) - pnorm(-2.575)}). By default \code{sigma} is set to ‘6’.
+  #' @param alpha Alpha value for discarding the interaction Operator:Part and fitting a non-interaction model. By default \code{alpha} is set to ‘0.25’.
   #' @param tolerance Mumeric value giving the tolerance for the measured parts. This is required to calculate the Process to Tolerance Ratio.
-  #' By default `tolerance` is set to ‘NULL’.
-  #' @param dig numeric value giving the number of significant digits for `format`.
-  #' By default `dig` is set to ‘3’.
-  #' @return The function `gageRR` returns an object of class `gageRR` and shows typical Gage Repeatability and Reproducibility Output including Process to Tolerance Ratios and the number of distinctive categories (i.e. ndc) the measurement system is able to discriminate with the tested setting.
+  #' By default \code{tolerance} is set to \code{NULL}.
+  #' @param dig numeric value giving the number of significant digits for \code{format}.
+  #' By default \code{dig} is set to ‘3’.
+  #' @return The function \code{gageRR} returns an object of class \code{gageRR.c} and shows typical Gage Repeatability and Reproducibility Output including Process to Tolerance Ratios and the number of distinctive categories (i.e. ndc) the measurement system is able to discriminate with the tested setting.
   #' @seealso \code{\link{gageRR.c}}, \code{\link{gageRRDesign}}, \code{\link{gageLin}}, \code{\link{cg}}.
   #' @examples
   #' # Create de gageRR Design

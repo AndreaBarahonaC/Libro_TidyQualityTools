@@ -3,9 +3,10 @@
 #################################################################################################
 
 # as.data.frame.facDesign ----
-as.data.frame.facDesign <- function(dfac, ...) {
+as.data.frame.facDesign <- function(dfac) {
   #' @title as.data.frame.facDesign: Coerce to a data.frame
   #' @description Converts an object of class \code{\link{facDesign.c}} into a data frame.
+  #' @usage as.data.frame.facDesign(dfac)
   #' @param dfac An object of class \code{\link{facDesign.c}} that you want to convert to a data frame.
   #' @return The function \code{as.data.frame.facDesign} returns a data frame.
 
@@ -499,15 +500,14 @@ simProc <- function(x1, x2, x3, noise = TRUE) {
 interactionPlot <- function(fdo, response = NULL, fun = mean, main, col = 1:2) {
   #' @title interactionPlot
   #' @description Creates an interaction plot for the factors in a factorial design to visualize the interaction effects between them.
-  #' @param fdo An object of class `facDesign`, representing a factorial design.
+  #' @param fdo An object of class \code{\link{facDesign.c}}, representing a factorial design.
   #' @param response Response variable. If the response data frame of fdo consists of more then one responses, this variable can be used to choose just one column of the response data frame.
-  #' `response` Needs to be an object of class character with length of ‘1’. It needs to be the same character as the name of the response in the response data frame that should be plotted.
-  #' @param fun Function to use for the calculation of the interactions (e.g., `mean`, `median`). Default is `mean`.
+  #' \code{response} Needs to be an object of class character with length of ‘1’. It needs to be the same character as the name of the response in the response data frame that should be plotted.
+  #' @param fun Function to use for the calculation of the interactions (e.g., \code{mean}, \code{median}). Default is \code{mean}.
   #' @param main Character string: title of the plot.
-  #' @param col Vector of colors for the plot. Single colors can be given as character strings or numeric values. Default is `1:2`.
-  #' @details `interactionPlot()` displays interactions for an object of class `facDesign` (i.e. 2^k full or 2^k-p fractional factorial design).
+  #' @param col Vector of colors for the plot. Single colors can be given as character strings or numeric values. Default is \code{1:2}.
+  #' @details \code{interactionPlot()} displays interactions for an object of class \code{facDesign} (i.e. 2^k full or 2^k-p fractional factorial design).
   #' Parts of the original interactionPlot were integrated.
-  #' @return None.
   #' @seealso \code{\link{factors}}, \code{\link{fracDesign}}, \code{\link{facDesign}}
   #' @examples
   #' # Example 1
@@ -618,32 +618,32 @@ interactionPlot <- function(fdo, response = NULL, fun = mean, main, col = 1:2) {
 paretoPlot <- function(fdo, abs = TRUE, decreasing = TRUE, alpha = 0.05,
                        response = NULL, ylim, xlab, ylab, main, p.col, legend_left = TRUE) {
   #' @title paretoPlot
-  #' @description Display standardized effects and interactions of a 'facDesign' object in a pareto plot.
+  #' @description Display standardized effects and interactions of a \code{\link{facDesign.c}} object in a pareto plot.
   #' @param fdo An object of class facDesign.
-  #' @param abs Logical. If TRUE, absolute effects and interactions are displayed. Default is `TRUE`.
-  #' @param decreasing Logical. If TRUE, effects and interactions are sorted decreasing. Default is `TRUE`.
+  #' @param abs Logical. If \code{TRUE}, absolute effects and interactions are displayed. Default is \code{TRUE}.
+  #' @param decreasing Logical. If \code{TRUE}, effects and interactions are sorted decreasing. Default is \code{TRUE}.
   #' @param alpha The significance level used to calculate the critical value
-  #' @param response Response variable. If the response data frame of fdo consists of more then one responses, this variable can be used to choose just one column of the response data frame. `response` needs to be an object of class character with length of ‘1’.
-  #' It needs to be the same character as the name of the response in the response data frame that should be plotted. By default `response` is set to ‘NULL’.
+  #' @param response Response variable. If the response data frame of fdo consists of more then one responses, this variable can be used to choose just one column of the response data frame. \code{response} needs to be an object of class character with length of ‘1’.
+  #' It needs to be the same character as the name of the response in the response data frame that should be plotted. By default \code{response} is set to \code{NULL}.
   #' @param ylim Numeric vector of length 2: limits for the y-axis. If missing, the limits are set automatically.
   #' @param xlab Character string: label for the x-axis.
   #' @param ylab Character string: label for the y-axis.
   #' @param main Character string: title of the plot.
-  #' @param p.col Character string specifying the color palette to use for the plot. Must be one of the following values from the `RColorBrewer` package:
+  #' @param p.col Character string specifying the color palette to use for the plot. Must be one of the following values from the \code{RColorBrewer} package:
   #' \itemize{
-  #'   \item{"Set1"}
-  #'   \item{"Set2"}
-  #'   \item{"Set3"}
-  #'   \item{"Pastel2"}
-  #'   \item{"Pastel1"}
-  #'   \item{"Paired"}
-  #'   \item{"Dark2"}
-  #'   \item{"Accent"}
+  #'   \item{\code{"Set1"}}
+  #'   \item{\code{"Set2"}}
+  #'   \item{\code{"Set3"}}
+  #'   \item{\code{"Pastel2"}}
+  #'   \item{\code{"Pastel1"}}
+  #'   \item{\code{"Paired"}}
+  #'   \item{\code{"Dark2"}}
+  #'   \item{\code{"Accent"}}
   #' }
-  #' @param legend_left Logical value indicating whether to place the legend on the left side of the plot. Default is `TRUE`.
-  #' @details `paretoPlot` displays a pareto plot of effects and interactions for an object of class facDesign (i.e. 2^k full or 2^k-p fractional factorial design). For a given significance level alpha, a critical value is calculated and added to the plot. Standardization is achieved by dividing estimates with their standard error. For unreplicated fractional factorial designs a Lenth Plot is generated.
-  #' @return The function `paretoPlot` returns an invisible list containing:
-  #' \item{effects}{a list of effects for each response in the 'facDesign' object}
+  #' @param legend_left Logical value indicating whether to place the legend on the left side of the plot. Default is \code{TRUE}.
+  #' @details \code{paretoPlot} displays a pareto plot of effects and interactions for an object of class facDesign (i.e. 2^k full or 2^k-p fractional factorial design). For a given significance level alpha, a critical value is calculated and added to the plot. Standardization is achieved by dividing estimates with their standard error. For unreplicated fractional factorial designs a Lenth Plot is generated.
+  #' @return The function \code{paretoPlot} returns an invisible list containing:
+  #' \item{effects}{a list of effects for each response in the \code{facDesign.c} object}
   #' \item{plot}{The generated PP plot.}
   #' @seealso \code{\link{factors}}, \code{\link{fracDesign}}, \code{\link{facDesign}}
   #' @examples
@@ -916,29 +916,29 @@ normalPlot <- function(fdo, response = NULL, sig.col = c("red1", "red2", "red3")
                        sig.pch = c(1,2,3), main, ylim, xlim, xlab, ylab, pch,
                        col, border = "red"){
   #' @title normalPlot: Normal plot
-  #' @description Creates a normal probability plot for the effects in a `facDesign` object.
-  #' @param fdo An object of class `facDesign`.
-  #' @param response Response variable. If the response data frame of fdo consists of more then one responses, this variable can be used to choose just one column of the `response` data frame. response needs to be an object of class character with length of ‘1’. It needs to be the same character as the name of the response in the response data frame that should be plotted.
-  #' By default `response` is set to ‘NULL’.
-  #' @param sig.col Vector - colors for marking significant interactions. By default `sig.col` is set to ‘c("red1", "red2", "red3")’.
-  #' @param sig.pch Vector - point characters for marking significant interactions. By default `sig.pch` is set to ‘c(1, 2, 3)’.
+  #' @description Creates a normal probability plot for the effects in a \code{\link{facDesign.c}} object.
+  #' @param fdo An object of class \code{\link{facDesign.c}}.
+  #' @param response Response variable. If the response data frame of fdo consists of more then one responses, this variable can be used to choose just one column of the \code{response} data frame. response needs to be an object of class character with length of ‘1’. It needs to be the same character as the name of the response in the response data frame that should be plotted.
+  #' By default \code{respons}` is set to \code{NULL}.
+  #' @param sig.col Vector - colors for marking significant interactions. By default \code{sig.col} is set to \code{c("red1", "red2", "red3")}.
+  #' @param sig.pch Vector - point characters for marking significant interactions. By default \code{sig.pch} is set to \code{c(1, 2, 3)}.
   #' @param main Character string specifying the main title of the plot.
   #' @param ylim Graphical parameter. The y limits of the plot.
   #' @param xlim Graphical parameter. The x limits (x1, x2) of the plot. Note that x1 > x2 is allowed and leads to a ‘reversed axis’.
   #' @param xlab Character string specifying the label for the x-axis.
   #' @param ylab Character string specifying the label for the y-axis.
   #' @param pch Graphical parameter. Vector containing numerical values or single characters giving plotting points for the different factors.
-  #' Accepts values from 0 to 25, each corresponding to a specific shape in `ggplot2` (e.g., 0: square, 1: circle, 2: triangle point up, 3: plus, 4: cross).
+  #' Accepts values from 0 to 25, each corresponding to a specific shape in \code{ggplot2} (e.g., 0: square, 1: circle, 2: triangle point up, 3: plus, 4: cross).
   #' @param col Graphical parameter. Single numerical value or character string giving the color for the points (e.g., 1: black, 2: red, 3: green).
   #' @param border Graphical parameter. Single numerical value or character string giving the color of the border line.
-  #' @details If the given facDesign object `fdo` contains replicates this function will deliver a normal plot
+  #' @details If the given \code{facDesign.c} object \code{fdo} contains replicates this function will deliver a normal plot
   #' i.e.: effects divided by the standard deviation (t-value) will be plotted against an appropriate probability
   #' scaling (see: `ppoints`).
-  #' If the given facDesign object `fdo` contains no replications the standard error can not be calculated.
+  #' If the given \code{facDesign.c} object \code{fdo} contains no replications the standard error can not be calculated.
   #' In that case the function will deliver an effect plot.
   #' i.e.: the effects will be plotted against an appropriate probability scaling. (see: `ppoints`).
-  #' @return The function `normalPlot` returns an invisible list containing:
-  #' \item{effects}{a list of effects for each response in the 'facDesign' object.}
+  #' @return The function \code{normalPlot} returns an invisible list containing:
+  #' \item{effects}{a list of effects for each response in the \code{facDesign.c} object.}
   #' \item{plot}{The generated normal plot.}
   #' @seealso \code{\link{facDesign}}, \code{\link{paretoPlot}}, \code{\link{interactionPlot}}
   #' @examples
@@ -1131,11 +1131,11 @@ wirePlot <- function(x, y, z, data = NULL,
                      plot = TRUE, show.scale = TRUE,
                      n.scene = "scene") {
   #' @title wirePlot: 3D Plot
-  #' @description Creates a wireframe diagramm for an object of class `facDesign`.
+  #' @description Creates a wireframe diagramm for an object of class \code{\link{facDesign.c}}.
   #' @param x Name providing the Factor A for the plot.
   #' @param y Name providing the Factor B for the plot.
   #' @param z Name giving the Response variable.
-  #' @param data Needs to be an object of class `facDesign` and contains the names of x,y,z.
+  #' @param data Needs to be an object of class \code{\link{facDesign.c}} and contains the names of x,y,z.
   #' @param xlim Numeric vector of length 2: limits for the x-axis. If missing, limits are set automatically.
   #' @param ylim Numeric vector of length 2: limits for the y-axis. If missing, limits are set automatically.
   #' @param zlim Numeric vector of length 2: limits for the z-axis. If missing, limits are set automatically.
@@ -1143,18 +1143,18 @@ wirePlot <- function(x, y, z, data = NULL,
   #' @param xlab Character string: label for the x-axis.
   #' @param ylab character string: label for the y-axis.
   #' @param zlab character string: label for the z-axis.
-  #' @param sub character string: subtitle for the plot. Default is `NULL`.
-  #' @param sub.a logical value indicating whether to display the subtitle. Default is `TRUE`.
-  #' @param form character string specifying the form of the surface to be plotted. Options include `"fit"` for a fitted surface, `"raw"` for raw data, and `"residuals"` for residuals. Default is `"fit"`.
-  #' @param col character string specifying the color palette to use for the plot. Default is `"Rainbow"`.
+  #' @param sub character string: subtitle for the plot. Default is \code{NULL}.
+  #' @param sub.a logical value indicating whether to display the subtitle. Default is \code{TRUE}.
+  #' @param form character string specifying the form of the surface to be plotted. Options include \code{"fit"} for a fitted surface, \code{"raw"} for raw data, and \code{"residuals"} for residuals. Default is \code{"fit"}.
+  #' @param col character string specifying the color palette to use for the plot. Default is \code{"Rainbow"}.
   #' @param steps numeric value specifying the number of steps for the grid in the plot. Higher values result in a smoother surface.
   #' @param factors optional character vector specifying the names of the factors to be used in the plot.
   #' @param fun optional function to be applied to the data before plotting.
-  #' @param plot logical value indicating whether to display the plot. Default is `TRUE`.
-  #' @param show.scale logical value indicating whether to display the color scale on the plot. Default is `TRUE`.
-  #' @param n.scene character string specifying the scene name for the plot. Default is `"scene"`.
-  #' @details The `wirePlot` function is used to create a 3D wireframe plot that visualizes the relationship between two factors and a response variable. The plot can be customized in various ways, including changing axis labels, adding subtitles, and choosing the color palette.
-  #' @return The function `wirePlot` returns an invisible list containing:
+  #' @param plot logical value indicating whether to display the plot. Default is \code{TRUE}.
+  #' @param show.scale logical value indicating whether to display the color scale on the plot. Default is \code{TRUE}.
+  #' @param n.scene character string specifying the scene name for the plot. Default is \code{"scene"}.
+  #' @details The \code{wirePlot} function is used to create a 3D wireframe plot that visualizes the relationship between two factors and a response variable. The plot can be customized in various ways, including changing axis labels, adding subtitles, and choosing the color palette.
+  #' @return The function \code{wirePlot} returns an invisible list containing:
   #' \item{plot}{The generated wireframe plot.}
   #' \item{grid}{The grid data used for plotting.}
   #' @seealso \code{\link{contourPlot}}, \code{\link{ParetoChart}}.
@@ -1336,7 +1336,7 @@ contourPlot <- function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, zlab
   #' @param x Name providing the Factor A for the plot.
   #' @param y Name providing the Factor B for the plot.
   #' @param z Name giving the Response variable.
-  #' @param data Needs to be an object of class \code{\link{facDesign}} and contains the names of x, y, z.
+  #' @param data Needs to be an object of class \code{\link{facDesign.c}} and contains the names of x, y, z.
   #' @param xlim Vector giving the range of the x-axis.
   #' @param ylim Vector giving the range of the y-axis.
   #' @param main Character string: title of the plot.
@@ -1345,18 +1345,18 @@ contourPlot <- function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, zlab
   #' @param zlab Character string: label for the z-axis.
   #' @param form A character string or a formula with the syntax “y~ x+y + x*y”. If form is a character it has to be one out of the following:
   #' \itemize{
-  #'    \item "quadratic"
-  #'    \item "full"
-  #'    \item "interaction"
-  #'    \item "linear"
-  #'    \item "fit"
+  #'    \item \code{"quadratic"}
+  #'    \item \code{"full"}
+  #'    \item \code{"interaction"}
+  #'    \item \code{"linear"}
+  #'    \item \code{"fit"}
   #' }
-  #' “fit” takes the formula from the fit in the \code{facDesign.c} object \code{fdo}. Quadratic or higher orders should be given as I(Variable^2).
-  #' By default \code{form} is set as “fit”.
-  #' @param col A predefined (1, 2, 3 or 4) or self defined colorRampPalette or color to be used (i.e. “red”).
+  #' \code{“fit”} takes the formula from the fit in the \code{facDesign.c} object \code{fdo}. Quadratic or higher orders should be given as I(Variable^2).
+  #' By default \code{form} is set as \code{“fit”}.
+  #' @param col A predefined (1, 2, 3 or 4) or self defined colorRampPalette or color to be used (i.e. \code{“red”}).
   #' @param steps Number of grid points per factor. By default \code{steps} = 25.
   #' @param factors List of 4th 5th factor with value i.e. factors = list(D = 1.2, E = -1), if nothing is specified values will be the mean of the low and the high value of the factors.
-  #' @param fun Function to be applied to z “desirability”.
+  #' @param fun Function to be applied to z \code{desirability}.
   #' @param plot Logical value indicating whether to display the plot. Default is \code{TRUE}.
   #' @param show.scale Logical value indicating whether to display the color scale on the plot. Default is \code{TRUE}.
   #' @return The function \code{contourPlot} returns an invisible list containing:
@@ -1773,7 +1773,7 @@ steepAscent <- function(factors, response, size = 0.2, steps = 5, data) {
   #' @param factors List containing vector of factor names (coded) to be included in calculation, first factor is the reference factor.
   #' @param response A character of response given in data.
   #' @param size Numeric integer value giving the step size in coded units for the first factor given in factors.
-  #' By default size is set to ‘0.2’.
+  #' By default size is set to \code{0.2}.
   #' @param steps Numeric integer value giving the number of steps.
   #' By default step is set to ‘5’.
   #' @param data An object of class \code{\link{facDesign.c}}.
@@ -1866,7 +1866,7 @@ starDesign <- function(k, p = 0, alpha = c("both", "rotatable", "orthogonal"), c
   #' @param k Integer value giving number of factors.
   #' @param p Integer value giving the number of factors via aliasing.
   #' By default set to ‘0’.
-  #' @param alpha If no numeric value is given defaults to “both” i.e. “orthogonality” and “rotatibility” which can be set as character strings too.
+  #' @param alpha If no numeric value is given defaults to \code{"both"} i.e. \code{"orthogonality"} and \code{"rotatibility"} which can be set as character strings too.
   #' @param cs Integer value giving the number of centerpoints in the star portion of the design.
   #' @param cc Integer value giving the number of centerpoints in the cube portion of the design.
   #' @param data Optional. An object of class \code{\link{facDesign.c}}.
@@ -1972,12 +1972,12 @@ rsmDesign <- function(k = 3, p = 0, alpha = "rotatable", blocks = 1, cc = 1, cs 
   #' @param p Integer value giving the number of additional factors in the response surface design by aliasing effects. Default is `0`.
   #' @param alpha Character string indicating the type of star points to generate. Should be \code{"rotatable"}(default), \code{"orthogonal"}, or \code{"both"}. If \code{"both"}, values for \code{cc} and \code{cs} will be discarded.
   #' @param blocks Integer value specifying the number of blocks in the response surface design. Default is `1`.
-  #' @param cc Integer value giving the number of centerpoints (per block) in the cube portion (i.e., the factorial \(2^k\) design) of the response surface design. Default is `1`.
+  #' @param cc Integer value giving the number of centerpoints (per block) in the cube portion (i.e., the factorial 2^k design) of the response surface design. Default is `1`.
   #' @param cs Integer value specifying the number of centerpoints in the star portion. Default is `1`.
   #' @param fp Integer value giving the number of replications per factorial point (i.e., corner points). Default is `1`.
   #' @param sp Integer value specifying the number of replications per star point. Default is `1`.
   #' @param faceCentered Logical value indicating whether to use a faceCentered response surface design (i.e., \code{alpha} = `1`). Default is \code{FALSE}.
-  #' @details Generated designs consist of a cube, centerCube, star, and centerStar portion. The replication structure can be set with the parameters `cc` (centerCube), `cs` (centerStar), `fp` (factorialPoints), and `sp` (starPoints).
+  #' @details Generated designs consist of a cube, centerCube, star, and centerStar portion. The replication structure can be set with the parameters \code{cc} (centerCube), \code{cs} (centerStar), \code{fp} (factorialPoints), and \code{sp} (starPoints).
   #' @return The function returns an object of class \code{\link{facDesign.c}}.
   #' @seealso \code{\link{facDesign}}, \code{\link{fracDesign}}, \code{\link{fracChoose}}, \code{\link{pbDesign}}, \code{\link{rsmChoose}}
   #' @examples
@@ -2139,8 +2139,8 @@ desirability = function(response, low, high, target = "max", scale = c(1, 1), im
   #' @param response Name of the response.
   #' @param low Lowest acceptable value for the response.
   #' @param high Highest acceptable value for the response.
-  #' @param target Desired target value of the response. `target` can be `"max"`, `"min"`, or any specific numeric value.
-  #' @param scale Numeric value giving the scaling factors for one and two-sided transformations. Default is `c(1, 1)`.
+  #' @param target Desired target value of the response. \code{target} can be \code{"max"}, \code{"min"}, or any specific numeric value.
+  #' @param scale Numeric value giving the scaling factors for one and two-sided transformations. Default is \code{c(1, 1)}.
   #' @param importance A value ranging from 0.1 to 10, used to calculate a weighted importance, i.e., with importances 1, 2, and 4, D = [(d1)^1, (d2)^2, (d3)^4]^(1/7). Default is `1`.
   #' @details For a product to be developed, different values of responses are desired, leading to multiple response optimization. Minimization, maximization, as well as a specific target value, are defined using desirability functions. A desirability function transforms the values of a response into [0,1], where 0 stands for a non-acceptable value of the response and 1 for values where higher/lower (depending on the direction of the optimization) values of the response have little merit. This function builds upon the desirability functions specified by Harrington (1965) and the modifications by Derringer and Suich (1980) and Derringer (1994). Castillo, Montgomery, and McCarville (1996) further extended these functions, but these extensions are not implemented in this version.
   #' @return This function returns a \code{\link{desirability.c}} object.
@@ -2191,12 +2191,12 @@ desirability = function(response, low, high, target = "max", scale = c(1, 1), im
 # overall ----
 overall <- function(fdo, steps = 20, constraints, ...) {
   #' @title overall: Overall Desirability.
-  #' @description This function calculates the desirability for each response as well as the overall desirability. The resulting `data.frame` can be used to plot the overall desirability as well as the desirabilities for each response. This function is designed to visualize the desirability approach for multiple response optimization.
+  #' @description This function calculates the desirability for each response as well as the overall desirability. The resulting \code{data.frame} can be used to plot the overall desirability as well as the desirabilities for each response. This function is designed to visualize the desirability approach for multiple response optimization.
   #' @param fdo An object of class \code{\link{facDesign.c}} containing \code{fits} and \code{desires}.
   #' @param steps A numeric value indicating the number of points per factor to be evaluated, which also specifies the grid size. Default is `20`.
-  #' @param constraints A list of constraints for the factors in coded values, such as `list(A > 0.5, B < 0.2)`.
+  #' @param constraints A list of constraints for the factors in coded values, such as \code{list(A > 0.5, B < 0.2)}.
   #' @param ... Further arguments passed to other methods.
-  #' @return A `data.frame` with a column for each factor, the desirability for each response, and a column for the overall desirability.
+  #' @return A \code{data.frame} with a column for each factor, the desirability for each response, and a column for the overall desirability.
   #' @seealso \code{\link{facDesign}}, \code{\link{rsmDesign}}, \code{\link{desirability}}.
   #' @examples
   #' #Example 1: Arbitrary example with random data
@@ -2274,15 +2274,15 @@ overall <- function(fdo, steps = 20, constraints, ...) {
 # optimum ----
 optimum <- function(fdo, constraints, steps = 25, type = "grid", start) {
   #' @title optimum: Optimal factor settings
-  #' @description This function calculates the optimal factor settings based on defined desirabilities and constraints. It supports two approaches: (I) evaluating all possible factor settings via a grid search and (II) using optimization methods such as `optim` or `gosolnp` from the Rsolnp package. Using 'optim' initial values for the factors to be optimized over can be set via start.
-  #' The optimality of the solution depends critically on the starting parameters which is why it is recommended to use ‘type="gosolnp"’ although calculation takes a while.
+  #' @description This function calculates the optimal factor settings based on defined desirabilities and constraints. It supports two approaches: (I) evaluating all possible factor settings via a grid search and (II) using optimization methods such as \code{"optim"} or \code{"gosolnp"} from the Rsolnp package. Using \code{"optim"} initial values for the factors to be optimized over can be set via start.
+  #' The optimality of the solution depends critically on the starting parameters which is why it is recommended to use \code{type="gosolnp"} although calculation takes a while.
   #' @param fdo An object of class \code{\link{facDesign.c}} with \code{fits} and \code{desires} set.
-  #' @param constraints A list specifying the constraints for the factors, e.g., `list(A = c(-2,1), B = c(0, 0.8))`.
-  #' @param steps Number of grid points per factor if `type = "grid"`. Default is `25`.
-  #' @param type The type of search to perform. Supported values are `"grid"`, `"optim"`, and `"gosolnp"`. See Details for more information.
-  #' @param start A numeric vector providing the initial values for the factors when using `type = "optim"`.
-  #' @details The function allows you to optimize the factor settings either by evaluating a grid of possible settings (`type = "grid"`) or by using optimization algorithms (`type = "optim"` or `"gosolnp"`). The choice of optimization method may significantly affect the result, especially for desirability functions that lack continuous first derivatives. When using `type = "optim"`, it is advisable to provide `start` values to avoid local optima. The `"gosolnp"` method is recommended for its robustness, although it may be computationally intensive.
-  #' @return Return an objecto of class \code{\link{desOpt}}.
+  #' @param constraints A list specifying the constraints for the factors, e.g., \code{list(A = c(-2,1), B = c(0, 0.8))}.
+  #' @param steps Number of grid points per factor if \code{type = "grid"}. Default is `25`.
+  #' @param type The type of search to perform. Supported values are \code{"grid"}, \code{"optim"}, and \code{"gosolnp"}. See Details for more information.
+  #' @param start A numeric vector providing the initial values for the factors when using \code{type = "optim"}.
+  #' @details The function allows you to optimize the factor settings either by evaluating a grid of possible settings (\code{type = "grid"}) or by using optimization algorithms (\code{type = "optim"` or `"gosolnp"}). The choice of optimization method may significantly affect the result, especially for desirability functions that lack continuous first derivatives. When using \code{type = "optim"}, it is advisable to provide \code{start} values to avoid local optima. The \code{"gosolnp"} method is recommended for its robustness, although it may be computationally intensive.
+  #' @return Return an object of class \code{\link{desOpt}}.
   #' @seealso \code{\link{overall}}, \code{\link{desirability}},
   #' @examples
   #' #Example 1: Simultaneous Optimization of Several Response Variables

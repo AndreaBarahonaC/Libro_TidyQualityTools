@@ -4,7 +4,7 @@
 \alias{print.adtest}
 \title{print.adtest: Test Statistics}
 \usage{
-\method{print}{adtest}(x, digits = 4, quote = TRUE, prefix = "", ...)
+print.adtest(x, digits = 4, quote = TRUE, prefix = "", ...)
 }
 \arguments{
 \item{x}{Needs to be an object of class `adtest`.}

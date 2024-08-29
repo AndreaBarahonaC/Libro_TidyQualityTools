@@ -909,9 +909,9 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
 #' @description An R6 class representing a factor in a design of experiments (DOE).
 #' @field low Numeric value specifying the lower bound of the factor. Default is `-1`.
 #' @field high Numeric value specifying the upper bound of the factor. Default is `1`.
-#' @field name Character string specifying the name of the factor. Default is an empty string `""`.
-#' @field unit Character string specifying the unit of measurement for the factor. Default is an empty string `""`.
-#' @field type Character string specifying the type of the factor. Can be either `"numeric"` or `"categorical"`. Default is `"numeric"`.
+#' @field name Character string specifying the name of the factor. Default is an empty string \code{""}.
+#' @field unit Character string specifying the unit of measurement for the factor. Default is an empty string \code{""}.
+#' @field type Character string specifying the type of the factor. Can be either \code{"numeric"} or \code{"categorical"}. Default is \code{"numeric"}.
 #' @seealso \code{\link{taguchiFactor}}
 doeFactor <- R6Class('doeFactor', public = list(low = -1,
                                                 high = 1,
@@ -1129,7 +1129,7 @@ desirability.c <- R6Class("desirability", public = list(response = NULL,
 
 # Clase steepAscent.c ----
 #' @title steepAscent-class: Class "steepAscent"
-#' @description The `steepAscent.c` class represents a steepest ascent algorithm in a factorial design context. This class is used for optimizing designs based on iterative improvements.
+#' @description The \code{steepAscent.c} class represents a steepest ascent algorithm in a factorial design context. This class is used for optimizing designs based on iterative improvements.
 #' @field name A character string representing the name of the steep ascent design.
 #' @field X A data frame containing the design matrix for the steepest ascent procedure. This matrix represents the factors and their levels at each iteration.
 #' @field response A data frame containing the response values associated with the design matrix.
@@ -1236,7 +1236,7 @@ steepAscent.c <- R6Class("facDesign", public = list(name = NULL,
 
 # Clase desOpt ----
 #' @title desOpt-class: Class "desOpt"
-#' @description The `desOpt` class represents an object that stores optimization results for factorial design experiments. It includes coded and real factors, responses, desirabilities, overall desirability, and the design object.
+#' @description The \code{desOpt} class represents an object that stores optimization results for factorial design experiments. It includes coded and real factors, responses, desirabilities, overall desirability, and the design object.
 #' @field facCoded A list containing the coded values for the factors in the design.
 #' @field facReal A list containing the real (actual) values for the factors in the design.
 #' @field responses A list of response variables obtained from the design.

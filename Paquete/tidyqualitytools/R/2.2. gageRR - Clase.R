@@ -9,7 +9,7 @@
 #' @field X Data frame containing the measurement data.
 #' @field ANOVA List containing the results of the Analysis of Variance (ANOVA) for the gage study.
 #' @field RedANOVA List containing the results of the reduced ANOVA.
-#' @field method Character string specifying the method used for the analysis (e.g., "crossed", "nested").
+#' @field method Character string specifying the method used for the analysis (e.g., \code{"crossed"}, \code{"nested"}).
 #' @field Estimates List of estimates including variance components, repeatability, and reproducibility.
 #' @field Varcomp List of variance components.
 #' @field Sigma Numeric value representing the standard deviation of the measurement system.
@@ -21,7 +21,7 @@
 #' @field b Factor levels for operator.
 #' @field a Factor levels for part.
 #' @field y Numeric vector or matrix containing the measurement responses.
-#' @field facNames Character vector specifying the names of the factors (e.g., "Operator", "Part").
+#' @field facNames Character vector specifying the names of the factors (e.g., \code{"Operator"}, \code{"Part"}).
 #' @field numO Integer representing the number of operators.
 #' @field numP Integer representing the number of parts.
 #' @field numM Integer representing the number of measurements per part-operator combination.
@@ -47,7 +47,7 @@ gageRR.c <- R6Class("gageRR",
                       numP = NULL,
                       numM = NULL,
 
-                      #' @description Initialize the fiels of the `gageRR` object
+                      #' @description Initialize the fiels of the \code{gageRR} object
                       #' @param X Data frame containing the measurement data.
                       #' @param ANOVA List containing the results of the Analysis of Variance (ANOVA) for the gage study.
                       #' @param RedANOVA List containing the results of the reduced ANOVA.
@@ -92,19 +92,19 @@ gageRR.c <- R6Class("gageRR",
                         self$numM <- numM
                       },
 
-                      #' @description Return the data frame containing the measurement data (`X`)
+                      #' @description Return the data frame containing the measurement data (\code{X})
                       print = function() {
                         print(as.data.frame(self$X))
                       },
 
-                      #' @description Return a subset of the data frame that containing the measurement data (`X`)
-                      #' @param i The i-position of the row of `X`.
-                      #' @param j The j-position of the column of `X`.
+                      #' @description Return a subset of the data frame that containing the measurement data (\code{X})
+                      #' @param i The i-position of the row of \code{X}.
+                      #' @param j The j-position of the column of \code{X}.
                       subset = function(i, j) {
                         return(self$X[i, j])
                       },
 
-                      #' @description Summarize the information of the fields of the `gageRR` object.
+                      #' @description Summarize the information of the fields of the \code{gageRR} object.
                       summary = function() {
                         if (all(is.na(self$X$Measurement))) {
                           cat("Gage R&R Summary\n")
@@ -128,33 +128,33 @@ gageRR.c <- R6Class("gageRR",
                         return(invisible(self))
                       },
 
-                      #' @description Get or get the response for a `gageRRDesign` object.
+                      #' @description Get or get the response for a \code{gageRRDesign} object.
                       get.response = function() {
                         return(self$X$Measurement)
                       },
 
-                      #' @description Set or get the response for a `gageRRDesign` object.
+                      #' @description Set or get the response for a \code{gageRRDesign} object.
                       #' @param value New response vector.
                       response = function(value) {
                         self$X$Measurement = value
                       },
 
-                      #' @description Methods for function `names` in Package `base`.
+                      #' @description Methods for function \code{names} in Package \code{base}.
                       names = function() {
                         return(names(as.data.frame(self$X)))
                       },
 
-                      #' @description Methods for function `as.data.frame` in Package `base`.
+                      #' @description Methods for function \code{as.data.frame} in Package \code{base}.
                       as.data.frame = function() {
                         return(as.data.frame(self$X))
                       },
 
-                      #' @description Get the `tolerance` for an object of class `gageRR`.
+                      #' @description Get the \code{tolerance} for an object of class \code{gageRR}.
                       get.tolerance = function() {
                         return(unlist(self$GageTolerance))
                       },
 
-                      #' @description Set the `tolerance` for an object of class `gageRR`.
+                      #' @description Set the \code{tolerance} for an object of class \code{gageRR}.
                       #' @param value A data.frame or vector for the new value of tolerance.
                       set.tolerance = function(value) {
                         if (!is.numeric(value))
@@ -163,13 +163,13 @@ gageRR.c <- R6Class("gageRR",
                         return(self)
                       },
 
-                      #' @description Get the `sigma` for an object of class `gageRR`.
+                      #' @description Get the \code{sigma} for an object of class \code{gageRR}.
                       get.sigma = function() {
                         return(unlist(self$Sigma))
                       },
 
-                      #' @description Set the `sigma` for an object of class `gageRR`.
-                      #' @param value description
+                      #' @description Set the \code{sigma} for an object of class \code{gageRR}.
+                      #' @param value Valor of \code{sigma}
                       set.sigma = function(value) {
                         if (!is.numeric(value))
                           stop("Sigma needs to be numeric")

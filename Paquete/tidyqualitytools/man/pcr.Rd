@@ -72,7 +72,7 @@ By default `distribution` is set to “normal”.}
 \item{std.dev}{An optional numeric value specifying the historical standard deviation (only provided for normal distribution). If NULL, the standard deviation is calculated from the data.}
 
 \item{conf.level}{Numeric value between ‘0’ and ‘1’ giving the confidence interval.
-By default `conf.level` is 0.9973 (99.73%) which is the reference interval bounded by the 99.865% and 0.135% quantile.}
+By default `conf.level` is 0.9973 (99.73\%) which is the reference interval bounded by the 99.865\% and 0.135\% quantile.}
 
 \item{bounds.lty}{graphical parameter. For further details see `ppPlot` or `qqPlot`.}
 

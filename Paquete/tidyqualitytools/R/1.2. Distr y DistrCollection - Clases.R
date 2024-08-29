@@ -11,8 +11,8 @@
 #' @field sd Numeric value representing the standard deviation of the distribution.
 #' @field n Numeric value representing the sample size.
 #' @field loglik Numeric value representing the log-likelihood.
-#' @seealso @seealso \code{\link{distribution}}, \code{\link{FitDistr}}, \code{\link{DistrCollection}}
-#' @example
+#' @seealso \code{\link{distribution}}, \code{\link{FitDistr}}, \code{\link{DistrCollection}}
+#' @examples
 #' set.seed(123)
 #' data <- rnorm(100, mean = 5, sd = 2)
 #' parameters <- list(mean = 5, sd = 2)
@@ -184,10 +184,10 @@ Distr <- R6Class("Distr",
 # Class DistrCollection ----
 #' @title DistrCollection-class: Class "DistrCollection"
 #' @description R6 Class for Managing a Collection of Distribution Objects
-#' @field distr List of `Distr` objects.
+#' @field distr List of \code{\link{Distr}} objects.
 #' @seealso \code{\link{Distr}}, \code{\link{distribution}}, \code{\link{FitDistr}}
 
-#' @example
+#' @examples
 #' set.seed(123)
 #' data1 <- rnorm(100, mean = 5, sd = 2)
 #' parameters1 <- list(mean = 5, sd = 2)
@@ -206,20 +206,20 @@ DistrCollection <- R6::R6Class("DistrCollection",
                                public = list(
                                  distr = NULL,
 
-                                 #' @description Initialize the fields of the `DistrCollection` object.
+                                 #' @description Initialize the fields of the \code{DistrCollection} object.
                                  initialize = function() {
                                    self$distr <- list()
                                  },
 
-                                 #' @description Add a `Distr` object to the collection.
-                                 #' @param distr A `Distr` object to add to the collection.
+                                 #' @description Add a \code{Distr} object to the collection.
+                                 #' @param distr A \code{Distr} object to add to the collection.
                                  add = function(distr) {
                                    self$distr <- append(self$distr, list(distr))
                                  },
 
-                                 #' @description Get a `Distr` object from the collection by its index.
-                                 #' @param i Integer index of the `Distr` object to retrieve.
-                                 #' @return A `Distr` object.
+                                 #' @description Get a \code{Distr} object from the collection by its index.
+                                 #' @param i Integer index of the \code{Distr} object to retrieve.
+                                 #' @return A \code{Distr} object.
                                  get = function(i) {
                                    self$distr[[i]]
                                  },

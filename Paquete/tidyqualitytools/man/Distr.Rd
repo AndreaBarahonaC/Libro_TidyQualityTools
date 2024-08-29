@@ -6,8 +6,15 @@
 \description{
 R6 Class for Distribution Objects
 }
+\examples{
+set.seed(123)
+data <- rnorm(100, mean = 5, sd = 2)
+parameters <- list(mean = 5, sd = 2)
+distr <- Distr$new(x = data, name = "normal", parameters = parameters, sd = 2, n = 100, loglik = -120)
+distr$plot()
+}
 \seealso{
-@seealso \code{\link{distribution}}, \code{\link{FitDistr}}, \code{\link{DistrCollection}}
+\code{\link{distribution}}, \code{\link{FitDistr}}, \code{\link{DistrCollection}}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
