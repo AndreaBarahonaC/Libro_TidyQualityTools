@@ -30,17 +30,19 @@ taguchiDesign <- function(design, randomize = TRUE, replicates = 1) {
   #'   \item {"L16_4_2_d" for five four-level factors and two two-level factors.}
   #'   \item {"L18_6_3" for one six-level factor and six three-level factors.}
   #' }
-  #' @param randomize A logical value (`TRUE`/`FALSE`) that specifies whether to randomize the RunOrder of the design.
-  #' By default, `randomize` is set to `TRUE`.
+  #' @param randomize A logical value (\code{TRUE}/\code{FALSE}) that specifies whether to randomize the RunOrder of the design.
+  #' By default, \code{randomize} is set to \code{TRUE}.
   #' @param replicates An integer specifying the number of replicates for each run in the design.
-  #' @return A `taguchiDesign` returns an object of class `taguchiDesign`.
-  #' @details An overview of possible taguchi designs is possible with `taguchiChoose`.
+  #' @return A \code{taguchiDesign} returns an object of class \code{taguchiDesign}.
+  #' @details An overview of possible taguchi designs is possible with \code{taguchiChoose}.
   #' @seealso
-  #'  \item{\code{\link{facDesig}}}{for 2^k factorial designs.}
-  #' \item{\code{\link{rsmDesign}}}{for response surface designs.}
-  #' \item{\code{\link{fracDesig}}}{for fractional factorial design.}
-  #' \item{\code{\link{pbDesig}}}{for response surface designs.}
-  #' \item{\code{\link{gageRRDesig}}}{for gage designs.}
+  #' \itemize{
+  #' \item{\code{\link{facDesig}}: for 2^k factorial designs.}
+  #' \item{\code{\link{rsmDesign}}: for response surface designs.}
+  #' \item{\code{\link{fracDesig}}: for fractional factorial design.}
+  #' \item{\code{\link{pbDesig}}: for response surface designs.}
+  #' \item{\code{\link{gageRRDesig}}: for gage designs.}
+  #' }
   #' @examples
   #' set.seed(1234)
   #' tdo <- taguchiDesign("L9_3")
@@ -107,14 +109,16 @@ oaChoose <- function(factors1, factors2, level1, level2, ia) {
   #' @param level1 Number of levels on level1.
   #' @param level2 Number of levels on level2.
   #' @param ia Number of interactions.
-  #' @details `oaChoose` returns possible taguchi designs. Specifying the number of factor1 factors with level1 levels (factors1 = 2, level1 = 3 means 2 factors with 3 factor levels) and factor2 factors with level2 levels and desired interactions one or more taguchi designs are suggested.
+  #' @details \code{oaChoose} returns possible taguchi designs. Specifying the number of factor1 factors with level1 levels (factors1 = 2, level1 = 3 means 2 factors with 3 factor levels) and factor2 factors with level2 levels and desired interactions one or more taguchi designs are suggested.
   #' If all parameters are set to ‘0’, a matrix of possible taguchi designs is shown.
-  #' @return `oaChoose` returns an object of class `taguchiDesign`.
+  #' @return \code{oaChoose} returns an object of class \code{taguchiDesign}.
   #' @seealso
-  #'  \item{\code{\link{facDesig}}}{for 2^k factorial designs.}
-  #' \item{\code{\link{rsmDesign}}}{for response surface designs.}
-  #' \item{\code{\link{fracDesig}}}{for fractional factorial design.}
-  #' \item{\code{\link{gageRRDesig}}}{for gage designs.}
+  #' \itemize{
+  #' \item{\code{\link{facDesig}}: for 2^k factorial designs.}
+  #' \item{\code{\link{rsmDesign}}: for response surface designs.}
+  #' \item{\code{\link{fracDesig}}: for fractional factorial design.}
+  #' \item{\code{\link{gageRRDesig}}: for gage designs.}
+  #' }
 
   params = list(factors1 = 0, factors2 = 0, level1 = 0, level2 = 0, ia = 0)
   if (!missing(ia))
@@ -135,15 +139,17 @@ taguchiChoose <- function(factors1 = 0, factors2 = 0, level1 = 0, level2 = 0, ia
   #' @param level1 Integer number of levels on level1.
   #' @param level2 Integer number of levels on level2. By default set to ‘0’.
   #' @param ia Integer number of interactions. By default set to ‘0’.
-  #' @details `taguchiChoose` returns possible taguchi designs.
+  #' @details \code{taguchiChoose} returns possible taguchi designs.
   #' Specifying the number of factor1 factors with level1 levels (factors1 = 2, level1 = 3 means 2 factors with 3 factor levels) and factor2 factors with level2 levels and desired interactions one or more taguchi designs are suggested.
   #' If all parameters are set to 0, a matrix of possible taguchi designs is shown.
-  #' @return `taguchiChoose` returns an object of class `taguchiDesign`.
+  #' @return \code{taguchiChoose} returns an object of class \code{taguchiDesign}.
   #' @seealso
-  #'  \item{\code{\link{facDesig}}}{for 2^k factorial designs.}
-  #' \item{\code{\link{rsmDesign}}}{for response surface designs.}
-  #' \item{\code{\link{fracDesig}}}{for fractional factorial design.}
-  #' \item{\code{\link{gageRRDesig}}}{for gage designs.}
+  #' \itemize{
+  #' \item{\code{\link{facDesig}}: for 2^k factorial designs.}
+  #' \item{\code{\link{rsmDesign}}: for response surface designs.}
+  #' \item{\code{\link{fracDesig}}: for fractional factorial design.}
+  #' \item{\code{\link{gageRRDesig}}: for gage designs.}
+  #' }
 
   if (factors1 == 0 & factors2 == 0 & level1 == 0 & level2 == 0 & ia == 0) {
     temp = vector(mode = "character", length = length(.oaList))
@@ -190,6 +196,6 @@ taguchiChoose <- function(factors1 = 0, factors2 = 0, level1 = 0, level2 = 0, ia
   }
 }
 
-#Arreglar taguchiChoose para que sirva oaChoose####
+# Arreglar taguchiChoose para que sirva oaChoose####
 # taguchiChoose()
 # oaChoose()

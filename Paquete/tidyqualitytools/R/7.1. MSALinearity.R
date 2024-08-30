@@ -8,7 +8,7 @@
 #' @field X A data frame containing the independent variable(s) used in the linearity study.
 #' @field Y A data frame containing the dependent variable(s) or responses measured in the linearity study.
 #' @field model The linear model object resulting from the linearity analysis.
-#' @field conf.level A numeric value specifying the confidence level for the linearity analysis. This should be between 0 and 1 (e.g., 0.95 for a 95% confidence level).
+#' @field conf.level A numeric value specifying the confidence level for the linearity analysis. This should be between 0 and 1 (e.g., 0.95 for a 95\% confidence level).
 #' @field Linearity A list or data frame containing the results of the linearity study, including the linearity value and associated statistics.
 #' @field GageName A character string specifying the name of the gage or measurement system under analysis.
 #' @field GageTolerance A numeric value specifying the tolerance of the gage or measurement system.
@@ -28,8 +28,8 @@ MSALinearity <-R6Class("MSALinearity", public = list(X = data.frame(),
                                                      Comments = NULL,
                                                      facNames = NULL,
 
-                                                     #' @description Get and set the the `response` in an object of class `MSALinearity`.
-                                                     #' @param value New response, If missing value get the `response`.
+                                                     #' @description Get and set the the \code{response} in an object of class \code{MSALinearity}.
+                                                     #' @param value New response, If missing value get the \code{response}.
                                                      response = function(value){
                                                        if (missing(value)) {
                                                          out <- self$Y
@@ -46,7 +46,7 @@ MSALinearity <-R6Class("MSALinearity", public = list(X = data.frame(),
 
                                                      },
 
-                                                     #' @description Methods for function `summary` in Package `base`.
+                                                     #' @description Methods for function \code{summary} in Package \code{base}.
                                                      summary = function(){
                                                        cat("----------------------", fill = TRUE)
                                                        print(self)
@@ -98,12 +98,12 @@ MSALinearity <-R6Class("MSALinearity", public = list(X = data.frame(),
                                                        legend("topright", legend = c("Single Bias", "Mean Bias", "Regression", paste(conf.level * 100, "% conf.level")), pch = c(pch, -1, -1), col = col, lty = c(-1,-1, lty), inset = 0.04)
                                                      },
 
-                                                     #' @description Methods for function `print` in Package `base`.
+                                                     #' @description Methods for function \code{print} in Package \code{base}.
                                                      print = function(){
                                                        print(self$as.data.frame())
                                                      },
 
-                                                     #' @description Return a data frame with the information of the object `MSALinearity`.
+                                                     #' @description Return a data frame with the information of the object \code{MSALinearity}.
                                                      as.data.frame = function(row.names = NULL, optional = FALSE, ...){
                                                        return(cbind(self$X,self$Y))
                                                      }
@@ -114,10 +114,10 @@ MSALinearity <-R6Class("MSALinearity", public = list(X = data.frame(),
 # Funcion gageLinDesign ----
 gageLinDesign <- function(ref, n = 5) {
   #' @title gageLinDesign: Function to create a object of class MSALinearity.
-  #' @description Function generates an object that can be used with the function `gageLin`.
+  #' @description Function generates an object that can be used with the function \code{gageLin}.
   #' @param ref A vector and contains the reference values for each group.
   #' @param n A single value and gives the amount of runs.Default value: ‘5’..
-  #' @return The function returns an object of class `MSALinearity`.
+  #' @return The function returns an object of class \code{MSALinearity}.
   #' @seealso \code{\link{MSALinearity}}, \code{\link{gageLin}}.
   #' @examples
   #' # results of run A-E
@@ -150,7 +150,7 @@ gageLin <- function(object, conf.level = 0.95, ylim, col, pch, lty = c(1, 2), st
   #' @title gageLin: Function to visualize and calucalte the linearity of a gage.
   #' @description Function visualize the linearity of a gage by plotting the single and mean bias in one plot and intercalate them with a straight line.
   #' Furthermore the function deliver some characteristic values of linearity studies according to MSA (Measurement System Analysis).
-  #' @param object An object of class `MSALinearity` containing the data and model for the linearity analysis. To create such an object see `gageLinDesign`.
+  #' @param object An object of class \code{MSALinearity} containing the data and model for the linearity analysis. To create such an object see \code{gageLinDesign}.
   #' @param conf.level A numeric value between ‘0’ and ‘1’, giving the confidence intervall for the analysis.
   #' Default value: ‘0.95’.
   #' @param ylim A numeric vector of length 2 specifying the y-axis limits for the plot. If not specified, the limits are set automatically based on the data.
@@ -158,8 +158,8 @@ gageLin <- function(object, conf.level = 0.95, ylim, col, pch, lty = c(1, 2), st
   #' @param pch A vector with two numeric or single character entries giving the symbols for the single points (1st entry) and the mean bias (2nd entry). The default vector is “c(20,18)”
   #' @param lty a vector with two entries giving the line-style for the interpolating line and the confidence interval lines. For detailed information to the entries please see par. The default value for lty is ‘c(1,2)’.
   #' @param stats Logical value. If ‘TRUE’ (default) the function returns all calculated information.
-  #' @param plot Logical value indicating whether to generate a plot of the linearity analysis. Default is `TRUE`.
-  #' @return The function returns an object of class `MSALinearity` which can be used with e.g. `plot` or `summary`.
+  #' @param plot Logical value indicating whether to generate a plot of the linearity analysis. Default is \code{TRUE}.
+  #' @return The function returns an object of class \code{MSALinearity} which can be used with e.g. \code{plot} or \code{summary}.
   #' @seealso \code{\link{cg}}, \code{\link{gageRR}}, \code{\link{gageLinDesign}}, \code{\link{MSALinearity}}.
   #' @examples
   #' # Results of single runs
