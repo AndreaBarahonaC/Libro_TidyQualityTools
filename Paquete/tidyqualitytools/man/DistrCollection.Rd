@@ -28,7 +28,7 @@ collection$plot()
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{distr}}{List of `Distr` objects.}
+\item{\code{distr}}{List of \code{\link{Distr}} objects.}
 }
 \if{html}{\out{</div>}}
 }
@@ -48,7 +48,7 @@ collection$plot()
 \if{html}{\out{<a id="method-DistrCollection-new"></a>}}
 \if{latex}{\out{\hypertarget{method-DistrCollection-new}{}}}
 \subsection{Method \code{new()}}{
-Initialize the fields of the `DistrCollection` object.
+Initialize the fields of the \code{DistrCollection} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DistrCollection$new()}\if{html}{\out{</div>}}
 }
@@ -58,7 +58,7 @@ Initialize the fields of the `DistrCollection` object.
 \if{html}{\out{<a id="method-DistrCollection-add"></a>}}
 \if{latex}{\out{\hypertarget{method-DistrCollection-add}{}}}
 \subsection{Method \code{add()}}{
-Add a `Distr` object to the collection.
+Add a \code{Distr} object to the collection.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DistrCollection$add(distr)}\if{html}{\out{</div>}}
 }
@@ -66,7 +66,7 @@ Add a `Distr` object to the collection.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{distr}}{A `Distr` object to add to the collection.}
+\item{\code{distr}}{A \code{Distr} object to add to the collection.}
 }
 \if{html}{\out{</div>}}
 }
@@ -75,7 +75,7 @@ Add a `Distr` object to the collection.
 \if{html}{\out{<a id="method-DistrCollection-get"></a>}}
 \if{latex}{\out{\hypertarget{method-DistrCollection-get}{}}}
 \subsection{Method \code{get()}}{
-Get a `Distr` object from the collection by its index.
+Get a \code{Distr} object from the collection by its index.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DistrCollection$get(i)}\if{html}{\out{</div>}}
 }
@@ -83,12 +83,12 @@ Get a `Distr` object from the collection by its index.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{i}}{Integer index of the `Distr` object to retrieve.}
+\item{\code{i}}{Integer index of the \code{Distr} object to retrieve.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A `Distr` object.
+A \code{Distr} object.
 }
 }
 \if{html}{\out{<hr>}}

@@ -10,14 +10,14 @@ FitDistr(x, densfun, start, ...)
 \item{x}{A numeric vector of length at least one containing only finite values.
 Either a character string or a function returning a density evaluated at its first argument.}
 
-\item{densfun}{character string specifying the density function to be used for fitting the distribution. Distributions `"beta"`, `"cauchy"`, `"chi-squared"`, `"exponential"`, `"gamma"`, `"geometric"`, `"log-normal"`, `"lognormal"`, `"logistic"`, `"negative binomial"`, `"normal"`, `"Poisson"`, `"t"` and "weibull" are recognised, case being ignored.}
+\item{densfun}{character string specifying the density function to be used for fitting the distribution. Distributions \code{"beta"}, \code{"cauchy"}, \code{"chi-squared"}, \code{"exponential"}, \code{"gamma"}, \code{"geometric"}, \code{"log-normal"}, \code{"lognormal"}, \code{"logistic"}, \code{"negative binomial"}, \code{"normal"}, \code{"Poisson"}, \code{"t"} and \code{"weibull"} are recognised, case being ignored.}
 
 \item{start}{A named list giving the parameters to be optimized with initial values. This can be omitted for some of the named distributions and must be for others (see Details).}
 
-\item{...}{Additional parameters, either for `densfun` or for `optim`. In particular, it can be used to specify bounds via `lower` or `upper` or both. If arguments of `densfun` (or the density function corresponding to a character-string specification) are included they will be held fixed.}
+\item{...}{Additional parameters, either for \code{densfun} or for \code{optim}. In particular, it can be used to specify bounds via \code{lower} or \code{upper} or both. If arguments of \code{densfun} (or the density function corresponding to a character-string specification) are included they will be held fixed.}
 }
 \value{
-The function `FitDistr` returns an object of class `fitdistr`, which is a list containing:
+The function \code{FitDistr} returns an object of class \code{fitdistr}, which is a list containing:
 \item{estimate}{a named vector of parameter estimates.}
 \item{sd}{a named vector of the estimated standard errors for the parameters.}
 \item{vcov}{the estimated variance-covariance matrix of the parameter estimates.}
@@ -28,15 +28,15 @@ The function `FitDistr` returns an object of class `fitdistr`, which is a list c
 Maximum-likelihood fitting of univariate distributions, allowing parameters to be held fixed if desired.
 }
 \details{
-For the Normal, log-Normal, geometric, exponential and Poisson distributions the closed-form MLEs (and exact standard errors) are used, and `start` should not be supplied.
+For the Normal, log-Normal, geometric, exponential and Poisson distributions the closed-form MLEs (and exact standard errors) are used, and \code{start} should not be supplied.
 
-For all other distributions, direct optimization of the log-likelihood is performed using `optim`. The estimated standard errors are taken from the observed information matrix, calculated by a numerical approximation. For one-dimensional problems the Nelder-Mead method is used and for multi-dimensional problems the BFGS method, unless arguments named `lower` or `upper` are supplied (when `L-BFGS-B` is used) or `method` is supplied explicitly.
+For all other distributions, direct optimization of the log-likelihood is performed using \code{optim}. The estimated standard errors are taken from the observed information matrix, calculated by a numerical approximation. For one-dimensional problems the Nelder-Mead method is used and for multi-dimensional problems the BFGS method, unless arguments named \code{lower} or \code{upper} are supplied (when \code{L-BFGS-B} is used) or \code{method} is supplied explicitly.
 
-For the `"t"` named distribution the density is taken to be the location-scale family with location `m` and scale `s`.
+For the \code{"t"} named distribution the density is taken to be the location-scale family with location \code{m} and scale \code{s}.
 
-For the following named distributions, reasonable starting values will be computed if `start` is omitted or only partially specified: `"cauchy"`, `"gamma"`, `"logistic"`, `"negative binomial"` (parametrized by mu and size), `"t"` and `"weibull"`. Note that these starting values may not be good enough if the fit is poor: in particular they are not resistant to outliers unless the fitted distribution is long-tailed.
+For the following named distributions, reasonable starting values will be computed if \code{start} is omitted or only partially specified: \code{"cauchy"}, \code{"gamma"}, \code{"logistic"}, \code{"negative binomial"} (parametrized by mu and size), \code{"t"} and \code{"weibull"}. Note that these starting values may not be good enough if the fit is poor: in particular they are not resistant to outliers unless the fitted distribution is long-tailed.
 
-There are `print`, `coef`, `vcov` and `logLik` methods for class `"FitDistr"`.
+There are \code{print}, \code{coef}, \code{vcov} and \code{logLik} methods for class \code{"FitDistr"}.
 }
 \examples{
 set.seed(123)

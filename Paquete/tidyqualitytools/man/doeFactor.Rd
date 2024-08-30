@@ -16,11 +16,11 @@ An R6 class representing a factor in a design of experiments (DOE).
 
 \item{\code{high}}{Numeric value specifying the upper bound of the factor. Default is `1`.}
 
-\item{\code{name}}{Character string specifying the name of the factor. Default is an empty string `""`.}
+\item{\code{name}}{Character string specifying the name of the factor. Default is an empty string \code{""}.}
 
-\item{\code{unit}}{Character string specifying the unit of measurement for the factor. Default is an empty string `""`.}
+\item{\code{unit}}{Character string specifying the unit of measurement for the factor. Default is an empty string \code{""}.}
 
-\item{\code{type}}{Character string specifying the type of the factor. Can be either `"numeric"` or `"categorical"`. Default is `"numeric"`.}
+\item{\code{type}}{Character string specifying the type of the factor. Can be either \code{"numeric"} or \code{"categorical"}. Default is \code{"numeric"}.}
 }
 \if{html}{\out{</div>}}
 }

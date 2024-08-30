@@ -20,9 +20,9 @@ desirability(
 
 \item{high}{Highest acceptable value for the response.}
 
-\item{target}{Desired target value of the response. `target` can be `"max"`, `"min"`, or any specific numeric value.}
+\item{target}{Desired target value of the response. \code{target} can be \code{"max"}, \code{"min"}, or any specific numeric value.}
 
-\item{scale}{Numeric value giving the scaling factors for one and two-sided transformations. Default is `c(1, 1)`.}
+\item{scale}{Numeric value giving the scaling factors for one and two-sided transformations. Default is \code{c(1, 1)}.}
 
 \item{importance}{A value ranging from 0.1 to 10, used to calculate a weighted importance, i.e., with importances 1, 2, and 4, D = [(d1)^1, (d2)^2, (d3)^4]^(1/7). Default is `1`.}
 }

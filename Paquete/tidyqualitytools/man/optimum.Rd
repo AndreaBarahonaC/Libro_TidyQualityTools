@@ -9,23 +9,23 @@ optimum(fdo, constraints, steps = 25, type = "grid", start)
 \arguments{
 \item{fdo}{An object of class \code{\link{facDesign.c}} with \code{fits} and \code{desires} set.}
 
-\item{constraints}{A list specifying the constraints for the factors, e.g., `list(A = c(-2,1), B = c(0, 0.8))`.}
+\item{constraints}{A list specifying the constraints for the factors, e.g., \code{list(A = c(-2,1), B = c(0, 0.8))}.}
 
-\item{steps}{Number of grid points per factor if `type = "grid"`. Default is `25`.}
+\item{steps}{Number of grid points per factor if \code{type = "grid"}. Default is `25`.}
 
-\item{type}{The type of search to perform. Supported values are `"grid"`, `"optim"`, and `"gosolnp"`. See Details for more information.}
+\item{type}{The type of search to perform. Supported values are \code{"grid"}, \code{"optim"}, and \code{"gosolnp"}. See Details for more information.}
 
-\item{start}{A numeric vector providing the initial values for the factors when using `type = "optim"`.}
+\item{start}{A numeric vector providing the initial values for the factors when using \code{type = "optim"}.}
 }
 \value{
-Return an objecto of class \code{\link{desOpt}}.
+Return an object of class \code{\link{desOpt}}.
 }
 \description{
-This function calculates the optimal factor settings based on defined desirabilities and constraints. It supports two approaches: (I) evaluating all possible factor settings via a grid search and (II) using optimization methods such as `optim` or `gosolnp` from the Rsolnp package. Using 'optim' initial values for the factors to be optimized over can be set via start.
-The optimality of the solution depends critically on the starting parameters which is why it is recommended to use ‘type="gosolnp"’ although calculation takes a while.
+This function calculates the optimal factor settings based on defined desirabilities and constraints. It supports two approaches: (I) evaluating all possible factor settings via a grid search and (II) using optimization methods such as \code{"optim"} or \code{"gosolnp"} from the Rsolnp package. Using \code{"optim"} initial values for the factors to be optimized over can be set via start.
+The optimality of the solution depends critically on the starting parameters which is why it is recommended to use \code{type="gosolnp"} although calculation takes a while.
 }
 \details{
-The function allows you to optimize the factor settings either by evaluating a grid of possible settings (`type = "grid"`) or by using optimization algorithms (`type = "optim"` or `"gosolnp"`). The choice of optimization method may significantly affect the result, especially for desirability functions that lack continuous first derivatives. When using `type = "optim"`, it is advisable to provide `start` values to avoid local optima. The `"gosolnp"` method is recommended for its robustness, although it may be computationally intensive.
+The function allows you to optimize the factor settings either by evaluating a grid of possible settings (\code{type = "grid"}) or by using optimization algorithms (\code{type = "optim"` or `"gosolnp"}). The choice of optimization method may significantly affect the result, especially for desirability functions that lack continuous first derivatives. When using \code{type = "optim"}, it is advisable to provide \code{start} values to avoid local optima. The \code{"gosolnp"} method is recommended for its robustness, although it may be computationally intensive.
 }
 \examples{
 #Example 1: Simultaneous Optimization of Several Response Variables

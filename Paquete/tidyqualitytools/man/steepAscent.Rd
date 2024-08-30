@@ -12,7 +12,7 @@ steepAscent(factors, response, size = 0.2, steps = 5, data)
 \item{response}{A character of response given in data.}
 
 \item{size}{Numeric integer value giving the step size in coded units for the first factor given in factors.
-By default size is set to ‘0.2’.}
+By default size is set to \code{0.2}.}
 
 \item{steps}{Numeric integer value giving the number of steps.
 By default step is set to ‘5’.}

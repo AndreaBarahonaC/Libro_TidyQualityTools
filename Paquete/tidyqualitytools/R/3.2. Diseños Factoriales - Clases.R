@@ -184,7 +184,7 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                     }
                                                   },
 
-                                                  #' @description Prints a summary of the factors' attributes including their low, high, name, unit, and type.
+                                                  #' @description Prints a summary of the factors attributes including their low, high, name, unit, and type.
                                                   .nfp = function(){
                                                     x = self$factors
                                                     atr <- c('low','high','name','unit','type')
@@ -919,6 +919,7 @@ doeFactor <- R6Class('doeFactor', public = list(low = -1,
                                                 unit = "",
                                                 type = "numeric",
 
+                                                #' @description Get the attributes of the factor.
                                                 attributes = function(){
                                                   v <- c(self$low, self$high, self$name, self$unit, self$type)
                                                 },

@@ -4,7 +4,7 @@
 \alias{desOpt}
 \title{desOpt-class: Class "desOpt"}
 \description{
-The `desOpt` class represents an object that stores optimization results for factorial design experiments. It includes coded and real factors, responses, desirabilities, overall desirability, and the design object.
+The \code{desOpt} class represents an object that stores optimization results for factorial design experiments. It includes coded and real factors, responses, desirabilities, overall desirability, and the design object.
 }
 \seealso{
 \code{\link{optimum}}, \code{\link{facDesign}}, \code{\link{desirability}}

@@ -25,7 +25,7 @@ rsmDesign(
 
 \item{blocks}{Integer value specifying the number of blocks in the response surface design. Default is `1`.}
 
-\item{cc}{Integer value giving the number of centerpoints (per block) in the cube portion (i.e., the factorial \(2^k\) design) of the response surface design. Default is `1`.}
+\item{cc}{Integer value giving the number of centerpoints (per block) in the cube portion (i.e., the factorial 2^k design) of the response surface design. Default is `1`.}
 
 \item{cs}{Integer value specifying the number of centerpoints in the star portion. Default is `1`.}
 
@@ -42,7 +42,7 @@ The function returns an object of class \code{\link{facDesign.c}}.
 Generates a response surface design containing a cube, centerCube, star, and centerStar portion.
 }
 \details{
-Generated designs consist of a cube, centerCube, star, and centerStar portion. The replication structure can be set with the parameters `cc` (centerCube), `cs` (centerStar), `fp` (factorialPoints), and `sp` (starPoints).
+Generated designs consist of a cube, centerCube, star, and centerStar portion. The replication structure can be set with the parameters \code{cc} (centerCube), \code{cs} (centerStar), \code{fp} (factorialPoints), and \code{sp} (starPoints).
 }
 \examples{
 # Example 1: Central composite design for 2 factors with 2 blocks, alpha = 1.41,

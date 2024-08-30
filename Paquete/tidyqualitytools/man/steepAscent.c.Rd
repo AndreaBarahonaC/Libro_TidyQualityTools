@@ -4,7 +4,7 @@
 \alias{steepAscent.c}
 \title{steepAscent-class: Class "steepAscent"}
 \description{
-The `steepAscent.c` class represents a steepest ascent algorithm in a factorial design context. This class is used for optimizing designs based on iterative improvements.
+The \code{steepAscent.c} class represents a steepest ascent algorithm in a factorial design context. This class is used for optimizing designs based on iterative improvements.
 }
 \seealso{
 \code{\link{steepAscent}}, \code{\link{desirability.c}}, \code{\link{optimum}}
