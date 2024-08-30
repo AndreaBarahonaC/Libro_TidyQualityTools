@@ -31,19 +31,19 @@ taguchiDesign(design, randomize = TRUE, replicates = 1)
   \item {"L18_6_3" for one six-level factor and six three-level factors.}
 }}
 
-\item{randomize}{A logical value (`TRUE`/`FALSE`) that specifies whether to randomize the RunOrder of the design.
-By default, `randomize` is set to `TRUE`.}
+\item{randomize}{A logical value (\code{TRUE}/\code{FALSE}) that specifies whether to randomize the RunOrder of the design.
+By default, \code{randomize} is set to \code{TRUE}.}
 
 \item{replicates}{An integer specifying the number of replicates for each run in the design.}
 }
 \value{
-A `taguchiDesign` returns an object of class `taguchiDesign`.
+A \code{taguchiDesign} returns an object of class \code{taguchiDesign}.
 }
 \description{
 Function to create a taguchi design.
 }
 \details{
-An overview of possible taguchi designs is possible with `taguchiChoose`.
+An overview of possible taguchi designs is possible with \code{taguchiChoose}.
 }
 \examples{
 set.seed(1234)
@@ -55,9 +55,11 @@ tdo$.response(rnorm(9))
  tdo$effectPlot(col = 2)
 }
 \seealso{
-\item{\code{\link{facDesig}}}{for 2^k factorial designs.}
-\item{\code{\link{rsmDesign}}}{for response surface designs.}
-\item{\code{\link{fracDesig}}}{for fractional factorial design.}
-\item{\code{\link{pbDesig}}}{for response surface designs.}
-\item{\code{\link{gageRRDesig}}}{for gage designs.}
+\itemize{
+\item{\code{\link{facDesig}}: for 2^k factorial designs.}
+\item{\code{\link{rsmDesign}}: for response surface designs.}
+\item{\code{\link{fracDesig}}: for fractional factorial design.}
+\item{\code{\link{pbDesig}}: for response surface designs.}
+\item{\code{\link{gageRRDesig}}: for gage designs.}
+}
 }

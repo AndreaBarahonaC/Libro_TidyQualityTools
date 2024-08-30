@@ -14,6 +14,7 @@ pbFactor <- R6Class("pbFactor", public = list(values = NA,
                                               unit = "",
                                               type = "numeric",
 
+                                              #' @description Get the attributes of the factor.
                                               attributes = function(){
                                                 v <- c(self$values,self$name, self$unit, self$type)
                                               },
@@ -200,6 +201,7 @@ pbDesign.c <- R6Class("pbDesign", public = list(name = NULL,
                                                   }
                                                 },
 
+                                                #' @description Prints a summary of the factors attributes including their low, high, name, unit, and type.
                                                 .nfp = function(){
                                                   x = self$.factors()
                                                   DB = FALSE

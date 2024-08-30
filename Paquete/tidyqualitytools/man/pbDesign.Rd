@@ -11,13 +11,13 @@ pbDesign(n, k, randomize = TRUE, replicates = 1)
 
 \item{k}{Integer value giving the number of factors.}
 
-\item{randomize}{A logical value (`TRUE`/`FALSE`) that specifies whether to randomize the RunOrder of the design.
-By default, `randomize` is set to `TRUE`.}
+\item{randomize}{A logical value (\code{TRUE}/\code{FALSE}) that specifies whether to randomize the RunOrder of the design.
+By default, \code{randomize} is set to \code{TRUE}.}
 
 \item{replicates}{An integer specifying the number of replicates for each run in the design.}
 }
 \value{
-A `pbDesign` returns an object of class `pbDesign`.
+A \code{pbDesign} returns an object of class \code{pbDesign}.
 }
 \description{
 Function to create a Plackett-Burman  design.
@@ -30,8 +30,10 @@ pbdo<- pbDesign(n=5)
 pbdo$summary()
 }
 \seealso{
-\item{\code{\link{facDesig}}}{for 2^k factorial designs.}
-\item{\code{\link{rsmDesign}}}{for response surface designs.}
-\item{\code{\link{fracDesig}}}{for fractional factorial design.}
-\item{\code{\link{gageRRDesig}}}{for gage designs.}
+\itemize{
+\item{\code{\link{facDesig}}: for 2^k factorial designs.}
+\item{\code{\link{rsmDesign}}: for response surface designs.}
+\item{\code{\link{fracDesig}}: for fractional factorial design.}
+\item{\code{\link{gageRRDesig}}: for gage designs.}
+}
 }

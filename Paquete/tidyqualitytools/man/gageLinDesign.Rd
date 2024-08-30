@@ -12,10 +12,10 @@ gageLinDesign(ref, n = 5)
 \item{n}{A single value and gives the amount of runs.Default value: ‘5’..}
 }
 \value{
-The function returns an object of class `MSALinearity`.
+The function returns an object of class \code{MSALinearity}.
 }
 \description{
-Function generates an object that can be used with the function `gageLin`.
+Function generates an object that can be used with the function \code{gageLin}.
 }
 \examples{
 # results of run A-E

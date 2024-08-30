@@ -199,7 +199,7 @@ Get or set the upper bounds of the factors in the factorial design.
 \if{html}{\out{<a id="method-facDesign-.nfp"></a>}}
 \if{latex}{\out{\hypertarget{method-facDesign-.nfp}{}}}
 \subsection{Method \code{.nfp()}}{
-Prints a summary of the factors' attributes including their low, high, name, unit, and type.
+Prints a summary of the factors attributes including their low, high, name, unit, and type.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{facDesign.c$.nfp()}\if{html}{\out{</div>}}
 }

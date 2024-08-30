@@ -64,7 +64,7 @@ mixDesign class for simplex lattice and simplex centroid mixture designs with op
 \if{html}{\out{<a id="method-mixDesign-.factors"></a>}}
 \if{latex}{\out{\hypertarget{method-mixDesign-.factors}{}}}
 \subsection{Method \code{.factors()}}{
-Get and set the `factors` in an object of class `mixDesign`.
+Get and set the \code{factors} in an object of class \code{mixDesign}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mixDesign.c$.factors(value)}\if{html}{\out{</div>}}
 }
@@ -72,7 +72,7 @@ Get and set the `factors` in an object of class `mixDesign`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New factors, If missing value get the `factors`.}
+\item{\code{value}}{New factors, If missing value get the \code{factors}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -81,7 +81,7 @@ Get and set the `factors` in an object of class `mixDesign`.
 \if{html}{\out{<a id="method-mixDesign-names"></a>}}
 \if{latex}{\out{\hypertarget{method-mixDesign-names}{}}}
 \subsection{Method \code{names()}}{
-Get and set the `names` in an object of class `mixDesign`.
+Get and set the \code{names} in an object of class \code{mixDesign}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mixDesign.c$names(value)}\if{html}{\out{</div>}}
 }
@@ -89,7 +89,7 @@ Get and set the `names` in an object of class `mixDesign`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New names, If missing value get the `names`.}
+\item{\code{value}}{New names, If missing value get the \code{names}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -98,7 +98,7 @@ Get and set the `names` in an object of class `mixDesign`.
 \if{html}{\out{<a id="method-mixDesign-as.data.frame"></a>}}
 \if{latex}{\out{\hypertarget{method-mixDesign-as.data.frame}{}}}
 \subsection{Method \code{as.data.frame()}}{
-Methods for function `as.data.frame` in Package `base`.
+Methods for function \code{as.data.frame} in Package \code{base}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mixDesign.c$as.data.frame()}\if{html}{\out{</div>}}
 }
@@ -108,7 +108,7 @@ Methods for function `as.data.frame` in Package `base`.
 \if{html}{\out{<a id="method-mixDesign-print"></a>}}
 \if{latex}{\out{\hypertarget{method-mixDesign-print}{}}}
 \subsection{Method \code{print()}}{
-Methods for function `print` in Package `base`.
+Methods for function \code{print} in Package \code{base}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mixDesign.c$print()}\if{html}{\out{</div>}}
 }
@@ -118,7 +118,7 @@ Methods for function `print` in Package `base`.
 \if{html}{\out{<a id="method-mixDesign-.response"></a>}}
 \if{latex}{\out{\hypertarget{method-mixDesign-.response}{}}}
 \subsection{Method \code{.response()}}{
-Get and set the the `response` in an object of class `mixDesign`.
+Get and set the the \code{response} in an object of class \code{mixDesign}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mixDesign.c$.response(value)}\if{html}{\out{</div>}}
 }
@@ -126,7 +126,7 @@ Get and set the the `response` in an object of class `mixDesign`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New response, If missing value get the `response`.}
+\item{\code{value}}{New response, If missing value get the \code{response}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -135,6 +135,7 @@ Get and set the the `response` in an object of class `mixDesign`.
 \if{html}{\out{<a id="method-mixDesign-.nfp"></a>}}
 \if{latex}{\out{\hypertarget{method-mixDesign-.nfp}{}}}
 \subsection{Method \code{.nfp()}}{
+Prints a summary of the factors attributes including their low, high, name, unit, and type.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mixDesign.c$.nfp()}\if{html}{\out{</div>}}
 }
@@ -144,7 +145,7 @@ Get and set the the `response` in an object of class `mixDesign`.
 \if{html}{\out{<a id="method-mixDesign-summary"></a>}}
 \if{latex}{\out{\hypertarget{method-mixDesign-summary}{}}}
 \subsection{Method \code{summary()}}{
-Methods for function `summary` in Package `base`.
+Methods for function \code{summary} in Package \code{base}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mixDesign.c$summary()}\if{html}{\out{</div>}}
 }
@@ -154,7 +155,7 @@ Methods for function `summary` in Package `base`.
 \if{html}{\out{<a id="method-mixDesign-units"></a>}}
 \if{latex}{\out{\hypertarget{method-mixDesign-units}{}}}
 \subsection{Method \code{units()}}{
-Get and set the `units` for the factors in an object of class `mixDesign`.
+Get and set the \code{units} for the factors in an object of class \code{mixDesign}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mixDesign.c$units(value)}\if{html}{\out{</div>}}
 }
@@ -162,7 +163,7 @@ Get and set the `units` for the factors in an object of class `mixDesign`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New units, If missing value get the `units`.}
+\item{\code{value}}{New units, If missing value get the \code{units}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -171,7 +172,7 @@ Get and set the `units` for the factors in an object of class `mixDesign`.
 \if{html}{\out{<a id="method-mixDesign-lows"></a>}}
 \if{latex}{\out{\hypertarget{method-mixDesign-lows}{}}}
 \subsection{Method \code{lows()}}{
-Get and set the `lows` for the factors in an object of class `mixDesign`.
+Get and set the \code{lows} for the factors in an object of class \code{mixDesign}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mixDesign.c$lows(value)}\if{html}{\out{</div>}}
 }
@@ -179,7 +180,7 @@ Get and set the `lows` for the factors in an object of class `mixDesign`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New lows, If missing value get the `lows`.}
+\item{\code{value}}{New lows, If missing value get the \code{lows}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -188,7 +189,7 @@ Get and set the `lows` for the factors in an object of class `mixDesign`.
 \if{html}{\out{<a id="method-mixDesign-highs"></a>}}
 \if{latex}{\out{\hypertarget{method-mixDesign-highs}{}}}
 \subsection{Method \code{highs()}}{
-Get and set the `highs` for the factors in an object of class `mixDesign`.
+Get and set the \code{highs} for the factors in an object of class \code{mixDesign}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mixDesign.c$highs(value)}\if{html}{\out{</div>}}
 }
@@ -196,7 +197,7 @@ Get and set the `highs` for the factors in an object of class `mixDesign`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New highs, If missing value get the `highs`.}
+\item{\code{value}}{New highs, If missing value get the \code{highs}.}
 }
 \if{html}{\out{</div>}}
 }

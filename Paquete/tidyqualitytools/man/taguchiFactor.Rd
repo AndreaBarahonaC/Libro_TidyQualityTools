@@ -9,13 +9,13 @@ An R6 class representing a factor in a Taguchi design.
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{values}}{A vector containing the levels or values associated with the factor. Default is `NA`.}
+\item{\code{values}}{A vector containing the levels or values associated with the factor. Default is \code{NA}.}
 
-\item{\code{name}}{A character string specifying the name of the factor. Default is an empty string `""`.}
+\item{\code{name}}{A character string specifying the name of the factor. Default is an empty string \code{""}.}
 
-\item{\code{unit}}{A character string specifying the unit of measurement for the factor. Default is an empty string `""`.}
+\item{\code{unit}}{A character string specifying the unit of measurement for the factor. Default is an empty string \code{""}.}
 
-\item{\code{type}}{A character string specifying the type of the factor, which can be either `"numeric"` or `"categorical"`. Default is `"numeric"`.}
+\item{\code{type}}{A character string specifying the type of the factor, which can be either \code{"numeric"} or \code{"categorical"}. Default is \code{"numeric"}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -33,6 +33,7 @@ An R6 class representing a factor in a Taguchi design.
 \if{html}{\out{<a id="method-taguchiFactor-attributes"></a>}}
 \if{latex}{\out{\hypertarget{method-taguchiFactor-attributes}{}}}
 \subsection{Method \code{attributes()}}{
+Get the attributes of the factor.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{taguchiFactor$attributes()}\if{html}{\out{</div>}}
 }
@@ -42,7 +43,7 @@ An R6 class representing a factor in a Taguchi design.
 \if{html}{\out{<a id="method-taguchiFactor-.values"></a>}}
 \if{latex}{\out{\hypertarget{method-taguchiFactor-.values}{}}}
 \subsection{Method \code{.values()}}{
-Get and set the `values` for the factors in an object of class `taguchiFactor`.
+Get and set the \code{values} for the factors in an object of class \code{taguchiFactor}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{taguchiFactor$.values(value)}\if{html}{\out{</div>}}
 }
@@ -50,7 +51,7 @@ Get and set the `values` for the factors in an object of class `taguchiFactor`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New values, If missing value get the `values`.}
+\item{\code{value}}{New values, If missing value get the \code{values}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -59,7 +60,7 @@ Get and set the `values` for the factors in an object of class `taguchiFactor`.
 \if{html}{\out{<a id="method-taguchiFactor-.unit"></a>}}
 \if{latex}{\out{\hypertarget{method-taguchiFactor-.unit}{}}}
 \subsection{Method \code{.unit()}}{
-Get and set the `units` for the factors in an object of class `taguchiFactor`.
+Get and set the \code{units} for the factors in an object of class \code{taguchiFactor}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{taguchiFactor$.unit(value)}\if{html}{\out{</div>}}
 }
@@ -67,7 +68,7 @@ Get and set the `units` for the factors in an object of class `taguchiFactor`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New unit, If missing value get the `units`.}
+\item{\code{value}}{New unit, If missing value get the \code{units}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -76,7 +77,7 @@ Get and set the `units` for the factors in an object of class `taguchiFactor`.
 \if{html}{\out{<a id="method-taguchiFactor-names"></a>}}
 \if{latex}{\out{\hypertarget{method-taguchiFactor-names}{}}}
 \subsection{Method \code{names()}}{
-Get and set the `names` in an object of class `taguchiFactor`.
+Get and set the \code{names} in an object of class \code{taguchiFactor}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{taguchiFactor$names(value)}\if{html}{\out{</div>}}
 }
@@ -84,7 +85,7 @@ Get and set the `names` in an object of class `taguchiFactor`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New names, If missing value get the `names`.}
+\item{\code{value}}{New names, If missing value get the \code{names}.}
 }
 \if{html}{\out{</div>}}
 }

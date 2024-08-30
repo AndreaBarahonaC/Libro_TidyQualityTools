@@ -41,6 +41,7 @@ An R6 class representing a factor in a design of experiments (DOE).
 \if{html}{\out{<a id="method-doeFactor-attributes"></a>}}
 \if{latex}{\out{\hypertarget{method-doeFactor-attributes}{}}}
 \subsection{Method \code{attributes()}}{
+Get the attributes of the factor.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{doeFactor$attributes()}\if{html}{\out{</div>}}
 }

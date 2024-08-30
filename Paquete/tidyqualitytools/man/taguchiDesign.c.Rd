@@ -9,31 +9,31 @@ An R6 class representing a Taguchi experimental design.
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{name}}{A character string specifying the name of the design. Default is `NULL`.}
+\item{\code{name}}{A character string specifying the name of the design. Default is \code{NULL}.}
 
-\item{\code{factors}}{A list of factors included in the Taguchi design. Each factor is typically an instance of the `taguchiFactor` class.}
+\item{\code{factors}}{A list of factors included in the Taguchi design. Each factor is typically an instance of the \code{taguchiFactor} class.}
 
-\item{\code{design}}{A `data.frame` representing the design matrix of the experiment. This includes the levels of each factor for every run of the experiment. Default is an empty `data.frame`.}
+\item{\code{design}}{A `data.frame` representing the design matrix of the experiment. This includes the levels of each factor for every run of the experiment. Default is an empty \code{data.frame}.}
 
-\item{\code{designType}}{A character string specifying the type of Taguchi design used. Default is `NULL`.}
+\item{\code{designType}}{A character string specifying the type of Taguchi design used. Default is \code{NULL}.}
 
-\item{\code{replic}}{A `data.frame` containing the replication information for the design. Default is an empty `data.frame`.}
+\item{\code{replic}}{A `data.frame` containing the replication information for the design. Default is an empty \code{data.frame}.}
 
-\item{\code{response}}{A `data.frame` storing the response values collected from the experiment. Default is an empty `data.frame`.}
+\item{\code{response}}{A `data.frame` storing the response values collected from the experiment. Default is an empty \code{data.frame}.}
 
-\item{\code{Type}}{A `data.frame` specifying the type of responses or factors involved in the design. Default is an empty `data.frame`.}
+\item{\code{Type}}{A `data.frame` specifying the type of responses or factors involved in the design. Default is an empty \code{data.frame}.}
 
-\item{\code{block}}{A `data.frame` indicating any blocking factors used in the design. Default is an empty `data.frame`.}
+\item{\code{block}}{A `data.frame` indicating any blocking factors used in the design. Default is an empty \code{data.frame}.}
 
-\item{\code{runOrder}}{A `data.frame` detailing the order in which the experimental runs were conducted. Default is an empty `data.frame`.}
+\item{\code{runOrder}}{A `data.frame` detailing the order in which the experimental runs were conducted. Default is an empty \code{data.frame}.}
 
-\item{\code{standardOrder}}{A `data.frame` detailing the standard order of the experimental runs. Default is an empty `data.frame`.}
+\item{\code{standardOrder}}{A `data.frame` detailing the standard order of the experimental runs. Default is an empty \code{data.frame}.}
 
 \item{\code{desireVal}}{A list storing desired values for responses in the experiment. Default is an empty list.}
 
 \item{\code{desirability}}{A list storing desirability functions used to evaluate the outcomes of the experiment. Default is an empty list.}
 
-\item{\code{fits}}{A `data.frame` containing model fits or other statistical summaries from the analysis of the experimental data. Default is an empty `data.frame`.}
+\item{\code{fits}}{A `data.frame` containing model fits or other statistical summaries from the analysis of the experimental data. Default is an empty \code{data.frame}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -57,7 +57,7 @@ An R6 class representing a Taguchi experimental design.
 \if{html}{\out{<a id="method-taguchiDesign-values"></a>}}
 \if{latex}{\out{\hypertarget{method-taguchiDesign-values}{}}}
 \subsection{Method \code{values()}}{
-Get and set the `values` for an object of class `taguchiDesign`.
+Get and set the \code{values} for an object of class \code{taguchiDesign}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{taguchiDesign.c$values(value)}\if{html}{\out{</div>}}
 }
@@ -65,7 +65,7 @@ Get and set the `values` for an object of class `taguchiDesign`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New value, If missing value get the `values`.}
+\item{\code{value}}{New value, If missing value get the \code{values}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -74,7 +74,7 @@ Get and set the `values` for an object of class `taguchiDesign`.
 \if{html}{\out{<a id="method-taguchiDesign-units"></a>}}
 \if{latex}{\out{\hypertarget{method-taguchiDesign-units}{}}}
 \subsection{Method \code{units()}}{
-Get and set the `units` for an object of class `taguchiDesign`.
+Get and set the \code{units} for an object of class \code{taguchiDesign}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{taguchiDesign.c$units(value)}\if{html}{\out{</div>}}
 }
@@ -82,7 +82,7 @@ Get and set the `units` for an object of class `taguchiDesign`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New units, If missing value get the `units`.}
+\item{\code{value}}{New units, If missing value get the \code{units}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -91,7 +91,7 @@ Get and set the `units` for an object of class `taguchiDesign`.
 \if{html}{\out{<a id="method-taguchiDesign-.factors"></a>}}
 \if{latex}{\out{\hypertarget{method-taguchiDesign-.factors}{}}}
 \subsection{Method \code{.factors()}}{
-Get and set the `factors` in an object of class `taguchiDesign`.
+Get and set the \code{factors} in an object of class \code{taguchiDesign}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{taguchiDesign.c$.factors(value)}\if{html}{\out{</div>}}
 }
@@ -99,7 +99,7 @@ Get and set the `factors` in an object of class `taguchiDesign`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New factors, If missing value get the `factors`.}
+\item{\code{value}}{New factors, If missing value get the \code{factors}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -108,7 +108,7 @@ Get and set the `factors` in an object of class `taguchiDesign`.
 \if{html}{\out{<a id="method-taguchiDesign-names"></a>}}
 \if{latex}{\out{\hypertarget{method-taguchiDesign-names}{}}}
 \subsection{Method \code{names()}}{
-Get and set the `names` in an object of class `taguchiDesign`.
+Get and set the \code{names} in an object of class \code{taguchiDesign}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{taguchiDesign.c$names(value)}\if{html}{\out{</div>}}
 }
@@ -116,7 +116,7 @@ Get and set the `names` in an object of class `taguchiDesign`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New names, If missing value get the `names`.}
+\item{\code{value}}{New names, If missing value get the \code{names}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -125,7 +125,7 @@ Get and set the `names` in an object of class `taguchiDesign`.
 \if{html}{\out{<a id="method-taguchiDesign-print"></a>}}
 \if{latex}{\out{\hypertarget{method-taguchiDesign-print}{}}}
 \subsection{Method \code{print()}}{
-Methods for function `print` in Package `base`.
+Methods for function \code{print} in Package \code{base}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{taguchiDesign.c$print()}\if{html}{\out{</div>}}
 }
@@ -135,7 +135,7 @@ Methods for function `print` in Package `base`.
 \if{html}{\out{<a id="method-taguchiDesign-.response"></a>}}
 \if{latex}{\out{\hypertarget{method-taguchiDesign-.response}{}}}
 \subsection{Method \code{.response()}}{
-Get and set the the `response` in an object of class `taguchiDesign`.
+Get and set the the \code{response} in an object of class \code{taguchiDesign}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{taguchiDesign.c$.response(value)}\if{html}{\out{</div>}}
 }
@@ -143,7 +143,7 @@ Get and set the the `response` in an object of class `taguchiDesign`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New response, If missing value get the `response`.}
+\item{\code{value}}{New response, If missing value get the \code{response}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -152,6 +152,7 @@ Get and set the the `response` in an object of class `taguchiDesign`.
 \if{html}{\out{<a id="method-taguchiDesign-.nfp"></a>}}
 \if{latex}{\out{\hypertarget{method-taguchiDesign-.nfp}{}}}
 \subsection{Method \code{.nfp()}}{
+Prints a summary of the factors attributes including their low, high, name, unit, and type.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{taguchiDesign.c$.nfp()}\if{html}{\out{</div>}}
 }
@@ -161,7 +162,7 @@ Get and set the the `response` in an object of class `taguchiDesign`.
 \if{html}{\out{<a id="method-taguchiDesign-summary"></a>}}
 \if{latex}{\out{\hypertarget{method-taguchiDesign-summary}{}}}
 \subsection{Method \code{summary()}}{
-Methods for function `summary` in Package `base`.
+Methods for function \code{summary} in Package \code{base}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{taguchiDesign.c$summary()}\if{html}{\out{</div>}}
 }

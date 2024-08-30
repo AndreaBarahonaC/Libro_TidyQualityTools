@@ -9,31 +9,31 @@ An R6 class representing a Plackett-Burman design.
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{name}}{A character string specifying the name of the design. Default is `NULL`.}
+\item{\code{name}}{A character string specifying the name of the design. Default is \code{NULL}.}
 
-\item{\code{factors}}{A list of factors included in the Taguchi design. Each factor is typically an instance of the `pbFactor` class.}
+\item{\code{factors}}{A list of factors included in the Taguchi design. Each factor is typically an instance of the \code{pbFactor} class.}
 
-\item{\code{design}}{A `data.frame` representing the design matrix of the experiment. This includes the levels of each factor for every run of the experiment. Default is an empty `data.frame`.}
+\item{\code{design}}{A \code{data.frame} representing the design matrix of the experiment. This includes the levels of each factor for every run of the experiment. Default is an empty \code{data.frame}.}
 
-\item{\code{designType}}{A character string specifying the type of Taguchi design used. Default is `NULL`.}
+\item{\code{designType}}{A character string specifying the type of Taguchi design used. Default is \code{NULL}.}
 
-\item{\code{replic}}{A `data.frame` containing the replication information for the design. Default is an empty `data.frame`.}
+\item{\code{replic}}{A \code{data.frame} containing the replication information for the design. Default is an empty \code{data.frame}.}
 
-\item{\code{response}}{A `data.frame` storing the response values collected from the experiment. Default is an empty `data.frame`.}
+\item{\code{response}}{A \code{data.frame} storing the response values collected from the experiment. Default is an empty \code{data.frame}.}
 
-\item{\code{Type}}{A `data.frame` specifying the type of responses or factors involved in the design. Default is an empty `data.frame`.}
+\item{\code{Type}}{A \code{data.frame} specifying the type of responses or factors involved in the design. Default is an empty \code{data.frame}.}
 
-\item{\code{block}}{A `data.frame` indicating any blocking factors used in the design. Default is an empty `data.frame`.}
+\item{\code{block}}{A \code{data.frame} indicating any blocking factors used in the design. Default is an empty \code{data.frame}.}
 
-\item{\code{runOrder}}{A `data.frame` detailing the order in which the experimental runs were conducted. Default is an empty `data.frame`.}
+\item{\code{runOrder}}{A \code{data.frame} detailing the order in which the experimental runs were conducted. Default is an empty \code{data.frame}.}
 
-\item{\code{standardOrder}}{A `data.frame` detailing the standard order of the experimental runs. Default is an empty `data.frame`.}
+\item{\code{standardOrder}}{A \code{data.frame} detailing the standard order of the experimental runs. Default is an empty \code{data.frame}.}
 
 \item{\code{desireVal}}{A list storing desired values for responses in the experiment. Default is an empty list.}
 
 \item{\code{desirability}}{A list storing desirability functions used to evaluate the outcomes of the experiment. Default is an empty list.}
 
-\item{\code{fits}}{A `data.frame` containing model fits or other statistical summaries from the analysis of the experimental data. Default is an empty `data.frame`.}
+\item{\code{fits}}{A \code{data.frame} containing model fits or other statistical summaries from the analysis of the experimental data. Default is an empty \code{data.frame}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -56,7 +56,7 @@ An R6 class representing a Plackett-Burman design.
 \if{html}{\out{<a id="method-pbDesign-values"></a>}}
 \if{latex}{\out{\hypertarget{method-pbDesign-values}{}}}
 \subsection{Method \code{values()}}{
-Get and set the `values` for an object of class `pbDesign`.
+Get and set the \code{values} for an object of class \code{pbDesign}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{pbDesign.c$values(value)}\if{html}{\out{</div>}}
 }
@@ -64,7 +64,7 @@ Get and set the `values` for an object of class `pbDesign`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New value, If missing value get the `values`.}
+\item{\code{value}}{New value, If missing value get the \code{values}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -73,7 +73,7 @@ Get and set the `values` for an object of class `pbDesign`.
 \if{html}{\out{<a id="method-pbDesign-units"></a>}}
 \if{latex}{\out{\hypertarget{method-pbDesign-units}{}}}
 \subsection{Method \code{units()}}{
-Get and set the `units` for an object of class `pbDesign`.
+Get and set the \code{units} for an object of class \code{pbDesign}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{pbDesign.c$units(value)}\if{html}{\out{</div>}}
 }
@@ -81,7 +81,7 @@ Get and set the `units` for an object of class `pbDesign`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New units, If missing value get the `units`.}
+\item{\code{value}}{New units, If missing value get the \code{units}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -90,7 +90,7 @@ Get and set the `units` for an object of class `pbDesign`.
 \if{html}{\out{<a id="method-pbDesign-.factors"></a>}}
 \if{latex}{\out{\hypertarget{method-pbDesign-.factors}{}}}
 \subsection{Method \code{.factors()}}{
-Get and set the `factors` in an object of class `pbDesign`.
+Get and set the \code{factors} in an object of class \code{pbDesign}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{pbDesign.c$.factors(value)}\if{html}{\out{</div>}}
 }
@@ -98,7 +98,7 @@ Get and set the `factors` in an object of class `pbDesign`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New factors, If missing value get the `factors`.}
+\item{\code{value}}{New factors, If missing value get the \code{factors}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -107,7 +107,7 @@ Get and set the `factors` in an object of class `pbDesign`.
 \if{html}{\out{<a id="method-pbDesign-names"></a>}}
 \if{latex}{\out{\hypertarget{method-pbDesign-names}{}}}
 \subsection{Method \code{names()}}{
-Get and set the `names` in an object of class `pbDesign`.
+Get and set the \code{names} in an object of class \code{pbDesign}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{pbDesign.c$names(value)}\if{html}{\out{</div>}}
 }
@@ -115,7 +115,7 @@ Get and set the `names` in an object of class `pbDesign`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New names, If missing value get the `names`.}
+\item{\code{value}}{New names, If missing value get the \code{names}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -124,7 +124,7 @@ Get and set the `names` in an object of class `pbDesign`.
 \if{html}{\out{<a id="method-pbDesign-as.data.frame"></a>}}
 \if{latex}{\out{\hypertarget{method-pbDesign-as.data.frame}{}}}
 \subsection{Method \code{as.data.frame()}}{
-Return a data frame with the information of the object `pbDesign`.
+Return a data frame with the information of the object \code{pbDesign}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{pbDesign.c$as.data.frame()}\if{html}{\out{</div>}}
 }
@@ -134,7 +134,7 @@ Return a data frame with the information of the object `pbDesign`.
 \if{html}{\out{<a id="method-pbDesign-print"></a>}}
 \if{latex}{\out{\hypertarget{method-pbDesign-print}{}}}
 \subsection{Method \code{print()}}{
-Methods for function `print` in Package `base`.
+Methods for function \code{print} in Package \code{base}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{pbDesign.c$print()}\if{html}{\out{</div>}}
 }
@@ -144,7 +144,7 @@ Methods for function `print` in Package `base`.
 \if{html}{\out{<a id="method-pbDesign-.response"></a>}}
 \if{latex}{\out{\hypertarget{method-pbDesign-.response}{}}}
 \subsection{Method \code{.response()}}{
-Get and set the the `response` in an object of class `pbDesign`.
+Get and set the the \code{response} in an object of class \code{pbDesign}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{pbDesign.c$.response(value)}\if{html}{\out{</div>}}
 }
@@ -152,7 +152,7 @@ Get and set the the `response` in an object of class `pbDesign`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New response, If missing value get the `response`.}
+\item{\code{value}}{New response, If missing value get the \code{response}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -161,6 +161,7 @@ Get and set the the `response` in an object of class `pbDesign`.
 \if{html}{\out{<a id="method-pbDesign-.nfp"></a>}}
 \if{latex}{\out{\hypertarget{method-pbDesign-.nfp}{}}}
 \subsection{Method \code{.nfp()}}{
+Prints a summary of the factors attributes including their low, high, name, unit, and type.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{pbDesign.c$.nfp()}\if{html}{\out{</div>}}
 }
@@ -170,7 +171,7 @@ Get and set the the `response` in an object of class `pbDesign`.
 \if{html}{\out{<a id="method-pbDesign-summary"></a>}}
 \if{latex}{\out{\hypertarget{method-pbDesign-summary}{}}}
 \subsection{Method \code{summary()}}{
-Methods for function `summary` in Package `base`.
+Methods for function \code{summary} in Package \code{base}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{pbDesign.c$summary()}\if{html}{\out{</div>}}
 }

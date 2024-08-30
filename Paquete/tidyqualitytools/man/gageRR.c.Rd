@@ -285,6 +285,7 @@ Set the \code{sigma} for an object of class \code{gageRR}.
 \if{html}{\out{<a id="method-gageRR-plot"></a>}}
 \if{latex}{\out{\hypertarget{method-gageRR-plot}{}}}
 \subsection{Method \code{plot()}}{
+This function creates a customized plot using the data from the \code{gageRR.c} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{gageRR.c$plot(main = NULL, xlab = NULL, ylab = NULL, col, lwd, fun = mean)}\if{html}{\out{</div>}}
 }
@@ -297,6 +298,10 @@ Set the \code{sigma} for an object of class \code{gageRR}.
 \item{\code{xlab}}{A character string for the x-axis label.}
 
 \item{\code{ylab}}{A character string for the y-axis label.}
+
+\item{\code{col}}{A character string or vector specifying the color(s) to be used for the plot elements.}
+
+\item{\code{lwd}}{A numeric value specifying the line width of plot elements}
 
 \item{\code{fun}}{Function to use for the calculation of the interactions (e.g., `mean`, `median`). Default is `mean`.}
 }
