@@ -8,16 +8,18 @@ pbDesign <- function(n, k , randomize = TRUE, replicates = 1) {
   #' @description Function to create a Plackett-Burman  design.
   #' @param n Integer value giving the number of trials.
   #' @param k Integer value giving the number of factors.
-  #' @param randomize A logical value (`TRUE`/`FALSE`) that specifies whether to randomize the RunOrder of the design.
-  #' By default, `randomize` is set to `TRUE`.
+  #' @param randomize A logical value (\code{TRUE}/\code{FALSE}) that specifies whether to randomize the RunOrder of the design.
+  #' By default, \code{randomize} is set to \code{TRUE}.
   #' @param replicates An integer specifying the number of replicates for each run in the design.
-  #' @return A `pbDesign` returns an object of class `pbDesign`.
+  #' @return A \code{pbDesign} returns an object of class \code{pbDesign}.
   #' @note This function creates Placket-Burman Designs up to n=48. Bigger Designs are not implemented because of lack in practicability. For the creation either the number of factors or the number of trials can be denoted. Wrong combinations will lead to an error message. Originally Placket-Burman-Design are applicable for number of trials divisible by 4. If n is not divisble by 4 this function will take the next larger Placket-Burman Design and truncate the last rows and columns.
   #' @seealso
-  #'  \item{\code{\link{facDesig}}}{for 2^k factorial designs.}
-  #' \item{\code{\link{rsmDesign}}}{for response surface designs.}
-  #' \item{\code{\link{fracDesig}}}{for fractional factorial design.}
-  #' \item{\code{\link{gageRRDesig}}}{for gage designs.}
+  #' \itemize{
+  #' \item{\code{\link{facDesig}}: for 2^k factorial designs.}
+  #' \item{\code{\link{rsmDesign}}: for response surface designs.}
+  #' \item{\code{\link{fracDesig}}: for fractional factorial design.}
+  #' \item{\code{\link{gageRRDesig}}: for gage designs.}
+  #' }
   #' @examples
   #' pbdo<- pbDesign(n=5)
   #' pbdo$summary()

@@ -37,8 +37,8 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                   desirability = list(),
                                                   fits = data.frame(),
 
-                                                  #' @description Get and set the `factors` in an object of class `mixDesign`.
-                                                  #' @param value New factors, If missing value get the `factors`.
+                                                  #' @description Get and set the \code{factors} in an object of class \code{mixDesign}
+                                                  #' @param value New factors, If missing value get the \code{factors}.
                                                   .factors = function(value){
                                                     if (missing(value)) {
                                                       return(self$factors)
@@ -51,8 +51,8 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                     }
                                                   },
 
-                                                  #' @description Get and set the `names` in an object of class `mixDesign`.
-                                                  #' @param value New names, If missing value get the `names`.
+                                                  #' @description Get and set the \code{names} in an object of class \code{mixDesign}.
+                                                  #' @param value New names, If missing value get the \code{names}.
                                                   names = function(value){
                                                     if(missing(value)){
                                                       aux <- list()
@@ -71,20 +71,20 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
 
                                                   },
 
-                                                  #' @description Methods for function `as.data.frame` in Package `base`.
+                                                  #' @description Methods for function \code{as.data.frame} in Package \code{base}.
                                                   as.data.frame = function(){
                                                     frameOut = cbind(self$standardOrder, self$runOrder, self$Type, self$pseudo, self$response)
                                                     return(frameOut)
                                                   },
 
-                                                  #' @description Methods for function `print` in Package `base`.
+                                                  #' @description Methods for function \code{print} in Package \code{base}.
                                                   print = function(){
                                                     print(format(self$as.data.frame(), digits = 4))
                                                     invisible(self$as.data.frame())
                                                   },
 
-                                                  #' @description Get and set the the `response` in an object of class `mixDesign`.
-                                                  #' @param value New response, If missing value get the `response`.
+                                                  #' @description Get and set the the \code{response} in an object of class \code{mixDesign}.
+                                                  #' @param value New response, If missing value get the \code{response}.
                                                   .response = function(value){
                                                     if (missing(value)) {
                                                       return(self$response)
@@ -133,7 +133,7 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                     print(frameOut)
                                                   },
 
-                                                  #' @description Methods for function `summary` in Package `base`.
+                                                  #' @description Methods for function \code{summary} in Package \code{base}.
                                                   summary = function(){
                                                     cat(paste("Simplex", toupper(self$designType), "Design"))
                                                     cat("\n")
@@ -174,8 +174,8 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                     invisible(self$as.data.frame())
                                                   },
 
-                                                  #' @description Get and set the `units` for the factors in an object of class `mixDesign`.
-                                                  #' @param value New units, If missing value get the `units`.
+                                                  #' @description Get and set the \code{units} for the factors in an object of class \code{mixDesign}.
+                                                  #' @param value New units, If missing value get the \code{units}.
                                                   units = function(value){
                                                     if (missing(value)) {
                                                       v <- list()
@@ -192,8 +192,8 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                     }
                                                   },
 
-                                                  #' @description Get and set the `lows` for the factors in an object of class `mixDesign`.
-                                                  #' @param value New lows, If missing value get the `lows`.
+                                                  #' @description Get and set the \code{lows} for the factors in an object of class \code{mixDesign}.
+                                                  #' @param value New lows, If missing value get the \code{lows}.
                                                   lows = function(value){
                                                     if (missing(value)) {
                                                       listOut = vector(mode = "list")
@@ -210,8 +210,8 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
                                                     }
                                                   },
 
-                                                  #' @description Get and set the `highs` for the factors in an object of class `mixDesign`.
-                                                  #' @param value New highs, If missing value get the `highs`.
+                                                  #' @description Get and set the \code{highs} for the factors in an object of class \code{mixDesign}.
+                                                  #' @param value New highs, If missing value get the \code{highs}.
                                                   highs = function(value){
                                                     if (missing(value)) {
                                                       listOut = vector(mode = "list")

@@ -11,8 +11,8 @@ mixDesign <- function(p, n = 3, type = "lattice",
   #' @description Function to generate simplex lattice and simplex centroid mixture designs with optional center points and axial points.
   #' @param p Numerical value giving the amount of factors.
   #' @param n Numerical value specifying the degree (ignored if type = “centroid”).
-  #' @param type Character string giving the type of design. `type` can be “lattice” or “centroid” (referencing to the first source under the section references].
-  #' By default `type` is set to “lattice”.
+  #' @param type Character string giving the type of design. \code{type} can be “lattice” or “centroid” (referencing to the first source under the section references].
+  #' By default \code{type} is set to “lattice”.
   #' @param center Logical value specifying whether (optional) center points will be added.
   #' By default `center` is set to ‘TRUE’.
   #' @param axial Logical value specifying whether (optional) axial points will be added.
@@ -28,11 +28,11 @@ mixDesign <- function(p, n = 3, type = "lattice",
   #' }
   #' @param randomize Logical value. If ‘TRUE’ the RunOrder of the mixture design will be randomized (default).
   #' @param seed Nmerical value giving the input for set.seed.
-  #' @return The function `mixDesig()` returns an object of class `mixDesign``.
+  #' @return The function \code{mixDesig()} returns an object of class \code{mixDesig()}.
   #' @note
-  #' In this version the creation of (augmented) lattice, centroid mixture designs is fully supported. Getters and Setter methods for the mixDesign object exist just as for objects of class `facDesign` (i.e. factorial designs).
+  #' In this version the creation of (augmented) lattice, centroid mixture designs is fully supported. Getters and Setter methods for the mixDesign object exist just as for objects of class \code{facDesign} (i.e. factorial designs).
   #'
-  #' The creation of constrained component proportions is partially supported but don't rely on it. Visualization (i.e. ternary plots) for some of these designs can be done with the help of the `wirePlot3` and `contourPlot3` function.
+  #' The creation of constrained component proportions is partially supported but don't rely on it. Visualization (i.e. ternary plots) for some of these designs can be done with the help of the \code{wirePlot3} and \code{contourPlot3} function.
   #'
   #' @seealso \code{\link{mixDesign.c}}, \code{\link{facDesign.c}}, \code{\link{facDesign}}, \code{\link{fracDesign}}, \code{\link{rsmDesign}}, \code{\link{wirePlot3}}, \code{\link{contourPlot3}}.
   #' @examples
@@ -247,12 +247,12 @@ mixDesign <- function(p, n = 3, type = "lattice",
 contourPlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, border, form = "linear", col = 1, col.text, cex.axis, axes = TRUE,
                         steps, factors) {
   #' @title contourPlot3: Ternary plot
-  #' @description This function creates a ternary plot (contour plot) for mixture designs (i.e. object of class mixDesign)
-  #' @param x Factor 1 of the `mixDesign` object.
-  #' @param y Factor 2 of the `mixDesign` object.
-  #' @param z Factor 3 of the `mixDesign` object.
-  #' @param response the response of the `mixDesign` object.
-  #' @param data The `mixDesign` object from which x,y,z and the response are taken.
+  #' @description This function creates a ternary plot (contour plot) for mixture designs (i.e. object of class \code{mixDesign}).
+  #' @param x Factor 1 of the \code{mixDesign} object.
+  #' @param y Factor 2 of the \code{mixDesign} object.
+  #' @param z Factor 3 of the \code{mixDesign} object.
+  #' @param response the response of the \code{mixDesign} object.
+  #' @param data The \code{mixDesign} object from which x,y,z and the response are taken.
   #' @param main Character string specifying the main title of the plot.
   #' @param xlab Character string specifying the label for the x-axis.
   #' @param ylab Character string specifying the label for the y-axis.
@@ -268,18 +268,18 @@ contourPlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, 
   #' \item{“specialCubic”}
   #' }
   #' How the form influences the output is described in the reference listed below.
-  #' By default, `form` is set to “linear”.
-  #' @param col A predefined value (1, 2, 3, or 4) or a self-defined `colorRampPalette` specifying the colors to be used in the plot.
+  #' By default, \code{form} is set to “linear”.
+  #' @param col A predefined value (1, 2, 3, or 4) or a self-defined \code{colorRampPalette} specifying the colors to be used in the plot.
   #' @param col.text A numeric value or a character string specifying the color of the axis labels.
-  #' The default value `col.text` is '1'.
+  #' The default value \code{col.text} is '1'.
   #' @param cex.axis A numeric value specifying the size of the axis labels.
-  #' The default value `cex.axis` is '1'.
+  #' The default value \code{cex.axis} is '1'.
   #' @param axes A logical value specifying whether the axes should be plotted.
-  #' By default, `axes` is set to `TRUE`.
+  #' By default, \code{axes} is set to \code{TRUE}.
   #' @param steps A numeric value specifying the resolution of the plot, i.e., the number of rows for the square matrix, which also represents the number of grid points per factor.
-  #' By default, `steps` is set to 25.
+  #' By default, \code{steps} is set to 25.
   #' @param factors A list of factors for categorizing with specific settings, applicable if there are more than 3 factors (not yet implemented).
-  #' @return The function `contourPlot3` returns an invisible matrix containing the response values as NA's and numerics.
+  #' @return The function \code{contourPlot3} returns an invisible matrix containing the response values as NA's and numerics.
   #' @seealso \code{\link{mixDesign.c}}, \code{\link{mixDesign}}, \code{\link{wirePlot3}}.
   #' @examples
   #' mdo <- mixDesign(3, 2, center = FALSE, axial = FALSE, randomize = FALSE, replicates = c(1, 1, 2, 3))
@@ -414,12 +414,12 @@ contourPlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, 
 # wirePlot3 ----
 wirePlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, form = "linear", phi, theta, col = 1, steps, factors) {
   #' @title contourPlot3: Ternary 3D plot
-  #' @description This function creates a ternary plot for mixture designs (i.e. object of class mixDesign)
-  #' @param x Factor 1 of the `mixDesign` object.
-  #' @param y Factor 2 of the `mixDesign` object.
-  #' @param z Factor 3 of the `mixDesign` object.
-  #' @param response the response of the `mixDesign` object.
-  #' @param data The `mixDesign` object from which x,y,z and the response are taken.
+  #' @description This function creates a ternary plot for mixture designs (i.e. object of class \code{mixDesign}).
+  #' @param x Factor 1 of the \code{mixDesign} object.
+  #' @param y Factor 2 of the \code{mixDesign} object.
+  #' @param z Factor 3 of the \code{mixDesign} object.
+  #' @param response the response of the \code{mixDesign} object.
+  #' @param data The \code{mixDesign} object from which x,y,z and the response are taken.
   #' @param main Character string specifying the main title of the plot.
   #' @param xlab Character string specifying the label for the x-axis.
   #' @param ylab Character string specifying the label for the y-axis.
@@ -433,16 +433,16 @@ wirePlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, for
   #' \item{“specialCubic”}
   #' }
   #' How the form influences the output is described in the reference listed below.
-  #' By default, `form` is set to “linear”.
+  #' By default, \code{form} is set to “linear”.
   #' @param phi numerical value specifying the angle (in degree) through which the plot is rotated about an imagined horizontal line.
-  #' By default `phi` is set as ‘30’.
+  #' By default \code{phi} is set as ‘30’.
   #' @param theta numerical value specifying the angle (in degree) through which the plot is rotated about an imagined vertical line.
-  #' By default `theta` is set as ‘30’.
-  #' @param col A predefined value (1, 2, 3, or 4) or a self-defined `colorRampPalette` specifying the colors to be used in the plot.
+  #' By default \code{theta} is set as ‘30’.
+  #' @param col A predefined value (1, 2, 3, or 4) or a self-defined \code{colorRampPalette} specifying the colors to be used in the plot.
   #' @param steps A numeric value specifying the resolution of the plot, i.e., the number of rows for the square matrix, which also represents the number of grid points per factor.
-  #' By default, `steps` is set to 25.
+  #' By default, \code{steps} is set to 25.
   #' @param factors A list of factors for categorizing with specific settings, applicable if there are more than 3 factors (not yet implemented).
-  #' @return The function `wirePlot3` returns an invisible matrix containing the response values as NA's and numerics.
+  #' @return The function \code{wirePlot3} returns an invisible matrix containing the response values as NA's and numerics.
   #' @seealso \code{\link{mixDesign.c}}, \code{\link{mixDesign}}, \code{\link{contourPlot3}}.
   #' @examples
   #' mdo <- mixDesign(3, 2, center = FALSE, axial = FALSE, randomize = FALSE, replicates = c(1, 1, 2, 3))
