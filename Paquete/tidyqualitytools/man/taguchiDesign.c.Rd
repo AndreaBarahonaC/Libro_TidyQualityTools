@@ -172,6 +172,7 @@ Methods for function \code{summary} in Package \code{base}.
 \if{html}{\out{<a id="method-taguchiDesign-effectPlot"></a>}}
 \if{latex}{\out{\hypertarget{method-taguchiDesign-effectPlot}{}}}
 \subsection{Method \code{effectPlot()}}{
+Plots the effects of factors on the response variables.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{taguchiDesign.c$effectPlot(
   factors,
@@ -190,12 +191,42 @@ Methods for function \code{summary} in Package \code{base}.
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{factors}}{Factors to be plotted.}
+
+\item{\code{fun}}{Function applied to the response variables (e.g., mean).}
+
+\item{\code{response}}{Optional; specifies which response variables to plot.}
+
+\item{\code{single}}{Logical; if TRUE, plots effects for single factor; otherwise, for combinations of factors.}
+
+\item{\code{points}}{Logical; if TRUE, plots data points.}
+
+\item{\code{classic}}{Logical; if TRUE, uses classic plotting style.}
+
+\item{\code{axes}}{Logical; if TRUE, includes axes in the plot.}
+
+\item{\code{lty}}{Line type for plotting.}
+
+\item{\code{xlab}}{Label for the x-axis.}
+
+\item{\code{ylab}}{Label for the y-axis.}
+
+\item{\code{main}}{Main title for the plot.}
+
+\item{\code{ylim}}{Limits for the y-axis.}
+
+\item{\code{...}}{Additional plotting parameters.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-taguchiDesign-identity"></a>}}
 \if{latex}{\out{\hypertarget{method-taguchiDesign-identity}{}}}
 \subsection{Method \code{identity()}}{
-Calculates the alias table for a fractional factorial design and prints an easy to read summary of the defining relations such as 'I = ABCD' for a standard 2^(4-1) factorial design.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{taguchiDesign.c$identity()}\if{html}{\out{</div>}}
 }
