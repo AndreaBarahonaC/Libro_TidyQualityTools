@@ -231,6 +231,20 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                             cat("\n")
                                                           },
 
+                                                          #' @description Plots the effects of factors on the response variables.
+                                                          #' @param factors Factors to be plotted.
+                                                          #' @param fun Function applied to the response variables (e.g., mean).
+                                                          #' @param response Optional; specifies which response variables to plot.
+                                                          #' @param single Logical; if TRUE, plots effects for single factor; otherwise, for combinations of factors.
+                                                          #' @param points Logical; if TRUE, plots data points.
+                                                          #' @param classic Logical; if TRUE, uses classic plotting style.
+                                                          #' @param axes Logical; if TRUE, includes axes in the plot.
+                                                          #' @param lty Line type for plotting.
+                                                          #' @param xlab Label for the x-axis.
+                                                          #' @param ylab Label for the y-axis.
+                                                          #' @param main Main title for the plot.
+                                                          #' @param ylim Limits for the y-axis.
+                                                          #' @param ... Additional plotting parameters.
                                                           effectPlot = function(factors, fun = mean, response = NULL, single = FALSE, points = FALSE, classic = FALSE,  ###
                                                                                 axes = TRUE, lty, xlab, ylab, main, ylim, ...){
                                                             oldMar = par("mar")
@@ -373,7 +387,6 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
 
                                                           },
 
-                                                          #' @description Calculates the alias table for a fractional factorial design and prints an easy to read summary of the defining relations such as 'I = ABCD' for a standard 2^(4-1) factorial design.
                                                           identity = function(){
                                                             identity = character(0)
                                                             identityList = vector(mode = "list", length = 0)
