@@ -387,6 +387,7 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
 
                                                           },
 
+                                                          #' @description Calculates the alias table for a fractional factorial design and prints an easy to read summary of the defining relations such as 'I = ABCD' for a standard 2^(4-1) factorial design.
                                                           identity = function(){
                                                             identity = character(0)
                                                             identityList = vector(mode = "list", length = 0)
