@@ -15,7 +15,7 @@ R6 class for performing Measurement System Analysis (MSA) Linearity studies.
 
 \item{\code{model}}{The linear model object resulting from the linearity analysis.}
 
-\item{\code{conf.level}}{A numeric value specifying the confidence level for the linearity analysis. This should be between 0 and 1 (e.g., 0.95 for a 95% confidence level).}
+\item{\code{conf.level}}{A numeric value specifying the confidence level for the linearity analysis. This should be between 0 and 1 (e.g., 0.95 for a 95\% confidence level).}
 
 \item{\code{Linearity}}{A list or data frame containing the results of the linearity study, including the linearity value and associated statistics.}
 
@@ -48,7 +48,7 @@ R6 class for performing Measurement System Analysis (MSA) Linearity studies.
 \if{html}{\out{<a id="method-MSALinearity-response"></a>}}
 \if{latex}{\out{\hypertarget{method-MSALinearity-response}{}}}
 \subsection{Method \code{response()}}{
-Get and set the the `response` in an object of class `MSALinearity`.
+Get and set the the \code{response} in an object of class \code{MSALinearity}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MSALinearity$response(value)}\if{html}{\out{</div>}}
 }
@@ -56,7 +56,7 @@ Get and set the the `response` in an object of class `MSALinearity`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{New response, If missing value get the `response`.}
+\item{\code{value}}{New response, If missing value get the \code{response}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -65,7 +65,7 @@ Get and set the the `response` in an object of class `MSALinearity`.
 \if{html}{\out{<a id="method-MSALinearity-summary"></a>}}
 \if{latex}{\out{\hypertarget{method-MSALinearity-summary}{}}}
 \subsection{Method \code{summary()}}{
-Methods for function `summary` in Package `base`.
+Methods for function \code{summary} in Package \code{base}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MSALinearity$summary()}\if{html}{\out{</div>}}
 }
@@ -75,16 +75,32 @@ Methods for function `summary` in Package `base`.
 \if{html}{\out{<a id="method-MSALinearity-plot"></a>}}
 \if{latex}{\out{\hypertarget{method-MSALinearity-plot}{}}}
 \subsection{Method \code{plot()}}{
+Plots the measurement system, including individual biases, mean bias, and a regression line with confidence intervals.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MSALinearity$plot(ylim, col, pch, lty = c(1, 2), ...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ylim}}{A numeric vector specifying the limits for the y-axis. If not provided, the limits are automatically calculated based on data.}
+
+\item{\code{col}}{A vector specifying the colors to be used for different plot elements.}
+
+\item{\code{pch}}{A numeric vector specifying the plotting characters (symbols) for individual data points and mean bias points.}
+
+\item{\code{lty}}{A numeric vector specifying the line types for the regression line and its confidence intervals. The default is \code{c(1, 2)}.}
+
+\item{\code{...}}{Additional graphical parameters passed to the \code{plot} function, allowing further customization of the plot's appearance.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MSALinearity-print"></a>}}
 \if{latex}{\out{\hypertarget{method-MSALinearity-print}{}}}
 \subsection{Method \code{print()}}{
-Methods for function `print` in Package `base`.
+Methods for function \code{print} in Package \code{base}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MSALinearity$print()}\if{html}{\out{</div>}}
 }
@@ -94,9 +110,9 @@ Methods for function `print` in Package `base`.
 \if{html}{\out{<a id="method-MSALinearity-as.data.frame"></a>}}
 \if{latex}{\out{\hypertarget{method-MSALinearity-as.data.frame}{}}}
 \subsection{Method \code{as.data.frame()}}{
-Return a data frame with the information of the object `MSALinearity`.
+Return a data frame with the information of the object \code{MSALinearity}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MSALinearity$as.data.frame(row.names = NULL, optional = FALSE, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MSALinearity$as.data.frame()}\if{html}{\out{</div>}}
 }
 
 }

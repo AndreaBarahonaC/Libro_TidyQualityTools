@@ -110,6 +110,7 @@ mixDesign.c <- R6Class("mixDesign", public = list(name = NULL,
 
                                                   },
 
+                                                  #' @description Prints a summary of the factors attributes including their low, high, name, unit, and type.
                                                   .nfp = function(){
                                                     x = self$.factors()
                                                     atr <- c('low','high','name','unit','type')

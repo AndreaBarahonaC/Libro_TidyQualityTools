@@ -11,15 +11,15 @@ overall(fdo, steps = 20, constraints, ...)
 
 \item{steps}{A numeric value indicating the number of points per factor to be evaluated, which also specifies the grid size. Default is `20`.}
 
-\item{constraints}{A list of constraints for the factors in coded values, such as `list(A > 0.5, B < 0.2)`.}
+\item{constraints}{A list of constraints for the factors in coded values, such as \code{list(A > 0.5, B < 0.2)}.}
 
 \item{...}{Further arguments passed to other methods.}
 }
 \value{
-A `data.frame` with a column for each factor, the desirability for each response, and a column for the overall desirability.
+A \code{data.frame} with a column for each factor, the desirability for each response, and a column for the overall desirability.
 }
 \description{
-This function calculates the desirability for each response as well as the overall desirability. The resulting `data.frame` can be used to plot the overall desirability as well as the desirabilities for each response. This function is designed to visualize the desirability approach for multiple response optimization.
+This function calculates the desirability for each response as well as the overall desirability. The resulting \code{data.frame} can be used to plot the overall desirability as well as the desirabilities for each response. This function is designed to visualize the desirability approach for multiple response optimization.
 }
 \examples{
 #Example 1: Arbitrary example with random data

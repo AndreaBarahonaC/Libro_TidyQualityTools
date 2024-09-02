@@ -9,29 +9,29 @@ distribution(x = NULL, distrib = "weibull", ...)
 \arguments{
 \item{x}{Vector of distributed values from which the parameter should be determined.}
 
-\item{distrib}{Character string specifying the distribution of x. The function `distribution` will accept the following character strings for `distribution`:
+\item{distrib}{Character string specifying the distribution of x. The function \code{distribution} will accept the following character strings for \code{distribution}:
 \itemize{
-  \item{"normal"}
-  \item{"chi-squared"}
-  \item{"exponential"}
-  \item{"logistic"}
-  \item{"gamma"}
-  \item{"weibull"}
-  \item{"cauchy"}
-  \item{"beta"}
-  \item{"f"}
-  \item{"t"}
-  \item{"geometric"}
-  \item{"poisson"}
-  \item{"negative binomial"}
-  \item{"log-normal"}
+  \item{\code{"normal"}}
+  \item{\code{"chi-squared"}}
+  \item{\code{"exponential"}}
+  \item{\code{"logistic"}}
+  \item{\code{"gamma"}}
+  \item{\code{"weibull"}}
+  \item{\code{"cauchy"}}
+  \item{\code{"beta"}}
+  \item{\code{"f"}}
+  \item{\code{"t"}}
+  \item{\code{"geometric"}}
+  \item{\code{"poisson"}}
+  \item{\code{"negative binomial"}}
+  \item{\code{"log-normal"}}
 }
-By default, `distribution` is set to "weibull".}
+By default, \code{distribution} is set to \code{"weibull"}.}
 
 \item{...}{Additional arguments to be passed to the fitting function.}
 }
 \value{
-`distribution()` returns an object of class `DistrCollection`.
+\code{distribution()} returns an object of class \code{DistrCollection}.
 }
 \description{
 Calculates the most likely parameters for a given distribution.

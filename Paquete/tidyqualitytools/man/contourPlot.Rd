@@ -31,7 +31,7 @@ contourPlot(
 
 \item{z}{Name giving the Response variable.}
 
-\item{data}{Needs to be an object of class \code{\link{facDesign}} and contains the names of x, y, z.}
+\item{data}{Needs to be an object of class \code{\link{facDesign.c}} and contains the names of x, y, z.}
 
 \item{xlim}{Vector giving the range of the x-axis.}
 
@@ -47,22 +47,22 @@ contourPlot(
 
 \item{form}{A character string or a formula with the syntax “y~ x+y + x*y”. If form is a character it has to be one out of the following:
 \itemize{
-   \item "quadratic"
-   \item "full"
-   \item "interaction"
-   \item "linear"
-   \item "fit"
+   \item \code{"quadratic"}
+   \item \code{"full"}
+   \item \code{"interaction"}
+   \item \code{"linear"}
+   \item \code{"fit"}
 }
-“fit” takes the formula from the fit in the \code{facDesign.c} object \code{fdo}. Quadratic or higher orders should be given as I(Variable^2).
-By default \code{form} is set as “fit”.}
+\code{“fit”} takes the formula from the fit in the \code{facDesign.c} object \code{fdo}. Quadratic or higher orders should be given as I(Variable^2).
+By default \code{form} is set as \code{“fit”}.}
 
-\item{col}{A predefined (1, 2, 3 or 4) or self defined colorRampPalette or color to be used (i.e. “red”).}
+\item{col}{A predefined (1, 2, 3 or 4) or self defined colorRampPalette or color to be used (i.e. \code{“red”}).}
 
 \item{steps}{Number of grid points per factor. By default \code{steps} = 25.}
 
 \item{factors}{List of 4th 5th factor with value i.e. factors = list(D = 1.2, E = -1), if nothing is specified values will be the mean of the low and the high value of the factors.}
 
-\item{fun}{Function to be applied to z “desirability”.}
+\item{fun}{Function to be applied to z \code{desirability}.}
 
 \item{plot}{Logical value indicating whether to display the plot. Default is \code{TRUE}.}
 

@@ -16,7 +16,7 @@ gageLin(
 )
 }
 \arguments{
-\item{object}{An object of class `MSALinearity` containing the data and model for the linearity analysis. To create such an object see `gageLinDesign`.}
+\item{object}{An object of class \code{MSALinearity} containing the data and model for the linearity analysis. To create such an object see \code{gageLinDesign}.}
 
 \item{conf.level}{A numeric value between ‘0’ and ‘1’, giving the confidence intervall for the analysis.
 Default value: ‘0.95’.}
@@ -31,10 +31,10 @@ Default value: ‘0.95’.}
 
 \item{stats}{Logical value. If ‘TRUE’ (default) the function returns all calculated information.}
 
-\item{plot}{Logical value indicating whether to generate a plot of the linearity analysis. Default is `TRUE`.}
+\item{plot}{Logical value indicating whether to generate a plot of the linearity analysis. Default is \code{TRUE}.}
 }
 \value{
-The function returns an object of class `MSALinearity` which can be used with e.g. `plot` or `summary`.
+The function returns an object of class \code{MSALinearity} which can be used with e.g. \code{plot} or \code{summary}.
 }
 \description{
 Function visualize the linearity of a gage by plotting the single and mean bias in one plot and intercalate them with a straight line.

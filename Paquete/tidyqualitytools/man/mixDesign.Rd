@@ -23,8 +23,8 @@ mixDesign(
 
 \item{n}{Numerical value specifying the degree (ignored if type = “centroid”).}
 
-\item{type}{Character string giving the type of design. `type` can be “lattice” or “centroid” (referencing to the first source under the section references].
-By default `type` is set to “lattice”.}
+\item{type}{Character string giving the type of design. \code{type} can be “lattice” or “centroid” (referencing to the first source under the section references].
+By default \code{type} is set to “lattice”.}
 
 \item{center}{Logical value specifying whether (optional) center points will be added.
 By default `center` is set to ‘TRUE’.}
@@ -50,15 +50,15 @@ By default `replicates` is set to ‘1’.}
 \item{seed}{Nmerical value giving the input for set.seed.}
 }
 \value{
-The function `mixDesig()` returns an object of class `mixDesign``.
+The function \code{mixDesig()} returns an object of class \code{mixDesig()}.
 }
 \description{
 Function to generate simplex lattice and simplex centroid mixture designs with optional center points and axial points.
 }
 \note{
-In this version the creation of (augmented) lattice, centroid mixture designs is fully supported. Getters and Setter methods for the mixDesign object exist just as for objects of class `facDesign` (i.e. factorial designs).
+In this version the creation of (augmented) lattice, centroid mixture designs is fully supported. Getters and Setter methods for the mixDesign object exist just as for objects of class \code{facDesign} (i.e. factorial designs).
 
-The creation of constrained component proportions is partially supported but don't rely on it. Visualization (i.e. ternary plots) for some of these designs can be done with the help of the `wirePlot3` and `contourPlot3` function.
+The creation of constrained component proportions is partially supported but don't rely on it. Visualization (i.e. ternary plots) for some of these designs can be done with the help of the \code{wirePlot3} and \code{contourPlot3} function.
 }
 \examples{
 # Example usage of mixDesign

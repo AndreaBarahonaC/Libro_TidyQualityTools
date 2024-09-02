@@ -15,7 +15,7 @@ R6 Class for Gage R&R (Repeatability and Reproducibility) Analysis
 
 \item{\code{RedANOVA}}{List containing the results of the reduced ANOVA.}
 
-\item{\code{method}}{Character string specifying the method used for the analysis (e.g., "crossed", "nested").}
+\item{\code{method}}{Character string specifying the method used for the analysis (e.g., \code{"crossed"}, \code{"nested"}).}
 
 \item{\code{Estimates}}{List of estimates including variance components, repeatability, and reproducibility.}
 
@@ -39,7 +39,7 @@ R6 Class for Gage R&R (Repeatability and Reproducibility) Analysis
 
 \item{\code{y}}{Numeric vector or matrix containing the measurement responses.}
 
-\item{\code{facNames}}{Character vector specifying the names of the factors (e.g., "Operator", "Part").}
+\item{\code{facNames}}{Character vector specifying the names of the factors (e.g., \code{"Operator"}, \code{"Part"}).}
 
 \item{\code{numO}}{Integer representing the number of operators.}
 
@@ -72,7 +72,7 @@ R6 Class for Gage R&R (Repeatability and Reproducibility) Analysis
 \if{html}{\out{<a id="method-gageRR-new"></a>}}
 \if{latex}{\out{\hypertarget{method-gageRR-new}{}}}
 \subsection{Method \code{new()}}{
-Initialize the fiels of the `gageRR` object
+Initialize the fiels of the \code{gageRR} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{gageRR.c$new(
   X,
@@ -145,7 +145,7 @@ Initialize the fiels of the `gageRR` object
 \if{html}{\out{<a id="method-gageRR-print"></a>}}
 \if{latex}{\out{\hypertarget{method-gageRR-print}{}}}
 \subsection{Method \code{print()}}{
-Return the data frame containing the measurement data (`X`)
+Return the data frame containing the measurement data (\code{X})
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{gageRR.c$print()}\if{html}{\out{</div>}}
 }
@@ -155,7 +155,7 @@ Return the data frame containing the measurement data (`X`)
 \if{html}{\out{<a id="method-gageRR-subset"></a>}}
 \if{latex}{\out{\hypertarget{method-gageRR-subset}{}}}
 \subsection{Method \code{subset()}}{
-Return a subset of the data frame that containing the measurement data (`X`)
+Return a subset of the data frame that containing the measurement data (\code{X})
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{gageRR.c$subset(i, j)}\if{html}{\out{</div>}}
 }
@@ -163,9 +163,9 @@ Return a subset of the data frame that containing the measurement data (`X`)
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{i}}{The i-position of the row of `X`.}
+\item{\code{i}}{The i-position of the row of \code{X}.}
 
-\item{\code{j}}{The j-position of the column of `X`.}
+\item{\code{j}}{The j-position of the column of \code{X}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -174,7 +174,7 @@ Return a subset of the data frame that containing the measurement data (`X`)
 \if{html}{\out{<a id="method-gageRR-summary"></a>}}
 \if{latex}{\out{\hypertarget{method-gageRR-summary}{}}}
 \subsection{Method \code{summary()}}{
-Summarize the information of the fields of the `gageRR` object.
+Summarize the information of the fields of the \code{gageRR} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{gageRR.c$summary()}\if{html}{\out{</div>}}
 }
@@ -184,7 +184,7 @@ Summarize the information of the fields of the `gageRR` object.
 \if{html}{\out{<a id="method-gageRR-get.response"></a>}}
 \if{latex}{\out{\hypertarget{method-gageRR-get.response}{}}}
 \subsection{Method \code{get.response()}}{
-Get or get the response for a `gageRRDesign` object.
+Get or get the response for a \code{gageRRDesign} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{gageRR.c$get.response()}\if{html}{\out{</div>}}
 }
@@ -194,7 +194,7 @@ Get or get the response for a `gageRRDesign` object.
 \if{html}{\out{<a id="method-gageRR-response"></a>}}
 \if{latex}{\out{\hypertarget{method-gageRR-response}{}}}
 \subsection{Method \code{response()}}{
-Set or get the response for a `gageRRDesign` object.
+Set or get the response for a \code{gageRRDesign} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{gageRR.c$response(value)}\if{html}{\out{</div>}}
 }
@@ -211,7 +211,7 @@ Set or get the response for a `gageRRDesign` object.
 \if{html}{\out{<a id="method-gageRR-names"></a>}}
 \if{latex}{\out{\hypertarget{method-gageRR-names}{}}}
 \subsection{Method \code{names()}}{
-Methods for function `names` in Package `base`.
+Methods for function \code{names} in Package \code{base}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{gageRR.c$names()}\if{html}{\out{</div>}}
 }
@@ -221,7 +221,7 @@ Methods for function `names` in Package `base`.
 \if{html}{\out{<a id="method-gageRR-as.data.frame"></a>}}
 \if{latex}{\out{\hypertarget{method-gageRR-as.data.frame}{}}}
 \subsection{Method \code{as.data.frame()}}{
-Methods for function `as.data.frame` in Package `base`.
+Methods for function \code{as.data.frame} in Package \code{base}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{gageRR.c$as.data.frame()}\if{html}{\out{</div>}}
 }
@@ -231,7 +231,7 @@ Methods for function `as.data.frame` in Package `base`.
 \if{html}{\out{<a id="method-gageRR-get.tolerance"></a>}}
 \if{latex}{\out{\hypertarget{method-gageRR-get.tolerance}{}}}
 \subsection{Method \code{get.tolerance()}}{
-Get the `tolerance` for an object of class `gageRR`.
+Get the \code{tolerance} for an object of class \code{gageRR}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{gageRR.c$get.tolerance()}\if{html}{\out{</div>}}
 }
@@ -241,7 +241,7 @@ Get the `tolerance` for an object of class `gageRR`.
 \if{html}{\out{<a id="method-gageRR-set.tolerance"></a>}}
 \if{latex}{\out{\hypertarget{method-gageRR-set.tolerance}{}}}
 \subsection{Method \code{set.tolerance()}}{
-Set the `tolerance` for an object of class `gageRR`.
+Set the \code{tolerance} for an object of class \code{gageRR}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{gageRR.c$set.tolerance(value)}\if{html}{\out{</div>}}
 }
@@ -258,7 +258,7 @@ Set the `tolerance` for an object of class `gageRR`.
 \if{html}{\out{<a id="method-gageRR-get.sigma"></a>}}
 \if{latex}{\out{\hypertarget{method-gageRR-get.sigma}{}}}
 \subsection{Method \code{get.sigma()}}{
-Get the `sigma` for an object of class `gageRR`.
+Get the \code{sigma} for an object of class \code{gageRR}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{gageRR.c$get.sigma()}\if{html}{\out{</div>}}
 }
@@ -268,7 +268,7 @@ Get the `sigma` for an object of class `gageRR`.
 \if{html}{\out{<a id="method-gageRR-set.sigma"></a>}}
 \if{latex}{\out{\hypertarget{method-gageRR-set.sigma}{}}}
 \subsection{Method \code{set.sigma()}}{
-Set the `sigma` for an object of class `gageRR`.
+Set the \code{sigma} for an object of class \code{gageRR}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{gageRR.c$set.sigma(value)}\if{html}{\out{</div>}}
 }
@@ -276,7 +276,7 @@ Set the `sigma` for an object of class `gageRR`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{description}
+\item{\code{value}}{Valor of \code{sigma}}
 }
 \if{html}{\out{</div>}}
 }
@@ -285,6 +285,7 @@ Set the `sigma` for an object of class `gageRR`.
 \if{html}{\out{<a id="method-gageRR-plot"></a>}}
 \if{latex}{\out{\hypertarget{method-gageRR-plot}{}}}
 \subsection{Method \code{plot()}}{
+This function creates a customized plot using the data from the \code{gageRR.c} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{gageRR.c$plot(main = NULL, xlab = NULL, ylab = NULL, col, lwd, fun = mean)}\if{html}{\out{</div>}}
 }
@@ -297,6 +298,10 @@ Set the `sigma` for an object of class `gageRR`.
 \item{\code{xlab}}{A character string for the x-axis label.}
 
 \item{\code{ylab}}{A character string for the y-axis label.}
+
+\item{\code{col}}{A character string or vector specifying the color(s) to be used for the plot elements.}
+
+\item{\code{lwd}}{A numeric value specifying the line width of plot elements}
 
 \item{\code{fun}}{Function to use for the calculation of the interactions (e.g., `mean`, `median`). Default is `mean`.}
 }

@@ -25,15 +25,15 @@ contourPlot3(
 )
 }
 \arguments{
-\item{x}{Factor 1 of the `mixDesign` object.}
+\item{x}{Factor 1 of the \code{mixDesign} object.}
 
-\item{y}{Factor 2 of the `mixDesign` object.}
+\item{y}{Factor 2 of the \code{mixDesign} object.}
 
-\item{z}{Factor 3 of the `mixDesign` object.}
+\item{z}{Factor 3 of the \code{mixDesign} object.}
 
-\item{response}{the response of the `mixDesign` object.}
+\item{response}{the response of the \code{mixDesign} object.}
 
-\item{data}{The `mixDesign` object from which x,y,z and the response are taken.}
+\item{data}{The \code{mixDesign} object from which x,y,z and the response are taken.}
 
 \item{main}{Character string specifying the main title of the plot.}
 
@@ -55,29 +55,29 @@ If form is a character string, it has to be one of the following:
 \item{“specialCubic”}
 }
 How the form influences the output is described in the reference listed below.
-By default, `form` is set to “linear”.}
+By default, \code{form} is set to “linear”.}
 
-\item{col}{A predefined value (1, 2, 3, or 4) or a self-defined `colorRampPalette` specifying the colors to be used in the plot.}
+\item{col}{A predefined value (1, 2, 3, or 4) or a self-defined \code{colorRampPalette} specifying the colors to be used in the plot.}
 
 \item{col.text}{A numeric value or a character string specifying the color of the axis labels.
-The default value `col.text` is '1'.}
+The default value \code{col.text} is '1'.}
 
 \item{cex.axis}{A numeric value specifying the size of the axis labels.
-The default value `cex.axis` is '1'.}
+The default value \code{cex.axis} is '1'.}
 
 \item{axes}{A logical value specifying whether the axes should be plotted.
-By default, `axes` is set to `TRUE`.}
+By default, \code{axes} is set to \code{TRUE}.}
 
 \item{steps}{A numeric value specifying the resolution of the plot, i.e., the number of rows for the square matrix, which also represents the number of grid points per factor.
-By default, `steps` is set to 25.}
+By default, \code{steps} is set to 25.}
 
 \item{factors}{A list of factors for categorizing with specific settings, applicable if there are more than 3 factors (not yet implemented).}
 }
 \value{
-The function `contourPlot3` returns an invisible matrix containing the response values as NA's and numerics.
+The function \code{contourPlot3} returns an invisible matrix containing the response values as NA's and numerics.
 }
 \description{
-This function creates a ternary plot (contour plot) for mixture designs (i.e. object of class mixDesign)
+This function creates a ternary plot (contour plot) for mixture designs (i.e. object of class \code{mixDesign}).
 }
 \examples{
 mdo <- mixDesign(3, 2, center = FALSE, axial = FALSE, randomize = FALSE, replicates = c(1, 1, 2, 3))

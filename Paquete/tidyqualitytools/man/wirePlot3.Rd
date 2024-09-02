@@ -23,15 +23,15 @@ wirePlot3(
 )
 }
 \arguments{
-\item{x}{Factor 1 of the `mixDesign` object.}
+\item{x}{Factor 1 of the \code{mixDesign} object.}
 
-\item{y}{Factor 2 of the `mixDesign` object.}
+\item{y}{Factor 2 of the \code{mixDesign} object.}
 
-\item{z}{Factor 3 of the `mixDesign` object.}
+\item{z}{Factor 3 of the \code{mixDesign} object.}
 
-\item{response}{the response of the `mixDesign` object.}
+\item{response}{the response of the \code{mixDesign} object.}
 
-\item{data}{The `mixDesign` object from which x,y,z and the response are taken.}
+\item{data}{The \code{mixDesign} object from which x,y,z and the response are taken.}
 
 \item{main}{Character string specifying the main title of the plot.}
 
@@ -50,26 +50,26 @@ If form is a character string, it has to be one of the following:
 \item{“specialCubic”}
 }
 How the form influences the output is described in the reference listed below.
-By default, `form` is set to “linear”.}
+By default, \code{form} is set to “linear”.}
 
 \item{phi}{numerical value specifying the angle (in degree) through which the plot is rotated about an imagined horizontal line.
-By default `phi` is set as ‘30’.}
+By default \code{phi} is set as ‘30’.}
 
 \item{theta}{numerical value specifying the angle (in degree) through which the plot is rotated about an imagined vertical line.
-By default `theta` is set as ‘30’.}
+By default \code{theta} is set as ‘30’.}
 
-\item{col}{A predefined value (1, 2, 3, or 4) or a self-defined `colorRampPalette` specifying the colors to be used in the plot.}
+\item{col}{A predefined value (1, 2, 3, or 4) or a self-defined \code{colorRampPalette} specifying the colors to be used in the plot.}
 
 \item{steps}{A numeric value specifying the resolution of the plot, i.e., the number of rows for the square matrix, which also represents the number of grid points per factor.
-By default, `steps` is set to 25.}
+By default, \code{steps} is set to 25.}
 
 \item{factors}{A list of factors for categorizing with specific settings, applicable if there are more than 3 factors (not yet implemented).}
 }
 \value{
-The function `wirePlot3` returns an invisible matrix containing the response values as NA's and numerics.
+The function \code{wirePlot3} returns an invisible matrix containing the response values as NA's and numerics.
 }
 \description{
-This function creates a ternary plot for mixture designs (i.e. object of class mixDesign)
+This function creates a ternary plot for mixture designs (i.e. object of class \code{mixDesign}).
 }
 \examples{
 mdo <- mixDesign(3, 2, center = FALSE, axial = FALSE, randomize = FALSE, replicates = c(1, 1, 2, 3))

@@ -28,32 +28,32 @@ cg_ToleranceChart(
 
 \item{tolerance}{Vector of length 2 giving the lower and upper specification limits.}
 
-\item{ref.interval}{Numeric value giving the confidence intervall on which the calculation is based. By default it is based on 6 sigma methodology.
-Regarding the normal distribution this relates to `pnorm(3) - pnorm(-3)` which is exactly 99.73002 percent If the calculation is based on an other sigma value `ref.interval` needs to be adjusted.
-To give an example: If the sigma-level is given by 5.15 the `ref.interval` relates to `pnorm(5.15/2)-pnorm(-5.15/2)` which is exactly 0.989976 percent.}
+\item{ref.interval}{Numeric value giving the confidence interval on which the calculation is based. By default it is based on 6 sigma methodology.
+Regarding the normal distribution this relates to \code{pnorm(3) - pnorm(-3)} which is exactly 99.73002 percent. If the calculation is based on another sigma value \code{ref.interval} needs to be adjusted.
+To give an example: If the sigma-level is given by 5.15 the \code{ref.interval} relates to \code{pnorm(5.15/2)-pnorm(-5.15/2)} which is exactly 0.989976 percent.}
 
-\item{facCg}{Numeric value as a factor for the calculation of the gage potential index. The default Value for facCg is ‘0.2’.}
+\item{facCg}{Numeric value as a factor for the calculation of the gage potential index. The default value for \code{facCg} is \code{0.2}.}
 
-\item{facCgk}{Numeric value as a factor for the calulation of the gage capability index. The default value for facCgk is ‘0.1’.}
+\item{facCgk}{Numeric value as a factor for the calculation of the gage capability index. The default value for \code{facCgk} is \code{0.1}.}
 
-\item{n}{Numeric value between ‘0’ and ‘1’ giving the percentage of the tolerance field (values between the upper and lower specification limits given by tolerance) where the values of x should be positioned. Limit lines will be drawn. Default value is ‘0.2’.}
+\item{n}{Numeric value between \code{0} and \code{1} giving the percentage of the tolerance field (values between the upper and lower specification limits given by \code{tolerance}) where the values of \code{x} should be positioned. Limit lines will be drawn. Default value is \code{0.2}.}
 
-\item{col}{Character or numeric value specifying the color of the line and points in the tolerance view. Default is `"black"`.}
+\item{col}{Character or numeric value specifying the color of the line and points in the tolerance view. Default is \code{"black"}.}
 
-\item{pch}{Numeric or character specifying the plotting symbol. Default is `19` (filled circle).}
+\item{pch}{Numeric or character specifying the plotting symbol. Default is \code{19} (filled circle).}
 
-\item{xlim}{Numeric vector of length 2 specifying the limits for the x-axis. Default is `NULL` which means the limits are set automatically.}
+\item{xlim}{Numeric vector of length 2 specifying the limits for the x-axis. Default is \code{NULL} which means the limits are set automatically.}
 
-\item{ylim}{Numeric vector of length 2 specifying the limits for the y-axis. Default is `NULL` which means the limits are set automatically.}
+\item{ylim}{Numeric vector of length 2 specifying the limits for the y-axis. Default is \code{NULL} which means the limits are set automatically.}
 
-\item{main}{Character string specifying the title of the plot. Default is `"Tolerance View"`.}
+\item{main}{Character string specifying the title of the plot. Default is \code{"Tolerance View"}.}
 
-\item{conf.level}{Confidence level for internal t.test checking the significance of the bias between target and mean of x. The default value is ‘0.95’.}
+\item{conf.level}{Confidence level for internal \code{t.test} checking the significance of the bias between \code{target} and mean of \code{x}. The default value is \code{0.95}.}
 
-\item{cgOut}{Logical value deciding wether the Cg and Cgk values should be plotted in a legend. Default is `TRUE`.}
+\item{cgOut}{Logical value deciding whether the \code{Cg} and \code{Cgk} values should be plotted in a legend. Default is \code{TRUE}.}
 }
 \value{
-The function `cg_ToleranceChart` returns a list of numeric values. The first element contains the calculated centralized gage potential index Cg and the second contains the non-centralized gage capability index Cgk.
+The function \code{cg_ToleranceChart} returns a list of numeric values. The first element contains the calculated centralized gage potential index \code{Cg} and the second contains the non-centralized gage capability index \code{Cgk}.
 }
 \description{
 Function visualize the given values of measurement in a Tolerance View.
@@ -61,10 +61,10 @@ Function visualize the given values of measurement in a Tolerance View.
 \details{
 The calculation of the potential and actual gage capability are based on the following formulae:
 \itemize{
-\item{Cg = (facCg * tolerance[2]-tolerance[1])/ref.interval}
-\item{Cgk = (facCgk * abs(target-mean(x))/(ref.interval/2)}
+\item{\code{Cg = (facCg * tolerance[2]-tolerance[1])/ref.interval}}
+\item{\code{Cgk = (facCgk * abs(target-mean(x))/(ref.interval/2)}}
 }
-If the usage of the historical process variation is preferred the values for the tolerance `tolerance` must be adjusted manually. That means in case of the 6 sigma methodolgy for example, that tolerance = 6 * sigma[process].
+If the usage of the historical process variation is preferred the values for the tolerance \code{tolerance} must be adjusted manually. That means in case of the 6 sigma methodology for example, that \code{tolerance = 6 * sigma[process]}.
 }
 \examples{
 

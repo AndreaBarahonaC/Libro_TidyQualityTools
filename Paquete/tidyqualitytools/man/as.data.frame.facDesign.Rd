@@ -4,7 +4,7 @@
 \alias{as.data.frame.facDesign}
 \title{as.data.frame.facDesign: Coerce to a data.frame}
 \usage{
-\method{as.data.frame}{facDesign}(dfac, ...)
+as.data.frame.facDesign(dfac)
 }
 \arguments{
 \item{dfac}{An object of class \code{\link{facDesign.c}} that you want to convert to a data frame.}

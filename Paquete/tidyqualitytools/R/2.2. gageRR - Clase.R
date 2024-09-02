@@ -177,10 +177,12 @@ gageRR.c <- R6Class("gageRR",
                         return(self)
                       },
 
-                      #' @description
+                      #' @description This function creates a customized plot using the data from the \code{gageRR.c} object.
                       #' @param main Character string specifying the title of the plot.
                       #' @param xlab A character string for the x-axis label.
                       #' @param ylab A character string for the y-axis label.
+                      #' @param col A character string or vector specifying the color(s) to be used for the plot elements.
+                      #' @param lwd A numeric value specifying the line width of plot elements
                       #' @param fun Function to use for the calculation of the interactions (e.g., `mean`, `median`). Default is `mean`.
                       plot = function(main=NULL, xlab=NULL, ylab=NULL, col, lwd, fun = mean){
                         gdo <- self

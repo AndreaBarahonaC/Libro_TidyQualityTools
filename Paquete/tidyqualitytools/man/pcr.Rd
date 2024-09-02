@@ -30,26 +30,26 @@ pcr(
 \arguments{
 \item{x}{Numeric vector containing the values for which the process capability should be calculated.}
 
-\item{distribution}{Character string specifying the distribution of x. The function `cp` will accept the following caracter strings for `distribution`:
+\item{distribution}{Character string specifying the distribution of \code{x}. The function \code{cp} will accept the following character strings for \code{distribution}:
   \itemize{
-    \item "normal"
-    \item "log-normal"
-    \item "exponential"
-    \item "logistic"
-    \item "gamma"
-    \item "weibull"
-    \item "cauchy"
-    \item "gamma3"
-    \item "weibull3"
-    \item "lognormal3"
-    \item "beta"
-    \item "f"
-    \item "t"
-    \item "geometric"
-    \item "poisson"
-    \item "negative-binomial"
+    \item \code{"normal"}
+    \item \code{"log-normal"}
+    \item \code{"exponential"}
+    \item \code{"logistic"}
+    \item \code{"gamma"}
+    \item \code{"weibull"}
+    \item \code{"cauchy"}
+    \item \code{"gamma3"}
+    \item \code{"weibull3"}
+    \item \code{"lognormal3"}
+    \item \code{"beta"}
+    \item \code{"f"}
+    \item \code{"t"}
+    \item \code{"geometric"}
+    \item \code{"poisson"}
+    \item \code{"negative-binomial"}
   }
-By default `distribution` is set to “normal”.}
+By default \code{distribution} is set to \code{“normal”}.}
 
 \item{lsl}{A numeric value specifying the lower specification limit.}
 
@@ -57,7 +57,7 @@ By default `distribution` is set to “normal”.}
 
 \item{target}{(Optional) numeric value giving the target value.}
 
-\item{boxcox}{Logical value specifying whether a Box-Cox transformation should be performed or not. By default `boxcox` is set to ‘FALSE’.}
+\item{boxcox}{Logical value specifying whether a Box-Cox transformation should be performed or not. By default \code{boxcox} is set to \code{FALSE}.}
 
 \item{lambda}{(Optional) lambda for the transformation, default is to have the function estimate lambda.}
 
@@ -67,14 +67,14 @@ By default `distribution` is set to “normal”.}
 
 \item{ylim}{A numeric vector of length 2 specifying the y-axis limits for the plot.}
 
-\item{grouping}{(Optional) If grouping is given the standard deviation is calculated as mean standard deviation of the specified subgroups corrected by the factor c4 and expected fraction of nonconforming is calculated using this standard deviation.}
+\item{grouping}{(Optional) If grouping is given the standard deviation is calculated as mean standard deviation of the specified subgroups corrected by the factor \code{c4} and expected fraction of nonconforming is calculated using this standard deviation.}
 
-\item{std.dev}{An optional numeric value specifying the historical standard deviation (only provided for normal distribution). If NULL, the standard deviation is calculated from the data.}
+\item{std.dev}{An optional numeric value specifying the historical standard deviation (only provided for normal distribution). If \code{NULL}, the standard deviation is calculated from the data.}
 
-\item{conf.level}{Numeric value between ‘0’ and ‘1’ giving the confidence interval.
-By default `conf.level` is 0.9973 (99.73\%) which is the reference interval bounded by the 99.865\% and 0.135\% quantile.}
+\item{conf.level}{Numeric value between \code{0} and \code{1} giving the confidence interval.
+By default \code{conf.level} is \code{0.9973} (99.73\%) which is the reference interval bounded by the 99.865\% and 0.135\% quantile.}
 
-\item{bounds.lty}{graphical parameter. For further details see `ppPlot` or `qqPlot`.}
+\item{bounds.lty}{graphical parameter. For further details see \code{ppPlot} or \code{qqPlot}.}
 
 \item{bounds.col}{A character string specifying the color of the capability bounds. Default is "red".}
 
@@ -84,26 +84,26 @@ By default `conf.level` is 0.9973 (99.73\%) which is the reference interval boun
 
 \item{col.curve}{A character string specifying the color of the fitted distribution curve. Default is "red".}
 
-\item{plot}{A logical value indicating whether to generate a plot. Default is TRUE.}
+\item{plot}{A logical value indicating whether to generate a plot. Default is \code{TRUE}.}
 
-\item{ADtest}{A logical value indicating whether to print the Anderson-Darling. Default is TRUE.}
+\item{ADtest}{A logical value indicating whether to print the Anderson-Darling. Default is \code{TRUE}.}
 }
 \value{
 The function returns a list with the following components:
 
-The function `pcr` returns a list with `lambda`, `cp`, `cpl`, `cpu`, `ppt`, `ppl`, `ppu`, `A`, `usl`, `lsl`, `target`, `asTest`, `plot`.
+The function \code{pcr} returns a list with \code{lambda}, \code{cp}, \code{cpl}, \code{cpu}, \code{ppt}, \code{ppl}, \code{ppu}, \code{A}, \code{usl}, \code{lsl}, \code{target}, \code{asTest}, \code{plot}.
 }
 \description{
-Calculates the process capability cp, cpk, cpkL (onesided) and cpkU (onesided) for a given dataset and distribution.
-A histogramm with a density curve is displayed along with the specification limits and a Quantile-Quantile Plot for the specified distribution.
+Calculates the process capability \code{cp}, \code{cpk}, \code{cpkL} (onesided) and \code{cpkU} (onesided) for a given dataset and distribution.
+A histogram with a density curve is displayed along with the specification limits and a Quantile-Quantile Plot for the specified distribution.
 Lower-, upper and total fraction of nonconforming entities are calculated. Box-Cox Transformations are supported as well as the calculation of Anderson Darling Test Statistics.
 }
 \details{
-Distribution fitting is delegated to the function `FitDistr` from this package, as well as the calculation of lambda for the Box-Cox Transformation. p-values for the Anderson-Darling Test are reported for the most important distributions.
+Distribution fitting is delegated to the function \code{FitDistr} from this package, as well as the calculation of lambda for the Box-Cox Transformation. p-values for the Anderson-Darling Test are reported for the most important distributions.
 
 The process capability indices are calculated as follows:
 \itemize{
-  \item \strong{cpk}: minimum of cpK and cpL.
+  \item \strong{cpk}: minimum of \code{cpK} and \code{cpL}.
   \item \strong{pt}: total fraction nonconforming.
   \item \strong{pu}: upper fraction nonconforming.
   \item \strong{pl}: lower fraction nonconforming.
@@ -113,9 +113,9 @@ The process capability indices are calculated as follows:
   \item \strong{cpk}: minimum process capability index.
 }
 
-For a Box-Cox transformation, a data vector with positive values is needed to estimate an optimal value of lambda for the Box-Cox power transformation of the values. The Box-Cox power transformation is used to bring the distribution of the data vector closer to normality. Estimation of the optimal lambda is delegated to the function `boxcox` from the `MASS` package. The Box-Cox transformation has the form \eqn{y(\lambda) = \frac{y^\lambda - 1}{\lambda}} for \eqn{\lambda \neq 0}, and \eqn{y(\lambda) = \log(y)} for \eqn{\lambda = 0}. The function `boxcox` computes the profile log-likelihoods for a range of values of the parameter lambda. The function `boxcox.lambda` returns the value of lambda with the maximum profile log-likelihood.
+For a Box-Cox transformation, a data vector with positive values is needed to estimate an optimal value of lambda for the Box-Cox power transformation of the values. The Box-Cox power transformation is used to bring the distribution of the data vector closer to normality. Estimation of the optimal lambda is delegated to the function \code{boxcox} from the \code{MASS} package. The Box-Cox transformation has the form \eqn{y(\lambda) = \frac{y^\lambda - 1}{\lambda}} for \eqn{\lambda \neq 0}, and \eqn{y(\lambda) = \log(y)} for \eqn{\lambda = 0}. The function \code{boxcox} computes the profile log-likelihoods for a range of values of the parameter lambda. The function \code{boxcox.lambda} returns the value of lambda with the maximum profile log-likelihood.
 
-In case no specification limits are given, `lsl` and `usl` are calculated to support a process capability index of 1.
+In case no specification limits are given, \code{lsl} and \code{usl} are calculated to support a process capability index of 1.
 }
 \examples{
 set.seed(1234)

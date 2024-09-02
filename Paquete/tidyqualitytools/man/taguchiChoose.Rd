@@ -18,19 +18,21 @@ taguchiChoose(factors1 = 0, factors2 = 0, level1 = 0, level2 = 0, ia = 0)
 \item{ia}{Integer number of interactions. By default set to ‘0’.}
 }
 \value{
-`taguchiChoose` returns an object of class `taguchiDesign`.
+\code{taguchiChoose} returns an object of class \code{taguchiDesign}.
 }
 \description{
 Shows a matrix of possible taguchi designs
 }
 \details{
-`taguchiChoose` returns possible taguchi designs.
+\code{taguchiChoose} returns possible taguchi designs.
 Specifying the number of factor1 factors with level1 levels (factors1 = 2, level1 = 3 means 2 factors with 3 factor levels) and factor2 factors with level2 levels and desired interactions one or more taguchi designs are suggested.
 If all parameters are set to 0, a matrix of possible taguchi designs is shown.
 }
 \seealso{
-\item{\code{\link{facDesig}}}{for 2^k factorial designs.}
-\item{\code{\link{rsmDesign}}}{for response surface designs.}
-\item{\code{\link{fracDesig}}}{for fractional factorial design.}
-\item{\code{\link{gageRRDesig}}}{for gage designs.}
+\itemize{
+\item{\code{\link{facDesig}}: for 2^k factorial designs.}
+\item{\code{\link{rsmDesign}}: for response surface designs.}
+\item{\code{\link{fracDesig}}: for fractional factorial design.}
+\item{\code{\link{gageRRDesig}}: for gage designs.}
+}
 }

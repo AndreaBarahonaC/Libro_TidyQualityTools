@@ -19,7 +19,7 @@ starDesign(
 \item{p}{Integer value giving the number of factors via aliasing.
 By default set to ‘0’.}
 
-\item{alpha}{If no numeric value is given defaults to “both” i.e. “orthogonality” and “rotatibility” which can be set as character strings too.}
+\item{alpha}{If no numeric value is given defaults to \code{"both"} i.e. \code{"orthogonality"} and \code{"rotatibility"} which can be set as character strings too.}
 
 \item{cs}{Integer value giving the number of centerpoints in the star portion of the design.}
 

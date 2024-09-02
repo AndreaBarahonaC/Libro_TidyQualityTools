@@ -61,6 +61,12 @@ MSALinearity <-R6Class("MSALinearity", public = list(X = data.frame(),
                                                        }
                                                      },
 
+                                                     #' @description Plots the measurement system, including individual biases, mean bias, and a regression line with confidence intervals.
+                                                     #' @param ylim A numeric vector specifying the limits for the y-axis. If not provided, the limits are automatically calculated based on data.
+                                                     #' @param col A vector specifying the colors to be used for different plot elements.
+                                                     #' @param pch A numeric vector specifying the plotting characters (symbols) for individual data points and mean bias points.
+                                                     #' @param lty A numeric vector specifying the line types for the regression line and its confidence intervals. The default is \code{c(1, 2)}.
+                                                     #' @param ... Additional graphical parameters passed to the \code{plot} function, allowing further customization of the plot's appearance.
                                                      plot = function(ylim, col, pch, lty = c(1, 2), ...){
                                                        conf.level = self$conf.level
                                                        g = nrow(self$X[2])
@@ -104,7 +110,7 @@ MSALinearity <-R6Class("MSALinearity", public = list(X = data.frame(),
                                                      },
 
                                                      #' @description Return a data frame with the information of the object \code{MSALinearity}.
-                                                     as.data.frame = function(row.names = NULL, optional = FALSE, ...){
+                                                     as.data.frame = function(){
                                                        return(cbind(self$X,self$Y))
                                                      }
 )
