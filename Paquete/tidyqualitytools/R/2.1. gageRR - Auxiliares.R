@@ -66,3 +66,24 @@
   }
   return(out)
 }
+# .splitDev ----
+.splitDev = function(x) {
+  if (x > 6)
+    dev = TRUE
+  else dev = FALSE
+  if (x == 1)
+    mfrow = c(1, 1)
+  if (x == 2)
+    mfrow = c(1, 2)
+  if (x == 3)
+    mfrow = c(2, 2)
+  if (x == 4)
+    mfrow = c(2, 2)
+  if (x == 5)
+    mfrow = c(2, 3)
+  if (x == 6)
+    mfrow = c(2, 3)
+  if (x >= 7)
+    mfrow = c(3, 3)
+  return(list(dev, mfrow))
+}
