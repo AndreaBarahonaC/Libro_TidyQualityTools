@@ -208,9 +208,9 @@ pbDesign.c <- R6Class("pbDesign", public = list(name = NULL,
                                                   if (is.list(x) && length(x[[1]]) > 0) {
                                                     numAttr = length(x[[1]]$attributes())
                                                     .numFac = length(x)
-                                                    #len = 0
-                                                    # for (i in names(x)) if (length(x[[i]]$values) > len)
-                                                    #   len = length(x[[i]]$values)
+                                                    len = 0
+                                                    for (i in names(x)) if (length(x[[i]]$values) > len)
+                                                      len = length(x[[i]]$values)
                                                     #numAttr = numAttr + len
                                                     numrows = numAttr #- 1
                                                     frameOut = data.frame(matrix(NA, ncol = .numFac, nrow = numrows))
