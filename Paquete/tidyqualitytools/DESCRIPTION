@@ -19,5 +19,7 @@ Imports:
     dplyr,
     tidyr,
     tibble,
-    MASS
+    MASS,
+    Rsolnp,
+    grid
 RoxygenNote: 7.3.1

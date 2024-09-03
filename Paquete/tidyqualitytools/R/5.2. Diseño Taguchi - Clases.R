@@ -159,9 +159,15 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                             }
                                                           },
 
+                                                          #' @description Return a data frame with the information of the object \code{taguchiDesign.c}.
+                                                          as.data.frame = function(){
+                                                            frameOut = cbind(self$standardOrder, self$runOrder, self$replic, self$design, self$response)
+                                                            return(frameOut)
+                                                          },
+
                                                           #' @description Methods for function \code{print} in Package \code{base}.
                                                           print = function(){
-                                                            print(format(as.data.frame(self), digits = 4))
+                                                            print(format(self$as.data.frame(), digits = 4))
                                                           },
 
                                                           #' @description Get and set the the \code{response} in an object of class \code{taguchiDesign}.
@@ -196,9 +202,9 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                             if (is.list(x) && length(x[[1]]) > 0) {
                                                               numAttr = length(x[[1]]$attributes())
                                                               .numFac = length(x)
-                                                              #len = 0
-                                                              # for (i in names(x)) if (length(x[[i]]$values) > len)
-                                                              #   len = length(x[[i]]$values)
+                                                              len = 0
+                                                              for (i in names(x)) if (length(x[[i]]$values) > len)
+                                                                len = length(x[[i]]$values)
                                                               #numAttr = numAttr + len
                                                               numrows = numAttr #- 1
                                                               frameOut = data.frame(matrix(NA, ncol = .numFac, nrow = numrows))
