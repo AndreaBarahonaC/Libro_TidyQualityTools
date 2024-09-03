@@ -4,7 +4,7 @@
 
 # .m.interaction.plot.taguchi ----
 .m.interaction.plot.taguchi <- function(x.factor, trace.factor, response, fun = mean, xlab = deparse(substitute(x.factor)), ylab, ylim = range(cells, na.rm = TRUE), lty = nc:1, col = 1,
-                                        main, xPoints, yPoints){
+                                        main, xPoints, yPoints, l.col, p.col, ld.col){
   x.factor <- factor(x.factor, levels = sort(unique(x.factor)))
   cells <- tapply(response, list(x.factor, trace.factor), fun)
   nr <- nrow(cells)
@@ -31,12 +31,18 @@
     ylabs <- as.character(1L:nc)
   xlim <- range(xvals)
   xleg <- xlim[2L] + 0.05 * diff(xlim)
+  if(missing(l.col))
+    l.col = "black"
+  if(missing(ld.col))
+    ld.col = "#324B7A"
+  if(missing(p.col))
+    p.col = "black"
 
   df <- data.frame(x = xvals, y = c(cells))
 
   # PLOT
   p <- ggplot(df, aes(x = x, y = y)) +
-    geom_line() +
+    geom_line(color = l.col) +
     ylim(ylim) + labs(x = xlab, y = ylab, title = main) + theme_bw() +
     scale_x_continuous(breaks = seq(3),
                        labels = seq(3)) +
@@ -46,10 +52,10 @@
           plot.title = element_text(hjust = 0.5))
 
   if (deparse(substitute(mean)) == "mean"){
-    p <- p + geom_hline(yintercept = median(df$y, na.rm = TRUE), linetype = "dashed", col = "#324B7A")
+    p <- p + geom_hline(yintercept = median(df$y, na.rm = TRUE), linetype = "dashed", col = ld.col)
   }
   p <- p +
-    geom_point(data = data.frame(x = xPoints, y = yPoints), aes(x = x, y = y))
+    geom_point(data = data.frame(x = xPoints, y = yPoints), aes(x = x, y = y), color = p.col)
 
   invisible(list(xVals = df$x, yVals = df$y, plot = p))
 }

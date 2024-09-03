@@ -238,24 +238,26 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                           #' @param single Logical; if TRUE, plots effects for single factor; otherwise, for combinations of factors.
                                                           #' @param points Logical; if TRUE, plots data points.
                                                           #' @param classic Logical; if TRUE, uses classic plotting style.
-                                                          #' @param axes Logical; if TRUE, includes axes in the plot.
                                                           #' @param lty Line type for plotting.
                                                           #' @param xlab Label for the x-axis.
                                                           #' @param ylab Label for the y-axis.
                                                           #' @param main Main title for the plot.
                                                           #' @param ylim Limits for the y-axis.
-                                                          #' @param ... Additional plotting parameters.
-                                                          effectPlot = function(factors, fun = mean, response = NULL, single = FALSE, points = FALSE, classic = FALSE,  ###
-                                                                                axes = TRUE, lty, xlab, ylab, main, ylim, ...){
+                                                          #' @examples
+                                                          #' tdo = taguchiDesign("L9_3")
+                                                          #' tdo$.response(rnorm(9))
+                                                          #' tdo$effectPlot(points = TRUE, col = 2, pch = 16, lty = 3)
+                                                          effectPlot = function(factors, fun = mean, response = NULL, single = FALSE, points = FALSE, classic = FALSE,
+                                                                                l.col, p.col, ld.col,lty, xlab, ylab, main, ylim, ...){
 
 
                                                             if(missing(factors))
                                                               factors = self$factors
-                                                            if(is.null(response)==FALSE)                                                ###
-                                                            {                                                                           ###
-                                                              temp=self$.response()[response]                                            ###
-                                                              self$.response(temp)                                                      ###
-                                                            }                                                                           ###
+                                                            if(is.null(response)==FALSE)
+                                                            {
+                                                              temp=self$.response()[response]
+                                                              self$.response(temp)
+                                                            }
                                                             ylabmiss = FALSE
                                                             xlabmiss = FALSE
                                                             mainmiss = FALSE
@@ -268,14 +270,14 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                             Y = self$.response()
                                                             if (!missing(factors))
                                                               k = length(factors)
-                                                            else #(missing(factors))                                                    ###
+                                                            else #(missing(factors))
                                                             {
                                                               k = ncol(X)
                                                               factors = names(X)
                                                             }
                                                             numCol = 1
                                                             numRow = 1
-                                                            if (!single && missing(factors)) {                                          ###
+                                                            if (!single && missing(factors)) {
                                                               if (ncol(X) == 2) {
                                                                 numCol = 2
                                                                 numRow = 1
@@ -285,41 +287,39 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                                 numRow = 2
                                                               }
                                                             }
-                                                            if (!single && !missing(factors)) {                                         ###
-                                                              if (length(factors) == 2) {                                             ###
-                                                                numCol = 2                                                          ###
-                                                                numRow = 1                                                          ###
-                                                              }                                                                       ###
-                                                              if (length(factors) == 3) {                                             ###
-                                                                numCol = 3                                                          ###
-                                                                numRow = 1                                                          ###
-                                                              }                                                                       ###
-                                                              if (length(factors) == 4) {                                             ###
-                                                                numCol = 2                                                          ###
-                                                                numRow = 2                                                          ###
-                                                              }                                                                       ###
-                                                              if (length(factors) == 5) {                                             ###
-                                                                numCol = 3                                                          ###
-                                                                numRow = 2                                                          ###
-                                                              }                                                                       ###
-                                                              if (length(factors) == 6) {                                             ###
-                                                                numCol = 3                                                          ###
-                                                                numRow = 2                                                          ###
-                                                              }                                                                       ###
-                                                              if (length(factors) > 6) {                                              ###
-                                                                numRow = ceiling(sqrt(length(factors)))                             ###
-                                                                numCol = ceiling(sqrt(length(factors)))                             ###
-                                                              }                                                                       ###
-                                                            }                                                                           ###
+                                                            if (!single && !missing(factors)) {
+                                                              if (length(factors) == 2) {
+                                                                numCol = 2
+                                                                numRow = 1
+                                                              }
+                                                              if (length(factors) == 3) {
+                                                                numCol = 3
+                                                                numRow = 1
+                                                              }
+                                                              if (length(factors) == 4) {
+                                                                numCol = 2
+                                                                numRow = 2
+                                                              }
+                                                              if (length(factors) == 5) {
+                                                                numCol = 3
+                                                                numRow = 2
+                                                              }
+                                                              if (length(factors) == 6) {
+                                                                numCol = 3
+                                                                numRow = 2
+                                                              }
+                                                              if (length(factors) > 6) {
+                                                                numRow = ceiling(sqrt(length(factors)))
+                                                                numCol = ceiling(sqrt(length(factors)))
+                                                              }
+                                                            }
                                                             if (classic) {
                                                               numCol = ncol(X)
                                                               numRow = 1
                                                             }
 
-                                                            # Lista para almacenar los gráficos
                                                             plots <- list()
 
-                                                            # Genera cada gráfico y guárdalo en la lista
                                                             for (j in 1:ncol(Y)) {
                                                               for (i in 1:length(factors)) {
                                                                 cells = as.vector(tapply(Y[, j], list(X[, names(factors[i])], rep(0, nrow(X))), fun))
@@ -329,7 +329,7 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
 
                                                                 grap <- .m.interaction.plot.taguchi(X[, names(factors[i])],rep(0, nrow(X)),Y[, j], fun, xlab = names(factors[i]),
                                                                                                     ylab = paste(deparse(substitute(fun)), "of", names(Y)[j]), ylim = range(cells, na.rm = TRUE), lty = lty, col = 1,
-                                                                                                    paste("Effect Plot for", names(Y)[j]), xPoints = X[, names(factors[i])], yPoints = Y[, j])
+                                                                                                    paste("Effect Plot for", names(Y)[j]), xPoints = X[, names(factors[i])], yPoints = Y[, j], l.col, p.col, ld.col)
 
                                                                 p <- grap$plot
 
@@ -340,8 +340,6 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                             final_plot <- wrap_plots(plots, nrow = numRow, ncol = numCol)
 
                                                             print(final_plot)
-
-
                                                           },
 
                                                           #' @description Calculates the alias table for a fractional factorial design and prints an easy to read summary of the defining relations such as 'I = ABCD' for a standard 2^(4-1) factorial design.
