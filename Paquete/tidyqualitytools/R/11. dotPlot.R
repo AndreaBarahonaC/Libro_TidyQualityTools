@@ -10,14 +10,14 @@ dotPlot <- function(x, group, xlim, ylim, col, xlab, ylab, pch, cex, breaks, sta
   #' @param ylab A title for the y-axis.
   #' @param pch A vector of integers specifying the symbols or a single character to be used for plotting points for the different groups in the dot plot.
   #' @param cex The amount by which points and symbols should be magnified relative to the default.
-  #' @param breaks A numeric vector specifying the breakpoints for binning the values in `x`.
-  #' @param stacked A logical value indicating whether the groups should be plotted in a stacked dot plot (default is `TRUE`).
+  #' @param breaks A numeric vector specifying the breakpoints for binning the values in \code{x}.
+  #' @param stacked A logical value indicating whether the groups should be plotted in a stacked dot plot (default is \code{TRUE}).
   #' @param main A title for the plot.
-  #' @param showPlot A logical value indicating whether to display the plot. Default is `TRUE`.
-  #' @details Values in `x` are assigned to the bins defined by `breaks`. The binning is performed using `hist`.
+  #' @param showPlot A logical value indicating whether to display the plot. Default is \code{TRUE}.
+  #' @details Values in \code{x} are assigned to the bins defined by \code{breaks}. The binning is performed using \code{hist}.
   #' @return A list cointaining:
   #' \describe{
-  #' \item {An invisible matrix containing `NA`s and numeric values representing values in a bin. The number of bins is given by the number of columns of the matrix.}
+  #' \item {An invisible matrix containing \code{NA}s and numeric values representing values in a bin. The number of bins is given by the number of columns of the matrix.}
   #' \item {The graphic.}
   #' }
 
