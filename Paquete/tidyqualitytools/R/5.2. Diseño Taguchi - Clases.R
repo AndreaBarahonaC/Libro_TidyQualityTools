@@ -248,7 +248,7 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                           #' tdo$.response(rnorm(9))
                                                           #' tdo$effectPlot(points = TRUE, col = 2, pch = 16, lty = 3)
                                                           effectPlot = function(factors, fun = mean, response = NULL, single = FALSE, points = FALSE, classic = FALSE,
-                                                                                lty, xlab, ylab, main, ylim, ...){
+                                                                                l.col, p.col, ld.col,lty, xlab, ylab, main, ylim, ...){
 
 
                                                             if(missing(factors))
@@ -329,7 +329,7 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
 
                                                                 grap <- .m.interaction.plot.taguchi(X[, names(factors[i])],rep(0, nrow(X)),Y[, j], fun, xlab = names(factors[i]),
                                                                                                     ylab = paste(deparse(substitute(fun)), "of", names(Y)[j]), ylim = range(cells, na.rm = TRUE), lty = lty, col = 1,
-                                                                                                    paste("Effect Plot for", names(Y)[j]), xPoints = X[, names(factors[i])], yPoints = Y[, j])
+                                                                                                    paste("Effect Plot for", names(Y)[j]), xPoints = X[, names(factors[i])], yPoints = Y[, j], l.col, p.col, ld.col)
 
                                                                 p <- grap$plot
 
