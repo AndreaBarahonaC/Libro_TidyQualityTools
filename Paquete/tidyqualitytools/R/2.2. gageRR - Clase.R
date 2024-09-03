@@ -567,7 +567,7 @@ gageRR.c <- R6Class("gageRR",
                         invisible(list(plot = p))
                       },
 
-                      #' @title errorPlot: Function to create error Charts
+
                       #' @description The data from an object of class \code{gageRR} can be analyzed by running “Error Charts” of the individual deviations from the accepted rference values. These “Error Charts” are provided by the function \code{errorPlot}.
                       #' @usage errorPlot(main, xlab, ylab, col, pch, ylim, legend=TRUE)
                       #' @param main a main title for the plot.
@@ -680,7 +680,7 @@ gageRR.c <- R6Class("gageRR",
                         invisible(list(plot = p))
                       },
 
-                      #' @title whiskersPlot: Function to create Whiskers Charts
+
                       #' @description In a Whiskers Chart, the high and low data values and the average (median) by part-by-operator are plotted to provide insight into the consistency between operators, to indicate outliers and to discover part-operator interactions. The Whiskers Chart reminds of boxplots for every part and every operator.
                       #' @param main a main title for the plot.
                       #' @param xlab A character string for the x-axis label.
@@ -787,7 +787,7 @@ gageRR.c <- R6Class("gageRR",
 
                       },
 
-                      #' @title averagePlot: Function to create average Plots
+
                       #' @description \code{averagePlot} creates all x-y plots of averages by size out of an object of class \code{gageRR}. Therfore the averages of the multiple readings by each operator on each part are plotted with the reference value or overall part averages as the index.
                       #' @param main a main title for the plot.
                       #' @param xlab A character string for the x-axis label.
@@ -883,7 +883,7 @@ gageRR.c <- R6Class("gageRR",
                         }
                       },
 
-                      #' @title compPlot: Function to create comparison Plots
+
                       #' @description \code{compPlot} creates comparison x-y plots of an object of class \code{gageRR}. The averages of the multiple readings by each operator on each part are plotted against each other with the operators as indices. This plot compares the values obtained by one operator to those of another.
                       #' @param main a main title for the plot.
                       #' @param xlab A character string for the x-axis label.
@@ -909,7 +909,7 @@ gageRR.c <- R6Class("gageRR",
                       #' gdo <- gageRR(gdo)
                       #'
                       #' gdo$compPlot()
-                      compPlot <- function(main, xlab, ylab, col, cex.lab, fun = NULL){
+                      compPlot = function(main, xlab, ylab, col, cex.lab, fun = NULL){
 
                         x <- self
                         if (missing(xlab))

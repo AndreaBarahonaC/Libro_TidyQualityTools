@@ -16,7 +16,7 @@ dotPlot <- function(x, group, xlim, ylim, col, xlab, ylab, pch, cex, breaks, sta
   #' @param showPlot A logical value indicating whether to display the plot. Default is \code{TRUE}.
   #' @details Values in \code{x} are assigned to the bins defined by \code{breaks}. The binning is performed using \code{hist}.
   #' @return A list cointaining:
-  #' \describe{
+  #' \itemize{
   #' \item {An invisible matrix containing \code{NA}s and numeric values representing values in a bin. The number of bins is given by the number of columns of the matrix.}
   #' \item {The graphic.}
   #' }

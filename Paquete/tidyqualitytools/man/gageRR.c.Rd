@@ -3,8 +3,142 @@
 \name{gageRR.c}
 \alias{gageRR.c}
 \title{gageRR-class: Class "gageRR"}
+\usage{
+errorPlot(main, xlab, ylab, col, pch, ylim, legend=TRUE)
+}
 \description{
 R6 Class for Gage R&R (Repeatability and Reproducibility) Analysis
+}
+\examples{
+#create gageRR-object
+gdo = gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, randomize = FALSE)
+#vector of responses
+y = c(0.29,0.08, 0.04,-0.56,-0.47,-1.38,1.34,1.19,0.88,0.47,0.01,0.14,-0.80,
+      -0.56,-1.46, 0.02,-0.20,-0.29,0.59,0.47,0.02,-0.31,-0.63,-0.46,2.26,
+      1.80,1.77,-1.36,-1.68,-1.49,0.41,0.25,-0.11,-0.68,-1.22,-1.13,1.17,0.94,
+      1.09,0.50,1.03,0.20,-0.92,-1.20,-1.07,-0.11, 0.22,-0.67,0.75,0.55,0.01,
+      -0.20, 0.08,-0.56,1.99,2.12,1.45,-1.25,-1.62,-1.77,0.64,0.07,-0.15,-0.58,
+      -0.68,-0.96,1.27,1.34,0.67,0.64,0.20,0.11,-0.84,-1.28,-1.45,-0.21,0.06,
+      -0.49,0.66,0.83,0.21,-0.17,-0.34,-0.49,2.01,2.19,1.87,-1.31,-1.50,-2.16)
+
+#appropriate responses
+gdo$response(y)
+# perform and gageRR
+gdo <- gageRR(gdo)
+
+# Using the plots
+gdo$plot()
+gdo$errorPlot()
+
+## ------------------------------------------------
+## Method `gageRR.c$plot`
+## ------------------------------------------------
+
+# Create gageRR-object
+gdo = gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, randomize = FALSE)
+# Vector of responses
+y = c(0.29,0.08, 0.04,-0.56,-0.47,-1.38,1.34,1.19,0.88,0.47,0.01,0.14,-0.80,
+      -0.56,-1.46, 0.02,-0.20,-0.29,0.59,0.47,0.02,-0.31,-0.63,-0.46,2.26,
+      1.80,1.77,-1.36,-1.68,-1.49,0.41,0.25,-0.11,-0.68,-1.22,-1.13,1.17,0.94,
+      1.09,0.50,1.03,0.20,-0.92,-1.20,-1.07,-0.11, 0.22,-0.67,0.75,0.55,0.01,
+      -0.20, 0.08,-0.56,1.99,2.12,1.45,-1.25,-1.62,-1.77,0.64,0.07,-0.15,-0.58,
+      -0.68,-0.96,1.27,1.34,0.67,0.64,0.20,0.11,-0.84,-1.28,-1.45,-0.21,0.06,
+      -0.49,0.66,0.83,0.21,-0.17,-0.34,-0.49,2.01,2.19,1.87,-1.31,-1.50,-2.16)
+
+# Appropriate responses
+gdo$response(y)
+# Perform and gageRR
+gdo <- gageRR(gdo)
+
+gdo$plot()
+
+## ------------------------------------------------
+## Method `gageRR.c$errorPlot`
+## ------------------------------------------------
+
+# Create gageRR-object
+gdo = gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, randomize = FALSE)
+# Vector of responses
+y = c(0.29,0.08, 0.04,-0.56,-0.47,-1.38,1.34,1.19,0.88,0.47,0.01,0.14,-0.80,
+      -0.56,-1.46, 0.02,-0.20,-0.29,0.59,0.47,0.02,-0.31,-0.63,-0.46,2.26,
+      1.80,1.77,-1.36,-1.68,-1.49,0.41,0.25,-0.11,-0.68,-1.22,-1.13,1.17,0.94,
+      1.09,0.50,1.03,0.20,-0.92,-1.20,-1.07,-0.11, 0.22,-0.67,0.75,0.55,0.01,
+      -0.20, 0.08,-0.56,1.99,2.12,1.45,-1.25,-1.62,-1.77,0.64,0.07,-0.15,-0.58,
+      -0.68,-0.96,1.27,1.34,0.67,0.64,0.20,0.11,-0.84,-1.28,-1.45,-0.21,0.06,
+      -0.49,0.66,0.83,0.21,-0.17,-0.34,-0.49,2.01,2.19,1.87,-1.31,-1.50,-2.16)
+
+# Appropriate responses
+gdo$response(y)
+# Perform and gageRR
+gdo <- gageRR(gdo)
+
+gdo$errorPlot()
+
+## ------------------------------------------------
+## Method `gageRR.c$whiskersPlot`
+## ------------------------------------------------
+
+# Create gageRR-object
+gdo = gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, randomize = FALSE)
+# Vector of responses
+y = c(0.29,0.08, 0.04,-0.56,-0.47,-1.38,1.34,1.19,0.88,0.47,0.01,0.14,-0.80,
+      -0.56,-1.46, 0.02,-0.20,-0.29,0.59,0.47,0.02,-0.31,-0.63,-0.46,2.26,
+      1.80,1.77,-1.36,-1.68,-1.49,0.41,0.25,-0.11,-0.68,-1.22,-1.13,1.17,0.94,
+      1.09,0.50,1.03,0.20,-0.92,-1.20,-1.07,-0.11, 0.22,-0.67,0.75,0.55,0.01,
+      -0.20, 0.08,-0.56,1.99,2.12,1.45,-1.25,-1.62,-1.77,0.64,0.07,-0.15,-0.58,
+      -0.68,-0.96,1.27,1.34,0.67,0.64,0.20,0.11,-0.84,-1.28,-1.45,-0.21,0.06,
+      -0.49,0.66,0.83,0.21,-0.17,-0.34,-0.49,2.01,2.19,1.87,-1.31,-1.50,-2.16)
+
+# Appropriate responses
+gdo$response(y)
+# Perform and gageRR
+gdo <- gageRR(gdo)
+
+gdo$whiskersPlot()
+
+## ------------------------------------------------
+## Method `gageRR.c$averagePlot`
+## ------------------------------------------------
+
+# Create gageRR-object
+gdo = gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, randomize = FALSE)
+# Vector of responses
+y = c(0.29,0.08, 0.04,-0.56,-0.47,-1.38,1.34,1.19,0.88,0.47,0.01,0.14,-0.80,
+      -0.56,-1.46, 0.02,-0.20,-0.29,0.59,0.47,0.02,-0.31,-0.63,-0.46,2.26,
+      1.80,1.77,-1.36,-1.68,-1.49,0.41,0.25,-0.11,-0.68,-1.22,-1.13,1.17,0.94,
+      1.09,0.50,1.03,0.20,-0.92,-1.20,-1.07,-0.11, 0.22,-0.67,0.75,0.55,0.01,
+      -0.20, 0.08,-0.56,1.99,2.12,1.45,-1.25,-1.62,-1.77,0.64,0.07,-0.15,-0.58,
+      -0.68,-0.96,1.27,1.34,0.67,0.64,0.20,0.11,-0.84,-1.28,-1.45,-0.21,0.06,
+      -0.49,0.66,0.83,0.21,-0.17,-0.34,-0.49,2.01,2.19,1.87,-1.31,-1.50,-2.16)
+
+# Appropriate responses
+gdo$response(y)
+# Perform and gageRR
+gdo <- gageRR(gdo)
+
+gdo$averagePlot()
+
+## ------------------------------------------------
+## Method `gageRR.c$compPlot`
+## ------------------------------------------------
+
+# Create gageRR-object
+gdo = gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, randomize = FALSE)
+# Vector of responses
+y = c(0.29,0.08, 0.04,-0.56,-0.47,-1.38,1.34,1.19,0.88,0.47,0.01,0.14,-0.80,
+      -0.56,-1.46, 0.02,-0.20,-0.29,0.59,0.47,0.02,-0.31,-0.63,-0.46,2.26,
+      1.80,1.77,-1.36,-1.68,-1.49,0.41,0.25,-0.11,-0.68,-1.22,-1.13,1.17,0.94,
+      1.09,0.50,1.03,0.20,-0.92,-1.20,-1.07,-0.11, 0.22,-0.67,0.75,0.55,0.01,
+      -0.20, 0.08,-0.56,1.99,2.12,1.45,-1.25,-1.62,-1.77,0.64,0.07,-0.15,-0.58,
+      -0.68,-0.96,1.27,1.34,0.67,0.64,0.20,0.11,-0.84,-1.28,-1.45,-0.21,0.06,
+      -0.49,0.66,0.83,0.21,-0.17,-0.34,-0.49,2.01,2.19,1.87,-1.31,-1.50,-2.16)
+
+# Appropriate responses
+gdo$response(y)
+# Perform and gageRR
+gdo <- gageRR(gdo)
+
+gdo$compPlot()
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -65,6 +199,10 @@ R6 Class for Gage R&R (Repeatability and Reproducibility) Analysis
 \item \href{#method-gageRR-get.sigma}{\code{gageRR.c$get.sigma()}}
 \item \href{#method-gageRR-set.sigma}{\code{gageRR.c$set.sigma()}}
 \item \href{#method-gageRR-plot}{\code{gageRR.c$plot()}}
+\item \href{#method-gageRR-errorPlot}{\code{gageRR.c$errorPlot()}}
+\item \href{#method-gageRR-whiskersPlot}{\code{gageRR.c$whiskersPlot()}}
+\item \href{#method-gageRR-averagePlot}{\code{gageRR.c$averagePlot()}}
+\item \href{#method-gageRR-compPlot}{\code{gageRR.c$compPlot()}}
 \item \href{#method-gageRR-clone}{\code{gageRR.c$clone()}}
 }
 }
@@ -303,10 +441,238 @@ This function creates a customized plot using the data from the \code{gageRR.c} 
 
 \item{\code{lwd}}{A numeric value specifying the line width of plot elements}
 
-\item{\code{fun}}{Function to use for the calculation of the interactions (e.g., `mean`, `median`). Default is `mean`.}
+\item{\code{fun}}{Function to use for the calculation of the interactions (e.g., \code{mean}, \code{median}). Default is \code{mean}.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{# Create gageRR-object
+gdo = gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, randomize = FALSE)
+# Vector of responses
+y = c(0.29,0.08, 0.04,-0.56,-0.47,-1.38,1.34,1.19,0.88,0.47,0.01,0.14,-0.80,
+      -0.56,-1.46, 0.02,-0.20,-0.29,0.59,0.47,0.02,-0.31,-0.63,-0.46,2.26,
+      1.80,1.77,-1.36,-1.68,-1.49,0.41,0.25,-0.11,-0.68,-1.22,-1.13,1.17,0.94,
+      1.09,0.50,1.03,0.20,-0.92,-1.20,-1.07,-0.11, 0.22,-0.67,0.75,0.55,0.01,
+      -0.20, 0.08,-0.56,1.99,2.12,1.45,-1.25,-1.62,-1.77,0.64,0.07,-0.15,-0.58,
+      -0.68,-0.96,1.27,1.34,0.67,0.64,0.20,0.11,-0.84,-1.28,-1.45,-0.21,0.06,
+      -0.49,0.66,0.83,0.21,-0.17,-0.34,-0.49,2.01,2.19,1.87,-1.31,-1.50,-2.16)
+
+# Appropriate responses
+gdo$response(y)
+# Perform and gageRR
+gdo <- gageRR(gdo)
+
+gdo$plot()
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-gageRR-errorPlot"></a>}}
+\if{latex}{\out{\hypertarget{method-gageRR-errorPlot}{}}}
+\subsection{Method \code{errorPlot()}}{
+The data from an object of class \code{gageRR} can be analyzed by running “Error Charts” of the individual deviations from the accepted rference values. These “Error Charts” are provided by the function \code{errorPlot}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{gageRR.c$errorPlot(main, xlab, ylab, col, pch, ylim, legend = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{main}}{a main title for the plot.}
+
+\item{\code{xlab}}{A character string for the x-axis label.}
+
+\item{\code{ylab}}{A character string for the y-axis label.}
+
+\item{\code{col}}{Plotting color.}
+
+\item{\code{pch}}{An integer specifying a symbol or a single character to be used as the default in plotting points.}
+
+\item{\code{ylim}}{The y limits of the plot.}
+
+\item{\code{legend}}{A logical value specifying whether a legend is plotted automatically. By default legend is set to ‘TRUE’.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{# Create gageRR-object
+gdo = gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, randomize = FALSE)
+# Vector of responses
+y = c(0.29,0.08, 0.04,-0.56,-0.47,-1.38,1.34,1.19,0.88,0.47,0.01,0.14,-0.80,
+      -0.56,-1.46, 0.02,-0.20,-0.29,0.59,0.47,0.02,-0.31,-0.63,-0.46,2.26,
+      1.80,1.77,-1.36,-1.68,-1.49,0.41,0.25,-0.11,-0.68,-1.22,-1.13,1.17,0.94,
+      1.09,0.50,1.03,0.20,-0.92,-1.20,-1.07,-0.11, 0.22,-0.67,0.75,0.55,0.01,
+      -0.20, 0.08,-0.56,1.99,2.12,1.45,-1.25,-1.62,-1.77,0.64,0.07,-0.15,-0.58,
+      -0.68,-0.96,1.27,1.34,0.67,0.64,0.20,0.11,-0.84,-1.28,-1.45,-0.21,0.06,
+      -0.49,0.66,0.83,0.21,-0.17,-0.34,-0.49,2.01,2.19,1.87,-1.31,-1.50,-2.16)
+
+# Appropriate responses
+gdo$response(y)
+# Perform and gageRR
+gdo <- gageRR(gdo)
+
+gdo$errorPlot()
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-gageRR-whiskersPlot"></a>}}
+\if{latex}{\out{\hypertarget{method-gageRR-whiskersPlot}{}}}
+\subsection{Method \code{whiskersPlot()}}{
+In a Whiskers Chart, the high and low data values and the average (median) by part-by-operator are plotted to provide insight into the consistency between operators, to indicate outliers and to discover part-operator interactions. The Whiskers Chart reminds of boxplots for every part and every operator.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{gageRR.c$whiskersPlot(main, xlab, ylab, col, ylim, legend = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{main}}{a main title for the plot.}
+
+\item{\code{xlab}}{A character string for the x-axis label.}
+
+\item{\code{ylab}}{A character string for the y-axis label.}
+
+\item{\code{col}}{Plotting color.}
+
+\item{\code{ylim}}{The y limits of the plot.}
+
+\item{\code{legend}}{A logical value specifying whether a legend is plotted automatically. By default legend is set to ‘TRUE’.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{# Create gageRR-object
+gdo = gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, randomize = FALSE)
+# Vector of responses
+y = c(0.29,0.08, 0.04,-0.56,-0.47,-1.38,1.34,1.19,0.88,0.47,0.01,0.14,-0.80,
+      -0.56,-1.46, 0.02,-0.20,-0.29,0.59,0.47,0.02,-0.31,-0.63,-0.46,2.26,
+      1.80,1.77,-1.36,-1.68,-1.49,0.41,0.25,-0.11,-0.68,-1.22,-1.13,1.17,0.94,
+      1.09,0.50,1.03,0.20,-0.92,-1.20,-1.07,-0.11, 0.22,-0.67,0.75,0.55,0.01,
+      -0.20, 0.08,-0.56,1.99,2.12,1.45,-1.25,-1.62,-1.77,0.64,0.07,-0.15,-0.58,
+      -0.68,-0.96,1.27,1.34,0.67,0.64,0.20,0.11,-0.84,-1.28,-1.45,-0.21,0.06,
+      -0.49,0.66,0.83,0.21,-0.17,-0.34,-0.49,2.01,2.19,1.87,-1.31,-1.50,-2.16)
+
+# Appropriate responses
+gdo$response(y)
+# Perform and gageRR
+gdo <- gageRR(gdo)
+
+gdo$whiskersPlot()
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-gageRR-averagePlot"></a>}}
+\if{latex}{\out{\hypertarget{method-gageRR-averagePlot}{}}}
+\subsection{Method \code{averagePlot()}}{
+\code{averagePlot} creates all x-y plots of averages by size out of an object of class \code{gageRR}. Therfore the averages of the multiple readings by each operator on each part are plotted with the reference value or overall part averages as the index.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{gageRR.c$averagePlot(main, xlab, ylab, col, single = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{main}}{a main title for the plot.}
+
+\item{\code{xlab}}{A character string for the x-axis label.}
+
+\item{\code{ylab}}{A character string for the y-axis label.}
+
+\item{\code{col}}{Plotting color.}
+
+\item{\code{single}}{A logical value.If ‘TRUE’ a new graphic device will be opened for each plot. By default \code{single} is set to ‘FALSE’.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{# Create gageRR-object
+gdo = gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, randomize = FALSE)
+# Vector of responses
+y = c(0.29,0.08, 0.04,-0.56,-0.47,-1.38,1.34,1.19,0.88,0.47,0.01,0.14,-0.80,
+      -0.56,-1.46, 0.02,-0.20,-0.29,0.59,0.47,0.02,-0.31,-0.63,-0.46,2.26,
+      1.80,1.77,-1.36,-1.68,-1.49,0.41,0.25,-0.11,-0.68,-1.22,-1.13,1.17,0.94,
+      1.09,0.50,1.03,0.20,-0.92,-1.20,-1.07,-0.11, 0.22,-0.67,0.75,0.55,0.01,
+      -0.20, 0.08,-0.56,1.99,2.12,1.45,-1.25,-1.62,-1.77,0.64,0.07,-0.15,-0.58,
+      -0.68,-0.96,1.27,1.34,0.67,0.64,0.20,0.11,-0.84,-1.28,-1.45,-0.21,0.06,
+      -0.49,0.66,0.83,0.21,-0.17,-0.34,-0.49,2.01,2.19,1.87,-1.31,-1.50,-2.16)
+
+# Appropriate responses
+gdo$response(y)
+# Perform and gageRR
+gdo <- gageRR(gdo)
+
+gdo$averagePlot()
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-gageRR-compPlot"></a>}}
+\if{latex}{\out{\hypertarget{method-gageRR-compPlot}{}}}
+\subsection{Method \code{compPlot()}}{
+\code{compPlot} creates comparison x-y plots of an object of class \code{gageRR}. The averages of the multiple readings by each operator on each part are plotted against each other with the operators as indices. This plot compares the values obtained by one operator to those of another.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{gageRR.c$compPlot(main, xlab, ylab, col, cex.lab, fun = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{main}}{a main title for the plot.}
+
+\item{\code{xlab}}{A character string for the x-axis label.}
+
+\item{\code{ylab}}{A character string for the y-axis label.}
+
+\item{\code{col}}{Plotting color.}
+
+\item{\code{cex.lab}}{The magnification to be used for x and y labels relative to the current setting of cex.}
+
+\item{\code{fun}}{Optional function that will be applied to the multiple readings of each part. fun should be an object of class \code{function} like \code{mean},\code{median}, \code{sum}, etc. By default, \code{fun} is set to ‘NULL’ and all readings will be plotted.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{# Create gageRR-object
+gdo = gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, randomize = FALSE)
+# Vector of responses
+y = c(0.29,0.08, 0.04,-0.56,-0.47,-1.38,1.34,1.19,0.88,0.47,0.01,0.14,-0.80,
+      -0.56,-1.46, 0.02,-0.20,-0.29,0.59,0.47,0.02,-0.31,-0.63,-0.46,2.26,
+      1.80,1.77,-1.36,-1.68,-1.49,0.41,0.25,-0.11,-0.68,-1.22,-1.13,1.17,0.94,
+      1.09,0.50,1.03,0.20,-0.92,-1.20,-1.07,-0.11, 0.22,-0.67,0.75,0.55,0.01,
+      -0.20, 0.08,-0.56,1.99,2.12,1.45,-1.25,-1.62,-1.77,0.64,0.07,-0.15,-0.58,
+      -0.68,-0.96,1.27,1.34,0.67,0.64,0.20,0.11,-0.84,-1.28,-1.45,-0.21,0.06,
+      -0.49,0.66,0.83,0.21,-0.17,-0.34,-0.49,2.01,2.19,1.87,-1.31,-1.50,-2.16)
+
+# Appropriate responses
+gdo$response(y)
+# Perform and gageRR
+gdo <- gageRR(gdo)
+
+gdo$compPlot()
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-gageRR-clone"></a>}}
