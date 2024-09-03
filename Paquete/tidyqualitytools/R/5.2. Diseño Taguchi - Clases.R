@@ -247,11 +247,10 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                           #' @param ... Additional plotting parameters.
                                                           effectPlot = function(factors, fun = mean, response = NULL, single = FALSE, points = FALSE, classic = FALSE,  ###
                                                                                 axes = TRUE, lty, xlab, ylab, main, ylim, ...){
-                                                            oldMar = par("mar")
-                                                            oldOma = par("oma")
-                                                            oldMfrow = par("mfrow")
-                                                            oldMfcol = par("mfcol")
-                                                            on.exit(par(mar = oldMar, oma = oldOma, mfrow = oldMfrow, mfcol = oldMfcol))
+
+
+                                                            if(missing(factors))
+                                                              factors = self$factors
                                                             if(is.null(response)==FALSE)                                                ###
                                                             {                                                                           ###
                                                               temp=self$.response()[response]                                            ###
@@ -316,75 +315,31 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                               numCol = ncol(X)
                                                               numRow = 1
                                                             }
-                                                            if (!single)
-                                                              par(mfrow = c(numRow, numCol))
-                                                            nextResponse = FALSE
+
+                                                            # Lista para almacenar los gráficos
+                                                            plots <- list()
+
+                                                            # Genera cada gráfico y guárdalo en la lista
                                                             for (j in 1:ncol(Y)) {
-                                                              counter = 0
-                                                              cells = numeric(0)
                                                               for (i in 1:length(factors)) {
-                                                                cells = c(cells, as.vector(tapply(Y[, j], list(X[, factors[i]], rep(0, nrow(X))), fun)))
-                                                                if (points)
+                                                                cells = as.vector(tapply(Y[, j], list(X[, names(factors[i])], rep(0, nrow(X))), fun))
+                                                                if (points) {
                                                                   cells = range(Y)
+                                                                }
+
+                                                                grap <- .m.interaction.plot.taguchi(X[, names(factors[i])],rep(0, nrow(X)),Y[, j], fun, xlab = names(factors[i]),
+                                                                                                    ylab = paste(deparse(substitute(fun)), "of", names(Y)[j]), ylim = range(cells, na.rm = TRUE), lty = lty, col = 1,
+                                                                                                    paste("Effect Plot for", names(Y)[j]), xPoints = X[, names(factors[i])], yPoints = Y[, j])
+
+                                                                p <- grap$plot
+
+                                                                plots[[length(plots) + 1]] <- p
                                                               }
-                                                              if (nextResponse & !single) {
-                                                                dev.new()
-                                                                par(mfrow = c(numRow, numCol))
-                                                              }
-                                                              for (i in 1:length(factors)) {
-                                                                if ((counter != 0 & counter%%(numCol * numRow) == 0) & !single) {
-                                                                  dev.new()
-                                                                  par(mfrow = c(numRow, numCol))
-                                                                }
-                                                                if (missing(main)) {
-                                                                  main = paste("Effect Plot for", names(Y)[j])
-                                                                  mainmiss = TRUE
-                                                                }
-                                                                if (mainmiss)
-                                                                  main = paste("Effect Plot for", names(Y)[j])
-                                                                if (missing(xlab)) {
-                                                                  xlab = factors[i]
-                                                                  xlabmiss = TRUE
-                                                                }
-                                                                if (xlabmiss) {
-                                                                  if (identical(" ", names(self)[[i]]))
-                                                                    xlab = factors[i]
-                                                                  else xlab = paste(factors[i], ": ", names(self)[[i]], sep = "")
-                                                                }
-                                                                if (missing(ylab)) {
-                                                                  ylab = paste(deparse(substitute(fun)), "of ", names(Y)[j])
-                                                                  ylabmiss = TRUE
-                                                                }
-                                                                if (ylabmiss)
-                                                                  ylab = paste(deparse(substitute(fun)), "of ", names(Y)[j])
-                                                                if (ylimmiss)
-                                                                  ylim = range(cells, na.rm = TRUE)
-                                                                if (classic & i == 1) {
-                                                                  par(mar = c(5, 0, 0, 0) + 0.1)
-                                                                  par(oma = c(-0.1, 4, 4, 1) + 0.1)
-                                                                }
-                                                                if (classic) {
-                                                                  .m.interaction.plot(x.factor = X[, factors[i]], trace.factor = rep(0, nrow(X)), response = Y[, j], lty = lty, ylim = ylim, xlab = xlab, fun = fun,
-                                                                                      ylab = ylab, legend = FALSE, axes = FALSE, main = " ", ...)
-                                                                  grid(NA, 2)
-                                                                  axis(1, at = X[, factors[i]])
-                                                                  if (i == 1)
-                                                                    axis(2)
-                                                                  box()
-                                                                  title(main, outer = TRUE)
-                                                                }
-                                                                else {
-                                                                  .m.interaction.plot(x.factor = X[, factors[i]], trace.factor = rep(0, nrow(X)), response = Y[, j], lty = lty, ylim = ylim, xlab = xlab, fun = fun,
-                                                                                      ylab = ylab, legend = FALSE, axes = axes, main = main, ...)
-                                                                  grid(NA, 2)
-                                                                }
-                                                                if (points)
-                                                                  points(X[, factors[i]], Y[, j], ...)
-                                                                counter = counter + 1
-                                                              }
-                                                              nextResponse = TRUE
                                                             }
 
+                                                            final_plot <- wrap_plots(plots, nrow = numRow, ncol = numCol)
+
+                                                            print(final_plot)
                                                           },
 
                                                           #' @description Calculates the alias table for a fractional factorial design and prints an easy to read summary of the defining relations such as 'I = ABCD' for a standard 2^(4-1) factorial design.

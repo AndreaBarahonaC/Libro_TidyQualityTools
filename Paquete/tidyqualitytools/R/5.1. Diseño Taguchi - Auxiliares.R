@@ -2,6 +2,57 @@
 ####################### DISEÑO TAGUCHI - AUXILIARES (.r) ############################
 #####################################################################################
 
+# .m.interaction.plot.taguchi ----
+.m.interaction.plot.taguchi <- function(x.factor, trace.factor, response, fun = mean, xlab = deparse(substitute(x.factor)), ylab, ylim = range(cells, na.rm = TRUE), lty = nc:1, col = 1,
+                                        main, xPoints, yPoints){
+  x.factor <- factor(x.factor, levels = sort(unique(x.factor)))
+  cells <- tapply(response, list(x.factor, trace.factor), fun)
+  nr <- nrow(cells)
+  nc <- ncol(cells)
+  xvals <- 1L:nr
+  xvals = as.numeric(rownames(cells))
+  if (is.ordered(x.factor)) {
+    wn <- getOption("warn")
+    options(warn = -1)
+    xnm <- as.numeric(levels(x.factor))
+    options(warn = wn)
+    if (!any(is.na(xnm)))
+      xvals <- xnm
+  }
+  if (missing(main)) {
+    main = paste("Effect Plot")
+  }
+  xlabs <- rownames(cells)
+  ylabs <- colnames(cells)
+  nch <- max(sapply(ylabs, nchar, type = "width"))
+  if (is.null(xlabs))
+    xlabs <- as.character(xvals)
+  if (is.null(ylabs))
+    ylabs <- as.character(1L:nc)
+  xlim <- range(xvals)
+  xleg <- xlim[2L] + 0.05 * diff(xlim)
+
+  df <- data.frame(x = xvals, y = c(cells))
+
+  # PLOT
+  p <- ggplot(df, aes(x = x, y = y)) +
+    geom_line() +
+    ylim(ylim) + labs(x = xlab, y = ylab, title = main) + theme_bw() +
+    scale_x_continuous(breaks = seq(3),
+                       labels = seq(3)) +
+    theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.background = element_blank(),
+          plot.title = element_text(hjust = 0.5))
+
+  if (deparse(substitute(mean)) == "mean"){
+    p <- p + geom_hline(yintercept = median(df$y, na.rm = TRUE), linetype = "dashed", col = "#324B7A")
+  }
+  p <- p +
+    geom_point(data = data.frame(x = xPoints, y = yPoints), aes(x = x, y = y))
+
+  invisible(list(xVals = df$x, yVals = df$y, plot = p))
+}
 # .oaList ----
 .L4_2 = list(id = "L4_2", type = "single", niv_max = 2, runs = 4, anzahl_spalten = 3, levels1 = 2, levels2 = 0,
              factors1 = 3, factors2 = 0, colOrder = c(1, 2, 3), r4 = c(1, 2), r2 = c(1, 2, 3), design = data.frame(`1` = c(1,
