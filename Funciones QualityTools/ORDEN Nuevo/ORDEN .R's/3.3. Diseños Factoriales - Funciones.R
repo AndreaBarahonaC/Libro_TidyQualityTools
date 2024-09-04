@@ -1131,30 +1131,30 @@ wirePlot <- function(x, y, z, data = NULL,
                      plot = TRUE, show.scale = TRUE,
                      n.scene = "scene") {
   #' @title wirePlot: 3D Plot
-  #' @description Creates a wireframe diagramm for an object of class `facDesign`.
+  #' @description Creates a wireframe diagram for an object of class \code{facDesign}.
   #' @param x Name providing the Factor A for the plot.
   #' @param y Name providing the Factor B for the plot.
   #' @param z Name giving the Response variable.
-  #' @param data Needs to be an object of class `facDesign` and contains the names of x,y,z.
+  #' @param data Needs to be an object of class \code{facDesign} and contains the names of \code{x}, \code{y}, \code{z}.
   #' @param xlim Numeric vector of length 2: limits for the x-axis. If missing, limits are set automatically.
   #' @param ylim Numeric vector of length 2: limits for the y-axis. If missing, limits are set automatically.
   #' @param zlim Numeric vector of length 2: limits for the z-axis. If missing, limits are set automatically.
   #' @param main Character string: title of the plot.
   #' @param xlab Character string: label for the x-axis.
-  #' @param ylab character string: label for the y-axis.
-  #' @param zlab character string: label for the z-axis.
-  #' @param sub character string: subtitle for the plot. Default is `NULL`.
-  #' @param sub.a logical value indicating whether to display the subtitle. Default is `TRUE`.
-  #' @param form character string specifying the form of the surface to be plotted. Options include `"fit"` for a fitted surface, `"raw"` for raw data, and `"residuals"` for residuals. Default is `"fit"`.
-  #' @param col character string specifying the color palette to use for the plot. Default is `"Rainbow"`.
-  #' @param steps numeric value specifying the number of steps for the grid in the plot. Higher values result in a smoother surface.
-  #' @param factors optional character vector specifying the names of the factors to be used in the plot.
-  #' @param fun optional function to be applied to the data before plotting.
-  #' @param plot logical value indicating whether to display the plot. Default is `TRUE`.
-  #' @param show.scale logical value indicating whether to display the color scale on the plot. Default is `TRUE`.
-  #' @param n.scene character string specifying the scene name for the plot. Default is `"scene"`.
-  #' @details The `wirePlot` function is used to create a 3D wireframe plot that visualizes the relationship between two factors and a response variable. The plot can be customized in various ways, including changing axis labels, adding subtitles, and choosing the color palette.
-  #' @return The function `wirePlot` returns an invisible list containing:
+  #' @param ylab Character string: label for the y-axis.
+  #' @param zlab Character string: label for the z-axis.
+  #' @param sub Character string: subtitle for the plot. Default is \code{NULL}.
+  #' @param sub.a Logical value indicating whether to display the subtitle. Default is \code{TRUE}.
+  #' @param form Character string specifying the form of the surface to be plotted. Options include \code{"fit"} for a fitted surface, \code{"raw"} for raw data, and \code{"residuals"} for residuals. Default is \code{"fit"}.
+  #' @param col Character string specifying the color palette to use for the plot (e.g., \code{"Rainbow"}, \code{"Jet"}, \code{"Earth"}, \code{"Electric"}). Default is \code{"Rainbow"}.
+  #' @param steps Numeric value specifying the number of steps for the grid in the plot. Higher values result in a smoother surface.
+  #' @param factors Optional character vector specifying the names of the factors to be used in the plot.
+  #' @param fun Optional function to be applied to the data before plotting.
+  #' @param plot Logical value indicating whether to display the plot. Default is \code{TRUE}.
+  #' @param show.scale Logical value indicating whether to display the color scale on the plot. Default is \code{TRUE}.
+  #' @param n.scene Character string specifying the scene name for the plot. Default is \code{"scene"}.
+  #' @details The \code{wirePlot} function is used to create a 3D wireframe plot that visualizes the relationship between two factors and a response variable. The plot can be customized in various ways, including changing axis labels, adding subtitles, and choosing the color palette.
+  #' @return The function \code{wirePlot} returns an invisible list containing:
   #' \item{plot}{The generated wireframe plot.}
   #' \item{grid}{The grid data used for plotting.}
   #' @seealso \code{\link{contourPlot}}, \code{\link{ParetoChart}}.
@@ -1164,13 +1164,7 @@ wirePlot <- function(x, y, z, data = NULL,
   #' y <- seq(-10, 10, length = 30)
   #' z <- outer(x, y, function(a, b) sin(sqrt(a^2 + b^2)))
   #' wirePlot(x, y, z, main = "3D Wireframe Plot", xlab = "X-Axis", ylab = "Y-Axis", zlab = "Z-Axis")
-  #'
-  #' # Example 2: Wireframe plot with a custom color palette and grid steps
-  #' wirePlot(x, y, z, col = "terrain.colors", steps = 50, main = "Wireframe Plot with Custom Colors")
-  #'
-  #' # Example 3: Using data frame for plotting
-  #' df <- data.frame(x = rnorm(100), y = rnorm(100), z = rnorm(100))
-  #' wirePlot(x = df$x, y = df$y, z = df$z, main = "Wireframe Plot from Data Frame")
+
 
   form = form
   fact = NULL
@@ -1180,151 +1174,203 @@ wirePlot <- function(x, y, z, data = NULL,
   fit = NULL
   lm.1 = NULL
 
-  # Col puede ser: "Rainbow", "Jet", "Earth", "Electric"
-  if (is.null(data)) {
-    cat("\n defaulting to persp function\n")
-    return("persp")
-  }
-  if (class(data)[1] != "facDesign") {
-    cat("\n defaulting to persp function using formula\n")
-    return("persp")
-  }
+  if (is.null(data) | class(data)[1] != "facDesign") {
+    if(length(x) == length(y)){
+      if(dim(z)[1] == length(x) & dim(z)[2] == length(x)){
+        x.c = deparse(substitute(x))
+        y.c = deparse(substitute(y))
+        z.c = deparse(substitute(z))
 
-  x.c = deparse(substitute(x))
-  y.c = deparse(substitute(y))
-  z.c = deparse(substitute(z))
+        if (missing(main))
+          main = paste("Response Surface for", z.c)
 
-  if (missing(main))
-    main = paste("Response Surface for", z.c)
+        if (missing(ylab))
+          ylab = y.c
+        if (missing(xlab))
+          xlab = x.c
+        if (missing(zlab))
+          zlab = z.c
 
-  aux <- list()
-  for (i in 1:length(fdo$names())) {
-    aux[[.NAMES[i]]] <-fdo$names()[i]
-  }
-  if (missing(ylab))
-    ylab = paste(y.c, ": ", aux[[y.c]])
-  if (missing(xlab))
-    xlab = paste(x.c, ": ", aux[[x.c]])
-  if (missing(zlab))
-    zlab = paste(x.c, ": ", z.c)
+        if (missing(xlim))
+          xlim = c(min(x), max(x))
+        if (missing(ylim))
+          ylim = c(min(y), max(y))
 
-  if (missing(xlim))
-    xlim = c(min(fdo$get(, x.c)), max(fdo$get(, x.c)))
-  if (missing(ylim))
-    ylim = c(min(fdo$get(, y.c)), max(fdo$get(, y.c)))
+        if (missing(zlim))
+          zlim = range(z)
 
-  allVars = c(fdo$names(), names(fdo$.response()))
-  isct = intersect(c(aux[[x.c]], aux[[y.c]], z.c), c(fdo$names(), names(fdo$.response())))
+        p <- plot_ly(x = -y, y = x, z = z, colorscale=col, scene = n.scene) %>%
+          add_surface(showscale = show.scale) %>%
+          layout(
+            title = main,
+            scene = list(
+              xaxis = list(range = ylim, title = ylab, zeroline = FALSE),
+              yaxis = list(range = xlim, title = xlab, zeroline = FALSE),
+              zaxis = list(range = zlim, title = zlab, zeroline = FALSE),
+              camera = list(eye = list(x=2, y=2, z=0.1))
+            ),
+            margin = list(l = 10, r = 15, t = 30, b = 20)
+          )
+        if(!missing(sub)){
+          p <- p %>%
+            layout(
+              annotations = list(
+                list(
+                  text = sub,
+                  x = 0.5,
+                  y = -0.1,
+                  showarrow = FALSE,
+                  font = list(size = 12)
+                )
+              )
+            )
+        }
+        if (plot) {
+          show(p)
+        }
+        invisible(list(x = x, y = y, z = z, plot = p))
 
-  if (length(isct) < length(c(x.c, y.c, z.c))) {
-    d = setdiff(isct, allVars)
-    stop(paste(d, "could not be found\n"))
-  }
-
-  if (missing(fun))
-    fun = NULL
-  if (!is.function(fun) & !is.null(fun))
-    if (!(fun %in% c("overall", "desirability")))
-      stop("fun should be a function, \"overall\" or \"desirability\"")
-  if (identical(fun, "desirability")) {
-    obj = fdo$desires()[[z.c]]
-    fun = .desireFun(obj$low, obj$high, obj$target, obj$scale, obj$importance)
-  }
-
-  if (form %in% c("fit")) {
-    lm.1 = fdo$fits[[z.c]]
-    if (is.null(fit))
-      form = "full"
-  }
-
-  if (form %in% c("quadratic", "full", "interaction", "linear")) {
-    if (identical(form, "full")) {
-      form = paste(z.c, "~", x.c, "+", y.c, "+", x.c, ":", y.c)
-      if (nrow(fdo$star) > 0)
-        form = paste(form, "+ I(", x.c, "^2) + I(", y.c, "^2)")
-    }
-    if (identical(form, "interaction")) {
-      form = paste(z.c, "~", x.c, "+", y.c, "+", x.c, ":", y.c)
-    }
-    if (identical(form, "linear")) {
-      form = paste(z.c, "~", x.c, "+", y.c)
-    }
-    if (identical(form, "quadratic")) {
-      form = paste(z.c, "~I(", x.c, "^2) + I(", y.c, "^2)")
+      }
     }
   }
+  else{
+    x.c = deparse(substitute(x))
+    y.c = deparse(substitute(y))
+    z.c = deparse(substitute(z))
 
-  if (is.null(form))
-    stop(paste("invalid formula", form))
-  if (is.null(lm.1))
-    lm.1 = fdo$lm(form)
-  if (missing(sub))
-    sub = deparse(formula(lm.1))
+    if (missing(main))
+      main = paste("Response Surface for", z.c)
 
-  dcList = vector(mode = "list", length = length(fdo$names()))
-  names(dcList) = names(aux)
-  dcList[1:length(fdo$names())] = 0
+    aux <- list()
+    for (i in 1:length(fdo$names())) {
+      aux[[.NAMES[i]]] <-fdo$names()[i]
+    }
+    if (missing(ylab))
+      ylab = paste(y.c, ": ", aux[[y.c]])
+    if (missing(xlab))
+      xlab = paste(x.c, ": ", aux[[x.c]])
+    if (missing(zlab))
+      zlab = paste(x.c, ": ", z.c)
 
-  help.predict = function(x, y, x.c, y.c, lm.1) {
-    dcList[[x.c]] = x
-    dcList[[y.c]] = y
-    temp = do.call(data.frame, dcList)
-    invisible(predict(lm.1, temp))
-  }
+    if (missing(xlim))
+      xlim = c(min(fdo$get(, x.c)), max(fdo$get(, x.c)))
+    if (missing(ylim))
+      ylim = c(min(fdo$get(, y.c)), max(fdo$get(, y.c)))
 
-  xVec = seq(min(xlim), max(xlim), length = steps)
-  yVec = seq(min(ylim), max(ylim), length = steps)
+    allVars = c(fdo$names(), names(fdo$.response()))
+    isct = intersect(c(aux[[x.c]], aux[[y.c]], z.c), c(fdo$names(), names(fdo$.response())))
 
-  mat = outer(xVec, yVec, help.predict, x.c, y.c, lm.1)
+    if (length(isct) < length(c(x.c, y.c, z.c))) {
+      d = setdiff(isct, allVars)
+      stop(paste(d, "could not be found\n"))
+    }
 
-  if (is.function(fun))
-    mat = try(apply(mat, c(1, 2), fun))
-  if (identical(fun, "overall")) {
-    main = "composed desirability"
-    mat = matrix(1, nrow = nrow(mat), ncol = ncol(mat))
-    for (i in names(fdo$.response())) {
-      obj = fdo$desires()[[i]]
+    if (missing(fun))
+      fun = NULL
+    if (!is.function(fun) & !is.null(fun))
+      if (!(fun %in% c("overall", "desirability")))
+        stop("fun should be a function, \"overall\" or \"desirability\"")
+    if (identical(fun, "desirability")) {
+      obj = fdo$desires()[[z.c]]
       fun = .desireFun(obj$low, obj$high, obj$target, obj$scale, obj$importance)
-      temp = outer(xVec, yVec, help.predict, x.c, y.c, fits(fdo)[[i]])
-      temp = try(apply(temp, c(1, 2), fun))
-      mat = mat * temp
     }
-    mat = mat^(1/length(names(fdo$response())))
-  }
 
-  if (missing(zlim))
-    zlim = range(mat)
+    if (form %in% c("fit")) {
+      lm.1 = fdo$fits[[z.c]]
+      if (is.null(fit))
+        form = "full"
+    }
 
-  p <- plot_ly(x = -yVec, y = xVec, z = mat, colorscale=col, scene = n.scene) %>%
-    add_surface(showscale = show.scale) %>%
-    layout(
-      title = main,
-      scene = list(
-        xaxis = list(range = ylim, title = ylab, zeroline = FALSE),
-        yaxis = list(range = xlim, title = xlab, zeroline = FALSE),
-        zaxis = list(range = zlim, title = zlab, zeroline = FALSE),
-        camera = list(eye = list(x=2, y=2, z=0.1))
-      ),
-      margin = list(l = 10, r = 15, t = 30, b = 20)
-    )
-  if(sub.a){
-    p <- p %>%
+    if (form %in% c("quadratic", "full", "interaction", "linear")) {
+      if (identical(form, "full")) {
+        form = paste(z.c, "~", x.c, "+", y.c, "+", x.c, ":", y.c)
+        if (nrow(fdo$star) > 0)
+          form = paste(form, "+ I(", x.c, "^2) + I(", y.c, "^2)")
+      }
+      if (identical(form, "interaction")) {
+        form = paste(z.c, "~", x.c, "+", y.c, "+", x.c, ":", y.c)
+      }
+      if (identical(form, "linear")) {
+        form = paste(z.c, "~", x.c, "+", y.c)
+      }
+      if (identical(form, "quadratic")) {
+        form = paste(z.c, "~I(", x.c, "^2) + I(", y.c, "^2)")
+      }
+    }
+
+    if (is.null(form))
+      stop(paste("invalid formula", form))
+    if (is.null(lm.1))
+      lm.1 = fdo$lm(form)
+    if (missing(sub))
+      sub = deparse(formula(lm.1))
+
+    dcList = vector(mode = "list", length = length(fdo$names()))
+    names(dcList) = names(aux)
+    dcList[1:length(fdo$names())] = 0
+
+    help.predict = function(x, y, x.c, y.c, lm.1) {
+      dcList[[x.c]] = x
+      dcList[[y.c]] = y
+      temp = do.call(data.frame, dcList)
+      invisible(predict(lm.1, temp))
+    }
+
+    xVec = seq(min(xlim), max(xlim), length = steps)
+    yVec = seq(min(ylim), max(ylim), length = steps)
+
+    mat = outer(xVec, yVec, help.predict, x.c, y.c, lm.1)
+
+    if (is.function(fun))
+      mat = try(apply(mat, c(1, 2), fun))
+    if (identical(fun, "overall")) {
+      main = "composed desirability"
+      mat = matrix(1, nrow = nrow(mat), ncol = ncol(mat))
+      for (i in names(fdo$.response())) {
+        obj = fdo$desires()[[i]]
+        fun = .desireFun(obj$low, obj$high, obj$target, obj$scale, obj$importance)
+        temp = outer(xVec, yVec, help.predict, x.c, y.c, fits(fdo)[[i]])
+        temp = try(apply(temp, c(1, 2), fun))
+        mat = mat * temp
+      }
+      mat = mat^(1/length(names(fdo$response())))
+    }
+
+    if (missing(zlim))
+      zlim = range(mat)
+
+    p <- plot_ly(x = -yVec, y = xVec, z = mat, colorscale=col, scene = n.scene) %>%
+      add_surface(showscale = show.scale) %>%
       layout(
-        annotations = list(
-          list(
-            text = sub,# Subtitulo
-            x = 0.5,   # Posición x en la mitad de la gráfica
-            y = -0.1,  # Posición y debajo de la gráfica
-            showarrow = FALSE,
-            font = list(size = 12)
+        title = main,
+        scene = list(
+          xaxis = list(range = ylim, title = ylab, zeroline = FALSE),
+          yaxis = list(range = xlim, title = xlab, zeroline = FALSE),
+          zaxis = list(range = zlim, title = zlab, zeroline = FALSE),
+          camera = list(eye = list(x=2, y=2, z=0.1))
+        ),
+        margin = list(l = 10, r = 15, t = 30, b = 20)
+      )
+    if(sub.a){
+      p <- p %>%
+        layout(
+          annotations = list(
+            list(
+              text = sub,# Subtitulo
+              x = 0.5,   # Posición x en la mitad de la gráfica
+              y = -0.1,  # Posición y debajo de la gráfica
+              showarrow = FALSE,
+              font = list(size = 12)
+            )
           )
         )
-      )
+    }
+
+    if (plot) {
+      show(p)
+    }
+    invisible(list(x = xVec, y = yVec, z = mat, plot = p))
   }
-  if (plot) {
-    show(p)
-  }
-  invisible(list(x = xVec, y = yVec, z = mat, plot = p))
 }
 
 
@@ -1450,6 +1496,7 @@ contourPlot <- function(x, y, z, data = NULL, xlim, ylim, main, xlab, ylab, zlab
       return("persp")
     }
   }
+
   else{x.c = deparse(substitute(x))
   y.c = deparse(substitute(y))
   z.c = deparse(substitute(z))
