@@ -77,6 +77,17 @@
 
 # .NAMES ----
 .NAMES = LETTERS[c(1:8, 10:26)]
+# .generate_double_letters ----
+.generate_double_letters <- function(n) {
+  letters_single <- LETTERS[c(1:8, 10:26)]
+  letters_double <- c()
+  for (i in letters_single) {
+    for (j in letters_single) {
+      letters_double <- c(letters_double, paste0(i, j))
+    }
+  }
+  return(letters_double[1:n])
+}
 # .m.interaction.plot ----
 .m.interaction.plot <- function(x.factor, trace.factor, response, fun = mean, type = c("l", "p", "b"), legend = TRUE, trace.label = deparse(substitute(trace.factor)),
                                 fixed = FALSE, xlab = deparse(substitute(x.factor)), ylab = ylabel, ytitle = TRUE, ylim = range(cells, na.rm = TRUE), lty = nc:1, col = 1, pch = c(1L:9, 0, letters), xpd = NULL,

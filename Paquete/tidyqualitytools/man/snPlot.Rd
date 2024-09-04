@@ -45,7 +45,7 @@ Default is \code{"nominal"}.}
 
 \item{p.col}{A color for the points.}
 
-\item{ld.col}{A color for the line designs.}
+\item{ld.col}{A color for the dashed line.}
 
 \item{pch}{The symbol for plotting points.}
 

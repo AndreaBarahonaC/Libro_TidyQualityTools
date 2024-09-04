@@ -233,7 +233,7 @@ Plots the effects of factors on the response variables.
 
 \item{\code{p.col}}{A color for the points.}
 
-\item{\code{ld.col}}{A color for the line designs.}
+\item{\code{ld.col}}{A color for the dashed line.}
 
 \item{\code{lty}}{Line type for plotting.}
 

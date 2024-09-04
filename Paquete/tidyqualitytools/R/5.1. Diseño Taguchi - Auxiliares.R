@@ -388,3 +388,23 @@
                                                                                                                                                                                                                                                                                                                                                                                                           3, 2, 3, 1, 2, 3, 1)), ia_table = data.frame(`1` = c("ohne interaction table")))
 .oaList = list(.L4_2, .L8_2, .L9_3, .L12_2, .L16_2, .L16_4, .L18_2_3, .L25_5, .L27_3, .L32_2, .L32_2_4,
                .L36_2_3_a, .L36_2_3_b, .L50_2_5, .L8_4_2, .L16_4_2_a, .L16_4_2_b, .L16_4_2_c, .L16_4_2_d, .L18_6_3)
+
+# .colList ----
+.colList <- function(mat,col){
+  nrow = nrow(mat)
+  ncol = ncol(mat)
+  color_matrix <- matrix(NA, nrow = nrow, ncol = ncol)
+  num_colors <- length(col)
+  for (i in 1:nrow) {
+    for (j in 1:ncol) {
+      index <- ((i + j - 2) %% num_colors) + 1
+      if(mat[i,j]==" "){
+        color_matrix[i, j] <- "#F2F2F2"
+      }
+      else{
+        color_matrix[i, j] <- col[index]
+      }
+    }
+  }
+  return(color_matrix)
+}

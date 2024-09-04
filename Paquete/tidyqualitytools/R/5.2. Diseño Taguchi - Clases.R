@@ -146,7 +146,11 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                             if(missing(value)){
                                                               aux <- list()
                                                               for (i in 1:length(self$factors)) {
-                                                                aux[[.NAMES[i]]] <-self$factors[[i]]$name
+                                                                if(length(self$factors)>25){
+                                                                  aux[[c(.NAMES,.generate_double_letters(length(self$factors)-25))[i]]] = self$factors[[i]]$name
+                                                                } else{
+                                                                  aux[[.NAMES[i]]] <- self$factors[[i]]$name
+                                                                }
                                                               }
                                                               return(aux)
                                                             }
@@ -252,7 +256,7 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                           #' @param ylim Limits for the y-axis.
                                                           #' @param l.col A color for the lines.
                                                           #' @param p.col A color for the points.
-                                                          #' @param ld.col A color for the line designs.
+                                                          #' @param ld.col A color for the dashed line.
                                                           #' @examples
                                                           #' tdo = taguchiDesign("L9_3")
                                                           #' tdo$.response(rnorm(9))

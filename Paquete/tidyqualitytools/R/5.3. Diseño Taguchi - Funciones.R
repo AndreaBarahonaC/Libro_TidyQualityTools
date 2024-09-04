@@ -55,7 +55,7 @@ taguchiDesign <- function(design, randomize = TRUE, replicates = 1) {
   odo = NA
   type = "single"
   for (i in seq(along = .oaList)) {
-    pmatch(design, .oaList[[i]]$id)
+    #pmatch(design, .oaList[[i]]$id)
     if (!is.na(pmatch(design, .oaList[[i]]$id))) {
 
       temp = .oaList[[i]]
@@ -72,7 +72,11 @@ taguchiDesign <- function(design, randomize = TRUE, replicates = 1) {
 
       odo = taguchiDesign.c$new()
       odo$design = design
-      names(odo$design) = .NAMES[1:ncol(design)]
+      if(ncol(odo$design)>25){
+        names(odo$design) = c(.NAMES,.generate_double_letters(ncol(odo$design)-25))
+      } else{
+        names(odo$design) = .NAMES[1:ncol(design)]
+      }
       odo$name = temp$id
       odo$designType = temp$type
       odo$replic = Replicate
@@ -97,9 +101,8 @@ taguchiDesign <- function(design, randomize = TRUE, replicates = 1) {
       return(odo)
     }
   }
-  return(NA)
+  stop(paste("Please provide a valid design."))
 }
-
 # Funcion oaChoose ----
 oaChoose <- function(factors1, factors2, level1, level2, ia) {
   #' @title oaChoose: Taguchi Designs
@@ -131,18 +134,25 @@ oaChoose <- function(factors1, factors2, level1, level2, ia) {
 }
 
 # Funcion taguchiChoose ----
-taguchiChoose <- function(factors1 = 0, factors2 = 0, level1 = 0, level2 = 0, ia = 0) {
+taguchiChoose <- function(factors1 = 0, factors2 = 0, level1 = 0, level2 = 0, ia = 0, col = 2, randomize = TRUE, replicates = 1) {
   #' @title taguchiChoose: Taguchi Designs
   #' @description Shows a matrix of possible taguchi designs
   #' @param factors1 Integer number of factors on level1. By default set to ‘0’.
   #' @param factors2 Integer number of factors on level2. By default set to ‘0’.
-  #' @param level1 Integer number of levels on level1.
+  #' @param level1 Integer number of levels on level1. By default set to ‘0’.
   #' @param level2 Integer number of levels on level2. By default set to ‘0’.
   #' @param ia Integer number of interactions. By default set to ‘0’.
+  #' @param col Select the color scheme for the selection matrix: use \code{1} for blue, \code{2} for pink (default), and \code{3} for a variety of colors.
+  #' @param randomize A logical value (\code{TRUE}/\code{FALSE}) that specifies whether to randomize the RunOrder of the design.
+  #' By default, \code{randomize} is set to \code{TRUE}.
+  #' @param replicates An integer specifying the number of replicates for each run in the design.
   #' @details \code{taguchiChoose} returns possible taguchi designs.
   #' Specifying the number of factor1 factors with level1 levels (factors1 = 2, level1 = 3 means 2 factors with 3 factor levels) and factor2 factors with level2 levels and desired interactions one or more taguchi designs are suggested.
   #' If all parameters are set to 0, a matrix of possible taguchi designs is shown.
   #' @return \code{taguchiChoose} returns an object of class \code{taguchiDesign}.
+  #' @examples
+  #' tdo1 <- taguchiChoose()
+  #' tdo1 <- taguchiChoose(factors1 = 3, level1 = 2)
   #' @seealso
   #' \itemize{
   #' \item{\code{\link{facDesig}}: for 2^k factorial designs.}
@@ -150,6 +160,15 @@ taguchiChoose <- function(factors1 = 0, factors2 = 0, level1 = 0, level2 = 0, ia
   #' \item{\code{\link{fracDesig}}: for fractional factorial design.}
   #' \item{\code{\link{gageRRDesig}}: for gage designs.}
   #' }
+  if(col == 1){
+    col<-c("#0091EA", "#00A3E0", "#00B0FF", "#26C6DA", "#4DD0E1", "#80DEEA", "#B2EBF2", "#E0F7FA", "#F2F2F2")
+  } else if(col == 2){
+    col<-c("#C2185B", "#D81B60", "#E91E63", "#EC407A", "#F06292", "#F48FB1", "#F8BBD0", "#FCE4EC", "#F2F2F2")
+  } else if (col == 3){
+    col<-c("#FBB4AE", "#B5CCE1", "#CAE9C6", "#DDCBE3", "#FCD8A8", "#FEFECB", "#E5D8BD", "#FCDAEC", "#F2F2F2")
+  } else{
+    stop(paste("Invalid value for 'col' argument. It must be 1, 2, or 3."))
+  }
 
   if (factors1 == 0 & factors2 == 0 & level1 == 0 & level2 == 0 & ia == 0) {
     temp = vector(mode = "character", length = length(.oaList))
@@ -157,10 +176,40 @@ taguchiChoose <- function(factors1 = 0, factors2 = 0, level1 = 0, level2 = 0, ia
     temp = c(temp, rep(" ", (length(temp)%/%6 + 1) * 6 - length(temp)))
     mat = data.frame(matrix(temp, ncol = 6, byrow = TRUE))
     names(mat) = rep(" ", ncol(mat))
-    print(mat)
-    cat("\n")
-    cat("Choose a design using e.g. taguchiDesign(\"L4_2\")")
-    cat("\n")
+    colList<-.colList(mat,col)
+    par(mfrow = c(4, 6))
+    par(mar = c(0, 0, 0, 0))
+    par(oma = c(4, 4, 4, 4))
+    for (i in seq(nrow(mat))) {
+      for (j in seq(ncol(mat))) {
+        plot(0, 0, xaxs = "i", yaxs = "i", xlim = c(0, 1), ylim = c(0, 1), axes = FALSE, type = "n", xlab = "", ylab = "", bg = "red", fg = "green")
+        box()
+        rect(0, 0, 1, 1, col = colList[i,j])
+        yPos = 0.04
+        xPos = 0.6
+        text(0.5, 0.5 , mat[i,j], adj = c(0.5, 0.5), cex = 1)
+      }
+    }
+    cat("\nChoose a taguchi design by clicking into the appropriate field")
+    cat("\nWaiting for your selection:")
+    cat("\n\n")
+    flush.console()
+    mtext("Choose a Taguchi Design:", side = 3, outer = TRUE, line = 1, cex = 1.5, font = 2)
+    xyList = NULL
+    xyList = try(locator(1), silent = TRUE)
+    x = 1
+    y = 1
+    if (!is.null(xyList)) {
+      x = ceiling(xyList$x + 5)
+      y = ceiling(4 - xyList$y)
+    }
+    if(mat[y,x]!=" "){
+      return(taguchiDesign(mat[y,x],randomize = randomize, replicates = replicates))
+    }
+    else{
+      stop(paste("Please select a non-empty grid."))
+    }
+
   }
   else {
 
@@ -180,25 +229,57 @@ taguchiChoose <- function(factors1 = 0, factors2 = 0, level1 = 0, level2 = 0, ia
     if (length(out) > 0) {
       cat(paste(factors1, "factors on", level1, "levels and", factors2, "factors on", level2, "levels with", ia, "desired interactions to be estimated\n"))
       cat("\n")
-      cat("Possible Designs:\n")
-      cat("\n")
-      cat(paste(out, sep = " | "))
-      cat("\n")
-      cat("\n")
-      cat(paste("Use taguchiDesign(\"", out[1], "\") or different to create a taguchi design object\n", sep = ""))
+      naux <- ceiling(length(out)/floor(sqrt(length(out))))*floor(sqrt(length(out)))-length(out)
+      out <- c(out,rep(" ",naux))
+      mat = data.frame(matrix(out, nrow = floor(sqrt(length(out))), byrow = TRUE))
+      names(mat) = rep(" ", ncol(mat))
+      colList<-.colList(mat,col)
+      par(mfrow = c(nrow(mat),ncol(mat)))
+      par(mar = c(0, 0, 0, 0))
+      par(oma = c(4, 4, 4, 4))
+      k = 1
+      for (i in seq(nrow(mat))) {
+        for (j in seq(ncol(mat))) {
+          plot(0, 0, xaxs = "i", yaxs = "i", xlim = c(0, 1), ylim = c(0, 1), axes = FALSE, type = "n", xlab = "", ylab = "", bg = "red", fg = "green")
+          box()
+          rect(0, 0, 1, 1, col = colList[i,j])
+          yPos = 0.04
+          xPos = 0.6
+          text(0.5, 0.5 , mat[i,j], adj = c(0.5, 0.5), cex = 1)
+          k = k+1
+        }
+      }
+
+      cat("\nChoose a possible taguchi design by clicking into the appropriate field")
+      cat("\nWaiting for your selection:")
+      cat("\n\n")
+      flush.console()
+      mtext("Choose a Taguchi Design:", side = 3, outer = TRUE, line = 1, cex = 1.5, font = 2)
+      xyList = NULL
+      xyList = try(locator(1), silent = TRUE)
+      x = 1
+      y = 1
+      if (!is.null(xyList)) {
+        x = ceiling(xyList$x + ncol(mat) - 1)
+        y = ceiling(nrow(mat) - xyList$y)
+      }
+      if(mat[y,x]!=" "){
+        return(taguchiDesign(mat[y,x],randomize = randomize, replicates = replicates))
+      }
+      else{
+        stop(paste("Please select a non-empty grid."))
+      }
+
     }
     else {
       cat("No Design Found\n")
       cat("\n")
       out = NA
+      invisible(out)
     }
-    invisible(out)
   }
 }
 
-# Arreglar taguchiChoose para que sirva oaChoose####
-# taguchiChoose()
-# oaChoose()
 # snPlot ----
 snPlot<-function(object, type="nominal" , factors, fun = mean, response = NULL,
                 single = FALSE, points = FALSE, classic = FALSE,
@@ -231,7 +312,7 @@ snPlot<-function(object, type="nominal" , factors, fun = mean, response = NULL,
   #' @param ylim A numeric vector of length 2 specifying the limits of the y-axis.
   #' @param l.col A color for the lines.
   #' @param p.col A color for the points.
-  #' @param ld.col A color for the line designs.
+  #' @param ld.col A color for the dashed line.
   #' @param pch The symbol for plotting points.
   #' @param ... Additional graphical parameters to be passed to methods (see \code{par}).
   #' @details The Signal-to-Noise Ratio (SNR) is calculated based on the type specified:
