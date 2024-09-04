@@ -340,7 +340,7 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                                 }
 
                                                                 grap <- .m.interaction.plot.taguchi(X[, names(factors[i])],rep(0, nrow(X)),Y[, j], fun, xlab = names(factors[i]),
-                                                                                                    ylab = paste(deparse(substitute(fun)), "of", names(Y)[j]), ylim = range(cells, na.rm = TRUE), lty = lty, col = 1,
+                                                                                                    ylab = paste(deparse(substitute(fun)), "of", names(Y)[j]), ylim = c(min(Y[, j]), max(Y[, j])), lty = lty, col = 1,
                                                                                                     paste("Effect Plot for", names(Y)[j]), xPoints = X[, names(factors[i])], yPoints = Y[, j], l.col, p.col, ld.col,pch)
 
                                                                 p <- grap$plot
