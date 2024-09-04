@@ -1,10 +1,12 @@
+
+ response=elongation, data = mdo, form = "quadratic", theta = -170
 wirePlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, form = "linear", phi, theta, col = 1, steps, factors) {
 
   out = list()
   mdo = data
-  x.c = deparse(substitute(x))
-  y.c = deparse(substitute(y))
-  z.c = deparse(substitute(z))
+  x.c = deparse(substitute(A))
+  y.c = deparse(substitute(B))
+  z.c = deparse(substitute(C))
   r.c = deparse(substitute(response))
   if (missing(col))
     col = 1
@@ -44,9 +46,14 @@ wirePlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, for
 
   combList = combn(nameVec, 2, simplify = FALSE)
   quadStrings = character(length = length(combList))
-  for (i in seq(along = combList)) if (i == 1)
-    quadStrings[i] = paste(combList[[i]][1], ":", combList[[i]][2])
-  else quadStrings[i] = paste("+", combList[[i]][1], ":", combList[[i]][2])
+  for (i in seq(along = combList)){
+    if (i == 1){
+      quadStrings[i] = paste(combList[[i]][1], ":", combList[[i]][2])
+    }
+    else {
+      quadStrings[i] = paste("+", combList[[i]][1], ":", combList[[i]][2])
+    }
+  }
   quadStrings = paste(quadStrings, collapse = "")
 
   if (identical(form, "linear")) {
@@ -89,13 +96,13 @@ wirePlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, for
     color <- col(nbcol)
     matFacet = mat[-1, -1] + mat[-1, -ncmat] + mat[-acc, -1] + mat[-acc, -ncmat]
     facetcol <- cut(matFacet, nbcol)
-  }
-  else {
+  } else {
     color = col
     facetcol = 1
   }
   maxim = max(mat, na.rm = TRUE) * acc
   minim = min(mat, na.rm = TRUE) * acc
+  ############
   per = persp(x = seq(0, acc, length = acc), y = seq(0, acc * sca, length = ncmat), mat * acc, phi = .phi, theta = .theta, scale = TRUE, col = "transparent",
               border = FALSE, box = FALSE, main = main, xlab = xlab, ylab = ylab)
   lineList = contourLines(x = seq(0, acc, length = acc), y = seq(0, acc * sca, length = ncmat), mat)
@@ -154,3 +161,21 @@ wirePlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, for
   }
   invisible(mat)
 }
+
+mdo <- mixDesign(3, 2, center = FALSE, axial = FALSE, randomize = FALSE, replicates = c(1, 1, 2, 3))
+
+elongation <- c(11.0, 12.4, 15.0, 14.8, 16.1, 17.7, 16.4, 16.6, 8.8, 10.0, 10.0, 9.7, 11.8, 16.8, 16.0)
+mdo$.response(elongation)
+
+wirePlot3(A, B, C, elongation, data = mdo, form = "quadratic", theta = -170)
+
+
+set.seed(1234)
+dfac <- facDesign(k = 3, centerCube = 4)
+dfac$names(c('Factor 1', 'Factor 2', 'Factor 3'))
+dfac$lows(c(80,120,1))
+dfac$highs( c(120,140,2))
+#valores completos
+rend = c(simProc(120,140,1),simProc(80,140,1),simProc(120,140,2),simProc(120,120,1),simProc(90,130,1.5),simProc(90,130,1.5),simProc(80,120,2),simProc(90,130,1.5),simProc(90,130,1.5),simProc(120,120,2),simProc(80,140,2),simProc(80,120,1))
+dfac$.response(rend)
+wirePlot(A,B,rend,data=dfac)
