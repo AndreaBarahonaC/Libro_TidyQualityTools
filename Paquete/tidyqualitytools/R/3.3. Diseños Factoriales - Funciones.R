@@ -212,7 +212,7 @@ blocking <- function (fdo, blocks, random.seed, useTable = "rsm", gen){
   numCC = nrow(fdo$centerCube)
   if (numCC > 0) {
     ccFrame = as.data.frame(matrix(0, nrow = numCC, ncol = ncol(fdo$cube)))
-    names(ccFrame) = names(fdo)
+    names(ccFrame) = fdo$names()
     fdo$.centerCube(ccFrame)
   }
   fdo = randomize(fdo, random.seed = random.seed)
