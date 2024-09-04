@@ -199,3 +199,116 @@ taguchiChoose <- function(factors1 = 0, factors2 = 0, level1 = 0, level2 = 0, ia
 # Arreglar taguchiChoose para que sirva oaChoose####
 # taguchiChoose()
 # oaChoose()
+# snPlot ----
+snPlot<-function(object, type="nominal" , factors, fun = mean, response = NULL,
+                single = FALSE, points = FALSE, classic = FALSE,
+                lty, xlab, ylab, main, ylim, l.col, p.col, ld.col, pch)
+{
+  #' @title snPlot: Signal-to-Noise-Ratio Plots
+  #' @description Creates a Signal-to-Noise Ratio plot for designs of type \code{taguchiDesign.c} with at least two replicates.
+  #' @usage
+  #' snPlot(object, type = "nominal", factors, fun = mean, response = NULL,
+  #'        single = FALSE, points = FALSE, classic = FALSE, lty, xlab, ylab,
+  #'        main, ylim, l.col, p.col, ld.col, pch)
+  #' @param object An object of class \code{\link{taguchiDesign.c}}.
+  #' @param type A character string specifying the type of the Signal-to-Noise Ratio plot. Possible values are:
+  #' \itemize{
+  #'   \item \code{"nominal"}: Nominal-the-best plot to equalize observed values to a nominal value.
+  #'   \item \code{"smaller"}: Smaller-the-better plot to minimize observed values.
+  #'   \item \code{"larger"}: Larger-the-better plot to maximize observed values.
+  #' }
+  #' Default is \code{"nominal"}.
+  #' @param factors The factors for which the effect plot is to be created.
+  #' @param fun A function for constructing the effect plot such as \code{mean}, \code{median}, etc. Default is \code{mean}.
+  #' @param response A character string specifying the response variable. If \code{object} contains multiple responses, this parameter selects one column to plot. Default is \code{NULL}.
+  #' @param single A logical value. If \code{TRUE}, the device region can be set up using, for example, \code{par(mfrow = c(2,2))}. Default is \code{FALSE}.
+  #' @param points A logical value. If \code{TRUE}, points are shown in addition to values derived from \code{fun}. Default is \code{FALSE}.
+  #' @param classic A logical value. If \code{TRUE}, creates an effect plot as depicted in most textbooks. Default is \code{FALSE}.
+  #' @param lty A numeric value specifying the line type to be used.
+  #' @param xlab A title for the x-axis.
+  #' @param ylab A title for the y-axis.
+  #' @param main An overall title for the plot.
+  #' @param ylim A numeric vector of length 2 specifying the limits of the y-axis.
+  #' @param l.col A color for the lines.
+  #' @param p.col A color for the points.
+  #' @param ld.col A color for the line designs.
+  #' @param pch The symbol for plotting points.
+  #' @param ... Additional graphical parameters to be passed to methods (see \code{par}).
+  #' @details The Signal-to-Noise Ratio (SNR) is calculated based on the type specified:
+  #' \itemize{
+  #'   \item \code{"nominal"}: \deqn{SN = 10 \cdot log(mean(y) / var(y))}
+  #'   \item \code{"smaller"}: \deqn{SN = -10 \cdot log((1 / n) \cdot  sum(y^2))}
+  #'   \item \code{"larger"}: \deqn{SN = -10 \cdot log((1 / n) \cdot sum(1 / y^2))}
+  #' }
+  #' Signal-to-Noise Ratio plots are used to estimate the effects of individual factors and to judge the variance and validity of results from an effect plot.
+  #' @return An invisible \code{data.frame} containing all the single Signal-to-Noise Ratios.
+  #' @examples
+  #' tdo <- taguchiDesign("L9_3", replicates = 3)
+  #' tdo$.response(rnorm(27))
+  #' snPlot(tdo, points = TRUE, l.col = 2, p.col = 2, ld.col = 2, pch = 16, lty = 3)
+
+  Debugging=FALSE
+  if(class(object)[1]!="taguchiDesign")
+    stop("object needs to be of class taguchiDesign")
+  Length=dim(object$as.data.frame())[1]
+  resLength=dim(object$.response())[2]
+  temp=data.frame(object$design)
+  comp=unique(temp)
+  SNi=numeric();SN=data.frame()
+  m=numeric();y=numeric()
+  if(missing(main))
+  {
+    for(k in 1:resLength)
+      m[k]=paste("Effect Plot for S/N ratios of",names(object$.response())[k])
+    main=m
+  }
+  if(missing(ylab))
+  {
+    for(k in 1:resLength)
+      y[k]=paste("means of S/N ratios for ",names(object$.response())[k])
+    ylab=y
+  }
+  if(identical(comp,temp))
+    stop("taguchi design has no replicates! S/N can not be calculated!")
+  for(k in 1:resLength)
+  {
+    for(j in 1:dim(comp)[1])
+    {  val=numeric()
+    for(i in 1:Length)
+    {
+      if(identical(as.numeric(comp[j,]),as.numeric(temp[i,])))
+      {
+        val[i]=object$.response()[i,k]
+      }
+      else
+        val[i]=NA
+    }
+    n=Length/(dim(comp)[1])
+    if(type=="nominal")
+      SNi[j]=10*log10((mean(val,na.rm=TRUE)^2)/(sd(val,na.rm=TRUE)^2))
+    if(type=="smaller")
+      SNi[j]=-10*log10((1/n)*sum(val^2,na.rm=TRUE))
+    if(type=="larger")
+      SNi[j]=-10*log10((1/n)*sum(1/(val^2),na.rm=TRUE))
+    if(Debugging==TRUE)
+      print(SNi)
+    for(i in 1:Length)
+    {
+      if(identical(as.numeric(comp[j,]),as.numeric(temp[i,])))
+      {
+        SN[i,k]=SNi[j]
+      }
+    }
+    }
+    tdo=object
+    tdo$.response(SN[k])
+    if(k>1)
+      dev.new()
+    tdo$effectPlot(factors=factors, fun = mean, response = response,
+               single = single, points = points, classic = classic,
+               lty = lty, xlab = xlab, ylab =ylab[k], main = main[k], ylim = ylim, l.col=l.col, p.col=p.col, ld.col=ld.col, pch = pch)
+  }
+  names(SN)=paste("S/N",names(object$.response()))
+  invisible(SN)
+}
+

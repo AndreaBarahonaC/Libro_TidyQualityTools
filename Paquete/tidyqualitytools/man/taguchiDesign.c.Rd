@@ -6,6 +6,16 @@
 \description{
 An R6 class representing a Taguchi experimental design.
 }
+\examples{
+
+## ------------------------------------------------
+## Method `taguchiDesign.c$effectPlot`
+## ------------------------------------------------
+
+tdo = taguchiDesign("L9_3")
+tdo$.response(rnorm(9))
+tdo$effectPlot(points = TRUE, col = 2, pch = 16, lty = 3)
+}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
@@ -44,6 +54,7 @@ An R6 class representing a Taguchi experimental design.
 \item \href{#method-taguchiDesign-units}{\code{taguchiDesign.c$units()}}
 \item \href{#method-taguchiDesign-.factors}{\code{taguchiDesign.c$.factors()}}
 \item \href{#method-taguchiDesign-names}{\code{taguchiDesign.c$names()}}
+\item \href{#method-taguchiDesign-as.data.frame}{\code{taguchiDesign.c$as.data.frame()}}
 \item \href{#method-taguchiDesign-print}{\code{taguchiDesign.c$print()}}
 \item \href{#method-taguchiDesign-.response}{\code{taguchiDesign.c$.response()}}
 \item \href{#method-taguchiDesign-.nfp}{\code{taguchiDesign.c$.nfp()}}
@@ -122,6 +133,16 @@ Get and set the \code{names} in an object of class \code{taguchiDesign}.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-taguchiDesign-as.data.frame"></a>}}
+\if{latex}{\out{\hypertarget{method-taguchiDesign-as.data.frame}{}}}
+\subsection{Method \code{as.data.frame()}}{
+Return a data frame with the information of the object \code{taguchiDesign.c}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{taguchiDesign.c$as.data.frame()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-taguchiDesign-print"></a>}}
 \if{latex}{\out{\hypertarget{method-taguchiDesign-print}{}}}
 \subsection{Method \code{print()}}{
@@ -181,13 +202,15 @@ Plots the effects of factors on the response variables.
   single = FALSE,
   points = FALSE,
   classic = FALSE,
-  axes = TRUE,
+  l.col,
+  p.col,
+  ld.col,
   lty,
   xlab,
   ylab,
   main,
   ylim,
-  ...
+  pch
 )}\if{html}{\out{</div>}}
 }
 
@@ -206,7 +229,11 @@ Plots the effects of factors on the response variables.
 
 \item{\code{classic}}{Logical; if TRUE, uses classic plotting style.}
 
-\item{\code{axes}}{Logical; if TRUE, includes axes in the plot.}
+\item{\code{l.col}}{A color for the lines.}
+
+\item{\code{p.col}}{A color for the points.}
+
+\item{\code{ld.col}}{A color for the line designs.}
 
 \item{\code{lty}}{Line type for plotting.}
 
@@ -218,10 +245,20 @@ Plots the effects of factors on the response variables.
 
 \item{\code{ylim}}{Limits for the y-axis.}
 
-\item{\code{...}}{Additional plotting parameters.}
+\item{\code{pch}}{The symbol for plotting points.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{tdo = taguchiDesign("L9_3")
+tdo$.response(rnorm(9))
+tdo$effectPlot(points = TRUE, col = 2, pch = 16, lty = 3)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-taguchiDesign-identity"></a>}}

@@ -569,7 +569,6 @@ gageRR.c <- R6Class("gageRR",
 
 
                       #' @description The data from an object of class \code{gageRR} can be analyzed by running “Error Charts” of the individual deviations from the accepted rference values. These “Error Charts” are provided by the function \code{errorPlot}.
-                      #' @usage errorPlot(main, xlab, ylab, col, pch, ylim, legend=TRUE)
                       #' @param main a main title for the plot.
                       #' @param xlab A character string for the x-axis label.
                       #' @param ylab A character string for the y-axis label.

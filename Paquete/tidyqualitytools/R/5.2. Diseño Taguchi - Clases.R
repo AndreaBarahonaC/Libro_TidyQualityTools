@@ -159,9 +159,15 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                             }
                                                           },
 
+                                                          #' @description Return a data frame with the information of the object \code{taguchiDesign.c}.
+                                                          as.data.frame = function(){
+                                                            frameOut = cbind(self$standardOrder, self$runOrder, self$replic, self$design, self$response)
+                                                            return(frameOut)
+                                                          },
+
                                                           #' @description Methods for function \code{print} in Package \code{base}.
                                                           print = function(){
-                                                            print(format(as.data.frame(self), digits = 4))
+                                                            print(format(self$as.data.frame(), digits = 4))
                                                           },
 
                                                           #' @description Get and set the the \code{response} in an object of class \code{taguchiDesign}.
@@ -196,9 +202,9 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                             if (is.list(x) && length(x[[1]]) > 0) {
                                                               numAttr = length(x[[1]]$attributes())
                                                               .numFac = length(x)
-                                                              #len = 0
-                                                              # for (i in names(x)) if (length(x[[i]]$values) > len)
-                                                              #   len = length(x[[i]]$values)
+                                                              len = 0
+                                                              for (i in names(x)) if (length(x[[i]]$values) > len)
+                                                                len = length(x[[i]]$values)
                                                               #numAttr = numAttr + len
                                                               numrows = numAttr #- 1
                                                               frameOut = data.frame(matrix(NA, ncol = .numFac, nrow = numrows))
@@ -239,16 +245,20 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                           #' @param points Logical; if TRUE, plots data points.
                                                           #' @param classic Logical; if TRUE, uses classic plotting style.
                                                           #' @param lty Line type for plotting.
+                                                          #' @param pch The symbol for plotting points.
                                                           #' @param xlab Label for the x-axis.
                                                           #' @param ylab Label for the y-axis.
                                                           #' @param main Main title for the plot.
                                                           #' @param ylim Limits for the y-axis.
+                                                          #' @param l.col A color for the lines.
+                                                          #' @param p.col A color for the points.
+                                                          #' @param ld.col A color for the line designs.
                                                           #' @examples
                                                           #' tdo = taguchiDesign("L9_3")
                                                           #' tdo$.response(rnorm(9))
                                                           #' tdo$effectPlot(points = TRUE, col = 2, pch = 16, lty = 3)
                                                           effectPlot = function(factors, fun = mean, response = NULL, single = FALSE, points = FALSE, classic = FALSE,
-                                                                                l.col, p.col, ld.col,lty, xlab, ylab, main, ylim, ...){
+                                                                                l.col, p.col, ld.col,lty, xlab, ylab, main, ylim, pch){
 
 
                                                             if(missing(factors))
@@ -266,6 +276,8 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
                                                               ylimmiss = TRUE
                                                             if (missing(lty))
                                                               lty = 1
+                                                            if (missing(pch))
+                                                              pch = 16
                                                             X = self$design
                                                             Y = self$.response()
                                                             if (!missing(factors))
@@ -329,7 +341,7 @@ taguchiDesign.c <- R6Class("taguchiDesign", public = list(name = NULL,
 
                                                                 grap <- .m.interaction.plot.taguchi(X[, names(factors[i])],rep(0, nrow(X)),Y[, j], fun, xlab = names(factors[i]),
                                                                                                     ylab = paste(deparse(substitute(fun)), "of", names(Y)[j]), ylim = range(cells, na.rm = TRUE), lty = lty, col = 1,
-                                                                                                    paste("Effect Plot for", names(Y)[j]), xPoints = X[, names(factors[i])], yPoints = Y[, j], l.col, p.col, ld.col)
+                                                                                                    paste("Effect Plot for", names(Y)[j]), xPoints = X[, names(factors[i])], yPoints = Y[, j], l.col, p.col, ld.col,pch)
 
                                                                 p <- grap$plot
 

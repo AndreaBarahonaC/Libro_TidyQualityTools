@@ -3,9 +3,6 @@
 \name{gageRR.c}
 \alias{gageRR.c}
 \title{gageRR-class: Class "gageRR"}
-\usage{
-errorPlot(main, xlab, ylab, col, pch, ylim, legend=TRUE)
-}
 \description{
 R6 Class for Gage R&R (Repeatability and Reproducibility) Analysis
 }
