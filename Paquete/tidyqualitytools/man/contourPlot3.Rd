@@ -14,14 +14,14 @@ contourPlot3(
   xlab,
   ylab,
   zlab,
-  border,
   form = "linear",
   col = 1,
   col.text,
-  cex.axis,
   axes = TRUE,
   steps,
-  factors
+  factors,
+  plot = TRUE,
+  show.scale = TRUE
 )
 }
 \arguments{
@@ -43,9 +43,6 @@ contourPlot3(
 
 \item{zlab}{Character string specifying the label for the z-axis.}
 
-\item{border}{Numeric or character (for example “red”) value specifying the color of the surroundimg the ternary plot.
-By default `border` is set to “white”}
-
 \item{form}{A character string or a formula with the syntax “y ~ A + B + C”.
 If form is a character string, it has to be one of the following:
 \itemize{
@@ -62,9 +59,6 @@ By default, \code{form} is set to “linear”.}
 \item{col.text}{A numeric value or a character string specifying the color of the axis labels.
 The default value \code{col.text} is '1'.}
 
-\item{cex.axis}{A numeric value specifying the size of the axis labels.
-The default value \code{cex.axis} is '1'.}
-
 \item{axes}{A logical value specifying whether the axes should be plotted.
 By default, \code{axes} is set to \code{TRUE}.}
 
@@ -72,20 +66,39 @@ By default, \code{axes} is set to \code{TRUE}.}
 By default, \code{steps} is set to 25.}
 
 \item{factors}{A list of factors for categorizing with specific settings, applicable if there are more than 3 factors (not yet implemented).}
+
+\item{plot}{Logical value indicating whether to display the plot. Default is \code{TRUE}.}
+
+\item{show.scale}{Logical value indicating whether to display the color scale on the plot. Default is \code{TRUE}.}
+
+\item{border}{Numeric or character (for example “red”) value specifying the color of the surroundimg the ternary plot.
+By default `border` is set to “white”}
+
+\item{cex.axis}{A numeric value specifying the size of the axis labels.
+The default value \code{cex.axis} is '1'.}
 }
 \value{
-The function \code{contourPlot3} returns an invisible matrix containing the response values as NA's and numerics.
+The function \code{contourPlot3} returns an invisible list containing:
+\itemize{
+ \item{mat - A matrix containing the response values as NA's and numerics.}
+ \item{plot - The generated plot.}
+}
 }
 \description{
 This function creates a ternary plot (contour plot) for mixture designs (i.e. object of class \code{mixDesign}).
 }
 \examples{
-mdo <- mixDesign(3, 2, center = FALSE, axial = FALSE, randomize = FALSE, replicates = c(1, 1, 2, 3))
-
-elongation <- c(11.0, 12.4, 15.0, 14.8, 16.1, 17.7, 16.4, 16.6, 8.8, 10.0, 10.0, 9.7, 11.8, 16.8, 16.0)
+#' mdo = mixDesign(3,2, center = FALSE, axial = FALSE, randomize = FALSE,
+                replicates  = c(1,1,2,3))
+mdo$names(c("polyethylene", "polystyrene", "polypropylene"))
+mdo$units("percent")
+elongation = c(11.0, 12.4, 15.0, 14.8, 16.1, 17.7, 16.4, 16.6, 8.8, 10.0, 10.0,
+               9.7, 11.8, 16.8, 16.0)
 mdo$.response(elongation)
-
-contourPlot3(A, B, C, elongation, data = mdo, form = "quadratic")
+contourPlot3(A, B, C, elongation, data = mdo, form = "linear")
+contourPlot3(A, B, C, elongation, data = mdo, form = "quadratic", col = 2)
+contourPlot3(A, B, C, elongation, data = mdo, form = "elongation ~ I(A^2) - B:A + I(C^2)", col = 3, axes = FALSE)
+contourPlot3(A, B, C, elongation, data = mdo, form = "quadratic", col = c("yellow", "white", "red"), axes = F)
 }
 \seealso{
 \code{\link{mixDesign.c}}, \code{\link{mixDesign}}, \code{\link{wirePlot3}}.

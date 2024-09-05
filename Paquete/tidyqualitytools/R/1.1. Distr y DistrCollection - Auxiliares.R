@@ -326,8 +326,6 @@
   n = length(x)
   if (n < 8)
     stop("sample size must be greater than 7")
-  if (n > 40)
-    warning("sample size is greater than 40")
   if (is.character(distribution)) {
     pFun = .charToDistFunc(distribution, type = "p")
     distribution = tolower(distribution)

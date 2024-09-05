@@ -2,7 +2,7 @@
 % Please edit documentation in R/4.3. Diseños de Mezclas - Funciones.R
 \name{wirePlot3}
 \alias{wirePlot3}
-\title{contourPlot3: Ternary 3D plot}
+\title{wirePlot3: function to create a ternary plot (3D wire plot)}
 \usage{
 wirePlot3(
   x,

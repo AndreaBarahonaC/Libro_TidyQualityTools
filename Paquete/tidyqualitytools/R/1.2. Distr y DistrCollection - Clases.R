@@ -85,7 +85,7 @@ Distr <- R6Class("Distr",
                      dFun <- .charToDistFunc(distr, type = "d")
                      adTestStats <- .myADTest(xVals, distr)
 
-                     if (class(adTestStats) == "adtest") {
+                     if (adTestStats$class == "adtest") {
                        A <- adTestStats$statistic
                        p <- adTestStats$p.value
                      } else {
