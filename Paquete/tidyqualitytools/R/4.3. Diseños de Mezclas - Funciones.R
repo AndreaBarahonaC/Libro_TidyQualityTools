@@ -413,7 +413,7 @@ contourPlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, 
 
 # wirePlot3 ----
 wirePlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, form = "linear", col = "Rainbow", steps, factors, plot = TRUE) {
-  #' @title contourPlot3: Ternary 3D plot
+  #' @title wirePlot3: function to create a ternary plot (3D wire plot)
   #' @description This function creates a ternary plot for mixture designs (i.e. object of class \code{mixDesign}).
   #' @param x Factor 1 of the \code{mixDesign} object.
   #' @param y Factor 2 of the \code{mixDesign} object.
