@@ -167,15 +167,15 @@ Distr <- R6Class("Distr",
                          # parameters
                          if(length(self$parameters) == 1){
                            p2 <- p2 + annotate('text', x = 0.25, y = 0.35,
-                                               label = paste(names(self$parameters[1]), round(self$parameters[[1]], digits = 3)),
+                                               label = paste(names(self$parameters[1]),"==", round(self$parameters[[1]], digits = 3)),
                                                parse = TRUE, size = 3, hjust = 0)
                          }
                          if(length(self$parameters) == 2){
                            p2 <- p2 + annotate('text', x = 0.25, y = 0.35,
-                                             label = paste(names(self$parameters[1]), round(self$parameters[1], digits = 3)),
+                                             label = paste(names(self$parameters[1]),"==", round(self$parameters[[1]], digits = 3)),
                                              parse = TRUE, size = 3, hjust = 0) +
                            annotate('text', x = 0.25, y = 0.30,
-                                    label = paste(names(self$parameters[2]), round(self$parameters[[2]], digits = 3)),
+                                    label = paste(names(self$parameters[2]),"==", round(self$parameters[[2]], digits = 3)),
                                     parse = TRUE, size = 3, hjust = 0)
                          }
                          }
