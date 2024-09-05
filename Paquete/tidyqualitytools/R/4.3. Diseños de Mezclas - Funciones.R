@@ -244,8 +244,8 @@ mixDesign <- function(p, n = 3, type = "lattice",
 
 
 # contourPlot3 ----
-contourPlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, border, form = "linear", col = 1, col.text, cex.axis, axes = TRUE,
-                        steps, factors) {
+contourPlot3 <- function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, form = "linear", col = 1,
+                         col.text, axes = TRUE, steps, factors, plot = TRUE, show.scale = TRUE) {
   #' @title contourPlot3: Ternary plot
   #' @description This function creates a ternary plot (contour plot) for mixture designs (i.e. object of class \code{mixDesign}).
   #' @param x Factor 1 of the \code{mixDesign} object.
@@ -279,15 +279,26 @@ contourPlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, 
   #' @param steps A numeric value specifying the resolution of the plot, i.e., the number of rows for the square matrix, which also represents the number of grid points per factor.
   #' By default, \code{steps} is set to 25.
   #' @param factors A list of factors for categorizing with specific settings, applicable if there are more than 3 factors (not yet implemented).
-  #' @return The function \code{contourPlot3} returns an invisible matrix containing the response values as NA's and numerics.
+  #' @param plot Logical value indicating whether to display the plot. Default is \code{TRUE}.
+  #' @param show.scale Logical value indicating whether to display the color scale on the plot. Default is \code{TRUE}.
+  #' @return The function \code{contourPlot3} returns an invisible list containing:
+  #' \itemize{
+  #'  \item{mat - A matrix containing the response values as NA's and numerics.}
+  #'  \item{plot - The generated plot.}
+  #' }
   #' @seealso \code{\link{mixDesign.c}}, \code{\link{mixDesign}}, \code{\link{wirePlot3}}.
   #' @examples
-  #' mdo <- mixDesign(3, 2, center = FALSE, axial = FALSE, randomize = FALSE, replicates = c(1, 1, 2, 3))
-  #'
-  #' elongation <- c(11.0, 12.4, 15.0, 14.8, 16.1, 17.7, 16.4, 16.6, 8.8, 10.0, 10.0, 9.7, 11.8, 16.8, 16.0)
+  #' #' mdo = mixDesign(3,2, center = FALSE, axial = FALSE, randomize = FALSE,
+  #'                 replicates  = c(1,1,2,3))
+  #' mdo$names(c("polyethylene", "polystyrene", "polypropylene"))
+  #' mdo$units("percent")
+  #' elongation = c(11.0, 12.4, 15.0, 14.8, 16.1, 17.7, 16.4, 16.6, 8.8, 10.0, 10.0,
+  #'                9.7, 11.8, 16.8, 16.0)
   #' mdo$.response(elongation)
-  #'
-  #' contourPlot3(A, B, C, elongation, data = mdo, form = "quadratic")
+  #' contourPlot3(A, B, C, elongation, data = mdo, form = "linear")
+  #' contourPlot3(A, B, C, elongation, data = mdo, form = "quadratic", col = 2)
+  #' contourPlot3(A, B, C, elongation, data = mdo, form = "elongation ~ I(A^2) - B:A + I(C^2)", col = 3, axes = FALSE)
+  #' contourPlot3(A, B, C, elongation, data = mdo, form = "quadratic", col = c("yellow", "white", "red"), axes = F)
 
   out = list()
   mdo = data
@@ -299,8 +310,6 @@ contourPlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, 
     col = 1
   if (missing(col.text))
     col.text = 1
-  if (missing(cex.axis))
-    cex.axis = 1
   if (missing(main))
     main = paste("Response Surface for", r.c)
   if (missing(ylab))
@@ -309,23 +318,39 @@ contourPlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, 
     xlab = x.c
   if (missing(zlab))
     zlab = z.c
-  if (missing(border))
-    border = "white"
   if (missing(factors))
     factors = NULL
   if (missing(steps))
     steps = 100
   col.axis = par("col.axis")
-  if (!is.function(col)) {
-    if (identical(col, 1))
-      col = colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"))
-    if (identical(col, 2))
-      col = colorRampPalette(c("blue", "white", "red"), space = "Lab")
-    if (identical(col, 3))
-      col = colorRampPalette(c("blue", "white", "orange"))
-    if (identical(col, 4))
-      col = colorRampPalette(c("gold", "white", "firebrick"))
+  if (is.numeric(col)) {
+    if (identical(col, 1)) {
+      col_palette = list(c(0, "#00007F"),c(0.125, "blue"),c(0.25, "#007FFF"),c(0.375, "cyan"),c(0.5, "#7FFF7F"),c(0.625, "yellow"),c(0.75, "#FF7F00"),c(0.875, "red"),c(1, "#7F0000"))
+    }
+    else if (identical(col, 2)) {
+      col_palette = list(c(0, "blue"), c(0.5, "white"), c(1, "red"))
+    }
+    else if (identical(col, 3)) {
+      col_palette = list(c(0, "blue"), c(0.5, "white"), c(1, "orange"))
+    }
+    else if (identical(col, 4)) {
+      col_palette = list(c(0, "gold"), c(0.5, "white"), c(1, "firebrick"))
+    }
   }
+  else{
+    if(is.vector(col) & length(col) > 1){
+      create_palette <- function(colors) {
+        n <- length(colors)
+        escala <- seq(0, 1, length.out = n)
+        lista_colores <- lapply(1:n, function(i) {
+          c(escala[i], colors[i])
+        })
+        return(lista_colores)
+      }
+      col_palette = create_palette(col)
+    }
+  }
+
   nameVec = names(mdo$names())
   linStrings = "-1"
   for (i in seq(along = nameVec)) linStrings = paste(linStrings, "+", nameVec[i])
@@ -344,7 +369,6 @@ contourPlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, 
 
   if (identical(form, "linear")) {
     form = paste(r.c, "~", linStrings)
-
   }
   if (identical(form, "quadratic")) {
     form = paste(r.c, "~", linStrings, "+", quadStrings)
@@ -373,42 +397,51 @@ contourPlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, 
   v = seq(acc, 1, length = acc)
   w = c(seq(2, acc, length = acc/2), seq(acc, 2, length = acc/2))
   mat[outer(w, v, `+`) <= acc] = NA
-  .mfc(mat, main = main, col = col, axes = FALSE, key.axes = axis(4))
-  if (axes == TRUE) {
-    segments(0.5, 0, 0.5, 1, col = col.axis)
-    coox1 = rep(0.49, 11)
-    coox2 = rep(0.51, 11)
-    cooy = seq(0, 1, length = 11)
-    for (i in 2:10) {
-      segments(coox1[i], cooy[i], coox2[i], cooy[i], col = col.axis)
-      text(coox2[i] + 0.01, cooy[i], labels = (i - 1)/10, cex = cex.axis, col = col.text)
+
+  p <- plot_ly(z = t(mat), type = "contour", autocontour = TRUE, line = list(smoothing = 0),
+               contours = list(coloring = 'heatmap'), showscale = show.scale, colorscale = col_palette) %>%
+    layout(
+      title = main,
+      xaxis = list(showline = FALSE, showticklabels = FALSE, showgrid = FALSE, zeroline = FALSE, ticks = ""),
+      yaxis = list(showline = FALSE, showticklabels = FALSE, showgrid = FALSE, zeroline = FALSE, ticks = ""),
+      showlegend = FALSE
+    ) %>%
+    add_annotations(text = ylab, x = -1.5, y = -1.5, showarrow = FALSE, font = list(size = 16, color = col.text), xref = "x", yref = "y") %>%
+    add_annotations(text = zlab, x = (steps+1), y = -1.5, showarrow = FALSE, font = list(size = 16, color = col.text), xref = "x", yref = "y") %>%
+    add_annotations(text = xlab, x = ((steps/2)-0.5), y = (steps+2), showarrow = FALSE, font = list(size = 16, color = col.text), xref = "x", yref = "y")
+
+  if(axes){
+    A = c(steps / 2, steps)
+    B = c(0, 0)
+    C = c(steps, 0)
+
+    AC = c((A[1]+C[1])/2, (A[2]+C[2])/2)
+    AB = c((A[1]+B[1])/2, (A[2]+B[2])/2)
+    BC = c((B[1]+C[1])/2, (B[2]+C[2])/2)
+
+    p <- p %>%
+      add_lines(x = c(A[1], BC[1]), y = c(A[2], BC[2]), line = list(color = 'black', width = 1), inherit = FALSE) %>% # A - BC
+      add_lines(x = c(B[1], AC[1]), y = c(B[2], AC[2]), line = list(color = 'black', width = 1), inherit = FALSE) %>% # B - AC
+      add_lines(x = c(C[1], AB[1]), y = c(C[2], AB[2]), line = list(color = 'black', width = 1), inherit = FALSE)     # C - AB
+
+    for (i in seq(0.8, 0.1, by = -0.1)) {
+      p <- p %>%
+        add_annotations(text = paste0(i+0.1), x = A[1] + (BC[1] - A[1]) * (1 - i/0.9), y = A[2] + (BC[2] - A[2]) * (1 - i/0.9), showarrow = FALSE, font = list(size = 12), xref = "x", yref = "y") %>%
+        add_annotations(text = paste0(i+0.1), x = B[1] + (AC[1] - B[1]) * (1 - i/0.9), y = B[2] + (AC[2] - B[2]) * (1 - i/0.9), showarrow = FALSE, font = list(size = 12), xref = "x", yref = "y") %>%
+        add_annotations(text = paste0(i+0.1), x = C[1] + (AB[1] - C[1]) * (1 - i/0.9), y = C[2] + (AB[2] - C[2]) * (1 - i/0.9), showarrow = FALSE, font = list(size = 12), xref = "x", yref = "y")
     }
-    segments(0, 0, 0.75, 0.5, col = col.axis)
-    coox1 = seq(0.745, -0.005, length = 11)
-    coox2 = seq(0.755, 0.005, length = 11)
-    cooy1 = seq(0.51, 0.01, length = 11)
-    cooy2 = seq(0.49, -0.01, length = 11)
-    for (i in 2:10) {
-      segments(coox1[i], cooy1[i], coox2[i], cooy2[i], col = col.axis)
-      text(coox2[i], cooy1[i] + 0.01, labels = (i - 1)/10, cex = cex.axis, col = col.text)
-    }
-    segments(0.25, 0.5, 1, 0, col = col.axis)
-    coox1 = seq(0.245, 0.995, length = 11)
-    coox2 = seq(0.255, 1.005, length = 11)
-    cooy1 = seq(0.49, -0.01, length = 11)
-    cooy2 = seq(0.51, 0.01, length = 11)
-    for (i in 2:10) {
-      segments(coox1[i], cooy1[i], coox2[i], cooy2[i], col = col.axis)
-      text(coox1[i] + 0.01, cooy2[i] + 0.01, labels = (i - 1)/10, cex = cex.axis, col = col.text)
-    }
+
+    i = 0
+    p <- p %>%
+      add_annotations(text = paste0(0.1), x = A[1] + (BC[1] - A[1]) * (1 - i/0.9), y = A[2] + (BC[2] - A[2]) * (1 - i/0.9) + 2, showarrow = FALSE, font = list(size = 12), xref = "x", yref = "y") %>%
+      add_annotations(text = paste0(0.1), x = B[1] + (AC[1] - B[1]) * (1 - i/0.9), y = B[2] + (AC[2] - B[2]) * (1 - i/0.9), showarrow = FALSE, font = list(size = 12), xref = "x", yref = "y") %>%
+      add_annotations(text = paste0(0.1), x = C[1] + (AB[1] - C[1]) * (1 - i/0.9), y = C[2] + (AB[2] - C[2]) * (1 - i/0.9), showarrow = FALSE, font = list(size = 12), xref = "x", yref = "y")
+
   }
-  segments(-0.005, 0, 0.495, 1, lwd = 5, col = border)
-  segments(0.505, 1, 1.005, 0, lwd = 5, col = border)
-  segments(1, -0.005, 0, -0.005, lwd = 5, col = border)
-  mtext(ylab, 1, at = -0.025, cex = 1.5)
-  mtext(xlab, 3, at = 0.5, cex = 1.5, line = 0.1)
-  mtext(zlab, 1, at = 1.025, cex = 1.5)
-  invisible(mat)
+  if(plot){
+    print(p)
+  }
+  invisible(list(mat = t(mat), plot = p))
 }
 
 # wirePlot3 ----
