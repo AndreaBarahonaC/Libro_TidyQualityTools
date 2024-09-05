@@ -106,8 +106,15 @@ Distr <- R6Class("Distr",
                        xlim <- range(lq, uq, xVals)
                      }
 
-                     xPoints <- seq(xlim[1], xlim[2], length = 200)
-                     yPoints <- do.call(dFun, c(list(xPoints), as.list(parameters)))
+
+                     if(object$name == "poisson"){
+                       xPoints <- seq(xlim[1], xlim[2], by = 1)
+                       yPoints <- do.call(dFun, c(list(xPoints), as.list(parameters)))
+                     }
+                     else{
+                       xPoints <- seq(xlim[1], xlim[2], length = 200)
+                       yPoints <- do.call(dFun, c(list(xPoints), as.list(parameters)))
+                     }
 
                      if (missing(ylim)) {
                        ylim <- range(0, histObj$density, yPoints)
@@ -172,11 +179,11 @@ Distr <- R6Class("Distr",
                          }
                          if(length(self$parameters) == 2){
                            p2 <- p2 + annotate('text', x = 0.25, y = 0.35,
-                                             label = paste(names(self$parameters[1]),"==", round(self$parameters[[1]], digits = 3)),
-                                             parse = TRUE, size = 3, hjust = 0) +
-                           annotate('text', x = 0.25, y = 0.30,
-                                    label = paste(names(self$parameters[2]),"==", round(self$parameters[[2]], digits = 3)),
-                                    parse = TRUE, size = 3, hjust = 0)
+                                               label = paste(names(self$parameters[1]),"==", round(self$parameters[[1]], digits = 3)),
+                                               parse = TRUE, size = 3, hjust = 0) +
+                             annotate('text', x = 0.25, y = 0.30,
+                                      label = paste(names(self$parameters[2]),"==", round(self$parameters[[2]], digits = 3)),
+                                      parse = TRUE, size = 3, hjust = 0)
                          }
                          }
                        p1 + inset_element(p2, left = 0.7, right = 1, top = 1, bottom = 0.60)
