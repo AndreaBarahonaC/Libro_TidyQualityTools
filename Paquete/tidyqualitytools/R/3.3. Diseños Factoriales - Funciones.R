@@ -1261,9 +1261,8 @@ wirePlot <- function(x, y, z, data = NULL,
       main = paste("Response Surface for", z.c)
 
     aux <- list()
-    NAMES = LETTERS[c(1:8, 10:26)]
     for (i in 1:length(fdo$names())) {
-      aux[[NAMES[i]]] <-fdo$names()[i]
+      aux[[.NAMES[i]]] <-fdo$names()[i]
     }
     if (missing(ylab))
       ylab = paste(y.c, ": ", aux[[y.c]])

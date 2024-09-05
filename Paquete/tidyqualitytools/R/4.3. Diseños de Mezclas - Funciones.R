@@ -412,7 +412,7 @@ contourPlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, 
 }
 
 # wirePlot3 ----
-wirePlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, form = "linear", phi, theta, col = 1, steps, factors) {
+wirePlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, form = "linear", col = "Rainbow", steps, factors, plot = TRUE) {
   #' @title contourPlot3: Ternary 3D plot
   #' @description This function creates a ternary plot for mixture designs (i.e. object of class \code{mixDesign}).
   #' @param x Factor 1 of the \code{mixDesign} object.
@@ -434,29 +434,36 @@ wirePlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, for
   #' }
   #' How the form influences the output is described in the reference listed below.
   #' By default, \code{form} is set to “linear”.
-  #' @param phi numerical value specifying the angle (in degree) through which the plot is rotated about an imagined horizontal line.
-  #' By default \code{phi} is set as ‘30’.
-  #' @param theta numerical value specifying the angle (in degree) through which the plot is rotated about an imagined vertical line.
-  #' By default \code{theta} is set as ‘30’.
-  #' @param col A predefined value (1, 2, 3, or 4) or a self-defined \code{colorRampPalette} specifying the colors to be used in the plot.
+  #' @param col Character string specifying the color palette to use for the plot (e.g., \code{"Rainbow"}, \code{"Jet"}, \code{"Earth"}, \code{"Electric"}). Default is \code{"Rainbow"}.
   #' @param steps A numeric value specifying the resolution of the plot, i.e., the number of rows for the square matrix, which also represents the number of grid points per factor.
   #' By default, \code{steps} is set to 25.
   #' @param factors A list of factors for categorizing with specific settings, applicable if there are more than 3 factors (not yet implemented).
+  #' @param plot Logical value indicating whether to display the plot. Default is \code{TRUE}.
   #' @return The function \code{wirePlot3} returns an invisible matrix containing the response values as NA's and numerics.
   #' @seealso \code{\link{mixDesign.c}}, \code{\link{mixDesign}}, \code{\link{contourPlot3}}.
   #' @examples
+  #' #Example 1
   #' mdo <- mixDesign(3, 2, center = FALSE, axial = FALSE, randomize = FALSE, replicates = c(1, 1, 2, 3))
-  #'
   #' elongation <- c(11.0, 12.4, 15.0, 14.8, 16.1, 17.7, 16.4, 16.6, 8.8, 10.0, 10.0, 9.7, 11.8, 16.8, 16.0)
   #' mdo$.response(elongation)
+  #' wirePlot3(A, B, C, elongation, data = mdo, form = "quadratic")
   #'
-  #' wirePlot3(A, B, C, elongation, data = mdo, form = "quadratic", theta = -170)
+  #' #Example 2
+  #' mdo <- mixDesign(3,2, center = FALSE, axial = FALSE, randomize = FALSE, replicates  = c(1,1,2,3))
+  #' mdo$names(c("polyethylene", "polystyrene", "polypropylene"))
+  #' mdo$units("percent")
+  #' elongation <- c(11.0, 12.4, 15.0, 14.8, 16.1, 17.7, 16.4, 16.6, 8.8, 10.0, 10.0, 9.7, 11.8, 16.8, 16.0)
+  #' mdo$.response(elongation)
+  #' wirePlot3(A, B, C, elongation, data = mdo, form = "linear")
+  #' wirePlot3(A, B, C, elongation, data = mdo, form = "quadratic", col = "Jet")
+  #' wirePlot3(A, B, C, elongation, data = mdo, form = "elongation ~ I(A^2) - B:A + I(C^2)", col = "Electric")
+  #' wirePlot3(A, B, C, elongation, data = mdo, form = "quadratic", col = "Earth")
 
   out = list()
   mdo = data
-  x.c = deparse(substitute(x))
-  y.c = deparse(substitute(y))
-  z.c = deparse(substitute(z))
+  x.c = deparse(substitute(A))
+  y.c = deparse(substitute(B))
+  z.c = deparse(substitute(C))
   r.c = deparse(substitute(response))
   if (missing(col))
     col = 1
@@ -468,37 +475,24 @@ wirePlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, for
     xlab = x.c
   if (missing(zlab))
     zlab = z.c
-  if (missing(phi))
-    phi = 30
-  if (missing(theta))
-    theta = 30
   if (missing(factors))
     factors = NULL
   if (missing(steps))
     steps = 100
-  if (!is.function(col)) {
-    if (identical(col, 1))
-      col = colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"))
-    if (identical(col, 2))
-      col = colorRampPalette(c("blue", "white", "red"), space = "Lab")
-    if (identical(col, 3))
-      col = colorRampPalette(c("blue", "white", "orange"))
-    if (identical(col, 4))
-      col = colorRampPalette(c("gold", "white", "firebrick"))
-  }
-  phi = phi%%360
-  .phi = phi
-  theta = theta%%360
-  .theta = theta
   nameVec = names(mdo$names())
   linStrings = "-1"
   for (i in seq(along = nameVec)) linStrings = paste(linStrings, "+", nameVec[i])
 
   combList = combn(nameVec, 2, simplify = FALSE)
   quadStrings = character(length = length(combList))
-  for (i in seq(along = combList)) if (i == 1)
-    quadStrings[i] = paste(combList[[i]][1], ":", combList[[i]][2])
-  else quadStrings[i] = paste("+", combList[[i]][1], ":", combList[[i]][2])
+  for (i in seq(along = combList)){
+    if (i == 1){
+      quadStrings[i] = paste(combList[[i]][1], ":", combList[[i]][2])
+    }
+    else {
+      quadStrings[i] = paste("+", combList[[i]][1], ":", combList[[i]][2])
+    }
+  }
   quadStrings = paste(quadStrings, collapse = "")
 
   if (identical(form, "linear")) {
@@ -541,68 +535,37 @@ wirePlot3 = function(x, y, z, response, data = NULL, main, xlab, ylab, zlab, for
     color <- col(nbcol)
     matFacet = mat[-1, -1] + mat[-1, -ncmat] + mat[-acc, -1] + mat[-acc, -ncmat]
     facetcol <- cut(matFacet, nbcol)
-  }
-  else {
+  } else {
     color = col
     facetcol = 1
   }
   maxim = max(mat, na.rm = TRUE) * acc
   minim = min(mat, na.rm = TRUE) * acc
-  per = persp(x = seq(0, acc, length = acc), y = seq(0, acc * sca, length = ncmat), mat * acc, phi = .phi, theta = .theta, scale = TRUE, col = "transparent",
-              border = FALSE, box = FALSE, main = main, xlab = xlab, ylab = ylab)
-  lineList = contourLines(x = seq(0, acc, length = acc), y = seq(0, acc * sca, length = ncmat), mat)
-  for (i in seq(along = lineList)) lines(trans3d(lineList[[i]]$x, lineList[[i]]$y, z = minim, pmat = per))
-  if (.phi < 90) {
-    lines(trans3d(x = seq(0, acc/2, length = 10), y = seq(0, acc * sca, length = 10), z = maxim, pmat = per), lty = 2)
-    lines(trans3d(x = seq(acc, acc/2, length = 10), y = seq(0, acc * sca, length = 10), z = maxim, pmat = per), lty = 2)
-    lines(trans3d(x = 0:acc, y = 0, z = maxim, pmat = per), lty = 2)
-  }
-  if (.theta > 323 || .theta < 37) {
-    lines(trans3d(x = acc/2, y = acc * sca, z = minim:maxim, pmat = per), lty = 2)
-    lines(trans3d(x = 0, y = 0, z = minim:maxim, pmat = per), lty = 2)
-    lines(trans3d(x = acc, y = 0, z = minim:maxim, pmat = per), lty = 2)
-  }
-  if (.theta > 37 && .theta < 156)
-    lines(trans3d(x = 0, y = 0, z = minim:maxim, pmat = per), lty = 2)
-  if (.theta > 156 && .theta < 323) {
-    lines(trans3d(x = acc, y = 0, z = minim:maxim, pmat = per), lty = 2)
-  }
-  lines(trans3d(x = seq(0, acc/2, length = 10), y = seq(0, acc * sca, length = 10), z = minim, pmat = per), lty = 1, lwd = 2)
-  lines(trans3d(x = seq(acc, acc/2, length = 10), y = seq(0, acc * sca, length = 10), z = minim, pmat = per), lty = 1, lwd = 2)
-  lines(trans3d(x = 0:acc, y = 0, z = minim, pmat = per), lty = 1, lwd = 2)
-  text(trans3d(x = acc/2 + acc/50, y = acc * sca + acc * sca/50, z = minim, pmat = per), labels = xlab, lwd = 2)
-  text(trans3d(x = -acc/50, y = -acc * sca/50, z = minim, pmat = per), labels = ylab, lwd = 2)
-  text(trans3d(x = acc + acc/50, 0, z = minim, pmat = per), labels = zlab, cex = 1, lwd = 2)
-  par(new = TRUE)
-  persp(x = seq(0, acc, length = acc), y = seq(0, acc * sca, length = ncmat), mat * acc, phi = .phi, theta = .theta, scale = TRUE, col = color[facetcol],
-        border = FALSE, box = FALSE)
-  if (.phi > 0) {
-    lines(trans3d(x = seq(0, acc/2, length = 10), y = seq(0, acc * sca, length = 10), z = maxim, pmat = per), lty = 2)
-    lines(trans3d(x = seq(acc, acc/2, length = 10), y = seq(0, acc * sca, length = 10), z = maxim, pmat = per), lty = 2)
-    lines(trans3d(x = 0:acc, y = 0, z = maxim, pmat = per), lty = 2)
-  }
-  if (.theta > 37 && .theta < 156) {
-    lines(trans3d(x = acc/2, y = acc * sca, z = minim:maxim, pmat = per), lty = 2)
-    lines(trans3d(x = acc, y = 0, z = minim:maxim, pmat = per), lty = 2)
-  }
-  if (.theta > 156 && .theta < 323) {
-    lines(trans3d(x = acc/2, y = acc * sca, z = minim:maxim, pmat = per), lty = 2)
-    lines(trans3d(x = 0, y = 0, z = minim:maxim, pmat = per), lty = 2)
-  }
-  if (TRUE) {
-    zlim = range(mat, finite = TRUE, na.rm = TRUE)
-    leglevel = pretty(zlim, 6)
-    legcol = col(length(leglevel))
-    legpretty = as.character(abs(leglevel))
-    temp = character(length(leglevel))
-    temp[leglevel > 0] = "+"
-    temp[leglevel < 0] = "-"
-    temp[leglevel == 0] = " "
-    legpretty = paste(temp, legpretty, sep = "")
-    if (.theta <= 180)
-      legend("topright", inset = 0.02, legend = paste(">", legpretty), col = legcol, bg = "white", pt.cex = 1.5, cex = 0.75, pch = 15)
-    if (.theta > 180)
-      legend("topleft", inset = 0.02, legend = paste(">", legpretty), col = legcol, bg = "white", pt.cex = 1.5, cex = 0.75, pch = 15)
+
+  p <- plot_ly(x =seq(0, acc * sca, length = ncmat)  , y = -seq(0, acc, length = acc), z = mat * acc, colorscale=col)%>%
+    add_surface(
+      contours = list(z = list(show = TRUE, usecolormap = TRUE, highlightcolor = "#ff0000", project = list(z = TRUE)))
+    ) %>%
+    layout(
+      title = main,
+      scene = list(
+        xaxis = list(title = ylab,
+                     showticklabels = FALSE,
+                     zeroline = FALSE),
+        yaxis = list(title = xlab,
+                     showticklabels = FALSE,
+                     zeroline = FALSE),
+        zaxis = list(title = zlab,
+                     showticklabels = FALSE,
+                     zeroline = FALSE)
+
+      )
+    )
+
+  if(plot){
+    show(p)
   }
   invisible(mat)
 }
+
+
