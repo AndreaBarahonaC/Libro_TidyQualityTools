@@ -15,11 +15,10 @@ wirePlot3(
   ylab,
   zlab,
   form = "linear",
-  phi,
-  theta,
-  col = 1,
+  col = "Rainbow",
   steps,
-  factors
+  factors,
+  plot = TRUE
 )
 }
 \arguments{
@@ -52,18 +51,14 @@ If form is a character string, it has to be one of the following:
 How the form influences the output is described in the reference listed below.
 By default, \code{form} is set to “linear”.}
 
-\item{phi}{numerical value specifying the angle (in degree) through which the plot is rotated about an imagined horizontal line.
-By default \code{phi} is set as ‘30’.}
-
-\item{theta}{numerical value specifying the angle (in degree) through which the plot is rotated about an imagined vertical line.
-By default \code{theta} is set as ‘30’.}
-
-\item{col}{A predefined value (1, 2, 3, or 4) or a self-defined \code{colorRampPalette} specifying the colors to be used in the plot.}
+\item{col}{Character string specifying the color palette to use for the plot (e.g., \code{"Rainbow"}, \code{"Jet"}, \code{"Earth"}, \code{"Electric"}). Default is \code{"Rainbow"}.}
 
 \item{steps}{A numeric value specifying the resolution of the plot, i.e., the number of rows for the square matrix, which also represents the number of grid points per factor.
 By default, \code{steps} is set to 25.}
 
 \item{factors}{A list of factors for categorizing with specific settings, applicable if there are more than 3 factors (not yet implemented).}
+
+\item{plot}{Logical value indicating whether to display the plot. Default is \code{TRUE}.}
 }
 \value{
 The function \code{wirePlot3} returns an invisible matrix containing the response values as NA's and numerics.
@@ -72,12 +67,22 @@ The function \code{wirePlot3} returns an invisible matrix containing the respons
 This function creates a ternary plot for mixture designs (i.e. object of class \code{mixDesign}).
 }
 \examples{
+#Example 1
 mdo <- mixDesign(3, 2, center = FALSE, axial = FALSE, randomize = FALSE, replicates = c(1, 1, 2, 3))
-
 elongation <- c(11.0, 12.4, 15.0, 14.8, 16.1, 17.7, 16.4, 16.6, 8.8, 10.0, 10.0, 9.7, 11.8, 16.8, 16.0)
 mdo$.response(elongation)
+wirePlot3(A, B, C, elongation, data = mdo, form = "quadratic")
 
-wirePlot3(A, B, C, elongation, data = mdo, form = "quadratic", theta = -170)
+#Example 2
+mdo <- mixDesign(3,2, center = FALSE, axial = FALSE, randomize = FALSE, replicates  = c(1,1,2,3))
+mdo$names(c("polyethylene", "polystyrene", "polypropylene"))
+mdo$units("percent")
+elongation <- c(11.0, 12.4, 15.0, 14.8, 16.1, 17.7, 16.4, 16.6, 8.8, 10.0, 10.0, 9.7, 11.8, 16.8, 16.0)
+mdo$.response(elongation)
+wirePlot3(A, B, C, elongation, data = mdo, form = "linear")
+wirePlot3(A, B, C, elongation, data = mdo, form = "quadratic", col = "Jet")
+wirePlot3(A, B, C, elongation, data = mdo, form = "elongation ~ I(A^2) - B:A + I(C^2)", col = "Electric")
+wirePlot3(A, B, C, elongation, data = mdo, form = "quadratic", col = "Earth")
 }
 \seealso{
 \code{\link{mixDesign.c}}, \code{\link{mixDesign}}, \code{\link{contourPlot3}}.
