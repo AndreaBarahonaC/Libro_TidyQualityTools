@@ -218,14 +218,14 @@ FitDistr <- function (x, densfun, start, ...){
   #'
   #' set.seed(123)
   #' x2 <- rt(250, df = 9)
-  #' FitFistr(x2, "t", df = 9)
+  #' FitDistr(x2, "t", df = 9)
   #'
   #' # Allow df to vary: not a very good idea!
-  #' fitdistr(x2, "t")
+  #' FitDistr(x2, "t")
   #'
   #' # Now do fixed-df fit directly with more control.
   #' mydt <- function(x, m, s, df) dt((x-m)/s, df)/s
-  #' FitFistr(x2, mydt, list(m = 0, s = 1), df = 9, lower = c(-Inf, 0))
+  #' FitDistr(x2, mydt, list(m = 0, s = 1), df = 9, lower = c(-Inf, 0))
   #'
   #' set.seed(123)
   #' x3 <- rweibull(100, shape = 4, scale = 100)
@@ -1746,7 +1746,7 @@ cg <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
 # print.adtest ----
 print.adtest <- function(x, digits = 4, quote = TRUE, prefix = "", ...) {
   #' @title print.adtest: Test Statistics
-  #' @description Generic R6 function for objects of class \code{adtest}.
+  #' @description Function to show \code{adtest}.
   #' @usage print.adtest(x, digits = 4, quote = TRUE, prefix = "", ...)
   #' @param x Needs to be an object of class \code{adtest}.
   #' @param digits Minimal number of significant digits.
