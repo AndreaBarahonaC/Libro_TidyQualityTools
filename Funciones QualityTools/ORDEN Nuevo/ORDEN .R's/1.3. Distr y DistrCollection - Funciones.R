@@ -371,43 +371,47 @@ FitDistr <- function (x, densfun, start, ...){
       start <- start[!is.element(names(start), dots)]
     }
   }
-  if (is.null(start) || !is.list(start))
-    stop("")
-  nm <- names(start)
-  f <- formals(densfun)
-  args <- names(f)
-  m <- match(nm, args)
-  if (any(is.na(m)))
-    stop("'start' specifies names which are not arguments to 'densfun'")
-  formals(densfun) <- c(f[c(1, m)], f[-c(1, m)])
-  dens <- function(parm, x, ...) densfun(x, parm, ...)
-  if ((l <- length(nm)) > 1L)
-    body(dens) <- parse(text = paste("densfun(x,", paste("parm[",
-                                                         1L:l, "]", collapse = ", "), ", ...)"))
-  Call[[1L]] <- quote(stats::optim)
-  Call$densfun <- Call$start <- NULL
-  Call$x <- x
-  Call$par <- start
-  Call$fn <- if ("log" %in% args)
-    mylogfn
-  else myfn
-  Call$hessian <- TRUE
-  if (length(control))
-    Call$control <- control
-  if (is.null(Call$method)) {
-    if (any(c("lower", "upper") %in% names(Call)))
-      Call$method <- "L-BFGS-B"
-    else if (length(start) > 1L)
-      Call$method <- "BFGS"
-    else Call$method <- "Nelder-Mead"
+  if (is.null(start) || !is.list(start)){
+    structure(list(estimate = NA, sd = NA, vcov = NA,
+                   loglik = NA, n = NA), class = "FitDistr")
   }
-  res <- suppressWarnings(eval.parent(Call))
-  if (res$convergence > 0L)
-    stop("optimization failed")
-  vc <- solve(res$hessian)
-  sds <- sqrt(diag(vc))
-  structure(list(estimate = res$par, sd = sds, vcov = vc,
-                 loglik = -res$value, n = n), class = "FitDistr")
+  else{
+    nm <- names(start)
+    f <- formals(densfun)
+    args <- names(f)
+    m <- match(nm, args)
+    if (any(is.na(m)))
+      stop("'start' specifies names which are not arguments to 'densfun'")
+    formals(densfun) <- c(f[c(1, m)], f[-c(1, m)])
+    dens <- function(parm, x, ...) densfun(x, parm, ...)
+    if ((l <- length(nm)) > 1L)
+      body(dens) <- parse(text = paste("densfun(x,", paste("parm[",
+                                                           1L:l, "]", collapse = ", "), ", ...)"))
+    Call[[1L]] <- quote(stats::optim)
+    Call$densfun <- Call$start <- NULL
+    Call$x <- x
+    Call$par <- start
+    Call$fn <- if ("log" %in% args)
+      mylogfn
+    else myfn
+    Call$hessian <- TRUE
+    if (length(control))
+      Call$control <- control
+    if (is.null(Call$method)) {
+      if (any(c("lower", "upper") %in% names(Call)))
+        Call$method <- "L-BFGS-B"
+      else if (length(start) > 1L)
+        Call$method <- "BFGS"
+      else Call$method <- "Nelder-Mead"
+    }
+    res <- suppressWarnings(eval.parent(Call))
+    if (res$convergence > 0L)
+      stop("optimization failed")
+    vc <- solve(res$hessian)
+    sds <- sqrt(diag(vc))
+    structure(list(estimate = res$par, sd = sds, vcov = vc,
+                   loglik = -res$value, n = n), class = "FitDistr")
+  }
 }
 
 # qqPlot -----
