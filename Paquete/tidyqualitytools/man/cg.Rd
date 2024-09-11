@@ -57,7 +57,7 @@ The function \code{cg} returns a list of numeric values. The first element conta
 Function visualize the given values of measurement in a run chart and in a histogram. Furthermore the \code{centralized Gage potential index} \code{Cg} and the \code{non-centralized Gage Capability index} \code{Cgk} are calculated and displayed.
 }
 \details{
-The calculation of the potential and actual gage capability are based on the following formulae:
+The calculation of the potential and actual gage capability are based on the following formula:
 \itemize{
 \item{\code{Cg = (facCg * tolerance[2]-tolerance[1])/ref.interval}}
 \item{\code{Cgk = (facCgk * abs(target-mean(x))/(ref.interval/2)}}

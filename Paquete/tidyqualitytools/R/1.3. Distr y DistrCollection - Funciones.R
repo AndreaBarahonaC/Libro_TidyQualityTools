@@ -1442,7 +1442,7 @@ cg <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
   #' @param main Character string specifying the title of the plot.
   #' @param conf.level Confidence level for internal \code{t.test} checking the significance of the bias between \code{target} and mean of \code{x}. The default value is \code{0.95}. The result of the \code{t.test} is shown in the histogram on the left side.
   #' @param cgOut Logical value deciding whether the \code{Cg} and \code{Cgk} values should be plotted in a legend. Default is \code{TRUE}.
-  #' @details The calculation of the potential and actual gage capability are based on the following formulae:
+  #' @details The calculation of the potential and actual gage capability are based on the following formula:
   #' \itemize{
   #' \item{\code{Cg = (facCg * tolerance[2]-tolerance[1])/ref.interval}}
   #' \item{\code{Cgk = (facCgk * abs(target-mean(x))/(ref.interval/2)}}
