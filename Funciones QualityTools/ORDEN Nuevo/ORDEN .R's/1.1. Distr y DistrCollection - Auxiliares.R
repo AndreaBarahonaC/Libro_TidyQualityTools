@@ -326,8 +326,6 @@
   n = length(x)
   if (n < 8)
     stop("sample size must be greater than 7")
-  if (n > 40)
-    warning("sample size is greater than 40")
   if (is.character(distribution)) {
     pFun = .charToDistFunc(distribution, type = "p")
     distribution = tolower(distribution)
@@ -513,12 +511,8 @@
     lq <- do.call(qFun, c(list(lowerquantile), as.list(parameters)))
     uq <- do.call(qFun, c(list(upperquantile), as.list(parameters)))
     x <- range(x, xValues, lq, uq)
-    histObj <- hist(xValues, plot = FALSE)
-    xPoints <- seq(x[1], x[2], length = 200)
-    yPoints <- do.call(dFun, c(list(xPoints), as.list(parameters)))
-    y <- range(y, 0, histObj$density, yPoints)
   }
-  invisible(list(xlim = x, ylim = y))
+  invisible(list(xlim = x))
 }
 # .sdSg, lfkp, lfrm  -----
 .sdSg = function(x, grouping = NULL, method = c("NOWEIGHT", "MVLUE", "RMSDF"), na.rm = TRUE) {
