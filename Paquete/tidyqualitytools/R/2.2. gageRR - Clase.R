@@ -223,10 +223,10 @@ gageRR.c <- R6Class("gageRR",
                       #'
                       #' gdo$plot()
                       plot = function(main=NULL, xlab=NULL, ylab=NULL, col, lwd, fun = mean){
-                        x <- self
-                        yName <- x$facNames[1]
-                        aName <- x$facNames[2]
-                        bName <- x$facNames[3]
+                        gdo <- self
+                        yName <- gdo$facNames[1]
+                        aName <- gdo$facNames[2]
+                        bName <- gdo$facNames[3]
                         abName <- paste(aName, ":", bName, sep = "")
                         if (missing(col))
                           col <- 2:(length(unique(gdo$b)) + 1)

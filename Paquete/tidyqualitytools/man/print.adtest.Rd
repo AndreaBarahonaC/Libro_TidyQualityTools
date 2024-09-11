@@ -19,5 +19,5 @@ By default \code{quote} is set to \code{TRUE}.}
 \item{...}{Further arguments passed to or from other methods.}
 }
 \description{
-Generic R6 function for objects of class \code{adtest}.
+Function to show \code{adtest}.
 }
