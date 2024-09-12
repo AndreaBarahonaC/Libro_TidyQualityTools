@@ -74,7 +74,6 @@ adSim <- function(x, distribution = "normal", b = 10000){
   x = sort(x, decreasing = FALSE)
 
   if(testDistr != "normal" & testDistr != "gumbel" & testDistr != "cauchy"){
-    #parafit <- MASS::fitdistr(x,testDistr)
     parafit <- FitDistr(x,testDistr)[c('estimate','sd')]
   }
 
@@ -95,8 +94,6 @@ adSim <- function(x, distribution = "normal", b = 10000){
 
 
   if(is.na(b) == FALSE){
-
-    #parafit <- MASS::fitdistr(x,testDistr)
     parafit <- FitDistr(x,testDistr)
 
     }else{
