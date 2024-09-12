@@ -180,14 +180,14 @@ Distr <- R6Class("Distr",
                                       binwidth = 1,  # Ajusta el ancho del bin
                                       colour = border.col, fill = fill.col) +
                        geom_density(colour = line.col, lwd = line.width ) +
-                       labs(y = ylab, x = xlab, title = main) +
+                       labs(y = ylab, x = xlab, title = main) + xlim(xlim) +
                        theme_minimal() + theme(plot.title = element_text(hjust = 0.5,face = "bold"))+
                        guides(color = guide_legend(title.position = "top", title.hjust = 0.5))
 
 
                      # Caja de Info
                      if (box==FALSE) {
-                       p1
+                       suppressWarnings(p1)
                      }
                      else {
                        p2 <- ggplot(data = data.frame(x = 0, y = 0), aes(x, y)) +
@@ -257,7 +257,7 @@ Distr <- R6Class("Distr",
                                       parse = TRUE, size = 3, hjust = 0) + ylim(c(0.19, 0.36))
                          }
                          }
-                       p1 + inset_element(p2, left = 0.7, right = 1, top = 1, bottom = 0.60)
+                       suppressWarnings(p1 + inset_element(p2, left = 0.7, right = 1, top = 1, bottom = 0.60))
                      }
                    }
                  )
