@@ -35,7 +35,7 @@ distr4$plot()
 # Poisson
 data5 <- rpois(100, lambda = 3)
 parameters5 <- list(lambda = 3)
-distr5 <- Distr$new(x = data2, name = "poisson", parameters = parameters2, sd = sqrt(3), n = 100, loglik = -150)
+distr5 <- Distr$new(x = data5, name = "poisson", parameters = parameters5, sd = sqrt(3), n = 100, loglik = -150)
 distr5$plot()
 
 # Chi-square
@@ -56,37 +56,25 @@ parameters8 <- list(shape = 2, rate = 0.5)
 distr8 <- Distr$new(x = data8, name = "gamma", parameters = parameters8, sd = sqrt(2 / (0.5^2)), n = 100, loglik = -120)
 distr8$plot()
 
-# Weibull
-data9 <- rweibull(100, shape = 2, scale = 1)
-parameters9 <- list(shape = 2, scale = 1)
-distr9 <- Distr$new(x = data9, name = "weibull", parameters = parameters9, sd = sqrt(1 - (1 / 2^2)), n = 100, loglik = -110)
-distr9$plot()
-
-# Cauchy
-data10 <- rcauchy(100, location = 0, scale = 1)
-parameters10 <- list(location = 0, scale = 1)
-distr10 <- Distr$new(x = data10, name = "cauchy", parameters = parameters10, sd = NA, n = 100, loglik = -160)
-distr10$plot()
-
 # f
-data12 <- rf(100, df1 = 5, df2 = 10)
+data9 <- rf(100, df1 = 5, df2 = 10)
 parameters12 <- list(df1 = 5, df2 = 10)
 df1 = 5
 df2 = 10
-distr12 <- Distr$new(x = data12, name = "f", parameters = parameters12, sd = sqrt(((df2^2 * (df1 + df2 - 2)) / (df1 * (df2 - 2)^2 * (df2 - 4)))), n = 100, loglik = -150)
-distr12$plot()
+distr9 <- Distr$new(x = data9, name = "f", parameters = parameters9, sd = sqrt(((df2^2 * (df1 + df2 - 2)) / (df1 * (df2 - 2)^2 * (df2 - 4)))), n = 100, loglik = -150)
+distr9$plot()
 
 # t
-data13 <- rt(100, df = 10)
-parameters13 <- list(df = 10)
-distr13 <- Distr$new(x = data13, name = "t", parameters = parameters13, sd = sqrt(10 / (10 - 2)), n = 100, loglik = -120)
-distr13$plot()
+data10 <- rt(100, df = 10)
+parameters10 <- list(df = 10)
+distr10 <- Distr$new(x = data10, name = "t", parameters = parameters10, sd = sqrt(10 / (10 - 2)), n = 100, loglik = -120)
+distr10$plot()
 
 # negative binomial
-data14 <- rnbinom(100, size = 5, prob = 0.3)
-parameters14 <- list(size = 5, prob = 0.3)
-distr14 <- Distr$new(x = data14, name = "negative binomial", parameters = parameters14, sd = sqrt(5 * (1 - 0.3) / (0.3^2)), n = 100, loglik = -130)
-distr14$plot()
+data11 <- rnbinom(100, size = 5, prob = 0.3)
+parameters11 <- list(size = 5, prob = 0.3)
+distr11 <- Distr$new(x = data11, name = "negative binomial", parameters = parameters11, sd = sqrt(5 * (1 - 0.3) / (0.3^2)), n = 100, loglik = -130)
+distr11$plot()
 }
 \seealso{
 \code{\link{distribution}}, \code{\link{FitDistr}}, \code{\link{DistrCollection}}
@@ -153,7 +141,7 @@ Plot the distribution with histogram and fitted density curve.
   main = NULL,
   xlab = NULL,
   xlim = NULL,
-  ylim = NULL,
+  xlim.t = TRUE,
   ylab = NULL,
   line.col = "red",
   fill.col = "lightblue",
@@ -172,7 +160,7 @@ Plot the distribution with histogram and fitted density curve.
 
 \item{\code{xlim}}{Numeric vector specifying the x-axis limits.}
 
-\item{\code{ylim}}{Numeric vector specifying the y-axis limits.}
+\item{\code{xlim.t}}{Logical value specifyind to change the xlim default.}
 
 \item{\code{ylab}}{Character string for the y-axis label. Defaults to "Density".}
 

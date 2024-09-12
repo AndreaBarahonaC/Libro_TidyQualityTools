@@ -178,7 +178,7 @@ Distr <- R6Class("Distr",
 
                      # Caja de Info
                      if (box==FALSE) {
-                       suppressWarnings(p1)
+                       suppressWarnings(print(p1))
                      }
                      else {
                        p2 <- ggplot(data = data.frame(x = 0, y = 0), aes(x, y)) +
@@ -256,7 +256,7 @@ Distr <- R6Class("Distr",
                                       parse = TRUE, size = 3, hjust = 0) + ylim(c(0.19, 0.36))
                          }
                          }
-                       suppressWarnings(p1 + inset_element(p2, left = 0.7, right = 1, top = 1, bottom = 0.60))
+                       suppressWarnings(print(p1 + inset_element(p2, left = 0.7, right = 1, top = 1, bottom = 0.60)))
                      }
                    }
                  )
