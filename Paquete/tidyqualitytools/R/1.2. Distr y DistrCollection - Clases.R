@@ -376,7 +376,7 @@ DistrCollection <- R6::R6Class("DistrCollection",
                                    for (i in 2:length(distrList)) {
                                      p <- p+distrList[[i]]$plot(xlab = xlab, ylab = ylab, line.col = line.col, fill.col = fill.col, border.col = border.col, line.width = line.width, box = box)
                                    }
-                                   p
+                                   suppressWarnings(print(p))
                                  }
                                )
 )
