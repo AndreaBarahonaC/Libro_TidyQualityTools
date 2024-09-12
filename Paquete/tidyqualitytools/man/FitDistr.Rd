@@ -40,25 +40,25 @@ There are `print`, `coef`, `vcov` and `logLik` methods for class `"FitDistr"`.
 }
 \examples{
 set.seed(123)
-x <- rgamma(100, shape = 5, rate = 0.1)
+x = rgamma(100, shape = 5, rate = 0.1)
 FitDistr(x, "gamma")
 
 # Now do this directly with more control.
 FitDistr(x, dgamma, list(shape = 1, rate = 0.1), lower = 0.001)
 
 set.seed(123)
-x2 <- rt(250, df = 9)
+x2 = rt(250, df = 9)
 FitFistr(x2, "t", df = 9)
 
 # Allow df to vary: not a very good idea!
 fitdistr(x2, "t")
 
 # Now do fixed-df fit directly with more control.
-mydt <- function(x, m, s, df) dt((x-m)/s, df)/s
+mydt = function(x, m, s, df) dt((x-m)/s, df)/s
 FitFistr(x2, mydt, list(m = 0, s = 1), df = 9, lower = c(-Inf, 0))
 
 set.seed(123)
-x3 <- rweibull(100, shape = 4, scale = 100)
+x3 = rweibull(100, shape = 4, scale = 100)
 FitDistr(x3, "weibull")
 }
 \seealso{
