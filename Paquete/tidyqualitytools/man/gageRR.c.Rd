@@ -329,7 +329,7 @@ Get or get the response for a \code{gageRRDesign} object.
 \if{html}{\out{<a id="method-gageRR-response"></a>}}
 \if{latex}{\out{\hypertarget{method-gageRR-response}{}}}
 \subsection{Method \code{response()}}{
-Set or get the response for a \code{gageRRDesign} object.
+Set the response for a \code{gageRRDesign} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{gageRR.c$response(value)}\if{html}{\out{</div>}}
 }

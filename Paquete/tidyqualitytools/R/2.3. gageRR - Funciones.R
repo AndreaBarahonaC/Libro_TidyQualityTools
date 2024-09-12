@@ -129,7 +129,7 @@ gageRR <- function(gdo, method = "crossed", sigma = 6, alpha = 0.25,
   #' @examples
   #' # Create de gageRR Design
   #' design <- gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, method = "crossed", sigma = 6, randomize = TRUE)
-  #' design$X$Measurement <- rnorm(nrow(design$X), mean = 10, sd = 2)
+  #' design$response(rnorm(nrow(design$X), mean = 10, sd = 2))
   #'
   #' # Results of de Design
   #' result <- gageRR(gdo = design, method = "crossed", sigma = 6, alpha = 0.25)
@@ -146,7 +146,7 @@ gageRR <- function(gdo, method = "crossed", sigma = 6, alpha = 0.25,
 
   bTobName <- paste(bName, "to", bName, sep = " ")
 
-  if (is.null(tolerance)) tolerance <- gdo$get.tolerance()
+  if (!is.null(tolerance)) gdo$set.tolerance(tolerance)
 
   y <- gdo$X[[yName]]
   a <- gdo$X[[aName]]

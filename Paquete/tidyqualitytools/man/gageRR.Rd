@@ -40,7 +40,7 @@ Performs a Gage R&R analysis for an object of class \code{\link{gageRR.c}}.
 \examples{
 # Create de gageRR Design
 design <- gageRRDesign(Operators = 3, Parts = 10, Measurements = 3, method = "crossed", sigma = 6, randomize = TRUE)
-design$X$Measurement <- rnorm(nrow(design$X), mean = 10, sd = 2)
+design$response(rnorm(nrow(design$X), mean = 10, sd = 2))
 
 # Results of de Design
 result <- gageRR(gdo = design, method = "crossed", sigma = 6, alpha = 0.25)

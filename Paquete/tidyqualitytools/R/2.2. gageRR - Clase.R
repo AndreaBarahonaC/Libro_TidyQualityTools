@@ -143,7 +143,9 @@ gageRR.c <- R6Class("gageRR",
                           cat("\n")
                           cat("Operators:\t", self$numO, "\tParts:\t", self$numP, "\n")
                           cat("Measurements:\t", self$numM, "\tTotal:\t", nrow(self$X), "\n")
-                          cat("----------\n")
+                          cat("----------")
+                          cat("\n")
+                          gageRR(self, method = self$method)
                         }
                         return(invisible(self))
                       },
@@ -153,7 +155,7 @@ gageRR.c <- R6Class("gageRR",
                         return(self$X$Measurement)
                       },
 
-                      #' @description Set or get the response for a \code{gageRRDesign} object.
+                      #' @description Set the response for a \code{gageRRDesign} object.
                       #' @param value New response vector.
                       response = function(value) {
                         self$X$Measurement = value
@@ -292,15 +294,15 @@ gageRR.c <- R6Class("gageRR",
                         if (gdo$method == "crossed") {
                           # 2. Measurement by part ------------------------------------------------------
                           main2 <- NA
-                          if (missing(main) || is.na(main[2]))
+                          if (missing(main) || is.null(main[2]))
                             main2 <- paste(yName, "by", bName)
                           else main2 <- main[2]
                           xlab2 <- NA
-                          if (missing(xlab) || is.na(xlab[2]))
+                          if (missing(xlab) || is.null(xlab[2]))
                             xlab2 <- bName
                           else xlab2 <- xlab[2]
                           ylab2 <- NA
-                          if (missing(ylab) || is.na(ylab[2]))
+                          if (missing(ylab) || is.null(ylab[2]))
                             ylab2 <- yName
                           else ylab2 <- ylab[2]
 
@@ -319,18 +321,18 @@ gageRR.c <- R6Class("gageRR",
 
                           # 3. Measurement by operator --------------------------------------------------
                           main3 = NA
-                          if (missing(main) || is.na(main[3]))
+                          if (missing(main) || is.null(main[3]))
                             main3 = paste(yName, "by", aName)
                           else main3 = main[3]
                           xlab3 = NA
-                          if (missing(xlab) || is.na(xlab[3]))
+                          if (missing(xlab) || is.null(xlab[3]))
                             xlab3 = aName
                           else xlab3 = xlab[3]
                           ylab3 = NA
-                          if (missing(ylab) || is.na(ylab[3]))
+                          if (missing(ylab) || is.null(ylab[3]))
                             ylab3 = yName
                           else ylab3 = ylab[3]
-
+                          col_op<-2:(length(unique(gdo$a)) + 1)
                           p3 <- ggplot(gdo$X, aes_string(x = aName, y = yName)) +
                             geom_boxplot(aes(fill = factor(gdo$X[, 3]))) +
                             stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", linewidth = lwd) +
@@ -340,7 +342,7 @@ gageRR.c <- R6Class("gageRR",
                                  y = ifelse(is.null(ylab[3]), yName, ylab[3]),
                                  fill = "Factor") +
                             theme_bw() +
-                            scale_fill_manual(values = col) +
+                            scale_fill_manual(values = col_op) +
                             theme(plot.title = element_text(hjust = 0.5), legend.position='none')
 
                           # 4. X_mean Chart -------------------------------------------------------------------------------
@@ -378,15 +380,15 @@ gageRR.c <- R6Class("gageRR",
 
                           # 5. Interaction Operator  ------------------------------------------------------------------
                           main4 <- NA
-                          if (missing(main) || is.na(main[4]))
+                          if (missing(main) || is.null(main[4]))
                             main4 <- paste("Interaction", abName)
                           else main4 <- main[4]
                           xlab4 <- NA
-                          if (missing(xlab) || is.na(xlab[4]))
+                          if (missing(xlab) || is.null(xlab[4]))
                             xlab4 <- colnames(gdo$X)[4]
                           else xlab4 <- xlab[4]
                           ylab4 <- NA
-                          if (missing(ylab) || is.na(ylab[4]))
+                          if (missing(ylab) || is.null(ylab[4]))
                             ylab4 <- paste(as.character(body(match.fun(fun)))[2], "of", colnames(gdo$X)[5])
                           else ylab4 <- ylab[4]
                           p5 <- .aip(gdo$X[, 4], gdo$X[, 3], response = gdo$X[, 5], xlab = xlab4, ylab = ylab4, title = "Interaction Operator: Part", legend = TRUE,col = col, type = "b", plot = FALSE)
@@ -435,7 +437,7 @@ gageRR.c <- R6Class("gageRR",
                         if(gdo$method == "nested"){
                           # 2. Measurement by Part within operator --------------
                           main2 = NA
-                          if (missing(main) || is.na(main[2]))
+                          if (missing(main) || is.null(main[2]))
                             main2 = paste(yName, "By", bName, "Within", aName)
                           else main2 = main[2]
                           xlab2 = NA
@@ -477,7 +479,7 @@ gageRR.c <- R6Class("gageRR",
                           if (missing(ylab) || is.na(ylab[3]))
                             ylab3 = yName
                           else ylab3 = ylab[3]
-
+                          col_op<-2:(length(unique(gdo$a)) + 1)
                           p3 <- ggplot(gdo$X, aes_string(x = aName, y = yName)) +
                             geom_boxplot(aes(fill = factor(gdo$X[, 3]))) +
                             stat_summary(fun = median, geom = "line", aes(group = 1), color = "red", linewidth = lwd) +
@@ -487,7 +489,7 @@ gageRR.c <- R6Class("gageRR",
                                  y = ifelse(is.null(ylab[3]), yName, ylab[3]),
                                  fill = "Factor") +
                             theme_bw() +
-                            scale_fill_manual(values = col) +
+                            scale_fill_manual(values = col_op) +
                             theme(plot.title = element_text(hjust = 0.5), legend.position='none')
 
 
