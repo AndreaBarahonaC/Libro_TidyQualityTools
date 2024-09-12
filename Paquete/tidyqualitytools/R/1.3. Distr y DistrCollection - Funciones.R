@@ -445,7 +445,6 @@ qqPlot <- function(x, y, confbounds = TRUE, alpha, main, xlab, ylab, xlim, ylim,
   #'   \item{\code{"negative binomial"}}
   #'   \item{\code{"normal"}}
   #'   \item{\code{"Poisson"}}
-  #'   \item{\code{"t"}}
   #'   \item{\code{"weibull"}}
   #' }
   #' By default \code{distribution} is set to \code{"normal"}.
@@ -692,7 +691,6 @@ ppPlot <- function (x, distribution, confbounds = TRUE, alpha, probs, main, xlab
   #'   \item{\code{"negative binomial"}}
   #'   \item{\code{"normal"}}
   #'   \item{\code{"Poisson"}}
-  #'   \item{\code{"t"}}
   #'   \item{\code{"weibull"}}
   #' }
   #' By default \code{distribution} is set to \code{"normal"}.
