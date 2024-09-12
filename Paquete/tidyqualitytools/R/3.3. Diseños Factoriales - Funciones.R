@@ -1069,7 +1069,7 @@ normalPlot <- function(fdo, response = NULL, sig.col = c("red1", "red2", "red3")
     mid = round(length(tQ)/2)
     last = length(tQ)
     params$p = ppoints(effect)
-    estimates = FitDistr(effect, "normal")   #estimates = MASS::fitdistr(effect, "normal")
+    estimates = FitDistr(effect, "normal")
     params$mean = estimates$estimate[["mean"]]
     params$sd = estimates$estimate[["sd"]]
 

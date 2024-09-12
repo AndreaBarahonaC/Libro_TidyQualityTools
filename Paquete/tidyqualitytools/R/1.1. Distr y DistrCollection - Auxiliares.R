@@ -336,7 +336,7 @@
     pFun = match.fun(distribution)
   }                                                                      ####
   if (length(dots) == 0) {
-    fittedDistr = MASS::fitdistr(x, distribution)
+    fittedDistr = FitDistr(x, distribution)
     parameter = fittedDistr$estimate
     if (distribution == "normal") {
       parameter["mean"] = mean(x)
