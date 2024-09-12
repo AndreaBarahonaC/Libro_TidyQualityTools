@@ -110,7 +110,7 @@ Distr <- R6Class("Distr",
                    #' @param main Character string for the main title of the plot. Defaults to the name of the distribution.
                    #' @param xlab Character string for the x-axis label. Defaults to "x".
                    #' @param xlim Numeric vector specifying the x-axis limits.
-                   #' @param ylim Numeric vector specifying the y-axis limits.
+                   #' @param xlim.t Logical value specifyind to change the xlim default.
                    #' @param ylab Character string for the y-axis label. Defaults to "Density".
                    #' @param line.col Character string for the color of the plot line. Default is "red".
                    #' @param fill.col Character string for the color of the fill histogram plot line. Default is "lightblue".
