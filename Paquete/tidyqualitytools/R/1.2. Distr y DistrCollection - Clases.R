@@ -41,7 +41,7 @@
 #' # Poisson
 #' data5 <- rpois(100, lambda = 3)
 #' parameters5 <- list(lambda = 3)
-#' distr5 <- Distr$new(x = data2, name = "poisson", parameters = parameters2, sd = sqrt(3), n = 100, loglik = -150)
+#' distr5 <- Distr$new(x = data5, name = "poisson", parameters = parameters5, sd = sqrt(3), n = 100, loglik = -150)
 #' distr5$plot()
 #'
 #' # Chi-square
@@ -62,37 +62,25 @@
 #' distr8 <- Distr$new(x = data8, name = "gamma", parameters = parameters8, sd = sqrt(2 / (0.5^2)), n = 100, loglik = -120)
 #' distr8$plot()
 #'
-#' # Weibull
-#' data9 <- rweibull(100, shape = 2, scale = 1)
-#' parameters9 <- list(shape = 2, scale = 1)
-#' distr9 <- Distr$new(x = data9, name = "weibull", parameters = parameters9, sd = sqrt(1 - (1 / 2^2)), n = 100, loglik = -110)
-#' distr9$plot()
-#'
-#' # Cauchy
-#' data10 <- rcauchy(100, location = 0, scale = 1)
-#' parameters10 <- list(location = 0, scale = 1)
-#' distr10 <- Distr$new(x = data10, name = "cauchy", parameters = parameters10, sd = NA, n = 100, loglik = -160)
-#' distr10$plot()
-#'
 #' # f
-#' data12 <- rf(100, df1 = 5, df2 = 10)
+#' data9 <- rf(100, df1 = 5, df2 = 10)
 #' parameters12 <- list(df1 = 5, df2 = 10)
 #' df1 = 5
 #' df2 = 10
-#' distr12 <- Distr$new(x = data12, name = "f", parameters = parameters12, sd = sqrt(((df2^2 * (df1 + df2 - 2)) / (df1 * (df2 - 2)^2 * (df2 - 4)))), n = 100, loglik = -150)
-#' distr12$plot()
+#' distr9 <- Distr$new(x = data9, name = "f", parameters = parameters9, sd = sqrt(((df2^2 * (df1 + df2 - 2)) / (df1 * (df2 - 2)^2 * (df2 - 4)))), n = 100, loglik = -150)
+#' distr9$plot()
 #'
 #' # t
-#' data13 <- rt(100, df = 10)
-#' parameters13 <- list(df = 10)
-#' distr13 <- Distr$new(x = data13, name = "t", parameters = parameters13, sd = sqrt(10 / (10 - 2)), n = 100, loglik = -120)
-#' distr13$plot()
+#' data10 <- rt(100, df = 10)
+#' parameters10 <- list(df = 10)
+#' distr10 <- Distr$new(x = data10, name = "t", parameters = parameters10, sd = sqrt(10 / (10 - 2)), n = 100, loglik = -120)
+#' distr10$plot()
 #'
 #' # negative binomial
-#' data14 <- rnbinom(100, size = 5, prob = 0.3)
-#' parameters14 <- list(size = 5, prob = 0.3)
-#' distr14 <- Distr$new(x = data14, name = "negative binomial", parameters = parameters14, sd = sqrt(5 * (1 - 0.3) / (0.3^2)), n = 100, loglik = -130)
-#' distr14$plot()
+#' data11 <- rnbinom(100, size = 5, prob = 0.3)
+#' parameters11 <- list(size = 5, prob = 0.3)
+#' distr11 <- Distr$new(x = data11, name = "negative binomial", parameters = parameters11, sd = sqrt(5 * (1 - 0.3) / (0.3^2)), n = 100, loglik = -130)
+#' distr11$plot()
 Distr <- R6Class("Distr",
                  public = list(
                    x = NULL,
@@ -129,7 +117,7 @@ Distr <- R6Class("Distr",
                    #' @param border.col Character string for the color of the border of the fill histogram plot line. Default is "black".
                    #' @param box Logical value indicating whether to draw a box with the parameters in the plot. Default is TRUE.
                    #' @param line.width Numeric value specifying the width of the plot line. Default is 1.
-                   plot = function(main = NULL, xlab = NULL, xlim = NULL, ylim = NULL, ylab = NULL, line.col = "red",
+                   plot = function(main = NULL, xlab = NULL, xlim = NULL, xlim.t = TRUE, ylab = NULL, line.col = "red",
                                    fill.col = "lightblue", border.col = "black", box=TRUE, line.width = 1)
                    {
                      object <- self
@@ -180,10 +168,13 @@ Distr <- R6Class("Distr",
                                       binwidth = 1,  # Ajusta el ancho del bin
                                       colour = border.col, fill = fill.col) +
                        geom_density(colour = line.col, lwd = line.width ) +
-                       labs(y = ylab, x = xlab, title = main) + xlim(xlim) +
+                       labs(y = ylab, x = xlab, title = main) +
                        theme_minimal() + theme(plot.title = element_text(hjust = 0.5,face = "bold"))+
                        guides(color = guide_legend(title.position = "top", title.hjust = 0.5))
 
+                     if(xlim.t){
+                       p1 <- p1 + xlim(xlim)
+                     }
 
                      # Caja de Info
                      if (box==FALSE) {
