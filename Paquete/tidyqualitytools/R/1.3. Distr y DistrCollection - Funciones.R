@@ -1507,8 +1507,8 @@ cg <- function (x, target, tolerance, ref.interval, facCg, facCgk, n = 0.2,
       tolerance
     ))),
     quant1, quant2))
-  Cg <- (facCg * tolerance[2] - tolerance[1]) / ref.interval
-  Cgk <- (facCgk * abs(target - mean(x)) / (ref.interval / 2))
+  Cg = .cg(x, target, tolerance, ref.interval, facCg, facCgk)[[1]]
+  Cgk = .cg(x, target, tolerance, ref.interval, facCg, facCgk)[[2]]
 
   # Plots
 
