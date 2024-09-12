@@ -215,32 +215,40 @@ Distr <- R6Class("Distr",
                          }
 
                          # p
-                         if (!is.null(adTestStats$smaller) && adTestStats$smaller){
-                           p2 <- p2 +
-                             annotate('text',x = 0.25,y = 0.20,
-                                      label = paste("p<", round(as.numeric(p), digits =3)),
-                                      parse = TRUE,size = 3,hjust = 0)
-                         }
-                         if (!is.null(adTestStats$smaller) && !adTestStats$smaller){
-                           p2 <- p2 +
-                             annotate('text',x = 0.25, y = 0.20,
-                                      label = paste("p>=", round(as.numeric(p),digits = 3)),
-                                      parse = TRUE,size = 3,hjust = 0)
-                         }
-                         if (is.null(adTestStats$smaller)){
-                           if (is.na(p)){
+                         if(object$name %in% c("normal","log-normal", "geometric", "exponential", "poisson")){
+                           if (!is.null(adTestStats$smaller) && adTestStats$smaller){
                              p2 <- p2 +
+                               annotate('text',x = 0.25,y = 0.20,
+                                        label = paste("p<", round(as.numeric(p), digits =3)),
+                                        parse = TRUE,size = 3,hjust = 0)
+                           }
+                           if (!is.null(adTestStats$smaller) && !adTestStats$smaller){
+                             p2 <- p2 +
+                               annotate('text',x = 0.25, y = 0.20,
+                                        label = paste("p>=", round(as.numeric(p),digits = 3)),
+                                        parse = TRUE,size = 3,hjust = 0)
+                           }
+                           if (is.null(adTestStats$smaller)){
+                             if (is.na(p)){
+                               p2 <- p2 +
+                                 annotate('text',x = 0.25,y = 0.20,
+                                          label = "p = NA",
+                                          parse = F,size = 3,hjust = 0)
+                             }
+                             else{
+                               p2 <- p2 +
+                                 annotate('text',x = 0.25,y = 0.20,
+                                          label = paste("p==", round(as.numeric(p), digits = 3)),
+                                          parse = TRUE,size = 3,hjust = 0)
+                             }
+
+                           }
+                         }
+                         else{
+                           p2 <- p2 +
                                annotate('text',x = 0.25,y = 0.20,
                                         label = "p = NA",
                                         parse = F,size = 3,hjust = 0)
-                           }
-                           else{
-                             p2 <- p2 +
-                               annotate('text',x = 0.25,y = 0.20,
-                                        label = paste("p==", round(as.numeric(p), digits = 3)),
-                                        parse = TRUE,size = 3,hjust = 0)
-                           }
-
                          }
 
                          if(length(self$parameters) == 1){
