@@ -187,20 +187,20 @@ FitDistr <- function (x, densfun, start, ...){
   #' @description Maximum-likelihood fitting of univariate distributions, allowing parameters to be held fixed if desired.
   #' @param x A numeric vector of length at least one containing only finite values.
   #' Either a character string or a function returning a density evaluated at its first argument.
-  #' @param densfun character string specifying the density function to be used for fitting the distribution. Distributions \code{"beta"}, \code{"cauchy"}, \code{"chi-squared"}, \code{"exponential"}, \code{"gamma"}, \code{"geometric"}, \code{"log-normal"}, \code{"lognormal"}, \code{"logistic"}, \code{"negative binomial"}, \code{"normal"}, \code{"Poisson"}, \code{"t"} and \code{"weibull"} are recognised, case being ignored.
+  #' @param densfun character string specifying the density function to be used for fitting the distribution. Distributions `"beta"`, `"cauchy"`, `"chi-squared"`, `"exponential"`, `"gamma"`, `"geometric"`, `"log-normal"`, `"lognormal"`, `"logistic"`, `"negative binomial"`, `"normal"`, `"Poisson"`, `"t"` and "weibull" are recognised, case being ignored.
   #' @param start A named list giving the parameters to be optimized with initial values. This can be omitted for some of the named distributions and must be for others (see Details).
-  #' @param ... Additional parameters, either for \code{densfun} or for \code{optim}. In particular, it can be used to specify bounds via \code{lower} or \code{upper} or both. If arguments of \code{densfun} (or the density function corresponding to a character-string specification) are included they will be held fixed.
-  #' @details For the Normal, log-Normal, geometric, exponential and Poisson distributions the closed-form MLEs (and exact standard errors) are used, and \code{start} should not be supplied.
+  #' @param ... Additional parameters, either for `densfun` or for `optim`. In particular, it can be used to specify bounds via `lower` or `upper` or both. If arguments of `densfun` (or the density function corresponding to a character-string specification) are included they will be held fixed.
+  #' @details For the Normal, log-Normal, geometric, exponential and Poisson distributions the closed-form MLEs (and exact standard errors) are used, and `start` should not be supplied.
   #'
-  #' For all other distributions, direct optimization of the log-likelihood is performed using \code{optim}. The estimated standard errors are taken from the observed information matrix, calculated by a numerical approximation. For one-dimensional problems the Nelder-Mead method is used and for multi-dimensional problems the BFGS method, unless arguments named \code{lower} or \code{upper} are supplied (when \code{L-BFGS-B} is used) or \code{method} is supplied explicitly.
+  #' For all other distributions, direct optimization of the log-likelihood is performed using `optim`. The estimated standard errors are taken from the observed information matrix, calculated by a numerical approximation. For one-dimensional problems the Nelder-Mead method is used and for multi-dimensional problems the BFGS method, unless arguments named `lower` or `upper` are supplied (when `L-BFGS-B` is used) or `method` is supplied explicitly.
   #'
-  #' For the \code{"t"} named distribution the density is taken to be the location-scale family with location \code{m} and scale \code{s}.
+  #' For the `"t"` named distribution the density is taken to be the location-scale family with location `m` and scale `s`.
   #'
-  #' For the following named distributions, reasonable starting values will be computed if \code{start} is omitted or only partially specified: \code{"cauchy"}, \code{"gamma"}, \code{"logistic"}, \code{"negative binomial"} (parametrized by mu and size), \code{"t"} and \code{"weibull"}. Note that these starting values may not be good enough if the fit is poor: in particular they are not resistant to outliers unless the fitted distribution is long-tailed.
+  #' For the following named distributions, reasonable starting values will be computed if `start` is omitted or only partially specified: `"cauchy"`, `"gamma"`, `"logistic"`, `"negative binomial"` (parametrized by mu and size), `"t"` and `"weibull"`. Note that these starting values may not be good enough if the fit is poor: in particular they are not resistant to outliers unless the fitted distribution is long-tailed.
   #'
-  #' There are \code{print}, \code{coef}, \code{vcov} and \code{logLik} methods for class \code{"FitDistr"}.
+  #' There are `print`, `coef`, `vcov` and `logLik` methods for class `"FitDistr"`.
   #'
-  #' @return The function \code{FitDistr} returns an object of class \code{fitdistr}, which is a list containing:
+  #' @return The function `FitDistr` returns an object of class `fitdistr`, which is a list containing:
   #' \item{estimate}{a named vector of parameter estimates.}
   #' \item{sd}{a named vector of the estimated standard errors for the parameters.}
   #' \item{vcov}{the estimated variance-covariance matrix of the parameter estimates.}
@@ -218,14 +218,14 @@ FitDistr <- function (x, densfun, start, ...){
   #'
   #' set.seed(123)
   #' x2 <- rt(250, df = 9)
-  #' FitDistr(x2, "t", df = 9)
+  #' FitFistr(x2, "t", df = 9)
   #'
   #' # Allow df to vary: not a very good idea!
-  #' FitDistr(x2, "t")
+  #' fitdistr(x2, "t")
   #'
   #' # Now do fixed-df fit directly with more control.
   #' mydt <- function(x, m, s, df) dt((x-m)/s, df)/s
-  #' FitDistr(x2, mydt, list(m = 0, s = 1), df = 9, lower = c(-Inf, 0))
+  #' FitFistr(x2, mydt, list(m = 0, s = 1), df = 9, lower = c(-Inf, 0))
   #'
   #' set.seed(123)
   #' x3 <- rweibull(100, shape = 4, scale = 100)
@@ -371,43 +371,47 @@ FitDistr <- function (x, densfun, start, ...){
       start <- start[!is.element(names(start), dots)]
     }
   }
-  if (is.null(start) || !is.list(start))
-    stop("")
-  nm <- names(start)
-  f <- formals(densfun)
-  args <- names(f)
-  m <- match(nm, args)
-  if (any(is.na(m)))
-    stop("'start' specifies names which are not arguments to 'densfun'")
-  formals(densfun) <- c(f[c(1, m)], f[-c(1, m)])
-  dens <- function(parm, x, ...) densfun(x, parm, ...)
-  if ((l <- length(nm)) > 1L)
-    body(dens) <- parse(text = paste("densfun(x,", paste("parm[",
-                                                         1L:l, "]", collapse = ", "), ", ...)"))
-  Call[[1L]] <- quote(stats::optim)
-  Call$densfun <- Call$start <- NULL
-  Call$x <- x
-  Call$par <- start
-  Call$fn <- if ("log" %in% args)
-    mylogfn
-  else myfn
-  Call$hessian <- TRUE
-  if (length(control))
-    Call$control <- control
-  if (is.null(Call$method)) {
-    if (any(c("lower", "upper") %in% names(Call)))
-      Call$method <- "L-BFGS-B"
-    else if (length(start) > 1L)
-      Call$method <- "BFGS"
-    else Call$method <- "Nelder-Mead"
+  if (is.null(start) || !is.list(start)){
+    structure(list(estimate = NA, sd = NA, vcov = NA,
+                   loglik = NA, n = NA), class = "FitDistr")
   }
-  res <- suppressWarnings(eval.parent(Call))
-  if (res$convergence > 0L)
-    stop("optimization failed")
-  vc <- solve(res$hessian)
-  sds <- sqrt(diag(vc))
-  structure(list(estimate = res$par, sd = sds, vcov = vc,
-                 loglik = -res$value, n = n), class = "FitDistr")
+  else{
+    nm <- names(start)
+    f <- formals(densfun)
+    args <- names(f)
+    m <- match(nm, args)
+    if (any(is.na(m)))
+      stop("'start' specifies names which are not arguments to 'densfun'")
+    formals(densfun) <- c(f[c(1, m)], f[-c(1, m)])
+    dens <- function(parm, x, ...) densfun(x, parm, ...)
+    if ((l <- length(nm)) > 1L)
+      body(dens) <- parse(text = paste("densfun(x,", paste("parm[",
+                                                           1L:l, "]", collapse = ", "), ", ...)"))
+    Call[[1L]] <- quote(stats::optim)
+    Call$densfun <- Call$start <- NULL
+    Call$x <- x
+    Call$par <- start
+    Call$fn <- if ("log" %in% args)
+      mylogfn
+    else myfn
+    Call$hessian <- TRUE
+    if (length(control))
+      Call$control <- control
+    if (is.null(Call$method)) {
+      if (any(c("lower", "upper") %in% names(Call)))
+        Call$method <- "L-BFGS-B"
+      else if (length(start) > 1L)
+        Call$method <- "BFGS"
+      else Call$method <- "Nelder-Mead"
+    }
+    res <- suppressWarnings(eval.parent(Call))
+    if (res$convergence > 0L)
+      stop("optimization failed")
+    vc <- solve(res$hessian)
+    sds <- sqrt(diag(vc))
+    structure(list(estimate = res$par, sd = sds, vcov = vc,
+                   loglik = -res$value, n = n), class = "FitDistr")
+  }
 }
 
 # qqPlot -----

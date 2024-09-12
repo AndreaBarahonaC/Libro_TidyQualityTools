@@ -363,12 +363,6 @@ DistrCollection <- R6::R6Class("DistrCollection",
                                    distrList <- self$distr
                                    numDist <- length(self$distr)
                                    numColWin <- ceiling(numDist/2)
-                                   if (missing(xlim)) {
-                                     xlim <- .xyLimits(self)$xlim
-                                   }
-                                   if (missing(ylim)) {
-                                     ylim <- .xyLimits(self)$ylim
-                                   }
                                    if (missing(line.col)) {
                                      line.col <- "red"
                                    }
