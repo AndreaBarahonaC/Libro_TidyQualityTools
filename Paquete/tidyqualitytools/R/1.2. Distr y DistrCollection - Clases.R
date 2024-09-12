@@ -13,11 +13,86 @@
 #' @field loglik Numeric value representing the log-likelihood.
 #' @seealso \code{\link{distribution}}, \code{\link{FitDistr}}, \code{\link{DistrCollection}}
 #' @examples
+#' # Normal
 #' set.seed(123)
-#' data <- rnorm(100, mean = 5, sd = 2)
-#' parameters <- list(mean = 5, sd = 2)
-#' distr <- Distr$new(x = data, name = "normal", parameters = parameters, sd = 2, n = 100, loglik = -120)
-#' distr$plot()
+#' data1 <- rnorm(100, mean = 5, sd = 2)
+#' parameters1 <- list(mean = 5, sd = 2)
+#' distr1 <- Distr.c$new(x = data1, name = "normal", parameters = parameters1, sd = 2, n = 100, loglik = -120)
+#' distr1$plot()
+#'
+#' # Log-normal
+#' data2 <- rlnorm(100, meanlog = 1, sdlog = 0.5)
+#' parameters2 <- list(meanlog = 1, sdlog = 0.5)
+#' distr2 <- Distr.c$new(x = data2, name = "log-normal", parameters = parameters2, sd = 0.5, n = 100, loglik = -150)
+#' distr2$plot()
+#'
+#' # Geometric
+#' data3 <- rgeom(100, prob = 0.3)
+#' parameters3 <- list(prob = 0.3)
+#' distr3 <- Distr.c$new(x = data3, name = "geometric", parameters = parameters3, sd = sqrt((1 - 0.3) / (0.3^2)), n = 100, loglik = -80)
+#' distr3$plot()
+#'
+#' # Exponential
+#' data4 <- rexp(100, rate = 0.2)
+#' parameters4 <- list(rate = 0.2)
+#' distr4 <- Distr.c$new(x = data4, name = "exponential", parameters = parameters4, sd = 1 / 0.2, n = 100, loglik = -110)
+#' distr4$plot()
+#'
+#' # Poisson
+#' data5 <- rpois(100, lambda = 3)
+#' parameters5 <- list(lambda = 3)
+#' distr5 <- Distr.c$new(x = data2, name = "poisson", parameters = parameters2, sd = sqrt(3), n = 100, loglik = -150)
+#' distr5$plot()
+#'
+#' # Chi-square
+#' data6 <- rchisq(100, df = 5)
+#' parameters6 <- list(df = 5)
+#' distr6 <- Distr.c$new(x = data6, name = "chi-squared", parameters = parameters6, sd = sqrt(2 * 5), n = 100, loglik = -130)
+#' distr6$plot()
+#'
+#' # Logistic
+#' data7 <- rlogis(100, location = 0, scale = 1)
+#' parameters7 <- list(location = 0, scale = 1)
+#' distr7 <- Distr.c$new(x = data7, name = "logistic", parameters = parameters7, sd = 1 * sqrt(pi^2 / 3), n = 100, loglik = -140)
+#' distr7$plot()
+#'
+#' # Gamma
+#' data8 <- rgamma(100, shape = 2, rate = 0.5)
+#' parameters8 <- list(shape = 2, rate = 0.5)
+#' distr8 <- Distr.c$new(x = data8, name = "gamma", parameters = parameters8, sd = sqrt(2 / (0.5^2)), n = 100, loglik = -120)
+#' distr8$plot()
+#'
+#' # Weibull
+#' data9 <- rweibull(100, shape = 2, scale = 1)
+#' parameters9 <- list(shape = 2, scale = 1)
+#' distr9 <- Distr.c$new(x = data9, name = "weibull", parameters = parameters9, sd = sqrt(1 - (1 / 2^2)), n = 100, loglik = -110)
+#' distr9$plot()
+#'
+#' # Cauchy
+#' data10 <- rcauchy(100, location = 0, scale = 1)
+#' parameters10 <- list(location = 0, scale = 1)
+#' distr10 <- Distr.c$new(x = data10, name = "cauchy", parameters = parameters10, sd = NA, n = 100, loglik = -160)
+#' distr10$plot()
+#'
+#' # f
+#' data12 <- rf(100, df1 = 5, df2 = 10)
+#' parameters12 <- list(df1 = 5, df2 = 10)
+#' df1 = 5
+#' df2 = 10
+#' distr12 <- Distr.c$new(x = data12, name = "f", parameters = parameters12, sd = sqrt(((df2^2 * (df1 + df2 - 2)) / (df1 * (df2 - 2)^2 * (df2 - 4)))), n = 100, loglik = -150)
+#' distr12$plot()
+#'
+#' # t
+#' data13 <- rt(100, df = 10)
+#' parameters13 <- list(df = 10)
+#' distr13 <- Distr.c$new(x = data13, name = "t", parameters = parameters13, sd = sqrt(10 / (10 - 2)), n = 100, loglik = -120)
+#' distr13$plot()
+#'
+#' # negative binomial
+#' data14 <- rnbinom(100, size = 5, prob = 0.3)
+#' parameters14 <- list(size = 5, prob = 0.3)
+#' distr14 <- Distr.c$new(x = data14, name = "negative binomial", parameters = parameters14, sd = sqrt(5 * (1 - 0.3) / (0.3^2)), n = 100, loglik = -130)
+#' distr14$plot()
 Distr <- R6Class("Distr",
                  public = list(
                    x = NULL,
@@ -58,76 +133,53 @@ Distr <- R6Class("Distr",
                                    fill.col = "lightblue", border.col = "black", box=TRUE, line.width = 1)
                    {
                      object <- self
-                     xVals <- object$x
-                     parameters <- object$parameters
-                     lq <- NULL
-                     uq <- NULL
-                     y <- NULL
+                     xVals = object$x
+                     parameters = object$parameters
+                     lq = NULL
+                     uq = NULL
+                     y = NULL
 
-                     if (missing(line.col)) {
-                       line.col <- "red"
-                     }
-                     if (missing(line.width)) {
-                       line.width <- 1
-                     }
                      if (missing(main)) {
-                       main <- object$name
+                       main =  object$name
                      }
                      if (missing(xlab)) {
-                       xlab <- "x"
+                       xlab = "x"
                      }
                      if (missing(ylab)) {
-                       ylab <- "Density"
+                       ylab = "Density"
                      }
 
                      distr <- object$name
                      qFun <- .charToDistFunc(distr, type = "q")
                      dFun <- .charToDistFunc(distr, type = "d")
-                     adTestStats <- .myADTest(xVals, distr)
-
-                     if (adTestStats$class == "adtest") {
-                       A <- adTestStats$statistic
-                       p <- adTestStats$p.value
-                     } else {
+                     if(object$name %in% c("normal","log-normal", "geometric", "exponential", "poisson")){
+                       adTestStats <- .myADTest(xVals, distr)
+                       if (adTestStats$class == "adtest") {
+                         A <- adTestStats$statistic
+                         p <- adTestStats$p.value
+                       }
+                     }
+                     else {
                        A <- NA
                        p <- NA
                      }
 
-                     histObj <- hist(xVals, plot = FALSE)
-                     df <- data.frame(
-                       mid = histObj$mids,
-                       density = histObj$density
-                     )
-                     width <- diff(df$mid)[1]
-
                      if (missing(xlim)) {
-                       lq <- do.call(qFun, c(list(1e-04), as.list(parameters)))
-                       uq <- do.call(qFun, c(list(0.9999), as.list(parameters)))
-                       xlim <- range(lq, uq, xVals)
-                     }
-
-
-                     if(object$name == "poisson"){
-                       xPoints <- seq(xlim[1], xlim[2], by = 1)
-                       yPoints <- do.call(dFun, c(list(xPoints), as.list(parameters)))
-                     }
-                     else{
-                       xPoints <- seq(xlim[1], xlim[2], length = 200)
-                       yPoints <- do.call(dFun, c(list(xPoints), as.list(parameters)))
-                     }
-
-                     if (missing(ylim)) {
-                       ylim <- range(0, histObj$density, yPoints)
+                       lq = do.call(qFun, c(list(1e-04), as.list(parameters)))
+                       uq = do.call(qFun, c(list(0.9999), as.list(parameters)))
+                       xlim = range(lq, uq, xVals)
                      }
 
                      # Histograma
-                     p1 <- ggplot(df, aes(x = mid, y = density)) +
-                       geom_bar(stat = "identity", width = width, fill = fill.col, color = border.col, alpha = 0.5) +
-                       labs(y = ylab, x = xlab, title = main) + xlim(xlim) + ylim(ylim) +
+                     p1 <- ggplot(data.frame(x = xVals), aes(x = x)) +
+                       geom_histogram(aes(y = after_stat(density)),
+                                      binwidth = 1,  # Ajusta el ancho del bin
+                                      colour = border.col, fill = fill.col) +
+                       geom_density(colour = line.col, lwd = line.width ) +
+                       labs(y = ylab, x = xlab, title = main) +
                        theme_minimal() + theme(plot.title = element_text(hjust = 0.5,face = "bold"))+
-                       guides(color = guide_legend(title.position = "top", title.hjust = 0.5))+
-                       geom_line(data = data.frame(x = xPoints, y = yPoints), aes(x = x, y = y), color = line.col, linewidth = line.width) + # densidad
-                       theme(legend.position = "none")
+                       guides(color = guide_legend(title.position = "top", title.hjust = 0.5))
+
 
                      # Caja de Info
                      if (box==FALSE) {
@@ -143,13 +195,21 @@ Distr <- R6Class("Distr",
                            panel.grid.major = element_blank(),
                            panel.grid.minor = element_blank()
                          ) +
-                         xlim(c(0.25,0.26)) + ylim(c(0.19, 0.36))
+                         xlim(c(0.25,0.26))
                        {
                          # n y A
-                         p2 <- p2 +
-                           annotate('text', x = 0.25, y = 0.25,
-                                    label = paste("A==", round(as.numeric(A), digits = 3)),
-                                    parse = TRUE, size = 3, hjust = 0)
+                         if(is.na(A)){
+                           p2 <- p2 +
+                             annotate('text', x = 0.25, y = 0.25,
+                                      label = "A = NA", size = 3, hjust = 0)
+                         }
+                         else{
+                           p2 <- p2 +
+                             annotate('text', x = 0.25, y = 0.25,
+                                      label = paste("A==", round(as.numeric(A), digits = 3)),
+                                      parse = TRUE, size = 3, hjust = 0)
+                         }
+
                          # p
                          if (!is.null(adTestStats$smaller) && adTestStats$smaller){
                            p2 <- p2 +
@@ -164,18 +224,25 @@ Distr <- R6Class("Distr",
                                       parse = TRUE,size = 3,hjust = 0)
                          }
                          if (is.null(adTestStats$smaller)){
-                           p2 <- p2 +
-                             annotate('text',x = 0.25,y = 0.20,
-                                      label = paste("p==", round(as.numeric(p), digits = 3)),
-                                      parse = TRUE,size = 3,hjust = 0)
+                           if (is.na(p)){
+                             p2 <- p2 +
+                               annotate('text',x = 0.25,y = 0.20,
+                                        label = "p = NA",
+                                        parse = F,size = 3,hjust = 0)
+                           }
+                           else{
+                             p2 <- p2 +
+                               annotate('text',x = 0.25,y = 0.20,
+                                        label = paste("p==", round(as.numeric(p), digits = 3)),
+                                        parse = TRUE,size = 3,hjust = 0)
+                           }
+
                          }
 
-                         # mean y sd
-                         # parameters
                          if(length(self$parameters) == 1){
-                           p2 <- p2 + annotate('text', x = 0.25, y = 0.35,
+                           p2 <- p2 + annotate('text', x = 0.25, y = 0.30,
                                                label = paste(names(self$parameters[1]),"==", round(self$parameters[[1]], digits = 3)),
-                                               parse = TRUE, size = 3, hjust = 0)
+                                               parse = TRUE, size = 3, hjust = 0) + ylim(c(0.19, 0.31))
                          }
                          if(length(self$parameters) == 2){
                            p2 <- p2 + annotate('text', x = 0.25, y = 0.35,
@@ -183,7 +250,7 @@ Distr <- R6Class("Distr",
                                                parse = TRUE, size = 3, hjust = 0) +
                              annotate('text', x = 0.25, y = 0.30,
                                       label = paste(names(self$parameters[2]),"==", round(self$parameters[[2]], digits = 3)),
-                                      parse = TRUE, size = 3, hjust = 0)
+                                      parse = TRUE, size = 3, hjust = 0) + ylim(c(0.19, 0.36))
                          }
                          }
                        p1 + inset_element(p2, left = 0.7, right = 1, top = 1, bottom = 0.60)
@@ -191,7 +258,6 @@ Distr <- R6Class("Distr",
                    }
                  )
 )
-
 
 
 
