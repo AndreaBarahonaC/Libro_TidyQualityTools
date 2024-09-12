@@ -1183,6 +1183,10 @@ wirePlot <- function(x, y, z, data = NULL,
   #'
   #' #V - display a fit using a different colorRamp
   #' wirePlot(A,B,y, data = fdo, form = "full", col = 2)
+  #'
+  #' y <- seq(-10, 10, length = 30)
+  #' z <- outer(x, y, function(a, b) sin(sqrt(a^2 + b^2)))
+  #' wirePlot(x, y, z, main = "3D Wireframe Plot", xlab = "X-Axis", ylab = "Y-Axis", zlab = "Z-Axis")
 
 
   form = form
