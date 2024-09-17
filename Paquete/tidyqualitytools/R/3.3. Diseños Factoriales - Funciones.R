@@ -477,7 +477,7 @@ simProc <- function(x1, x2, x3, noise = TRUE) {
   #' @param x1 numeric vector containing the values for factor 1.
   #' @param x2 numeric vector containing the values for factor 2.
   #' @param x3 numeric vector containing the values for factor 3.
-  #' @param noise logical value deciding whether noise should be added or not. Default setting is \code{FALSE}.
+  #' @param noise logical value deciding whether noise should be added or not. Default setting is \code{TRUE}.
   #' @return \code{simProc} returns a numeric value within the range [0,1].
   #' @examples
   #' simProc(120, 140, 1)

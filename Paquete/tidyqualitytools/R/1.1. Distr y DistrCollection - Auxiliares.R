@@ -336,7 +336,7 @@
     pFun = match.fun(distribution)
   }                                                                      ####
   if (length(dots) == 0) {
-    fittedDistr = FitDistr(x, distribution)
+    fittedDistr = MASS::fitdistr(x, distribution)
     parameter = fittedDistr$estimate
     if (distribution == "normal") {
       parameter["mean"] = mean(x)
@@ -511,8 +511,12 @@
     lq <- do.call(qFun, c(list(lowerquantile), as.list(parameters)))
     uq <- do.call(qFun, c(list(upperquantile), as.list(parameters)))
     x <- range(x, xValues, lq, uq)
+    histObj <- hist(xValues, plot = FALSE)
+    xPoints <- seq(x[1], x[2], length = 200)
+    yPoints <- do.call(dFun, c(list(xPoints), as.list(parameters)))
+    y <- range(y, 0, histObj$density, yPoints)
   }
-  invisible(list(xlim = x))
+  invisible(list(xlim = x, ylim = y))
 }
 # .sdSg, lfkp, lfrm  -----
 .sdSg = function(x, grouping = NULL, method = c("NOWEIGHT", "MVLUE", "RMSDF"), na.rm = TRUE) {

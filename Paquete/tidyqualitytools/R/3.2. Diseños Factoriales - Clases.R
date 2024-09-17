@@ -117,9 +117,9 @@ facDesign.c <- R6Class("facDesign", public = list(name = NULL,
                                                     if (!is.null(self$factors) && length(self$factors) == dim(frameOut)[2]) {
                                                       names(frameOut) = as.character(aux)
                                                     }
-                                                    if (!is.null(self$blockGen) && nrow(self$blockGen) > 0) {
-                                                      frameOut = cbind(self$blockGen, frameOut)
-                                                    }
+                                                    # if (!is.null(self$blockGen) && nrow(self$blockGen) > 0) {
+                                                    #   frameOut = cbind(self$blockGen, frameOut)
+                                                    # }
                                                     if (!is.null(self$block) && nrow(self$block) > 0) {
                                                       frameOut = cbind(self$block, frameOut)
                                                     }
