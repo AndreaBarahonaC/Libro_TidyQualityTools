@@ -1802,7 +1802,7 @@ print.adtest <- function(x, digits = 4, quote = TRUE, prefix = "", ...) {
 
 # pcr ----
 pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
-                 lambda = c(-5, 5), main, xlim, ylim, grouping = NULL, std.dev = NULL,
+                 lambda = c(-5, 5), main, xlim, grouping = NULL, std.dev = NULL,
                  conf.level = 0.9973002, bounds.lty = 3, bounds.col = "red",
                  col.fill = "lightblue", col.border = "black",
                  col.curve = "red", plot = TRUE, ADtest = TRUE){
@@ -1838,7 +1838,6 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
   #' @param lambda (Optional) lambda for the transformation, default is to have the function estimate lambda.
   #' @param main A character string specifying the main title of the plot.
   #' @param xlim A numeric vector of length 2 specifying the x-axis limits for the plot.
-  #' @param ylim A numeric vector of length 2 specifying the y-axis limits for the plot.
   #' @param grouping (Optional) If grouping is given the standard deviation is calculated as mean standard deviation of the specified subgroups corrected by the factor \code{c4} and expected fraction of nonconforming is calculated using this standard deviation.
   #' @param std.dev An optional numeric value specifying the historical standard deviation (only provided for normal distribution). If \code{NULL}, the standard deviation is calculated from the data.
   #' @param conf.level Numeric value between \code{0} and \code{1} giving the confidence interval.
@@ -2064,9 +2063,6 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
   cpk = min(cpu, cpl)
   ppt = sum(ppl, ppu)
 
-
-
-
   # PLOT ------------------
   {
     # ----------------------------- IF PLOT == TRUE -----------------------------------------------------------
@@ -2074,35 +2070,19 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
       xlim <- range(x[, 1], usl, lsl)
       xlim <- xlim + diff(xlim) * c(-0.2, 0.2)
     }
-    xVec <- seq(min(xlim), max(xlim), length = 200)
-    dParamsList = .lfkp(paramsList, formals(dFun))
-    dParamsList$x = xVec
-
-    yVec = do.call(dFun, dParamsList)
-    histObj <- hist(x[, 1], plot = FALSE)
-    if (missing(ylim)) {
-      ylim <- range(histObj$density, yVec)
-      ylim <- ylim + diff(ylim) * c(0, 0.05)
-    }
 
     # 1. Histograma --------------------------------------------------------------------------
-    # Calculos previos
-    x.c <- x[, 1]
-    temp <- hist(x.c, plot = FALSE)
-    # Obtenemos la información para el histograma
-    df <- data.frame(
-      mid = temp$mids,
-      density = temp$density
-    )
-    width <- diff(df$mid)[1] # Ancho de cada barra
+
     # Histograma
-    p1 <- ggplot(df, aes(x = mid, y = density)) +
-      geom_bar(stat = "identity", width = width, fill = col.fill, color = col.border, alpha = 0.5) +
-      labs(y = "", x = "", title = "") +
+    p1 <- ggplot(data.frame(x = x[, 1]), aes(x = x)) +
+      geom_histogram(aes(y = after_stat(density)),
+                     binwidth = 1,  # Ajusta el ancho del bin
+                     colour = col.border, fill = col.fill) +
+      geom_density(colour = col.curve, lwd = 0.5 ) +
+      labs(y = "", x = "", title = "") + xlim(xlim) +
       theme_minimal() + theme(plot.title = element_text(hjust = 0.5,face = "bold"))+
-      guides(color = guide_legend(title.position = "top", title.hjust = 0.5))+
-      geom_line(data = data.frame(x = xVec, y = yVec), aes(x = x, y = y), color = col.curve, linewidth = 0.5) + # densidad
-      theme(legend.position = "none")
+      guides(color = guide_legend(title.position = "top", title.hjust = 0.5))
+
 
     #  etiquetas de los límites
     if (!is.null(lsl) & !is.null(usl)){
@@ -2140,8 +2120,7 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
         axis.title = element_blank(),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank()
-      ) +
-      xlim(c(0.24, 0.26)) + ylim(c(0.21, 0.43))
+      ) + xlim(c(0.24, 0.26)) + ylim(c(0.21, 0.43))
     {
       if(is.null(cpu))
         p2 <- p2 + annotate('text', x = 0.25, y = 0.40,
@@ -2440,7 +2419,7 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
   }
 
   if(plot==TRUE){
-    show(main_plot)
+    suppressWarnings(print(main_plot))
     invisible(list(lambda = lambda, cp = cp, cpk = cpk,
                    cpl = cpl, cpu = cpu, ppt = ppt, ppl = ppl, ppu = ppu,
                    A = A, usl = usl, lsl = lsl, target = target,
@@ -2454,4 +2433,3 @@ pcr <- function (x, distribution = "normal", lsl, usl, target, boxcox = FALSE,
   }
 
 }
-
